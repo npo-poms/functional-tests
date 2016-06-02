@@ -26,12 +26,16 @@ public class ClipTest {
     private static final String USERNAME = "vpro-mediatools";
     private static final String PASSWORD = "***REMOVED***";
     private static String suffix;
-    private static String randomId;
+    private static String randomCridId;
+    private static String randomSegmentId;
+    private static String randomSegmentId2;
 
     @BeforeClass
     public static void setUpShared() {
         suffix =  Long.toString(System.currentTimeMillis());
-        randomId = UUID.randomUUID().toString();
+        randomCridId = UUID.randomUUID().toString();
+        randomSegmentId = UUID.randomUUID().toString();
+        randomSegmentId2 = UUID.randomUUID().toString();
     }
 
     @Before
@@ -42,8 +46,8 @@ public class ClipTest {
 
     @Test
     public void testPostClip() throws UnsupportedEncodingException, InterruptedException {
-        String segmentCrid = "crid://pyapi/segment/1";
-        String clipCrid = "crid://pyapi/clip/" + randomId;
+        String segmentCrid = "crid://pyapi/segment/" + randomSegmentId;
+        String clipCrid = "crid://pyapi/clip/" + randomCridId;
         List<String> segments = Collections.singletonList(createSegment(segmentCrid, suffix, null, false));
         String clip = createClip(clipCrid, suffix, segments);
 
@@ -62,7 +66,7 @@ public class ClipTest {
 
     @Test
     public void testRetrieveClip() throws UnsupportedEncodingException {
-        String clipCrid = "crid://pyapi/clip/" + randomId;
+        String clipCrid = "crid://pyapi/clip/" + randomCridId;
         String encodedClipCrid = URLEncoder.encode(clipCrid, "UTF-8");
         given().
                 auth().
@@ -79,7 +83,7 @@ public class ClipTest {
 
     @Test
     public void testPostSegment() {
-        String segmentCrid = "crid://pyapi/segment/2";
+        String segmentCrid = "crid://pyapi/segment/" + randomSegmentId2;
         String segment = createSegment(segmentCrid, suffix, "WO_VPRO_1425989", true);
 
         given().
