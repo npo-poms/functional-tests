@@ -1,26 +1,29 @@
 package nl.vpro.poms;
 
-import com.jayway.restassured.RestAssured;
-import nl.vpro.poms.helpers.ImageXmlBuilder;
-import nl.vpro.poms.helpers.ProgramXmlBuilder;
-import nl.vpro.poms.helpers.SegmentXmlBuilder;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.FixMethodOrder;
-import org.junit.Test;
-
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
-import static com.jayway.restassured.RestAssured.*;
-import static org.hamcrest.Matchers.*;
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.FixMethodOrder;
+import org.junit.Test;
+
+import com.jayway.restassured.RestAssured;
+
+import nl.vpro.poms.helpers.ImageXmlBuilder;
+import nl.vpro.poms.helpers.ProgramXmlBuilder;
+import nl.vpro.poms.helpers.SegmentXmlBuilder;
+
+import static com.jayway.restassured.RestAssured.given;
+import static org.hamcrest.Matchers.equalTo;
 
 @FixMethodOrder
 public class ClipTest {
 
+    // TODO: Credentials should not be checked in.
     private static final String BASE_URL = "https://api-dev.poms.omroep.nl";
     private static final String MEDIA_URL = BASE_URL + "/media/media";
     private static final String USERNAME = "vpro-mediatools";
