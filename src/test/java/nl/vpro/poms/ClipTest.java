@@ -17,13 +17,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.FixMethodOrder;
-import org.junit.Test;
-
-import com.jayway.restassured.RestAssured;
-
 
 import static com.jayway.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.equalTo;
@@ -36,14 +29,15 @@ public class ClipTest {
     private static final String MEDIA_URL = BASE_URL + "/media/media";
     private static final String USERNAME = "vpro-mediatools";
     private static final String PASSWORD = "***REMOVED***";
-    private static String suffix;
+    private static final String BASE_CRID = "crid://apitests";
+    private static String dynamicSuffix;
     private static String randomCridId;
     private static String randomSegmentId;
     private static String randomSegmentId2;
 
     @BeforeClass
     public static void setUpShared() {
-        suffix =  Long.toString(System.currentTimeMillis());
+        dynamicSuffix =  Long.toString(System.currentTimeMillis());
         randomCridId = UUID.randomUUID().toString();
         randomSegmentId = UUID.randomUUID().toString();
         randomSegmentId2 = UUID.randomUUID().toString();
@@ -57,10 +51,10 @@ public class ClipTest {
 
     @Test
     public void testPostClip() throws UnsupportedEncodingException, InterruptedException, ModificationException {
-        String segmentCrid = "crid://pyapi/segment/" + randomSegmentId;
-        String clipCrid = "crid://pyapi/clip/" + randomCridId;
-        List<Segment> segments = Collections.singletonList(createSegment(segmentCrid, suffix, null));
-        ProgramUpdate clip = ProgramUpdate.create(createClip(clipCrid, suffix, segments));
+        String segmentCrid = BASE_CRID + "/segment/" + randomSegmentId;
+        String clipCrid = BASE_CRID + "/clip/" + randomCridId;
+        List<Segment> segments = Collections.singletonList(createSegment(segmentCrid, dynamicSuffix, null));
+        ProgramUpdate clip = ProgramUpdate.create(createClip(clipCrid, dynamicSuffix, segments));
 
         given().
                 auth().
@@ -76,27 +70,27 @@ public class ClipTest {
                 body(equalTo(clipCrid));
     }
 
-//    @Test
-//    public void testRetrieveClip() throws UnsupportedEncodingException {
-//        String clipCrid = "crid://pyapi/clip/" + randomCridId;
-//        String encodedClipCrid = URLEncoder.encode(clipCrid, "UTF-8");
-//        given().
-//                auth().
-//                basic(USERNAME, PASSWORD).
-//                contentType("application/xml").
-//                log().all().
-//                when().
-//                get(MEDIA_URL + "/" + encodedClipCrid).
-//                then().
-//                log().body().
-//                statusCode(200).
-//                body("program.title", equalTo("hoi " + suffix));
-//    }
+    @Test
+    public void testRetrieveClip() throws UnsupportedEncodingException {
+        String clipCrid = BASE_CRID + "/clip/" + randomCridId;
+        String encodedClipCrid = URLEncoder.encode(clipCrid, "UTF-8");
+        given().
+                auth().
+                basic(USERNAME, PASSWORD).
+                contentType("application/xml").
+                log().all().
+                when().
+                get(MEDIA_URL + "/" + encodedClipCrid).
+                then().
+                log().body().
+                statusCode(200).
+                body("program.title", equalTo("hoi " + dynamicSuffix));
+    }
 
     @Test
     public void testPostSegment() throws ModificationException {
-        String segmentCrid = "crid://pyapi/segment/" + randomSegmentId2;
-        SegmentUpdate segment = SegmentUpdate.create(createSegment(segmentCrid, suffix, "WO_VPRO_1425989"));
+        String segmentCrid = BASE_CRID + "/segment/" + randomSegmentId2;
+        SegmentUpdate segment = SegmentUpdate.create(createSegment(segmentCrid, dynamicSuffix, "WO_VPRO_1425989"));
 
         given().
                 auth().
@@ -127,14 +121,12 @@ public class ClipTest {
     }
 
     private Segment createSegment(String crid, String dynamicSuffix, String midRef) throws ModificationException {
-        Segment s = MediaTestDataBuilder.segment()
+        return MediaTestDataBuilder.segment()
                 .valid()
                 .crids(crid)
                 .mid(null)
                 .title("hoi (1) " + dynamicSuffix)
                 .midRef(midRef)
                 .build();
-
-        return s;
     }
 }
