@@ -6,20 +6,18 @@ import nl.vpro.domain.media.exceptions.ModificationException;
 import nl.vpro.domain.media.update.ProgramUpdate;
 import nl.vpro.domain.media.update.SegmentUpdate;
 import nl.vpro.domain.user.Broadcaster;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.FixMethodOrder;
-import org.junit.Test;
+import org.junit.*;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.time.LocalDate;
 import java.util.Collections;
 import java.util.List;
-import java.util.UUID;
 
 
 import static com.jayway.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.startsWith;
 
 @FixMethodOrder
 public class ClipTest {
@@ -30,17 +28,15 @@ public class ClipTest {
     private static final String USERNAME = "vpro-mediatools";
     private static final String PASSWORD = "***REMOVED***";
     private static final String BASE_CRID = "crid://apitests";
+    private static final String ERRORS_EMAIL = "d.debie@vpro.nl";
     private static String dynamicSuffix;
-    private static String randomCridId;
-    private static String randomSegmentId;
-    private static String randomSegmentId2;
+    private static String cridIdFromSuffix;
+    private static String clipMid;
 
     @BeforeClass
     public static void setUpShared() {
-        dynamicSuffix =  Long.toString(System.currentTimeMillis());
-        randomCridId = UUID.randomUUID().toString();
-        randomSegmentId = UUID.randomUUID().toString();
-        randomSegmentId2 = UUID.randomUUID().toString();
+        dynamicSuffix = LocalDate.now().toString();
+        cridIdFromSuffix = "1" + dynamicSuffix.replaceAll("\\D", "");
     }
 
     @Before
@@ -51,9 +47,29 @@ public class ClipTest {
 
     @Test
     public void testPostClip() throws UnsupportedEncodingException, InterruptedException, ModificationException {
-        String segmentCrid = BASE_CRID + "/segment/" + randomSegmentId;
-        String clipCrid = BASE_CRID + "/clip/" + randomCridId;
-        List<Segment> segments = Collections.singletonList(createSegment(segmentCrid, dynamicSuffix, null));
+        List<Segment> segments = Collections.singletonList(createSegment(null, dynamicSuffix, null));
+        ProgramUpdate clip = ProgramUpdate.create(createClip(null, dynamicSuffix, segments));
+
+        clipMid = given().
+                auth().
+                basic(USERNAME, PASSWORD).
+                contentType("application/xml").
+                body(clip).
+                queryParam("errors", ERRORS_EMAIL).
+                log().all().
+        when().
+                post(MEDIA_URL).
+        then().
+                log().all().
+                statusCode(202).
+                body(startsWith("POMS_VPRO")).
+                extract().asString();
+    }
+
+    @Test
+    public void testPostClipWithCrid() throws UnsupportedEncodingException, InterruptedException, ModificationException {
+        String clipCrid = clipCrid(cridIdFromSuffix);
+        List<Segment> segments = Collections.singletonList(createSegment(null, dynamicSuffix, null));
         ProgramUpdate clip = ProgramUpdate.create(createClip(clipCrid, dynamicSuffix, segments));
 
         given().
@@ -61,6 +77,7 @@ public class ClipTest {
                 basic(USERNAME, PASSWORD).
                 contentType("application/xml").
                 body(clip).
+                queryParam("errors", ERRORS_EMAIL).
                 log().all().
         when().
                 post(MEDIA_URL).
@@ -71,8 +88,27 @@ public class ClipTest {
     }
 
     @Test
-    public void testRetrieveClip() throws UnsupportedEncodingException {
-        String clipCrid = BASE_CRID + "/clip/" + randomCridId;
+    public void testPostSegment() throws ModificationException {
+        SegmentUpdate segment = SegmentUpdate.create(createSegment(null, dynamicSuffix, clipMid));
+
+        given().
+                auth().
+                basic(USERNAME, PASSWORD).
+                contentType("application/xml").
+                body(segment).
+                queryParam("errors", ERRORS_EMAIL).
+                log().all().
+        when().
+                post(MEDIA_URL).
+        then().
+                log().all().
+                statusCode(202).
+                body(startsWith("POMS_VPRO"));
+    }
+
+    @Test
+    public void testRetrieveClipWithCrid() throws UnsupportedEncodingException {
+        String clipCrid = clipCrid(cridIdFromSuffix);
         String encodedClipCrid = URLEncoder.encode(clipCrid, "UTF-8");
         given().
                 auth().
@@ -82,36 +118,19 @@ public class ClipTest {
                 when().
                 get(MEDIA_URL + "/" + encodedClipCrid).
                 then().
-                log().body().
+                log().all().
                 statusCode(200).
-                body("program.title", equalTo("hoi " + dynamicSuffix));
-    }
-
-    @Test
-    public void testPostSegment() throws ModificationException {
-        String segmentCrid = BASE_CRID + "/segment/" + randomSegmentId2;
-        SegmentUpdate segment = SegmentUpdate.create(createSegment(segmentCrid, dynamicSuffix, "WO_VPRO_1425989"));
-
-        given().
-                auth().
-                basic(USERNAME, PASSWORD).
-                contentType("application/xml").
-                body(segment).
-                log().all().
-        when().
-                post(MEDIA_URL).
-        then().
-                log().all().
-                statusCode(202).
-                body(equalTo(segmentCrid));
+                body("program.title.find { it.@type == 'MAIN' }.text()", equalTo("hoi " + dynamicSuffix));
     }
 
     private Program createClip(String crid, String dynamicSuffix, List<Segment> segments) throws ModificationException {
 
         return MediaTestDataBuilder.program()
-                .valid()
+                .validNew()
                 .crids(crid)
                 .mid(null)
+                .clearBroadcasters()
+                .broadcasters("VPRO")
                 .type(ProgramType.CLIP)
                 .avType(AVType.MIXED)
                 .broadcasters(Broadcaster.of("VPRO"))
@@ -122,11 +141,25 @@ public class ClipTest {
 
     private Segment createSegment(String crid, String dynamicSuffix, String midRef) throws ModificationException {
         return MediaTestDataBuilder.segment()
-                .valid()
+                .validNew()
                 .crids(crid)
                 .mid(null)
+                .clearBroadcasters()
+                .broadcasters("VPRO")
                 .title("hoi (1) " + dynamicSuffix)
                 .midRef(midRef)
                 .build();
+    }
+
+    private String crid(String type, String dynamicSuffix) {
+        return BASE_CRID + "/" + type + "/" + dynamicSuffix;
+    }
+
+    private String segmentCrid(String dynamicSuffix) {
+        return crid("segment", dynamicSuffix);
+    }
+
+    private String clipCrid(String dynamicSuffix) {
+        return crid("clip", dynamicSuffix);
     }
 }
