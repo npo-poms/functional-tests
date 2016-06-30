@@ -17,18 +17,18 @@ import java.util.List;
 
 
 import static com.jayway.restassured.RestAssured.given;
+import static nl.vpro.poms.Config.configOption;
 import static org.hamcrest.Matchers.*;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class ClipTest {
 
     // TODO: Credentials should not be checked in.
-    private static final String BASE_URL = "https://api-dev.poms.omroep.nl";
-    private static final String MEDIA_URL = BASE_URL + "/media/media";
-    private static final String USERNAME = "vpro-mediatools";
-    private static final String PASSWORD = "***REMOVED***";
+    private static final String MEDIA_URL = configOption("backendapi.url").orElse("https://api-dev.poms.omroep.nl/") + "/media/media";
+    private static final String USERNAME = configOption("backendapi.username").orElse("vpro-mediatools");
+    private static final String PASSWORD = configOption("backendapi.password").orElse("***");
+    private static final String ERRORS_EMAIL = configOption("errors.email").orElse("digitaal-techniek@vpro.nl");
     private static final String BASE_CRID = "crid://apitests";
-    private static final String ERRORS_EMAIL = "d.debie@vpro.nl";
     private static String dynamicSuffix;
     private static String cridIdFromSuffix;
     private static String clipMid;

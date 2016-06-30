@@ -17,7 +17,7 @@ public class Config {
 
     private static final Logger LOG = LoggerFactory.getLogger(Config.class);
 
-    static Properties PROPERTIES = new Properties();
+    private static Properties PROPERTIES = new Properties();
     static {
 
         try {

@@ -16,8 +16,6 @@ import static nl.vpro.poms.Config.configOption;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class ParkpostTest {
 
-
-    //private static final String PARKPOST = "https://api-dev.poms.omroep.nl/parkpost/";
     private static final String PARKPOST = configOption("backendapi.url").orElse("https://api-dev.poms.omroep.nl/") + "parkpost/";
 
     @Before
