@@ -12,9 +12,11 @@ import nl.vpro.parkpost.promo.bind.PromoEvent;
 
 import static com.jayway.restassured.RestAssured.given;
 import static nl.vpro.poms.Config.configOption;
+import static nl.vpro.poms.Config.requiredOption;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class ParkpostTest {
+
 
     private static final String PARKPOST = configOption("backendapi.url").orElse("https://api-dev.poms.omroep.nl/") + "parkpost/";
 
@@ -24,7 +26,7 @@ public class ParkpostTest {
         RestAssured.urlEncodingEnabled = false;
     }
 
-    @Test
+    @Test(timeout = 100000)
     public void test001() {
         PromoEvent promoEvent = new PromoEvent();
 
@@ -34,17 +36,17 @@ public class ParkpostTest {
         promoEvent.setProgramTitle("Promo title");
         String result =
             given()
-            .auth().basic(
+                .auth().basic(
                 configOption("parkpost.user").orElse("vpro-cms"),
-                configOption("parkpost.password").orElse("****"))
-            .contentType("application/xml")
-            .body(promoEvent)
-            .when()
-            .   post(PARKPOST + "promo")
-            .then()
-            .   log().all()
-            .   statusCode(202)
-            .   extract().asString();
+                requiredOption("parkpost.password"))
+                .contentType("application/xml")
+                .body(promoEvent)
+                .when()
+                .   post(PARKPOST + "promo")
+                .then()
+                .   log().all()
+                .   statusCode(202)
+                .   extract().asString();
     }
 
 
