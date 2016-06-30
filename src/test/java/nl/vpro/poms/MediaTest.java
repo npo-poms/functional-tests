@@ -3,6 +3,9 @@ package nl.vpro.poms;
 import com.jayway.restassured.RestAssured;
 import nl.vpro.domain.media.*;
 import nl.vpro.domain.media.exceptions.ModificationException;
+import nl.vpro.domain.media.search.DateRange;
+import nl.vpro.domain.media.search.MediaForm;
+import nl.vpro.domain.media.search.Pager;
 import nl.vpro.domain.media.update.ProgramUpdate;
 import nl.vpro.domain.media.update.SegmentUpdate;
 import nl.vpro.domain.user.Broadcaster;
@@ -12,7 +15,9 @@ import org.junit.runners.MethodSorters;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 
@@ -21,14 +26,17 @@ import static nl.vpro.poms.Config.configOption;
 import static org.hamcrest.Matchers.*;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class ClipTest {
+public class MediaTest {
 
     // TODO: Credentials should not be checked in.
-    private static final String MEDIA_URL = configOption("backendapi.url").orElse("https://api-dev.poms.omroep.nl/") + "/media/media";
+    private static final String BASE_URL = configOption("backendapi.url").orElse("https://api-dev.poms.omroep.nl/");
+    private static final String MEDIA_URL = BASE_URL + "media/media";
+    private static final String FIND_URL = BASE_URL + "media/find";
     private static final String USERNAME = configOption("backendapi.username").orElse("vpro-mediatools");
     private static final String PASSWORD = configOption("backendapi.password").orElse("***");
     private static final String ERRORS_EMAIL = configOption("errors.email").orElse("digitaal-techniek@vpro.nl");
     private static final String BASE_CRID = "crid://apitests";
+    private static final String TITLE_PREFIX = "API FUNCTIONAL TEST ";
     private static String dynamicSuffix;
     private static String cridIdFromSuffix;
     private static String clipMid;
@@ -119,13 +127,14 @@ public class ClipTest {
                 .auth()
                 .basic(USERNAME, PASSWORD)
                 .contentType("application/xml")
+                .queryParam("errors", ERRORS_EMAIL)
                 .log().all()
         .when()
                 .get(MEDIA_URL + "/" + clipMid)
         .then()
                 .log().all()
                 .statusCode(200)
-                .body(hasXPath("/program/title[@type='MAIN']/text()", equalTo("hoi " + dynamicSuffix)))
+                .body(hasXPath("/program/title[@type='MAIN']/text()", equalTo(TITLE_PREFIX + dynamicSuffix)))
                 .body(hasXPath("/program/@deleted", isEmptyOrNullString()));
     }
 
@@ -138,21 +147,44 @@ public class ClipTest {
                 .auth()
                 .basic(USERNAME, PASSWORD)
                 .contentType("application/xml")
+                .queryParam("errors", ERRORS_EMAIL)
                 .log().all()
         .when()
                 .get(MEDIA_URL + "/" + encodedClipCrid)
         .then()
                 .log().all()
                 .statusCode(200)
-                .body(hasXPath("/program/title[@type='MAIN']/text()", equalTo("hoi " + dynamicSuffix)))
+                .body(hasXPath("/program/title[@type='MAIN']/text()", equalTo(TITLE_PREFIX + dynamicSuffix)))
                 .body(hasXPath("/program/@deleted", isEmptyOrNullString()));
     }
 
     @Test
-    public void test07DeleteClip() throws UnsupportedEncodingException, InterruptedException {
+    @Ignore
+    public void test07FindClips() throws UnsupportedEncodingException, InterruptedException {
+
+        MediaForm search = new MediaForm(new Pager(50), TITLE_PREFIX + dynamicSuffix);
+        search.setBroadcasters(Collections.singletonList("VPRO"));
+        search.setCreationRange(new DateRange(LocalDate.now().atStartOfDay(), LocalDate.now().atStartOfDay().plusHours(24)));
         given()
                 .auth()
                 .basic(USERNAME, PASSWORD)
+                .contentType("application/xml")
+                .body(search)
+                .queryParam("errors", ERRORS_EMAIL)
+                .log().all()
+        .when()
+                .post(FIND_URL)
+        .then()
+                .log().all()
+                .statusCode(200);
+    }
+
+    @Test
+    public void test08DeleteClip() throws UnsupportedEncodingException, InterruptedException {
+        given()
+                .auth()
+                .basic(USERNAME, PASSWORD)
+                .queryParam("errors", ERRORS_EMAIL)
                 .log().all()
         .when()
                 .delete(MEDIA_URL + "/" + clipMid)
@@ -167,6 +199,7 @@ public class ClipTest {
                 .auth()
                 .basic(USERNAME, PASSWORD)
                 .contentType("application/xml")
+                .queryParam("errors", ERRORS_EMAIL)
                 .log().all()
         .when()
                 .get(MEDIA_URL + "/" + clipMid)
@@ -188,7 +221,7 @@ public class ClipTest {
                 .avType(AVType.MIXED)
                 .broadcasters(Broadcaster.of("VPRO"))
                 .segments(segments.toArray(new Segment[segments.size()]))
-                .title("hoi " + dynamicSuffix)
+                .title(TITLE_PREFIX + dynamicSuffix)
                 .build();
     }
 
@@ -199,7 +232,7 @@ public class ClipTest {
                 .mid(null)
                 .clearBroadcasters()
                 .broadcasters("VPRO")
-                .title("hoi (1) " + dynamicSuffix)
+                .title(TITLE_PREFIX + "(1) " + dynamicSuffix)
                 .midRef(midRef)
                 .build();
     }
