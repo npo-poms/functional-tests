@@ -17,8 +17,7 @@ import java.util.List;
 
 
 import static com.jayway.restassured.RestAssured.given;
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.startsWith;
+import static org.hamcrest.Matchers.*;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class ClipTest {
@@ -108,10 +107,30 @@ public class ClipTest {
     }
 
     @Test
-    public void test04RetrieveClipWithCrid() throws UnsupportedEncodingException, InterruptedException {
-
-        // Wait for posted clip to be processed
+    public void test04WaitForProcessing() throws InterruptedException {
+        // Wait for posted clips to be processed
         Thread.sleep(30000);
+    }
+
+    @Test
+    public void test05RetrieveClip() throws UnsupportedEncodingException, InterruptedException {
+
+        given()
+                .auth()
+                .basic(USERNAME, PASSWORD)
+                .contentType("application/xml")
+                .log().all()
+                .when()
+                .get(MEDIA_URL + "/" + clipMid)
+                .then()
+                .log().all()
+                .statusCode(200)
+                .body(hasXPath("/program/title[@type='MAIN']/text()", equalTo("hoi " + dynamicSuffix)))
+                .body(hasXPath("/program/@deleted", isEmptyOrNullString()));
+    }
+
+    @Test
+    public void test06RetrieveClipWithCrid() throws UnsupportedEncodingException, InterruptedException {
 
         String clipCrid = clipCrid(cridIdFromSuffix);
         String encodedClipCrid = URLEncoder.encode(clipCrid, "UTF-8");
@@ -125,7 +144,36 @@ public class ClipTest {
         .then()
                 .log().all()
                 .statusCode(200)
-                .body("program.title.find { it.@type == 'MAIN' }.text()", equalTo("hoi " + dynamicSuffix));
+                .body(hasXPath("/program/title[@type='MAIN']/text()", equalTo("hoi " + dynamicSuffix)))
+                .body(hasXPath("/program/@deleted", isEmptyOrNullString()));
+    }
+
+    @Test
+    public void test07DeleteClip() throws UnsupportedEncodingException, InterruptedException {
+        given()
+                .auth()
+                .basic(USERNAME, PASSWORD)
+                .log().all()
+        .when()
+                .delete(MEDIA_URL + "/" + clipMid)
+        .then()
+                .log().all()
+                .statusCode(202);
+
+        // Wait for posted clip to be deleted
+        Thread.sleep(1000);
+
+        given()
+                .auth()
+                .basic(USERNAME, PASSWORD)
+                .contentType("application/xml")
+                .log().all()
+        .when()
+                .get(MEDIA_URL + "/" + clipMid)
+        .then()
+                .log().all()
+                .statusCode(200)
+                .body(hasXPath("/program/@deleted", equalTo("true")));
     }
 
     private Program createClip(String crid, String dynamicSuffix, List<Segment> segments) throws ModificationException {
