@@ -7,6 +7,7 @@ import nl.vpro.domain.media.update.ProgramUpdate;
 import nl.vpro.domain.media.update.SegmentUpdate;
 import nl.vpro.domain.user.Broadcaster;
 import org.junit.*;
+import org.junit.runners.MethodSorters;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -19,7 +20,7 @@ import static com.jayway.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.startsWith;
 
-@FixMethodOrder
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class ClipTest {
 
     // TODO: Credentials should not be checked in.
@@ -36,7 +37,7 @@ public class ClipTest {
     @BeforeClass
     public static void setUpShared() {
         dynamicSuffix = LocalDate.now().toString();
-        cridIdFromSuffix = "1" + dynamicSuffix.replaceAll("\\D", "");
+        cridIdFromSuffix = dynamicSuffix.replaceAll("\\D", "");
     }
 
     @Before
@@ -46,7 +47,7 @@ public class ClipTest {
     }
 
     @Test
-    public void testPostClip() throws UnsupportedEncodingException, InterruptedException, ModificationException {
+    public void test01PostClip() throws UnsupportedEncodingException, InterruptedException, ModificationException {
         List<Segment> segments = Collections.singletonList(createSegment(null, dynamicSuffix, null));
         ProgramUpdate clip = ProgramUpdate.create(createClip(null, dynamicSuffix, segments));
 
@@ -67,7 +68,7 @@ public class ClipTest {
     }
 
     @Test
-    public void testPostClipWithCrid() throws UnsupportedEncodingException, InterruptedException, ModificationException {
+    public void test02PostClipWithCrid() throws UnsupportedEncodingException, InterruptedException, ModificationException {
         String clipCrid = clipCrid(cridIdFromSuffix);
         List<Segment> segments = Collections.singletonList(createSegment(null, dynamicSuffix, null));
         ProgramUpdate clip = ProgramUpdate.create(createClip(clipCrid, dynamicSuffix, segments));
@@ -88,7 +89,7 @@ public class ClipTest {
     }
 
     @Test
-    public void testPostSegment() throws ModificationException {
+    public void test03PostSegment() throws ModificationException {
         SegmentUpdate segment = SegmentUpdate.create(createSegment(null, dynamicSuffix, clipMid));
 
         given().
@@ -107,7 +108,11 @@ public class ClipTest {
     }
 
     @Test
-    public void testRetrieveClipWithCrid() throws UnsupportedEncodingException {
+    public void test04RetrieveClipWithCrid() throws UnsupportedEncodingException, InterruptedException {
+
+        // Wait for posted clip to be processed
+        Thread.sleep(30000);
+
         String clipCrid = clipCrid(cridIdFromSuffix);
         String encodedClipCrid = URLEncoder.encode(clipCrid, "UTF-8");
         given().
