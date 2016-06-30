@@ -51,20 +51,20 @@ public class ClipTest {
         List<Segment> segments = Collections.singletonList(createSegment(null, dynamicSuffix, null));
         ProgramUpdate clip = ProgramUpdate.create(createClip(null, dynamicSuffix, segments));
 
-        clipMid = given().
-                auth().
-                basic(USERNAME, PASSWORD).
-                contentType("application/xml").
-                body(clip).
-                queryParam("errors", ERRORS_EMAIL).
-                log().all().
-        when().
-                post(MEDIA_URL).
-        then().
-                log().all().
-                statusCode(202).
-                body(startsWith("POMS_VPRO")).
-                extract().asString();
+        clipMid = given()
+                .auth()
+                .basic(USERNAME, PASSWORD)
+                .contentType("application/xml")
+                .body(clip)
+                .queryParam("errors", ERRORS_EMAIL)
+                .log().all()
+        .when()
+                .post(MEDIA_URL)
+        .then()
+                .log().all()
+                .statusCode(202)
+                .body(startsWith("POMS_VPRO"))
+                .extract().asString();
     }
 
     @Test
@@ -73,38 +73,38 @@ public class ClipTest {
         List<Segment> segments = Collections.singletonList(createSegment(null, dynamicSuffix, null));
         ProgramUpdate clip = ProgramUpdate.create(createClip(clipCrid, dynamicSuffix, segments));
 
-        given().
-                auth().
-                basic(USERNAME, PASSWORD).
-                contentType("application/xml").
-                body(clip).
-                queryParam("errors", ERRORS_EMAIL).
-                log().all().
-        when().
-                post(MEDIA_URL).
-        then().
-                log().all().
-                statusCode(202).
-                body(equalTo(clipCrid));
+        given()
+                .auth()
+                .basic(USERNAME, PASSWORD)
+                .contentType("application/xml")
+                .body(clip)
+                .queryParam("errors", ERRORS_EMAIL)
+                .log().all()
+        .when()
+                .post(MEDIA_URL)
+        .then()
+                .log().all()
+                .statusCode(202)
+                .body(equalTo(clipCrid));
     }
 
     @Test
     public void test03PostSegment() throws ModificationException {
         SegmentUpdate segment = SegmentUpdate.create(createSegment(null, dynamicSuffix, clipMid));
 
-        given().
-                auth().
-                basic(USERNAME, PASSWORD).
-                contentType("application/xml").
-                body(segment).
-                queryParam("errors", ERRORS_EMAIL).
-                log().all().
-        when().
-                post(MEDIA_URL).
-        then().
-                log().all().
-                statusCode(202).
-                body(startsWith("POMS_VPRO"));
+        given()
+                .auth()
+                .basic(USERNAME, PASSWORD)
+                .contentType("application/xml")
+                .body(segment)
+                .queryParam("errors", ERRORS_EMAIL)
+                .log().all()
+        .when()
+                .post(MEDIA_URL)
+        .then()
+                .log().all()
+                .statusCode(202)
+                .body(startsWith("POMS_VPRO"));
     }
 
     @Test
@@ -115,17 +115,17 @@ public class ClipTest {
 
         String clipCrid = clipCrid(cridIdFromSuffix);
         String encodedClipCrid = URLEncoder.encode(clipCrid, "UTF-8");
-        given().
-                auth().
-                basic(USERNAME, PASSWORD).
-                contentType("application/xml").
-                log().all().
-                when().
-                get(MEDIA_URL + "/" + encodedClipCrid).
-                then().
-                log().all().
-                statusCode(200).
-                body("program.title.find { it.@type == 'MAIN' }.text()", equalTo("hoi " + dynamicSuffix));
+        given()
+                .auth()
+                .basic(USERNAME, PASSWORD)
+                .contentType("application/xml")
+                .log().all()
+        .when()
+                .get(MEDIA_URL + "/" + encodedClipCrid)
+        .then()
+                .log().all()
+                .statusCode(200)
+                .body("program.title.find { it.@type == 'MAIN' }.text()", equalTo("hoi " + dynamicSuffix));
     }
 
     private Program createClip(String crid, String dynamicSuffix, List<Segment> segments) throws ModificationException {
@@ -158,10 +158,6 @@ public class ClipTest {
 
     private String crid(String type, String dynamicSuffix) {
         return BASE_CRID + "/" + type + "/" + dynamicSuffix;
-    }
-
-    private String segmentCrid(String dynamicSuffix) {
-        return crid("segment", dynamicSuffix);
     }
 
     private String clipCrid(String dynamicSuffix) {
