@@ -24,6 +24,7 @@ import static com.jayway.restassured.RestAssured.given;
 import static nl.vpro.poms.Config.configOption;
 import static nl.vpro.poms.Config.requiredOption;
 import static org.hamcrest.Matchers.*;
+import static org.junit.Assume.assumeNotNull;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class MediaTest {
@@ -121,7 +122,7 @@ public class MediaTest {
 
     @Test
     public void test05RetrieveClip() throws UnsupportedEncodingException, InterruptedException {
-
+        assumeNotNull(clipMid);
         given()
                 .auth()
                 .basic(USERNAME, PASSWORD)
@@ -136,6 +137,7 @@ public class MediaTest {
                 .body(hasXPath("/program/title[@type='MAIN']/text()", equalTo(TITLE_PREFIX + dynamicSuffix)))
                 .body(hasXPath("/program/@deleted", isEmptyOrNullString()));
     }
+
 
     @Test
     public void test06RetrieveClipWithCrid() throws UnsupportedEncodingException, InterruptedException {
