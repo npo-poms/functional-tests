@@ -16,13 +16,14 @@ import nl.vpro.parkpost.promo.bind.PromoEvent;
 import static com.jayway.restassured.RestAssured.given;
 import static nl.vpro.poms.Config.configOption;
 import static nl.vpro.poms.Config.requiredOption;
+import static nl.vpro.poms.Config.url;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class ParkpostTest {
 
 
-    private static final String PARKPOST = configOption("backendapi.url").orElse("https://api-dev.poms.omroep.nl/") + "parkpost/";
+    private static final String PARKPOST = url("backendapi.url", "parkpost/");
 
     private static final String EXAMPLE = "<NPO_gfxwrp>\n" +
         "  <ProductCode>2P0108MO_BLAUWBLO</ProductCode>\n" +
@@ -62,7 +63,7 @@ public class ParkpostTest {
         promoEvent.setPromotedProgramProductCode("WO_VPRO_025057");
         promoEvent.setPromoType(ProductCode.Type.P);
         promoEvent.setProgramTitle("Promo title");
-        promoEvent.setFrameCount(100L);
+        //promoEvent.setFrameCount(100L);
         //promoEvent.setBroadcaster("VPRO");
         String result =
             given()

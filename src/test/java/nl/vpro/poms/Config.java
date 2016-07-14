@@ -27,9 +27,9 @@ public class Config {
 
             LOG.info("Reading configuration from {}", FILE);
             PROPERTIES.put("localhost.backendapi.url", "http://localhost:8071/rs/");
-            PROPERTIES.put("dev.backendapi.url", "https://api-dev.poms.omroep.nl");
-            PROPERTIES.put("test.backendapi.url", "https://api-test.poms.omroep.nl");
-            PROPERTIES.put("prod.backendapi.url", "https://api.poms.omroep.nl");
+            PROPERTIES.put("dev.backendapi.url", "https://api-dev.poms.omroep.nl/");
+            PROPERTIES.put("test.backendapi.url", "https://api-test.poms.omroep.nl/");
+            PROPERTIES.put("prod.backendapi.url", "https://api.poms.omroep.nl/");
 
             PROPERTIES.load(new FileInputStream(FILE));
         } catch (IOException e) {
@@ -44,6 +44,15 @@ public class Config {
 
     public static String requiredOption(String prop) {
         return configOption(prop).orElseThrow(notSet(prop));
+    }
+
+    public static String url(String prop, String path) {
+        String base  = requiredOption(prop);
+        if (! base.endsWith("/")) {
+            base = base + "/";
+        }
+        return base + path;
+
     }
 
     public static Properties getProperties() {

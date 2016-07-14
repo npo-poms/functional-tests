@@ -10,6 +10,7 @@ import org.junit.*;
 import org.junit.runners.MethodSorters;
 
 import com.jayway.restassured.RestAssured;
+import com.jayway.restassured.http.ContentType;
 
 import nl.vpro.domain.media.*;
 import nl.vpro.domain.media.exceptions.ModificationException;
@@ -18,20 +19,19 @@ import nl.vpro.domain.media.search.MediaForm;
 import nl.vpro.domain.media.search.Pager;
 import nl.vpro.domain.media.update.ProgramUpdate;
 import nl.vpro.domain.media.update.SegmentUpdate;
-import nl.vpro.domain.user.Broadcaster;
 
 import static com.jayway.restassured.RestAssured.given;
 import static nl.vpro.poms.Config.configOption;
 import static nl.vpro.poms.Config.requiredOption;
+import static nl.vpro.poms.Config.url;
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assume.assumeNotNull;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class MediaTest {
 
-    private static final String BASE_URL = requiredOption("backendapi.url");
-    private static final String MEDIA_URL = BASE_URL + "media/media";
-    private static final String FIND_URL = BASE_URL + "media/find";
+    private static final String MEDIA_URL = url("backendapi.url", "media/media");
+    private static final String FIND_URL = url("backendapi.url", "media/find");
     private static final String USERNAME = configOption("backendapi.username").orElse("vpro-mediatools");
     private static final String PASSWORD = requiredOption("backendapi.password");
     private static final String ERRORS_EMAIL = configOption("errors.email").orElse("digitaal-techniek@vpro.nl");
@@ -59,19 +59,18 @@ public class MediaTest {
         ProgramUpdate clip = ProgramUpdate.create(createClip(null, dynamicSuffix, segments));
 
         clipMid = given()
-                .auth()
-                .basic(USERNAME, PASSWORD)
-                .contentType("application/xml")
-                .body(clip)
-                .queryParam("errors", ERRORS_EMAIL)
-                .log().all()
-        .when()
-                .post(MEDIA_URL)
-        .then()
-                .log().all()
-                .statusCode(202)
-                .body(startsWith("POMS_VPRO"))
-                .extract().asString();
+            .auth().basic(USERNAME, PASSWORD)
+            .contentType(ContentType.XML)
+            .body(clip)
+            .queryParam("errors", ERRORS_EMAIL)
+            .log().all()
+            .when()
+            .  post(MEDIA_URL)
+            .then()
+            .  log().all()
+            .  statusCode(202)
+            .  body(startsWith("POMS_VPRO"))
+            .  extract().asString();
     }
 
     @Test
@@ -81,18 +80,17 @@ public class MediaTest {
         ProgramUpdate clip = ProgramUpdate.create(createClip(clipCrid, dynamicSuffix, segments));
 
         given()
-                .auth()
-                .basic(USERNAME, PASSWORD)
-                .contentType("application/xml")
-                .body(clip)
-                .queryParam("errors", ERRORS_EMAIL)
-                .log().all()
-        .when()
-                .post(MEDIA_URL)
-        .then()
-                .log().all()
-                .statusCode(202)
-                .body(equalTo(clipCrid));
+            .auth().basic(USERNAME, PASSWORD)
+            .contentType(ContentType.XML)
+            .body(clip)
+            .queryParam("errors", ERRORS_EMAIL)
+            .log().all()
+            .when()
+            .  post(MEDIA_URL)
+            .then()
+            .  log().all()
+            .  statusCode(202)
+            .  body(equalTo(clipCrid));
     }
 
     @Test
@@ -100,18 +98,17 @@ public class MediaTest {
         SegmentUpdate segment = SegmentUpdate.create(createSegment(null, dynamicSuffix, clipMid));
 
         given()
-                .auth()
-                .basic(USERNAME, PASSWORD)
-                .contentType("application/xml")
-                .body(segment)
-                .queryParam("errors", ERRORS_EMAIL)
-                .log().all()
-        .when()
-                .post(MEDIA_URL)
-        .then()
-                .log().all()
-                .statusCode(202)
-                .body(startsWith("POMS_VPRO"));
+            .auth().basic(USERNAME, PASSWORD)
+            .contentType(ContentType.XML)
+            .body(segment)
+            .queryParam("errors", ERRORS_EMAIL)
+            .log().all()
+            .when()
+            .  post(MEDIA_URL)
+            .then()
+            .  log().all()
+            .  statusCode(202)
+            .  body(startsWith("POMS_VPRO"));
     }
 
     @Test
@@ -124,18 +121,17 @@ public class MediaTest {
     public void test05RetrieveClip() throws UnsupportedEncodingException, InterruptedException {
         assumeNotNull(clipMid);
         given()
-                .auth()
-                .basic(USERNAME, PASSWORD)
-                .contentType("application/xml")
-                .queryParam("errors", ERRORS_EMAIL)
-                .log().all()
-        .when()
-                .get(MEDIA_URL + "/" + clipMid)
-        .then()
-                .log().all()
-                .statusCode(200)
-                .body(hasXPath("/program/title[@type='MAIN']/text()", equalTo(TITLE_PREFIX + dynamicSuffix)))
-                .body(hasXPath("/program/@deleted", isEmptyOrNullString()));
+            .auth().basic(USERNAME, PASSWORD)
+            .contentType("application/xml")
+            .queryParam("errors", ERRORS_EMAIL)
+            .log().all()
+            .when()
+            .  get(MEDIA_URL + "/" + clipMid)
+            .then()
+            .  log().all()
+            .  statusCode(200)
+            .  body(hasXPath("/program/title[@type='MAIN']/text()", equalTo(TITLE_PREFIX + dynamicSuffix)))
+            .  body(hasXPath("/program/@deleted", isEmptyOrNullString()));
     }
 
 
@@ -145,97 +141,88 @@ public class MediaTest {
         String clipCrid = clipCrid(cridIdFromSuffix);
         String encodedClipCrid = URLEncoder.encode(clipCrid, "UTF-8");
         given()
-                .auth()
-                .basic(USERNAME, PASSWORD)
-                .contentType("application/xml")
-                .queryParam("errors", ERRORS_EMAIL)
-                .log().all()
-        .when()
-                .get(MEDIA_URL + "/" + encodedClipCrid)
-        .then()
-                .log().all()
-                .statusCode(200)
-                .body(hasXPath("/program/title[@type='MAIN']/text()", equalTo(TITLE_PREFIX + dynamicSuffix)))
-                .body(hasXPath("/program/@deleted", isEmptyOrNullString()));
+            .auth().basic(USERNAME, PASSWORD)
+            .contentType("application/xml")
+            .queryParam("errors", ERRORS_EMAIL)
+            .log().all()
+            .when()
+            .  get(MEDIA_URL + "/" + encodedClipCrid)
+            .then()
+            .  log().all()
+            .  statusCode(200)
+            .  body(hasXPath("/program/title[@type='MAIN']/text()", equalTo(TITLE_PREFIX + dynamicSuffix)))
+            .  body(hasXPath("/program/@deleted", isEmptyOrNullString()));
     }
 
     @Test
-    @Ignore
     public void test07FindClips() throws UnsupportedEncodingException, InterruptedException {
 
         MediaForm search = new MediaForm(new Pager(50), TITLE_PREFIX + dynamicSuffix);
         search.setBroadcasters(Collections.singletonList("VPRO"));
         search.setCreationRange(new DateRange(LocalDate.now().atStartOfDay(), LocalDate.now().atStartOfDay().plusHours(24)));
         given()
-                .auth()
-                .basic(USERNAME, PASSWORD)
-                .contentType("application/xml")
-                .body(search)
-                .queryParam("errors", ERRORS_EMAIL)
-                .log().all()
-        .when()
-                .post(FIND_URL)
-        .then()
-                .log().all()
-                .statusCode(200);
+            .auth().basic(USERNAME, PASSWORD)
+            .contentType(ContentType.XML)
+            .body(search)
+            .log().all()
+            .when()
+            .  post(FIND_URL)
+            .then()
+            .  log().all()
+            .  statusCode(200);
     }
 
     @Test
     public void test08DeleteClip() throws UnsupportedEncodingException, InterruptedException {
         given()
-                .auth()
-                .basic(USERNAME, PASSWORD)
-                .queryParam("errors", ERRORS_EMAIL)
-                .log().all()
-        .when()
-                .delete(MEDIA_URL + "/" + clipMid)
-        .then()
-                .log().all()
-                .statusCode(202);
+            .auth().basic(USERNAME, PASSWORD)
+            .queryParam("errors", ERRORS_EMAIL)
+            .log().all()
+            .when()
+            .  delete(MEDIA_URL + "/" + clipMid)
+            .then()
+            .  log().all()
+            .  statusCode(202);
 
         // Wait for posted clip to be deleted
         Thread.sleep(1000);
 
         given()
-                .auth()
-                .basic(USERNAME, PASSWORD)
-                .contentType("application/xml")
-                .queryParam("errors", ERRORS_EMAIL)
-                .log().all()
-        .when()
-                .get(MEDIA_URL + "/" + clipMid)
-        .then()
-                .log().all()
-                .statusCode(200)
-                .body(hasXPath("/program/@deleted", equalTo("true")));
+            .auth()
+            .basic(USERNAME, PASSWORD)
+            .contentType(ContentType.XML)
+            .queryParam("errors", ERRORS_EMAIL)
+            .log().all()
+            .when()
+            .  get(MEDIA_URL + "/" + clipMid)
+            .then()
+            .  log().all()
+            .  statusCode(200)
+            .  body(hasXPath("/program/@deleted", equalTo("true")));
     }
 
     private Program createClip(String crid, String dynamicSuffix, List<Segment> segments) throws ModificationException {
 
         return MediaTestDataBuilder.program()
-                .validNew()
-                .crids(crid)
-                .mid(null)
-                .clearBroadcasters()
-                .broadcasters("VPRO")
-                .type(ProgramType.CLIP)
-                .avType(AVType.MIXED)
-                .broadcasters(Broadcaster.of("VPRO"))
-                .segments(segments.toArray(new Segment[segments.size()]))
-                .title(TITLE_PREFIX + dynamicSuffix)
-                .build();
+            .validNew()
+            .crids(crid)
+            .clearBroadcasters()
+            .broadcasters("VPRO")
+            .type(ProgramType.CLIP)
+            .segments(segments)
+            .title(TITLE_PREFIX + dynamicSuffix)
+            .build();
     }
 
     private Segment createSegment(String crid, String dynamicSuffix, String midRef) throws ModificationException {
         return MediaTestDataBuilder.segment()
-                .validNew()
-                .crids(crid)
-                .mid(null)
-                .clearBroadcasters()
-                .broadcasters("VPRO")
-                .title(TITLE_PREFIX + "(1) " + dynamicSuffix)
-                .midRef(midRef)
-                .build();
+            .validNew()
+            .crids(crid)
+            .clearBroadcasters()
+            .broadcasters("VPRO")
+            .title(TITLE_PREFIX + "(1) " + dynamicSuffix)
+            .midRef(midRef)
+            .build();
     }
 
     private String crid(String type, String dynamicSuffix) {
