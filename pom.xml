@@ -13,7 +13,8 @@
   <version>1.0-SNAPSHOT</version>
 
   <properties>
-
+    <media.version>4.6.0</media.version>
+    <parkpost.version>${media.version}</parkpost.version>
   </properties>
 
   <dependencies>
@@ -26,12 +27,11 @@
     <dependency>
       <groupId>nl.vpro.media</groupId>
       <artifactId>media-test</artifactId>
-
     </dependency>
     <dependency>
       <groupId>nl.vpro.media</groupId>
       <artifactId>media-parkpost</artifactId>
-      <version>${media.version}</version>
+      <version>${parkpost.version}</version>
     </dependency>
     <dependency>
       <groupId>junit</groupId>
