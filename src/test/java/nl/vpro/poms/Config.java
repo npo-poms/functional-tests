@@ -20,7 +20,7 @@ public class Config {
     private static final Logger LOG = LoggerFactory.getLogger(Config.class);
 
     private static Properties PROPERTIES = new Properties();
-    private static File FILE = new File(System.getProperty("user.home") + File.separator + "conf" + File.separator + "poms-functional-tests.properties");
+    static File FILE = new File(System.getProperty("user.home") + File.separator + "conf" + File.separator + "poms-functional-tests.properties");
     static {
 
         try {

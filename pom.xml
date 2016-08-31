@@ -46,6 +46,14 @@
       <groupId>log4j</groupId>
       <artifactId>log4j</artifactId>
     </dependency>
+    <dependency>
+      <groupId>nl.vpro.api-client</groupId>
+      <artifactId>client-resteasy</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>javax</groupId>
+      <artifactId>javaee-api</artifactId>
+    </dependency>
   </dependencies>
 
   <build>
