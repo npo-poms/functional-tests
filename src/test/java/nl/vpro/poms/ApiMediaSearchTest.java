@@ -67,7 +67,7 @@ public class ApiMediaSearchTest extends AbstractSearchTest<MediaForm, MediaSearc
 
     @Test
     public void searchMembers() throws IOException {
-        System.out.println("--------------------" + name);
+        System.out.println("----------------MEMBERS----" + name);
         MediaSearchResult searchResultItems = clients.getMediaService().findMembers(form, "AVRO_1656037", profile, "", 0L, 10);
         Consumer<MediaSearchResult> tester = TESTERS.get(name);
         if (tester != null) {
@@ -85,7 +85,7 @@ public class ApiMediaSearchTest extends AbstractSearchTest<MediaForm, MediaSearc
 
     @Test
     public void searchEpisodes() throws IOException {
-        System.out.println("--------------------" + name);
+        System.out.println("--------------------EPISODES---" + name);
         ProgramSearchResult searchResultItems = clients.getMediaService().findEpisodes(form, "AVRO_1656037", profile, "", 0L, 10);
         File tempFile = File.createTempFile(name.replaceAll("/", "_"), ".episodes.json");
         System.out.println(tempFile);
