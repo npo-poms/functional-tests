@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.util.Collection;
 import java.util.function.Consumer;
 
+import org.junit.Assume;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -36,6 +37,16 @@ public class ApiMediaSearchTest extends AbstractSearchTest<MediaForm, MediaSearc
 
 
         });
+        TESTERS.put("facet-ageRating.json/null", sr -> {
+            Assume.assumeTrue(sr.getFacets().getAgeRatings() != null);
+            assertThat(sr.getFacets().getAgeRatings()).hasSize(5);
+
+            //NPA-245
+            assertThat(sr.getFacets().getAgeRatings().get(0).getId()).isEqualTo("6");
+
+
+        });
+
     }
 
     public ApiMediaSearchTest(String name, MediaForm form, String profile) {
