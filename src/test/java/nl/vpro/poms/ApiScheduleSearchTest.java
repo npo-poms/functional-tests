@@ -15,12 +15,12 @@ import nl.vpro.domain.api.media.ScheduleSearchResult;
 import nl.vpro.jackson2.Jackson2Mapper;
 
 @RunWith(Parameterized.class)
-public class ApiScheduleTest extends AbstractSearchTest<ScheduleForm, ScheduleSearchResult> {
+public class ApiScheduleSearchTest extends AbstractSearchTest<ScheduleForm, ScheduleSearchResult> {
 
     {
     }
 
-    public ApiScheduleTest(String name, ScheduleForm form, String profile) {
+    public ApiScheduleSearchTest(String name, ScheduleForm form, String profile) {
         super(name, form, profile);
     }
 

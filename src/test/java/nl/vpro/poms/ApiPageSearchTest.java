@@ -17,7 +17,7 @@ import nl.vpro.jackson2.Jackson2Mapper;
 import static org.assertj.core.api.Java6Assertions.assertThat;
 
 @RunWith(Parameterized.class)
-public class ApiPageTest extends AbstractSearchTest<PageForm, PageSearchResult> {
+public class ApiPageSearchTest extends AbstractSearchTest<PageForm, PageSearchResult> {
 
     {
         TESTERS.put("NPA-331.json/woord", sr -> {
@@ -26,7 +26,7 @@ public class ApiPageTest extends AbstractSearchTest<PageForm, PageSearchResult> 
         );
     }
 
-    public ApiPageTest(String name, PageForm form, String profile) {
+    public ApiPageSearchTest(String name, PageForm form, String profile) {
         super(name, form, profile);
     }
 
