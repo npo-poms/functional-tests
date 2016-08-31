@@ -18,12 +18,17 @@ import nl.vpro.domain.api.page.PageForm;
 import nl.vpro.domain.api.page.PageSearchResult;
 import nl.vpro.jackson2.Jackson2Mapper;
 
+import static org.assertj.core.api.Java6Assertions.assertThat;
+
 @RunWith(Parameterized.class)
 public class ApiPageTest {
 
     private static Map<String, Consumer<PageSearchResult>> TESTERS = new HashMap<>();
     static {
-
+        TESTERS.put("NPA-331.json/woord", sr -> {
+            assertThat(sr.getItems()).isNotEmpty();
+            }
+        );
     }
 
 
@@ -58,7 +63,7 @@ public class ApiPageTest {
             }
         }
         List<Object[]> result = new ArrayList<>();
-        for (String profile : Arrays.asList(null, "vpro")) {
+        for (String profile : Arrays.asList(null, "vpro", "woord")) {
             for (Map.Entry<String, PageForm> e: forms) {
                 result.add(new Object[]{e.getKey() + "/" + profile, e.getValue(), profile});
             }
