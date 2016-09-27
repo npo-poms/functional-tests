@@ -16,9 +16,6 @@ import nl.vpro.jackson2.Jackson2Mapper;
 @RunWith(Parameterized.class)
 public class ApiScheduleSearchTest extends AbstractSearchTest<ScheduleForm, ScheduleSearchResult> {
 
-    {
-    }
-
     public ApiScheduleSearchTest(String name, ScheduleForm form, String profile) {
         super(name, form, profile);
     }
