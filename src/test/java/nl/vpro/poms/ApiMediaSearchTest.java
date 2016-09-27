@@ -1,8 +1,9 @@
 package nl.vpro.poms;
 
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Collection;
 import java.util.function.Consumer;
 
@@ -23,6 +24,8 @@ import static org.assertj.core.api.Java6Assertions.assertThat;
 
 @RunWith(Parameterized.class)
 public class ApiMediaSearchTest extends AbstractSearchTest<MediaForm, MediaSearchResult> {
+
+    private static boolean writeTempFiles = false;
 
 
     {
@@ -70,10 +73,11 @@ public class ApiMediaSearchTest extends AbstractSearchTest<MediaForm, MediaSearc
             System.out.println("No predicate defined for " + name);
             //Jackson2Mapper.getPrettyInstance().writeValue(System.out, searchResultItems);
         }
-        File tempFile = File.createTempFile(name.replaceAll("/", "_"), ".json");
-        System.out.println(tempFile);
-        Jackson2Mapper.getPrettyInstance().writeValue(new FileOutputStream(tempFile), searchResultItems);
+        try (OutputStream out = getTempStream(name)) {
+            Jackson2Mapper.getPrettyInstance().writeValue(out, searchResultItems);
+        }
     }
+
 
 
     @Test
@@ -88,9 +92,10 @@ public class ApiMediaSearchTest extends AbstractSearchTest<MediaForm, MediaSearc
             System.out.println("No predicate defined for " + name);
             //Jackson2Mapper.getPrettyInstance().writeValue(System.out, searchResultItems);
         }
-        File tempFile = File.createTempFile(name.replaceAll("/", "_"), ".members.json");
-        System.out.println(tempFile);
-        Jackson2Mapper.getPrettyInstance().writeValue(new FileOutputStream(tempFile), searchResultItems);
+
+        try (OutputStream out = getTempStream(name + ".members.json")) {
+            Jackson2Mapper.getPrettyInstance().writeValue(out, searchResultItems);
+        }
     }
 
 
@@ -98,8 +103,17 @@ public class ApiMediaSearchTest extends AbstractSearchTest<MediaForm, MediaSearc
     public void searchEpisodes() throws IOException {
         System.out.println("--------------------EPISODES---" + name);
         ProgramSearchResult searchResultItems = clients.getMediaService().findEpisodes(form, "AVRO_1656037", profile, "", 0L, 10);
-        File tempFile = File.createTempFile(name.replaceAll("/", "_"), ".episodes.json");
-        System.out.println(tempFile);
-        Jackson2Mapper.getPrettyInstance().writeValue(new FileOutputStream(tempFile), searchResultItems);
+        try (OutputStream out = getTempStream(name + ".episodes.json")) {
+            Jackson2Mapper.getPrettyInstance().writeValue(out, searchResultItems);
+        }
+    }
+
+    protected OutputStream getTempStream(String name) throws IOException {
+        if (writeTempFiles) {
+            Path tempFile = Files.createTempFile(name.replaceAll("/", "_"), ".json");
+            return Files.newOutputStream(tempFile);
+        } else {
+            return System.out;
+        }
     }
 }
