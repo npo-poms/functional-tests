@@ -1,6 +1,9 @@
 package nl.vpro.poms;
 
 import java.io.IOException;
+import java.io.OutputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Consumer;
@@ -14,6 +17,8 @@ import nl.vpro.api.client.resteasy.NpoApiClients;
  * @since 1.0
  */
 public class AbstractSearchTest<T, S> {
+    private static boolean writeTempFiles = false;
+
 
     Map<String, Consumer<S>> TESTERS = new HashMap<>();
 
@@ -35,5 +40,15 @@ public class AbstractSearchTest<T, S> {
         this.name = name;
         this.form = form;
         this.profile = profile;
+    }
+
+
+    protected OutputStream getTempStream(String name) throws IOException {
+        if (writeTempFiles) {
+            Path tempFile = Files.createTempFile(name.replaceAll("/", "_"), ".json");
+            return Files.newOutputStream(tempFile);
+        } else {
+            return System.out;
+        }
     }
 }

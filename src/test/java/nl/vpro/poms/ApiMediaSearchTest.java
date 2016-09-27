@@ -2,8 +2,6 @@ package nl.vpro.poms;
 
 import java.io.IOException;
 import java.io.OutputStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.Collection;
 import java.util.function.Consumer;
 
@@ -25,7 +23,6 @@ import static org.assertj.core.api.Java6Assertions.assertThat;
 @RunWith(Parameterized.class)
 public class ApiMediaSearchTest extends AbstractSearchTest<MediaForm, MediaSearchResult> {
 
-    private static boolean writeTempFiles = false;
 
 
     {
@@ -108,12 +105,4 @@ public class ApiMediaSearchTest extends AbstractSearchTest<MediaForm, MediaSearc
         }
     }
 
-    protected OutputStream getTempStream(String name) throws IOException {
-        if (writeTempFiles) {
-            Path tempFile = Files.createTempFile(name.replaceAll("/", "_"), ".json");
-            return Files.newOutputStream(tempFile);
-        } else {
-            return System.out;
-        }
-    }
 }

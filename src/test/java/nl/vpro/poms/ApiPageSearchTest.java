@@ -1,8 +1,7 @@
 package nl.vpro.poms;
 
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.util.Collection;
 import java.util.function.Consumer;
 
@@ -48,8 +47,9 @@ public class ApiPageSearchTest extends AbstractSearchTest<PageForm, PageSearchRe
             System.out.println("No predicate defined for " + name);
             //Jackson2Mapper.getPrettyInstance().writeValue(System.out, searchResultItems);
         }
-        File tempFile = File.createTempFile(name.replaceAll("/", "_"), ".json");
-        System.out.println(tempFile);
-        Jackson2Mapper.getPrettyInstance().writeValue(new FileOutputStream(tempFile), searchResultItems);
+        try (OutputStream out = getTempStream(name)) {
+            Jackson2Mapper.getPrettyInstance().writeValue(out, searchResultItems);
+        }
+
     }
 }
