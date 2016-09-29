@@ -12,6 +12,7 @@ import org.junit.BeforeClass;
 
 import nl.vpro.api.client.resteasy.NpoApiClients;
 import nl.vpro.jackson2.Jackson2Mapper;
+import nl.vpro.test.util.jackson2.Jackson2TestUtil;
 
 /**
  * @author Michiel Meeuwissen
@@ -50,11 +51,13 @@ public class AbstractSearchTest<T, S> {
         }
     }
     
-    protected <U> void test(String name, U object) throws IOException {
+    protected <U> void test(String name, U object) throws Exception {
+        Jackson2TestUtil.roundTrip(object);
+      /*  
         try (
                 OutputStream out = getTempStream(name)) {
             Jackson2Mapper.getPrettyInstance().writeValue(out, object);
-        }
+        }*/
     }
     
 }
