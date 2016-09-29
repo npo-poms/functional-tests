@@ -11,8 +11,6 @@ import java.util.function.Supplier;
 
 import org.apache.commons.lang3.StringUtils;
 
-import nl.vpro.util.XTrustProvider;
-
 /**
  * @author Michiel Meeuwissen
 
@@ -26,8 +24,7 @@ public class Config {
 
         try {
 
-            XTrustProvider.install();
-            log.info("Reading {} configuration from {}", pref(), FILE);
+            log.info("Reading {} configuration from {}", envPrefix(), FILE);
 
             PROPERTIES.put("localhost.backendapi.url", "http://localhost:8071/rs/");
             PROPERTIES.put("dev.backendapi.url", "https://api-dev.poms.omroep.nl/");
@@ -41,7 +38,7 @@ public class Config {
     }
 
     public static Optional<String> configOption(String prop) {
-        String value = PROPERTIES.getProperty(pref() + "." + prop, PROPERTIES.getProperty(prop));
+        String value = PROPERTIES.getProperty(envPrefix() + "." + prop, PROPERTIES.getProperty(prop));
         return Optional.ofNullable(value);
     }
 
@@ -63,15 +60,15 @@ public class Config {
     }
 
     public static Supplier<RuntimeException> notSet(String prop) {
-        String p = pref();
+        String p = envPrefix();
         String post = StringUtils.isBlank(p) ? "" : " (or " + p + "." + prop + ")";
         return () -> new RuntimeException(prop + post  + " is not set in " + FILE);
     }
 
-    private static String pref() {
+    private static String envPrefix() {
         String pref = System.getProperty("env");
         if (pref == null) {
-            return PROPERTIES.getProperty("pref", "dev");
+            return PROPERTIES.getProperty("env", "dev");
         } else {
             return pref;
         }

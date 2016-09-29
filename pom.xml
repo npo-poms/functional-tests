@@ -15,7 +15,8 @@
   <properties>
     <parkpost.version>${media.version}</parkpost.version>
     <api.version>4.8-SNAPSHOT</api.version>
-    <api.client.version>4.8-SNAPSHOT</api.client.version>
+    <api.client.version>4.8-SNAPSHOT</api.client.version
+    <shared.version>0.52-SNAPSHOT</shared.version>
   </properties>
 
   <dependencies>

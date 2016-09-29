@@ -29,6 +29,7 @@ public class AbstractSearchTest<T, S> {
     @BeforeClass
     public static void initialize() throws IOException {
         clients = NpoApiClients.configured(Config.FILE.getAbsolutePath()).build();
+        clients.setTrustAll(true);
     }
 
 
