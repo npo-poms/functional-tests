@@ -36,7 +36,7 @@ public class ApiPageSearchTest extends AbstractSearchTest<PageForm, PageSearchRe
     }
 
     @Test
-    public void search() throws IOException {
+    public void search() throws Exception {
         System.out.println("--------------------" + name);
         PageSearchResult searchResultItems = clients.getPageService().find(form, profile, "", 0L, 10);
         Consumer<PageSearchResult> tester = TESTERS.get(name);
@@ -47,9 +47,6 @@ public class ApiPageSearchTest extends AbstractSearchTest<PageForm, PageSearchRe
             System.out.println("No predicate defined for " + name);
             //Jackson2Mapper.getPrettyInstance().writeValue(System.out, searchResultItems);
         }
-        try (OutputStream out = getTempStream(name)) {
-            Jackson2Mapper.getPrettyInstance().writeValue(out, searchResultItems);
-        }
-
+        test(name, searchResultItems);
     }
 }

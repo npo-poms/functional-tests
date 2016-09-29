@@ -59,7 +59,7 @@ public class ApiMediaSearchTest extends AbstractSearchTest<MediaForm, MediaSearc
     }
 
     @Test
-    public void search() throws IOException {
+    public void search() throws Exception {
         System.out.println("--------------------" + name);
         MediaSearchResult searchResultItems = clients.getMediaService().find(form, profile, "", 0L, 10);
         Consumer<MediaSearchResult> tester = TESTERS.get(name);
@@ -76,7 +76,7 @@ public class ApiMediaSearchTest extends AbstractSearchTest<MediaForm, MediaSearc
 
 
     @Test
-    public void searchMembers() throws IOException {
+    public void searchMembers() throws Exception {
         System.out.println("----------------MEMBERS----" + name);
         MediaSearchResult searchResultItems = clients.getMediaService().findMembers(form, "AVRO_1656037", profile, "", 0L, 10);
         Consumer<MediaSearchResult> tester = TESTERS.get(name);
@@ -93,7 +93,7 @@ public class ApiMediaSearchTest extends AbstractSearchTest<MediaForm, MediaSearc
 
 
     @Test
-    public void searchEpisodes() throws IOException {
+    public void searchEpisodes() throws Exception {
         System.out.println("--------------------EPISODES---" + name);
         ProgramSearchResult searchResultItems = clients.getMediaService().findEpisodes(form, "AVRO_1656037", profile, "", 0L, 10);
         test(name + ".episodes.json", searchResultItems);

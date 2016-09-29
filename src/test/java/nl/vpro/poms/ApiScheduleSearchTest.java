@@ -27,7 +27,7 @@ public class ApiScheduleSearchTest extends AbstractSearchTest<ScheduleForm, Sche
     }
 
     @Test
-    public void search() throws IOException {
+    public void search() throws Exception {
         System.out.println("--------------------" + name);
         ScheduleSearchResult searchResultItems = clients.getScheduleService().find(form, profile, "", 0L, 10);
         Consumer<ScheduleSearchResult> tester = TESTERS.get(name);
@@ -37,8 +37,7 @@ public class ApiScheduleSearchTest extends AbstractSearchTest<ScheduleForm, Sche
         } else {
             System.out.println("No predicate defined for " + name);
         }
-        try (OutputStream out = getTempStream(name)) {
-            Jackson2Mapper.getPrettyInstance().writeValue(out, searchResultItems);
-        }
+        test(name, searchResultItems);
+
     }
 }
