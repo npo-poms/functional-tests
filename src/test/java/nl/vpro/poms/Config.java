@@ -11,6 +11,8 @@ import java.util.function.Supplier;
 
 import org.apache.commons.lang3.StringUtils;
 
+import nl.vpro.util.XTrustProvider;
+
 /**
  * @author Michiel Meeuwissen
 
@@ -24,6 +26,7 @@ public class Config {
 
         try {
 
+            XTrustProvider.install();
             log.info("Reading {} configuration from {}", pref(), FILE);
 
             PROPERTIES.put("localhost.backendapi.url", "http://localhost:8071/rs/");
