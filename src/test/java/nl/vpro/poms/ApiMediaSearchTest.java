@@ -70,9 +70,7 @@ public class ApiMediaSearchTest extends AbstractSearchTest<MediaForm, MediaSearc
             System.out.println("No predicate defined for " + name);
             //Jackson2Mapper.getPrettyInstance().writeValue(System.out, searchResultItems);
         }
-        try (OutputStream out = getTempStream(name)) {
-            Jackson2Mapper.getPrettyInstance().writeValue(out, searchResultItems);
-        }
+        test(name, searchResultItems);
     }
 
 
@@ -90,9 +88,7 @@ public class ApiMediaSearchTest extends AbstractSearchTest<MediaForm, MediaSearc
             //Jackson2Mapper.getPrettyInstance().writeValue(System.out, searchResultItems);
         }
 
-        try (OutputStream out = getTempStream(name + ".members.json")) {
-            Jackson2Mapper.getPrettyInstance().writeValue(out, searchResultItems);
-        }
+        test(name + ".members.json", searchResultItems);
     }
 
 
@@ -100,9 +96,7 @@ public class ApiMediaSearchTest extends AbstractSearchTest<MediaForm, MediaSearc
     public void searchEpisodes() throws IOException {
         System.out.println("--------------------EPISODES---" + name);
         ProgramSearchResult searchResultItems = clients.getMediaService().findEpisodes(form, "AVRO_1656037", profile, "", 0L, 10);
-        try (OutputStream out = getTempStream(name + ".episodes.json")) {
-            Jackson2Mapper.getPrettyInstance().writeValue(out, searchResultItems);
-        }
+        test(name + ".episodes.json", searchResultItems);
     }
 
 }

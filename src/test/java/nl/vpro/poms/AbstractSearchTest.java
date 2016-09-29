@@ -11,6 +11,7 @@ import java.util.function.Consumer;
 import org.junit.BeforeClass;
 
 import nl.vpro.api.client.resteasy.NpoApiClients;
+import nl.vpro.jackson2.Jackson2Mapper;
 
 /**
  * @author Michiel Meeuwissen
@@ -48,4 +49,12 @@ public class AbstractSearchTest<T, S> {
             return System.out;
         }
     }
+    
+    protected <U> void test(String name, U object) throws IOException {
+        try (
+                OutputStream out = getTempStream(name)) {
+            Jackson2Mapper.getPrettyInstance().writeValue(out, object);
+        }
+    }
+    
 }

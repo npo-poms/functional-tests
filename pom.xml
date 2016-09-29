@@ -60,6 +60,10 @@
       <groupId>org.projectlombok</groupId>
       <artifactId>lombok</artifactId>
     </dependency>
+    <dependency>
+      <groupId>nl.vpro.shared</groupId>
+      <artifactId>shared-test</artifactId>
+    </dependency>
   </dependencies>
 
   <build>
