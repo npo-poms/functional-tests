@@ -17,12 +17,8 @@ import nl.vpro.api.client.resteasy.NpoApiClients;
  * @since 1.0
  */
 public class AbstractSearchTest<T, S> {
-    private static boolean writeTempFiles = false;
-
-
+    private static final boolean writeTempFiles = false;
     Map<String, Consumer<S>> TESTERS = new HashMap<>();
-
-
 
     String name;
     T form;
