@@ -11,9 +11,16 @@ import org.junit.runners.Parameterized;
 import nl.vpro.domain.api.media.ScheduleForm;
 import nl.vpro.domain.api.media.ScheduleSearchResult;
 
+import static org.assertj.core.api.Java6Assertions.assertThat;
+
 @RunWith(Parameterized.class)
 public class ApiScheduleSearchTest extends AbstractSearchTest<ScheduleForm, ScheduleSearchResult> {
 
+    {
+        TESTERS.put("facet-broadcaster-ned3.xml/null", sr -> {
+            assertThat(sr.getFacets().getBroadcasters()).isNotEmpty();
+        });
+    }
     public ApiScheduleSearchTest(String name, ScheduleForm form, String profile) {
         super(name, form, profile);
     }
