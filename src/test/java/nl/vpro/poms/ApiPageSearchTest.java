@@ -1,7 +1,6 @@
 package nl.vpro.poms;
 
 import java.io.IOException;
-import java.io.OutputStream;
 import java.util.Collection;
 import java.util.function.Consumer;
 
@@ -11,7 +10,6 @@ import org.junit.runners.Parameterized;
 
 import nl.vpro.domain.api.page.PageForm;
 import nl.vpro.domain.api.page.PageSearchResult;
-import nl.vpro.jackson2.Jackson2Mapper;
 
 import static org.assertj.core.api.Java6Assertions.assertThat;
 
