@@ -10,9 +10,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Consumer;
 
-import org.junit.BeforeClass;
-
-import nl.vpro.api.client.resteasy.NpoApiClients;
 import nl.vpro.test.util.jackson2.Jackson2TestUtil;
 
 /**
@@ -20,25 +17,13 @@ import nl.vpro.test.util.jackson2.Jackson2TestUtil;
  * @since 1.0
  */
 @Slf4j
-public class AbstractSearchTest<T, S> {
+public abstract class AbstractSearchTest<T, S> extends AbstractApiTest {
     private static final boolean writeTempFiles = false;
     Map<String, Consumer<S>> TESTERS = new HashMap<>();
 
     String name;
     T form;
     String profile;
-
-    static NpoApiClients clients;
-
-    @BeforeClass
-    public static void initialize() throws IOException {
-        clients = NpoApiClients
-            .configured(Config.FILE.getAbsolutePath())
-            .setApiBaseUrl(Config.configOption("apiBaseUrl").orElse("https://rs-test.poms.omroep.nl/v1/"))
-            .build();
-        clients.setTrustAll(true);
-        log.info("Using {}", clients);
-    }
 
 
     public AbstractSearchTest(String name, T form, String profile) {
