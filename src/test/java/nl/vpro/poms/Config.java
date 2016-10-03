@@ -31,6 +31,11 @@ public class Config {
             PROPERTIES.put("test.backendapi.url", "https://api-test.poms.omroep.nl/");
             PROPERTIES.put("prod.backendapi.url", "https://api.poms.omroep.nl/");
 
+            PROPERTIES.put("localhost.apiBaseUrl", "http://localhost:8071/v1/");
+            PROPERTIES.put("dev.apiBaseUrl", "https://rs-dev.poms.omroep.nl/v1/");
+            PROPERTIES.put("test.apiBaseUrl", "https://rs-test.poms.omroep.nl/v1/");
+            PROPERTIES.put("prod.apiBaseUrl", "https://rs.poms.omroep.nl/v1/");
+
             PROPERTIES.load(new FileInputStream(FILE));
         } catch (IOException e) {
             log.error(e.getMessage(), e);

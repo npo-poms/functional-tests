@@ -1,7 +1,6 @@
 package nl.vpro.poms;
 
 import java.io.IOException;
-import java.io.OutputStream;
 import java.util.Collection;
 import java.util.function.Consumer;
 
@@ -16,7 +15,6 @@ import nl.vpro.domain.api.media.MediaSearchResult;
 import nl.vpro.domain.api.media.ProgramSearchResult;
 import nl.vpro.domain.media.MediaObject;
 import nl.vpro.domain.media.MediaType;
-import nl.vpro.jackson2.Jackson2Mapper;
 
 import static org.assertj.core.api.Java6Assertions.assertThat;
 

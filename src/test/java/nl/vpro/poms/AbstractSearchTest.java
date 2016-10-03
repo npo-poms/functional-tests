@@ -1,5 +1,7 @@
 package nl.vpro.poms;
 
+import lombok.extern.slf4j.Slf4j;
+
 import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.file.Files;
@@ -11,13 +13,13 @@ import java.util.function.Consumer;
 import org.junit.BeforeClass;
 
 import nl.vpro.api.client.resteasy.NpoApiClients;
-import nl.vpro.jackson2.Jackson2Mapper;
 import nl.vpro.test.util.jackson2.Jackson2TestUtil;
 
 /**
  * @author Michiel Meeuwissen
  * @since 1.0
  */
+@Slf4j
 public class AbstractSearchTest<T, S> {
     private static final boolean writeTempFiles = false;
     Map<String, Consumer<S>> TESTERS = new HashMap<>();
@@ -30,8 +32,12 @@ public class AbstractSearchTest<T, S> {
 
     @BeforeClass
     public static void initialize() throws IOException {
-        clients = NpoApiClients.configured(Config.FILE.getAbsolutePath()).build();
+        clients = NpoApiClients
+            .configured(Config.FILE.getAbsolutePath())
+            .setApiBaseUrl(Config.configOption("apiBaseUrl").orElse("https://rs-test.poms.omroep.nl/v1/"))
+            .build();
         clients.setTrustAll(true);
+        log.info("Using {}", clients);
     }
 
 
@@ -50,14 +56,14 @@ public class AbstractSearchTest<T, S> {
             return System.out;
         }
     }
-    
+
     protected <U> void test(String name, U object) throws Exception {
         Jackson2TestUtil.roundTrip(object);
-      /*  
+      /*
         try (
                 OutputStream out = getTempStream(name)) {
             Jackson2Mapper.getPrettyInstance().writeValue(out, object);
         }*/
     }
-    
+
 }
