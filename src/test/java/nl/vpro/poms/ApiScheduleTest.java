@@ -73,8 +73,12 @@ public class ApiScheduleTest extends AbstractApiTest {
 
     @Test
     public void nowForBroadcaster() throws Exception {
-        ApiScheduleEvent o = clients.getScheduleService().nowForBroadcaster("VPRO", null);
-        assertThat(o.getMediaObject().getBroadcasters()).contains(new Broadcaster("VPRO"));
+        try {
+            ApiScheduleEvent o = clients.getScheduleService().nowForBroadcaster("VPRO", null);
+            assertThat(o.getMediaObject().getBroadcasters()).contains(new Broadcaster("VPRO"));
+        } catch (javax.ws.rs.NotFoundException nfe) {
+            System.out.println("Ok, no current schedule for VPRO");
+        }
     }
 
     @Test
