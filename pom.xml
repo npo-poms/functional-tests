@@ -7,16 +7,14 @@
   <parent>
     <groupId>nl.vpro.poms</groupId>
     <artifactId>poms-parent</artifactId>
-    <version>4.8.3</version>
+    <version>4.8.4</version>
   </parent>
   <artifactId>poms-functional-tests</artifactId>
   <version>1.0-SNAPSHOT</version>
 
   <properties>
     <parkpost.version>${media.version}</parkpost.version>
-    <api.version>4.8-SNAPSHOT</api.version>
-    <api.client.version>4.8-SNAPSHOT</api.client.version>
-    <shared.version>0.52-SNAPSHOT</shared.version>
+    <shared.version>0.53-SNAPSHOT</shared.version>
   </properties>
 
   <dependencies>
@@ -51,6 +49,10 @@
     <dependency>
       <groupId>nl.vpro.api-client</groupId>
       <artifactId>client-resteasy</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>nl.vpro.api-client</groupId>
+      <artifactId>client-utils</artifactId>
     </dependency>
     <dependency>
       <groupId>javax</groupId>

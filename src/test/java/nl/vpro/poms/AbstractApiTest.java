@@ -3,6 +3,7 @@ package nl.vpro.poms;
 import lombok.extern.slf4j.Slf4j;
 
 import nl.vpro.api.client.resteasy.NpoApiClients;
+import nl.vpro.api.client.utils.NpoApiMediaUtil;
 
 /**
  * @author Michiel Meeuwissen
@@ -11,7 +12,8 @@ import nl.vpro.api.client.resteasy.NpoApiClients;
 @Slf4j
 public abstract class AbstractApiTest {
 
-    static NpoApiClients clients;
+    static final NpoApiClients clients;
+    static final NpoApiMediaUtil mediaUtil;
 
     static {
         clients = NpoApiClients
@@ -19,6 +21,7 @@ public abstract class AbstractApiTest {
             .setApiBaseUrl(Config.configOption("apiBaseUrl").orElse("https://rs-test.poms.omroep.nl/v1/"))
             .build();
         clients.setTrustAll(true);
+        mediaUtil = new NpoApiMediaUtil(clients);
         log.info("Using {}", clients);
     }
 
