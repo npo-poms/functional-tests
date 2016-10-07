@@ -22,13 +22,13 @@ import nl.vpro.domain.media.MediaObject;
 import static org.assertj.core.api.Java6Assertions.assertThat;
 
 @RunWith(Parameterized.class)
-public class ApiMediaTest extends AbstractApiTest {
+public class ApiMediaLoadTest extends AbstractApiTest {
 
     private final String profileName;
     private Profile profile;
     private final List<String> mids;
 
-    public ApiMediaTest(String profileName, List<String> mids) {
+    public ApiMediaLoadTest(String profileName, List<String> mids) {
         this.profileName = profileName;
         this.mids = mids;
 
