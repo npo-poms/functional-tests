@@ -43,9 +43,11 @@ public class ApiScheduleTest extends AbstractApiTest {
 
     @Test
     public void listBroadcaster() throws Exception {
-        ScheduleResult o = clients.getScheduleService().listBroadcaster("VPRO", today, null, null, null, "ASC", 0L, 240);
+        ScheduleResult o = clients.getScheduleService().listBroadcaster("VPRO", today, null, null, "broadcasters", "ASC", 0L, 240);
         assertThat(o.getSize()).isGreaterThan(10);
+        int i = 0;
         for (ApiScheduleEvent item : o.getItems()) {
+            //System.out.println("item  " + i++ + " " + item.getMediaObject().getMid());
             assertThat(item.getMediaObject().getBroadcasters()).contains(new Broadcaster("VPRO"));
         }
     }
@@ -96,7 +98,6 @@ public class ApiScheduleTest extends AbstractApiTest {
         ApiScheduleEvent o = clients.getScheduleService().nowForChannel("NED1", null);
         System.out.println(o);
         assertThat(o.getChannel()).isEqualTo(Channel.NED1);
-
 
     }
 
