@@ -28,6 +28,7 @@ public class MediaBackendTest extends AbstractApiTest {
 
     private static final String MID = "WO_VPRO_025057";
     private static final String TITLE = Instant.now().toString();
+    private static final Duration ACCEPTABLE_DURATION = Duration.ofMinutes(3);
 
     private static final List<String> titles = new ArrayList<>();
 
@@ -65,7 +66,13 @@ public class MediaBackendTest extends AbstractApiTest {
     }
 
     @Test
-    public void test03addImageToObject() {
+    public void test10checkArrived() throws Exception {
+        checkArrived();
+    }
+
+
+    @Test
+    public void test11addImageToObject() {
         ImageUpdate imageUpdate  = new ImageUpdate(ImageType.PICTURE, title, null, new ImageLocation("https://placeholdit.imgix.net/~text?txt=" + title + "&w=150&h=150"));
         ProgramUpdate update = backend.get(MID);
         update.getImages().add(imageUpdate);
@@ -73,18 +80,8 @@ public class MediaBackendTest extends AbstractApiTest {
     }
 
     @Test
-    public void test50CheckArrived() throws Exception {
-        List<String> copyOfTitles = new ArrayList<>(titles);
-        copyOfTitles.remove(title);
-        waitUntil(() -> {
-            ProgramUpdate update = backend.get(MID);
-            for (ImageUpdate iu : update.getImages()) {
-                copyOfTitles.remove(iu.getTitle());
-            }
-            return copyOfTitles.isEmpty();
-            }
-        );
-        assertThat(copyOfTitles).isEmpty();
+    public void test50checkArrived() throws Exception {
+        checkArrived();
     }
 
     @Test
@@ -103,15 +100,30 @@ public class MediaBackendTest extends AbstractApiTest {
 
     protected void waitUntil(Callable<Boolean> r) throws Exception {
         Instant start = Instant.now();
-        Duration acceptableDuration = Duration.ofMinutes(3);
+
         while (true) {
             Thread.sleep(Duration.ofSeconds(10).toMillis());
             if (r.call()) {
                 break;
             }
-            if (Duration.between(start, Instant.now()).compareTo(acceptableDuration) > 0) {
+            if (Duration.between(start, Instant.now()).compareTo(ACCEPTABLE_DURATION) > 0) {
                 break;
             }
         }
+    }
+
+    protected void checkArrived() throws Exception {
+        titles.remove(title);
+        List<String> copyOfTitles = new ArrayList<>(titles);
+        waitUntil(() -> {
+                ProgramUpdate update = backend.get(MID);
+                for (ImageUpdate iu : update.getImages()) {
+                    copyOfTitles.remove(iu.getTitle());
+                }
+                System.out.println("Remaining images " + copyOfTitles);
+                return copyOfTitles.isEmpty();
+            }
+        );
+        assertThat(copyOfTitles).isEmpty();
     }
 }
