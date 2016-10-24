@@ -65,7 +65,6 @@ public class MediaBackendTest extends AbstractApiTest {
 
     @Test
     public void test03addImageToObject() {
-        String title = Instant.now().toString();
         ImageUpdate imageUpdate  = new ImageUpdate(ImageType.PICTURE, title, null, new ImageLocation("https://placeholdit.imgix.net/~text?txt=" + title + "&w=150&h=150"));
         ProgramUpdate update = backend.get(MID);
         update.getImages().add(imageUpdate);
