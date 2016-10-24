@@ -5,6 +5,7 @@ import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Callable;
 
 import org.junit.*;
 import org.junit.rules.TestName;
@@ -72,30 +73,45 @@ public class MediaBackendTest extends AbstractApiTest {
     }
 
     @Test
-    public void test50CheckArrived() throws InterruptedException {
-        Duration acceptableDuration = Duration.ofMinutes(3);
-        Instant start = Instant.now();
+    public void test50CheckArrived() throws Exception {
         List<String> copyOfTitles = new ArrayList<>(titles);
         copyOfTitles.remove(title);
-        while(true) {
-            Thread.sleep(Duration.ofSeconds(10).toMillis());
+        waitUntil(() -> {
             ProgramUpdate update = backend.get(MID);
             for (ImageUpdate iu : update.getImages()) {
                 copyOfTitles.remove(iu.getTitle());
             }
-            if (copyOfTitles.isEmpty() || Duration.between(start, Instant.now()).compareTo(acceptableDuration) > 0) {
-                break;
-            } else {
-                System.out.println("Titles not empty yet " + copyOfTitles);
+            return copyOfTitles.isEmpty();
             }
-        }
+        );
         assertThat(copyOfTitles).isEmpty();
     }
 
     @Test
-    public void test99Cleanup() throws InterruptedException {
-        ProgramUpdate update = backend.get(MID);
-        update.getImages().clear();
-        backend.set(update);
+    public void test99Cleanup() throws Exception {
+        final ProgramUpdate[] update = new ProgramUpdate[1];
+        update[0]= backend.get(MID);
+        update[0].getImages().clear();
+        backend.set(update[0]);
+        waitUntil(() -> {
+            update[0] = backend.get(MID);
+            return update[0].getImages().isEmpty();
+        });
+        assertThat(update[0].getImages()).isEmpty();
+    }
+
+
+    protected void waitUntil(Callable<Boolean> r) throws Exception {
+        Instant start = Instant.now();
+        Duration acceptableDuration = Duration.ofMinutes(3);
+        while (true) {
+            Thread.sleep(Duration.ofSeconds(10).toMillis());
+            if (r.call()) {
+                break;
+            }
+            if (Duration.between(start, Instant.now()).compareTo(acceptableDuration) > 0) {
+                break;
+            }
+        }
     }
 }
