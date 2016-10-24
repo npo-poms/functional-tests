@@ -87,7 +87,7 @@ public class MediaBackendTest extends AbstractApiTest {
             if (copyOfTitles.isEmpty() || Duration.between(start, Instant.now()).compareTo(acceptableDuration) > 0) {
                 break;
             } else {
-                System.out.println("Titles not empty yet " + titles);
+                System.out.println("Titles not empty yet " + copyOfTitles);
             }
         }
         assertThat(copyOfTitles).isEmpty();
