@@ -74,6 +74,7 @@ public class MediaBackendTest extends AbstractApiTest {
 
     @Test
     public void test50CheckArrived() throws InterruptedException {
+        Duration acceptableDuration = Duration.ofMinutes(3);
         Instant start = Instant.now();
         List<String> copyOfTitles = new ArrayList<>(titles);
         copyOfTitles.remove(title);
@@ -83,7 +84,7 @@ public class MediaBackendTest extends AbstractApiTest {
             for (ImageUpdate iu : update.getImages()) {
                 copyOfTitles.remove(iu.getTitle());
             }
-            if (copyOfTitles.isEmpty() || Duration.between(start, Instant.now()).compareTo(Duration.ofMinutes(2)) > 0) {
+            if (copyOfTitles.isEmpty() || Duration.between(start, Instant.now()).compareTo(acceptableDuration) > 0) {
                 break;
             } else {
                 System.out.println("Titles not empty yet " + titles);
