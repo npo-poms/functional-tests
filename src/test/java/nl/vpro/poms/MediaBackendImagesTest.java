@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
 
+import javax.xml.bind.JAXB;
+
 import org.junit.*;
 import org.junit.rules.TestName;
 import org.junit.runners.MethodSorters;
@@ -23,7 +25,7 @@ import static org.assertj.core.api.Java6Assertions.assertThat;
  * @author Michiel Meeuwissen
  */
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class MediaBackendTest extends AbstractApiTest {
+public class MediaBackendImagesTest extends AbstractApiTest {
     static final MediaRestClient backend;
 
     private static final String MID = "WO_VPRO_025057";
@@ -42,6 +44,12 @@ public class MediaBackendTest extends AbstractApiTest {
 
     @Rule
     public TestName name = new TestName();
+
+    @After
+    public void cleanUp() {
+
+
+    }
 
     private String title;
 
@@ -77,6 +85,7 @@ public class MediaBackendTest extends AbstractApiTest {
         ProgramUpdate update = backend.get(MID);
         update.getImages().add(imageUpdate);
         backend.set(update);
+        JAXB.marshal(update, System.out);;
     }
 
     @Test
