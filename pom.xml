@@ -51,6 +51,10 @@
     </dependency>
     <dependency>
       <groupId>nl.vpro.api-client</groupId>
+      <artifactId>media-backend-rs-client</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>nl.vpro.api-client</groupId>
       <artifactId>client-utils</artifactId>
     </dependency>
     <dependency>
