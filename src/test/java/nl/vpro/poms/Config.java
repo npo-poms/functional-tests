@@ -11,6 +11,8 @@ import java.util.function.Supplier;
 
 import org.apache.commons.lang3.StringUtils;
 
+import nl.vpro.util.XTrustProvider;
+
 /**
  * @author Michiel Meeuwissen
 
@@ -37,6 +39,8 @@ public class Config {
             PROPERTIES.put("prod.apiBaseUrl", "https://rs.poms.omroep.nl/v1/");
 
             PROPERTIES.load(new FileInputStream(FILE));
+
+            XTrustProvider.install();
         } catch (IOException e) {
             log.error(e.getMessage(), e);
         }

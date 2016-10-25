@@ -1,6 +1,5 @@
 package nl.vpro.poms;
 
-import java.io.IOException;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
@@ -26,21 +25,12 @@ import static org.assertj.core.api.Java6Assertions.assertThat;
  */
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class MediaBackendImagesTest extends AbstractApiTest {
-    static final MediaRestClient backend;
+    static final MediaRestClient backend = new MediaRestClient().configured();
 
     private static final String MID = "WO_VPRO_025057";
     private static final String TITLE = Instant.now().toString();
     private static final Duration ACCEPTABLE_DURATION = Duration.ofMinutes(3);
-
     private static final List<String> titles = new ArrayList<>();
-
-    static {
-        try {
-            backend = new MediaRestClient().configured();
-        } catch (IOException e) {
-            throw new RuntimeException();
-        }
-    }
 
     @Rule
     public TestName name = new TestName();

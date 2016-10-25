@@ -83,6 +83,11 @@ public class ApiScheduleTest extends AbstractApiTest {
         }
     }
 
+    @Test(expected = javax.ws.rs.NotFoundException.class)
+    public void nowForBroadcasterNotFound() throws Exception {
+        clients.getScheduleService().nowForBroadcaster("TELEAC", null);
+    }
+
     @Test
     public void nextForBroadcaster() throws Exception {
         ApiScheduleEvent o = clients.getScheduleService().nextForBroadcaster("VPRO", null);

@@ -25,10 +25,12 @@ public class ApiMediaTest extends AbstractApiTest {
         assertThat(o).isNotNull();
         MediaResult result = mediaUtil.listMembers(o.getMid(), Order.ASC, (m) -> true, 100);
         assertThat(result.getSize()).isGreaterThan(10);
-
-
     }
 
+    @Test(expected = javax.ws.rs.NotFoundException.class)
+    public void test404() {
+        clients.getMediaService().load("BESTAATNIET", null, null);
+    }
 
 
 }
