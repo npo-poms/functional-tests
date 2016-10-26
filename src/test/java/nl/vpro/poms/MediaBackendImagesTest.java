@@ -4,7 +4,6 @@ import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.Callable;
 
 import javax.xml.bind.JAXB;
 
@@ -18,6 +17,7 @@ import nl.vpro.domain.media.update.ImageUpdate;
 import nl.vpro.domain.media.update.ProgramUpdate;
 import nl.vpro.rs.media.MediaRestClient;
 
+import static nl.vpro.poms.Utils.waitUntil;
 import static org.assertj.core.api.Java6Assertions.assertThat;
 
 /**
@@ -87,9 +87,10 @@ public class MediaBackendImagesTest extends AbstractApiTest {
     public void test99Cleanup() throws Exception {
         final ProgramUpdate[] update = new ProgramUpdate[1];
         update[0]= backend.get(MID);
+        System.out.println("Removing images " + update[0].getImages());
         update[0].getImages().clear();
         backend.set(update[0]);
-        waitUntil(() -> {
+        waitUntil(ACCEPTABLE_DURATION, () -> {
             update[0] = backend.get(MID);
             return update[0].getImages().isEmpty();
         });
@@ -97,24 +98,11 @@ public class MediaBackendImagesTest extends AbstractApiTest {
     }
 
 
-    protected void waitUntil(Callable<Boolean> r) throws Exception {
-        Instant start = Instant.now();
-
-        while (true) {
-            Thread.sleep(Duration.ofSeconds(10).toMillis());
-            if (r.call()) {
-                break;
-            }
-            if (Duration.between(start, Instant.now()).compareTo(ACCEPTABLE_DURATION) > 0) {
-                break;
-            }
-        }
-    }
 
     protected void checkArrived() throws Exception {
         titles.remove(title);
         List<String> copyOfTitles = new ArrayList<>(titles);
-        waitUntil(() -> {
+        waitUntil(ACCEPTABLE_DURATION, () -> {
                 ProgramUpdate update = backend.get(MID);
                 for (ImageUpdate iu : update.getImages()) {
                     copyOfTitles.remove(iu.getTitle());
