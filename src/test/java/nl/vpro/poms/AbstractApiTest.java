@@ -18,7 +18,7 @@ public abstract class AbstractApiTest {
     static {
         clients = NpoApiClients
             .configured(Config.FILE.getAbsolutePath())
-            .setApiBaseUrl(Config.configOption("apiBaseUrl").orElse("https://rs-test.poms.omroep.nl/v1/"))
+            .apiBaseUrl(Config.configOption("apiBaseUrl").orElse("https://rs-test.poms.omroep.nl/v1/"))
             .build();
         clients.setTrustAll(true);
         mediaUtil = new NpoApiMediaUtil(clients);
