@@ -27,6 +27,10 @@ import static nl.vpro.poms.Config.url;
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assume.assumeNotNull;
 
+
+/**
+ * Basic test which do not even use our client.
+ */
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class MediaTest {
 
