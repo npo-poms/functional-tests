@@ -1,5 +1,6 @@
 package nl.vpro.poms;
 
+import java.io.IOException;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
@@ -7,6 +8,10 @@ import java.util.List;
 
 import javax.xml.bind.JAXB;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import nl.vpro.domain.media.MediaObject;
+import nl.vpro.jackson2.Jackson2Mapper;
+import nl.vpro.resteasy.JacksonContextResolver;
 import org.junit.*;
 import org.junit.rules.TestName;
 import org.junit.runners.MethodSorters;
@@ -96,6 +101,22 @@ public class MediaBackendSegmentsTest extends AbstractApiTest {
         assertThat(segments[0].getMainTitle()).isEqualTo(title);
 
 
+    }
+
+    @Test
+    public void testSegment() {
+        Segment segment = (Segment) clients.getMediaService().load("POMS_VPRO_1460016", null, null);
+        assertThat(segment.getMidRef()).isNotNull();
+    }
+
+    @Test
+    public void testSegmentJackson() throws IOException {
+        String s = "{\"objectType\":\"segment\",\"mid\":\"POMS_VPRO_1460016\",\"type\":\"SEGMENT\",\"avType\":\"VIDEO\",\"workflow\":\"PUBLISHED\",\"sortDate\":1477997487731,\"creationDate\":1477997487731,\"lastModified\":1477997488608,\"urn\":\"urn:vpro:media:segment:66846307\",\"embeddable\":true,\"broadcasters\":[{\"id\":\"VPRO\",\"value\":\"VPRO\"}],\"titles\":[{\"value\":\"2016-11-01T10:51:27.266Z test01createSegment\",\"owner\":\"BROADCASTER\",\"type\":\"MAIN\"}],\"genres\":[],\"countries\":[],\"languages\":[],\"descendantOf\":[{\"midRef\":\"WO_VPRO_025057\",\"urnRef\":\"urn:vpro:media:program:14728807\",\"type\":\"CLIP\"}],\"publishDate\":1478000535899,\"start\":0,\"urnRef\":\"urn:vpro:media:program:14728807\",\"midRef\":\"WO_VPRO_025057\"}";
+        Segment segment = (Segment) Jackson2Mapper.INSTANCE.readValue(s, MediaObject.class);
+//        assertThat(segment.getMidRef()).isNotNull();
+
+//        noew ObjectMapper().writeValue(System.out, segment);
+        JAXB.marshal(segment, System.out);
     }
 
 }

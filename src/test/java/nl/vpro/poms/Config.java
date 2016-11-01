@@ -28,7 +28,7 @@ public class Config {
 
             log.info("Reading {} configuration from {}", envPrefix(), FILE);
 
-            PROPERTIES.put("localhost.backendapi.url", "http://localhost:8071/rs/");
+            PROPERTIES.put("localhost.backendapi.url", "http://localhost:8080/rs/");
             PROPERTIES.put("dev.backendapi.url", "https://api-dev.poms.omroep.nl/");
             PROPERTIES.put("test.backendapi.url", "https://api-test.poms.omroep.nl/");
             PROPERTIES.put("prod.backendapi.url", "https://api.poms.omroep.nl/");
