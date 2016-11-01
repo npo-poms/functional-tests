@@ -16,6 +16,8 @@ import nl.vpro.domain.media.MediaBuilder;
 import nl.vpro.domain.media.Segment;
 import nl.vpro.domain.media.update.SegmentUpdate;
 import nl.vpro.rs.media.MediaRestClient;
+import nl.vpro.util.DateUtils;
+import nl.vpro.util.TimeUtils;
 
 import static nl.vpro.poms.Utils.waitUntil;
 import static org.assertj.core.api.Java6Assertions.assertThat;
@@ -87,7 +89,8 @@ public class MediaBackendSegmentsTest extends AbstractApiTest {
         Segment[] segments = new Segment[1];
         waitUntil(ACCEPTABLE_DURATION_FRONTEND, () -> {
             segments[0] = mediaUtil.loadOrNull(segmentMid);
-            return segments[0] != null && Duration.between(segments[0].getLastPublished().toInstant(), Instant.now()).compareTo(Duration.ofMinutes(20)) < 0;
+            return segments[0] != null && TimeUtils.isLarger(
+                TimeUtils.between(DateUtils.toInstant(segments[0].getLastPublished()), Instant.now()), Duration.ofMinutes(20)) ;
         });
         assertThat(segments[0].getMidRef()).isEqualTo(MID);
         assertThat(segments[0].getMainTitle()).isEqualTo(title);
