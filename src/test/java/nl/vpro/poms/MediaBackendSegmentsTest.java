@@ -85,7 +85,7 @@ public class MediaBackendSegmentsTest extends AbstractApiTest {
     public void test03WaitForInFrontend() throws Exception {
         assumeNotNull(segmentMid);
         Segment[] segments = new Segment[1];
-        waitUntil(ACCEPTABLE_DURATION, () -> {
+        waitUntil(ACCEPTABLE_DURATION_FRONTEND, () -> {
             segments[0] = mediaUtil.loadOrNull(segmentMid);
             return segments[0] != null && Duration.between(segments[0].getLastPublished().toInstant(), Instant.now()).compareTo(Duration.ofMinutes(20)) < 0;
         });

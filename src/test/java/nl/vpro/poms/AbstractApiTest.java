@@ -2,6 +2,8 @@ package nl.vpro.poms;
 
 import lombok.extern.slf4j.Slf4j;
 
+import java.time.Duration;
+
 import nl.vpro.api.client.resteasy.NpoApiClients;
 import nl.vpro.api.client.utils.NpoApiMediaUtil;
 
@@ -11,6 +13,9 @@ import nl.vpro.api.client.utils.NpoApiMediaUtil;
  */
 @Slf4j
 public abstract class AbstractApiTest {
+
+
+    static final Duration ACCEPTABLE_DURATION_FRONTEND = Duration.ofMinutes(10);
 
     static final NpoApiClients clients;
     static final NpoApiMediaUtil mediaUtil;
