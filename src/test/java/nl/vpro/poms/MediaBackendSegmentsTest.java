@@ -13,10 +13,12 @@ import org.junit.runners.MethodSorters;
 
 import nl.vpro.domain.media.AVType;
 import nl.vpro.domain.media.MediaBuilder;
+import nl.vpro.domain.media.Segment;
 import nl.vpro.domain.media.update.SegmentUpdate;
 import nl.vpro.rs.media.MediaRestClient;
 
 import static nl.vpro.poms.Utils.waitUntil;
+import static org.assertj.core.api.Java6Assertions.assertThat;
 import static org.junit.Assume.assumeNotNull;
 
 /**
@@ -25,6 +27,7 @@ import static org.junit.Assume.assumeNotNull;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class MediaBackendSegmentsTest extends AbstractApiTest {
     static final MediaRestClient backend = new MediaRestClient().configured();
+
 
     private static final String MID = "WO_VPRO_025057";
     private static final String TITLE = Instant.now().toString();
@@ -73,6 +76,21 @@ public class MediaBackendSegmentsTest extends AbstractApiTest {
             SegmentUpdate up = backend.get(segmentMid);
             return up != null;
         });
+
+
+    }
+
+
+    @Test
+    public void test03WaitForInFrontend() throws Exception {
+        assumeNotNull(segmentMid);
+        Segment[] segments = new Segment[1];
+        waitUntil(ACCEPTABLE_DURATION, () -> {
+            segments[0] = mediaUtil.loadOrNull(segmentMid);
+            return segments[0] != null && Duration.between(segments[0].getLastPublished().toInstant(), Instant.now()).compareTo(Duration.ofMinutes(20)) < 0;
+        });
+        assertThat(segments[0].getMidRef()).isEqualTo(MID);
+        assertThat(segments[0].getMainTitle()).isEqualTo(title);
 
 
     }
