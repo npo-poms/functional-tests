@@ -39,7 +39,7 @@ public class MediaTest {
     private static final String FIND_URL = url(backendapi, "url", "media/find");
     private static final String USERNAME = configOption(backendapi, "username").orElse("vpro-mediatools");
     private static final String PASSWORD = requiredOption(backendapi, "password");
-    private static final String ERRORS_EMAIL = configOption(backendapi, "errors.email").orElse("digitaal-techniek@vpro.nl");
+    private static final String ERRORS_EMAIL = configOption(backendapi, "errors_email").orElse("digitaal-techniek@vpro.nl");
     private static final String BASE_CRID = "crid://apitests";
     private static final String TITLE_PREFIX = "API FUNCTIONAL TEST ";
     private static String dynamicSuffix;
