@@ -22,8 +22,7 @@ public abstract class AbstractApiTest {
 
     static {
         clients = NpoApiClients
-            .configured(Config.FILE.getAbsolutePath())
-            .apiBaseUrl("http://localhost:8070/v1/")
+            .configured(Config.getProperties(Config.Prefix.npoapi))
             .build();
         clients.setTrustAll(true);
         mediaUtil = new NpoApiMediaUtil(clients);
