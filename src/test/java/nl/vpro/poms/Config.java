@@ -48,6 +48,9 @@ public class Config {
             PROPERTIES.put(Prefix.npoapi.name() + ".apiBaseUrl.dev", "https://rs-dev.poms.omroep.nl/v1/");
             PROPERTIES.put(Prefix.npoapi.name() + ".apiBaseUrl.test", "https://rs-test.poms.omroep.nl/v1/");
             PROPERTIES.put(Prefix.npoapi.name() + ".apiBaseUrl.prod", "https://rs.poms.omroep.nl/v1/");
+            PROPERTIES.put(Prefix.npoapi.name() + ".apiBaseUrl.proda", "https://rs-a.poms.omroep.nl/v1/");
+            PROPERTIES.put(Prefix.npoapi.name() + ".apiBaseUrl.prodb", "https://rs-b.poms.omroep.nl/v1/");
+
 
             PROPERTIES.load(new FileInputStream(CONFIG_FILE));
 
