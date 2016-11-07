@@ -46,7 +46,10 @@ public class ApiMediaLoadTest extends AbstractApiTest {
     public static Collection<Object[]> getMediaObjects() throws IOException {
         List<Object[]> result = new ArrayList<>();
         for (String profile : Arrays.asList(null, "vpro")) {
-            List<String> mids = clients.getMediaService().find(new MediaForm(), profile, "none", 0L, 10).asResult().stream().map(MediaObject::getMid).collect(Collectors.toList());
+            List<String> mids = clients.getMediaService().find(new MediaForm(), profile, "", 0L, 10).asResult().stream().map(MediaObject::getMid).collect(Collectors.toList());
+            if (mids.size() == 0) {
+                throw new IllegalStateException("No media found for profile " + profile);
+            }
             result.add(new Object[]{profile, mids});
         }
         return result;
@@ -59,7 +62,12 @@ public class ApiMediaLoadTest extends AbstractApiTest {
         if (profileName != null) {
             assertThat(profile.getMediaProfile().test(o)).isTrue();
         }
+    }
 
+    @Test
+    public void loadWithPropertiesNone() throws Exception {
+        MediaObject o = clients.getMediaService().load(mids.get(0), "none", null);
+        assertThat(o.getMid()).isEqualTo(mids.get(0));
     }
 
     @Test
