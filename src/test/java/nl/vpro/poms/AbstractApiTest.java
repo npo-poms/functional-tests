@@ -6,6 +6,7 @@ import java.time.Duration;
 
 import nl.vpro.api.client.resteasy.NpoApiClients;
 import nl.vpro.api.client.utils.NpoApiMediaUtil;
+import nl.vpro.util.Env;
 
 /**
  * @author Michiel Meeuwissen
@@ -22,7 +23,7 @@ public abstract class AbstractApiTest {
 
     static {
         clients = NpoApiClients
-            .configured(Config.getProperties(Config.Prefix.npoapi))
+            .configured(Env.DEV, Config.getProperties(Config.Prefix.npoapi))
             .build();
         clients.setTrustAll(true);
         mediaUtil = new NpoApiMediaUtil(clients);
