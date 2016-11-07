@@ -44,12 +44,12 @@ public class Config {
             PROPERTIES.put(Prefix.backendapi.name() + ".url.test", "https://api-test.poms.omroep.nl/");
             PROPERTIES.put(Prefix.backendapi.name() + ".url.prod", "https://api.poms.omroep.nl/");
 
-            PROPERTIES.put(Prefix.npoapi.name() + ".apiBaseUrl.localhost", "http://localhost:8070/v1/");
-            PROPERTIES.put(Prefix.npoapi.name() + ".apiBaseUrl.dev", "https://rs-dev.poms.omroep.nl/v1/");
-            PROPERTIES.put(Prefix.npoapi.name() + ".apiBaseUrl.test", "https://rs-test.poms.omroep.nl/v1/");
-            PROPERTIES.put(Prefix.npoapi.name() + ".apiBaseUrl.prod", "https://rs.poms.omroep.nl/v1/");
-            PROPERTIES.put(Prefix.npoapi.name() + ".apiBaseUrl.proda", "https://rs-a.poms.omroep.nl/v1/");
-            PROPERTIES.put(Prefix.npoapi.name() + ".apiBaseUrl.prodb", "https://rs-b.poms.omroep.nl/v1/");
+            PROPERTIES.put(Prefix.npoapi.name() + ".baseUrl.localhost", "http://localhost:8070/v1/");
+            PROPERTIES.put(Prefix.npoapi.name() + ".baseUrl.dev", "https://rs-dev.poms.omroep.nl/v1/");
+            PROPERTIES.put(Prefix.npoapi.name() + ".baseUrl.test", "https://rs-test.poms.omroep.nl/v1/");
+            PROPERTIES.put(Prefix.npoapi.name() + ".baseUrl.prod", "https://rs.poms.omroep.nl/v1/");
+            PROPERTIES.put(Prefix.npoapi.name() + ".baseUrl.proda", "https://rs-a.poms.omroep.nl/v1/");
+            PROPERTIES.put(Prefix.npoapi.name() + ".baseUrl.prodb", "https://rs-b.poms.omroep.nl/v1/");
 
 
             PROPERTIES.load(new FileInputStream(CONFIG_FILE));
