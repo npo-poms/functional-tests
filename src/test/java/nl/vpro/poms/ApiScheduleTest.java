@@ -100,9 +100,20 @@ public class ApiScheduleTest extends AbstractApiTest {
 
     @Test
     public void nowForChannel() throws Exception {
-        ApiScheduleEvent o = clients.getScheduleService().nowForChannel("NED1", null);
+        try {
+            ApiScheduleEvent o = clients.getScheduleService().nowForChannel("NED1", null);
+            System.out.println(o);
+            assertThat(o.getChannel()).isEqualTo(Channel.NED1);
+        } catch (javax.ws.rs.NotFoundException nfe) {
+            System.out.println("Ok, no current schedule for NED1");
+        }
+
+    }
+
+    @Test(expected = javax.ws.rs.NotFoundException.class)
+    public void nowForChannelNotFound() throws Exception {
+        ApiScheduleEvent o = clients.getScheduleService().nowForChannel("H1NL", null);
         System.out.println(o);
-        assertThat(o.getChannel()).isEqualTo(Channel.NED1);
 
     }
 
