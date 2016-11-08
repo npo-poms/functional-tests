@@ -21,7 +21,6 @@ import static org.assertj.core.api.Java6Assertions.assertThat;
 public class ApiMediaParameterizedSearchTest extends AbstractSearchTest<MediaForm, MediaSearchResult> {
 
 
-
     {
         TESTERS.put("clips.json/null", sr -> {
             for (SearchResultItem<? extends MediaObject> m : sr.getItems()) {

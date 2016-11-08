@@ -7,6 +7,8 @@ import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.ws.rs.NotFoundException;
+
 import org.junit.Assume;
 import org.junit.Before;
 import org.junit.Test;
@@ -75,6 +77,19 @@ public class ApiMediaLoadTest extends AbstractApiTest {
         Assume.assumeNotNull(profileName);
         MediaObject o = clients.getMediaService().load(mids.get(0), null, profileName);
         assertThat(o.getMid()).isEqualTo(mids.get(0));
+    }
+
+
+    @Test
+    public void loadOutsideProfile() throws Exception {
+        Assume.assumeNotNull(profileName);
+        try {
+            clients.getMediaService().load(mids.get(0), null, "eo");
+        } catch (NotFoundException nfe) {
+            assertThat(nfe.getMessage()).contains("is niet van de omroep EO");
+            return;
+        }
+        throw new AssertionError("Should have given NotFoundException");
     }
 
     @Test
