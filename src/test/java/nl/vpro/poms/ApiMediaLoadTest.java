@@ -86,7 +86,8 @@ public class ApiMediaLoadTest extends AbstractApiTest {
         try {
             clients.getMediaService().load(mids.get(0), null, "eo");
         } catch (NotFoundException nfe) {
-            assertThat(nfe.getMessage()).contains("is niet van de omroep EO");
+            assertThat(nfe.getResponse().getEntity()).isInstanceOf(nl.vpro.domain.api.Error.class);
+            assertThat(((nl.vpro.domain.api.Error)nfe.getResponse().getEntity()).getMessage()).contains("is niet van de omroep EO");
             return;
         }
         throw new AssertionError("Should have given NotFoundException");
