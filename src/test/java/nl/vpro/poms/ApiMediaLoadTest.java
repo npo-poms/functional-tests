@@ -15,6 +15,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 
+import nl.vpro.domain.api.Error;
 import nl.vpro.domain.api.IdList;
 import nl.vpro.domain.api.MultipleMediaResult;
 import nl.vpro.domain.api.media.MediaForm;
@@ -86,8 +87,11 @@ public class ApiMediaLoadTest extends AbstractApiTest {
         try {
             clients.getMediaService().load(mids.get(0), null, "eo");
         } catch (NotFoundException nfe) {
-            assertThat(nfe.getResponse().getEntity()).isInstanceOf(nl.vpro.domain.api.Error.class);
-            assertThat(((nl.vpro.domain.api.Error)nfe.getResponse().getEntity()).getMessage()).contains("is niet van de omroep EO");
+            assertThat(nfe.getResponse().getEntity()).isInstanceOf(Error.class);
+            Error error = (Error) nfe.getResponse().getEntity();
+            assertThat(error.getMessage()).contains("is niet van de omroep EO");
+            assertThat(error.getTestResult().getDescription().getValue()).contains("is niet van de omroep EO");
+
             return;
         }
         throw new AssertionError("Should have given NotFoundException");
