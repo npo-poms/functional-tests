@@ -1,10 +1,7 @@
 package nl.vpro.poms;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import javax.ws.rs.NotFoundException;
@@ -85,6 +82,7 @@ public class ApiMediaLoadTest extends AbstractApiTest {
     public void loadOutsideProfile() throws Exception {
         Assume.assumeNotNull(profileName);
         try {
+            clients.setAcceptableLanguages(Arrays.asList(Locale.US));
             clients.getMediaService().load(mids.get(0), null, "eo");
         } catch (NotFoundException nfe) {
             assertThat(nfe.getResponse().getEntity()).isInstanceOf(Error.class);

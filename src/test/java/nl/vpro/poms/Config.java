@@ -2,19 +2,15 @@ package nl.vpro.poms;
 
 import lombok.extern.slf4j.Slf4j;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.AbstractMap;
 import java.util.Map;
 import java.util.Optional;
-import java.util.Properties;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
-import com.google.common.collect.Maps;
-
 import nl.vpro.util.Env;
+import nl.vpro.util.ReflectionUtils;
 import nl.vpro.util.XTrustProvider;
 
 /**
@@ -24,8 +20,8 @@ import nl.vpro.util.XTrustProvider;
 @Slf4j
 public class Config {
 
-    private static Properties PROPERTIES = new Properties();
-    private static File  CONFIG_FILE = new File(System.getProperty("user.home") + File.separator + "conf" + File.separator + "poms-functional-tests.properties");
+    private static Map<String, String> PROPERTIES;
+    private static String CONFIG_FILE = "poms-functional-tests.properties";
 
     public enum Prefix {
         npoapi,
@@ -37,23 +33,9 @@ public class Config {
 
         try {
 
+
+            PROPERTIES = ReflectionUtils.getProperties(ReflectionUtils.getConfigFilesInHome("poms-functional-tests.properties"));
             log.info("Reading {} configuration from {}", env(), CONFIG_FILE);
-
-            PROPERTIES.put(Prefix.backendapi.name() + ".url.localhost", "http://localhost:8080/rs/");
-            PROPERTIES.put(Prefix.backendapi.name() + ".url.dev", "https://api-dev.poms.omroep.nl/");
-            PROPERTIES.put(Prefix.backendapi.name() + ".url.test", "https://api-test.poms.omroep.nl/");
-            PROPERTIES.put(Prefix.backendapi.name() + ".url.prod", "https://api.poms.omroep.nl/");
-
-            PROPERTIES.put(Prefix.npoapi.name() + ".baseUrl.localhost", "http://localhost:8070/v1/");
-            PROPERTIES.put(Prefix.npoapi.name() + ".baseUrl.dev", "https://rs-dev.poms.omroep.nl/v1/");
-            PROPERTIES.put(Prefix.npoapi.name() + ".baseUrl.test", "https://rs-test.poms.omroep.nl/v1/");
-            PROPERTIES.put(Prefix.npoapi.name() + ".baseUrl.prod", "https://rs.poms.omroep.nl/v1/");
-            PROPERTIES.put(Prefix.npoapi.name() + ".baseUrl.proda", "https://rs-a.poms.omroep.nl/v1/");
-            PROPERTIES.put(Prefix.npoapi.name() + ".baseUrl.prodb", "https://rs-b.poms.omroep.nl/v1/");
-
-
-            PROPERTIES.load(new FileInputStream(CONFIG_FILE));
-
             XTrustProvider.install();
         } catch (IOException e) {
             log.error(e.getMessage(), e);
@@ -61,7 +43,7 @@ public class Config {
     }
 
     public static Optional<String> configOption(Prefix pref, String prop) {
-        String value = PROPERTIES.getProperty(pref + "." + prop + "." + env(), PROPERTIES.getProperty(pref + "." + prop));
+        String value = PROPERTIES.getOrDefault(pref + "." + prop + "." + env(), PROPERTIES.get(pref + "." + prop));
         return Optional.ofNullable(value);
     }
 
@@ -80,7 +62,7 @@ public class Config {
     }
 
     public static Map<String, String> getProperties(Prefix prefix) {
-        return Maps.fromProperties(PROPERTIES).entrySet()
+        return PROPERTIES.entrySet()
             .stream()
             .filter(e -> prefix == null || e.getKey().startsWith(prefix.name()))
             .map(e -> new AbstractMap.SimpleEntry<>(e.getKey().substring(prefix.name().length() + 1), e.getValue()))
@@ -94,7 +76,7 @@ public class Config {
     private static Env env() {
         String pref = System.getProperty("env");
         if (pref == null) {
-            return Env.valueOf(PROPERTIES.getProperty("env", "test").toUpperCase());
+            return Env.valueOf(PROPERTIES.getOrDefault("env", "test").toUpperCase());
         } else {
             return Env.valueOf(pref.toUpperCase());
         }
