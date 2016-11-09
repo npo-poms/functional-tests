@@ -22,7 +22,7 @@ public abstract class AbstractApiTest {
 
     static {
         clients = NpoApiClients
-            .configured(Config.getProperties(Config.Prefix.npoapi))
+            .configured(Config.env(), Config.getProperties(Config.Prefix.npoapi))
 
             .build();
         clients.setTrustAll(true);

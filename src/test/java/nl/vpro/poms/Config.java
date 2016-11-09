@@ -73,7 +73,7 @@ public class Config {
         return () -> new RuntimeException(prop + " is not set in " + CONFIG_FILE);
     }
 
-    private static Env env() {
+    static Env env() {
         String pref = System.getProperty("env");
         if (pref == null) {
             return Env.valueOf(PROPERTIES.getOrDefault("env", "test").toUpperCase());
