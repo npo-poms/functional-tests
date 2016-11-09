@@ -1,8 +1,9 @@
-package nl.vpro.poms;
+package nl.vpro.poms.npoapi;
 
 import org.junit.Test;
 
 import nl.vpro.domain.api.media.MediaForm;
+import nl.vpro.poms.AbstractApiTest;
 
 import static org.assertj.core.api.Java6Assertions.assertThat;
 

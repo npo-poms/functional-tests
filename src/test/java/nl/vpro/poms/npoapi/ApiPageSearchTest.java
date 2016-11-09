@@ -1,4 +1,4 @@
-package nl.vpro.poms;
+package nl.vpro.poms.npoapi;
 
 import java.io.IOException;
 import java.util.Collection;
@@ -10,6 +10,7 @@ import org.junit.runners.Parameterized;
 
 import nl.vpro.domain.api.page.PageForm;
 import nl.vpro.domain.api.page.PageSearchResult;
+import nl.vpro.poms.ApiSearchTestHelper;
 
 import static org.assertj.core.api.Java6Assertions.assertThat;
 

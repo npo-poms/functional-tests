@@ -1,4 +1,4 @@
-package nl.vpro.poms;
+package nl.vpro.poms.npoapi;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Consumer;
 
+import nl.vpro.poms.AbstractApiTest;
 import nl.vpro.test.util.jackson2.Jackson2TestUtil;
 
 /**
@@ -19,11 +20,11 @@ import nl.vpro.test.util.jackson2.Jackson2TestUtil;
 @Slf4j
 public abstract class AbstractSearchTest<T, S> extends AbstractApiTest {
     private static final boolean writeTempFiles = false;
-    Map<String, Consumer<S>> TESTERS = new HashMap<>();
+    protected Map<String, Consumer<S>> TESTERS = new HashMap<>();
 
-    String name;
-    T form;
-    String profile;
+    protected String name;
+    protected T form;
+    protected String profile;
 
 
     public AbstractSearchTest(String name, T form, String profile) {

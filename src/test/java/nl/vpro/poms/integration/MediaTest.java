@@ -1,4 +1,4 @@
-package nl.vpro.poms;
+package nl.vpro.poms.integration;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;

@@ -15,10 +15,10 @@ import nl.vpro.api.client.utils.NpoApiMediaUtil;
 public abstract class AbstractApiTest {
 
 
-    static final Duration ACCEPTABLE_DURATION_FRONTEND = Duration.ofMinutes(10);
+    protected static final Duration ACCEPTABLE_DURATION_FRONTEND = Duration.ofMinutes(10);
 
-    static final NpoApiClients clients;
-    static final NpoApiMediaUtil mediaUtil;
+    protected static final NpoApiClients clients;
+    protected static final NpoApiMediaUtil mediaUtil;
 
     static {
         clients = NpoApiClients

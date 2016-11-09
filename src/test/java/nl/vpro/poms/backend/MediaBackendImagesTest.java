@@ -1,4 +1,4 @@
-package nl.vpro.poms;
+package nl.vpro.poms.backend;
 
 import java.time.Duration;
 import java.time.Instant;
@@ -24,7 +24,7 @@ import static org.assertj.core.api.Java6Assertions.assertThat;
  * @author Michiel Meeuwissen
  */
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class MediaBackendImagesTest extends AbstractApiTest {
+public class MediaBackendImagesTest {
     static final MediaRestClient backend = new MediaRestClient().configured();
 
     private static final String MID = "WO_VPRO_025057";

@@ -1,4 +1,4 @@
-package nl.vpro.poms;
+package nl.vpro.poms.npoapi;
 
 import java.io.IOException;
 import java.util.Collection;
@@ -14,6 +14,7 @@ import nl.vpro.domain.api.media.MediaSearchResult;
 import nl.vpro.domain.api.media.ProgramSearchResult;
 import nl.vpro.domain.media.MediaObject;
 import nl.vpro.domain.media.MediaType;
+import nl.vpro.poms.ApiSearchTestHelper;
 
 import static org.assertj.core.api.Java6Assertions.assertThat;
 

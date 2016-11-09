@@ -1,4 +1,4 @@
-package nl.vpro.poms;
+package nl.vpro.poms.backend;
 
 import java.nio.charset.Charset;
 

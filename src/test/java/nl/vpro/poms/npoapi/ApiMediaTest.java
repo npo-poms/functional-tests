@@ -1,4 +1,4 @@
-package nl.vpro.poms;
+package nl.vpro.poms.npoapi;
 
 import java.time.Duration;
 import java.time.Instant;
@@ -11,6 +11,7 @@ import nl.vpro.domain.api.Order;
 import nl.vpro.domain.api.media.MediaResult;
 import nl.vpro.domain.media.MediaObject;
 import nl.vpro.jackson2.JsonArrayIterator;
+import nl.vpro.poms.AbstractApiTest;
 
 import static org.assertj.core.api.Java6Assertions.assertThat;
 

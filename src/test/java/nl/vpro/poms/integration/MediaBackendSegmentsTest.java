@@ -1,4 +1,4 @@
-package nl.vpro.poms;
+package nl.vpro.poms.integration;
 
 import java.io.IOException;
 import java.time.Duration;
@@ -8,18 +8,17 @@ import java.util.List;
 
 import javax.xml.bind.JAXB;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import nl.vpro.domain.media.MediaObject;
-import nl.vpro.jackson2.Jackson2Mapper;
-import nl.vpro.resteasy.JacksonContextResolver;
 import org.junit.*;
 import org.junit.rules.TestName;
 import org.junit.runners.MethodSorters;
 
 import nl.vpro.domain.media.AVType;
 import nl.vpro.domain.media.MediaBuilder;
+import nl.vpro.domain.media.MediaObject;
 import nl.vpro.domain.media.Segment;
 import nl.vpro.domain.media.update.SegmentUpdate;
+import nl.vpro.jackson2.Jackson2Mapper;
+import nl.vpro.poms.AbstractApiTest;
 import nl.vpro.rs.media.MediaRestClient;
 import nl.vpro.util.DateUtils;
 import nl.vpro.util.TimeUtils;

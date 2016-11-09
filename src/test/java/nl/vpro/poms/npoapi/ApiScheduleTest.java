@@ -1,4 +1,4 @@
-package nl.vpro.poms;
+package nl.vpro.poms.npoapi;
 
 import java.time.LocalDate;
 
@@ -11,6 +11,7 @@ import nl.vpro.domain.media.Channel;
 import nl.vpro.domain.media.Net;
 import nl.vpro.domain.media.Schedule;
 import nl.vpro.domain.user.Broadcaster;
+import nl.vpro.poms.AbstractApiTest;
 
 import static org.assertj.core.api.Java6Assertions.assertThat;
 

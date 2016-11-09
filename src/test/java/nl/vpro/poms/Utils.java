@@ -11,7 +11,7 @@ import java.util.concurrent.Callable;
 public class Utils {
 
 
-    protected static void waitUntil(Duration acceptable, Callable<Boolean> r) throws Exception {
+    public static void waitUntil(Duration acceptable, Callable<Boolean> r) throws Exception {
         Instant start = Instant.now();
         Thread.sleep(Duration.ofSeconds(10).toMillis());
         while (true) {
