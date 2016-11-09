@@ -6,6 +6,7 @@ import java.time.Duration;
 
 import nl.vpro.api.client.resteasy.NpoApiClients;
 import nl.vpro.api.client.utils.NpoApiMediaUtil;
+import nl.vpro.rs.media.MediaRestClient;
 
 /**
  * @author Michiel Meeuwissen
@@ -17,14 +18,12 @@ public abstract class AbstractApiTest {
 
     protected static final Duration ACCEPTABLE_DURATION_FRONTEND = Duration.ofMinutes(10);
 
-    protected static final NpoApiClients clients;
+    protected static final NpoApiClients clients = NpoApiClients.configured(Config.env(), Config.getProperties(Config.Prefix.npoapi)).build();
     protected static final NpoApiMediaUtil mediaUtil;
+    protected static final MediaRestClient backend = MediaRestClient.configured(Config.env(), Config.getProperties(Config.Prefix.backendapi)).build();
+
 
     static {
-        clients = NpoApiClients
-            .configured(Config.env(), Config.getProperties(Config.Prefix.npoapi))
-
-            .build();
         clients.setTrustAll(true);
         mediaUtil = new NpoApiMediaUtil(clients);
         log.info("Using {}", clients);

@@ -15,7 +15,7 @@ import nl.vpro.domain.image.ImageType;
 import nl.vpro.domain.media.update.ImageLocation;
 import nl.vpro.domain.media.update.ImageUpdate;
 import nl.vpro.domain.media.update.ProgramUpdate;
-import nl.vpro.rs.media.MediaRestClient;
+import nl.vpro.poms.AbstractApiTest;
 
 import static nl.vpro.poms.Utils.waitUntil;
 import static org.assertj.core.api.Java6Assertions.assertThat;
@@ -24,8 +24,7 @@ import static org.assertj.core.api.Java6Assertions.assertThat;
  * @author Michiel Meeuwissen
  */
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class MediaBackendImagesTest {
-    static final MediaRestClient backend = new MediaRestClient().configured();
+public class MediaBackendImagesTest extends AbstractApiTest {
 
     private static final String MID = "WO_VPRO_025057";
     private static final String TITLE = Instant.now().toString();

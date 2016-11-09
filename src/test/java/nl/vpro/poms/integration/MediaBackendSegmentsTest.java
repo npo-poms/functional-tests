@@ -19,7 +19,6 @@ import nl.vpro.domain.media.Segment;
 import nl.vpro.domain.media.update.SegmentUpdate;
 import nl.vpro.jackson2.Jackson2Mapper;
 import nl.vpro.poms.AbstractApiTest;
-import nl.vpro.rs.media.MediaRestClient;
 import nl.vpro.util.DateUtils;
 import nl.vpro.util.TimeUtils;
 
@@ -32,8 +31,6 @@ import static org.junit.Assume.assumeNotNull;
  */
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class MediaBackendSegmentsTest extends AbstractApiTest {
-    static final MediaRestClient backend = new MediaRestClient().configured();
-
 
     private static final String MID = "WO_VPRO_025057";
     private static final String TITLE = Instant.now().toString();
