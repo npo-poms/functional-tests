@@ -9,6 +9,7 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 
 import nl.vpro.domain.api.SearchResultItem;
+import nl.vpro.domain.api.TermFacetResultItem;
 import nl.vpro.domain.api.media.MediaForm;
 import nl.vpro.domain.api.media.MediaSearchResult;
 import nl.vpro.domain.api.media.ProgramSearchResult;
@@ -40,6 +41,16 @@ public class ApiMediaParameterizedSearchTest extends AbstractSearchTest<MediaFor
             assertThat(sr.getFacets().getAgeRatings().get(2).getId()).isEqualTo("12");
             assertThat(sr.getFacets().getAgeRatings().get(3).getId()).isEqualTo("16");
             assertThat(sr.getFacets().getAgeRatings().get(4).getId()).isEqualTo("ALL");
+        });
+        TESTERS.put("facet-relations-and-subsearch.json/null", sr -> {
+            assertThat(sr.getFacets().getRelations()).isNotNull();
+            assertThat(sr.getFacets().getRelations()).hasSize(2);
+            assertThat(sr.getFacets().getRelations().get(0).getName()).isEqualTo("labels");
+            for (TermFacetResultItem s : sr.getFacets().getRelations().get(0).getFacets()) {
+                System.out.println("" + s);
+            }
+
+
         });
     }
 
