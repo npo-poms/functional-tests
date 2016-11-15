@@ -55,6 +55,7 @@ public class ParkpostTest {
     public void setUp() {
         RestAssured.useRelaxedHTTPSValidation();
         RestAssured.urlEncodingEnabled = false;
+        System.out.println("Testing with " + PARKPOST);
     }
 
     @Test(timeout = 100000)
