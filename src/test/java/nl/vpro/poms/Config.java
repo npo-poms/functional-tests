@@ -41,17 +41,18 @@ public class Config {
     }
 
     public static Optional<String> configOption(Prefix pref, String prop) {
-        String value = PROPERTIES.getOrDefault(pref + "." + prop + "." + env(), PROPERTIES.get(pref + "." + prop));
+        String value = PROPERTIES.getOrDefault(pref + "." + prop + "." + env().name().toLowerCase(), PROPERTIES.get(pref + "." + prop));
         return Optional.ofNullable(value);
     }
 
     public static String requiredOption(Prefix pref, String prop) {
-        return configOption(pref, prop).orElseThrow(notSet(prop));
+        return configOption(pref, prop)
+            .orElseThrow(notSet(prop));
     }
 
 
-    public static String url(Prefix pref, String prop, String path) {
-        String base  = requiredOption(pref, prop);
+    public static String url(Prefix pref, String path) {
+        String base  = requiredOption(pref, "baseUrl");
         if (! base.endsWith("/")) {
             base = base + "/";
         }

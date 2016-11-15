@@ -25,7 +25,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class ParkpostTest {
 
 
-    private static final String PARKPOST = url(backendapi, "url", "parkpost/");
+    private static final String PARKPOST = url(backendapi, "parkpost/");
 
     private static final String EXAMPLE = "<NPO_gfxwrp>\n" +
         "  <ProductCode>2P0108MO_BLAUWBLO</ProductCode>\n" +

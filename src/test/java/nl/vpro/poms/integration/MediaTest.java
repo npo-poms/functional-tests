@@ -35,8 +35,8 @@ import static org.junit.Assume.assumeNotNull;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class MediaTest {
 
-    private static final String MEDIA_URL = url(backendapi, "url", "media/media");
-    private static final String FIND_URL = url(backendapi, "url", "media/find");
+    private static final String MEDIA_URL = url(backendapi, "media/media");
+    private static final String FIND_URL = url(backendapi, "media/find");
     private static final String USERNAME = configOption(backendapi, "username").orElse("vpro-mediatools");
     private static final String PASSWORD = requiredOption(backendapi, "password");
     private static final String ERRORS_EMAIL = configOption(backendapi, "errors_email").orElse("digitaal-techniek@vpro.nl");
