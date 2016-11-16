@@ -6,11 +6,8 @@ import java.util.function.Consumer;
 
 import javax.ws.rs.ServerErrorException;
 
-import org.junit.Assume;
 import org.junit.AssumptionViolatedException;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 
@@ -18,21 +15,11 @@ import nl.vpro.domain.api.media.ScheduleForm;
 import nl.vpro.domain.api.media.ScheduleSearchResult;
 import nl.vpro.poms.ApiSearchTestHelper;
 
-import static org.assertj.core.api.Java6Assertions.assertThat;
-
 @RunWith(Parameterized.class)
 public class ApiScheduleSearchTest extends AbstractSearchTest<ScheduleForm, ScheduleSearchResult> {
 
 
-    @Rule
-    public ExpectedException thrown = ExpectedException.none();
 
-    {
-        TESTERS.put("facet-broadcaster-ned3.xml/null", sr -> {
-            Assume.assumeTrue("Known to fail. Facetting in schedule search not supported. See NPA-337", false);
-            assertThat(sr.getFacets().getBroadcasters()).isNotEmpty(); // FAILS
-        });
-    }
     public ApiScheduleSearchTest(String name, ScheduleForm form, String profile) {
         super(name, form, profile);
     }
