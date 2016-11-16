@@ -26,7 +26,7 @@ public class ApiMediaTest extends AbstractApiTest {
 
     @Test
     public void members() throws Exception {
-        MediaObject o = mediaUtil.loadOrNull("POMS_S_VPRO_548106");
+        MediaObject o = mediaUtil.loadOrNull("POMS_S_NCRV_096754");
         assertThat(o).isNotNull();
         MediaResult result = mediaUtil.listMembers(o.getMid(), Order.ASC, (m) -> true, 100);
         assertThat(result.getSize()).isGreaterThan(10);
