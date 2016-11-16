@@ -21,7 +21,7 @@ import nl.vpro.util.XTrustProvider;
 public class Config {
 
     private static Map<String, String> PROPERTIES;
-    private static String CONFIG_FILE = "poms-functional-tests.properties";
+    private static String CONFIG_FILE = "npo-functional-tests.properties";
 
     public enum Prefix {
         npoapi,
@@ -32,7 +32,7 @@ public class Config {
     static {
 
         try {
-            PROPERTIES = ReflectionUtils.getProperties(ReflectionUtils.getConfigFilesInHome("poms-functional-tests.properties"));
+            PROPERTIES = ReflectionUtils.getProperties(ReflectionUtils.getConfigFilesInHome(CONFIG_FILE));
             log.info("Reading {} configuration from {}", env(), CONFIG_FILE);
             XTrustProvider.install();
         } catch (IOException e) {
