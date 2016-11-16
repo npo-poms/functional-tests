@@ -38,6 +38,7 @@ public class ApiMediaRedirectsTest extends AbstractApiTest {
     public static Collection<Object[]> getDirects() throws IOException {
         Response response = clients.getMediaService().redirects(null);
         RedirectList list = response.readEntity(RedirectList.class);
+        assertThat(list).isNotEmpty();
         return list.getList().stream().map(e -> new Object[]{e}).collect(Collectors.toList());
     }
 
