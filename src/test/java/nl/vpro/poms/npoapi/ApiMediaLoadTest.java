@@ -1,5 +1,7 @@
 package nl.vpro.poms.npoapi;
 
+import lombok.extern.slf4j.Slf4j;
+
 import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -21,8 +23,10 @@ import nl.vpro.domain.media.MediaObject;
 import nl.vpro.poms.AbstractApiTest;
 
 import static org.assertj.core.api.Java6Assertions.assertThat;
+import static org.junit.Assume.assumeTrue;
 
 @RunWith(Parameterized.class)
+@Slf4j
 public class ApiMediaLoadTest extends AbstractApiTest {
 
     private final String profileName;
@@ -47,17 +51,24 @@ public class ApiMediaLoadTest extends AbstractApiTest {
     public static Collection<Object[]> getMediaObjects() throws IOException {
         List<Object[]> result = new ArrayList<>();
         for (String profile : Arrays.asList(null, "vpro")) {
-            List<String> mids = clients.getMediaService().find(new MediaForm(), profile, "", 0L, 10).asResult().stream().map(MediaObject::getMid).collect(Collectors.toList());
-            if (mids.size() == 0) {
-                throw new IllegalStateException("No media found for profile " + profile);
+            try {
+                List<String> mids = clients.getMediaService().find(new MediaForm(), profile, "", 0L, 10).asResult().stream().map(MediaObject::getMid).collect(Collectors.toList());
+                if (mids.size() == 0) {
+                    throw new IllegalStateException("No media found for profile " + profile);
+                }
+                result.add(new Object[]{profile, mids});
+            } catch (javax.ws.rs.ServiceUnavailableException ue) {
+                log.warn(ue.getMessage());
+                result.add(new Object[]{profile, new ArrayList<>()});
             }
-            result.add(new Object[]{profile, mids});
+
         }
         return result;
     }
 
     @Test
     public void load() throws Exception {
+        assumeTrue(mids.size() > 0);
         MediaObject o = clients.getMediaService().load(mids.get(0), null, null);
         assertThat(o.getMid()).isEqualTo(mids.get(0));
         if (profileName != null) {
@@ -67,6 +78,7 @@ public class ApiMediaLoadTest extends AbstractApiTest {
 
     @Test
     public void loadWithPropertiesNone() throws Exception {
+        assumeTrue(mids.size() > 0);
         MediaObject o = clients.getMediaService().load(mids.get(0), "none", null);
         assertThat(o.getMid()).isEqualTo(mids.get(0));
     }
@@ -74,6 +86,7 @@ public class ApiMediaLoadTest extends AbstractApiTest {
     @Test
     public void loadInProfile() throws Exception {
         Assume.assumeNotNull(profileName);
+        assumeTrue(mids.size() > 0);
         MediaObject o = clients.getMediaService().load(mids.get(0), null, profileName);
         assertThat(o.getMid()).isEqualTo(mids.get(0));
     }
@@ -82,6 +95,7 @@ public class ApiMediaLoadTest extends AbstractApiTest {
     @Test
     public void loadOutsideProfile() throws Exception {
         Assume.assumeNotNull(profileName);
+        assumeTrue(mids.size() > 0);
         try {
             clients.setAcceptableLanguages(Arrays.asList(Locale.US));
             clients.getMediaService().load(mids.get(0), null, "eo");

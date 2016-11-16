@@ -6,6 +6,8 @@ import java.time.Duration;
 
 import javax.ws.rs.core.MediaType;
 
+import org.junit.Rule;
+
 import nl.vpro.api.client.resteasy.NpoApiClients;
 import nl.vpro.api.client.utils.NpoApiMediaUtil;
 import nl.vpro.rs.media.MediaRestClient;
@@ -16,6 +18,10 @@ import nl.vpro.rs.media.MediaRestClient;
  */
 @Slf4j
 public abstract class AbstractApiTest {
+
+
+    @Rule
+    public AllowUnavailable unavailable = new AllowUnavailable();
 
 
     protected static final Duration ACCEPTABLE_DURATION_FRONTEND = Duration.ofMinutes(10);
