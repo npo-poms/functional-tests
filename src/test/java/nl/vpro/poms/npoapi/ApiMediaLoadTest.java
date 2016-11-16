@@ -7,6 +7,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import javax.ws.rs.NotFoundException;
+import javax.ws.rs.core.MediaType;
 
 import org.junit.Assume;
 import org.junit.Before;
@@ -33,9 +34,10 @@ public class ApiMediaLoadTest extends AbstractApiTest {
     private Profile profile;
     private final List<String> mids;
 
-    public ApiMediaLoadTest(String profileName, List<String> mids) {
+    public ApiMediaLoadTest(String profileName, List<String> mids, MediaType mediaType) {
         this.profileName = profileName;
         this.mids = mids;
+        clients.setAccept(mediaType);
 
     }
 
@@ -50,18 +52,20 @@ public class ApiMediaLoadTest extends AbstractApiTest {
     @Parameterized.Parameters
     public static Collection<Object[]> getMediaObjects() throws IOException {
         List<Object[]> result = new ArrayList<>();
-        for (String profile : Arrays.asList(null, "vpro")) {
-            try {
-                List<String> mids = clients.getMediaService().find(new MediaForm(), profile, "", 0L, 10).asResult().stream().map(MediaObject::getMid).collect(Collectors.toList());
-                if (mids.size() == 0) {
-                    throw new IllegalStateException("No media found for profile " + profile);
+        for (MediaType mediaType : Arrays.asList(MediaType.APPLICATION_JSON_TYPE, MediaType.APPLICATION_XML_TYPE)) {
+            for (String profile : Arrays.asList(null, "vpro")) {
+                try {
+                    List<String> mids = clients.getMediaService().find(new MediaForm(), profile, "", 0L, 10).asResult().stream().map(MediaObject::getMid).collect(Collectors.toList());
+                    if (mids.size() == 0) {
+                        throw new IllegalStateException("No media found for profile " + profile);
+                    }
+                    result.add(new Object[]{profile, mids, mediaType});
+                } catch (javax.ws.rs.ServiceUnavailableException ue) {
+                    log.warn(ue.getMessage());
+                    result.add(new Object[]{profile, new ArrayList<>(), mediaType});
                 }
-                result.add(new Object[]{profile, mids});
-            } catch (javax.ws.rs.ServiceUnavailableException ue) {
-                log.warn(ue.getMessage());
-                result.add(new Object[]{profile, new ArrayList<>()});
-            }
 
+            }
         }
         return result;
     }
