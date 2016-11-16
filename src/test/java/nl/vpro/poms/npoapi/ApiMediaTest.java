@@ -41,14 +41,38 @@ public class ApiMediaTest extends AbstractApiTest {
     public void testChangesNoProfile() {
         testChanges(null);
     }
+
     @Test
     public void testChangesWithProfile() {
         testChanges("vpro");
     }
+
+    @Test(expected = javax.ws.rs.NotFoundException.class)
+    public void testChangesMissingProfile() {
+        testChanges("bestaatniet");
+    }
+
+    @Test
+    public void testChangesWithOldNoProfile() {
+        testChangesWithOld(null);
+    }
+
+    @Test
+    public void testChangesWithOldAndProfile() {
+        testChangesWithOld("vpro");
+    }
+
+
+    @Test(expected = javax.ws.rs.NotFoundException.class)
+    public void testChangesOldMissingProfile() {
+        testChangesWithOld("bestaatniet");
+    }
+
+
     protected void testChanges(String profile) {
         final AtomicInteger i = new AtomicInteger();
         Instant start = Instant.now().minus(Duration.ofDays(14));
-        final Instant[] prev = new Instant[] {start};
+        final Instant[] prev = new Instant[]{start};
         JsonArrayIterator<Change> changes = mediaUtil.changes(profile, start, Order.ASC, 10);
         changes.forEachRemaining(change -> {
             if (!change.isTail()) {
@@ -62,15 +86,6 @@ public class ApiMediaTest extends AbstractApiTest {
         assertThat(i.intValue()).isEqualTo(10);
     }
 
-    @Test
-    public void testChangesWithOldNoProfile() {
-        testChangesWithOld(null);
-    }
-
-    @Test
-    public void testChangesWithOldAndProfile() {
-        testChangesWithOld("vpro");
-    }
     void testChangesWithOld(String profile) {
         final AtomicInteger i = new AtomicInteger();
         long startSequence = 1209428L;
