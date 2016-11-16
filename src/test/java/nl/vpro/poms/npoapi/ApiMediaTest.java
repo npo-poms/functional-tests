@@ -2,6 +2,7 @@ package nl.vpro.poms.npoapi;
 
 import java.time.Duration;
 import java.time.Instant;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -37,11 +38,52 @@ public class ApiMediaTest extends AbstractApiTest {
     }
 
     @Test
-    public void testChanges() {
-        JsonArrayIterator<Change> changes = mediaUtil.changes("vpro", Instant.now().minus(Duration.ofDays(2)), Order.DESC, 100);
-        while(changes.hasNext()) {
-            System.out.println(changes.next());
-        }
+    public void testChangesNoProfile() {
+        testChanges(null);
+    }
+    @Test
+    public void testChangesWithProfile() {
+        testChanges("vpro");
+    }
+    protected void testChanges(String profile) {
+        final AtomicInteger i = new AtomicInteger();
+        Instant start = Instant.now().minus(Duration.ofDays(14));
+        final Instant[] prev = new Instant[] {start};
+        JsonArrayIterator<Change> changes = mediaUtil.changes(profile, start, Order.ASC, 10);
+        changes.forEachRemaining(change -> {
+            if (!change.isTail()) {
+                i.incrementAndGet();
+                assertThat(change.getSequence()).isNull();
+                assertThat(change.getPublishDate()).isGreaterThanOrEqualTo(prev[0]);
+                prev[0] = change.getPublishDate();
+                System.out.println(change);
+            }
+        });
+        assertThat(i.intValue()).isEqualTo(10);
+    }
+
+    @Test
+    public void testChangesWithOldNoProfile() {
+        testChangesWithOld(null);
+    }
+
+    @Test
+    public void testChangesWithOldAndProfile() {
+        testChangesWithOld("vpro");
+    }
+    void testChangesWithOld(String profile) {
+        final AtomicInteger i = new AtomicInteger();
+        long startSequence = 1209428L;
+        JsonArrayIterator<Change> changes = mediaUtil.changes(profile, startSequence, Order.ASC, 100);
+        changes.forEachRemaining(change -> {
+            if (!change.isTail()) {
+                i.incrementAndGet();
+                assertThat(change.getSequence()).isNotNull();
+                System.out.println(change);
+            }
+        });
+        assertThat(i.intValue()).isEqualTo(100);
+
     }
 
 
