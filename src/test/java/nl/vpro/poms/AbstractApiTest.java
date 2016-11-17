@@ -29,13 +29,13 @@ public abstract class AbstractApiTest {
     protected static final NpoApiClients clients =
         NpoApiClients.configured(Config.env(), Config.getProperties(Config.Prefix.npoapi))
             .mediaType(MediaType.APPLICATION_XML_TYPE)
+            .trustAll(true)
             .build();
     protected static final NpoApiMediaUtil mediaUtil;
     protected static final MediaRestClient backend = MediaRestClient.configured(Config.env(), Config.getProperties(Config.Prefix.backendapi)).build();
 
 
     static {
-        clients.setTrustAll(true);
         mediaUtil = new NpoApiMediaUtil(clients);
         log.info("Using {}", clients);
     }

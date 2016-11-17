@@ -17,9 +17,11 @@ import nl.vpro.domain.media.update.ImageLocation;
 import nl.vpro.domain.media.update.ImageUpdate;
 import nl.vpro.domain.media.update.ProgramUpdate;
 import nl.vpro.poms.AbstractApiTest;
+import nl.vpro.poms.DoAfterException;
 
 import static nl.vpro.poms.Utils.waitUntil;
 import static org.assertj.core.api.Java6Assertions.assertThat;
+import static org.junit.Assume.assumeTrue;
 
 /**
  * @author Michiel Meeuwissen
@@ -35,16 +37,17 @@ public class MediaBackendImagesTest extends AbstractApiTest {
     @Rule
     public TestName name = new TestName();
 
-    @After
-    public void cleanUp() {
+    @Rule
+    public DoAfterException doAfterException = new DoAfterException(() -> MediaBackendImagesTest.success = false);
 
-    }
 
     private String title;
+    private static boolean success = true;
 
     @Before
     public void setup() {
-        title = TITLE + " " + name.getMethodName();
+        title = TITLE + "_" + name.getMethodName();
+        assumeTrue(success);
     }
 
     @Test
@@ -76,7 +79,7 @@ public class MediaBackendImagesTest extends AbstractApiTest {
         ProgramUpdate update = backend.get(MID);
         update.getImages().add(imageUpdate);
         backend.set(update);
-        JAXB.marshal(update, System.out);;
+        JAXB.marshal(update, System.out);
     }
 
     @Test
@@ -101,14 +104,16 @@ public class MediaBackendImagesTest extends AbstractApiTest {
 
 
     protected void checkArrived() throws Exception {
-        final List<String> currentTitles = new ArrayList<>();
-        waitUntil(ACCEPTABLE_DURATION, () -> {
-            ProgramUpdate update = backend.get(MID);
-            currentTitles.clear();
-            currentTitles.addAll(update.getImages().stream().map(ImageUpdate::getTitle).collect(Collectors.toList()));
-            return currentTitles.containsAll(titles);
-        });
+        if (success) {
+            final List<String> currentTitles = new ArrayList<>();
+            waitUntil(ACCEPTABLE_DURATION, () -> {
+                ProgramUpdate update = backend.get(MID);
+                currentTitles.clear();
+                currentTitles.addAll(update.getImages().stream().map(ImageUpdate::getTitle).collect(Collectors.toList()));
+                return currentTitles.containsAll(titles);
+            });
 
-        assertThat(currentTitles).containsAll(titles);
+            assertThat(currentTitles).containsAll(titles);
+        }
     }
 }
