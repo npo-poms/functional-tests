@@ -8,8 +8,9 @@ import java.util.List;
 
 import javax.xml.bind.JAXB;
 
-import org.junit.*;
-import org.junit.rules.TestName;
+import org.junit.Before;
+import org.junit.FixMethodOrder;
+import org.junit.Test;
 import org.junit.runners.MethodSorters;
 
 import nl.vpro.domain.media.AVType;
@@ -33,27 +34,15 @@ import static org.junit.Assume.assumeNotNull;
 public class MediaBackendSegmentsTest extends AbstractApiTest {
 
     private static final String MID = "WO_VPRO_025057";
-    private static final String TITLE = Instant.now().toString();
     private static final Duration ACCEPTABLE_DURATION = Duration.ofMinutes(3);
 
     private static final List<String> titles = new ArrayList<>();
 
     private static String segmentMid;
 
-    @Rule
-    public TestName name = new TestName();
-
-    @After
-    public void cleanUp() {
-
-
-    }
-
-    private String title;
 
     @Before
     public void setup() {
-        title = TITLE + " " + name.getMethodName();
         titles.add(title);
     }
 

@@ -3,7 +3,6 @@ package nl.vpro.poms.backend;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.time.Duration;
-import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -11,7 +10,6 @@ import java.util.stream.Collectors;
 import javax.xml.bind.JAXB;
 
 import org.junit.*;
-import org.junit.rules.TestName;
 import org.junit.runners.MethodSorters;
 
 import nl.vpro.domain.image.ImageType;
@@ -32,23 +30,18 @@ import static org.junit.Assume.assumeTrue;
 public class MediaBackendImagesTest extends AbstractApiTest {
 
     private static final String MID = "WO_VPRO_025057";
-    private static final String TITLE = Instant.now().toString();
     private static final Duration ACCEPTABLE_DURATION = Duration.ofMinutes(3);
     private static final List<String> titles = new ArrayList<>();
 
-    @Rule
-    public TestName name = new TestName();
+
 
     @Rule
     public DoAfterException doAfterException = new DoAfterException(() -> MediaBackendImagesTest.success = false);
 
-
-    private String title;
     private static boolean success = true;
 
     @Before
     public void setup() {
-        title = TITLE + " " + name.getMethodName();
         assumeTrue(success);
     }
 
