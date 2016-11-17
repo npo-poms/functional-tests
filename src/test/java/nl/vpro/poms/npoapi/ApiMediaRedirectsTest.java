@@ -48,7 +48,7 @@ public class ApiMediaRedirectsTest extends AbstractApiTest {
         try {
             assertThat(clients.getMediaService().load(entry.getFrom(), null, null).getMid()).isEqualTo(entry.getTo());
         } catch (javax.ws.rs.NotFoundException nfe) {
-            log.warn(nfe.getMessage(), nfe);
+            log.warn("For " + entry + ": " + nfe.getMessage());
         }
     }
 }
