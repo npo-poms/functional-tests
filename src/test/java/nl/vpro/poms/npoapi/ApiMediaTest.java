@@ -19,6 +19,8 @@ import static org.assertj.core.api.Java6Assertions.assertThat;
 public class ApiMediaTest extends AbstractApiTest {
 
 
+    private Instant FROM = Instant.now().minus(Duration.ofDays(14));
+
     @Before
     public void setup() {
 
@@ -71,14 +73,14 @@ public class ApiMediaTest extends AbstractApiTest {
 
     protected void testChanges(String profile) {
         final AtomicInteger i = new AtomicInteger();
-        Instant start = Instant.now().minus(Duration.ofDays(14));
-        final Instant[] prev = new Instant[]{start};
-        JsonArrayIterator<Change> changes = mediaUtil.changes(profile, start, Order.ASC, 10);
+        final Instant[] prev = new Instant[]{FROM};
+        JsonArrayIterator<Change> changes = mediaUtil.changes(profile, FROM, Order.ASC, 10);
         changes.forEachRemaining(change -> {
             if (!change.isTail()) {
                 i.incrementAndGet();
                 assertThat(change.getSequence()).isNull();
                 assertThat(change.getPublishDate()).isGreaterThanOrEqualTo(prev[0]);
+                assertThat(change.getRevision() == null || change.getRevision() > 0).isTrue();
                 prev[0] = change.getPublishDate();
                 System.out.println(change);
             }
@@ -89,11 +91,18 @@ public class ApiMediaTest extends AbstractApiTest {
     void testChangesWithOld(String profile) {
         final AtomicInteger i = new AtomicInteger();
         long startSequence = 1209428L;
+        final Instant[] prev = new Instant[]{null};
         JsonArrayIterator<Change> changes = mediaUtil.changes(profile, startSequence, Order.ASC, 100);
         changes.forEachRemaining(change -> {
             if (!change.isTail()) {
                 i.incrementAndGet();
                 assertThat(change.getSequence()).isNotNull();
+                assertThat(change.getRevision()).isGreaterThanOrEqualTo(0);
+                assertThat(change.getPublishDate()).isNotNull();
+                if (prev[0] != null) {
+                    assertThat(change.getPublishDate()).isGreaterThanOrEqualTo(prev[0]);
+                }
+                prev[0] = change.getPublishDate();
                 System.out.println(change);
             }
         });
