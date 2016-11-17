@@ -1,5 +1,6 @@
 package nl.vpro.poms.backend;
 
+import java.io.UnsupportedEncodingException;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
@@ -11,6 +12,8 @@ import javax.xml.bind.JAXB;
 import org.junit.*;
 import org.junit.rules.TestName;
 import org.junit.runners.MethodSorters;
+
+import com.sun.deploy.net.URLEncoder;
 
 import nl.vpro.domain.image.ImageType;
 import nl.vpro.domain.media.update.ImageLocation;
@@ -46,7 +49,7 @@ public class MediaBackendImagesTest extends AbstractApiTest {
 
     @Before
     public void setup() {
-        title = TITLE + "_" + name.getMethodName();
+        title = TITLE + " " + name.getMethodName();
         assumeTrue(success);
     }
 
@@ -60,9 +63,9 @@ public class MediaBackendImagesTest extends AbstractApiTest {
 
 
     @Test
-    public void test02addImage() {
+    public void test02addImage() throws UnsupportedEncodingException {
         titles.add(title);
-        ImageUpdate update = new ImageUpdate(ImageType.PICTURE, title, null, new ImageLocation("https://placeholdit.imgix.net/~text?txt=" + title + "&w=150&h=150"));
+        ImageUpdate update = new ImageUpdate(ImageType.PICTURE, title, null, new ImageLocation("https://placeholdit.imgix.net/~text?txt=" + URLEncoder.encode(title, "UTF-8") + "&w=150&h=150"));
         backend.getBackendRestService().addImage(update, null, MID, true, null);
     }
 
@@ -73,9 +76,9 @@ public class MediaBackendImagesTest extends AbstractApiTest {
 
 
     @Test
-    public void test11addImageToObject() {
+    public void test11addImageToObject() throws UnsupportedEncodingException {
         titles.add(title);
-        ImageUpdate imageUpdate  = new ImageUpdate(ImageType.PICTURE, title, null, new ImageLocation("https://placeholdit.imgix.net/~text?txt=" + title + "&w=150&h=150"));
+        ImageUpdate imageUpdate  = new ImageUpdate(ImageType.PICTURE, title, null, new ImageLocation("https://placeholdit.imgix.net/~text?txt=" + URLEncoder.encode(title, "UTF-8") + "&w=150&h=150"));
         ProgramUpdate update = backend.get(MID);
         update.getImages().add(imageUpdate);
         backend.set(update);
