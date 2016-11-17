@@ -4,6 +4,7 @@ import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.xml.bind.JAXB;
 
@@ -37,7 +38,6 @@ public class MediaBackendImagesTest extends AbstractApiTest {
     @After
     public void cleanUp() {
 
-
     }
 
     private String title;
@@ -45,12 +45,12 @@ public class MediaBackendImagesTest extends AbstractApiTest {
     @Before
     public void setup() {
         title = TITLE + " " + name.getMethodName();
-        titles.add(title);
     }
 
     @Test
     @Ignore("Currently fails (enable if MSE-3475 fixed)")
     public void test01addImageRedirect() {
+        titles.add(title);
         ImageUpdate update = new ImageUpdate(ImageType.PICTURE, title, null, new ImageLocation("http://placehold.it/150/7735a")); // redirects
         backend.getBackendRestService().addImage(update, null, MID,  true, null);
     }
@@ -58,6 +58,7 @@ public class MediaBackendImagesTest extends AbstractApiTest {
 
     @Test
     public void test02addImage() {
+        titles.add(title);
         ImageUpdate update = new ImageUpdate(ImageType.PICTURE, title, null, new ImageLocation("https://placeholdit.imgix.net/~text?txt=" + title + "&w=150&h=150"));
         backend.getBackendRestService().addImage(update, null, MID, true, null);
     }
@@ -70,6 +71,7 @@ public class MediaBackendImagesTest extends AbstractApiTest {
 
     @Test
     public void test11addImageToObject() {
+        titles.add(title);
         ImageUpdate imageUpdate  = new ImageUpdate(ImageType.PICTURE, title, null, new ImageLocation("https://placeholdit.imgix.net/~text?txt=" + title + "&w=150&h=150"));
         ProgramUpdate update = backend.get(MID);
         update.getImages().add(imageUpdate);
@@ -99,17 +101,14 @@ public class MediaBackendImagesTest extends AbstractApiTest {
 
 
     protected void checkArrived() throws Exception {
-        titles.remove(title);
-        List<String> copyOfTitles = new ArrayList<>(titles);
+        final List<String> currentTitles = new ArrayList<>();
         waitUntil(ACCEPTABLE_DURATION, () -> {
-                ProgramUpdate update = backend.get(MID);
-                for (ImageUpdate iu : update.getImages()) {
-                    copyOfTitles.remove(iu.getTitle());
-                }
-                System.out.println("Remaining images " + copyOfTitles);
-                return copyOfTitles.isEmpty();
-            }
-        );
-        assertThat(copyOfTitles).isEmpty();
+            ProgramUpdate update = backend.get(MID);
+            currentTitles.clear();
+            currentTitles.addAll(update.getImages().stream().map(ImageUpdate::getTitle).collect(Collectors.toList()));
+            return currentTitles.containsAll(titles);
+        });
+
+        assertThat(currentTitles).containsAll(titles);
     }
 }
