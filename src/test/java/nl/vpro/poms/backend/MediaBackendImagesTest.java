@@ -1,6 +1,7 @@
 package nl.vpro.poms.backend;
 
 import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
@@ -12,8 +13,6 @@ import javax.xml.bind.JAXB;
 import org.junit.*;
 import org.junit.rules.TestName;
 import org.junit.runners.MethodSorters;
-
-import com.sun.deploy.net.URLEncoder;
 
 import nl.vpro.domain.image.ImageType;
 import nl.vpro.domain.media.update.ImageLocation;
