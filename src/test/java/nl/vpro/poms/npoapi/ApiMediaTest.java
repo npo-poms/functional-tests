@@ -13,6 +13,7 @@ import nl.vpro.domain.api.media.MediaResult;
 import nl.vpro.domain.media.MediaObject;
 import nl.vpro.jackson2.JsonArrayIterator;
 import nl.vpro.poms.AbstractApiTest;
+import nl.vpro.poms.Config;
 
 import static org.assertj.core.api.Java6Assertions.assertThat;
 
@@ -21,9 +22,20 @@ public class ApiMediaTest extends AbstractApiTest {
 
     private Instant FROM = Instant.now().minus(Duration.ofDays(14));
 
+    int couchdbSince;
+
     @Before
     public void setup() {
-
+        switch(Config.env()) {
+            case DEV:
+                couchdbSince = 25387000;
+                break;
+            case TEST:
+                couchdbSince = 19831435;
+            default:
+                couchdbSince = 20794000;
+                break;
+        }
     }
 
     @Test
@@ -94,7 +106,7 @@ public class ApiMediaTest extends AbstractApiTest {
 
     void testChangesWithOld(String profile) {
         final AtomicInteger i = new AtomicInteger();
-        long startSequence = 1209428L;
+        long startSequence = couchdbSince;
         Instant prev = null;
         JsonArrayIterator<Change> changes = mediaUtil.changes(profile, startSequence, Order.ASC, 100);
         while(changes.hasNext()) {
