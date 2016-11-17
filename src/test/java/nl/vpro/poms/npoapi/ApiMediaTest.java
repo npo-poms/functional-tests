@@ -73,39 +73,47 @@ public class ApiMediaTest extends AbstractApiTest {
 
     protected void testChanges(String profile) {
         final AtomicInteger i = new AtomicInteger();
-        final Instant[] prev = new Instant[]{FROM};
+        Instant prev = FROM;
         JsonArrayIterator<Change> changes = mediaUtil.changes(profile, FROM, Order.ASC, 10);
-        changes.forEachRemaining(change -> {
+        while(changes.hasNext()) {
+            Change change = changes.next();
             if (!change.isTail()) {
                 i.incrementAndGet();
+                if (i.get() > 100) {
+                    break;
+                }
                 assertThat(change.getSequence()).isNull();
-                assertThat(change.getPublishDate()).isGreaterThanOrEqualTo(prev[0]);
+                assertThat(change.getPublishDate()).isGreaterThanOrEqualTo(prev);
                 assertThat(change.getRevision() == null || change.getRevision() > 0).isTrue();
-                prev[0] = change.getPublishDate();
+                prev = change.getPublishDate();
                 System.out.println(change);
             }
-        });
+        };
         assertThat(i.intValue()).isEqualTo(10);
     }
 
     void testChangesWithOld(String profile) {
         final AtomicInteger i = new AtomicInteger();
         long startSequence = 1209428L;
-        final Instant[] prev = new Instant[]{null};
+        Instant prev = null;
         JsonArrayIterator<Change> changes = mediaUtil.changes(profile, startSequence, Order.ASC, 100);
-        changes.forEachRemaining(change -> {
+        while(changes.hasNext()) {
+            Change change = changes.next();
             if (!change.isTail()) {
                 i.incrementAndGet();
+                if (i.get() > 100) {
+                    break;
+                }
                 assertThat(change.getSequence()).isNotNull();
                 assertThat(change.getRevision()).isGreaterThanOrEqualTo(0);
                 assertThat(change.getPublishDate()).isNotNull();
-                if (prev[0] != null) {
-                    assertThat(change.getPublishDate()).isGreaterThanOrEqualTo(prev[0]);
+                if (prev != null) {
+                    assertThat(change.getPublishDate()).isGreaterThanOrEqualTo(prev);
                 }
-                prev[0] = change.getPublishDate();
+                prev = change.getPublishDate();
                 System.out.println(change);
             }
-        });
+        };
         assertThat(i.intValue()).isEqualTo(100);
 
     }
