@@ -133,7 +133,6 @@ public class ApiMediaTest extends AbstractApiTest {
                     System.out.println(change);
                 }
             }
-            ;
         }
         assertThat(i.intValue()).isEqualTo(100);
 
