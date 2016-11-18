@@ -1,5 +1,6 @@
 package nl.vpro.poms.npoapi;
 
+import java.io.IOException;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -53,80 +54,83 @@ public class ApiMediaTest extends AbstractApiTest {
     }
 
     @Test
-    public void testChangesNoProfile() {
+    public void testChangesNoProfile() throws IOException {
         testChanges(null);
     }
 
     @Test
-    public void testChangesWithProfile() {
+    public void testChangesWithProfile() throws IOException {
         testChanges("vpro");
     }
 
     @Test(expected = javax.ws.rs.NotFoundException.class)
-    public void testChangesMissingProfile() {
+    public void testChangesMissingProfile() throws IOException {
         testChanges("bestaatniet");
     }
 
     @Test
-    public void testChangesWithOldNoProfile() {
+    public void testChangesWithOldNoProfile() throws IOException {
         testChangesWithOld(null);
     }
 
     @Test
-    public void testChangesWithOldAndProfile() {
+    public void testChangesWithOldAndProfile() throws IOException {
         testChangesWithOld("vpro");
     }
 
 
     @Test(expected = javax.ws.rs.NotFoundException.class)
-    public void testChangesOldMissingProfile() {
+    public void testChangesOldMissingProfile() throws IOException {
         testChangesWithOld("bestaatniet");
     }
 
 
-    protected void testChanges(String profile) {
+    protected void testChanges(String profile) throws IOException {
         final AtomicInteger i = new AtomicInteger();
         Instant prev = FROM;
-        JsonArrayIterator<Change> changes = mediaUtil.changes(profile, FROM, Order.ASC, 10);
-        while(changes.hasNext()) {
-            Change change = changes.next();
-            if (!change.isTail()) {
-                i.incrementAndGet();
-                if (i.get() > 100) {
-                    break;
+        try(JsonArrayIterator<Change> changes = mediaUtil.changes(profile, FROM, Order.ASC, 10)) {
+            while (changes.hasNext()) {
+                Change change = changes.next();
+                if (!change.isTail()) {
+                    i.incrementAndGet();
+                    if (i.get() > 100) {
+                        break;
+                    }
+                    assertThat(change.getSequence()).isNull();
+                    assertThat(change.getPublishDate()).isGreaterThanOrEqualTo(prev);
+                    assertThat(change.getRevision() == null || change.getRevision() > 0).isTrue();
+                    prev = change.getPublishDate();
+                    System.out.println(change);
                 }
-                assertThat(change.getSequence()).isNull();
-                assertThat(change.getPublishDate()).isGreaterThanOrEqualTo(prev);
-                assertThat(change.getRevision() == null || change.getRevision() > 0).isTrue();
-                prev = change.getPublishDate();
-                System.out.println(change);
             }
-        };
+        }
         assertThat(i.intValue()).isEqualTo(10);
     }
 
-    void testChangesWithOld(String profile) {
+    void testChangesWithOld(String profile) throws IOException {
         final AtomicInteger i = new AtomicInteger();
         long startSequence = couchdbSince;
         Instant prev = null;
-        JsonArrayIterator<Change> changes = mediaUtil.changes(profile, startSequence, Order.ASC, 100);
-        while(changes.hasNext()) {
-            Change change = changes.next();
-            if (!change.isTail()) {
-                i.incrementAndGet();
-                if (i.get() > 100) {
-                    break;
+        try (JsonArrayIterator<Change> changes = mediaUtil.changes(profile, startSequence, Order.ASC, 100)) {
+            while (changes.hasNext()) {
+                Change change = changes.next();
+                if (!change.isTail()) {
+                    i.incrementAndGet();
+                    if (i.get() > 100) {
+                        break;
+                    }
+                    assertThat(change.getSequence()).isNotNull();
+                    assertThat(change.getRevision() == null || change.getRevision() > 0).isTrue();
+                    assertThat(change.getPublishDate()).isNotNull();
+                    if (prev != null) {
+                        assertThat(change.getPublishDate()).isGreaterThanOrEqualTo(prev);
+                    }
+                    prev = change.getPublishDate();
+                    System.out.println(change);
                 }
-                assertThat(change.getSequence()).isNotNull();
-                assertThat(change.getRevision()).isGreaterThanOrEqualTo(0);
-                assertThat(change.getPublishDate()).isNotNull();
-                if (prev != null) {
-                    assertThat(change.getPublishDate()).isGreaterThanOrEqualTo(prev);
-                }
-                prev = change.getPublishDate();
-                System.out.println(change);
             }
-        };
+            ;
+        }
         assertThat(i.intValue()).isEqualTo(100);
 
     }
