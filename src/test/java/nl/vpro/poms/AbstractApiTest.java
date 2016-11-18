@@ -54,7 +54,7 @@ public abstract class AbstractApiTest {
 
 
     static {
-        log.info("Using {} (), {}", clients, apiVersion, backend);
+        log.info("Using {} ({}), {}", clients, apiVersion, backend);
     }
 
 
