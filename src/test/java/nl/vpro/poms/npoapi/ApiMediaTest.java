@@ -3,6 +3,7 @@ package nl.vpro.poms.npoapi;
 import java.io.IOException;
 import java.time.Duration;
 import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import org.junit.Before;
@@ -126,7 +127,7 @@ public class ApiMediaTest extends AbstractApiTest {
                         assertThat(change.getPublishDate()).isNotNull();
                     }
                     if (prev != null) {
-                        assertThat(change.getPublishDate()).isGreaterThanOrEqualTo(prev);
+                        assertThat(change.getPublishDate()).isGreaterThanOrEqualTo(prev.minusSeconds(1).truncatedTo(ChronoUnit.MINUTES));
                     }
                     prev = change.getPublishDate();
                     System.out.println(change);
