@@ -2,7 +2,6 @@ package nl.vpro.poms.npoapi;
 
 import java.io.IOException;
 import java.util.Collection;
-import java.util.function.Consumer;
 
 import javax.ws.rs.ServerErrorException;
 
@@ -14,6 +13,8 @@ import org.junit.runners.Parameterized;
 import nl.vpro.domain.api.media.ScheduleForm;
 import nl.vpro.domain.api.media.ScheduleSearchResult;
 import nl.vpro.poms.ApiSearchTestHelper;
+
+import static org.junit.Assume.assumeTrue;
 
 @RunWith(Parameterized.class)
 public class ApiScheduleSearchTest extends AbstractSearchTest<ScheduleForm, ScheduleSearchResult> {
@@ -36,13 +37,7 @@ public class ApiScheduleSearchTest extends AbstractSearchTest<ScheduleForm, Sche
         ScheduleSearchResult searchResultItems;
         try {
             searchResultItems = clients.getScheduleService().find(form, profile, "", 0L, 10);
-            Consumer<ScheduleSearchResult> tester = TESTERS.get(name);
-            if (tester != null) {
-                System.out.println("USING  TESTER " + tester + " for " + name);
-                tester.accept(searchResultItems);
-            } else {
-                System.out.println("No predicate defined for " + name);
-            }
+            assumeTrue(tester.apply(searchResultItems));
         } catch (ServerErrorException rs) {
             if (rs.getResponse().getStatus() == 501) {
                 throw new AssumptionViolatedException(name + " seems to be not implemented yet");

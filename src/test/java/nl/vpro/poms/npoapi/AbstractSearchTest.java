@@ -12,12 +12,15 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
 import java.util.function.Function;
+import java.util.function.Supplier;
 import java.util.regex.Pattern;
 
 import org.junit.Before;
 
 import nl.vpro.poms.AbstractApiTest;
 import nl.vpro.test.util.jackson2.Jackson2TestUtil;
+
+import static org.junit.Assume.assumeTrue;
 
 /**
  * @author Michiel Meeuwissen
@@ -27,6 +30,8 @@ import nl.vpro.test.util.jackson2.Jackson2TestUtil;
 public abstract class AbstractSearchTest<T, S> extends AbstractApiTest {
     private static final boolean writeTempFiles = false;
     protected Map<Pattern, Function<S, Boolean>> TESTERS = new HashMap<>();
+    protected Map<Pattern, Supplier<Boolean>> ASSUMERS =  new HashMap<>();
+
 
     protected String name;
     protected T form;
@@ -35,21 +40,38 @@ public abstract class AbstractSearchTest<T, S> extends AbstractApiTest {
 
 
     protected void  addTester(String pattern, Consumer<S> consumer) {
-        TESTERS.put(Pattern.compile(pattern), (s) -> {
+        addTester(pattern, (s) -> {
             consumer.accept(s);
             return true;
         });
     }
 
+    protected void addTester(String pattern, Function<S, Boolean> consumer) {
+        TESTERS.put(Pattern.compile(pattern), consumer);
+    }
+
+
+    protected void addAssumer(String pattern, Supplier<Boolean> consumer) {
+        ASSUMERS.put(Pattern.compile(pattern), consumer);
+    }
+
 
     @Before
-    public void getTester() {
+    public void setUp() {
+        for (Map.Entry<Pattern, Supplier<Boolean>> e : ASSUMERS.entrySet()) {
+            if (e.getKey().matcher(name).matches()) {
+                assumeTrue(e.getValue().get());
+            }
+        }
+
+
         final List<Function<S, Boolean>> result = new ArrayList<>();
         for (Map.Entry<Pattern, Function<S, Boolean>> e : TESTERS.entrySet()) {
             if (e.getKey().matcher(name).matches()) {
                 result.add(e.getValue());
             }
         }
+
         if (result.isEmpty()) {
             result.add((s) -> {
                 System.out.println("No predicate defined for " + name);
@@ -65,6 +87,7 @@ public abstract class AbstractSearchTest<T, S> extends AbstractApiTest {
             return bool;
 
         };
+
     }
 
 

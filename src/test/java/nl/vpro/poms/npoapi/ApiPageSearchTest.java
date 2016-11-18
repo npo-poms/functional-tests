@@ -22,6 +22,9 @@ public class ApiPageSearchTest extends AbstractSearchTest<PageForm, PageSearchRe
             assertThat(sr.getItems()).isNotEmpty();
             }
         );
+        addAssumer("regexp.json/.*", () -> apiVersionNumber > 4.9);
+        addAssumer("tags.json/.*", () -> apiVersionNumber > 4.9);
+
     }
 
     public ApiPageSearchTest(String name, PageForm form, String profile) {

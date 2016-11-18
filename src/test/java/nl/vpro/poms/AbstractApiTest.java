@@ -49,8 +49,12 @@ public abstract class AbstractApiTest {
             .build();
     protected static final NpoApiMediaUtil mediaUtil = new NpoApiMediaUtil(clients);
 
+    protected static final String apiVersion = clients.getVersion();
+    protected static final Float apiVersionNumber = clients.getVersionNumber();
+
+
     static {
-        log.info("Using {}, {}", clients, backend);
+        log.info("Using {} (), {}", clients, apiVersion, backend);
     }
 
 
