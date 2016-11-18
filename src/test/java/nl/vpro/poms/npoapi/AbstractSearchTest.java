@@ -71,7 +71,7 @@ public abstract class AbstractSearchTest<T, S> extends AbstractApiTest {
                 result.add(e.getValue());
             }
         }
-
+        final boolean log = ! result.isEmpty();
         if (result.isEmpty()) {
             result.add((s) -> {
                 System.out.println("No predicate defined for " + name);
@@ -81,7 +81,9 @@ public abstract class AbstractSearchTest<T, S> extends AbstractApiTest {
         tester = s -> {
             boolean bool = true;
             for (Function<S, Boolean> tester1 : result) {
-                System.out.println("USING  TESTER " + tester1 + " for " + name);
+                if (log) {
+                    System.out.println("USING  TESTER " + tester1 + " for " + name);
+                }
                 bool &= tester1.apply(s);
             }
             return bool;
