@@ -38,20 +38,19 @@ public abstract class AbstractApiTest {
     }
 
     protected static final Duration ACCEPTABLE_DURATION_FRONTEND = Duration.ofMinutes(10);
-
     protected static final NpoApiClients clients =
         NpoApiClients.configured(Config.env(), Config.getProperties(Config.Prefix.npoapi))
             .mediaType(MediaType.APPLICATION_XML_TYPE)
             .trustAll(true)
             .build();
-    protected static final NpoApiMediaUtil mediaUtil;
     protected static final MediaRestClient backend =
-        MediaRestClient.configured(Config.env(), Config.getProperties(Config.Prefix.backendapi)).build();
-
+        MediaRestClient.configured(Config.env(), Config.getProperties(Config.Prefix.backendapi))
+            .trustAll(true)
+            .build();
+    protected static final NpoApiMediaUtil mediaUtil = new NpoApiMediaUtil(clients);
 
     static {
-        mediaUtil = new NpoApiMediaUtil(clients);
-        log.info("Using {}", clients);
+        log.info("Using {}, {}", clients, backend);
     }
 
 

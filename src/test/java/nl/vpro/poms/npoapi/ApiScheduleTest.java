@@ -68,7 +68,9 @@ public class ApiScheduleTest extends AbstractApiTest {
         ScheduleResult o = clients.getScheduleService().listNet("ZAPP", today, null, null, null, "ASC", 0L, 240);
         assertThat(o.getSize()).isGreaterThan(2);
         for (ApiScheduleEvent item : o.getItems()) {
+            assertThat(item.getNet()).isNotNull();
             assertThat(item.getNet()).isEqualTo(new Net("ZAPP"));
+
         }
     }
 

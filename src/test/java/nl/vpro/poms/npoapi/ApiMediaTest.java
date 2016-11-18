@@ -29,6 +29,7 @@ public class ApiMediaTest extends AbstractApiTest {
         switch(Config.env()) {
             case DEV:
                 couchdbSince = 25387000;
+                FROM = Instant.now().minus(Duration.ofDays(100));
                 break;
             case TEST:
                 couchdbSince = 19831435;
