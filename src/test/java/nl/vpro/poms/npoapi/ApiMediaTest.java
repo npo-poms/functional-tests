@@ -121,7 +121,10 @@ public class ApiMediaTest extends AbstractApiTest {
                     }
                     assertThat(change.getSequence()).isNotNull();
                     assertThat(change.getRevision() == null || change.getRevision() > 0).isTrue();
-                    assertThat(change.getPublishDate()).isNotNull();
+                    if (! change.isDeleted()) {
+                        // cannot be filled by couchdb.
+                        assertThat(change.getPublishDate()).isNotNull();
+                    }
                     if (prev != null) {
                         assertThat(change.getPublishDate()).isGreaterThanOrEqualTo(prev);
                     }
