@@ -2,7 +2,6 @@ package nl.vpro.poms.npoapi;
 
 import java.io.IOException;
 import java.util.Collection;
-import java.util.function.Consumer;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -13,12 +12,13 @@ import nl.vpro.domain.api.page.PageSearchResult;
 import nl.vpro.poms.ApiSearchTestHelper;
 
 import static org.assertj.core.api.Java6Assertions.assertThat;
+import static org.junit.Assume.assumeTrue;
 
 @RunWith(Parameterized.class)
 public class ApiPageSearchTest extends AbstractSearchTest<PageForm, PageSearchResult> {
 
     {
-        TESTERS.put("NPA-331.json/woord", sr -> {
+        addTester("NPA-331.json/woord", sr -> {
             assertThat(sr.getItems()).isNotEmpty();
             }
         );
@@ -38,14 +38,7 @@ public class ApiPageSearchTest extends AbstractSearchTest<PageForm, PageSearchRe
     public void search() throws Exception {
         System.out.println("--------------------" + name);
         PageSearchResult searchResultItems = clients.getPageService().find(form, profile, "", 0L, 10);
-        Consumer<PageSearchResult> tester = TESTERS.get(name);
-        if (tester != null) {
-            System.out.println("USING  TESTER " + tester + " for " + name);
-            tester.accept(searchResultItems);
-        } else {
-            System.out.println("No predicate defined for " + name);
-            //Jackson2Mapper.getPrettyInstance().writeValue(System.out, searchResultItems);
-        }
+        assumeTrue(tester.apply(searchResultItems));
         test(name, searchResultItems);
     }
 }
