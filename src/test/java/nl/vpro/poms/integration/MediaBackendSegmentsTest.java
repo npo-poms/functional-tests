@@ -34,6 +34,8 @@ public class MediaBackendSegmentsTest extends AbstractApiTest {
     private static final Duration ACCEPTABLE_DURATION = Duration.ofMinutes(3);
 
     private static String segmentMid;
+    private static String segmentTitle;
+
     private static String programMid;
 
 
@@ -44,13 +46,14 @@ public class MediaBackendSegmentsTest extends AbstractApiTest {
 
     @Test
     public void test01createSegment() {
+        segmentTitle = title;
         SegmentUpdate update = SegmentUpdate.create(
             MediaBuilder.segment()
                 .avType(AVType.VIDEO)
                 .broadcasters("VPRO")
                 .midRef(MID)
                 .start(Duration.ofMillis(0))
-                .mainTitle(title));
+                .mainTitle(segmentTitle));
         JAXB.marshal(update, System.out);
         segmentMid = backend.set(update);
         System.out.println("Created " + segmentMid);
@@ -84,7 +87,7 @@ public class MediaBackendSegmentsTest extends AbstractApiTest {
         });
         assertThat(segments[0]).isNotNull();
         assertThat(segments[0].getMidRef()).isEqualTo(MID);
-        assertThat(segments[0].getMainTitle()).isEqualTo(title);
+        assertThat(segments[0].getMainTitle()).isEqualTo(segmentTitle);
 
 
     }
@@ -101,6 +104,7 @@ public class MediaBackendSegmentsTest extends AbstractApiTest {
                 .build();
         ProgramUpdate update = ProgramUpdate.create(
             MediaBuilder.program()
+                .broadcasters("VPRO")
                 .avType(AVType.VIDEO)
                 .mainTitle(title)
                 .segments(segment));
