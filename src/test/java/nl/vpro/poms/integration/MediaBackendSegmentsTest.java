@@ -73,8 +73,14 @@ public class MediaBackendSegmentsTest extends AbstractApiTest {
         Segment[] segments = new Segment[1];
         waitUntil(ACCEPTABLE_DURATION_FRONTEND, () -> {
             segments[0] = mediaUtil.loadOrNull(segmentMid);
-            return segments[0] != null && TimeUtils.isLarger(
-                TimeUtils.between(DateUtils.toInstant(segments[0].getLastPublished()), Instant.now()), Duration.ofMinutes(20)) ;
+            if (segments[0] == null) {
+                return false;
+            }
+            Instant lastPublished = DateUtils.toInstant(segments[0].getLastPublished());
+            if (lastPublished == null) {
+                throw new IllegalStateException("The last published field of " + segments[0] + " is null!");
+            }
+            return TimeUtils.isLarger(TimeUtils.between(lastPublished, Instant.now()), Duration.ofMinutes(20));
         });
         assertThat(segments[0].getMidRef()).isEqualTo(MID);
         assertThat(segments[0].getMainTitle()).isEqualTo(title);
