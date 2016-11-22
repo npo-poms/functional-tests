@@ -14,6 +14,7 @@ import org.junit.runners.MethodSorters;
 import nl.vpro.domain.media.AVType;
 import nl.vpro.domain.media.MediaBuilder;
 import nl.vpro.domain.media.Segment;
+import nl.vpro.domain.media.update.ProgramUpdate;
 import nl.vpro.domain.media.update.SegmentUpdate;
 import nl.vpro.poms.AbstractApiTest;
 import nl.vpro.util.DateUtils;
@@ -33,6 +34,7 @@ public class MediaBackendSegmentsTest extends AbstractApiTest {
     private static final Duration ACCEPTABLE_DURATION = Duration.ofMinutes(3);
 
     private static String segmentMid;
+    private static String programMid;
 
 
     @Before
@@ -62,8 +64,6 @@ public class MediaBackendSegmentsTest extends AbstractApiTest {
             SegmentUpdate up = backend.get(segmentMid);
             return up != null;
         });
-
-
     }
 
 
@@ -86,6 +86,43 @@ public class MediaBackendSegmentsTest extends AbstractApiTest {
         assertThat(segments[0].getMainTitle()).isEqualTo(title);
 
 
+    }
+
+
+    @Test
+    public void test04CreateProgramWithSegment() {
+
+        Segment segment =
+            MediaBuilder.segment()
+                .avType(AVType.VIDEO)
+                .start(Duration.ofMillis(0))
+                .mainTitle("Segment for " + title)
+                .build();
+        ProgramUpdate update = ProgramUpdate.create(
+            MediaBuilder.program()
+                .avType(AVType.VIDEO)
+                .mainTitle(title)
+                .segments(segment));
+        JAXB.marshal(update, System.out);
+        programMid = backend.set(update);
+        System.out.println("Created " + programMid);
+    }
+
+    @Test
+    public void test05WaitFor() throws Exception {
+        assumeNotNull(programMid);
+        waitUntil(ACCEPTABLE_DURATION, () -> {
+            ProgramUpdate up = backend.get(programMid);
+            return up != null;
+        });
+    }
+
+    @Test
+    public void test06CheckResult() throws Exception {
+        assumeNotNull(programMid);
+        ProgramUpdate up = backend.get(programMid);
+        assertThat(up.getMid()).isEqualTo(programMid);
+        assertThat(up.getSegments()).hasSize(1);
     }
 
     @Test
