@@ -2,8 +2,6 @@ package nl.vpro.poms.integration;
 
 import java.time.Duration;
 import java.time.Instant;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.xml.bind.JAXB;
 
@@ -34,8 +32,6 @@ public class MediaBackendSegmentsTest extends AbstractApiTest {
     private static final String MID = "WO_VPRO_025057";
     private static final Duration ACCEPTABLE_DURATION = Duration.ofMinutes(3);
 
-    private static final List<String> titles = new ArrayList<>();
-
     private static String segmentMid;
 
 
@@ -46,7 +42,6 @@ public class MediaBackendSegmentsTest extends AbstractApiTest {
 
     @Test
     public void test01createSegment() {
-        titles.add(title);
         SegmentUpdate update = SegmentUpdate.create(
             MediaBuilder.segment()
                 .avType(AVType.VIDEO)
