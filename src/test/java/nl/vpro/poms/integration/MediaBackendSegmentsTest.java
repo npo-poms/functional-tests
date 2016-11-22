@@ -35,6 +35,7 @@ public class MediaBackendSegmentsTest extends AbstractApiTest {
 
     private static String segmentMid;
     private static String segmentTitle;
+    private static String updatedSegmentTitle;
 
     private static String programMid;
 
@@ -128,6 +129,28 @@ public class MediaBackendSegmentsTest extends AbstractApiTest {
         ProgramUpdate up = backend.get(programMid);
         assertThat(up.getMid()).isEqualTo(programMid);
         assertThat(up.getSegments()).hasSize(1);
+    }
+
+
+    @Test
+    public void test07UpdateSegment() throws Exception {
+        assumeNotNull(segmentMid);
+
+        SegmentUpdate up = backend.get(segmentMid);
+        assertThat(up.getMidRef()).isEqualTo(MID);
+        updatedSegmentTitle = up.fetch().getMainTitle() + " -> " + title;
+        up.setMainTitle(updatedSegmentTitle);
+
+        backend.set(up);
+    }
+
+    @Test
+    public void test08WaitFor() throws Exception {
+        assumeNotNull(segmentMid);
+        waitUntil(ACCEPTABLE_DURATION, () -> {
+            SegmentUpdate up = backend.get(segmentMid);
+            return up.fetch().getMainTitle().equals(updatedSegmentTitle);
+        });
     }
 
     @Test
