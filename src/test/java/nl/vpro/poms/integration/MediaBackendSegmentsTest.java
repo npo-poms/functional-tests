@@ -82,6 +82,7 @@ public class MediaBackendSegmentsTest extends AbstractApiTest {
             }
             return TimeUtils.isLarger(TimeUtils.between(lastPublished, Instant.now()), Duration.ofMinutes(20));
         });
+        assertThat(segments[0]).isNotNull();
         assertThat(segments[0].getMidRef()).isEqualTo(MID);
         assertThat(segments[0].getMainTitle()).isEqualTo(title);
 
