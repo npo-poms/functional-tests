@@ -154,6 +154,12 @@ public class MediaBackendSegmentsTest extends AbstractApiTest {
     }
 
     @Test
+    public void test09UpdateSegmentViaProgram() throws Exception {
+        assumeNotNull(MID);
+
+    }
+
+    @Test
     @Ignore
     public void testSegment() {
         Segment segment = (Segment) clients.getMediaService().load("POMS_VPRO_1460016", null, null);
