@@ -11,10 +11,7 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
 
-import nl.vpro.domain.media.AVType;
-import nl.vpro.domain.media.MediaBuilder;
-import nl.vpro.domain.media.ProgramType;
-import nl.vpro.domain.media.Segment;
+import nl.vpro.domain.media.*;
 import nl.vpro.domain.media.update.ProgramUpdate;
 import nl.vpro.domain.media.update.SegmentUpdate;
 import nl.vpro.poms.AbstractApiTest;
@@ -176,6 +173,20 @@ public class MediaBackendSegmentsTest extends AbstractApiTest {
             return up.fetch().getMainTitle().equals(updatedSegmentTitle);
         });
     }
+
+
+    @Test
+    public void test11DeleteSegementsViaProgram() throws Exception {
+        Program programUpdate = backend.getFullProgram(MID);
+
+        programUpdate.getSegments().forEach((segment) -> {
+            if (DateUtils.toInstant(segment.getLastModified()).isBefore(Instant.now().minus(Duration.ofDays(3)))) {
+                System.out.println("Deleting " + segment);
+                backend.delete(segment.getMid());
+            }
+        });
+    }
+
 
     @Test
     @Ignore
