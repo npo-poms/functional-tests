@@ -9,7 +9,10 @@ import java.util.stream.Collectors;
 
 import javax.xml.bind.JAXB;
 
-import org.junit.*;
+import org.junit.Before;
+import org.junit.FixMethodOrder;
+import org.junit.Rule;
+import org.junit.Test;
 import org.junit.runners.MethodSorters;
 
 import nl.vpro.domain.image.ImageType;
@@ -49,7 +52,7 @@ public class MediaBackendImagesTest extends AbstractApiTest {
     public void test01addImageRedirect() {
         titles.add(title);
         ImageUpdate update = new ImageUpdate(ImageType.PICTURE, title, null, new ImageLocation("http://placehold.it/150/7735a")); // redirects
-        backend.getBackendRestService().addImage(update, null, MID,  true, null);
+        backend.addImage(update, MID);
     }
 
 
@@ -57,7 +60,7 @@ public class MediaBackendImagesTest extends AbstractApiTest {
     public void test02addImage() throws UnsupportedEncodingException {
         titles.add(title);
         ImageUpdate update = new ImageUpdate(ImageType.PICTURE, title, null, new ImageLocation("https://placeholdit.imgix.net/~text?txt=" + URLEncoder.encode(title, "UTF-8") + "&w=150&h=150"));
-        backend.getBackendRestService().addImage(update, null, MID, true, null);
+        backend.addImage(update, MID);
     }
 
     @Test
