@@ -135,7 +135,7 @@ public class MediaBackendSegmentsTest extends AbstractApiTest {
 
 
     @Test
-    public void test07UpdateSegment() throws Exception {
+    public void test07UpdateSegmentDirectly() throws Exception {
         assumeNotNull(segmentMid);
 
         SegmentUpdate up = backend.get(segmentMid);
