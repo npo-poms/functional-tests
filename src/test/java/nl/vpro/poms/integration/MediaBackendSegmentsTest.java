@@ -13,6 +13,7 @@ import org.junit.runners.MethodSorters;
 
 import nl.vpro.domain.media.AVType;
 import nl.vpro.domain.media.MediaBuilder;
+import nl.vpro.domain.media.ProgramType;
 import nl.vpro.domain.media.Segment;
 import nl.vpro.domain.media.update.ProgramUpdate;
 import nl.vpro.domain.media.update.SegmentUpdate;
@@ -106,6 +107,7 @@ public class MediaBackendSegmentsTest extends AbstractApiTest {
         ProgramUpdate update = ProgramUpdate.create(
             MediaBuilder.program()
                 .broadcasters("VPRO")
+                .type(ProgramType.CLIP)
                 .avType(AVType.VIDEO)
                 .mainTitle(title)
                 .segments(segment));
