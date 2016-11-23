@@ -157,8 +157,24 @@ public class MediaBackendSegmentsTest extends AbstractApiTest {
 
     @Test
     public void test09UpdateSegmentViaProgram() throws Exception {
-        assumeNotNull(MID);
+        assumeNotNull(segmentMid);
+        ProgramUpdate programUpdate = backend.get(MID);
 
+        SegmentUpdate segmentUpdate = programUpdate.getSegments().stream().filter(s -> s.getMid().equals(segmentMid)).findFirst().orElseThrow(IllegalStateException::new);
+        updatedSegmentTitle = segmentUpdate.fetch().getMainTitle() + " -> " + title;
+        segmentUpdate.setMainTitle(updatedSegmentTitle);
+
+        backend.set(programUpdate);
+    }
+
+
+    @Test
+    public void test10WaitFor() throws Exception {
+        assumeNotNull(segmentMid);
+        waitUntil(ACCEPTABLE_DURATION, () -> {
+            SegmentUpdate up = backend.get(segmentMid);
+            return up.fetch().getMainTitle().equals(updatedSegmentTitle);
+        });
     }
 
     @Test
