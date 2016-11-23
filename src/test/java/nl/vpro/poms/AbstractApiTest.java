@@ -34,7 +34,7 @@ public abstract class AbstractApiTest {
 
     @Before
     public void setupTitle() {
-        title = TITLE + " " + name.getMethodName();
+        title = TITLE + " " + name.getMethodName() + " Caf\u00E9 \u6C49"; // testing encoding too!
     }
 
     protected static final Duration ACCEPTABLE_DURATION_FRONTEND = Duration.ofMinutes(10);
