@@ -46,7 +46,6 @@ public class MediaBackendImagesTest extends AbstractApiTest {
     }
 
     @Test
-    @Ignore("Currently fails (enable if MSE-3475 fixed)")
     public void test01addImageRedirect() {
         titles.add(title);
         ImageUpdate update = new ImageUpdate(ImageType.PICTURE, title, null, new ImageLocation("http://placehold.it/150/7735a")); // redirects
