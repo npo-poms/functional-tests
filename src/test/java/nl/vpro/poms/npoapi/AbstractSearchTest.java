@@ -60,7 +60,7 @@ public abstract class AbstractSearchTest<T, S> extends AbstractApiTest {
     public void setUp() {
         for (Map.Entry<Pattern, Supplier<Boolean>> e : ASSUMERS.entrySet()) {
             if (e.getKey().matcher(name).matches()) {
-                assumeTrue(e.getValue().get());
+                assumeTrue("Skipping in " + this + " because of " + e, e.getValue().get());
             }
         }
 
@@ -99,6 +99,19 @@ public abstract class AbstractSearchTest<T, S> extends AbstractApiTest {
         this.profile = profile;
     }
 
+
+    protected static Supplier<Boolean> minVersion(final double minVersion) {
+        return new Supplier<Boolean>() {
+            @Override
+            public Boolean get() {
+                return apiVersionNumber > minVersion;
+            }
+            @Override
+            public String toString() {
+                return "" + apiVersionNumber + " > " +  minVersion;
+            }
+        };
+    }
 
     protected OutputStream getTempStream(String name) throws IOException {
         if (writeTempFiles) {
