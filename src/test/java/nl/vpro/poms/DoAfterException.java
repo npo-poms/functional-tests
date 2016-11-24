@@ -1,6 +1,8 @@
 package nl.vpro.poms;
 
 
+import java.util.function.Consumer;
+
 import org.junit.rules.TestRule;
 import org.junit.runner.Description;
 import org.junit.runners.model.Statement;
@@ -10,9 +12,9 @@ import org.junit.runners.model.Statement;
  */
 public class DoAfterException implements TestRule {
 
-    final Runnable job;
+    final Consumer<Throwable> job;
 
-    public DoAfterException(Runnable job) {
+    public DoAfterException(Consumer<Throwable> job) {
         this.job = job;
     }
 
@@ -24,7 +26,7 @@ public class DoAfterException implements TestRule {
                 try {
                     base.evaluate();
                 } catch (Throwable t) {
-                    job.run();
+                    job.accept(t);
                     throw t;
                 }
             }

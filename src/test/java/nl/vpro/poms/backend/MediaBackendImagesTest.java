@@ -24,7 +24,7 @@ import nl.vpro.poms.DoAfterException;
 
 import static nl.vpro.poms.Utils.waitUntil;
 import static org.assertj.core.api.Java6Assertions.assertThat;
-import static org.junit.Assume.assumeTrue;
+import static org.junit.Assume.assumeNoException;
 
 /**
  * @author Michiel Meeuwissen
@@ -39,13 +39,13 @@ public class MediaBackendImagesTest extends AbstractApiTest {
 
 
     @Rule
-    public DoAfterException doAfterException = new DoAfterException(() -> MediaBackendImagesTest.success = false);
+    public DoAfterException doAfterException = new DoAfterException((t) -> MediaBackendImagesTest.exception = t);
 
-    private static boolean success = true;
+    private static Throwable exception = null;
 
     @Before
     public void setup() {
-        assumeTrue(success);
+        assumeNoException(exception);
     }
 
     @Test
@@ -101,7 +101,7 @@ public class MediaBackendImagesTest extends AbstractApiTest {
 
 
     protected void checkArrived() throws Exception {
-        if (success) {
+        if (exception == null) {
             final List<String> currentTitles = new ArrayList<>();
             waitUntil(ACCEPTABLE_DURATION, () -> {
                 ProgramUpdate update = backend.get(MID);
