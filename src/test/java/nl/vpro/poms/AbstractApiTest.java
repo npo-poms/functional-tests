@@ -50,7 +50,10 @@ public abstract class AbstractApiTest {
     protected static final NpoApiMediaUtil mediaUtil = new NpoApiMediaUtil(clients);
 
     protected static final String apiVersion = clients.getVersion();
+    protected static final String backendVersion = backend.getVersion();
+
     protected static Float apiVersionNumber;
+    protected static Float backendVersionNumber;
 
 
     static {
@@ -60,7 +63,13 @@ public abstract class AbstractApiTest {
             apiVersionNumber = 0f;
 
         }
-        log.info("Using {} ({}), {}", clients, apiVersion, backend);
+        try {
+            backendVersionNumber = backend.getVersionNumber();
+        } catch (Exception e) {
+            backendVersionNumber = 0f;
+
+        }
+        log.info("Using {} ({}), {} ({})", clients, apiVersion, backend, backendVersion);
     }
 
 
