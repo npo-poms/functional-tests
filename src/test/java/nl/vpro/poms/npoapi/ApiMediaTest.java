@@ -11,7 +11,9 @@ import org.junit.Test;
 
 import nl.vpro.domain.api.Change;
 import nl.vpro.domain.api.Order;
+import nl.vpro.domain.api.media.MediaFormBuilder;
 import nl.vpro.domain.api.media.MediaResult;
+import nl.vpro.domain.api.media.MediaSearchResult;
 import nl.vpro.domain.media.MediaObject;
 import nl.vpro.jackson2.JsonArrayIterator;
 import nl.vpro.poms.AbstractApiTest;
@@ -47,6 +49,12 @@ public class ApiMediaTest extends AbstractApiTest {
         assertThat(o).isNotNull();
         MediaResult result = mediaUtil.listMembers(o.getMid(), Order.ASC, (m) -> true, 100);
         assertThat(result.getSize()).isGreaterThan(10);
+    }
+
+    @Test
+    public void findMembers() throws Exception {
+        MediaSearchResult result = clients.getMediaService().findMembers(MediaFormBuilder.emptyForm(), "POMS_S_VPRO_407881", null, null, 0L, 100);
+        assertThat(result.getSize()).isGreaterThan(1);
     }
 
     @Test(expected = javax.ws.rs.NotFoundException.class)
