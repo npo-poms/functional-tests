@@ -3,10 +3,11 @@ package nl.vpro.poms;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.concurrent.Callable;
+import java.util.function.Predicate;
+import java.util.function.Supplier;
 
 /**
  * @author Michiel Meeuwissen
- * @since ...
  */
 public class Utils {
 
@@ -25,4 +26,19 @@ public class Utils {
             Thread.sleep(Duration.ofSeconds(30).toMillis());
         }
     }
+
+    public static <T> T waitUntilNotNull(Duration acceptable, Supplier<T> r) throws Exception {
+        return waitUntil(acceptable, r, (o) -> true);
+    }
+
+    public static <T> T waitUntil(Duration acceptable, Supplier<T> r, Predicate<T> predicate) throws Exception {
+        final T[] result = (T[]) new Object[1];
+        waitUntil(acceptable, () -> {
+            result[0] = r.get();
+            return result[0] != null && predicate.test(result[0]);
+        });
+        return result[0];
+
+    }
 }
+
