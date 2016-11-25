@@ -6,7 +6,10 @@ import java.time.LocalDate;
 import java.util.Collections;
 import java.util.List;
 
-import org.junit.*;
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.FixMethodOrder;
+import org.junit.Test;
 import org.junit.runners.MethodSorters;
 
 import com.jayway.restassured.RestAssured;
@@ -16,15 +19,13 @@ import nl.vpro.domain.media.*;
 import nl.vpro.domain.media.exceptions.ModificationException;
 import nl.vpro.domain.media.search.DateRange;
 import nl.vpro.domain.media.search.MediaForm;
-import nl.vpro.domain.media.search.Pager;
+import nl.vpro.domain.media.search.MediaPager;
 import nl.vpro.domain.media.update.ProgramUpdate;
 import nl.vpro.domain.media.update.SegmentUpdate;
 
 import static com.jayway.restassured.RestAssured.given;
 import static nl.vpro.poms.Config.Prefix.backendapi;
-import static nl.vpro.poms.Config.configOption;
-import static nl.vpro.poms.Config.requiredOption;
-import static nl.vpro.poms.Config.url;
+import static nl.vpro.poms.Config.*;
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assume.assumeNotNull;
 
@@ -162,7 +163,7 @@ public class MediaTest {
     @Test
     public void test07FindClips() throws UnsupportedEncodingException, InterruptedException {
 
-        MediaForm search = new MediaForm(new Pager(50), TITLE_PREFIX + dynamicSuffix);
+        MediaForm search = new MediaForm(new MediaPager(50), TITLE_PREFIX + dynamicSuffix);
         search.setBroadcasters(Collections.singletonList("VPRO"));
         search.setCreationRange(new DateRange(LocalDate.now().atStartOfDay(), LocalDate.now().atStartOfDay().plusHours(24)));
         given()
