@@ -52,6 +52,14 @@ public class ApiMediaTest extends AbstractApiTest {
     }
 
     @Test
+    public void zeroMembers() throws Exception {
+        MediaObject o = mediaUtil.loadOrNull("POMS_S_NCRV_096754");
+        assertThat(o).isNotNull();
+        MediaResult result = clients.getMediaService().listMembers(o.getMid(), (String) null, "ASC", 0L, 0);
+        assertThat(result.getTotal()).isGreaterThan(10);
+    }
+
+    @Test
     public void findMembers() throws Exception {
         MediaSearchResult result = clients.getMediaService().findMembers(MediaFormBuilder.emptyForm(), "POMS_S_VPRO_407881", null, null, 0L, 100);
         assertThat(result.getSize()).isGreaterThan(1);
