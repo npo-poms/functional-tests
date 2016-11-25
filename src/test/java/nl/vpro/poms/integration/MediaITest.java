@@ -1,5 +1,7 @@
 package nl.vpro.poms.integration;
 
+import lombok.extern.slf4j.Slf4j;
+
 import java.time.Duration;
 import java.time.Instant;
 
@@ -22,11 +24,12 @@ import static org.junit.Assume.assumeNotNull;
  * @author Michiel Meeuwissen
  */
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
+@Slf4j
 public class MediaITest extends AbstractApiTest {
 
-    String groupMid;
-    String clipMid;
-    String clipTitle;
+    static String groupMid;
+    static String clipMid;
+    static String clipTitle;
 
     @Test
     public void test001CreateMedia() {
@@ -36,24 +39,29 @@ public class MediaITest extends AbstractApiTest {
                 .create(
                     MediaTestDataBuilder
                         .clip()
+                        .constrainedNew()
+                        .clearBroadcasters()
                         .mainTitle(clipTitle)
                         .broadcasters("VPRO")
                         .withAgeRating()
-                        .withSegments()
-                        .withImagesWithCredits()
+
+                        //.withImagesWithCredits()
                 )
         );
+        log.info("Created {} {}", clipMid, clipTitle);
         groupMid = backend.set(
             GroupUpdate.create(
                 MediaTestDataBuilder
-                .playlist()
-                .mainTitle(title)
-                .broadcasters("VPRO")
-        ));
+                    .playlist()
+                    .constrainedNew()
+                    .mainTitle(title)
+                    .broadcasters("VPRO")
+            ));
         String offlineGroup = backend.set(
             GroupUpdate.create(
                 MediaTestDataBuilder
                     .playlist()
+                    .constrainedNew()
                     .mainTitle(title + " offline")
                     .publishStop(Instant.now().minus(Duration.ofMinutes(5)))
                     .broadcasters("VPRO")
