@@ -3,6 +3,7 @@ package nl.vpro.poms.backend;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
 
@@ -42,14 +43,14 @@ public class MediaTest {
     private static final String PASSWORD = requiredOption(backendapi, "password");
     private static final String ERRORS_EMAIL = configOption(backendapi, "errors_email").orElse("digitaal-techniek@vpro.nl");
     private static final String BASE_CRID = "crid://apitests";
-    private static final String TITLE_PREFIX = "API FUNCTIONAL TEST ";
+    private static final String TITLE_PREFIX = "API_FUNCTIONAL_TEST_";
     private static String dynamicSuffix;
     private static String cridIdFromSuffix;
     private static String clipMid;
 
     @BeforeClass
     public static void setUpShared() {
-        dynamicSuffix = LocalDate.now().toString();
+        dynamicSuffix = LocalDateTime.now().toString();
         cridIdFromSuffix = dynamicSuffix.replaceAll("\\D", "");
     }
 
@@ -163,9 +164,12 @@ public class MediaTest {
     @Test
     public void test07FindClips() throws UnsupportedEncodingException, InterruptedException {
 
-        MediaForm search = new MediaForm(new MediaPager(50), TITLE_PREFIX + dynamicSuffix);
-        search.setBroadcasters(Collections.singletonList("VPRO"));
-        search.setCreationRange(new DateRange(LocalDate.now().atStartOfDay(), LocalDate.now().atStartOfDay().plusHours(24)));
+        MediaForm search = MediaForm.builder()
+            .pager(MediaPager.builder().max(50).build())
+            .text(TITLE_PREFIX + dynamicSuffix)
+            .broadcaster("VPRO")
+            .creationRange(new DateRange(LocalDate.now().atStartOfDay(), LocalDate.now().atStartOfDay().plusHours(24)))
+            .build();
         given()
             .auth().basic(USERNAME, PASSWORD)
             .contentType(ContentType.XML)
@@ -175,7 +179,10 @@ public class MediaTest {
             .  post(FIND_URL)
             .then()
             .  log().all()
-            .  statusCode(200);
+            .  statusCode(200)
+            .  body(hasXPath("/list/@totalCount", equalTo("1")))
+
+        ;
     }
 
     @Test
