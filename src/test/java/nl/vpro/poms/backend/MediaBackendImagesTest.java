@@ -25,6 +25,7 @@ import nl.vpro.poms.DoAfterException;
 import static nl.vpro.poms.Utils.waitUntil;
 import static org.assertj.core.api.Java6Assertions.assertThat;
 import static org.junit.Assume.assumeNoException;
+import static org.junit.Assume.assumeTrue;
 
 /**
  * @author Michiel Meeuwissen
@@ -50,6 +51,7 @@ public class MediaBackendImagesTest extends AbstractApiTest {
 
     @Test
     public void test01addImageRedirect() {
+        assumeTrue(backendVersionNumber >= 5.0);
         titles.add(title);
         ImageUpdate update = new ImageUpdate(ImageType.PICTURE, title, null, new ImageLocation("http://placehold.it/150/7735a")); // redirects
         backend.addImage(update, MID);
