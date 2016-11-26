@@ -180,7 +180,7 @@ public class MediaTest {
             .then()
             .  log().all()
             .  statusCode(200)
-            .  body(hasXPath("/list/@totalCount", equalTo("1")))
+            .  body(hasXPath("/list/@totalCount", equalTo("2")))
 
         ;
     }
