@@ -121,7 +121,7 @@ public class MediaTest {
     @Test
     public void test04WaitForProcessing() throws InterruptedException {
         // Wait for posted clips to be processed
-        Thread.sleep(30000);
+        Thread.sleep(60000);
     }
 
     @Test
