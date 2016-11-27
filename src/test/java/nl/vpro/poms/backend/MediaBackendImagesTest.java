@@ -9,10 +9,7 @@ import java.util.stream.Collectors;
 
 import javax.xml.bind.JAXB;
 
-import org.junit.Before;
-import org.junit.FixMethodOrder;
-import org.junit.Rule;
-import org.junit.Test;
+import org.junit.*;
 import org.junit.runners.MethodSorters;
 
 import nl.vpro.domain.image.ImageType;
@@ -40,7 +37,11 @@ public class MediaBackendImagesTest extends AbstractApiTest {
 
 
     @Rule
-    public DoAfterException doAfterException = new DoAfterException((t) -> MediaBackendImagesTest.exception = t);
+    public DoAfterException doAfterException = new DoAfterException((t) -> {
+        if (! (t instanceof AssumptionViolatedException)) {
+            MediaBackendImagesTest.exception = t;
+        }
+    });
 
     private static Throwable exception = null;
 
