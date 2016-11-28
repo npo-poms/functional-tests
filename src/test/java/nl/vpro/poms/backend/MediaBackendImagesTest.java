@@ -75,7 +75,8 @@ public class MediaBackendImagesTest extends AbstractApiTest {
     @Test
     public void test11addImageToObject() throws UnsupportedEncodingException {
         titles.add(title);
-        ImageUpdate imageUpdate  = new ImageUpdate(ImageType.PICTURE, title, null, new ImageLocation("https://placeholdit.imgix.net/~text?txt=" + URLEncoder.encode(title, "UTF-8") + "&w=150&h=150"));
+        ImageUpdate imageUpdate  =
+            new ImageUpdate(ImageType.PICTURE, title, null, new ImageLocation("https://placeholdit.imgix.net/~text?txt=" + URLEncoder.encode(title, "UTF-8") + "&w=150&h=150"));
         ProgramUpdate update = backend.get(MID);
         update.getImages().add(imageUpdate);
         backend.set(update);
