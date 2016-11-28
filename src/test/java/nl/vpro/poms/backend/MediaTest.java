@@ -7,10 +7,7 @@ import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
 
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.FixMethodOrder;
-import org.junit.Test;
+import org.junit.*;
 import org.junit.runners.MethodSorters;
 
 import com.jayway.restassured.RestAssured;
@@ -23,6 +20,7 @@ import nl.vpro.domain.media.search.MediaForm;
 import nl.vpro.domain.media.search.MediaPager;
 import nl.vpro.domain.media.update.ProgramUpdate;
 import nl.vpro.domain.media.update.SegmentUpdate;
+import nl.vpro.poms.AllowUnavailable;
 
 import static com.jayway.restassured.RestAssured.given;
 import static nl.vpro.poms.Config.Prefix.backendapi;
@@ -36,6 +34,9 @@ import static org.junit.Assume.assumeNotNull;
  */
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class MediaTest {
+
+    @Rule
+    public AllowUnavailable allowUnavailable = new AllowUnavailable();
 
     private static final String MEDIA_URL = url(backendapi, "media/media");
     private static final String FIND_URL = url(backendapi, "media/find");
