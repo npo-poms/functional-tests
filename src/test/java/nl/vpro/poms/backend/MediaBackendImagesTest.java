@@ -36,6 +36,7 @@ public class MediaBackendImagesTest extends AbstractApiTest {
 
 
 
+
     @Rule
     public DoAfterException doAfterException = new DoAfterException((t) -> {
         if (! (t instanceof AssumptionViolatedException)) {
