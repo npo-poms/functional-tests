@@ -64,7 +64,9 @@ public class MediaTest {
     @Test
     public void test01PostClip() throws UnsupportedEncodingException, InterruptedException, ModificationException {
         List<Segment> segments = Collections.singletonList(createSegment(null, dynamicSuffix, null));
-        ProgramUpdate clip = ProgramUpdate.create(createClipWithAgeRating(null, dynamicSuffix, segments));
+        ProgramUpdate clip =
+            ProgramUpdate.create(
+                createClip(null, dynamicSuffix, segments));
 
         clipMid = given()
             .auth().basic(USERNAME, PASSWORD)
@@ -224,24 +226,12 @@ public class MediaTest {
             .broadcasters("VPRO")
             .type(ProgramType.CLIP)
             .segments(segments)
+            .ageRating(AgeRating.ALL)
             .title(TITLE_PREFIX + dynamicSuffix)
             .build();
     }
 
-    private Program createClipWithAgeRating(String crid, String dynamicSuffix, List<Segment> segments) throws ModificationException {
 
-        return MediaTestDataBuilder.program()
-                .validNew()
-                .crids(crid)
-                .clearBroadcasters()
-                .broadcasters("VPRO")
-                .type(ProgramType.CLIP)
-                .segments(segments)
-                .title(TITLE_PREFIX + dynamicSuffix)
-                .ageRating(AgeRating._12)
-                .contentRatings(ContentRating.ANGST, ContentRating.DRUGS_EN_ALCOHOL)
-                .build();
-    }
 
     private Segment createSegment(String crid, String dynamicSuffix, String midRef) throws ModificationException {
         return MediaTestDataBuilder.segment()
@@ -251,6 +241,7 @@ public class MediaTest {
             .broadcasters("VPRO")
             .title(TITLE_PREFIX + "(1) " + dynamicSuffix)
             .midRef(midRef)
+            .ageRating(AgeRating.ALL)
             .build();
     }
 

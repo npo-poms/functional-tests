@@ -1,6 +1,9 @@
 package nl.vpro.poms.backend;
 
 import java.nio.charset.Charset;
+import java.time.Duration;
+import java.time.LocalDate;
+import java.util.SortedSet;
 
 import org.junit.Before;
 import org.junit.FixMethodOrder;
@@ -10,22 +13,31 @@ import org.junit.runners.MethodSorters;
 import com.jayway.restassured.RestAssured;
 import com.jayway.restassured.http.ContentType;
 
+import nl.vpro.domain.media.Schedule;
+import nl.vpro.domain.media.update.MediaUpdateList;
+import nl.vpro.domain.media.update.MemberUpdate;
+import nl.vpro.domain.media.update.RelationUpdate;
 import nl.vpro.parkpost.ProductCode;
 import nl.vpro.parkpost.promo.bind.PromoEvent;
+import nl.vpro.poms.AbstractApiTest;
 
 import static com.jayway.restassured.RestAssured.given;
 import static nl.vpro.poms.Config.Prefix.backendapi;
 import static nl.vpro.poms.Config.Prefix.parkpost;
-import static nl.vpro.poms.Config.configOption;
-import static nl.vpro.poms.Config.requiredOption;
-import static nl.vpro.poms.Config.url;
+import static nl.vpro.poms.Config.*;
+import static nl.vpro.poms.Utils.waitUntilNotNull;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.Assume.assumeTrue;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class ParkpostTest {
+public class ParkpostTest extends AbstractApiTest  {
 
+    private static final LocalDate today = LocalDate.now(Schedule.ZONE_ID);
+    private static final String PRODUCTCODE = "1P0203MO_JOCHEMMY_" + today.toString().replace('-','_');
 
     private static final String PARKPOST = url(backendapi, "parkpost/");
+    private static final String PROMOTED_MID = "WO_VPRO_025057";
+    private static String promotionTitle;
 
     private static final String EXAMPLE = "<NPO_gfxwrp>\n" +
         "  <ProductCode>2P0108MO_BLAUWBLO</ProductCode>\n" +
@@ -58,14 +70,17 @@ public class ParkpostTest {
         System.out.println("Testing with " + PARKPOST);
     }
 
-    @Test(timeout = 100000)
-    public void test001() {
-        PromoEvent promoEvent = new PromoEvent();
 
-        promoEvent.setProductCode("1P0203MO_JOCHEMMY");
-        promoEvent.setPromotedProgramProductCode("WO_VPRO_025057");
+
+    @Test
+    public void test001() {
+
+        PromoEvent promoEvent = new PromoEvent();
+        promotionTitle = title;
+        promoEvent.setProductCode(PRODUCTCODE);
+        promoEvent.setPromotedProgramProductCode(PROMOTED_MID);
         promoEvent.setPromoType(ProductCode.Type.P);
-        promoEvent.setProgramTitle("Promo title");
+        promoEvent.setProgramTitle(promotionTitle);
         //promoEvent.setFrameCount(100L);
         //promoEvent.setBroadcaster("VPRO");
         String result =
@@ -85,6 +100,20 @@ public class ParkpostTest {
         assertThat(result).isEqualTo("Promo ProgramUpdate for WO_VPRO_025057 has been processed.");
     }
 
+
+    @Test
+    public void test002arrived() throws Exception {
+        assumeTrue(promotionTitle != null);
+        MemberUpdate update = waitUntilNotNull(Duration.ofMinutes(1), () -> {
+            MediaUpdateList<MemberUpdate> groupMembers = backend.getGroupMembers(PROMOTED_MID);
+            return groupMembers.stream().filter(mu -> mu.getMediaUpdate().getTitles().first().equals(promotionTitle)).findFirst().orElse(null);
+            }
+        );
+        assertThat(update).isNotNull();
+        SortedSet<RelationUpdate> relations = update.getMediaUpdate().getRelations();
+        assertThat(relations.stream().filter(ru -> ru.getType().equals("PROMO_PRODUCTCODE")).findFirst().map(RelationUpdate::getText).orElse(null)).isEqualTo(PRODUCTCODE);
+        assertThat(update.getMediaUpdate().getTitles().first()).isEqualTo(promotionTitle);
+    }
 
 
 }

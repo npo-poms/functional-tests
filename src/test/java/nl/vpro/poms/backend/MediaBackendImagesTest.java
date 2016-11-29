@@ -59,6 +59,7 @@ public class MediaBackendImagesTest extends AbstractApiTest {
         ImageUpdate update = new ImageUpdate(ImageType.PICTURE, title, null, new ImageLocation("http://placehold.it/150/7735a")); // redirects
         update.setLicense(License.CC_BY);
         update.setSourceName("placeholdit");
+        update.setCredits(getClass().getName());
         backend.addImage(update, MID);
     }
 
@@ -72,6 +73,7 @@ public class MediaBackendImagesTest extends AbstractApiTest {
             update.setLicense(License.CC_BY);
             update.setSourceName("placeholdit");
             update.setSource("https://placeholdit.imgix.net");
+            update.setCredits(getClass().getName());
         }
 
         backend.addImage(update, MID);
@@ -91,6 +93,7 @@ public class MediaBackendImagesTest extends AbstractApiTest {
         if (backendVersionNumber >= 5.0) {
             imageUpdate.setLicense(License.CC_BY);
             imageUpdate.setSourceName("placeholdit");
+            imageUpdate.setCredits(getClass().getName());
         }
         ProgramUpdate update = backend.get(MID);
         update.getImages().add(imageUpdate);
