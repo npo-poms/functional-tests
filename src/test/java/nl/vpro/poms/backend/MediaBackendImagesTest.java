@@ -13,6 +13,7 @@ import org.junit.*;
 import org.junit.runners.MethodSorters;
 
 import nl.vpro.domain.image.ImageType;
+import nl.vpro.domain.media.support.License;
 import nl.vpro.domain.media.update.ImageLocation;
 import nl.vpro.domain.media.update.ImageUpdate;
 import nl.vpro.domain.media.update.ProgramUpdate;
@@ -78,6 +79,10 @@ public class MediaBackendImagesTest extends AbstractApiTest {
         titles.add(title);
         ImageUpdate imageUpdate  =
             new ImageUpdate(ImageType.PICTURE, title, null, new ImageLocation("https://placeholdit.imgix.net/~text?txt=" + URLEncoder.encode(title, "UTF-8") + "&w=150&h=150"));
+        if (backendVersionNumber >= 5.0) {
+            imageUpdate.setLicense(License.CC_BY);
+            imageUpdate.setSourceName("placeholdit");
+        }
         ProgramUpdate update = backend.get(MID);
         update.getImages().add(imageUpdate);
         backend.set(update);
