@@ -57,6 +57,8 @@ public class MediaBackendImagesTest extends AbstractApiTest {
         assumeTrue(backendVersionNumber >= 5.0);
         titles.add(title);
         ImageUpdate update = new ImageUpdate(ImageType.PICTURE, title, null, new ImageLocation("http://placehold.it/150/7735a")); // redirects
+        update.setLicense(License.CC_BY);
+        update.setSourceName("placeholdit");
         backend.addImage(update, MID);
     }
 
@@ -65,6 +67,13 @@ public class MediaBackendImagesTest extends AbstractApiTest {
     public void test02addImage() throws UnsupportedEncodingException {
         titles.add(title);
         ImageUpdate update = new ImageUpdate(ImageType.PICTURE, title, null, new ImageLocation("https://placeholdit.imgix.net/~text?txt=" + URLEncoder.encode(title, "UTF-8") + "&w=150&h=150"));
+
+        if(backendVersionNumber >=5.0 ) {
+            update.setLicense(License.CC_BY);
+            update.setSourceName("placeholdit");
+            update.setSource("https://placeholdit.imgix.net");
+        }
+
         backend.addImage(update, MID);
     }
 
