@@ -33,11 +33,12 @@ public class ApiMediaLoadTest extends AbstractApiTest {
     private final String profileName;
     private Profile profile;
     private final List<String> mids;
-
-    public ApiMediaLoadTest(String profileName, List<String> mids, MediaType mediaType) {
+    
+    public ApiMediaLoadTest(String profileName, List<String> mids, MediaType mediaType, String properties) {
         this.profileName = profileName;
         this.mids = mids;
         clients.setAccept(mediaType);
+        clients.setProperties(properties);
 
     }
 
@@ -50,22 +51,24 @@ public class ApiMediaLoadTest extends AbstractApiTest {
 
 
     @Parameterized.Parameters
-    public static Collection<Object[]> getMediaObjects() throws IOException {
+    public static Collection<Object[]> getParameters() throws IOException {
         List<Object[]> result = new ArrayList<>();
         for (MediaType mediaType : Arrays.asList(MediaType.APPLICATION_JSON_TYPE, MediaType.APPLICATION_XML_TYPE)) {
             for (String profile : Arrays.asList(null, "vpro")) {
-                List<String> mids = new ArrayList<>();
-                mids.add("VPWON_1181223"); // NPA-341 ?
-                try {
-                    mids.addAll(clients.getMediaService().find(new MediaForm(), profile, "", 0L, 10).asResult().stream().map(MediaObject::getMid).collect(Collectors.toList()));
-                    if (mids.size() == 0) {
-                        throw new IllegalStateException("No media found for profile " + profile);
-                    }
+                for (String properties : Arrays.asList(null, "none", "all")) {
+                    List<String> mids = new ArrayList<>();
+                    mids.add("VPWON_1181223"); // NPA-341 ?
+                    try {
+                        mids.addAll(clients.getMediaService().find(new MediaForm(), profile, "", 0L, 10).asResult().stream().map(MediaObject::getMid).collect(Collectors.toList()));
+                        if (mids.size() == 0) {
+                            throw new IllegalStateException("No media found for profile " + profile);
+                        }
 
-                } catch (javax.ws.rs.ServiceUnavailableException ue) {
-                    log.warn(ue.getMessage());
+                    } catch (javax.ws.rs.ServiceUnavailableException ue) {
+                        log.warn(ue.getMessage());
+                    }
+                    result.add(new Object[]{profile, mids, mediaType, properties});
                 }
-                result.add(new Object[]{profile, mids, mediaType});
 
             }
         }

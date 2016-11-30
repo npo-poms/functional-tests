@@ -1,13 +1,20 @@
 package nl.vpro.poms.npoapi;
 
+import javax.ws.rs.core.MediaType;
 import java.io.IOException;
 import java.time.Duration;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
 
 import nl.vpro.domain.api.Change;
 import nl.vpro.domain.api.Order;
@@ -21,12 +28,28 @@ import nl.vpro.poms.Config;
 
 import static org.assertj.core.api.Java6Assertions.assertThat;
 
+@RunWith(Parameterized.class)
 public class ApiMediaTest extends AbstractApiTest {
 
 
     private Instant FROM = Instant.now().minus(Duration.ofDays(14));
 
     int couchdbSince;
+
+
+    public ApiMediaTest(String properties) {
+        clients.setProperties(properties);
+
+    }
+
+    @Parameterized.Parameters
+    public static Collection<Object[]> getParameters() throws IOException {
+        List<Object[]> result = new ArrayList<>();
+        for (String properties : Arrays.asList(null, "none", "all")) {
+            result.add(new Object[] {properties});
+        }
+        return result;
+    }
 
     @Before
     public void setup() {
