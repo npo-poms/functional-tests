@@ -96,7 +96,7 @@ public class ApiMediaLoadTest extends AbstractApiTest {
 
         assumeTrue(mids.size() > 0);
         try {
-            clients.setAcceptableLanguages(Arrays.asList(Locale.US));
+            clients.setAcceptableLanguages(Collections.singletonList(Locale.US));
             clients.getMediaService().load(mids.get(0), null, "eo");
         } catch (NotFoundException nfe) {
             assertThat(nfe.getResponse().getEntity()).isInstanceOf(Error.class);
