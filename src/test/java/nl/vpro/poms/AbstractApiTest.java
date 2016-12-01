@@ -7,6 +7,7 @@ import java.time.Instant;
 
 import javax.ws.rs.core.MediaType;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.rules.TestName;
@@ -35,6 +36,9 @@ public abstract class AbstractApiTest {
     @Before
     public void setupTitle() {
         title = TITLE + " " + name.getMethodName() + " Caf\u00E9 \u6C49"; // testing encoding too!
+    }
+    @After
+    public void cleanClient() {
         clients.setProfile(null);
         clients.setProperties("");
     }

@@ -1,6 +1,5 @@
 package nl.vpro.poms.npoapi;
 
-import javax.ws.rs.core.MediaType;
 import java.io.IOException;
 import java.time.Duration;
 import java.time.Instant;
@@ -86,6 +85,7 @@ public class ApiMediaTest extends AbstractApiTest {
     public void findMembers() throws Exception {
         MediaSearchResult result = clients.getMediaService().findMembers(MediaFormBuilder.emptyForm(), "POMS_S_VPRO_407881", null, null, 0L, 100);
         assertThat(result.getSize()).isGreaterThan(1);
+
     }
 
     @Test(expected = javax.ws.rs.NotFoundException.class)
