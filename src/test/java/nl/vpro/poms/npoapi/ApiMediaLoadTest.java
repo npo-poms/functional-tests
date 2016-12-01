@@ -9,7 +9,6 @@ import java.util.stream.Collectors;
 import javax.ws.rs.NotFoundException;
 import javax.ws.rs.core.MediaType;
 
-import org.junit.Assume;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -24,6 +23,8 @@ import nl.vpro.domain.media.MediaObject;
 import nl.vpro.poms.AbstractApiTest;
 
 import static org.assertj.core.api.Java6Assertions.assertThat;
+import static org.junit.Assume.assumeFalse;
+import static org.junit.Assume.assumeNotNull;
 import static org.junit.Assume.assumeTrue;
 
 @RunWith(Parameterized.class)
@@ -33,7 +34,7 @@ public class ApiMediaLoadTest extends AbstractApiTest {
     private final String profileName;
     private Profile profile;
     private final List<String> mids;
-    
+
     public ApiMediaLoadTest(String profileName, List<String> mids, MediaType mediaType, String properties) {
         this.profileName = profileName;
         this.mids = mids;
@@ -87,10 +88,12 @@ public class ApiMediaLoadTest extends AbstractApiTest {
             }
         }
     }
- 
+
     @Test
     public void loadOutsideProfile() throws Exception {
-        Assume.assumeNotNull(profileName);
+        assumeNotNull(profileName);
+        assumeFalse(profileName.equals("eo"));
+
         assumeTrue(mids.size() > 0);
         try {
             clients.setAcceptableLanguages(Arrays.asList(Locale.US));
@@ -111,6 +114,8 @@ public class ApiMediaLoadTest extends AbstractApiTest {
         MultipleMediaResult o = clients.getMediaService().loadMultiple(IdList.of(mids), null, null);
 
         for (int i = 0; i < mids.size(); i++) {
+            assertThat(o.getItems().get(i).getResult()).isNotNull();
+            assertThat(o.getItems().get(i).getError()).isNull();
             assertThat(o.getItems().get(i).getResult().getMid()).isEqualTo(mids.get(i));
             if (profileName != null && clients.hasAllProperties()) {
                 assertThat(profile.getMediaProfile().test(o.getItems().get(i).getResult())).isTrue();
