@@ -41,11 +41,9 @@ public class MediaITest extends AbstractApiTest {
                         .clip()
                         .constrainedNew()
                         .clearBroadcasters()
-                        .mainTitle(clipTitle)
                         .broadcasters("VPRO")
+                        .mainTitle(clipTitle)
                         .withAgeRating()
-
-                        //.withImagesWithCredits()
                 )
         );
         log.info("Created {} {}", clipMid, clipTitle);
@@ -55,6 +53,7 @@ public class MediaITest extends AbstractApiTest {
                     .playlist()
                     .constrainedNew()
                     .mainTitle(title)
+                    .clearBroadcasters()
                     .broadcasters("VPRO")
             ));
         String offlineGroup = backend.set(
@@ -64,6 +63,7 @@ public class MediaITest extends AbstractApiTest {
                     .constrainedNew()
                     .mainTitle(title + " offline")
                     .publishStop(Instant.now().minus(Duration.ofMinutes(5)))
+                    .clearBroadcasters()
                     .broadcasters("VPRO")
             ));
         backend.createMember(offlineGroup, clipMid, 1);
