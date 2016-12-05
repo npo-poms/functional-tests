@@ -26,7 +26,8 @@ public class Config {
     public enum Prefix {
         npoapi,
         backendapi,
-        parkpost
+        parkpost,
+        pageupdateapi
     }
 
     static {

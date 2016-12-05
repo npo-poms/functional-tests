@@ -14,7 +14,7 @@ import org.junit.rules.TestName;
 
 import nl.vpro.api.client.resteasy.NpoApiClients;
 import nl.vpro.api.client.utils.NpoApiMediaUtil;
-import nl.vpro.rs.media.MediaRestClient;
+import nl.vpro.api.client.utils.NpoApiPageUtil;
 
 /**
  * @author Michiel Meeuwissen
@@ -27,15 +27,17 @@ public abstract class AbstractApiTest {
     @Rule
     public AllowUnavailable unavailable = new AllowUnavailable();
 
-    private static final String TITLE = Instant.now().toString();
+    private static final String NOW = Instant.now().toString();
+
     @Rule
     public TestName name = new TestName();
+
     protected String title;
 
 
     @Before
     public void setupTitle() {
-        title = TITLE + " " + name.getMethodName() + " Caf\u00E9 \u6C49"; // testing encoding too!
+        title = NOW + " " + name.getMethodName() + " Caf\u00E9 \u6C49"; // testing encoding too!
     }
     @After
     public void cleanClient() {
@@ -49,14 +51,13 @@ public abstract class AbstractApiTest {
             .mediaType(MediaType.APPLICATION_XML_TYPE)
             .trustAll(true)
             .build();
-    protected static final MediaRestClient backend =
-        MediaRestClient.configured(Config.env(), Config.getProperties(Config.Prefix.backendapi))
-            .trustAll(true)
-            .build();
+
     protected static final NpoApiMediaUtil mediaUtil = new NpoApiMediaUtil(clients);
+    protected static final NpoApiPageUtil pageUtil = new NpoApiPageUtil(clients);
+
 
     protected static final String apiVersion = clients.getVersion();
-    protected static final String backendVersion = backend.getVersion();
+
 
     protected static Float apiVersionNumber;
     protected static Float backendVersionNumber;
@@ -69,13 +70,7 @@ public abstract class AbstractApiTest {
             apiVersionNumber = 0f;
 
         }
-        try {
-            backendVersionNumber = backend.getVersionNumber();
-        } catch (Exception e) {
-            backendVersionNumber = 0f;
-
-        }
-        log.info("Using {} ({}), {} ({})", clients, apiVersion, backend, backendVersion);
+        log.info("Using {} ({})", clients, apiVersion);
     }
 
 

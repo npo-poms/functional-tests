@@ -14,7 +14,7 @@ import org.junit.runners.MethodSorters;
 import nl.vpro.domain.media.*;
 import nl.vpro.domain.media.update.ProgramUpdate;
 import nl.vpro.domain.media.update.SegmentUpdate;
-import nl.vpro.poms.AbstractApiTest;
+import nl.vpro.poms.AbstractApiMediaBackendTest;
 import nl.vpro.util.DateUtils;
 import nl.vpro.util.TimeUtils;
 
@@ -26,7 +26,7 @@ import static org.junit.Assume.assumeNotNull;
  * @author Michiel Meeuwissen
  */
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class MediaBackendSegmentsTest extends AbstractApiTest {
+public class MediaBackendSegmentsTest extends AbstractApiMediaBackendTest {
 
     private static final String MID = "WO_VPRO_025057";
     private static final Duration ACCEPTABLE_DURATION = Duration.ofMinutes(3);

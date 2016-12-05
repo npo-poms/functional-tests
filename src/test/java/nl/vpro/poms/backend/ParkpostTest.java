@@ -19,7 +19,7 @@ import nl.vpro.domain.media.update.MemberUpdate;
 import nl.vpro.domain.media.update.RelationUpdate;
 import nl.vpro.parkpost.ProductCode;
 import nl.vpro.parkpost.promo.bind.PromoEvent;
-import nl.vpro.poms.AbstractApiTest;
+import nl.vpro.poms.AbstractApiMediaBackendTest;
 
 import static com.jayway.restassured.RestAssured.given;
 import static nl.vpro.poms.Config.Prefix.backendapi;
@@ -30,7 +30,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assume.assumeTrue;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class ParkpostTest extends AbstractApiTest  {
+public class ParkpostTest extends AbstractApiMediaBackendTest {
 
     private static final LocalDate today = LocalDate.now(Schedule.ZONE_ID);
     private static final String PRODUCTCODE = "1P0203MO_JOCHEMMY_" + today.toString().replace('-','_');

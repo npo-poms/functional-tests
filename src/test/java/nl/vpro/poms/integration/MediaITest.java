@@ -13,7 +13,7 @@ import nl.vpro.domain.media.MediaTestDataBuilder;
 import nl.vpro.domain.media.Program;
 import nl.vpro.domain.media.update.GroupUpdate;
 import nl.vpro.domain.media.update.ProgramUpdate;
-import nl.vpro.poms.AbstractApiTest;
+import nl.vpro.poms.AbstractApiMediaBackendTest;
 
 import static nl.vpro.poms.Utils.waitUntil;
 import static org.assertj.core.api.Java6Assertions.assertThat;
@@ -25,7 +25,7 @@ import static org.junit.Assume.assumeNotNull;
  */
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 @Slf4j
-public class MediaITest extends AbstractApiTest {
+public class MediaITest extends AbstractApiMediaBackendTest {
 
     static String groupMid;
     static String clipMid;

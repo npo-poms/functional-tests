@@ -17,7 +17,7 @@ import nl.vpro.domain.media.support.License;
 import nl.vpro.domain.media.update.ImageLocation;
 import nl.vpro.domain.media.update.ImageUpdate;
 import nl.vpro.domain.media.update.ProgramUpdate;
-import nl.vpro.poms.AbstractApiTest;
+import nl.vpro.poms.AbstractApiMediaBackendTest;
 import nl.vpro.poms.DoAfterException;
 
 import static nl.vpro.poms.Utils.waitUntil;
@@ -29,7 +29,7 @@ import static org.junit.Assume.assumeTrue;
  * @author Michiel Meeuwissen
  */
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class MediaBackendImagesTest extends AbstractApiTest {
+public class MediaBackendImagesTest extends AbstractApiMediaBackendTest {
 
     private static final String MID = "WO_VPRO_025057";
     private static final Duration ACCEPTABLE_DURATION = Duration.ofMinutes(3);
