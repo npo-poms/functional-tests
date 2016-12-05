@@ -17,6 +17,7 @@ import nl.vpro.api.client.utils.PageUpdateApiUtil;
 import nl.vpro.api.client.utils.PageUpdateRateLimiter;
 import nl.vpro.api.client.utils.Result;
 import nl.vpro.domain.page.Page;
+import nl.vpro.domain.page.update.EmbedUpdate;
 import nl.vpro.domain.page.update.PageUpdate;
 import nl.vpro.domain.page.update.PageUpdateBuilder;
 import nl.vpro.poms.AbstractApiTest;
@@ -48,6 +49,7 @@ public class PagesPublisherITest extends AbstractApiTest {
             PageUpdateBuilder.article("http://test.poms.nl/" + URLEncoder.encode(name.getMethodName() + LocalDate.now(), "UTF-8"))
                 .broadcasters("VPRO")
                 .title(title)
+                .embeds(EmbedUpdate.builder().midRef("WO_VPRO_025057").title("leuke embed").description("embed in " + title).build())
             .build();
 
         Result result = util.save(article);
@@ -61,6 +63,12 @@ public class PagesPublisherITest extends AbstractApiTest {
         Page page = Utils.waitUntil(Duration.ofMinutes(1), () -> pageUtil.load(article.getUrl())[0], p -> Objects.equals(p.getTitle(), article.getTitle()));
 
         assertThat(page.getTitle()).isEqualTo(article.getTitle());
+        assertThat(page.getEmbeds()).hasSize(1);
+        assertThat(page.getEmbeds().get(0).getMedia()).isNotNull();
+        assertThat(page.getEmbeds().get(0).getMedia().getMainTitle()).isEqualTo("testclip michiel");
+        assertThat(page.getEmbeds().get(0).getTitle()).isEqualTo("leuke embed");
+        assertThat(page.getEmbeds().get(0).getDescription()).isEqualTo("embed in " + article.getTitle());
+
 
     }
 }
