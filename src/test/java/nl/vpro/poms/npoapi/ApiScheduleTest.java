@@ -6,7 +6,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 import nl.vpro.domain.api.ApiScheduleEvent;
-import nl.vpro.domain.api.media.ScheduleResult;
+import nl.vpro.domain.api.SearchResultItem;
+import nl.vpro.domain.api.media.*;
 import nl.vpro.domain.media.Channel;
 import nl.vpro.domain.media.Net;
 import nl.vpro.domain.media.Schedule;
@@ -127,6 +128,19 @@ public class ApiScheduleTest extends AbstractApiTest {
         assertThat(o.getChannel()).isEqualTo(Channel.NED1);
 
 
+    }
+
+    @Test
+    // https://jira.vpro.nl/browse/MSE-3533
+    public void testWithProperties() {
+        MediaForm mediaForm = MediaFormBuilder.form().mediaIds("NCRV_1347071").build();
+        ScheduleForm form = ScheduleForm.from(mediaForm);
+        ScheduleSearchResult result = clients.getScheduleService().find(form, null, "descendantOf", 0L, 4);
+        assertThat(result.getItems().size()).isGreaterThanOrEqualTo(1);
+        for (SearchResultItem<? extends ApiScheduleEvent> e : result) {
+            // NCRV_1347071 is descenant!
+            assertThat(e.getResult().getMediaObject().getDescendantOf()).isNotEmpty();
+        }
     }
 
 
