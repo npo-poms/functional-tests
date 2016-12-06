@@ -8,7 +8,9 @@ import java.time.Duration;
 import java.time.LocalDate;
 import java.util.Objects;
 
+import org.junit.Before;
 import org.junit.FixMethodOrder;
+import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
 
@@ -22,9 +24,11 @@ import nl.vpro.domain.page.update.PageUpdate;
 import nl.vpro.domain.page.update.PageUpdateBuilder;
 import nl.vpro.poms.AbstractApiTest;
 import nl.vpro.poms.Config;
+import nl.vpro.poms.DoAfterException;
 import nl.vpro.poms.Utils;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.Assume.assumeNoException;
 
 /**
  * @author Michiel Meeuwissen
@@ -41,6 +45,18 @@ public class PagesPublisherITest extends AbstractApiTest {
     );
 
     static PageUpdate article;
+
+    @Rule
+    public DoAfterException doAfterException = new DoAfterException((t) -> {
+        PagesPublisherITest.exception = t;
+    });
+
+    private static Throwable exception = null;
+
+    @Before
+    public void setup() {
+        assumeNoException(exception);
+    }
 
 
     @Test
