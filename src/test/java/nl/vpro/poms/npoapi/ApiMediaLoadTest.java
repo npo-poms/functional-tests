@@ -23,9 +23,7 @@ import nl.vpro.domain.media.MediaObject;
 import nl.vpro.poms.AbstractApiTest;
 
 import static org.assertj.core.api.Java6Assertions.assertThat;
-import static org.junit.Assume.assumeFalse;
-import static org.junit.Assume.assumeNotNull;
-import static org.junit.Assume.assumeTrue;
+import static org.junit.Assume.*;
 
 @RunWith(Parameterized.class)
 @Slf4j
@@ -123,6 +121,7 @@ public class ApiMediaLoadTest extends AbstractApiTest {
         }
 
     }
+
 
 
 
