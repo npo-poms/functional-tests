@@ -29,6 +29,7 @@ import nl.vpro.poms.Utils;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assume.assumeNoException;
+import static org.junit.Assume.assumeNotNull;
 
 /**
  * @author Michiel Meeuwissen
@@ -76,7 +77,10 @@ public class PagesPublisherITest extends AbstractApiTest {
 
     @Test
     public void test100Arrived() throws Exception {
-        Page page = Utils.waitUntil(Duration.ofMinutes(1), () -> pageUtil.load(article.getUrl())[0], p -> Objects.equals(p.getTitle(), article.getTitle()));
+        assumeNotNull(article);
+        Page page = Utils.waitUntil(Duration.ofMinutes(1), () ->
+            pageUtil.load(article.getUrl())[0], p -> Objects.equals(p.getTitle(), article.getTitle())
+        );
 
         assertThat(page.getTitle()).isEqualTo(article.getTitle());
         assertThat(page.getEmbeds()).hasSize(1);

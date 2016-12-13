@@ -6,6 +6,8 @@ import java.util.concurrent.Callable;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 /**
  * @author Michiel Meeuwissen
  */
@@ -37,6 +39,7 @@ public class Utils {
             result[0] = r.get();
             return result[0] != null && predicate.test(result[0]);
         });
+        assertThat(result[0]).isNotNull();
         return result[0];
 
     }
