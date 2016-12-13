@@ -55,7 +55,7 @@ public class ApiMediaLoadTest extends AbstractApiTest {
         List<Object[]> result = new ArrayList<>();
         for (MediaType mediaType : Arrays.asList(MediaType.APPLICATION_JSON_TYPE, MediaType.APPLICATION_XML_TYPE)) {
             for (String profile : Arrays.asList(null, "vpro")) {
-                for (String properties : Arrays.asList(null, "none", "all")) {
+                for (String properties : Arrays.asList(null, "none", "all", "title")) {
                     List<String> mids = new ArrayList<>();
                     mids.add("VPWON_1181223"); // NPA-341 ?
                     try {
@@ -80,6 +80,7 @@ public class ApiMediaLoadTest extends AbstractApiTest {
         assumeTrue(mids.size() > 0);
         MediaObject o = clients.getMediaService().load(mids.get(0), null, null);
         assertThat(o.getMid()).isEqualTo(mids.get(0));
+        assertThat(o.getMainTitle()).isNotEmpty();
         if (clients.hasAllProperties()) {
             if (profileName != null) {
                 assertThat(profile.getMediaProfile().test(o)).isTrue();
@@ -113,6 +114,7 @@ public class ApiMediaLoadTest extends AbstractApiTest {
 
         for (int i = 0; i < mids.size(); i++) {
             assertThat(o.getItems().get(i).getResult()).isNotNull();
+            assertThat(o.getItems().get(i).getResult().getMainTitle()).isNotEmpty();
             assertThat(o.getItems().get(i).getError()).isNull();
             assertThat(o.getItems().get(i).getResult().getMid()).isEqualTo(mids.get(i));
             if (profileName != null && clients.hasAllProperties()) {
