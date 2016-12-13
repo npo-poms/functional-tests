@@ -90,6 +90,14 @@ public class PagesPublisherITest extends AbstractApiTest {
     @Test
     public void test100Arrived() throws Exception {
         assumeNotNull(article);
+
+        PageUpdate update = Utils.waitUntil(Duration.ofMinutes(1), () ->
+            util.get(article.getUrl()),
+            p -> Objects.equals(p.getTitle(), article.getTitle())
+        );
+        assertThat(update.getTitle()).isEqualTo(article.getTitle());
+
+
         Page page = Utils.waitUntil(Duration.ofMinutes(1), () ->
             pageUtil.load(article.getUrl())[0], p -> Objects.equals(p.getTitle(), article.getTitle())
         );
