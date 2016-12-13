@@ -59,6 +59,7 @@ public class ApiMediaTest extends AbstractApiTest {
                 break;
             case TEST:
                 couchdbSince = 19831435;
+                break;
             default:
                 couchdbSince = 20794000;
                 break;
@@ -166,7 +167,7 @@ public class ApiMediaTest extends AbstractApiTest {
                         assertThat(change.getPublishDate()).isNotNull();
                     }
                     if (prev != null) {
-                        assertThat(change.getPublishDate()).isGreaterThanOrEqualTo(prev.minusSeconds(1).truncatedTo(ChronoUnit.MINUTES));
+                        assertThat(change.getPublishDate()).isGreaterThanOrEqualTo(prev.minus(1, ChronoUnit.MINUTES).truncatedTo(ChronoUnit.MINUTES));
                     }
                     prev = change.getPublishDate();
                     System.out.println(change);
