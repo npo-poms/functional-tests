@@ -80,7 +80,7 @@ public class ApiMediaLoadTest extends AbstractApiTest {
         assumeTrue(mids.size() > 0);
         MediaObject o = clients.getMediaService().load(mids.get(0), null, null);
         assertThat(o.getMid()).isEqualTo(mids.get(0));
-        assertThat(o.getMainTitle()).isNotEmpty();
+        assertThat(o.getMainTitle()).isNotEmpty(); // NPA-362
         if (clients.hasAllProperties()) {
             if (profileName != null) {
                 assertThat(profile.getMediaProfile().test(o)).isTrue();
@@ -114,7 +114,7 @@ public class ApiMediaLoadTest extends AbstractApiTest {
 
         for (int i = 0; i < mids.size(); i++) {
             assertThat(o.getItems().get(i).getResult()).isNotNull();
-            assertThat(o.getItems().get(i).getResult().getMainTitle()).isNotEmpty();
+            assertThat(o.getItems().get(i).getResult().getMainTitle()).isNotEmpty();// NPA-362
             assertThat(o.getItems().get(i).getError()).isNull();
             assertThat(o.getItems().get(i).getResult().getMid()).isEqualTo(mids.get(i));
             if (profileName != null && clients.hasAllProperties()) {
