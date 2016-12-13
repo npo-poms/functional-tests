@@ -19,9 +19,11 @@ import nl.vpro.api.client.utils.PageUpdateApiUtil;
 import nl.vpro.api.client.utils.PageUpdateRateLimiter;
 import nl.vpro.api.client.utils.Result;
 import nl.vpro.domain.page.Page;
+import nl.vpro.domain.page.Section;
 import nl.vpro.domain.page.update.EmbedUpdate;
 import nl.vpro.domain.page.update.PageUpdate;
 import nl.vpro.domain.page.update.PageUpdateBuilder;
+import nl.vpro.domain.page.update.PortalUpdate;
 import nl.vpro.poms.AbstractApiTest;
 import nl.vpro.poms.Config;
 import nl.vpro.poms.DoAfterException;
@@ -41,9 +43,14 @@ public class PagesPublisherITest extends AbstractApiTest {
 
     static PageUpdateApiUtil util = new PageUpdateApiUtil(
         PageUpdateApiClient.configured(
-            Config.env(), Config.getProperties(Config.Prefix.pageupdateapi)).build(),
+            Config.env(), Config.getProperties(Config.Prefix.pageupdateapi)
+        ).build(),
         PageUpdateRateLimiter.builder().build()
     );
+
+    static {
+        log.info("Using {}", util);
+    }
 
     static PageUpdate article;
 
@@ -62,14 +69,19 @@ public class PagesPublisherITest extends AbstractApiTest {
 
     @Test
     public void test001CreateOrUpdatePage() throws UnsupportedEncodingException {
+
+        PortalUpdate portal = new PortalUpdate("WETENSCHAP24", "http://test.poms.nl");
+        portal.setSection(new Section("/" + name.getMethodName(), "Display name " + name.getMethodName()));
         article =
             PageUpdateBuilder.article("http://test.poms.nl/" + URLEncoder.encode(name.getMethodName() + LocalDate.now(), "UTF-8"))
                 .broadcasters("VPRO")
                 .title(title)
                 .embeds(EmbedUpdate.builder().midRef("WO_VPRO_025057").title("leuke embed").description("embed in " + title).build())
+                .portal(portal)
             .build();
 
         Result result = util.save(article);
+        System.out.println(result);
         assertThat(result.getStatus()).isEqualTo(Result.Status.SUCCESS);
         assertThat(result.getErrors()).isNull();
         log.info("{} -> {}", article, result);
