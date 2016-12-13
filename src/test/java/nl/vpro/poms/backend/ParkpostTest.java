@@ -5,6 +5,7 @@ import java.time.Duration;
 import java.time.LocalDate;
 import java.util.SortedSet;
 
+import org.hamcrest.core.AnyOf;
 import org.junit.Before;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
@@ -27,6 +28,7 @@ import static nl.vpro.poms.Config.Prefix.parkpost;
 import static nl.vpro.poms.Config.*;
 import static nl.vpro.poms.Utils.waitUntilNotNull;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assume.assumeTrue;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
@@ -38,6 +40,7 @@ public class ParkpostTest extends AbstractApiMediaBackendTest {
     private static final String PARKPOST = url(backendapi, "parkpost/");
     private static final String PROMOTED_MID = "WO_VPRO_025057";
     private static String promotionTitle;
+    private static String result;
 
     private static final String EXAMPLE = "<NPO_gfxwrp>\n" +
         "  <ProductCode>2P0108MO_BLAUWBLO</ProductCode>\n" +
@@ -83,7 +86,7 @@ public class ParkpostTest extends AbstractApiMediaBackendTest {
         promoEvent.setProgramTitle(promotionTitle);
         //promoEvent.setFrameCount(100L);
         //promoEvent.setBroadcaster("VPRO");
-        String result =
+        result =
             given()
                 .auth().basic(
                 configOption(parkpost, "user").orElse("vpro-cms"),
@@ -94,7 +97,7 @@ public class ParkpostTest extends AbstractApiMediaBackendTest {
                 .   post(PARKPOST + "promo")
                 .then()
                 .   log().all()
-                .   statusCode(202)
+                .   statusCode(AnyOf.anyOf(equalTo(202), equalTo(503)))
                 .   extract().asString();
 
         assertThat(result).isEqualTo("Promo ProgramUpdate for WO_VPRO_025057 has been processed.");
@@ -103,6 +106,7 @@ public class ParkpostTest extends AbstractApiMediaBackendTest {
 
     @Test
     public void test002arrived() throws Exception {
+        assumeTrue(result != null);
         assumeTrue(promotionTitle != null);
         MemberUpdate update = waitUntilNotNull(Duration.ofMinutes(1), () -> {
             MediaUpdateList<MemberUpdate> groupMembers = backend.getGroupMembers(PROMOTED_MID);
