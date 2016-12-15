@@ -113,12 +113,15 @@ public class ParkpostTest extends AbstractApiMediaBackendTest {
                 MediaUpdateList<MemberUpdate> groupMembers = backend.getGroupMembers(PROMOTED_MID);
                 return groupMembers
                     .stream()
-                    .filter(mu -> mu.getMediaUpdate().getTitles().first().equals(promotionTitle))
+                    .filter(mu -> mu.getMediaUpdate().getTitles().first().getTitle().equals(promotionTitle))
                     .findFirst()
                     .orElse(null);
             }
         );
-        assertThat(update).isNotNull().overridingErrorMessage("There is no member of " + PROMOTED_MID + " found with title " + promotionTitle);
+        assertThat(update)
+            .overridingErrorMessage("There is no member of " + PROMOTED_MID + " found with title " + promotionTitle)
+            .isNotNull();
+        
         SortedSet<RelationUpdate> relations = update.getMediaUpdate().getRelations();
         assertThat(relations.stream().filter(ru -> ru.getType().equals("PROMO_PRODUCTCODE")).findFirst().map(RelationUpdate::getText).orElse(null)).isEqualTo(PRODUCTCODE);
         assertThat(update.getMediaUpdate().getTitles().first()).isEqualTo(promotionTitle);
