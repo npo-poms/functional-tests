@@ -123,7 +123,13 @@ public class ParkpostTest extends AbstractApiMediaBackendTest {
             .isNotNull();
         
         SortedSet<RelationUpdate> relations = update.getMediaUpdate().getRelations();
-        assertThat(relations.stream().filter(ru -> ru.getType().equals("PROMO_PRODUCTCODE")).findFirst().map(RelationUpdate::getText).orElse(null)).isEqualTo(PRODUCTCODE);
+        assertThat(relations
+            .stream()
+            .filter(ru -> ru.getType().equals("PROMO_PRODUCTCODE"))
+            .findFirst()
+            .map(RelationUpdate::getText)
+            .orElse(null)
+        ).isEqualTo(PRODUCTCODE);
         assertThat(update.getMediaUpdate().getTitles().first()).isEqualTo(promotionTitle);
     }
 
