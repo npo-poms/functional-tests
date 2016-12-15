@@ -18,6 +18,7 @@ import nl.vpro.domain.media.exceptions.ModificationException;
 import nl.vpro.domain.media.search.DateRange;
 import nl.vpro.domain.media.search.MediaForm;
 import nl.vpro.domain.media.search.MediaPager;
+import nl.vpro.domain.media.search.TitleForm;
 import nl.vpro.domain.media.update.ProgramUpdate;
 import nl.vpro.domain.media.update.SegmentUpdate;
 import nl.vpro.poms.AllowUnavailable;
@@ -30,7 +31,10 @@ import static org.junit.Assume.assumeNotNull;
 
 
 /**
- * Basic test which do not even use our client.
+ * Basic tests which do not even use our client.
+ *
+ * @author Daan Debie
+ * @author Michiel Meeuwissen
  */
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class MediaTest {
@@ -169,10 +173,12 @@ public class MediaTest {
 
         MediaForm search = MediaForm.builder()
             .pager(MediaPager.builder().max(50).build())
-            .text(TITLE_PREFIX + dynamicSuffix)
             .broadcaster("VPRO")
             .creationRange(new DateRange(LocalDate.now().atStartOfDay(), LocalDate.now().atStartOfDay().plusHours(24)))
             .build();
+
+        TitleForm form = new TitleForm(TITLE_PREFIX + dynamicSuffix, false);
+        search.addTitle(form);
         given()
             .auth().basic(USERNAME, PASSWORD)
             .contentType(ContentType.XML)
