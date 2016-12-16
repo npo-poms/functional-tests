@@ -183,7 +183,7 @@ public class MediaBackendSegmentsTest extends AbstractApiMediaBackendTest {
         Program programUpdate = backend.getFullProgram(MID);
 
         programUpdate.getSegments().forEach((segment) -> {
-            if (DateUtils.toInstant(segment.getLastModified()).isBefore(Instant.now().minus(Duration.ofDays(3)))) {
+            if (segment.getLastModifiedInstant().isBefore(Instant.now().minus(Duration.ofDays(3)))) {
                 System.out.println("Deleting " + segment);
                 backend.delete(segment.getMid());
             }

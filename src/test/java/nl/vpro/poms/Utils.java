@@ -16,7 +16,7 @@ public class Utils {
 
     public static boolean waitUntil(Duration acceptable, Callable<Boolean> r) throws Exception {
         Instant start = Instant.now();
-        Thread.sleep(Duration.ofSeconds(10).toMillis());
+        Thread.sleep(Duration.ofSeconds(1).toMillis());
         while (true) {
 
             if (r.call()) {
