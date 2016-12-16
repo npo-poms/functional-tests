@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
 
 import javax.xml.bind.JAXB;
 
+import org.hamcrest.Matchers;
 import org.junit.*;
 import org.junit.runners.MethodSorters;
 
@@ -22,7 +23,10 @@ import nl.vpro.poms.DoAfterException;
 
 import static nl.vpro.poms.Utils.waitUntil;
 import static org.assertj.core.api.Java6Assertions.assertThat;
+import static org.assertj.core.api.Java6Assertions.registerCustomDateFormat;
+import static org.hamcrest.Matchers.greaterThanOrEqualTo;
 import static org.junit.Assume.assumeNoException;
+import static org.junit.Assume.assumeThat;
 import static org.junit.Assume.assumeTrue;
 
 /**
@@ -54,7 +58,7 @@ public class MediaBackendImagesTest extends AbstractApiMediaBackendTest {
 
     @Test
     public void test01addImageRedirect() {
-        assumeTrue(backendVersionNumber >= 5.0);
+        assumeThat(backendVersionNumber, greaterThanOrEqualTo(5.0f));
         titles.add(title);
         ImageUpdate update = new ImageUpdate(ImageType.PICTURE, title, null, new ImageLocation("http://placehold.it/150/7735a")); // redirects
         update.setLicense(License.CC_BY);

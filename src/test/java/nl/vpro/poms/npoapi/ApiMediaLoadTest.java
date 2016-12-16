@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
 import javax.ws.rs.NotFoundException;
 import javax.ws.rs.core.MediaType;
 
+import org.hamcrest.Matchers;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -23,6 +24,7 @@ import nl.vpro.domain.media.MediaObject;
 import nl.vpro.poms.AbstractApiTest;
 
 import static org.assertj.core.api.Java6Assertions.assertThat;
+import static org.hamcrest.Matchers.greaterThan;
 import static org.junit.Assume.*;
 
 @RunWith(Parameterized.class)
@@ -77,7 +79,7 @@ public class ApiMediaLoadTest extends AbstractApiTest {
 
     @Test
     public void load() throws Exception {
-        assumeTrue(mids.size() > 0);
+        assumeThat(mids.size(), greaterThan(0));
         MediaObject o = clients.getMediaService().load(mids.get(0), null, null);
         assertThat(o.getMid()).isEqualTo(mids.get(0));
         assertThat(o.getMainTitle()).isNotEmpty(); // NPA-362
