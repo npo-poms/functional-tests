@@ -1,7 +1,10 @@
 package nl.vpro.poms.backend;
 
+import lombok.extern.slf4j.Slf4j;
+
 import java.time.Duration;
 import java.time.Instant;
+import java.util.Iterator;
 
 import javax.xml.bind.JAXB;
 
@@ -26,6 +29,7 @@ import static org.junit.Assume.assumeNotNull;
  * @author Michiel Meeuwissen
  */
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
+@Slf4j
 public class MediaBackendSegmentsTest extends AbstractApiMediaBackendTest {
 
     private static final String MID = "WO_VPRO_025057";
@@ -56,7 +60,7 @@ public class MediaBackendSegmentsTest extends AbstractApiMediaBackendTest {
                 .mainTitle(segmentTitle));
         JAXB.marshal(update, System.out);
         segmentMid = backend.set(update);
-        System.out.println("Created " + segmentMid);
+        log.info("Created " + segmentMid);
 
     }
 
@@ -115,7 +119,7 @@ public class MediaBackendSegmentsTest extends AbstractApiMediaBackendTest {
                 .segments(segment));
         JAXB.marshal(update, System.out);
         programMid = backend.set(update);
-        System.out.println("Created " + programMid);
+        log.info("Created " + programMid);
     }
 
     @Test
@@ -182,14 +186,21 @@ public class MediaBackendSegmentsTest extends AbstractApiMediaBackendTest {
 
     @Test
     public void test11DeleteSegementsViaProgram() throws Exception {
-        Program programUpdate = backend.getFullProgram(MID);
+        Program program = backend.getFullProgram(MID);
 
-        programUpdate.getSegments().forEach((segment) -> {
+        log.info("Found {} with {} segments", program, program.getSegments().size());
+        Iterator<Segment> segments = program.getSegments().iterator();
+        int count = 0;
+        while(segments.hasNext()) {
+            Segment segment = segments.next();
             if (segment.getLastModifiedInstant().isBefore(Instant.now().minus(Duration.ofDays(3)))) {
-                System.out.println("Deleting " + segment);
+                log.info("Deleting " + segment);
+                count++;
+                segments.remove();
                 backend.delete(segment.getMid());
             }
-        });
+        }
+        backend.set(ProgramUpdate.create(program));
     }
 
 
