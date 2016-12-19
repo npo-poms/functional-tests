@@ -9,7 +9,6 @@ import java.util.stream.Collectors;
 
 import javax.xml.bind.JAXB;
 
-import org.hamcrest.Matchers;
 import org.junit.*;
 import org.junit.runners.MethodSorters;
 
@@ -23,11 +22,9 @@ import nl.vpro.poms.DoAfterException;
 
 import static nl.vpro.poms.Utils.waitUntil;
 import static org.assertj.core.api.Java6Assertions.assertThat;
-import static org.assertj.core.api.Java6Assertions.registerCustomDateFormat;
 import static org.hamcrest.Matchers.greaterThanOrEqualTo;
 import static org.junit.Assume.assumeNoException;
 import static org.junit.Assume.assumeThat;
-import static org.junit.Assume.assumeTrue;
 
 /**
  * @author Michiel Meeuwissen
@@ -73,7 +70,7 @@ public class MediaBackendImagesTest extends AbstractApiMediaBackendTest {
         titles.add(title);
         ImageUpdate update = new ImageUpdate(ImageType.PICTURE, title, null, new ImageLocation("https://placeholdit.imgix.net/~text?txt=" + URLEncoder.encode(title, "UTF-8") + "&w=150&h=150"));
 
-        if(backendVersionNumber >=5.0 ) {
+        if(backendVersionNumber >= 5.0f) {
             update.setLicense(License.CC_BY);
             update.setSourceName("placeholdit");
             update.setSource("https://placeholdit.imgix.net");
@@ -94,7 +91,7 @@ public class MediaBackendImagesTest extends AbstractApiMediaBackendTest {
         titles.add(title);
         ImageUpdate imageUpdate  =
             new ImageUpdate(ImageType.PICTURE, title, null, new ImageLocation("https://placeholdit.imgix.net/~text?txt=" + URLEncoder.encode(title, "UTF-8") + "&w=150&h=150"));
-        if (backendVersionNumber >= 5.0) {
+        if (backendVersionNumber >= 5.0f) {
             imageUpdate.setLicense(License.CC_BY);
             imageUpdate.setSourceName("placeholdit");
             imageUpdate.setCredits(getClass().getName());
