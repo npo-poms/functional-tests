@@ -1,7 +1,10 @@
 package nl.vpro.poms.backend;
 
+import lombok.extern.slf4j.Slf4j;
+
 import java.nio.charset.Charset;
 import java.time.Duration;
+import java.time.Instant;
 import java.time.LocalDate;
 import java.util.SortedSet;
 
@@ -14,6 +17,8 @@ import org.junit.runners.MethodSorters;
 import com.jayway.restassured.RestAssured;
 import com.jayway.restassured.http.ContentType;
 
+import nl.vpro.domain.media.MediaType;
+import nl.vpro.domain.media.Program;
 import nl.vpro.domain.media.Schedule;
 import nl.vpro.domain.media.update.MediaUpdateList;
 import nl.vpro.domain.media.update.MemberUpdate;
@@ -32,6 +37,7 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assume.assumeTrue;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
+@Slf4j
 public class ParkpostTest extends AbstractApiMediaBackendTest {
 
     private static final LocalDate today = LocalDate.now(Schedule.ZONE_ID);
@@ -131,6 +137,24 @@ public class ParkpostTest extends AbstractApiMediaBackendTest {
             .orElse(null)
         ).isEqualTo(PRODUCTCODE);
         assertThat(update.getMediaUpdate().getTitles().first().getTitle()).isEqualTo(promotionTitle);
+    }
+
+
+    @Test
+    public void test999cleanup() throws Exception {
+        MediaUpdateList<MemberUpdate> promos = backend.getGroupMembers(PROMOTED_MID);
+        int count = 0;
+        for(MemberUpdate mu :promos) {
+            if (mu.getMediaUpdate().getType().getMediaType() == MediaType.PROMO) {
+                Program program = backend.getFullProgram(mu.getMediaUpdate().getMid());
+                if (program.getCreationInstant().isBefore(Instant.now().minus(Duration.ofDays(3)))) {
+                    log.info("Deleting {}", program);
+                    backend.removeMember(PROMOTED_MID, mu.getMediaUpdate().getMid(), mu.getPosition());
+                    count++;
+                }
+            }
+        }
+        log.info("Deleted {} promos for {}", count, PROMOTED_MID);
     }
 
 
