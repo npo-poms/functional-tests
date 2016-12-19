@@ -185,9 +185,9 @@ public class MediaBackendSegmentsTest extends AbstractApiMediaBackendTest {
 
 
     @Test
-    public void test11DeleteSegementsViaProgram() throws Exception {
+    public void test11DeleteSegmentsViaProgram() throws Exception {
         Program program = backend.getFullProgram(MID);
-
+        assumeNotNull(program);
         log.info("Found {} with {} segments", program, program.getSegments().size());
         Iterator<Segment> segments = program.getSegments().iterator();
         int count = 0;
@@ -196,12 +196,10 @@ public class MediaBackendSegmentsTest extends AbstractApiMediaBackendTest {
             if (segment.getCreationInstant().isBefore(Instant.now().minus(Duration.ofDays(3)))) {
                 log.info("Deleting " + segment);
                 count++;
-                segments.remove();
-                backend.delete(segment.getMid());
+                backend.removeSegment(MID, segment.getMid());
             }
         }
         log.info("Deleted {} segments for {}", count, MID);
-        backend.set(ProgramUpdate.create(program));
     }
 
 
