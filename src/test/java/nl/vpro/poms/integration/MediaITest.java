@@ -54,6 +54,7 @@ public class MediaITest extends AbstractApiMediaBackendTest {
                     .constrainedNew()
                     .mainTitle(title)
                     .clearBroadcasters()
+                    .withAgeRating()
                     .broadcasters("VPRO")
             ));
         String offlineGroup = backend.set(
@@ -64,6 +65,7 @@ public class MediaITest extends AbstractApiMediaBackendTest {
                     .mainTitle(title + " offline")
                     .publishStop(Instant.now().minus(Duration.ofMinutes(5)))
                     .clearBroadcasters()
+                    .withAgeRating()
                     .broadcasters("VPRO")
             ));
         backend.createMember(offlineGroup, clipMid, 1);
