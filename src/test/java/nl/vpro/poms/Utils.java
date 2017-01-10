@@ -38,6 +38,9 @@ public class Utils {
         return waitUntil(acceptable, r, (o) -> true);
     }
 
+    /**
+     * Call supplier until its result evaluates true according to given predicate or the acceptable duration elapses.
+     */
     public static <T> T waitUntil(Duration acceptable, Supplier<T> r, Predicate<T> predicate) throws Exception {
         final T[] result = (T[]) new Object[1];
         waitUntil(acceptable, () -> {
