@@ -7,6 +7,7 @@ import java.net.URLEncoder;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.util.Objects;
+import java.util.Optional;
 
 import org.junit.Before;
 import org.junit.FixMethodOrder;
@@ -18,12 +19,8 @@ import nl.vpro.api.client.resteasy.PageUpdateApiClient;
 import nl.vpro.api.client.utils.PageUpdateApiUtil;
 import nl.vpro.api.client.utils.PageUpdateRateLimiter;
 import nl.vpro.api.client.utils.Result;
-import nl.vpro.domain.page.Page;
-import nl.vpro.domain.page.Section;
-import nl.vpro.domain.page.update.EmbedUpdate;
-import nl.vpro.domain.page.update.PageUpdate;
-import nl.vpro.domain.page.update.PageUpdateBuilder;
-import nl.vpro.domain.page.update.PortalUpdate;
+import nl.vpro.domain.page.*;
+import nl.vpro.domain.page.update.*;
 import nl.vpro.poms.AbstractApiTest;
 import nl.vpro.poms.Config;
 import nl.vpro.poms.DoAfterException;
@@ -52,7 +49,13 @@ public class PagesPublisherITest extends AbstractApiTest {
         log.info("Using {}", util);
     }
 
+    static final String topStoryUrl ="http://wetenschap-sample.localhost/videos/jota/sterrenhopen.html";
     static PageUpdate article;
+
+    static String urlToday;
+    static String urlYesterday;
+    static String urlTomorrow;
+
 
     @Rule
     public DoAfterException doAfterException = new DoAfterException((t) -> {
@@ -70,14 +73,25 @@ public class PagesPublisherITest extends AbstractApiTest {
     @Test
     public void test001CreateOrUpdatePage() throws UnsupportedEncodingException {
 
+        urlToday = "http://test.poms.nl/" + URLEncoder.encode(name.getMethodName() + LocalDate.now(), "UTF-8");
+        urlYesterday = "http://test.poms.nl/" + URLEncoder.encode(name.getMethodName() + LocalDate.now().minusDays(1), "UTF-8");
+        urlTomorrow = "http://test.poms.nl/" + URLEncoder.encode(name.getMethodName() + LocalDate.now().plusDays(1), "UTF-8");
+
+
         PortalUpdate portal = new PortalUpdate("WETENSCHAP24", "http://test.poms.nl");
         portal.setSection(new Section("/" + name.getMethodName(), "Display name " + name.getMethodName()));
+
         article =
-            PageUpdateBuilder.article("http://test.poms.nl/" + URLEncoder.encode(name.getMethodName() + LocalDate.now(), "UTF-8"))
+            PageUpdateBuilder.article(urlToday)
                 .broadcasters("VPRO")
                 .title(title)
                 .embeds(EmbedUpdate.builder().midRef("WO_VPRO_025057").title("leuke embed").description("embed in " + title).build())
                 .portal(portal)
+                .links(
+                    LinkUpdate.topStory(topStoryUrl, "mooi story over sterrenhopen"),
+                    LinkUpdate.of(urlYesterday, "yesterday"),
+                    LinkUpdate.of(urlTomorrow, "tomorrow")
+                )
             .build();
 
         Result result = util.save(article);
@@ -111,7 +125,19 @@ public class PagesPublisherITest extends AbstractApiTest {
         assertThat(page.getEmbeds().get(0).getMedia().getMainTitle()).isEqualTo("testclip michiel");
         assertThat(page.getEmbeds().get(0).getTitle()).isEqualTo("leuke embed");
         assertThat(page.getEmbeds().get(0).getDescription()).isEqualTo("embed in " + article.getTitle());
+        assertThat(page.getLinks()).hasSize(3);
+        assertThat(page.getLinks().get(0).getType()).isEqualTo(LinkType.TOP_STORY);
 
+        Page yesterday = pageUtil.load(urlYesterday)[0];
+
+        assertThat(yesterday.getReferrals()).hasSize(1);
+
+        Page topStory = pageUtil.load(topStoryUrl)[0];
+
+        Optional<Referral> referral = topStory.getReferrals().stream().filter(r -> r.getPageRef().equals(urlToday)).findFirst();
+
+        assertThat(referral).isPresent();
+        assertThat(referral.get().getType()).isEqualTo(LinkType.TOP_STORY);
 
     }
 }
