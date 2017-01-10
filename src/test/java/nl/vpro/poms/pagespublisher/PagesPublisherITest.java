@@ -49,7 +49,7 @@ public class PagesPublisherITest extends AbstractApiTest {
         log.info("Using {}", util);
     }
 
-    static final String topStoryUrl ="http://wetenschap-sample.localhost/videos/jota/sterrenhopen.html";
+    static final String topStoryUrl = "http://test.poms.nl/test001CreateOrUpdatePageTopStory";
     static PageUpdate article;
 
     static String urlToday;
@@ -88,13 +88,37 @@ public class PagesPublisherITest extends AbstractApiTest {
                 .embeds(EmbedUpdate.builder().midRef("WO_VPRO_025057").title("leuke embed").description("embed in " + title).build())
                 .portal(portal)
                 .links(
-                    LinkUpdate.topStory(topStoryUrl, "mooi story over sterrenhopen"),
+                    LinkUpdate.topStory(topStoryUrl, "mooie story over sterrenhopen"),
                     LinkUpdate.of(urlYesterday, "yesterday"),
                     LinkUpdate.of(urlTomorrow, "tomorrow")
                 )
             .build();
 
+        Page yesterday = pageUtil.load(urlYesterday)[0];
+        if (yesterday == null) {
+            log.info("Article for yesterday {} not found (perhaps test didn't run yesterday). Making it for now, to test referrals too" , urlYesterday);
+            Result r = util.save(PageUpdateBuilder.article(urlYesterday)
+                .broadcasters("VPRO")
+                .title(title)
+                .portal(portal)
+                .build());
+            assertThat(r.getStatus()).isEqualTo(Result.Status.SUCCESS);
+        }
+
+        Page topStory = pageUtil.load(topStoryUrl)[0];
+        if (topStory == null) {
+            log.info("Topstory {} not found. Making it now", topStoryUrl);
+            Result r = util.save(PageUpdateBuilder.article(topStoryUrl)
+                .broadcasters("VPRO")
+                .title("Sterrenhopen en zo, heel interessant")
+                .portal(portal)
+                .build());
+            assertThat(r.getStatus()).isEqualTo(Result.Status.SUCCESS);
+        }
+
         Result result = util.save(article);
+
+
         System.out.println(result);
         assertThat(result.getStatus()).isEqualTo(Result.Status.SUCCESS);
         assertThat(result.getErrors()).isNull();
