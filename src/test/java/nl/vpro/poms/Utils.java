@@ -1,5 +1,7 @@
 package nl.vpro.poms;
 
+import lombok.extern.slf4j.Slf4j;
+
 import java.time.Duration;
 import java.time.Instant;
 import java.util.concurrent.Callable;
@@ -11,21 +13,24 @@ import static org.assertj.core.api.Assertions.assertThat;
 /**
  * @author Michiel Meeuwissen
  */
+@Slf4j
 public class Utils {
 
-
+    private final static Duration WAIT = Duration.ofSeconds(30);
     public static boolean waitUntil(Duration acceptable, Callable<Boolean> r) throws Exception {
         Instant start = Instant.now();
         Thread.sleep(Duration.ofSeconds(1).toMillis());
         while (true) {
-
             if (r.call()) {
+                log.info("{} evaluated true", r);
                 return true;
             }
             if (Duration.between(start, Instant.now()).compareTo(acceptable) > 0) {
+                log.info("{} didn't evaluate to true in less than {}", r, acceptable);
                 return false;
             }
-            Thread.sleep(Duration.ofSeconds(30).toMillis());
+            log.info("{} didn't evaluate to true yet. Waiting another {}", r, WAIT);
+            Thread.sleep(WAIT.toMillis());
         }
     }
 
