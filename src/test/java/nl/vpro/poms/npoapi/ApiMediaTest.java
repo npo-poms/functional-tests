@@ -21,6 +21,7 @@ import nl.vpro.domain.api.media.MediaFormBuilder;
 import nl.vpro.domain.api.media.MediaResult;
 import nl.vpro.domain.api.media.MediaSearchResult;
 import nl.vpro.domain.media.MediaObject;
+import nl.vpro.domain.media.MediaType;
 import nl.vpro.jackson2.JsonArrayIterator;
 import nl.vpro.poms.AbstractApiTest;
 import nl.vpro.poms.Config;
@@ -125,6 +126,13 @@ public class ApiMediaTest extends AbstractApiTest {
         testChangesWithOld("bestaatniet");
     }
 
+
+    @Test
+    public void descendants() {
+        MediaResult result = mediaUtil.listDescendants("RBX_S_NTR_553927", Order.DESC, input -> input.getMediaType() == MediaType.BROADCAST, 123);
+        assertThat(result.getSize()).isEqualTo(123);
+
+    }
 
     protected void testChanges(String profile) throws IOException {
         final AtomicInteger i = new AtomicInteger();
