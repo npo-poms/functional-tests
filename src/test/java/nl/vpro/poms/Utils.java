@@ -43,9 +43,16 @@ public class Utils {
      */
     public static <T> T waitUntil(Duration acceptable, Supplier<T> r, Predicate<T> predicate) throws Exception {
         final T[] result = (T[]) new Object[1];
-        waitUntil(acceptable, () -> {
-            result[0] = r.get();
-            return result[0] != null && predicate.test(result[0]);
+        waitUntil(acceptable, new Callable<Boolean>() {
+            @Override
+            public Boolean call() throws Exception {
+                result[0] = r.get();
+                return result[0] != null && predicate.test(result[0]);
+            }
+            @Override
+            public String toString() {
+                return predicate + " supplies: " + r;
+            }
         });
         assertThat(result[0]).isNotNull();
         return result[0];
