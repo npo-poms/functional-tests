@@ -154,7 +154,7 @@ public class PagesPublisherITest extends AbstractApiTest {
 
         Page yesterday = pageUtil.load(urlYesterday)[0];
 
-        assertThat(yesterday.getReferrals()).hasSize(1);
+        assertThat(yesterday.getReferrals().size()).isGreaterThanOrEqualTo(1);
 
         Page tomorrow = pageUtil.load(urlTomorrow)[0];
 
