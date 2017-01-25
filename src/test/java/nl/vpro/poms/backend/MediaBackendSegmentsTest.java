@@ -135,6 +135,7 @@ public class MediaBackendSegmentsTest extends AbstractApiMediaBackendTest {
     public void test06CheckResult() throws Exception {
         assumeNotNull(programMid);
         ProgramUpdate up = backend.get(programMid);
+        assertThat(up).isNotNull();
         assertThat(up.getMid()).isEqualTo(programMid);
         assertThat(up.getSegments()).hasSize(1);
     }

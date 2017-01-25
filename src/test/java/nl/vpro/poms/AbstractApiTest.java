@@ -27,6 +27,9 @@ public abstract class AbstractApiTest {
     @Rule
     public AllowUnavailable unavailable = new AllowUnavailable();
 
+    @Rule
+    public AllowNotImplemented notImplemented = new AllowNotImplemented();
+
     private static final String NOW = Instant.now().toString();
 
     @Rule
