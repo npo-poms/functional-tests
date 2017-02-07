@@ -10,9 +10,7 @@ import nl.vpro.domain.subtitles.Subtitles;
 import nl.vpro.poms.AbstractApiMediaBackendTest;
 import nl.vpro.poms.DoAfterException;
 
-import static org.hamcrest.Matchers.greaterThanOrEqualTo;
 import static org.junit.Assume.assumeNoException;
-import static org.junit.Assume.assumeThat;
 
 /**
  * @author Michiel Meeuwissen
@@ -22,10 +20,6 @@ public class MediaBackendSubtitlesTest extends AbstractApiMediaBackendTest {
 
     private static final String MID = "WO_VPRO_025057";
     private static final Duration ACCEPTABLE_DURATION = Duration.ofMinutes(3);
-
-
-
-
 
     @Rule
     public DoAfterException doAfterException = new DoAfterException((t) -> {
@@ -43,11 +37,25 @@ public class MediaBackendSubtitlesTest extends AbstractApiMediaBackendTest {
 
     @Test
     public void test01addSubtitles() {
-        assumeThat(backendVersionNumber, greaterThanOrEqualTo(5.1f));
+        //assumeThat(backendVersionNumber, greaterThanOrEqualTo(5.1f));
 
 
         Subtitles subtitles = Subtitles.webvtt(MID, Duration.ZERO, Locale.CHINESE,
-            ""
+            "WEBVTT\n" +
+                "\n" +
+                "1\n" +
+                "00:00:02.200 --> 00:00:04.150\n" +
+                "888\n" +
+                "\n" +
+                "2\n" +
+                "00:00:04.200 --> 00:00:08.060\n" +
+                "*'k Heb een paar puntjes die ik met je wil bespreken\n" +
+                "\n" +
+                "3\n" +
+                "00:00:08.110 --> 00:00:11.060\n" +
+                "*Dat wil ik doen in jouw mobiele bakkerij\n" +
+                "\n" +
+                ""
         );
         backend.setSubtitles(subtitles);
     }
