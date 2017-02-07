@@ -24,13 +24,6 @@ public class SubtitlesITest extends AbstractApiMediaBackendTest {
     private static final String MID = "WO_VPRO_025057";
     private static final Duration ACCEPTABLE_DURATION = Duration.ofMinutes(3);
 
-    private static String segmentMid;
-    private static String segmentTitle;
-    private static String updatedSegmentTitle;
-
-    private static String programMid;
-
-
     @Before
     public void setup() {
 
