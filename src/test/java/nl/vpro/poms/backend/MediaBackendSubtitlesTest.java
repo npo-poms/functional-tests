@@ -46,7 +46,7 @@ public class MediaBackendSubtitlesTest extends AbstractApiMediaBackendTest {
         //assumeThat(backendVersionNumber, greaterThanOrEqualTo(5.1f));
 
 
-        Subtitles subtitles = Subtitles.webvtt(MID, Duration.ZERO, Locale.CHINESE,
+        Subtitles subtitles = Subtitles.webvttTranslation(MID, Duration.ZERO, Locale.CHINESE,
             "WEBVTT\n" +
                 "\n" +
                 "1\n" +
@@ -67,10 +67,13 @@ public class MediaBackendSubtitlesTest extends AbstractApiMediaBackendTest {
     }
 
     @Test
-    public void checkArrived() throws Exception {
+    public void test02CheckArrived() throws Exception {
         if (exception == null) {
             Cue cue = waitUntilNotNull(ACCEPTABLE_DURATION, () -> {
                 CountedIterator<StandaloneCue> update = backend.getBackendRestService().getSubtitles(MID, Locale.CHINESE, SubtitlesType.TRANSLATION, true);
+                if (update == null) {
+                    return null;
+                }
                 StandaloneCue found = update.next();
                 if (found.getContent().equals(title)) {
                     return found;
