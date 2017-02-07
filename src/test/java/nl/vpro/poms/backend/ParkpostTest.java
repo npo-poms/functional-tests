@@ -72,6 +72,30 @@ public class ParkpostTest extends AbstractApiMediaBackendTest {
         "  </Files>\n" +
         "</NPO_gfxwrp>\n";
 
+    private static final String EXAMPLE2 = "<NPO_gfxwrp>\n" +
+        "    <ProductCode>3P1101MO_DODENLIE</ProductCode>\n" +
+        "    <OrderCode>3P170111_WNL__DODEN_LI____</OrderCode>\n" +
+        "    <PromotedProgramProductCode>POW_03455553</PromotedProgramProductCode>\n" +
+        "    <Referrer></Referrer>\n" +
+        "    <MXF_Name>12027626</MXF_Name>\n" +
+        "    <ProgramTitle>Doden liegen niet</ProgramTitle>\n" +
+        "    <EpisodeTitle>Doden liegen niet</EpisodeTitle>\n" +
+        "    <PromoType>P</PromoType>\n" +
+        "    <Broadcaster>WNL</Broadcaster>\n" +
+        "    <TrailerTitle>Doden liegen niet</TrailerTitle>\n" +
+        "    <SerieTitle>Doden liegen niet</SerieTitle>\n" +
+        "    <FrameCount>750</FrameCount>\n" +
+        "    <VideoFormat>HD</VideoFormat>\n" +
+        "    <FirstTransmissionDate>2017-01-11T22:30:00+01:00</FirstTransmissionDate>\n" +
+        "    <PlacingWindowStart>2017-01-10T06:00:00+01:00</PlacingWindowStart>\n" +
+        "    <PlacingWindowEnd>2017-01-11T06:00:00+01:00</PlacingWindowEnd>\n" +
+        "    <Files>\n" +
+        "        <File>http://adaptive.npostreaming.nl/u/npo/promo/3P1101MO_DODENLIE/3P1101MO_DODENLIE.ismv</File>\n" +
+        "        <File>http://adaptive.npostreaming.nl/u/npo/promo/3P1101MO_DODENLIE/3P1101MO_DODENLIE.ismc</File>\n" +
+        "        <File>http://adaptive.npostreaming.nl/u/npo/promo/3P1101MO_DODENLIE/3P1101MO_DODENLIE.ism</File>\n" +
+        "        <File format=\"MP4\" bitrate=\"1000000\">http://download.omroep.nl/npo/promo/3P1101MO_DODENLIE.mp4</File>\n" +
+        "    </Files>\n" +
+        "</NPO_gfxwrp>\n";
     @Before
     public void setUp() {
         RestAssured.useRelaxedHTTPSValidation();
@@ -95,7 +119,8 @@ public class ParkpostTest extends AbstractApiMediaBackendTest {
         result =
             given()
                 .auth().basic(
-                configOption(parkpost, "user").orElse("vpro-cms"),
+                configOption(parkpost, "user")
+                    .orElse("vpro-cms"),
                 requiredOption(parkpost, "password"))
                 .contentType(ContentType.XML.withCharset(Charset.defaultCharset()))
                 .body(promoEvent)
