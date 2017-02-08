@@ -10,9 +10,16 @@ import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
 
+import com.google.common.collect.Iterators;
+import com.google.common.collect.PeekingIterator;
+
+import nl.vpro.domain.subtitles.StandaloneCue;
 import nl.vpro.domain.subtitles.Subtitles;
 import nl.vpro.domain.subtitles.SubtitlesType;
 import nl.vpro.poms.AbstractApiMediaBackendTest;
+
+import static nl.vpro.poms.Utils.waitUntil;
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * @author Michiel Meeuwissen
@@ -56,8 +63,12 @@ public class SubtitlesITest extends AbstractApiMediaBackendTest {
 
     @Test
     public void test02WaitForInFrontend() throws Exception {
-
-        mediaUtil.getClients().getSubtitlesRestService().get(MID, Locale.JAPANESE, SubtitlesType.TRANSLATION);
+        PeekingIterator<StandaloneCue> cueIterator = waitUntil(ACCEPTABLE_DURATION, () ->
+                Iterators.peekingIterator(mediaUtil.getClients().getSubtitlesRestService()
+                    .get(MID, Locale.JAPANESE, SubtitlesType.TRANSLATION)
+                )
+        , (pi) -> pi != null && pi.peek().getContent().equals(title));
+        assertThat(cueIterator).hasSize(3);
     }
 
 }

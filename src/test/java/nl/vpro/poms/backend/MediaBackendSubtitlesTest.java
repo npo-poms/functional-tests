@@ -1,20 +1,21 @@
 package nl.vpro.poms.backend;
 
+
 import java.time.Duration;
 import java.util.Locale;
 
 import org.junit.*;
 import org.junit.runners.MethodSorters;
 
-import nl.vpro.domain.subtitles.Cue;
 import nl.vpro.domain.subtitles.StandaloneCue;
 import nl.vpro.domain.subtitles.Subtitles;
 import nl.vpro.domain.subtitles.SubtitlesType;
 import nl.vpro.poms.AbstractApiMediaBackendTest;
 import nl.vpro.poms.DoAfterException;
 import nl.vpro.util.CountedIterator;
+import nl.vpro.util.CountedPeekingIterator;
 
-import static nl.vpro.poms.Utils.waitUntilNotNull;
+import static nl.vpro.poms.Utils.waitUntil;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assume.assumeNoException;
 
@@ -68,21 +69,12 @@ public class MediaBackendSubtitlesTest extends AbstractApiMediaBackendTest {
 
     @Test
     public void test02CheckArrived() throws Exception {
-        if (exception == null) {
-            Cue cue = waitUntilNotNull(ACCEPTABLE_DURATION, () -> {
-                CountedIterator<StandaloneCue> update = backend.getBackendRestService().getSubtitles(MID, Locale.CHINESE, SubtitlesType.TRANSLATION, true);
-                if (update == null) {
-                    return null;
-                }
-                StandaloneCue found = update.next();
-                if (found.getContent().equals(title)) {
-                    return found;
-                }
-                return null;
+        CountedPeekingIterator<StandaloneCue> iterator = waitUntil(ACCEPTABLE_DURATION, () -> CountedIterator.peeking(
+            backend.getBackendRestService().getSubtitles(MID,
+                Locale.CHINESE, SubtitlesType.TRANSLATION, true)
+            )
+            , (cpi) -> cpi != null && cpi.peek().getContent().equals(title));
 
-            });
-
-            assertThat(cue.getContent()).isEqualTo(title);
-        }
+        assertThat(iterator).hasSize(3);
     }
 }
