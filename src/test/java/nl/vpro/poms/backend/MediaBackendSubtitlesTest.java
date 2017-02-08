@@ -39,6 +39,8 @@ public class MediaBackendSubtitlesTest extends AbstractApiMediaBackendTest {
 
     private static Throwable exception = null;
 
+    private static String firstTitle;
+
     @Before
     public void setup() {
         assumeNoException(exception);
@@ -48,7 +50,7 @@ public class MediaBackendSubtitlesTest extends AbstractApiMediaBackendTest {
     public void test01addSubtitles() {
         //assumeThat(backendVersionNumber, greaterThanOrEqualTo(5.1f));
 
-
+        firstTitle = title;
         Subtitles subtitles = Subtitles.webvttTranslation(MID, Duration.ZERO, Locale.CHINESE,
             "WEBVTT\n" +
                 "\n" +
@@ -75,7 +77,7 @@ public class MediaBackendSubtitlesTest extends AbstractApiMediaBackendTest {
             SubtitlesUtil.standaloneStream(backend.getBackendRestService().getSubtitles(MID,
                 Locale.CHINESE, SubtitlesType.TRANSLATION, true)).iterator()
             )
-            , (cpi) -> cpi != null && cpi.peek().getContent().equals(title));
+            , (cpi) -> cpi != null && cpi.peek().getContent().equals(firstTitle));
 
         assertThat(iterator).hasSize(3);
     }
