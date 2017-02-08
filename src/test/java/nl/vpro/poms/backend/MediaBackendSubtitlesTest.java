@@ -7,13 +7,15 @@ import java.util.Locale;
 import org.junit.*;
 import org.junit.runners.MethodSorters;
 
+import com.google.common.collect.Iterators;
+import com.google.common.collect.PeekingIterator;
+
 import nl.vpro.domain.subtitles.StandaloneCue;
 import nl.vpro.domain.subtitles.Subtitles;
 import nl.vpro.domain.subtitles.SubtitlesType;
+import nl.vpro.domain.subtitles.SubtitlesUtil;
 import nl.vpro.poms.AbstractApiMediaBackendTest;
 import nl.vpro.poms.DoAfterException;
-import nl.vpro.util.CountedIterator;
-import nl.vpro.util.CountedPeekingIterator;
 
 import static nl.vpro.poms.Utils.waitUntil;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -69,9 +71,9 @@ public class MediaBackendSubtitlesTest extends AbstractApiMediaBackendTest {
 
     @Test
     public void test02CheckArrived() throws Exception {
-        CountedPeekingIterator<StandaloneCue> iterator = waitUntil(ACCEPTABLE_DURATION, () -> CountedIterator.peeking(
-            backend.getBackendRestService().getSubtitles(MID,
-                Locale.CHINESE, SubtitlesType.TRANSLATION, true)
+        PeekingIterator<StandaloneCue> iterator = waitUntil(ACCEPTABLE_DURATION, () -> Iterators.peekingIterator(
+            SubtitlesUtil.standaloneStream(backend.getBackendRestService().getSubtitles(MID,
+                Locale.CHINESE, SubtitlesType.TRANSLATION, true)).iterator()
             )
             , (cpi) -> cpi != null && cpi.peek().getContent().equals(title));
 
