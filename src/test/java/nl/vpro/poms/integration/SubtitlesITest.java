@@ -40,7 +40,7 @@ public class SubtitlesITest extends AbstractApiMediaBackendTest {
     public void test01addSubtitles() {
         //assumeThat(backendVersionNumber, greaterThanOrEqualTo(5.1f));
 
-        Subtitles subtitles = Subtitles.webvttTranslation(MID, Duration.ZERO, Locale.JAPAN,
+        Subtitles subtitles = Subtitles.webvttTranslation(MID, Duration.ZERO, Locale.JAPANESE,
             "WEBVTT\n" +
                 "\n" +
                 "1\n" +
@@ -65,7 +65,7 @@ public class SubtitlesITest extends AbstractApiMediaBackendTest {
     public void test02WaitForInFrontend() throws Exception {
         PeekingIterator<StandaloneCue> cueIterator = waitUntil(ACCEPTABLE_DURATION, () ->
                 Iterators.peekingIterator(mediaUtil.getClients().getSubtitlesRestService()
-                    .get(MID, Locale.JAPANESE, SubtitlesType.TRANSLATION)
+                    .get(MID, Locale.JAPAN, SubtitlesType.TRANSLATION)
                 )
         , (pi) -> pi != null && pi.peek().getContent().equals(title));
         assertThat(cueIterator).hasSize(3);
