@@ -77,7 +77,7 @@ public class MediaBackendSubtitlesTest extends AbstractApiMediaBackendTest {
             SubtitlesUtil.standaloneStream(backend.getBackendRestService().getSubtitles(MID,
                 Locale.CHINESE, SubtitlesType.TRANSLATION, true)).iterator()
             )
-            , (cpi) -> cpi != null && cpi.peek().getContent().equals(firstTitle));
+            , (cpi) -> cpi != null && cpi.hasNext() && cpi.peek().getContent().equals(firstTitle));
 
         assertThat(iterator).hasSize(3);
     }
