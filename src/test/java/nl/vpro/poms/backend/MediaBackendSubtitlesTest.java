@@ -19,7 +19,10 @@ import nl.vpro.poms.DoAfterException;
 
 import static nl.vpro.poms.Utils.waitUntil;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.hamcrest.number.OrderingComparison.greaterThanOrEqualTo;
 import static org.junit.Assume.assumeNoException;
+import static org.junit.Assume.assumeNotNull;
+import static org.junit.Assume.assumeThat;
 
 /**
  * @author Michiel Meeuwissen
@@ -48,7 +51,7 @@ public class MediaBackendSubtitlesTest extends AbstractApiMediaBackendTest {
 
     @Test
     public void test01addSubtitles() {
-        //assumeThat(backendVersionNumber, greaterThanOrEqualTo(5.1f));
+        assumeThat(backendVersionNumber, greaterThanOrEqualTo(5.1f));
 
         firstTitle = title;
         Subtitles subtitles = Subtitles.webvttTranslation(MID, Duration.ZERO, Locale.CHINESE,
@@ -73,6 +76,8 @@ public class MediaBackendSubtitlesTest extends AbstractApiMediaBackendTest {
 
     @Test
     public void test02CheckArrived() throws Exception {
+        assumeNotNull(firstTitle);
+
         PeekingIterator<StandaloneCue> iterator = waitUntil(ACCEPTABLE_DURATION, () -> Iterators.peekingIterator(
             SubtitlesUtil.standaloneStream(backend.getBackendRestService().getSubtitles(MID,
                 Locale.CHINESE, SubtitlesType.TRANSLATION, true)).iterator()

@@ -23,6 +23,7 @@ import nl.vpro.poms.AbstractApiMediaBackendTest;
 import static nl.vpro.poms.Utils.waitUntil;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.greaterThanOrEqualTo;
+import static org.junit.Assume.assumeNotNull;
 import static org.junit.Assume.assumeThat;
 
 /**
@@ -40,9 +41,14 @@ public class SubtitlesITest extends AbstractApiMediaBackendTest {
 
     }
 
+    private static String firstTitle;
+
     @Test
     public void test01addSubtitles() {
         assumeThat(backendVersionNumber, greaterThanOrEqualTo(5.1f));
+
+
+        firstTitle = title;
 
         Subtitles subtitles = Subtitles.webvttTranslation(MID_WITH_LOCATIONS, Duration.ZERO, Locale.JAPANESE,
             "WEBVTT\n" +
@@ -67,6 +73,8 @@ public class SubtitlesITest extends AbstractApiMediaBackendTest {
 
     @Test
     public void test02WaitForInFrontend() throws Exception {
+        assumeNotNull(firstTitle);
+
         PeekingIterator<StandaloneCue> cueIterator = waitUntil(ACCEPTABLE_DURATION, () -> {
                 try {
                     return Iterators.peekingIterator(
@@ -77,7 +85,7 @@ public class SubtitlesITest extends AbstractApiMediaBackendTest {
                     return null;
                 }
             }
-        , (pi) -> pi != null && pi.hasNext() && pi.peek().getContent().equals(title));
+        , (pi) -> pi != null && pi.hasNext() && pi.peek().getContent().equals(firstTitle));
         assertThat(cueIterator).hasSize(3);
     }
 
