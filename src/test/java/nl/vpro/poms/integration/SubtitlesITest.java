@@ -30,6 +30,7 @@ import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.not;
 import static org.junit.Assume.assumeNotNull;
 import static org.junit.Assume.assumeThat;
+import static org.junit.Assume.assumeTrue;
 
 /**
  * @author Michiel Meeuwissen
@@ -39,7 +40,7 @@ import static org.junit.Assume.assumeThat;
 public class SubtitlesITest extends AbstractApiMediaBackendTest {
 
     private static final String MID_WITH_LOCATIONS = "WO_VPRO_025700";
-    private static final Duration ACCEPTABLE_DURATION = Duration.ofMinutes(3);
+    private static final Duration ACCEPTABLE_DURATION = Duration.ofMinutes(10);
 
     @Before
     public void setup() {
@@ -110,9 +111,10 @@ public class SubtitlesITest extends AbstractApiMediaBackendTest {
     public void test04WaitForInFrontend() throws Exception {
         assumeNotNull(firstTitle);
 
-        waitUntil(ACCEPTABLE_DURATION, () -> mediaUtil.load(MID_WITH_LOCATIONS)[0].getLocations().isEmpty());
+        assumeTrue(waitUntil(ACCEPTABLE_DURATION, () -> mediaUtil.load(MID_WITH_LOCATIONS)[0].getLocations().isEmpty()));
 
-        waitUntil(ACCEPTABLE_DURATION, () -> MediaRestClientUtils.loadOrNull(mediaUtil.getClients().getSubtitlesRestService(), MID_WITH_LOCATIONS, Locale.JAPAN) == null);
+        assertThat(waitUntil(ACCEPTABLE_DURATION, () -> MediaRestClientUtils.loadOrNull(mediaUtil.getClients().getSubtitlesRestService(), MID_WITH_LOCATIONS, Locale.JAPAN) == null))
+            .isTrue();
     }
 
     @Test

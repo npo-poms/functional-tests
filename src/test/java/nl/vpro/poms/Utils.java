@@ -25,11 +25,12 @@ public class Utils {
                 log.info("{} evaluated true", r);
                 return true;
             }
-            if (Duration.between(start, Instant.now()).compareTo(acceptable) > 0) {
-                log.info("{} didn't evaluate to true in less than {}", r, acceptable);
+            Duration duration = Duration.between(start, Instant.now());
+            if (duration.compareTo(acceptable) > 0) {
+                log.warn("{} didn't evaluate to true after {} in less than {}", r, duration, acceptable);
                 return false;
             }
-            log.info("{} didn't evaluate to true yet. Waiting another {}", r, WAIT);
+            log.info("{} didn't evaluate to true yet after {}. Waiting another {}", r, duration, WAIT);
             Thread.sleep(WAIT.toMillis());
         }
     }
