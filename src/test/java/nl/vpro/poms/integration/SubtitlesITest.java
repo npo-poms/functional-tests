@@ -101,7 +101,7 @@ public class SubtitlesITest extends AbstractApiMediaBackendTest {
         Instant now = Instant.now();
         ProgramUpdate o = backend.get(MID_WITH_LOCATIONS);
         o.getLocations().forEach(l -> {
-            l.setEmbargoStop(now);
+            l.setPublishStopInstant(now);
             }
         );
         backend.set(o);
@@ -122,7 +122,7 @@ public class SubtitlesITest extends AbstractApiMediaBackendTest {
         Instant now = Instant.now();
         ProgramUpdate o = backend.get(MID_WITH_LOCATIONS);
         o.getLocations().forEach(l -> {
-                l.setEmbargoStop(null);
+                l.setPublishStopInstant(null);
             }
         );
         backend.set(o);
