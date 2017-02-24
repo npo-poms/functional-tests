@@ -52,7 +52,7 @@ public class Utils {
             }
             @Override
             public String toString() {
-                return predicate + " supplies: " + r;
+                return predicate + " supplies: " + r + " current value: " + result[0];
             }
         });
         assertThat(result[0]).isNotNull();

@@ -75,7 +75,9 @@ public class MediaITest extends AbstractApiMediaBackendTest {
     @Test
     public void test101CheckFrontendApi() throws Exception {
         assumeNotNull(clipMid);
-        Program clip = waitUntil(Duration.ofMinutes(10), () -> mediaUtil.findByMid(clipMid), (c) -> !c.getMemberOf().isEmpty());
+        Program clip = waitUntil(Duration.ofMinutes(10),
+            () -> mediaUtil.findByMid(clipMid),
+            (c) -> !c.getMemberOf().isEmpty());
         assertThat(clip).isNotNull();
         assertThat(clip.getMainTitle()).isEqualTo(clipTitle);
         assertThat(clip.getMemberOf().first().getMediaRef()).isEqualTo(groupMid);

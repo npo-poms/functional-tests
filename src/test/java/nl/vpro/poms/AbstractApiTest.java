@@ -72,6 +72,8 @@ public abstract class AbstractApiTest {
             apiVersionNumber = 0f;
 
         }
+        mediaUtil.setCacheExpiry("1S");
+
         log.info("Using {} ({})", clients, apiVersion);
     }
 
