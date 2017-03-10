@@ -30,6 +30,7 @@ public class MediaITest extends AbstractApiMediaBackendTest {
     static String groupMid;
     static String clipMid;
     static String clipTitle;
+    static String clipDescription;
 
     @Test
     public void test001CreateMedia() {
@@ -108,13 +109,35 @@ public class MediaITest extends AbstractApiMediaBackendTest {
 
 
     @Test
-    public void test005Delete() throws Exception {
+    public void test005UpdateDescription() {
+        assumeNotNull(clipMid);
+        ProgramUpdate mediaUpdate = backend.get(clipMid);
+        clipDescription = title;
+        mediaUpdate.setMainDescription(clipDescription);
+        backend.set(mediaUpdate);
+    }
+
+    @Test
+    public void test006CheckFrontendApi() throws Exception {
+        assumeNotNull(clipMid);
+        Program clip = waitUntil(Duration.ofMinutes(10),
+            clipMid + " has description " + clipDescription,
+            () -> mediaUtil.findByMid(clipMid),
+            (c) -> c.getMainDescription().equals(clipDescription));
+        assertThat(clip).isNotNull();
+        assertThat(clip.getMainDescription()).isEqualTo(clipDescription);
+        assertThat(clip.getMainTitle()).isEqualTo(clipTitle);
+    }
+
+
+    @Test
+    public void test100Delete() throws Exception {
         assumeNotNull(clipMid);
         backend.delete(clipMid);
     }
 
     @Test
-    public void test006CheckFrontendApi() throws Exception {
+    public void test101CheckFrontendApi() throws Exception {
         assumeNotNull(clipMid);
         assertThat(waitUntil(Duration.ofMinutes(10),
             clipMid + " disappeared",
