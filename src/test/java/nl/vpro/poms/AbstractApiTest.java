@@ -46,6 +46,7 @@ public abstract class AbstractApiTest {
     public void cleanClient() {
         clients.setProfile(null);
         clients.setProperties("");
+        mediaUtil.clearCache();
     }
 
     protected static final Duration ACCEPTABLE_DURATION_FRONTEND = Duration.ofMinutes(10);
