@@ -19,6 +19,7 @@ public class Utils {
     private final static Duration WAIT = Duration.ofSeconds(30);
 
     private static boolean waitUntil(Duration acceptable, Callable<Boolean> r) throws Exception {
+        AbstractApiTest.clearCaches();
         Instant start = Instant.now();
         Thread.sleep(Duration.ofSeconds(1).toMillis());
         while (true) {
@@ -38,6 +39,7 @@ public class Utils {
 
     public static boolean waitUntil(Duration acceptable, String callableToDescription, final Callable<Boolean> r) throws Exception {
         log.info("Waiting until " + callableToDescription);
+        AbstractApiTest.clearCaches();
         return waitUntil(acceptable, new Callable<Boolean>() {
             @Override
             public Boolean call() throws Exception {

@@ -46,6 +46,11 @@ public abstract class AbstractApiTest {
     public void cleanClient() {
         clients.setProfile(null);
         clients.setProperties("");
+        clearCaches();
+    }
+
+    public static void clearCaches() {
+        clients.getBrowserCache().clear();
         mediaUtil.clearCache();
     }
 

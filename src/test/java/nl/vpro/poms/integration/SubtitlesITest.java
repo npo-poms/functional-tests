@@ -84,6 +84,7 @@ public class SubtitlesITest extends AbstractApiMediaBackendTest {
         PeekingIterator<StandaloneCue> cueIterator = waitUntil(ACCEPTABLE_DURATION,
             MID_WITH_LOCATIONS + "/" + Locale.JAPAN + "[0]=" + firstTitle,
             () -> {
+                clearCaches();
                 try {
                     return Iterators.peekingIterator(
                         SubtitlesUtil.standaloneStream(MediaRestClientUtils.loadOrNull(mediaUtil.getClients().getSubtitlesRestService(),
