@@ -47,7 +47,7 @@ public class Utils {
             }
 
             public String toString() {
-                return callableToDescription;
+                return "(" + callableToDescription + ")";
             }
         });
 
