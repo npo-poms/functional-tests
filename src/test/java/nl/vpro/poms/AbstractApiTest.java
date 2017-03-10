@@ -50,7 +50,9 @@ public abstract class AbstractApiTest {
     }
 
     public static void clearCaches() {
-        clients.getBrowserCache().clear();
+        if (clients.getBrowserCache() != null) {
+            clients.getBrowserCache().clear();
+        }
         mediaUtil.clearCache();
     }
 
