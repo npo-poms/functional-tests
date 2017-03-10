@@ -17,7 +17,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class Utils {
 
     private final static Duration WAIT = Duration.ofSeconds(30);
-    public static boolean waitUntil(Duration acceptable, Callable<Boolean> r) throws Exception {
+
+    private static boolean waitUntil(Duration acceptable, Callable<Boolean> r) throws Exception {
         Instant start = Instant.now();
         Thread.sleep(Duration.ofSeconds(1).toMillis());
         while (true) {
@@ -35,21 +36,36 @@ public class Utils {
         }
     }
 
+    public static boolean waitUntil(Duration acceptable, String callableToDescription, final Callable<Boolean> r) throws Exception {
+        return waitUntil(acceptable, new Callable<Boolean>() {
+            @Override
+            public Boolean call() throws Exception {
+                return r.call();
+            }
+
+            public String toString() {
+                return callableToDescription;
+            }
+        });
+
+    }
+
     public static <T> T waitUntilNotNull(Duration acceptable, Supplier<T> r) throws Exception {
-        return waitUntil(acceptable, r, (o) -> true);
+        return waitUntil(acceptable, r + " != null", r, (o) -> true);
     }
 
     /**
      * Call supplier until its result evaluates true according to given predicate or the acceptable duration elapses.
      */
-    public static <T> T waitUntil(Duration acceptable, Supplier<T> r, Predicate<T> predicate) throws Exception {
+    public static <T> T waitUntil(Duration acceptable, String predicateDescription, Supplier<T> r, Predicate<T> predicate) throws Exception {
         final T[] result = (T[]) new Object[1];
-        waitUntil(acceptable, new Callable<Boolean>() {
+        waitUntil(acceptable, predicateDescription, new Callable<Boolean>() {
             @Override
             public Boolean call() throws Exception {
                 result[0] = r.get();
                 return result[0] != null && predicate.test(result[0]);
             }
+
             @Override
             public String toString() {
                 return predicate + " supplies: " + r + " current value: " + result[0];
@@ -57,7 +73,6 @@ public class Utils {
         });
         assertThat(result[0]).isNotNull();
         return result[0];
-
     }
 }
 

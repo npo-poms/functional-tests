@@ -129,7 +129,9 @@ public class PagesPublisherITest extends AbstractApiTest {
     public void test100Arrived() throws Exception {
         assumeNotNull(article);
 
-        PageUpdate update = Utils.waitUntil(Duration.ofMinutes(1), () ->
+        PageUpdate update = Utils.waitUntil(Duration.ofMinutes(1),
+            article.getUrl() + " has title " + article.getTitle(),
+            () ->
             util.get(article.getUrl()),
             p -> Objects.equals(p.getTitle(), article.getTitle())
         );
@@ -139,7 +141,9 @@ public class PagesPublisherITest extends AbstractApiTest {
     @Test
     public void test101ArrivedInAPI() throws Exception {
         assumeNotNull(article);
-        Page page = Utils.waitUntil(Duration.ofMinutes(1), () ->
+        Page page = Utils.waitUntil(Duration.ofMinutes(1),
+            article.getUrl() + " has title " + article.getTitle(),
+            () ->
             pageUtil.load(article.getUrl())[0], p -> Objects.equals(p.getTitle(), article.getTitle())
         );
 

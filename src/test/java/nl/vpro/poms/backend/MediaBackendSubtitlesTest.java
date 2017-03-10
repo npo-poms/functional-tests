@@ -78,7 +78,9 @@ public class MediaBackendSubtitlesTest extends AbstractApiMediaBackendTest {
     public void test02CheckArrived() throws Exception {
         assumeNotNull(firstTitle);
 
-        PeekingIterator<StandaloneCue> iterator = waitUntil(ACCEPTABLE_DURATION, () -> Iterators.peekingIterator(
+        PeekingIterator<StandaloneCue> iterator = waitUntil(ACCEPTABLE_DURATION,
+            MID + "/" + Locale.CHINESE + "[0]=" + firstTitle,
+            () -> Iterators.peekingIterator(
             SubtitlesUtil.standaloneStream(backend.getBackendRestService().getSubtitles(MID,
                 Locale.CHINESE, SubtitlesType.TRANSLATION, true)).iterator()
             )

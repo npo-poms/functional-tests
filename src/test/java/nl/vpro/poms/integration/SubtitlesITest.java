@@ -81,7 +81,9 @@ public class SubtitlesITest extends AbstractApiMediaBackendTest {
     public void test02WaitForInFrontend() throws Exception {
         assumeNotNull(firstTitle);
 
-        PeekingIterator<StandaloneCue> cueIterator = waitUntil(ACCEPTABLE_DURATION, () -> {
+        PeekingIterator<StandaloneCue> cueIterator = waitUntil(ACCEPTABLE_DURATION,
+            MID_WITH_LOCATIONS + "/" + Locale.JAPAN + "[0]=" + firstTitle,
+            () -> {
                 try {
                     return Iterators.peekingIterator(
                         SubtitlesUtil.standaloneStream(MediaRestClientUtils.loadOrNull(mediaUtil.getClients().getSubtitlesRestService(),
@@ -111,9 +113,13 @@ public class SubtitlesITest extends AbstractApiMediaBackendTest {
     public void test04WaitForInFrontend() throws Exception {
         assumeNotNull(firstTitle);
 
-        assumeTrue(waitUntil(ACCEPTABLE_DURATION, () -> mediaUtil.load(MID_WITH_LOCATIONS)[0].getLocations().isEmpty()));
+        assumeTrue(waitUntil(ACCEPTABLE_DURATION,
+            MID_WITH_LOCATIONS + " has no locations",
+            () -> mediaUtil.load(MID_WITH_LOCATIONS)[0].getLocations().isEmpty()));
 
-        assertThat(waitUntil(ACCEPTABLE_DURATION, () -> MediaRestClientUtils.loadOrNull(mediaUtil.getClients().getSubtitlesRestService(), MID_WITH_LOCATIONS, Locale.JAPAN) == null))
+        assertThat(waitUntil(ACCEPTABLE_DURATION,
+            MID_WITH_LOCATIONS + " has no subtitles for JAPAN",
+            () -> MediaRestClientUtils.loadOrNull(mediaUtil.getClients().getSubtitlesRestService(), MID_WITH_LOCATIONS, Locale.JAPAN) == null))
             .isTrue();
     }
 

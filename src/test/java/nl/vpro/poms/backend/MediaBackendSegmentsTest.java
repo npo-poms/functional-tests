@@ -67,7 +67,9 @@ public class MediaBackendSegmentsTest extends AbstractApiMediaBackendTest {
     @Test
     public void test02WaitFor() throws Exception {
         assumeNotNull(segmentMid);
-        waitUntil(ACCEPTABLE_DURATION, () -> {
+        waitUntil(ACCEPTABLE_DURATION,
+            segmentMid + " in backend",
+            () -> {
             SegmentUpdate up = backend.get(segmentMid);
             return up != null;
         });
@@ -78,7 +80,9 @@ public class MediaBackendSegmentsTest extends AbstractApiMediaBackendTest {
     public void test03WaitForInFrontend() throws Exception {
         assumeNotNull(segmentMid);
         Segment[] segments = new Segment[1];
-        waitUntil(ACCEPTABLE_DURATION_FRONTEND, () -> {
+        waitUntil(ACCEPTABLE_DURATION_FRONTEND,
+            segmentMid + " in frontend",
+            () -> {
             segments[0] = mediaUtil.loadOrNull(segmentMid);
             if (segments[0] == null) {
                 return false;
@@ -125,7 +129,9 @@ public class MediaBackendSegmentsTest extends AbstractApiMediaBackendTest {
     @Test
     public void test05WaitFor() throws Exception {
         assumeNotNull(programMid);
-        waitUntil(ACCEPTABLE_DURATION, () -> {
+        waitUntil(ACCEPTABLE_DURATION,
+            programMid + " in backend",
+            () -> {
             ProgramUpdate up = backend.get(programMid);
             return up != null;
         });
@@ -156,7 +162,9 @@ public class MediaBackendSegmentsTest extends AbstractApiMediaBackendTest {
     @Test
     public void test08WaitFor() throws Exception {
         assumeNotNull(segmentMid);
-        waitUntil(ACCEPTABLE_DURATION, () -> {
+        waitUntil(ACCEPTABLE_DURATION,
+            segmentMid + " has title " + updatedSegmentTitle,
+            () -> {
             SegmentUpdate up = backend.get(segmentMid);
             return up.fetch().getMainTitle().equals(updatedSegmentTitle);
         });
@@ -178,7 +186,9 @@ public class MediaBackendSegmentsTest extends AbstractApiMediaBackendTest {
     @Test
     public void test10WaitFor() throws Exception {
         assumeNotNull(segmentMid);
-        waitUntil(ACCEPTABLE_DURATION, () -> {
+        waitUntil(ACCEPTABLE_DURATION,
+            segmentMid + "has title " + updatedSegmentTitle,
+            () -> {
             SegmentUpdate up = backend.get(segmentMid);
             return up.fetch().getMainTitle().equals(updatedSegmentTitle);
         });

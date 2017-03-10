@@ -114,7 +114,9 @@ public class MediaBackendImagesTest extends AbstractApiMediaBackendTest {
         System.out.println("Removing images " + update[0].getImages());
         update[0].getImages().clear();
         backend.set(update[0]);
-        waitUntil(ACCEPTABLE_DURATION, () -> {
+        waitUntil(ACCEPTABLE_DURATION,
+            MID + " has no images any more",
+            () -> {
             update[0] = backend.get(MID);
             return update[0].getImages().isEmpty();
         });
@@ -126,7 +128,9 @@ public class MediaBackendImagesTest extends AbstractApiMediaBackendTest {
     protected void checkArrived() throws Exception {
         if (exception == null) {
             final List<String> currentTitles = new ArrayList<>();
-            waitUntil(ACCEPTABLE_DURATION, () -> {
+            waitUntil(ACCEPTABLE_DURATION,
+                MID + " in backend with images " + titles,
+                () -> {
                 ProgramUpdate update = backend.get(MID);
                 currentTitles.clear();
                 currentTitles.addAll(update.getImages().stream().map(ImageUpdate::getTitle).collect(Collectors.toList()));
