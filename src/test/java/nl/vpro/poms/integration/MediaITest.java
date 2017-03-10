@@ -2,6 +2,7 @@ package nl.vpro.poms.integration;
 
 import lombok.extern.slf4j.Slf4j;
 
+import java.io.UnsupportedEncodingException;
 import java.time.Duration;
 import java.time.Instant;
 
@@ -11,6 +12,7 @@ import org.junit.runners.MethodSorters;
 
 import nl.vpro.domain.media.MediaTestDataBuilder;
 import nl.vpro.domain.media.Program;
+import nl.vpro.domain.media.support.Image;
 import nl.vpro.domain.media.update.GroupUpdate;
 import nl.vpro.domain.media.update.ProgramUpdate;
 import nl.vpro.poms.AbstractApiMediaBackendTest;
@@ -33,8 +35,16 @@ public class MediaITest extends AbstractApiMediaBackendTest {
     static String clipDescription;
 
     @Test
-    public void test001CreateMedia() {
+    public void test001CreateMedia() throws UnsupportedEncodingException {
         clipTitle = title;
+        Image expiredImage = createImage();
+        expiredImage.setTitle("OFFLINE" + title);
+        expiredImage.setPublishStopInstant(Instant.now().minus(Duration.ofMinutes(1)));
+
+        Image publishedImage = createImage();
+        expiredImage.setTitle("PUBLISHED" + title);
+        expiredImage.setPublishStopInstant(Instant.now().plus(Duration.ofMinutes(10)));
+
         clipMid = backend.set(
             ProgramUpdate
                 .create(
@@ -45,6 +55,10 @@ public class MediaITest extends AbstractApiMediaBackendTest {
                         .broadcasters("VPRO")
                         .mainTitle(clipTitle)
                         .withAgeRating()
+                        .images(
+                            expiredImage,
+                            publishedImage
+                        )
                 )
         );
         log.info("Created {} {}", clipMid, clipTitle);
@@ -85,6 +99,7 @@ public class MediaITest extends AbstractApiMediaBackendTest {
         assertThat(clip.getMemberOf().first().getMediaRef()).isEqualTo(groupMid);
         assertThat(clip.getMemberOf().first().getNumber()).isEqualTo(2);
         assertThat(clip.getMemberOf()).hasSize(1);
+        assertThat(clip.getImages()).hasSize(1);
     }
 
     @Test
@@ -129,6 +144,17 @@ public class MediaITest extends AbstractApiMediaBackendTest {
         assertThat(clip.getMainTitle()).isEqualTo(clipTitle);
     }
 
+
+    @Test
+    public void test007WaitForImageRevocation() throws Exception {
+        assumeNotNull(clipMid);
+        Program clip = waitUntil(Duration.ofMinutes(20),
+            clipMid + " has no images any more",
+            () -> mediaUtil.findByMid(clipMid),
+            (c) -> c.getImages().isEmpty());
+        assertThat(clip).isNotNull();
+        assertThat(clip.getImages()).isEmpty();
+    }
 
     @Test
     public void test100Delete() throws Exception {
