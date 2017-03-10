@@ -4,8 +4,12 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.time.Duration;
 
 import nl.vpro.domain.image.ImageType;
+import nl.vpro.domain.media.AgeRating;
+import nl.vpro.domain.media.MediaBuilder;
+import nl.vpro.domain.media.Segment;
 import nl.vpro.domain.media.support.Image;
 import nl.vpro.domain.media.support.License;
 import nl.vpro.domain.media.support.OwnerType;
@@ -49,5 +53,14 @@ public abstract class AbstractApiMediaBackendTest extends AbstractApiTest {
         image.setCredits(getClass().getName());
         return image;
 
+    }
+
+    public Segment createSegment() {
+        return
+            MediaBuilder.segment()
+                .mainTitle(title)
+                .ageRating(AgeRating.ALL)
+                .start(Duration.ofSeconds(70))
+                .build();
     }
 }

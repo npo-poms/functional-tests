@@ -12,6 +12,7 @@ import org.junit.runners.MethodSorters;
 
 import nl.vpro.domain.media.MediaTestDataBuilder;
 import nl.vpro.domain.media.Program;
+import nl.vpro.domain.media.Segment;
 import nl.vpro.domain.media.support.Image;
 import nl.vpro.domain.media.update.GroupUpdate;
 import nl.vpro.domain.media.update.ProgramUpdate;
@@ -42,8 +43,16 @@ public class MediaITest extends AbstractApiMediaBackendTest {
         expiredImage.setPublishStopInstant(Instant.now().minus(Duration.ofMinutes(1)));
 
         Image publishedImage = createImage();
-        expiredImage.setTitle("PUBLISHED" + title);
-        expiredImage.setPublishStopInstant(Instant.now().plus(Duration.ofMinutes(10)));
+        publishedImage.setTitle("PUBLISHED" + title);
+        publishedImage.setPublishStopInstant(Instant.now().plus(Duration.ofMinutes(10)));
+
+        Segment expiredSegment= createSegment();
+        expiredSegment.setMainTitle("OFFLINE" + title);
+        expiredSegment.setPublishStopInstant(Instant.now().minus(Duration.ofMinutes(1)));
+
+        Segment publishedSegment = createSegment();
+        publishedSegment.setMainTitle("PUBLISHED" + title);
+        publishedSegment.setPublishStopInstant(Instant.now().plus(Duration.ofMinutes(10)));
 
         clipMid = backend.set(
             ProgramUpdate
@@ -58,6 +67,10 @@ public class MediaITest extends AbstractApiMediaBackendTest {
                         .images(
                             expiredImage,
                             publishedImage
+                        )
+                        .segments(
+                            expiredSegment,
+                            publishedSegment
                         )
                 )
         );
@@ -100,6 +113,7 @@ public class MediaITest extends AbstractApiMediaBackendTest {
         assertThat(clip.getMemberOf().first().getNumber()).isEqualTo(2);
         assertThat(clip.getMemberOf()).hasSize(1);
         assertThat(clip.getImages()).hasSize(1);
+        assertThat(clip.getSegments()).hasSize(1);
     }
 
     @Test
@@ -154,6 +168,17 @@ public class MediaITest extends AbstractApiMediaBackendTest {
             (c) -> c.getImages().isEmpty());
         assertThat(clip).isNotNull();
         assertThat(clip.getImages()).isEmpty();
+    }
+
+    @Test
+    public void test007WaitForSegmentRevocation() throws Exception {
+        assumeNotNull(clipMid);
+        Program clip = waitUntil(Duration.ofMinutes(20),
+            clipMid + " has no segments any more",
+            () -> mediaUtil.findByMid(clipMid),
+            (c) -> c.getSegments().isEmpty());
+        assertThat(clip).isNotNull();
+        assertThat(clip.getSegments()).isEmpty();
     }
 
     @Test
