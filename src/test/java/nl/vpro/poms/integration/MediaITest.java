@@ -20,7 +20,7 @@ import static org.assertj.core.api.Java6Assertions.assertThat;
 import static org.junit.Assume.assumeNotNull;
 
 /**
- * Create items, and check them in frontend api
+ * Create and change items, and check them in frontend api
  * @author Michiel Meeuwissen
  */
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
@@ -73,7 +73,7 @@ public class MediaITest extends AbstractApiMediaBackendTest {
     }
 
     @Test
-    public void test101CheckFrontendApi() throws Exception {
+    public void test002CheckFrontendApi() throws Exception {
         assumeNotNull(clipMid);
         Program clip = waitUntil(Duration.ofMinutes(10),
             clipMid + " is a memberof",
@@ -84,7 +84,42 @@ public class MediaITest extends AbstractApiMediaBackendTest {
         assertThat(clip.getMemberOf().first().getMediaRef()).isEqualTo(groupMid);
         assertThat(clip.getMemberOf().first().getNumber()).isEqualTo(2);
         assertThat(clip.getMemberOf()).hasSize(1);
+    }
 
+    @Test
+    public void test003UpdateTitle() {
+        assumeNotNull(clipMid);
+        ProgramUpdate mediaUpdate = backend.get(clipMid);
+        clipTitle = title;
+        mediaUpdate.setMainTitle(clipTitle);
+        backend.set(mediaUpdate);
+    }
+
+    @Test
+    public void test004CheckFrontendApi() throws Exception {
+        assumeNotNull(clipMid);
+        Program clip = waitUntil(Duration.ofMinutes(10),
+            clipMid + " has title " + clipTitle,
+            () -> mediaUtil.findByMid(clipMid),
+            (c) -> c.getMainTitle().equals(clipTitle));
+        assertThat(clip).isNotNull();
+        assertThat(clip.getMainTitle()).isEqualTo(clipTitle);
+    }
+
+
+    @Test
+    public void test005Delete() throws Exception {
+        assumeNotNull(clipMid);
+        backend.delete(clipMid);
+    }
+
+    @Test
+    public void test006CheckFrontendApi() throws Exception {
+        assumeNotNull(clipMid);
+        assertThat(waitUntil(Duration.ofMinutes(10),
+            clipMid + " disappeared",
+            () -> mediaUtil.findByMid(clipMid) == null
+        )).isTrue();
 
     }
 }
