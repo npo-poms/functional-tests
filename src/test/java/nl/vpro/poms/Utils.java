@@ -37,6 +37,7 @@ public class Utils {
     }
 
     public static boolean waitUntil(Duration acceptable, String callableToDescription, final Callable<Boolean> r) throws Exception {
+        log.info("Waiting until " + callableToDescription);
         return waitUntil(acceptable, new Callable<Boolean>() {
             @Override
             public Boolean call() throws Exception {

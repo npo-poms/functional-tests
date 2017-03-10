@@ -19,7 +19,6 @@ import nl.vpro.domain.media.update.ProgramUpdate;
 import nl.vpro.domain.media.update.SegmentUpdate;
 import nl.vpro.poms.AbstractApiMediaBackendTest;
 import nl.vpro.util.DateUtils;
-import nl.vpro.util.TimeUtils;
 
 import static nl.vpro.poms.Utils.waitUntil;
 import static org.assertj.core.api.Java6Assertions.assertThat;
@@ -81,7 +80,7 @@ public class MediaBackendSegmentsTest extends AbstractApiMediaBackendTest {
         assumeNotNull(segmentMid);
         Segment[] segments = new Segment[1];
         waitUntil(ACCEPTABLE_DURATION_FRONTEND,
-            segmentMid + " in frontend",
+            segmentMid + " in frontend and has title " + segmentTitle,
             () -> {
             segments[0] = mediaUtil.loadOrNull(segmentMid);
             if (segments[0] == null) {
@@ -91,7 +90,7 @@ public class MediaBackendSegmentsTest extends AbstractApiMediaBackendTest {
             if (lastPublished == null) {
                 throw new IllegalStateException("The last published field of " + segments[0] + " is null!");
             }
-            return TimeUtils.isLarger(TimeUtils.between(lastPublished, Instant.now()), Duration.ofMinutes(20));
+            return segments[0].getMainTitle().equals(segmentTitle);
         });
         assertThat(segments[0])
             .overridingErrorMessage("No segment %s found for %s", segmentMid, MID)
