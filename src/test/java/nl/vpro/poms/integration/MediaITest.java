@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.time.Duration;
 import java.time.Instant;
+import java.util.Objects;
 
 import org.junit.FixMethodOrder;
 import org.junit.Test;
@@ -168,7 +169,7 @@ public class MediaITest extends AbstractApiMediaBackendTest {
         Program clip = waitUntil(Duration.ofMinutes(10),
             clipMid + " has description " + clipDescription,
             () -> mediaUtil.findByMid(clipMid),
-            (c) -> c.getMainDescription().equals(clipDescription));
+            (c) -> Objects.equals(c.getMainDescription(), clipDescription));
         assertThat(clip).isNotNull();
         assertThat(clip.getMainDescription()).isEqualTo(clipDescription);
         assertThat(clip.getMainTitle()).isEqualTo(clipTitle);
