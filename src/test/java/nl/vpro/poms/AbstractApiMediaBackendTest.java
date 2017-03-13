@@ -59,6 +59,7 @@ public abstract class AbstractApiMediaBackendTest extends AbstractApiTest {
                 .mainTitle(title)
                 .ageRating(AgeRating.ALL)
                 .start(Duration.ofSeconds(70))
+                .avType(AVType.MIXED)
                 .build();
     }
 
