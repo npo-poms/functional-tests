@@ -10,6 +10,7 @@ import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
 
+import nl.vpro.domain.media.Location;
 import nl.vpro.domain.media.MediaTestDataBuilder;
 import nl.vpro.domain.media.Program;
 import nl.vpro.domain.media.Segment;
@@ -54,6 +55,12 @@ public class MediaITest extends AbstractApiMediaBackendTest {
         publishedSegment.setMainTitle("PUBLISHED" + title);
         publishedSegment.setPublishStopInstant(Instant.now().plus(Duration.ofMinutes(10)));
 
+        Location expiredLocation = createLocation(1);
+        expiredLocation.setPublishStopInstant(Instant.now().minus(Duration.ofMinutes(1)));
+
+        Location publishLocation = createLocation(1);
+        publishLocation.setPublishStopInstant(Instant.now().plus(Duration.ofMinutes(10)));
+
         clipMid = backend.set(
             ProgramUpdate
                 .create(
@@ -71,6 +78,10 @@ public class MediaITest extends AbstractApiMediaBackendTest {
                         .segments(
                             expiredSegment,
                             publishedSegment
+                        )
+                        .locations(
+                            expiredLocation,
+                            publishLocation
                         )
                 )
         );
@@ -114,6 +125,7 @@ public class MediaITest extends AbstractApiMediaBackendTest {
         assertThat(clip.getMemberOf()).hasSize(1);
         assertThat(clip.getImages()).hasSize(1);
         assertThat(clip.getSegments()).hasSize(1);
+        assertThat(clip.getLocations()).hasSize(1);
     }
 
     @Test
@@ -179,6 +191,17 @@ public class MediaITest extends AbstractApiMediaBackendTest {
             (c) -> c.getSegments().isEmpty());
         assertThat(clip).isNotNull();
         assertThat(clip.getSegments()).isEmpty();
+    }
+
+    @Test
+    public void test008WaitForLocationsRevocation() throws Exception {
+        assumeNotNull(clipMid);
+        Program clip = waitUntil(Duration.ofMinutes(20),
+            clipMid + " has no locations any more",
+            () -> mediaUtil.findByMid(clipMid),
+            (c) -> c.getLocations().isEmpty());
+        assertThat(clip).isNotNull();
+        assertThat(clip.getLocations()).isEmpty();
     }
 
     @Test

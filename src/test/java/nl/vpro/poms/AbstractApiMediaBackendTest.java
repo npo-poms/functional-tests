@@ -7,9 +7,7 @@ import java.net.URLEncoder;
 import java.time.Duration;
 
 import nl.vpro.domain.image.ImageType;
-import nl.vpro.domain.media.AgeRating;
-import nl.vpro.domain.media.MediaBuilder;
-import nl.vpro.domain.media.Segment;
+import nl.vpro.domain.media.*;
 import nl.vpro.domain.media.support.Image;
 import nl.vpro.domain.media.support.License;
 import nl.vpro.domain.media.support.OwnerType;
@@ -62,5 +60,15 @@ public abstract class AbstractApiMediaBackendTest extends AbstractApiTest {
                 .ageRating(AgeRating.ALL)
                 .start(Duration.ofSeconds(70))
                 .build();
+    }
+
+    public Location createLocation(int count) {
+        return
+            Location.builder()
+                .avAttributes(AVAttributes.builder().avFileFormat(AVFileFormat.H264).build())
+                .platform(Platform.INTERNETVOD)
+                .programUrl("https://www.vpro.nl/" + count)
+                .build();
+
     }
 }
