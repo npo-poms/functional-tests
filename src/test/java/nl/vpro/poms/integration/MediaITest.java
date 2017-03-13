@@ -57,8 +57,8 @@ public class MediaITest extends AbstractApiMediaBackendTest {
         Location expiredLocation = createLocation(1);
         expiredLocation.setPublishStopInstant(Instant.now().minus(Duration.ofMinutes(1)));
 
-        Location publishLocation = createLocation(1);
-        publishLocation.setPublishStopInstant(Instant.now().plus(Duration.ofMinutes(10)));
+        Location publishedLocation = createLocation(2);
+        publishedLocation.setPublishStopInstant(Instant.now().plus(Duration.ofMinutes(10)));
 
         clipMid = backend.set(
             ProgramUpdate
@@ -80,7 +80,7 @@ public class MediaITest extends AbstractApiMediaBackendTest {
                         )
                         .locations(
                             expiredLocation,
-                            publishLocation
+                            publishedLocation
                         )
                 )
         );
