@@ -2,7 +2,6 @@ package nl.vpro.poms.integration;
 
 import lombok.extern.slf4j.Slf4j;
 
-import java.io.UnsupportedEncodingException;
 import java.time.Duration;
 import java.time.Instant;
 
@@ -37,7 +36,7 @@ public class MediaITest extends AbstractApiMediaBackendTest {
     static String clipDescription;
 
     @Test
-    public void test001CreateMedia() throws UnsupportedEncodingException {
+    public void test001CreateMedia() throws Exception {
         clipTitle = title;
         Image expiredImage = createImage();
         expiredImage.setTitle("OFFLINE" + title);
@@ -85,7 +84,7 @@ public class MediaITest extends AbstractApiMediaBackendTest {
                         )
                 )
         );
-        log.info("Created {} {}", clipMid, clipTitle);
+        log.info("Created clip {} {}", clipMid, clipTitle);
         groupMid = backend.set(
             GroupUpdate.create(
                 MediaTestDataBuilder
@@ -107,6 +106,11 @@ public class MediaITest extends AbstractApiMediaBackendTest {
                     .withAgeRating()
                     .broadcasters("VPRO")
             ));
+        waitUntil(Duration.ofMinutes(2),
+            clipMid + " and " + groupMid + " available",
+            () -> backend.getFull(clipMid) != null && backend.getFull(groupMid) != null
+        );
+        log.info("Created groups {}, {}", groupMid, offlineGroup);
         backend.createMember(offlineGroup, clipMid, 1);
         backend.createMember(groupMid, clipMid, 2);
     }
@@ -115,7 +119,7 @@ public class MediaITest extends AbstractApiMediaBackendTest {
     public void test002CheckFrontendApi() throws Exception {
         assumeNotNull(clipMid);
         Program clip = waitUntil(Duration.ofMinutes(10),
-            clipMid + " is a memberof",
+            clipMid + " is a memberof " + groupMid,
             () -> mediaUtil.findByMid(clipMid),
             (c) -> !c.getMemberOf().isEmpty());
         assertThat(clip).isNotNull();
