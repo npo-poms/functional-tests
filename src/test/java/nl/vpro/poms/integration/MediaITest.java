@@ -188,7 +188,7 @@ public class MediaITest extends AbstractApiMediaBackendTest {
     }
 
     @Test
-    public void test007WaitForSegmentRevocation() throws Exception {
+    public void test008WaitForSegmentRevocation() throws Exception {
         assumeNotNull(clipMid);
         Program clip = waitUntil(Duration.ofMinutes(20),
             clipMid + " has no segments any more",
@@ -199,7 +199,7 @@ public class MediaITest extends AbstractApiMediaBackendTest {
     }
 
     @Test
-    public void test008WaitForLocationsRevocation() throws Exception {
+    public void test009WaitForLocationsRevocation() throws Exception {
         assumeNotNull(clipMid);
         Program clip = waitUntil(Duration.ofMinutes(20),
             clipMid + " has no locations any more",
