@@ -79,7 +79,7 @@ public class ApiMediaTest extends AbstractApiTest {
     public void zeroMembers() throws Exception {
         MediaObject o = mediaUtil.loadOrNull("POMS_S_NCRV_096754");
         assertThat(o).isNotNull();
-        MediaResult result = clients.getMediaService().listMembers(o.getMid(), (String) null, "ASC", 0L, 0);
+        MediaResult result = clients.getMediaService().listMembers(o.getMid(),  null, null, "ASC", 0L, 0);
         assertThat(result.getTotal()).isGreaterThan(10);
     }
 
