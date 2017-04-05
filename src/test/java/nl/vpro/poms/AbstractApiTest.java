@@ -61,6 +61,7 @@ public abstract class AbstractApiTest {
     protected static final Duration ACCEPTABLE_DURATION_FRONTEND = Duration.ofMinutes(10);
     protected static final NpoApiClients clients =
         NpoApiClients.configured(Config.env(), Config.getProperties(Config.Prefix.npoapi))
+            .warnThreshold(Duration.ofMillis(500))
             .mediaType(MediaType.APPLICATION_XML_TYPE)
             .build();
 
