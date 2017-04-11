@@ -6,6 +6,8 @@ import java.time.Duration;
 import java.time.Instant;
 import java.util.Objects;
 
+import javax.xml.bind.JAXB;
+
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
@@ -17,6 +19,7 @@ import nl.vpro.domain.media.Segment;
 import nl.vpro.domain.media.support.Image;
 import nl.vpro.domain.media.update.GroupUpdate;
 import nl.vpro.domain.media.update.ProgramUpdate;
+import nl.vpro.logging.LoggerOutputStream;
 import nl.vpro.poms.AbstractApiMediaBackendTest;
 
 import static nl.vpro.poms.Utils.waitUntil;
@@ -24,7 +27,11 @@ import static org.assertj.core.api.Java6Assertions.assertThat;
 import static org.junit.Assume.assumeNotNull;
 
 /**
- * Create and change items, and check them in frontend api
+ * Create and change items via the backend api, and check them in frontend api.
+ *
+ * This tests the complete chain:
+ *  - backend api -> activemq -> poms backend -> activemq -> poms publisher -> elasticsearch -> frontend api
+ *
  * @author Michiel Meeuwissen
  */
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
@@ -61,30 +68,30 @@ public class MediaITest extends AbstractApiMediaBackendTest {
         Location publishedLocation = createLocation(2);
         publishedLocation.setPublishStopInstant(Instant.now().plus(Duration.ofMinutes(10)));
 
-        clipMid = backend.set(
-            ProgramUpdate
-                .create(
-                    MediaTestDataBuilder
-                        .clip()
-                        .constrainedNew()
-                        .clearBroadcasters()
-                        .broadcasters("VPRO")
-                        .mainTitle(clipTitle)
-                        .withAgeRating()
-                        .images(
-                            expiredImage,
-                            publishedImage
-                        )
-                        .segments(
-                            expiredSegment,
-                            publishedSegment
-                        )
-                        .locations(
-                            expiredLocation,
-                            publishedLocation
-                        )
-                )
-        );
+        ProgramUpdate clip = ProgramUpdate
+            .create(
+                MediaTestDataBuilder
+                    .clip()
+                    .constrainedNew()
+                    .clearBroadcasters()
+                    .broadcasters("VPRO")
+                    .mainTitle(clipTitle)
+                    .withAgeRating()
+                    .images(
+                        expiredImage,
+                        publishedImage
+                    )
+                    .segments(
+                        expiredSegment,
+                        publishedSegment
+                    )
+                    .locations(
+                        expiredLocation,
+                        publishedLocation
+                    )
+            );
+        clipMid = backend.set(clip);
+        JAXB.marshal(clip, LoggerOutputStream.debug(log));
         log.info("Created clip {} {}", clipMid, clipTitle);
         groupMid = backend.set(
             GroupUpdate.create(
