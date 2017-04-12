@@ -18,7 +18,6 @@ import org.junit.runners.MethodSorters;
 import nl.vpro.domain.image.ImageType;
 import nl.vpro.domain.media.Schedule;
 import nl.vpro.domain.media.support.License;
-import nl.vpro.domain.media.update.ImageLocation;
 import nl.vpro.domain.media.update.ImageUpdate;
 import nl.vpro.domain.media.update.ProgramUpdate;
 import nl.vpro.poms.AbstractApiMediaBackendTest;
@@ -31,6 +30,8 @@ import static org.junit.Assume.assumeNoException;
 import static org.junit.Assume.assumeThat;
 
 /**
+ * Tests whether adding and modifying images via the POMS backend API works.
+ *
  * @author Michiel Meeuwissen
  */
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
@@ -39,9 +40,6 @@ public class MediaBackendImagesTest extends AbstractApiMediaBackendTest {
     private static final String MID = "WO_VPRO_025057";
     private static final Duration ACCEPTABLE_DURATION = Duration.ofMinutes(3);
     private static final List<String> titles = new ArrayList<>();
-
-
-
 
     @Rule
     public DoAfterException doAfterException = new DoAfterException((t) -> {
@@ -61,10 +59,15 @@ public class MediaBackendImagesTest extends AbstractApiMediaBackendTest {
     public void test01addImageRedirect() {
         assumeThat(backendVersionNumber, greaterThanOrEqualTo(5.0f));
         titles.add(title);
-        ImageUpdate update = new ImageUpdate(ImageType.PICTURE, title, null, new ImageLocation("http://placehold.it/150/7735a")); // redirects
-        update.setLicense(License.CC_BY);
-        update.setSourceName("placeholdit");
-        update.setCredits(getClass().getName());
+        ImageUpdate update = ImageUpdate.builder()
+            .type(ImageType.PICTURE)
+            .title(title)
+            .imageUrl("http://placehold.it/150/7735a") // redirects
+            .license(License.CC_BY)
+            .sourceName("placeholdit")
+            .credits(getClass().getName())
+            .build();
+
         backend.addImage(update, MID);
     }
 
@@ -72,15 +75,14 @@ public class MediaBackendImagesTest extends AbstractApiMediaBackendTest {
     @Test
     public void test02addImage() throws UnsupportedEncodingException {
         titles.add(title);
-        ImageUpdate update = new ImageUpdate(ImageType.PICTURE, title, null, new ImageLocation("https://placeholdit.imgix.net/~text?txt=" + URLEncoder.encode(title, "UTF-8") + "&w=150&h=150"));
-
-        if(backendVersionNumber >= 5.0f) {
-            update.setLicense(License.CC_BY);
-            update.setSourceName("placeholdit");
-            update.setSource("https://placeholdit.imgix.net");
-            update.setCredits(getClass().getName());
-        }
-
+        ImageUpdate update = ImageUpdate.builder()
+            .type(ImageType.PICTURE)
+            .title(title)
+            .imageUrl("https://placeholdit.imgix.net/~text?txt=" + URLEncoder.encode(title, "UTF-8") + "&w=150&h=150")
+            .license(License.CC_BY)
+            .sourceName("placeholdit")
+            .credits(getClass().getName())
+            .build();
         backend.addImage(update, MID);
     }
 
@@ -93,13 +95,14 @@ public class MediaBackendImagesTest extends AbstractApiMediaBackendTest {
     @Test
     public void test11addImageToObject() throws UnsupportedEncodingException {
         titles.add(title);
-        ImageUpdate imageUpdate  =
-            new ImageUpdate(ImageType.PICTURE, title, null, new ImageLocation("https://placeholdit.imgix.net/~text?txt=" + URLEncoder.encode(title, "UTF-8") + "&w=150&h=150"));
-        if (backendVersionNumber >= 5.0f) {
-            imageUpdate.setLicense(License.CC_BY);
-            imageUpdate.setSourceName("placeholdit");
-            imageUpdate.setCredits(getClass().getName());
-        }
+        ImageUpdate imageUpdate  = ImageUpdate.builder()
+            .type(ImageType.PICTURE)
+            .title(title)
+            .imageUrl("https://placeholdit.imgix.net/~text?txt=" + URLEncoder.encode(title, "UTF-8") + "&w=150&h=150")
+            .license(License.CC_BY)
+            .sourceName("placeholdit")
+            .credits(getClass().getName())
+            .build();
         ProgramUpdate update = backend.get(MID);
         update.getImages().add(imageUpdate);
         backend.set(update);
