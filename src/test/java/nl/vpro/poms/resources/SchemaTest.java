@@ -17,6 +17,7 @@ import org.junit.Test;
 import org.xml.sax.SAXException;
 
 import nl.vpro.domain.media.MediaTestDataBuilder;
+import nl.vpro.domain.media.Program;
 import nl.vpro.domain.media.update.ProgramUpdate;
 import nl.vpro.poms.Config;
 
@@ -26,8 +27,10 @@ import nl.vpro.poms.Config;
 public class SchemaTest {
 
 
+
+
     @Test
-    public void testSchema() throws IOException, SAXException {
+    public void testUpdateSchema() throws IOException, SAXException {
         String baseUrl = Config.requiredOption(Config.Prefix.poms, "baseUrl");
         SchemaFactory factory = SchemaFactory.newInstance(
             XMLConstants.W3C_XML_SCHEMA_NS_URI);
@@ -45,6 +48,26 @@ public class SchemaTest {
         xsdValidator.validate(streamSource);
 
 
+    }
+
+    @Test
+    public void testSchema() throws IOException, SAXException {
+        String baseUrl = Config.requiredOption(Config.Prefix.poms, "baseUrl");
+        SchemaFactory factory = SchemaFactory.newInstance(
+            XMLConstants.W3C_XML_SCHEMA_NS_URI);
+        URL url = new URL(baseUrl + "/schema/vproMedia.xsd");
+        System.out.println(url);
+        Schema xsdSchema = factory.newSchema(url);
+        //Schema xsdSchema = factory.newSchema(new StreamSource(getClass().getClassLoader().getResourceAsStream("/nl/vpro/domain/media/vproMedia.xsd")));
+        Validator xsdValidator = xsdSchema.newValidator();
+
+        Program program = MediaTestDataBuilder.program().withEverything().build();
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        JAXB.marshal(program, out);
+        System.out.println(new String(out.toByteArray()));
+
+        Source streamSource = new StreamSource(new ByteArrayInputStream(out.toByteArray()));
+        xsdValidator.validate(streamSource);
 
 
     }
