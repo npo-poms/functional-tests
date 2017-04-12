@@ -12,6 +12,14 @@
   <artifactId>poms-functional-tests</artifactId>
   <version>1.0-SNAPSHOT</version>
 
+  <description>
+    We verzamelen hierin tests die met werkelijke deployments communiceren en kijken of alles nog werkt.
+
+    We posten bijvoorbeeld dingen via de backend api en controleren het resultaat in de bijbehorende frontend api.
+
+    Het gaat uit van credentials ins ~/conf/npo-functional-tests.properties
+  </description>
+
   <properties>
     <parkpost.version>${media.version}</parkpost.version>
   </properties>
