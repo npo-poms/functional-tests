@@ -32,6 +32,8 @@ import static org.junit.Assume.assumeNotNull;
  * This tests the complete chain:
  *  - backend api -> activemq -> poms backend -> activemq -> poms publisher -> elasticsearch -> frontend api
  *
+ *  It also checks various embargos. Like locations and images which have their own publish start and stop times.
+ *
  * @author Michiel Meeuwissen
  */
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
