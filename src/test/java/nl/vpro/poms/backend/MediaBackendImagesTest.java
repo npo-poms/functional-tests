@@ -3,8 +3,11 @@ package nl.vpro.poms.backend;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.time.Duration;
+import java.time.Instant;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 import javax.xml.bind.JAXB;
@@ -13,6 +16,7 @@ import org.junit.*;
 import org.junit.runners.MethodSorters;
 
 import nl.vpro.domain.image.ImageType;
+import nl.vpro.domain.media.Schedule;
 import nl.vpro.domain.media.support.License;
 import nl.vpro.domain.media.update.ImageLocation;
 import nl.vpro.domain.media.update.ImageUpdate;
@@ -102,10 +106,34 @@ public class MediaBackendImagesTest extends AbstractApiMediaBackendTest {
         JAXB.marshal(update, System.out);
     }
 
+
     @Test
     public void test50checkArrived() throws Exception {
         checkArrived();
     }
+
+
+    @Test
+    public void test51updateImageInObject() throws Exception {
+        final ProgramUpdate[] update = new ProgramUpdate[1];
+        update[0] = backend.get(MID);
+        Instant yesterday = LocalDate.now(Schedule.ZONE_ID).minusDays(1).atStartOfDay(Schedule.ZONE_ID).toInstant();
+
+        ImageUpdate image = update[0].getImages().get(0);
+        String urn = image.getUrn();
+        image.setPublishStop(yesterday);
+
+        backend.set(update[0]);
+
+        waitUntil(ACCEPTABLE_DURATION,
+            MID + " has image " + urn + " that expires " + yesterday,
+            () -> {
+                update[0] = backend.get(MID);
+                ImageUpdate imageUpdate  = update[0].getImages().get(0);
+                return imageUpdate.getUrn().equals(urn) && Objects.equals(imageUpdate.getPublishStop(), yesterday);
+            });
+    }
+
 
     @Test
     public void test99Cleanup() throws Exception {
