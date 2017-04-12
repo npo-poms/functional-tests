@@ -11,7 +11,6 @@ import java.util.stream.Collectors;
 
 import nl.vpro.util.Env;
 import nl.vpro.util.ReflectionUtils;
-import nl.vpro.util.XTrustProvider;
 
 /**
  * @author Michiel Meeuwissen
@@ -27,7 +26,8 @@ public class Config {
         npoapi,
         backendapi,
         parkpost,
-        pageupdateapi
+        pageupdateapi,
+        poms
     }
 
     static {
@@ -35,7 +35,7 @@ public class Config {
         try {
             PROPERTIES = ReflectionUtils.getProperties(ReflectionUtils.getConfigFilesInHome(CONFIG_FILE));
             log.info("Reading {} configuration from {}", env(), CONFIG_FILE);
-            XTrustProvider.install();
+            log.debug("{}", PROPERTIES);
         } catch (IOException e) {
             log.error(e.getMessage(), e);
         }
