@@ -108,13 +108,13 @@ public class MediaBackendImagesTest extends AbstractApiMediaBackendTest {
 
 
     @Test
-    public void test50checkArrived() throws Exception {
+    public void test20checkArrived() throws Exception {
         checkArrived();
     }
 
 
     @Test
-    public void test51updateImageInObject() throws Exception {
+    public void test21updateImageInObject() throws Exception {
         final ProgramUpdate[] update = new ProgramUpdate[1];
         update[0] = backend.get(MID);
         Instant yesterday = LocalDate.now(Schedule.ZONE_ID).minusDays(1).atStartOfDay(Schedule.ZONE_ID).toInstant();
