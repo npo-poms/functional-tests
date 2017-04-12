@@ -123,7 +123,7 @@ public class MediaBackendImagesTest extends AbstractApiMediaBackendTest {
         Instant yesterday = LocalDate.now(Schedule.ZONE_ID).minusDays(1).atStartOfDay(Schedule.ZONE_ID).toInstant();
 
         ImageUpdate image = update[0].getImages().get(0);
-        String urn = image.getUrn();
+        String urn = image.getUrnAttribute();
         image.setPublishStop(yesterday);
 
         backend.set(update[0]);
@@ -136,7 +136,7 @@ public class MediaBackendImagesTest extends AbstractApiMediaBackendTest {
                 return Objects.equals(imageUpdate.getPublishStop(), yesterday);
             });
 
-        assertThat(update[0].getImages().get(0).getUrn()).isEqualTo(urn);
+        assertThat(update[0].getImages().get(0).getUrnAttribute()).isEqualTo(urn);
     }
 
 
