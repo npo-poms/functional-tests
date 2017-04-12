@@ -130,8 +130,10 @@ public class MediaBackendImagesTest extends AbstractApiMediaBackendTest {
             () -> {
                 update[0] = backend.get(MID);
                 ImageUpdate imageUpdate  = update[0].getImages().get(0);
-                return imageUpdate.getUrn().equals(urn) && Objects.equals(imageUpdate.getPublishStop(), yesterday);
+                return Objects.equals(imageUpdate.getPublishStop(), yesterday);
             });
+
+        assertThat(update[0].getImages().get(0).getUrn()).isEqualTo(urn);
     }
 
 
