@@ -3,12 +3,16 @@ package nl.vpro.poms;
 import java.io.IOException;
 import java.util.*;
 
+import javax.ws.rs.core.MediaType;
 import javax.xml.bind.JAXB;
 
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 
 import nl.vpro.jackson2.Jackson2Mapper;
+
+import static javax.ws.rs.core.MediaType.APPLICATION_JSON_TYPE;
+import static javax.ws.rs.core.MediaType.APPLICATION_XML_TYPE;
 
 /**
  * @author Michiel Meeuwissen
@@ -43,11 +47,13 @@ public class ApiSearchTestHelper {
                 }
             }
         }
-
         List<Object[]> result = new ArrayList<>();
-        for (String profile : profiles) {
-            for (Map.Entry<String, T> e : forms) {
-                result.add(new Object[]{e.getKey() + "/" + profile, e.getValue(), profile});
+        for (MediaType mediaType : Arrays.asList(APPLICATION_XML_TYPE, APPLICATION_JSON_TYPE)) {
+
+            for (String profile : profiles) {
+                for (Map.Entry<String, T> e : forms) {
+                    result.add(new Object[]{e.getKey() + "/" + profile + "/" + mediaType.getSubtype(), e.getValue(), profile, mediaType});
+                }
             }
         }
         return result;

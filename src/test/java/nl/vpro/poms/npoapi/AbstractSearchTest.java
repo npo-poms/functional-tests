@@ -15,6 +15,8 @@ import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.regex.Pattern;
 
+import javax.ws.rs.core.MediaType;
+
 import org.junit.Before;
 
 import nl.vpro.poms.AbstractApiTest;
@@ -37,6 +39,7 @@ public abstract class AbstractSearchTest<T, S> extends AbstractApiTest {
     protected T form;
     protected String profile;
     protected Function<S, Boolean> tester;
+    protected MediaType mediaType;
 
 
     protected void  addTester(String pattern, Consumer<S> consumer) {
@@ -89,14 +92,16 @@ public abstract class AbstractSearchTest<T, S> extends AbstractApiTest {
             return bool;
 
         };
+        clients.setAccept(mediaType);
 
     }
 
 
-    public AbstractSearchTest(String name, T form, String profile) {
+    public AbstractSearchTest(String name, T form, String profile, MediaType mediaType) {
         this.name = name;
         this.form = form;
         this.profile = profile;
+        this.mediaType = mediaType;
     }
 
 

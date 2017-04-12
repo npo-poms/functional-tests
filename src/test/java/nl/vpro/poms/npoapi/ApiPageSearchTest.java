@@ -3,6 +3,8 @@ package nl.vpro.poms.npoapi;
 import java.io.IOException;
 import java.util.Collection;
 
+import javax.ws.rs.core.MediaType;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -27,8 +29,8 @@ public class ApiPageSearchTest extends AbstractSearchTest<PageForm, PageSearchRe
 
     }
 
-    public ApiPageSearchTest(String name, PageForm form, String profile) {
-        super(name, form, profile);
+    public ApiPageSearchTest(String name, PageForm form, String profile, MediaType mediaType) {
+        super(name, form, profile, mediaType);
     }
 
 

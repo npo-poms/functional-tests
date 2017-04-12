@@ -54,8 +54,8 @@ public class ApiMediaParameterizedSearchTest extends AbstractSearchTest<MediaFor
         });
     }
 
-    public ApiMediaParameterizedSearchTest(String name, MediaForm form, String profile) {
-        super(name, form, profile);
+    public ApiMediaParameterizedSearchTest(String name, MediaForm form, String profile, javax.ws.rs.core.MediaType mediaType) {
+        super(name, form, profile, mediaType);
     }
 
     @Parameterized.Parameters

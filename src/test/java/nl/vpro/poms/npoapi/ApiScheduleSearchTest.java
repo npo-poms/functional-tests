@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.Collection;
 
 import javax.ws.rs.ServerErrorException;
+import javax.ws.rs.core.MediaType;
 
 import org.junit.AssumptionViolatedException;
 import org.junit.Test;
@@ -21,8 +22,8 @@ public class ApiScheduleSearchTest extends AbstractSearchTest<ScheduleForm, Sche
 
 
 
-    public ApiScheduleSearchTest(String name, ScheduleForm form, String profile) {
-        super(name, form, profile);
+    public ApiScheduleSearchTest(String name, ScheduleForm form, String profile, MediaType mediaType) {
+        super(name, form, profile, mediaType);
     }
 
 
