@@ -151,7 +151,7 @@ public class MediaBackendImagesTest extends AbstractApiMediaBackendTest {
         //assertThat(update[0].getImages().stream().filter(iu -> Objects.equals(iu.getPublishStop(), yesterday)).findFirst().orElseThrow(IllegalStateException::new).getUrnAttribute()).isEqualTo(urn);
 
         // The new image must have arrived any ways:
-        assertThat(update[0].getImages().stream().anyMatch(i -> i.getTitle().equals(title))).isTrue(); // THIS This release fails!
+        assertThat(update[0].getImages().stream().anyMatch(i -> i.getTitle().equals(title))).isTrue(); // THIS fails!
     }
 
 
