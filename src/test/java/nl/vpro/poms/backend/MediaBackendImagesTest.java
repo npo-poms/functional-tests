@@ -1,5 +1,7 @@
 package nl.vpro.poms.backend;
 
+import lombok.extern.slf4j.Slf4j;
+
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.time.Duration;
@@ -18,6 +20,7 @@ import nl.vpro.domain.image.ImageType;
 import nl.vpro.domain.media.support.License;
 import nl.vpro.domain.media.update.ImageUpdate;
 import nl.vpro.domain.media.update.ProgramUpdate;
+import nl.vpro.logging.LoggerOutputStream;
 import nl.vpro.poms.AbstractApiMediaBackendTest;
 import nl.vpro.poms.DoAfterException;
 
@@ -33,6 +36,7 @@ import static org.junit.Assume.assumeThat;
  * @author Michiel Meeuwissen
  */
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
+@Slf4j
 public class MediaBackendImagesTest extends AbstractApiMediaBackendTest {
 
     private static final String MID = "WO_VPRO_025057";
@@ -107,7 +111,7 @@ public class MediaBackendImagesTest extends AbstractApiMediaBackendTest {
         ProgramUpdate update = backend.get(MID);
         update.getImages().add(imageUpdate);
         backend.set(update);
-        JAXB.marshal(update, System.out);
+        JAXB.marshal(update, LoggerOutputStream.debug(log));
     }
 
 
