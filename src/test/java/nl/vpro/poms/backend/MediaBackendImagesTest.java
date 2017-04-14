@@ -63,6 +63,7 @@ public class MediaBackendImagesTest extends AbstractApiMediaBackendTest {
             .imageUrl("http://placehold.it/150/7735a") // redirects
             .license(License.CC_BY)
             .sourceName("placeholdit")
+            .source("http://placehold.it/")
             .credits(getClass().getName())
             .build();
 
@@ -79,6 +80,7 @@ public class MediaBackendImagesTest extends AbstractApiMediaBackendTest {
             .imageUrl("https://placeholdit.imgix.net/~text?txt=" + URLEncoder.encode(title, "UTF-8") + "&w=150&h=150")
             .license(License.CC_BY)
             .sourceName("placeholdit")
+            .source("http://placeholdit.imgix.net/")
             .credits(getClass().getName())
             .build();
         backend.addImage(update, MID);
@@ -99,6 +101,7 @@ public class MediaBackendImagesTest extends AbstractApiMediaBackendTest {
             .imageUrl("https://placeholdit.imgix.net/~text?txt=" + URLEncoder.encode(title, "UTF-8") + "&w=150&h=150")
             .license(License.CC_BY)
             .sourceName("placeholdit")
+            .source("http://placeholdit.imgix.net/")
             .credits(getClass().getName())
             .build();
         ProgramUpdate update = backend.get(MID);
@@ -131,6 +134,7 @@ public class MediaBackendImagesTest extends AbstractApiMediaBackendTest {
             .imageUrl("https://placeholdit.imgix.net/~text?txt=" + URLEncoder.encode(title, "UTF-8") + "&w=150&h=150")
             .license(License.CC_BY)
             .sourceName("placeholdit")
+            .source("http://placeholdit.imgix.net/")
             .credits(getClass().getName())
             .build();
 
