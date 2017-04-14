@@ -156,7 +156,7 @@ public class MediaBackendImagesTest extends AbstractApiMediaBackendTest {
 
         // The URN changes. We may find this acceptable, but I don't like it either!
 
-        //assertThat(update[0].getImages().stream().filter(iu -> Objects.equals(iu.getPublishStop(), yesterday)).findFirst().orElseThrow(IllegalStateException::new).getUrnAttribute()).isEqualTo(urn);
+        assertThat(update[0].getImages().stream().filter(iu -> Objects.equals(iu.getPublishStop(), yesterday)).findFirst().orElseThrow(IllegalStateException::new).getUrnAttribute()).isEqualTo(urn);
 
         // The new image must have arrived any ways:
         assertThat(update[0].getImages().stream().anyMatch(i -> i.getTitle().equals(title))).isTrue(); // THIS fails!
@@ -164,21 +164,25 @@ public class MediaBackendImagesTest extends AbstractApiMediaBackendTest {
 
 
     @Test
-    public void test99Cleanup() throws Exception {
+    public void test98Cleanup() throws Exception {
+        ProgramUpdate update = backend.get(MID);
+        System.out.println("Removing images " + update.getImages());
+        update.getImages().clear();
+        backend.set(update);
+    }
+
+
+    @Test
+    public void test99CleanupCheck() throws Exception {
         final ProgramUpdate[] update = new ProgramUpdate[1];
-        update[0]= backend.get(MID);
-        System.out.println("Removing images " + update[0].getImages());
-        update[0].getImages().clear();
-        backend.set(update[0]);
         waitUntil(ACCEPTABLE_DURATION,
             MID + " has no images any more",
             () -> {
-            update[0] = backend.get(MID);
-            return update[0].getImages().isEmpty();
-        });
+                update[0] = backend.get(MID);
+                return update[0].getImages().isEmpty();
+            });
         assertThat(update[0].getImages()).isEmpty();
     }
-
 
 
     protected void checkArrived() throws Exception {
