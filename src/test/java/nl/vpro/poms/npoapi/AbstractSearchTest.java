@@ -39,7 +39,7 @@ public abstract class AbstractSearchTest<T, S> extends AbstractApiTest {
     protected T form;
     protected String profile;
     protected Function<S, Boolean> tester;
-    protected MediaType mediaType;
+    protected MediaType accept;
 
 
     protected void  addTester(String pattern, Consumer<S> consumer) {
@@ -92,8 +92,8 @@ public abstract class AbstractSearchTest<T, S> extends AbstractApiTest {
             return bool;
 
         };
-        clients.setAccept(mediaType);
-
+        clients.setAccept(accept);
+        clients.setContentType(accept);
     }
 
 
@@ -101,7 +101,7 @@ public abstract class AbstractSearchTest<T, S> extends AbstractApiTest {
         this.name = name;
         this.form = form;
         this.profile = profile;
-        this.mediaType = mediaType;
+        this.accept = mediaType;
     }
 
 

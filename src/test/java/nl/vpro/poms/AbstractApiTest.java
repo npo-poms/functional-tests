@@ -62,7 +62,7 @@ public abstract class AbstractApiTest {
     protected static final NpoApiClients clients =
         NpoApiClients.configured(Config.env(), Config.getProperties(Config.Prefix.npoapi))
             .warnThreshold(Duration.ofMillis(500))
-            .mediaType(MediaType.APPLICATION_XML_TYPE)
+            .accept(MediaType.APPLICATION_XML_TYPE)
             .build();
 
     protected static final NpoApiMediaUtil mediaUtil = new NpoApiMediaUtil(clients);
