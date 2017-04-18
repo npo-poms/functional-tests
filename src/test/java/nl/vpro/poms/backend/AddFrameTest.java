@@ -32,7 +32,7 @@ public class AddFrameTest extends AbstractApiMediaBackendTest {
 
 
         waitUntil(ACCEPTABLE_DURATION,
-            MID + " has image STILL with offset" + duration,
+            MID + " has image STILL with offset " + duration,
             () -> {
                 update[0] = backend.get(MID);
                 return update[0].getImages().stream().anyMatch(iu -> iu.getOffset().equals(duration) && iu.getType() == ImageType.STILL);
