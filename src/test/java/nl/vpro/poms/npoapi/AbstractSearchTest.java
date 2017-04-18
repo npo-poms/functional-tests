@@ -6,18 +6,20 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import javax.ws.rs.core.MediaType;
 
+import org.junit.AfterClass;
 import org.junit.Before;
+
+import com.google.common.collect.Sets;
 
 import nl.vpro.poms.AbstractApiTest;
 import nl.vpro.test.util.jackson2.Jackson2TestUtil;
@@ -32,6 +34,8 @@ import static org.junit.Assume.assumeTrue;
 public abstract class AbstractSearchTest<T, S> extends AbstractApiTest {
     private static final boolean writeTempFiles = false;
     protected Map<Pattern, Function<S, Boolean>> TESTERS = new HashMap<>();
+    protected static Map<String, AtomicInteger> USED = new HashMap();
+    protected static Set<String> AVAILABLE = new HashSet<>();
     protected Map<Pattern, Supplier<Boolean>> ASSUMERS =  new HashMap<>();
 
 
@@ -50,7 +54,9 @@ public abstract class AbstractSearchTest<T, S> extends AbstractApiTest {
     }
 
     protected void addTester(String pattern, Function<S, Boolean> consumer) {
-        TESTERS.put(Pattern.compile(pattern), consumer);
+        Pattern p = Pattern.compile(pattern);
+        TESTERS.put(p, consumer);
+        AVAILABLE.add(p.pattern());
     }
 
 
@@ -72,6 +78,8 @@ public abstract class AbstractSearchTest<T, S> extends AbstractApiTest {
         for (Map.Entry<Pattern, Function<S, Boolean>> e : TESTERS.entrySet()) {
             if (e.getKey().matcher(name).matches()) {
                 result.add(e.getValue());
+                AtomicInteger atomicInteger = USED.computeIfAbsent(e.getKey().pattern(), (k) -> new AtomicInteger(0));
+                atomicInteger.incrementAndGet();
             }
         }
         final boolean log = ! result.isEmpty();
@@ -88,12 +96,26 @@ public abstract class AbstractSearchTest<T, S> extends AbstractApiTest {
                     System.out.println("USING  TESTER " + tester1 + " for " + name);
                 }
                 bool &= tester1.apply(s);
+
             }
             return bool;
 
         };
         clients.setAccept(accept);
         clients.setContentType(accept);
+    }
+
+    @AfterClass
+    public static void shutdown() {
+        Sets.SetView<String> difference = Sets.difference(AVAILABLE, USED.keySet());
+        if (! difference.isEmpty()) {
+            throw new RuntimeException("Not all testers were used: " + difference);
+        }
+        log.info(
+            USED.entrySet().stream()
+                .map((e) -> e.getKey() + " was used " + e.getValue().intValue() + " times")
+                .collect(Collectors.joining("\n"))
+        );
     }
 
 

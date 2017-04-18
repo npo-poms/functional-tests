@@ -20,7 +20,7 @@ import static org.junit.Assume.assumeTrue;
 public class ApiPageSearchTest extends AbstractSearchTest<PageForm, PageSearchResult> {
 
     {
-        addTester("NPA-331.json/woord", sr -> {
+        addTester("NPA-331.json/woord/.*", sr -> {
             assertThat(sr.getItems()).isNotEmpty();
             }
         );

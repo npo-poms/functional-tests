@@ -24,16 +24,16 @@ public class ApiMediaParameterizedSearchTest extends AbstractSearchTest<MediaFor
 
 
     {
-        addTester("clips.json/null", sr -> {
+        addTester("clips.json/null/(xml|json)", sr -> {
             for (SearchResultItem<? extends MediaObject> m : sr.getItems()) {
                 assertThat(m.getResult().getMediaType()).isEqualTo(MediaType.CLIP);
             }
         });
-        addTester("facet-relations-and-filter.json/null", sr -> {
+        addTester("facet-relations-and-filter.json/null/(xml|json)", sr -> {
             assertThat(sr.getFacets().getRelations()).isNotNull();
             assertThat(sr.getFacets().getRelations().get(0).getName()).isEqualTo("labels");
         });
-        addTester("facet-ageRating.json/null", sr -> {
+        addTester("facet-ageRating.json/null/(xml|json)", sr -> {
             assertThat(sr.getFacets().getAgeRatings()).isNotNull();
             assertThat(sr.getFacets().getAgeRatings()).hasSize(5);
             assertThat(sr.getFacets().getAgeRatings().get(0).getId()).isEqualTo("6");
@@ -42,7 +42,7 @@ public class ApiMediaParameterizedSearchTest extends AbstractSearchTest<MediaFor
             assertThat(sr.getFacets().getAgeRatings().get(3).getId()).isEqualTo("16");
             assertThat(sr.getFacets().getAgeRatings().get(4).getId()).isEqualTo("ALL");
         });
-        addTester("facet-relations-and-subsearch.json/null", sr -> {
+        addTester("facet-relations-and-subsearch.json/null/(xml|json)", sr -> {
             assertThat(sr.getFacets().getRelations()).isNotNull();
             assertThat(sr.getFacets().getRelations()).hasSize(2);
             assertThat(sr.getFacets().getRelations().get(0).getName()).isEqualTo("labels");
