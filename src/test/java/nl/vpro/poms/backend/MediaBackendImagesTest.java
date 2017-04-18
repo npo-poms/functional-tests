@@ -58,7 +58,7 @@ public class MediaBackendImagesTest extends AbstractApiMediaBackendTest {
     }
 
     @Test
-    public void test01addImageRedirect() {
+    public void test01addRedirectingImage() {
         assumeThat(backendVersionNumber, greaterThanOrEqualTo(5.0f));
         titles.add(title);
         ImageUpdate update = ImageUpdate.builder()
@@ -153,13 +153,53 @@ public class MediaBackendImagesTest extends AbstractApiMediaBackendTest {
                 return update[0].getImages().stream().anyMatch(iu -> Objects.equals(iu.getPublishStop(), yesterday));
             });
 
-
-        // The URN changes. We may find this acceptable, but I don't like it either!
-
         assertThat(update[0].getImages().stream().filter(iu -> Objects.equals(iu.getPublishStop(), yesterday)).findFirst().orElseThrow(IllegalStateException::new).getUrnAttribute()).isEqualTo(urn);
 
+        // The new image must have arrived any way:
+        assertThat(update[0].getImages().stream().anyMatch(i -> i.getTitle().equals(title))).isTrue();
+    }
+
+    @Test
+    public void test22updateImageInObjectButCleanUrn() throws Exception {
+        final ProgramUpdate[] update = new ProgramUpdate[1];
+        update[0] = backend.get(MID);
+        Instant yesterday = Instant.now().minus(Duration.ofDays(1));
+
+
+        for (ImageUpdate i : update[0].getImages()) {
+            i.setId(null);
+        }
+
+        ImageUpdate image = update[0].getImages().get(0);
+        String url = (String) image.getImage();
+        image.setDescription(title);
+
+        // and add one too
+        ImageUpdate newImage = ImageUpdate.builder()
+            .type(ImageType.PICTURE)
+            .title(title)
+            .imageUrl("https://placeholdit.imgix.net/~text?txt=" + URLEncoder.encode(title, "UTF-8") + "&w=150&h=150")
+            .license(License.CC_BY)
+            .sourceName("placeholdit")
+            .source("http://placeholdit.imgix.net/")
+            .credits(getClass().getName())
+            .build();
+
+        update[0].getImages().add(newImage);
+
+        backend.set(update[0]);
+
+        waitUntil(ACCEPTABLE_DURATION,
+            MID + " has image " + url + " that has descriptoin " + title,
+            () -> {
+                update[0] = backend.get(MID);
+                return update[0].getImages().stream().anyMatch(iu -> Objects.equals(iu.getDescription(), title));
+            });
+
+        assertThat(update[0].getImages().stream().filter(iu -> Objects.equals(iu.getDescription(), title)).findFirst().orElseThrow(IllegalStateException::new).getImage()).isEqualTo(url);
+
         // The new image must have arrived any ways:
-        assertThat(update[0].getImages().stream().anyMatch(i -> i.getTitle().equals(title))).isTrue(); // THIS fails!
+        assertThat(update[0].getImages().stream().anyMatch(i -> i.getTitle().equals(title))).isTrue();
     }
 
 
