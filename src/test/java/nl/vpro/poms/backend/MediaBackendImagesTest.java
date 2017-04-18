@@ -190,7 +190,7 @@ public class MediaBackendImagesTest extends AbstractApiMediaBackendTest {
         backend.set(update[0]);
 
         waitUntil(ACCEPTABLE_DURATION,
-            MID + " has image " + url + " that has descriptoin " + title,
+            MID + " has image " + url + " that has description " + title,
             () -> {
                 update[0] = backend.get(MID);
                 return update[0].getImages().stream().anyMatch(iu -> Objects.equals(iu.getDescription(), title));
@@ -206,7 +206,7 @@ public class MediaBackendImagesTest extends AbstractApiMediaBackendTest {
     @Test
     public void test98Cleanup() throws Exception {
         ProgramUpdate update = backend.get(MID);
-        System.out.println("Removing images " + update.getImages());
+        log.info("Removing images " + update.getImages());
         update.getImages().clear();
         backend.set(update);
     }
