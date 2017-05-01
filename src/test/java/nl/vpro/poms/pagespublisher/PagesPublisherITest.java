@@ -176,7 +176,7 @@ public class PagesPublisherITest extends AbstractApiTest {
     @Test
     public void test200UpdateExisting() {
         assumeNotNull(article);
-        log.info("Updating {}", article.getUrl());
+        log.info("Updating {} tot title {}", article.getUrl(), title);
         article.setTitle(title);
         Result result = util.save(article);
 
