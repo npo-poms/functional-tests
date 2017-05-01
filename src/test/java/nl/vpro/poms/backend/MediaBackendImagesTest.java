@@ -58,17 +58,11 @@ public class MediaBackendImagesTest extends AbstractApiMediaBackendTest {
     }
 
     @Test
-    public void test01addRedirectingImage() {
+    public void test01addRedirectingImage() throws UnsupportedEncodingException {
         assumeThat(backendVersionNumber, greaterThanOrEqualTo(5.0f));
         titles.add(title);
-        ImageUpdate update = ImageUpdate.builder()
-            .type(ImageType.PICTURE)
-            .title(title)
-            .imageUrl("http://placehold.it/150/7735a") // redirects
-            .license(License.CC_BY)
-            .sourceName("placeholdit")
-            .source("http://placehold.it/")
-            .credits(getClass().getName())
+        ImageUpdate update = random(title)
+            .imageUrl("https://goo.gl/fF1Laz") // redirects
             .build();
 
         backend.addImage(update, MID);
@@ -78,15 +72,8 @@ public class MediaBackendImagesTest extends AbstractApiMediaBackendTest {
     @Test
     public void test02addImage() throws UnsupportedEncodingException {
         titles.add(title);
-        ImageUpdate update = ImageUpdate.builder()
-            .type(ImageType.PICTURE)
-            .title(title)
-            .imageUrl("https://placeholdit.imgix.net/~text?txt=" + URLEncoder.encode(title, "UTF-8") + "&w=150&h=150")
-            .license(License.CC_BY)
-            .sourceName("placeholdit")
-            .source("http://placeholdit.imgix.net/")
-            .credits(getClass().getName())
-            .build();
+
+        ImageUpdate update = random(title).build();
         backend.addImage(update, MID);
     }
 
@@ -99,15 +86,8 @@ public class MediaBackendImagesTest extends AbstractApiMediaBackendTest {
     @Test
     public void test11addImageToObject() throws UnsupportedEncodingException {
         titles.add(title);
-        ImageUpdate imageUpdate  = ImageUpdate.builder()
-            .type(ImageType.PICTURE)
-            .title(title)
-            .imageUrl("https://placeholdit.imgix.net/~text?txt=" + URLEncoder.encode(title, "UTF-8") + "&w=150&h=150")
-            .license(License.CC_BY)
-            .sourceName("placeholdit")
-            .source("http://placeholdit.imgix.net/")
-            .credits(getClass().getName())
-            .build();
+        ImageUpdate imageUpdate  = random(title).build();
+
         ProgramUpdate update = backend.get(MID);
         update.getImages().add(imageUpdate);
         backend.set(update);
@@ -132,15 +112,7 @@ public class MediaBackendImagesTest extends AbstractApiMediaBackendTest {
         image.setPublishStop(yesterday);
 
         // and add one too
-        ImageUpdate newImage = ImageUpdate.builder()
-            .type(ImageType.PICTURE)
-            .title(title)
-            .imageUrl("https://placeholdit.imgix.net/~text?txt=" + URLEncoder.encode(title, "UTF-8") + "&w=150&h=150")
-            .license(License.CC_BY)
-            .sourceName("placeholdit")
-            .source("http://placeholdit.imgix.net/")
-            .credits(getClass().getName())
-            .build();
+        ImageUpdate newImage = random(title).build();
 
         update[0].getImages().add(newImage);
 
@@ -175,15 +147,7 @@ public class MediaBackendImagesTest extends AbstractApiMediaBackendTest {
         image.setDescription(title);
 
         // and add one too
-        ImageUpdate newImage = ImageUpdate.builder()
-            .type(ImageType.PICTURE)
-            .title(title)
-            .imageUrl("https://placeholdit.imgix.net/~text?txt=" + URLEncoder.encode(title, "UTF-8") + "&w=150&h=150")
-            .license(License.CC_BY)
-            .sourceName("placeholdit")
-            .source("http://placeholdit.imgix.net/")
-            .credits(getClass().getName())
-            .build();
+        ImageUpdate newImage = random(title).build();
 
         update[0].getImages().add(newImage);
 
@@ -240,4 +204,18 @@ public class MediaBackendImagesTest extends AbstractApiMediaBackendTest {
             assertThat(currentTitles).containsAll(titles);
         }
     }
+
+    protected ImageUpdate.Builder random(String title) throws UnsupportedEncodingException {
+        return ImageUpdate.builder()
+            .type(ImageType.PICTURE)
+            .title(title)
+            .imageUrl("https://dummyimage.com/150x150&text=" + URLEncoder.encode(title, "UTF-8"))
+            .license(License.CC_BY)
+            .sourceName("dummyimage")
+            .source("http://dummyimage.com/")
+            .credits(getClass().getName());
+
+    }
+
+
 }
