@@ -172,4 +172,28 @@ public class PagesPublisherITest extends AbstractApiTest {
         assertThat(referral.get().getType()).isEqualTo(LinkType.TOP_STORY);
 
     }
+
+    @Test
+    public void test200UpdateExisting() {
+        assumeNotNull(article);
+        log.info("Updating {}", article.getUrl());
+        article.setTitle(title);
+        Result result = util.save(article);
+
+
+        System.out.println(result);
+        assertThat(result.getStatus()).isEqualTo(Result.Status.SUCCESS);
+        assertThat(result.getErrors()).isNull();
+
+    }
+
+    @Test
+    public void test201ArrivedInApi() throws Exception {
+        assumeNotNull(article);
+        Page page = Utils.waitUntil(Duration.ofMinutes(1),
+            article.getUrl() + " has title " + article.getTitle(),
+            () ->
+                pageUtil.load(article.getUrl())[0], p -> Objects.equals(p.getTitle(), article.getTitle())
+        );
+    }
 }
