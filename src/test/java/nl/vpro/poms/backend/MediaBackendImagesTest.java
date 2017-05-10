@@ -62,6 +62,7 @@ public class MediaBackendImagesTest extends AbstractApiMediaBackendTest {
         assumeThat(backendVersionNumber, greaterThanOrEqualTo(5.0f));
         titles.add(title);
         ImageUpdate update = random(title)
+            .type(ImageType.LOGO) // differnet types make the image unique without id.
             .imageUrl("https://goo.gl/fF1Laz") // redirects
             .build();
 
@@ -73,7 +74,9 @@ public class MediaBackendImagesTest extends AbstractApiMediaBackendTest {
     public void test02addImage() throws UnsupportedEncodingException {
         titles.add(title);
 
-        ImageUpdate update = random(title).build();
+        ImageUpdate update = random(title)
+            .type(ImageType.BACKGROUND)
+            .build();
         backend.addImage(update, MID);
     }
 
@@ -86,7 +89,9 @@ public class MediaBackendImagesTest extends AbstractApiMediaBackendTest {
     @Test
     public void test11addImageToObject() throws UnsupportedEncodingException {
         titles.add(title);
-        ImageUpdate imageUpdate  = random(title).build();
+        ImageUpdate imageUpdate  = random(title)
+            .type(ImageType.ICON)
+            .build();
 
         ProgramUpdate update = backend.get(MID);
         update.getImages().add(imageUpdate);
@@ -112,7 +117,9 @@ public class MediaBackendImagesTest extends AbstractApiMediaBackendTest {
         image.setPublishStopInstant(yesterday);
 
         // and add one too
-        ImageUpdate newImage = random(title).build();
+        ImageUpdate newImage = random(title)
+            .type(ImageType.PORTRAIT)
+            .build();
 
         update[0].getImages().add(newImage);
 
@@ -144,20 +151,25 @@ public class MediaBackendImagesTest extends AbstractApiMediaBackendTest {
 
         ImageUpdate image = update[0].getImages().get(0);
         String url = (String) image.getImage();
-        image.setDescription(title);
+        String newDescription = title;
+        image.setDescription(newDescription);
 
         // and add one too
-        ImageUpdate newImage = random(title).build();
+        ImageUpdate newImage = random(title)
+            .type(ImageType.PROMO_LANDSCAPE)
+            .build();
 
         update[0].getImages().add(newImage);
+
+        //JAXB.marshal(update[0], System.out);
 
         backend.set(update[0]);
 
         waitUntil(ACCEPTABLE_DURATION,
-            MID + " has image " + url + " that has description " + title,
+            MID + " has image " + url + " that has description " + newDescription,
             () -> {
                 update[0] = backend.get(MID);
-                return update[0].getImages().stream().anyMatch(iu -> Objects.equals(iu.getDescription(), title));
+                return update[0].getImages().stream().anyMatch(iu -> Objects.equals(iu.getDescription(), newDescription));
             });
 
         assertThat(update[0].getImages().stream().filter(iu -> Objects.equals(iu.getDescription(), title)).findFirst().orElseThrow(IllegalStateException::new).getImage()).isEqualTo(url);
@@ -227,7 +239,7 @@ public class MediaBackendImagesTest extends AbstractApiMediaBackendTest {
             */
         ImageUpdate.Builder builder = ImageUpdate.builder()
             .type(ImageType.PICTURE)
-            .title(testNumber.intValue() + ":" + title)
+            .title(title)
             .imageUrl("http://images.poms.omroep.nl/image/s" + (testNumber.intValue() + 10) + "/7617.jpg?" + URLEncoder.encode(title, "UTF-8"))
             .license(License.CC_BY)
             .sourceName("vpro")

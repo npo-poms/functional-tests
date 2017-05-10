@@ -3,7 +3,7 @@ package nl.vpro.poms;
 import lombok.extern.slf4j.Slf4j;
 
 import java.time.Duration;
-import java.time.Instant;
+import java.time.ZonedDateTime;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import javax.ws.rs.core.MediaType;
@@ -16,6 +16,7 @@ import org.junit.rules.TestName;
 import nl.vpro.api.client.resteasy.NpoApiClients;
 import nl.vpro.api.client.utils.NpoApiMediaUtil;
 import nl.vpro.api.client.utils.NpoApiPageUtil;
+import nl.vpro.domain.media.Schedule;
 
 /**
  * @author Michiel Meeuwissen
@@ -32,7 +33,7 @@ public abstract class AbstractApiTest {
     @Rule
     public AllowNotImplemented notImplemented = new AllowNotImplemented();
 
-    private static final String NOW = Instant.now().toString();
+    private static final String NOW = ZonedDateTime.now(Schedule.ZONE_ID).toOffsetDateTime().toString();
 
     @Rule
     public TestName name = new TestName();
@@ -42,8 +43,8 @@ public abstract class AbstractApiTest {
 
     @Before
     public void setupTitle() {
-        title = NOW + " " + name.getMethodName() + " Caf\u00E9 \u6C49"; // testing encoding too!
         testNumber.incrementAndGet();
+        title = testNumber.intValue() + ":" + NOW + " " + name.getMethodName() + " Caf\u00E9 \u6C49"; // testing encoding too!
     }
     @After
     public void cleanClient() {
