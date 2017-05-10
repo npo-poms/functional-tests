@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.time.Duration;
 import java.time.Instant;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import javax.ws.rs.core.MediaType;
 
@@ -24,6 +25,7 @@ import nl.vpro.api.client.utils.NpoApiPageUtil;
 public abstract class AbstractApiTest {
 
 
+    static final protected  AtomicInteger testNumber = new AtomicInteger(0);
     @Rule
     public AllowUnavailable unavailable = new AllowUnavailable();
 
@@ -41,6 +43,7 @@ public abstract class AbstractApiTest {
     @Before
     public void setupTitle() {
         title = NOW + " " + name.getMethodName() + " Caf\u00E9 \u6C49"; // testing encoding too!
+        testNumber.incrementAndGet();
     }
     @After
     public void cleanClient() {

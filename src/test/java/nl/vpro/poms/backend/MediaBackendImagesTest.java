@@ -109,7 +109,7 @@ public class MediaBackendImagesTest extends AbstractApiMediaBackendTest {
 
         ImageUpdate image = update[0].getImages().get(0);
         String urn = image.getUrnAttribute();
-        image.setPublishStop(yesterday);
+        image.setPublishStopInstant(yesterday);
 
         // and add one too
         ImageUpdate newImage = random(title).build();
@@ -122,10 +122,10 @@ public class MediaBackendImagesTest extends AbstractApiMediaBackendTest {
             MID + " has image " + urn + " that expires " + yesterday,
             () -> {
                 update[0] = backend.get(MID);
-                return update[0].getImages().stream().anyMatch(iu -> Objects.equals(iu.getPublishStop(), yesterday));
+                return update[0].getImages().stream().anyMatch(iu -> Objects.equals(iu.getPublishStopInstant(), yesterday));
             });
 
-        assertThat(update[0].getImages().stream().filter(iu -> Objects.equals(iu.getPublishStop(), yesterday)).findFirst().orElseThrow(IllegalStateException::new).getUrnAttribute()).isEqualTo(urn);
+        assertThat(update[0].getImages().stream().filter(iu -> Objects.equals(iu.getPublishStopInstant(), yesterday)).findFirst().orElseThrow(IllegalStateException::new).getUrnAttribute()).isEqualTo(urn);
 
         // The new image must have arrived any way:
         assertThat(update[0].getImages().stream().anyMatch(i -> i.getTitle().equals(title))).isTrue();
@@ -206,7 +206,7 @@ public class MediaBackendImagesTest extends AbstractApiMediaBackendTest {
     }
 
     protected ImageUpdate.Builder random(String title) throws UnsupportedEncodingException {
-        return ImageUpdate.builder()
+        /*return ImageUpdate.builder()
             .type(ImageType.PICTURE)
             .title(title)
             .imageUrl("https://dummyimage.com/150x150&text=" + URLEncoder.encode(title, "UTF-8"))
@@ -214,7 +214,27 @@ public class MediaBackendImagesTest extends AbstractApiMediaBackendTest {
             .sourceName("dummyimage")
             .source("http://dummyimage.com/")
             .credits(getClass().getName());
-
+            */
+        /*
+        return ImageUpdate.builder()
+            .type(ImageType.PICTURE)
+            .title(title)
+            .imageUrl("http://lorempixel.com/400/200/sports/T" + URLEncoder.encode(title, "UTF-8") + "/")
+            .license(License.CC_BY)
+            .sourceName("lorempixel")
+            .source("http://lorempixel.com/")
+            .credits(getClass().getName());
+            */
+        ImageUpdate.Builder builder = ImageUpdate.builder()
+            .type(ImageType.PICTURE)
+            .title(testNumber.intValue() + ":" + title)
+            .imageUrl("http://images.poms.omroep.nl/image/s" + (testNumber.intValue() + 10) + "/7617.jpg?" + URLEncoder.encode(title, "UTF-8"))
+            .license(License.CC_BY)
+            .sourceName("vpro")
+            .source("https://www.vpro.nl/")
+            .credits(getClass().getName());
+        log.info("Creating image {}", builder);
+        return builder;
     }
 
 
