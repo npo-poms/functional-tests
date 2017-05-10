@@ -67,7 +67,7 @@ public abstract class AbstractApiMediaBackendTest extends AbstractApiTest {
         return
             Location.builder()
                 .avAttributes(AVAttributes.builder().avFileFormat(AVFileFormat.H264).build())
-                .platform(Platform.INTERNETVOD)
+                //.platform(Platform.INTERNETVOD)
                 .programUrl("https://www.vpro.nl/" + count)
                 .build();
 
