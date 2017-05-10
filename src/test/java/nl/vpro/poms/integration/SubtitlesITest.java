@@ -16,21 +16,19 @@ import com.google.common.collect.Iterators;
 import com.google.common.collect.PeekingIterator;
 
 import nl.vpro.api.client.utils.MediaRestClientUtils;
+import nl.vpro.domain.media.AvailableSubtitle;
+import nl.vpro.domain.media.MediaObject;
 import nl.vpro.domain.media.update.ProgramUpdate;
 import nl.vpro.domain.subtitles.StandaloneCue;
 import nl.vpro.domain.subtitles.Subtitles;
+import nl.vpro.domain.subtitles.SubtitlesType;
 import nl.vpro.domain.subtitles.SubtitlesUtil;
 import nl.vpro.poms.AbstractApiMediaBackendTest;
 
 import static nl.vpro.poms.Utils.waitUntil;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.hamcrest.Matchers.greaterThanOrEqualTo;
-import static org.hamcrest.Matchers.empty;
-
-import static org.hamcrest.Matchers.not;
-import static org.junit.Assume.assumeNotNull;
-import static org.junit.Assume.assumeThat;
-import static org.junit.Assume.assumeTrue;
+import static org.hamcrest.Matchers.*;
+import static org.junit.Assume.*;
 
 /**
  * @author Michiel Meeuwissen
@@ -42,6 +40,8 @@ public class SubtitlesITest extends AbstractApiMediaBackendTest {
     private static final String MID_WITH_LOCATIONS = "WO_VPRO_025700";
     private static final Duration ACCEPTABLE_DURATION = Duration.ofMinutes(10);
 
+    public static final AvailableSubtitle JAPANESE_TRANSLATION = new AvailableSubtitle(Locale.JAPANESE, SubtitlesType.TRANSLATION);
+
     @Before
     public void setup() {
 
@@ -52,7 +52,7 @@ public class SubtitlesITest extends AbstractApiMediaBackendTest {
     @Test
     public void test01addSubtitles() throws IOException {
         assumeThat(backendVersionNumber, greaterThanOrEqualTo(5.1f));
-        assumeThat(mediaUtil.load(MID_WITH_LOCATIONS)[0].getLocations(), not(empty()));
+        assumeThat(backend.getFullProgram(MID_WITH_LOCATIONS).getLocations(), not(empty()));
 
         firstTitle = title;
 
@@ -78,7 +78,22 @@ public class SubtitlesITest extends AbstractApiMediaBackendTest {
 
 
     @Test
-    public void test02WaitForInFrontend() throws Exception {
+    public void test02checkArrivedInBackend() throws Exception {
+        assumeThat(backendVersionNumber, greaterThanOrEqualTo(5.3f));
+
+
+        waitUntil(ACCEPTABLE_DURATION,
+            MID_WITH_LOCATIONS + " has " + JAPANESE_TRANSLATION,
+            () -> {
+                MediaObject mo = backend.getFull(MID_WITH_LOCATIONS);
+                return mo.getAvailableSubtitles().contains(JAPANESE_TRANSLATION);
+            });
+
+
+    }
+
+    @Test
+    public void test03WaitForInFrontend() throws Exception {
         assumeNotNull(firstTitle);
 
         PeekingIterator<StandaloneCue> cueIterator = waitUntil(ACCEPTABLE_DURATION,
@@ -100,7 +115,7 @@ public class SubtitlesITest extends AbstractApiMediaBackendTest {
 
 
     @Test
-    public void test03RevokeLocations() {
+    public void test04RevokeLocations() {
         Instant now = Instant.now();
         ProgramUpdate o = backend.get(MID_WITH_LOCATIONS);
         o.getLocations().forEach(l -> {
@@ -111,7 +126,7 @@ public class SubtitlesITest extends AbstractApiMediaBackendTest {
     }
 
     @Test
-    public void test04WaitForInFrontend() throws Exception {
+    public void test05WaitForInFrontend() throws Exception {
         assumeNotNull(firstTitle);
 
         assumeTrue(waitUntil(ACCEPTABLE_DURATION,
@@ -126,7 +141,7 @@ public class SubtitlesITest extends AbstractApiMediaBackendTest {
     }
 
     @Test
-    public void test05PublishLocations() {
+    public void test06PublishLocations() {
         Instant now = Instant.now();
         ProgramUpdate o = backend.get(MID_WITH_LOCATIONS);
         o.getLocations().forEach(l -> {
@@ -138,7 +153,27 @@ public class SubtitlesITest extends AbstractApiMediaBackendTest {
 
     @Test
     public void test06WaitForInFrontend() throws Exception {
-        test02WaitForInFrontend();
+        test03WaitForInFrontend();
+    }
+
+    @Test
+    public void test90Cleanup() throws Exception {
+        backend.getBackendRestService().deleteSubtitles(MID_WITH_LOCATIONS, Locale.JAPANESE, SubtitlesType.TRANSLATION, true, null);
+    }
+
+    @Test
+    public void test91checkCleanup() throws Exception {
+        assumeThat(backendVersionNumber, greaterThanOrEqualTo(5.3f));
+
+
+        waitUntil(ACCEPTABLE_DURATION,
+            MID_WITH_LOCATIONS + " has no " + JAPANESE_TRANSLATION,
+            () -> {
+                MediaObject mo = backend.getFull(MID_WITH_LOCATIONS);
+                return ! mo.getAvailableSubtitles().contains(JAPANESE_TRANSLATION);
+            });
+
+
     }
 
 }
