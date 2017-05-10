@@ -181,6 +181,7 @@ public class MediaBackendImagesTest extends AbstractApiMediaBackendTest {
 
     @Test
     public void test98Cleanup() throws Exception {
+        backend.getBrowserCache().clear();
         ProgramUpdate update = backend.get(MID);
         log.info("Removing images " + update.getImages());
         update.getImages().clear();
