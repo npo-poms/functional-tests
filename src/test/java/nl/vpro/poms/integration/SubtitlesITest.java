@@ -16,7 +16,7 @@ import com.google.common.collect.Iterators;
 import com.google.common.collect.PeekingIterator;
 
 import nl.vpro.api.client.utils.MediaRestClientUtils;
-import nl.vpro.domain.media.AvailableSubtitle;
+import nl.vpro.domain.media.AvailableSubtitles;
 import nl.vpro.domain.media.MediaObject;
 import nl.vpro.domain.media.update.ProgramUpdate;
 import nl.vpro.domain.subtitles.StandaloneCue;
@@ -40,7 +40,7 @@ public class SubtitlesITest extends AbstractApiMediaBackendTest {
     private static final String MID_WITH_LOCATIONS = "WO_VPRO_025700";
     private static final Duration ACCEPTABLE_DURATION = Duration.ofMinutes(10);
 
-    public static final AvailableSubtitle JAPANESE_TRANSLATION = new AvailableSubtitle(Locale.JAPANESE, SubtitlesType.TRANSLATION);
+    public static final AvailableSubtitles JAPANESE_TRANSLATION = new AvailableSubtitles(Locale.JAPANESE, SubtitlesType.TRANSLATION);
 
     @Before
     public void setup() {
