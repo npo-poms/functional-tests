@@ -97,13 +97,13 @@ public class SubtitlesITest extends AbstractApiMediaBackendTest {
         assumeNotNull(firstTitle);
 
         PeekingIterator<StandaloneCue> cueIterator = waitUntil(ACCEPTABLE_DURATION,
-            MID_WITH_LOCATIONS + "/" + Locale.JAPAN + "[0]=" + firstTitle,
+            MID_WITH_LOCATIONS + "/" + Locale.JAPANESE + "[0]=" + firstTitle,
             () -> {
                 clearCaches();
                 try {
                     return Iterators.peekingIterator(
                         SubtitlesUtil.standaloneStream(MediaRestClientUtils.loadOrNull(mediaUtil.getClients().getSubtitlesRestService(),
-                            MID_WITH_LOCATIONS, Locale.JAPAN)).iterator()
+                            MID_WITH_LOCATIONS, Locale.JAPANESE)).iterator()
                     );
                 } catch (IOException ioe) {
                     return null;
@@ -115,7 +115,18 @@ public class SubtitlesITest extends AbstractApiMediaBackendTest {
 
 
     @Test
-    public void test04RevokeLocations() {
+    public void test04WaitForInMediaFrontend() throws Exception {
+        assumeNotNull(firstTitle);
+        waitUntil(ACCEPTABLE_DURATION,
+            MID_WITH_LOCATIONS + " has " + JAPANESE_TRANSLATION,
+            () -> {
+
+                return mediaUtil.findByMid(MID_WITH_LOCATIONS).getAvailableSubtitles().contains(JAPANESE_TRANSLATION);
+            });
+    }
+
+    @Test
+    public void test05RevokeLocations() {
         Instant now = Instant.now();
         ProgramUpdate o = backend.get(MID_WITH_LOCATIONS);
         o.getLocations().forEach(l -> {
@@ -126,7 +137,7 @@ public class SubtitlesITest extends AbstractApiMediaBackendTest {
     }
 
     @Test
-    public void test05WaitForInFrontend() throws Exception {
+    public void test06WaitForInFrontend() throws Exception {
         assumeNotNull(firstTitle);
 
         assumeTrue(waitUntil(ACCEPTABLE_DURATION,
@@ -141,7 +152,7 @@ public class SubtitlesITest extends AbstractApiMediaBackendTest {
     }
 
     @Test
-    public void test06PublishLocations() {
+    public void test07PublishLocations() {
         Instant now = Instant.now();
         ProgramUpdate o = backend.get(MID_WITH_LOCATIONS);
         o.getLocations().forEach(l -> {
@@ -152,7 +163,7 @@ public class SubtitlesITest extends AbstractApiMediaBackendTest {
     }
 
     @Test
-    public void test06WaitForInFrontend() throws Exception {
+    public void test08WaitForInFrontend() throws Exception {
         test03WaitForInFrontend();
     }
 
@@ -172,6 +183,16 @@ public class SubtitlesITest extends AbstractApiMediaBackendTest {
                 MediaObject mo = backend.getFull(MID_WITH_LOCATIONS);
                 return ! mo.getAvailableSubtitles().contains(JAPANESE_TRANSLATION);
             });
+
+
+    }
+
+    @Test
+    public void test92checkCleanupFrontend() throws Exception {
+        assumeThat(backendVersionNumber, greaterThanOrEqualTo(5.3f));
+        waitUntil(ACCEPTABLE_DURATION,
+            MID_WITH_LOCATIONS + " has not " + JAPANESE_TRANSLATION,
+            () -> ! mediaUtil.findByMid(MID_WITH_LOCATIONS).getAvailableSubtitles().contains(JAPANESE_TRANSLATION));
 
 
     }
