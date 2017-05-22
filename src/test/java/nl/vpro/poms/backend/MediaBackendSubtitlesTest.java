@@ -81,8 +81,9 @@ public class MediaBackendSubtitlesTest extends AbstractApiMediaBackendTest {
         PeekingIterator<StandaloneCue> iterator = waitUntil(ACCEPTABLE_DURATION,
             MID + "/" + Locale.CHINESE + "[0]=" + firstTitle,
             () -> Iterators.peekingIterator(
-            SubtitlesUtil.standaloneStream(backend.getBackendRestService().getSubtitles(MID,
-                Locale.CHINESE, SubtitlesType.TRANSLATION, true)).iterator()
+            SubtitlesUtil.standaloneStream(
+                backend.getBackendRestService().getSubtitles(MID,
+                Locale.CHINESE, SubtitlesType.TRANSLATION, true), false).iterator()
             )
             , (cpi) -> cpi != null && cpi.hasNext() && cpi.peek().getContent().equals(firstTitle));
 
