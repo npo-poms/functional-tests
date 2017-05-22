@@ -54,7 +54,7 @@ public class MediaBackendSubtitlesTest extends AbstractApiMediaBackendTest {
         assumeThat(backendVersionNumber, greaterThanOrEqualTo(5.1f));
 
         firstTitle = title;
-        Subtitles subtitles = Subtitles.webvttTranslation(MID, Duration.ZERO, Locale.CHINESE,
+        Subtitles subtitles = Subtitles.webvttTranslation(MID, Duration.ofMinutes(2), Locale.CHINESE,
             "WEBVTT\n" +
                 "\n" +
                 "1\n" +
