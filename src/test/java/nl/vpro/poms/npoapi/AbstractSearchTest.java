@@ -135,7 +135,7 @@ public abstract class AbstractSearchTest<T, S> extends AbstractApiTest {
             }
             @Override
             public String toString() {
-                return "" + apiVersionNumber + " > " +  minVersion;
+                return "" + apiVersionNumber + " < " +  minVersion;
             }
         };
     }
