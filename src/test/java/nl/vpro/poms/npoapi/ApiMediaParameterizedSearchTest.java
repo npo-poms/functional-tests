@@ -2,6 +2,7 @@ package nl.vpro.poms.npoapi;
 
 import java.io.IOException;
 import java.util.Collection;
+import java.util.stream.Collectors;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -12,6 +13,7 @@ import nl.vpro.domain.api.TermFacetResultItem;
 import nl.vpro.domain.api.media.MediaForm;
 import nl.vpro.domain.api.media.MediaSearchResult;
 import nl.vpro.domain.api.media.ProgramSearchResult;
+import nl.vpro.domain.media.DescendantRef;
 import nl.vpro.domain.media.MediaObject;
 import nl.vpro.domain.media.MediaType;
 import nl.vpro.poms.ApiSearchTestHelper;
@@ -51,6 +53,12 @@ public class ApiMediaParameterizedSearchTest extends AbstractSearchTest<MediaFor
             }
 
 
+        });
+        addTester("search-schedule-events.json/null/(xml|json)", sr -> {
+            for (SearchResultItem<?> item : sr.getItems()) {
+                assertThat(((MediaObject) item.getResult()).getDescendantOf().stream().map(DescendantRef::getMidRef).collect(Collectors.toSet())).contains("POMS_S_VPRO_472240");
+
+            }
         });
     }
 
