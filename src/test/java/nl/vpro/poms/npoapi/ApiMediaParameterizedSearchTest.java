@@ -56,6 +56,7 @@ public class ApiMediaParameterizedSearchTest extends AbstractSearchTest<MediaFor
 
         });
         addTester("search-schedule-events.json/null/(xml|json)", sr -> {
+            assertThat(sr.getItems().size()).isGreaterThan(0);
             for (SearchResultItem<?> item : sr.getItems()) {
                 MediaObject object = (MediaObject) item.getResult();
                 assertThat(object.getDescendantOf().stream().map(DescendantRef::getMidRef).collect(Collectors.toSet())).contains("POMS_S_VPRO_472240");
@@ -65,6 +66,10 @@ public class ApiMediaParameterizedSearchTest extends AbstractSearchTest<MediaFor
 
             }
         });
+
+        addAssumer("channels.json/.*/(xml|json)", minVersion(5.3));
+        addAssumer("lastModifiedDesc.json/.*/(xml|json)", minVersion(5.3));
+
     }
 
     public ApiMediaParameterizedSearchTest(String name, MediaForm form, String profile, javax.ws.rs.core.MediaType mediaType) {
