@@ -73,13 +73,13 @@ public class PagesPublisherITest extends AbstractApiTest {
     @Test
     public void test001CreateOrUpdatePage() throws UnsupportedEncodingException {
 
-        urlToday = "http://test.poms.nl/" + URLEncoder.encode(name.getMethodName() + LocalDate.now(), "UTF-8");
-        urlYesterday = "http://test.poms.nl/" + URLEncoder.encode(name.getMethodName() + LocalDate.now().minusDays(1), "UTF-8");
-        urlTomorrow = "http://test.poms.nl/" + URLEncoder.encode(name.getMethodName() + LocalDate.now().plusDays(1), "UTF-8");
+        urlToday = "http://test.poms.nl/" + URLEncoder.encode(testMethod.getMethodName() + LocalDate.now(), "UTF-8");
+        urlYesterday = "http://test.poms.nl/" + URLEncoder.encode(testMethod.getMethodName() + LocalDate.now().minusDays(1), "UTF-8");
+        urlTomorrow = "http://test.poms.nl/" + URLEncoder.encode(testMethod.getMethodName() + LocalDate.now().plusDays(1), "UTF-8");
 
 
         PortalUpdate portal = new PortalUpdate("WETENSCHAP24", "http://test.poms.nl");
-        portal.setSection(new Section("/" + name.getMethodName(), "Display name " + name.getMethodName()));
+        portal.setSection(new Section("/" + testMethod.getMethodName(), "Display name " + testMethod.getMethodName()));
 
         article =
             PageUpdateBuilder.article(urlToday)

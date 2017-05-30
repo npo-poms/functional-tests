@@ -39,7 +39,7 @@ public abstract class AbstractApiTest {
     private static final String NOW = ZonedDateTime.now(Schedule.ZONE_ID).toOffsetDateTime().toString();
 
     @Rule
-    public TestName name = new TestName();
+    public TestName testMethod = new TestName();
 
     protected String title;
 
@@ -47,7 +47,7 @@ public abstract class AbstractApiTest {
     @Before
     public void setupTitle() {
         testNumber.incrementAndGet();
-        title = testNumber.intValue() + ":" + NOW + " " + name.getMethodName() + " Caf\u00E9 \u6C49"; // testing encoding too!
+        title = testNumber.intValue() + ":" + NOW + " " + testMethod.getMethodName() + " Caf\u00E9 \u6C49"; // testing encoding too!
     }
     @After
     public void cleanClient() {

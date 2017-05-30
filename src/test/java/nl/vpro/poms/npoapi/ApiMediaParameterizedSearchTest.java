@@ -56,7 +56,10 @@ public class ApiMediaParameterizedSearchTest extends AbstractSearchTest<MediaFor
 
         });
         addTester("search-schedule-events.json/null/(xml|json)", sr -> {
-            assertThat(sr.getItems().size()).isGreaterThan(0);
+            String testName = ApiMediaParameterizedSearchTest.this.testMethod.getMethodName();
+            if (testName.startsWith("search[")) {
+                assertThat(sr.getItems().size()).isGreaterThan(0);
+            }
             for (SearchResultItem<?> item : sr.getItems()) {
                 MediaObject object = (MediaObject) item.getResult();
                 assertThat(object.getDescendantOf().stream().map(DescendantRef::getMidRef).collect(Collectors.toSet())).contains("POMS_S_VPRO_472240");
