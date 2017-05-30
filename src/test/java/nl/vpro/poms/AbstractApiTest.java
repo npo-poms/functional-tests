@@ -2,6 +2,7 @@ package nl.vpro.poms;
 
 import lombok.extern.slf4j.Slf4j;
 
+import java.net.MalformedURLException;
 import java.time.Duration;
 import java.time.ZonedDateTime;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -16,6 +17,8 @@ import org.junit.rules.TestName;
 import nl.vpro.api.client.resteasy.NpoApiClients;
 import nl.vpro.api.client.utils.NpoApiMediaUtil;
 import nl.vpro.api.client.utils.NpoApiPageUtil;
+import nl.vpro.domain.classification.CachedURLClassificationServiceImpl;
+import nl.vpro.domain.classification.ClassificationServiceLocator;
 import nl.vpro.domain.media.Schedule;
 
 /**
@@ -88,6 +91,14 @@ public abstract class AbstractApiTest {
 
         }
         mediaUtil.setCacheExpiry("1S");
+
+        try {
+            ClassificationServiceLocator.setInstance(new CachedURLClassificationServiceImpl(Config.requiredOption(Config.Prefix.poms, "baseUrl")));
+            log.info("Installed {}", ClassificationServiceLocator.getInstance());
+        } catch (MalformedURLException e) {
+            log.error(e.getMessage(), e);
+        }
+
 
         log.info("Using {} ({})", clients, apiVersion);
     }
