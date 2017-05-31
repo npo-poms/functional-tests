@@ -60,7 +60,9 @@ public class ApiMediaParameterizedSearchTest extends AbstractSearchTest<MediaFor
         });
         addTester("search-schedule-events.json/null/(xml|json)", sr -> {
             String testName = ApiMediaParameterizedSearchTest.this.testMethod.getMethodName();
-            if (testName.startsWith("search[")) {
+            if (testName.startsWith("search[")
+            //Config.env() != Env.DEV // SADLY on DEV 2doc events are not coming in.
+                ) {
                 assertThat(sr.getItems().size()).isGreaterThan(0);
             }
             for (SearchResultItem<?> item : sr.getItems()) {
