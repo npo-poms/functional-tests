@@ -82,18 +82,18 @@ public abstract class AbstractSearchTest<T, S> extends AbstractApiTest {
                 atomicInteger.incrementAndGet();
             }
         }
-        final boolean log = ! result.isEmpty();
+        final boolean doLog = ! result.isEmpty();
         if (result.isEmpty()) {
             result.add((s) -> {
-                System.out.println("No predicate defined for " + name);
+                log.debug("No predicate defined for " + name);
                 return true;
             });
         }
         tester = s -> {
             boolean bool = true;
             for (Function<S, Boolean> tester1 : result) {
-                if (log) {
-                    System.out.println("USING  TESTER " + tester1 + " for " + name);
+                if (doLog) {
+                    log.info("USING  TESTER " + tester1 + " for " + name);
                 }
                 bool &= tester1.apply(s);
 

@@ -9,7 +9,6 @@ import java.util.stream.Collectors;
 import javax.ws.rs.NotFoundException;
 import javax.ws.rs.core.MediaType;
 
-import org.hamcrest.Matchers;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -112,10 +111,13 @@ public class ApiMediaLoadTest extends AbstractApiTest {
 
     @Test
     public void loadMultiple() throws Exception {
-        MultipleMediaResult o = clients.getMediaService().loadMultiple(IdList.of(mids), null, null);
+        clients.setProfile(null);
+        MultipleMediaResult o = clients.getMediaService().loadMultiple(
+            IdList.of(mids), null, null);
 
         for (int i = 0; i < mids.size(); i++) {
-            assertThat(o.getItems().get(i).getResult()).isNotNull();
+
+            assertThat(o.getItems().get(i).getResult()).withFailMessage("Not found " + mids.get(i)).isNotNull();
             assertThat(o.getItems().get(i).getResult().getMainTitle()).isNotEmpty();// NPA-362
             assertThat(o.getItems().get(i).getError()).isNull();
             assertThat(o.getItems().get(i).getResult().getMid()).isEqualTo(mids.get(i));

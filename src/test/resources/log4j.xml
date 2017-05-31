@@ -11,6 +11,9 @@
   <logger name="nl.vpro.api.client.resteasy.AbstractApiClient.4">
     <level value="WARN" />
   </logger>
+  <logger name="nl.vpro.api.client.resteasy.NpoApiClients">
+    <level value="WARN" />
+  </logger>
   <root>
     <level value="INFO" />
     <appender-ref ref="console" />
