@@ -1,5 +1,7 @@
 package nl.vpro.poms.npoapi;
 
+import lombok.extern.slf4j.Slf4j;
+
 import java.time.LocalDate;
 
 import org.junit.Before;
@@ -17,13 +19,14 @@ import nl.vpro.poms.AbstractApiTest;
 import static org.assertj.core.api.Java6Assertions.assertThat;
 
 
+@Slf4j
 public class ApiScheduleTest extends AbstractApiTest {
 
 
     private static LocalDate today = LocalDate.now(Schedule.ZONE_ID);
 
     static {
-        System.out.println("Today : " + today);
+        log.info("Today : " + today);
     }
 
     public ApiScheduleTest() {

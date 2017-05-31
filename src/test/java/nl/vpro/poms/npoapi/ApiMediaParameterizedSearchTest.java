@@ -87,9 +87,10 @@ public class ApiMediaParameterizedSearchTest extends AbstractSearchTest<MediaFor
         return ApiSearchTestHelper.getForms("/examples/media/", MediaForm.class, null, "vpro");
     }
 
+    private static final String DASHES = "--------------------------------------------";
     @Test
     public void search() throws Exception {
-        log.info("---------------------" + name);
+        log.info(DASHES.substring(0, 30 - "search".length()) + name);
         MediaSearchResult searchResultItems = clients.getMediaService().find(form, profile, null, 0L, 10);
         assumeTrue(tester.apply(searchResultItems));
         test(name, searchResultItems);
@@ -98,7 +99,7 @@ public class ApiMediaParameterizedSearchTest extends AbstractSearchTest<MediaFor
 
     @Test
     public void searchMembers() throws Exception {
-        log.info("----------MEMBERS----" + name);
+        log.info(DASHES.substring(0, 30 - "searchMembers".length()) + name);
         MediaSearchResult searchResultItems = clients.getMediaService().findMembers(form, "POMS_S_VPRO_417550", profile, null, 0L, 10);
         assumeTrue(tester.apply(searchResultItems));
         test(name + ".members.json", searchResultItems);
@@ -107,7 +108,7 @@ public class ApiMediaParameterizedSearchTest extends AbstractSearchTest<MediaFor
 
     @Test
     public void searchEpisodes() throws Exception {
-        log.info("----------EPISODES---" + name);
+        log.info(DASHES.substring(0, 30 - "searchEpisodes".length()) + name);
         ProgramSearchResult searchResultItems = clients.getMediaService().findEpisodes(form, "AVRO_1656037", profile, null, 0L, 10);
         test(name + ".episodes.json", searchResultItems);
     }
