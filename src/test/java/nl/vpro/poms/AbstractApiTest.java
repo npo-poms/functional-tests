@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import java.net.MalformedURLException;
 import java.time.Duration;
 import java.time.ZonedDateTime;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import javax.ws.rs.core.MediaType;
@@ -13,6 +14,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.rules.TestName;
+import org.junit.rules.Timeout;
 
 import nl.vpro.api.client.resteasy.NpoApiClients;
 import nl.vpro.api.client.utils.NpoApiMediaUtil;
@@ -40,6 +42,10 @@ public abstract class AbstractApiTest {
 
     @Rule
     public TestName testMethod = new TestName();
+
+    @Rule
+    public Timeout timeout = new Timeout(30, TimeUnit.MINUTES);
+
 
     protected String title;
 
@@ -94,7 +100,7 @@ public abstract class AbstractApiTest {
 
         try {
             ClassificationServiceLocator.setInstance(new CachedURLClassificationServiceImpl(Config.requiredOption(Config.Prefix.poms, "baseUrl")));
-            log.info("Installed {}", ClassificationServiceLocator.getInstance());
+            log.debug("Installed {}", ClassificationServiceLocator.getInstance());
         } catch (MalformedURLException e) {
             log.error(e.getMessage(), e);
         }
