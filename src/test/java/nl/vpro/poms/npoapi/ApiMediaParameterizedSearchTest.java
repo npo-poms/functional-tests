@@ -1,5 +1,7 @@
 package nl.vpro.poms.npoapi;
 
+import lombok.extern.slf4j.Slf4j;
+
 import java.io.IOException;
 import java.time.Instant;
 import java.util.Collection;
@@ -23,6 +25,7 @@ import static org.assertj.core.api.Java6Assertions.assertThat;
 import static org.junit.Assume.assumeTrue;
 
 @RunWith(Parameterized.class)
+@Slf4j
 public class ApiMediaParameterizedSearchTest extends AbstractSearchTest<MediaForm, MediaSearchResult> {
 
 
@@ -86,7 +89,7 @@ public class ApiMediaParameterizedSearchTest extends AbstractSearchTest<MediaFor
 
     @Test
     public void search() throws Exception {
-        System.out.println("--------------------" + name);
+        log.info("---------------------" + name);
         MediaSearchResult searchResultItems = clients.getMediaService().find(form, profile, null, 0L, 10);
         assumeTrue(tester.apply(searchResultItems));
         test(name, searchResultItems);
@@ -95,7 +98,7 @@ public class ApiMediaParameterizedSearchTest extends AbstractSearchTest<MediaFor
 
     @Test
     public void searchMembers() throws Exception {
-        System.out.println("----------------MEMBERS----" + name);
+        log.info("----------MEMBERS----" + name);
         MediaSearchResult searchResultItems = clients.getMediaService().findMembers(form, "POMS_S_VPRO_417550", profile, null, 0L, 10);
         assumeTrue(tester.apply(searchResultItems));
         test(name + ".members.json", searchResultItems);
@@ -104,7 +107,7 @@ public class ApiMediaParameterizedSearchTest extends AbstractSearchTest<MediaFor
 
     @Test
     public void searchEpisodes() throws Exception {
-        System.out.println("--------------------EPISODES---" + name);
+        log.info("----------EPISODES---" + name);
         ProgramSearchResult searchResultItems = clients.getMediaService().findEpisodes(form, "AVRO_1656037", profile, null, 0L, 10);
         test(name + ".episodes.json", searchResultItems);
     }
