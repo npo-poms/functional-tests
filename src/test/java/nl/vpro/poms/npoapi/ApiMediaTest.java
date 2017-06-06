@@ -1,5 +1,7 @@
 package nl.vpro.poms.npoapi;
 
+import lombok.extern.slf4j.Slf4j;
+
 import java.io.IOException;
 import java.time.Duration;
 import java.time.Instant;
@@ -29,6 +31,7 @@ import nl.vpro.poms.Config;
 import static org.assertj.core.api.Java6Assertions.assertThat;
 
 @RunWith(Parameterized.class)
+@Slf4j
 public class ApiMediaTest extends AbstractApiTest {
 
 
@@ -129,9 +132,24 @@ public class ApiMediaTest extends AbstractApiTest {
 
     @Test
     public void descendants() {
-        MediaResult result = mediaUtil.listDescendants("RBX_S_NTR_553927", Order.DESC, input -> input.getMediaType() == MediaType.BROADCAST, 123);
+        MediaResult result = mediaUtil.listDescendants("RBX_S_NTR_553927",
+            Order.DESC, input -> input.getMediaType() == MediaType.BROADCAST, 123);
         assertThat(result.getSize()).isEqualTo(123);
 
+    }
+
+    @Test
+    public void related() {
+        String mid = "RBX_S_NTR_553927";
+        MediaResult result = mediaUtil.getClients()
+            .getMediaService()
+            .listRelated(mid, null, null);
+        assertThat(result.getSize()).isGreaterThan(0);
+        log.info("Related to {}", mid);
+        for (MediaObject o : result) {
+            log.info("{}", o);
+
+        }
     }
 
     protected void testChanges(String profile) throws IOException {
