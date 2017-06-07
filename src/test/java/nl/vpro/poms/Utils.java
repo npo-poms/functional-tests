@@ -16,7 +16,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @Slf4j
 public class Utils {
 
-    private final static Duration WAIT = Duration.ofSeconds(30);
+    private final static Duration WAIT = Duration.ofSeconds(15);
 
     private static boolean waitUntil(Duration acceptable, Callable<Boolean> r) throws Exception {
         AbstractApiTest.clearCaches();
