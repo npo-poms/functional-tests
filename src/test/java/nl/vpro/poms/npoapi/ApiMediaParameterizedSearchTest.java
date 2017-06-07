@@ -89,7 +89,6 @@ public class ApiMediaParameterizedSearchTest extends AbstractSearchTest<MediaFor
         return ApiSearchTestHelper.getForms("/examples/media/", MediaForm.class, null, "vpro");
     }
 
-    private static final String DASHES = "--------------------------------------------";
     @Test
     public void search() throws Exception {
         log.info(DASHES.substring(0, 30 - "search".length()) + name);

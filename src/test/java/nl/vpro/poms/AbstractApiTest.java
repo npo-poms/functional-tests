@@ -30,6 +30,8 @@ import nl.vpro.domain.media.Schedule;
 @Slf4j
 public abstract class AbstractApiTest {
 
+    protected static final String DASHES = "---------------------------------------------------------------------------------";
+
 
     static final protected  AtomicInteger testNumber = new AtomicInteger(0);
     @Rule

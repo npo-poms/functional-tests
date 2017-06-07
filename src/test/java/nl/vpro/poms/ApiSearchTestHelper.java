@@ -50,9 +50,15 @@ public class ApiSearchTestHelper {
         List<Object[]> result = new ArrayList<>();
         for (MediaType mediaType : Arrays.asList(APPLICATION_XML_TYPE, APPLICATION_JSON_TYPE)) {
 
-            for (String profile : profiles) {
+            if (profiles.length > 0) {
+                for (String profile : profiles) {
+                    for (Map.Entry<String, T> e : forms) {
+                        result.add(new Object[]{e.getKey() + "/" + profile + "/" + mediaType.getSubtype(), e.getValue(), profile, mediaType});
+                    }
+                }
+            } else {
                 for (Map.Entry<String, T> e : forms) {
-                    result.add(new Object[]{e.getKey() + "/" + profile + "/" + mediaType.getSubtype(), e.getValue(), profile, mediaType});
+                    result.add(new Object[]{e.getKey() + "/" + mediaType.getSubtype(), e.getValue(), mediaType});
                 }
             }
         }
