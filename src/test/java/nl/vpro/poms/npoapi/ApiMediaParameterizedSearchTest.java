@@ -69,7 +69,7 @@ public class ApiMediaParameterizedSearchTest extends AbstractSearchTest<MediaFor
                 MediaObject object = (MediaObject) item.getResult();
                 assertThat(object.getDescendantOf().stream().map(DescendantRef::getMidRef).collect(Collectors.toSet())).contains("POMS_S_VPRO_472240");
                 assertThat(object.getScheduleEvents().stream()
-                    .anyMatch(e -> e.getStartInstant().isAfter(Instant.ofEpochMilli(1495621570000L)) && e.getStartInstant().isBefore(Instant.ofEpochMilli(1503397570000L))))
+                    .anyMatch(e -> e.getStartInstant().isAfter(Instant.ofEpochMilli(1369391170000L)) && e.getStartInstant().isBefore(Instant.ofEpochMilli(1503397570000L))))
                     .isTrue();
 
             }
