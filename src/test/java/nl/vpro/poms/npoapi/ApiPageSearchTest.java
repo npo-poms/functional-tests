@@ -1,5 +1,7 @@
 package nl.vpro.poms.npoapi;
 
+import lombok.extern.slf4j.Slf4j;
+
 import java.io.IOException;
 import java.util.Collection;
 
@@ -17,6 +19,7 @@ import static org.assertj.core.api.Java6Assertions.assertThat;
 import static org.junit.Assume.assumeTrue;
 
 @RunWith(Parameterized.class)
+@Slf4j
 public class ApiPageSearchTest extends AbstractSearchTest<PageForm, PageSearchResult> {
 
     {
@@ -41,7 +44,7 @@ public class ApiPageSearchTest extends AbstractSearchTest<PageForm, PageSearchRe
 
     @Test
     public void search() throws Exception {
-        System.out.println("--------------------" + name);
+        log.info(DASHES.substring(0, 30 - "search".length()) + name);
         PageSearchResult searchResultItems = clients.getPageService().find(form, profile, "", 0L, 10);
         assumeTrue(tester.apply(searchResultItems));
         test(name, searchResultItems);

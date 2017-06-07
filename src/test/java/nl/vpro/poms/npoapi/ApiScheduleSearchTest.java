@@ -1,5 +1,7 @@
 package nl.vpro.poms.npoapi;
 
+import lombok.extern.slf4j.Slf4j;
+
 import java.io.IOException;
 import java.util.Collection;
 
@@ -18,6 +20,7 @@ import nl.vpro.poms.ApiSearchTestHelper;
 import static org.junit.Assume.assumeTrue;
 
 @RunWith(Parameterized.class)
+@Slf4j
 public class ApiScheduleSearchTest extends AbstractSearchTest<ScheduleForm, ScheduleSearchResult> {
 
 
@@ -34,7 +37,7 @@ public class ApiScheduleSearchTest extends AbstractSearchTest<ScheduleForm, Sche
 
     @Test
     public void search() throws Exception {
-        System.out.println("--------------------" + name);
+        log.info(DASHES.substring(0, 30 - "search".length()) + name);
         ScheduleSearchResult searchResultItems;
         try {
             searchResultItems = clients.getScheduleService().find(form, profile, "", 0L, 10);
