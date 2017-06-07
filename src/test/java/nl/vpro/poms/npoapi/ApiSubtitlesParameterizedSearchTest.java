@@ -29,6 +29,9 @@ public class ApiSubtitlesParameterizedSearchTest extends AbstractSearchTest<Subt
                 assertThat(m.getResult().getContent()).containsIgnoringCase("bla");
             }
         });
+        addTester("empty.json/(xml|json)", sr -> {
+            assertThat(sr.getItems()).hasSize(10);
+        });
     }
     public ApiSubtitlesParameterizedSearchTest(String name, SubtitlesForm form, javax.ws.rs.core.MediaType mediaType) {
         super(name, form, null, mediaType);

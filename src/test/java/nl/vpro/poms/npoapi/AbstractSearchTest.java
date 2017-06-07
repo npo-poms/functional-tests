@@ -12,7 +12,6 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 
 import javax.ws.rs.core.MediaType;
 
@@ -111,11 +110,10 @@ public abstract class AbstractSearchTest<T, S> extends AbstractApiTest {
         if (! difference.isEmpty()) {
             throw new RuntimeException("Not all testers were used: " + difference);
         }
-        log.info(
-            USED.entrySet().stream()
-                .map((e) -> e.getKey() + " was used " + e.getValue().intValue() + " times")
-                .collect(Collectors.joining("\n"))
-        );
+        USED.entrySet().stream()
+            .map((e) -> e.getKey() + " was used " + e.getValue().intValue() + " times")
+            .forEach(log::info);
+
     }
 
 
