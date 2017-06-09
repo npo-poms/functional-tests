@@ -193,9 +193,15 @@ public class ApiMediaTest extends AbstractApiTest {
                         assertThat(change.getPublishDate()).isNotNull();
                     }
                     if (prev != null) {
-                        assertThat(change.getPublishDate()).isGreaterThanOrEqualTo(prev.minus(1, ChronoUnit.MINUTES).truncatedTo(ChronoUnit.MINUTES));
+                        if (change.getPublishDate() != null) { // couchdb?
+                            assertThat(change.getPublishDate())
+                                .isGreaterThanOrEqualTo(prev.minus(1, ChronoUnit.MINUTES)
+                                    .truncatedTo(ChronoUnit.MINUTES));
+                        }
                     }
-                    prev = change.getPublishDate();
+                    if (change.getPublishDate() != null) {
+                        prev = change.getPublishDate();
+                    }
                     System.out.println(change);
                 }
             }
