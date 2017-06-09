@@ -167,7 +167,7 @@ public class ApiMediaTest extends AbstractApiTest {
                     assertThat(change.getPublishDate()).isGreaterThanOrEqualTo(prev);
                     assertThat(change.getRevision() == null || change.getRevision() > 0).isTrue();
                     prev = change.getPublishDate();
-                    System.out.println(change);
+                    log.info("{}", change);
                 }
             }
         }
@@ -202,7 +202,8 @@ public class ApiMediaTest extends AbstractApiTest {
                     if (change.getPublishDate() != null) {
                         prev = change.getPublishDate();
                     }
-                    System.out.println(change);
+                    log.info("{}", change);
+
                 }
             }
         }
