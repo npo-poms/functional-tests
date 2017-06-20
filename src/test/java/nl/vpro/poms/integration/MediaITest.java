@@ -168,6 +168,7 @@ public class MediaITest extends AbstractApiMediaBackendTest {
         assumeNotNull(clipMid);
         ProgramUpdate mediaUpdate = backend.get(clipMid);
         clipDescription = title;
+        assumeNotNull(mediaUpdate);
         mediaUpdate.setMainDescription(clipDescription);
         backend.set(mediaUpdate);
     }
