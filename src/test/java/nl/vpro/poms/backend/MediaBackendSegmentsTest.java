@@ -18,7 +18,6 @@ import nl.vpro.domain.media.*;
 import nl.vpro.domain.media.update.ProgramUpdate;
 import nl.vpro.domain.media.update.SegmentUpdate;
 import nl.vpro.poms.AbstractApiMediaBackendTest;
-import nl.vpro.util.DateUtils;
 
 import static nl.vpro.poms.Utils.waitUntil;
 import static org.assertj.core.api.Java6Assertions.assertThat;
@@ -86,7 +85,7 @@ public class MediaBackendSegmentsTest extends AbstractApiMediaBackendTest {
             if (segments[0] == null) {
                 return false;
             }
-            Instant lastPublished = DateUtils.toInstant(segments[0].getLastPublished());
+            Instant lastPublished = segments[0].getLastPublishedInstant();
             if (lastPublished == null) {
                 throw new IllegalStateException("The last published field of " + segments[0] + " is null!");
             }
