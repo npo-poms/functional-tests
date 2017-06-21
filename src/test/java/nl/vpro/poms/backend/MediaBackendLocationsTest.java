@@ -143,17 +143,18 @@ public class MediaBackendLocationsTest extends AbstractApiMediaBackendTest {
     }
 
 
-    @Test
+    @Test(expected = Exception.class)
     public void test40addInvalidLocationToObject() throws Exception {
-        LocationUpdate location = LocationUpdate
-            .builder()
-            .programUrl("http:ongeldigeurl")
-            .build();
+        backend.doValidated(() -> {
+            LocationUpdate location = LocationUpdate
+                .builder()
+                .programUrl("http:ongeldigeurl")
+                .build();
 
-        ProgramUpdate update = backend.get(MID);
-        update.getLocations().add(location);
-        backend.set(update);
-
+            ProgramUpdate update = backend.get(MID);
+            update.getLocations().add(location);
+            backend.set(update);
+        });
     }
 
 
