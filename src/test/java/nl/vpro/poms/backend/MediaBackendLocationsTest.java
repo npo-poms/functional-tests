@@ -3,7 +3,6 @@ package nl.vpro.poms.backend;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
@@ -115,7 +114,7 @@ public class MediaBackendLocationsTest extends AbstractApiMediaBackendTest {
 
 
     @Test
-    public void test20addLocationToObject() throws UnsupportedEncodingException {
+    public void test20addLocationToObject() {
         titles.add(title);
         LocationUpdate location = LocationUpdate
             .builder()
