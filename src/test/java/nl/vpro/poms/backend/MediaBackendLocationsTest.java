@@ -3,10 +3,13 @@ package nl.vpro.poms.backend;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import javax.xml.bind.JAXB;
 
 import org.junit.*;
 import org.junit.runners.MethodSorters;
@@ -14,6 +17,7 @@ import org.junit.runners.MethodSorters;
 import nl.vpro.domain.media.update.LocationUpdate;
 import nl.vpro.domain.media.update.ProgramUpdate;
 import nl.vpro.domain.media.update.collections.XmlCollection;
+import nl.vpro.logging.LoggerOutputStream;
 import nl.vpro.poms.AbstractApiMediaBackendTest;
 import nl.vpro.poms.DoAfterException;
 
@@ -43,7 +47,7 @@ public class MediaBackendLocationsTest extends AbstractApiMediaBackendTest {
 
     private static Throwable exception = null;
 
-    private String firstLocation;
+    private static String firstLocation;
 
     @Before
     public void setup() {
@@ -93,7 +97,11 @@ public class MediaBackendLocationsTest extends AbstractApiMediaBackendTest {
 
     @Test
     public void test12updateLocation() throws IOException {
-        LocationUpdate update = backend.getBackendRestService().getLocations(null, MID, true).stream().filter(l -> l.getProgramUrl().equals(firstLocation)).findFirst().orElseThrow(IllegalStateException::new);
+        LocationUpdate update = backend.getBackendRestService()
+            .getLocations(null, MID, true).stream()
+            .filter(l -> l.getProgramUrl().equals(firstLocation))
+            .findFirst()
+            .orElseThrow(() -> new IllegalArgumentException(MID + " has no location " + firstLocation));
 
         update.setProgramUrl(programUrl(title));
 
@@ -105,6 +113,49 @@ public class MediaBackendLocationsTest extends AbstractApiMediaBackendTest {
         return "http://www.vpro.nl/" + title;
     }
 
+
+    @Test
+    public void test20addLocationToObject() throws UnsupportedEncodingException {
+        titles.add(title);
+        LocationUpdate location = LocationUpdate
+            .builder()
+            .programUrl(programUrl(title))
+            .build();
+
+        ProgramUpdate update = backend.get(MID);
+        update.getLocations().add(location);
+        backend.set(update);
+        JAXB.marshal(update, LoggerOutputStream.debug(log));
+    }
+
+
+    @Test
+    public void test21addLocationToObject() throws Exception {
+        List<String> currentLocations = new ArrayList<>();
+        waitUntil(ACCEPTABLE_DURATION,
+            MID + " in backend with location " + titles,
+            () -> {
+                XmlCollection<LocationUpdate> update = backend.getBackendRestService().getLocations(null, MID, true);
+                currentLocations.clear();
+                currentLocations.addAll(update.stream().map(LocationUpdate::getProgramUrl).collect(Collectors.toList()));
+                return currentLocations.containsAll(titles.stream().map(this::programUrl).collect(Collectors.toSet()));
+            });
+
+    }
+
+
+    @Test
+    public void test40addInvalidLocationToObject() throws Exception {
+        LocationUpdate location = LocationUpdate
+            .builder()
+            .programUrl("http:ongeldigeurl")
+            .build();
+
+        ProgramUpdate update = backend.get(MID);
+        update.getLocations().add(location);
+        backend.set(update);
+
+    }
 
 
     @Test
