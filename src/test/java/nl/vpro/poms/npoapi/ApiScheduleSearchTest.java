@@ -13,17 +13,29 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 
+import nl.vpro.domain.api.ApiScheduleEvent;
+import nl.vpro.domain.api.SearchResultItem;
 import nl.vpro.domain.api.media.ScheduleForm;
 import nl.vpro.domain.api.media.ScheduleSearchResult;
 import nl.vpro.poms.ApiSearchTestHelper;
 
+import static org.assertj.core.api.Java6Assertions.assertThat;
 import static org.junit.Assume.assumeTrue;
 
 @RunWith(Parameterized.class)
 @Slf4j
 public class ApiScheduleSearchTest extends AbstractSearchTest<ScheduleForm, ScheduleSearchResult> {
 
-
+    {
+        addTester("rerun.json/null/(xml|json)", sr ->
+        {
+            assertThat(sr.getItems().size()).isGreaterThan(0);
+            for (SearchResultItem<?> item : sr.getItems()) {
+                ApiScheduleEvent event = (ApiScheduleEvent) item.getResult();
+                assertThat(event.getRepeat().isRerun()).isTrue();
+            }
+        });
+    }
 
     public ApiScheduleSearchTest(String name, ScheduleForm form, String profile, MediaType mediaType) {
         super(name, form, profile, mediaType);
