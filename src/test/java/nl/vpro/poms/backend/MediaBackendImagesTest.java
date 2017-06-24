@@ -142,8 +142,6 @@ public class MediaBackendImagesTest extends AbstractApiMediaBackendTest {
     public void test22updateImageInObjectButCleanUrn() throws Exception {
         final ProgramUpdate[] update = new ProgramUpdate[1];
         update[0] = backend.get(MID);
-        Instant yesterday = Instant.now().minus(Duration.ofDays(1));
-
 
         for (ImageUpdate i : update[0].getImages()) {
             i.setId(null);

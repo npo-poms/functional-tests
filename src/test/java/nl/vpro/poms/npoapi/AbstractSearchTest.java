@@ -33,7 +33,7 @@ import static org.junit.Assume.assumeTrue;
 public abstract class AbstractSearchTest<T, S> extends AbstractApiTest {
     private static final boolean writeTempFiles = false;
     protected Map<Pattern, Function<S, Boolean>> TESTERS = new HashMap<>();
-    protected static Map<String, AtomicInteger> USED = new HashMap();
+    protected static Map<String, AtomicInteger> USED = new HashMap<>();
     protected static Set<String> AVAILABLE = new HashSet<>();
     protected Map<Pattern, Supplier<Boolean>> ASSUMERS =  new HashMap<>();
 
