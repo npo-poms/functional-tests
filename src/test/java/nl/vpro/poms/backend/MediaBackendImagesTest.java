@@ -9,6 +9,8 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.function.Function;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import javax.xml.bind.JAXB;
@@ -40,6 +42,7 @@ import static org.junit.Assume.assumeThat;
 public class MediaBackendImagesTest extends AbstractApiMediaBackendTest {
 
     private static final String MID = "WO_VPRO_025057";
+    private static final String ANOTHER_MID = "WO_KRO_475084";
     private static final Duration ACCEPTABLE_DURATION = Duration.ofMinutes(3);
     private static final List<String> titles = new ArrayList<>();
 
@@ -178,9 +181,52 @@ public class MediaBackendImagesTest extends AbstractApiMediaBackendTest {
 
 
     @Test
+    public void test30copyImageToOtherObject() throws Exception {
+        final ProgramUpdate[] updates = new ProgramUpdate[2];
+        updates[0] = backend.get(MID);
+
+        int count = updates[0].getImages().size();
+        ImageUpdate first =  updates[0].getImages().get(0);
+
+
+        updates[1] = backend.get(ANOTHER_MID);
+
+
+        updates[1].getImages().add(first);
+
+        //JAXB.marshal(update[0], System.out);
+
+        backend.set(updates[1]);
+        Function<ImageUpdate, String> getUrn = (iu) -> ((String) iu.getImage());
+        String firstUrl = getUrn.apply(first);
+        Predicate<ImageUpdate> match = (iu) -> Objects.equals(getUrn.apply(iu), firstUrl);
+
+        waitUntil(ACCEPTABLE_DURATION,
+            ANOTHER_MID + " has image " + firstUrl,
+            () -> {
+                updates[1] = backend.get(ANOTHER_MID);
+                return updates[1].getImages().stream()
+                    .anyMatch(match)
+                    ;
+            });
+
+        assertThat(updates[1].getImages().stream()
+            .filter(match).findFirst().orElseThrow(IllegalStateException::new).getId()).isNotEqualTo(first.getId());
+
+        updates[0] = backend.get(MID);
+        assertThat(updates[0].getImages().stream()
+            .filter(match).findFirst().orElseThrow(IllegalStateException::new).getId()).isEqualTo(first.getId());
+    }
+
+    @Test
     public void test98Cleanup() throws Exception {
         backend.getBrowserCache().clear();
         ProgramUpdate update = backend.get(MID);
+        log.info("Removing images " + update.getImages());
+        update.getImages().clear();
+        backend.set(update);
+
+        update = backend.get(ANOTHER_MID);
         log.info("Removing images " + update.getImages());
         update.getImages().clear();
         backend.set(update);
@@ -194,6 +240,14 @@ public class MediaBackendImagesTest extends AbstractApiMediaBackendTest {
             MID + " has no images any more",
             () -> {
                 update[0] = backend.get(MID);
+                return update[0].getImages().isEmpty();
+            });
+        assertThat(update[0].getImages()).isEmpty();
+
+        waitUntil(ACCEPTABLE_DURATION,
+            ANOTHER_MID + " has no images any more",
+            () -> {
+                update[0] = backend.get(ANOTHER_MID);
                 return update[0].getImages().isEmpty();
             });
         assertThat(update[0].getImages()).isEmpty();
