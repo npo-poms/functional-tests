@@ -104,7 +104,7 @@ public class ParkpostTest extends AbstractApiMediaBackendTest {
     public void setUp() {
         RestAssured.useRelaxedHTTPSValidation();
         RestAssured.urlEncodingEnabled = false;
-        System.out.println("Testing with " + PARKPOST);
+        log.info("Testing with " + PARKPOST);
     }
 
 
@@ -135,10 +135,10 @@ public class ParkpostTest extends AbstractApiMediaBackendTest {
                 .   log().all()
                 .   statusCode(AnyOf.anyOf(equalTo(202), equalTo(503)))
                 .   extract().asString();
-
-        Program result = JAXB.unmarshal(new StringReader(resultString), Program.class);
+        result = JAXB.unmarshal(new StringReader(resultString), Program.class);
         assertThat(result.getType()).isEqualTo(ProgramType.PROMO);
         assertThat(result.getMemberOf().first().getMediaRef()).isEqualTo(PROMOTED_MID);
+        log.info("Received {}", result);
     }
 
 
