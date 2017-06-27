@@ -2,11 +2,14 @@ package nl.vpro.poms.backend;
 
 import lombok.extern.slf4j.Slf4j;
 
+import java.io.StringReader;
 import java.nio.charset.Charset;
 import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.util.SortedSet;
+
+import javax.xml.bind.JAXB;
 
 import org.hamcrest.core.AnyOf;
 import org.junit.Before;
@@ -19,6 +22,7 @@ import com.jayway.restassured.http.ContentType;
 
 import nl.vpro.domain.media.MediaType;
 import nl.vpro.domain.media.Program;
+import nl.vpro.domain.media.ProgramType;
 import nl.vpro.domain.media.Schedule;
 import nl.vpro.domain.media.update.MediaUpdateList;
 import nl.vpro.domain.media.update.MemberUpdate;
@@ -46,7 +50,7 @@ public class ParkpostTest extends AbstractApiMediaBackendTest {
     private static final String PARKPOST = url(backendapi, "parkpost/");
     private static final String PROMOTED_MID = "WO_VPRO_025057";
     private static String promotionTitle;
-    private static String result;
+    private static Program result;
 
     private static final String EXAMPLE = "<NPO_gfxwrp>\n" +
         "  <ProductCode>2P0108MO_BLAUWBLO</ProductCode>\n" +
@@ -116,13 +120,14 @@ public class ParkpostTest extends AbstractApiMediaBackendTest {
         promoEvent.setProgramTitle(promotionTitle);
         //promoEvent.setFrameCount(100L);
         //promoEvent.setBroadcaster("VPRO");
-        result =
+        String resultString =
             given()
                 .auth().basic(
                 configOption(parkpost, "user")
                     .orElse("vpro-cms"),
                 requiredOption(parkpost, "password"))
                 .contentType(ContentType.XML.withCharset(Charset.defaultCharset()))
+                .accept(ContentType.XML)
                 .body(promoEvent)
                 .when()
                 .   post(PARKPOST + "promo")
@@ -131,7 +136,9 @@ public class ParkpostTest extends AbstractApiMediaBackendTest {
                 .   statusCode(AnyOf.anyOf(equalTo(202), equalTo(503)))
                 .   extract().asString();
 
-        assertThat(result).isEqualTo("Promo ProgramUpdate for WO_VPRO_025057 has been processed.");
+        Program result = JAXB.unmarshal(new StringReader(resultString), Program.class);
+        assertThat(result.getType()).isEqualTo(ProgramType.PROMO);
+        assertThat(result.getMemberOf().first().getMediaRef()).isEqualTo(PROMOTED_MID);
     }
 
 
