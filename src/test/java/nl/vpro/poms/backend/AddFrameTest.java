@@ -27,9 +27,7 @@ public class AddFrameTest extends AbstractApiMediaBackendTest {
     public void test01() throws Exception {
         final Duration duration = Duration.ofMinutes(10).plus(Duration.ofMinutes((int) (20f * Math.random())));
         backend.getFrameCreatorRestService().createFrame(MID, duration, null, new ByteArrayInputStream("bla bla".getBytes()));
-
         final ProgramUpdate[] update = new ProgramUpdate[1];
-
 
         waitUntil(ACCEPTABLE_DURATION,
             MID + " has image STILL with offset " + duration,
@@ -37,7 +35,6 @@ public class AddFrameTest extends AbstractApiMediaBackendTest {
                 update[0] = backend.get(MID);
                 return update[0].getImages().stream().anyMatch(iu -> iu.getOffset().equals(duration) && iu.getType() == ImageType.STILL);
             });
-
     }
 
 
