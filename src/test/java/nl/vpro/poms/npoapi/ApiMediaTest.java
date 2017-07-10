@@ -157,6 +157,9 @@ public class ApiMediaTest extends AbstractApiTest {
                     break;
                 }
                 assertThat(change.getSequence()).isNull();
+                assertThat(change.isDeleted()).isNull();
+
+
                 assertThat(change.getPublishDate()).isGreaterThanOrEqualTo(prev);
                 assertThat(change.getRevision() == null || change.getRevision() > 0).isTrue();
                 assertThat(change.getMid()).withFailMessage(change.getMid() + " should be different from " + mid).isNotEqualTo(mid);
