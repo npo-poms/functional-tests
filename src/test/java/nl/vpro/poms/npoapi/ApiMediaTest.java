@@ -3,6 +3,7 @@ package nl.vpro.poms.npoapi;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.time.Duration;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
@@ -12,12 +13,14 @@ import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import org.apache.commons.io.IOUtils;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 
 import nl.vpro.domain.api.Change;
+import nl.vpro.domain.api.Deletes;
 import nl.vpro.domain.api.Order;
 import nl.vpro.domain.api.media.MediaFormBuilder;
 import nl.vpro.domain.api.media.MediaResult;
@@ -28,7 +31,9 @@ import nl.vpro.jackson2.JsonArrayIterator;
 import nl.vpro.poms.AbstractApiTest;
 import nl.vpro.poms.Config;
 
+import static nl.vpro.api.client.utils.MediaRestClientUtils.sinceString;
 import static org.assertj.core.api.Java6Assertions.assertThat;
+import static org.junit.Assume.assumeTrue;
 
 @RunWith(Parameterized.class)
 @Slf4j
@@ -127,6 +132,40 @@ public class ApiMediaTest extends AbstractApiTest {
     @Test(expected = javax.ws.rs.NotFoundException.class)
     public void testChangesOldMissingProfile() throws IOException {
         testChangesWithOld("bestaatniet");
+    }
+
+
+    @Test
+    public void testChangesNoProfileCheckSkipDeletesMaxOne() throws IOException {
+        assumeTrue(apiVersionNumber >= 5.4);
+        final AtomicInteger i = new AtomicInteger();
+        Instant start = Instant.EPOCH;
+        Instant prev = start;
+        String prevMid = null;
+        String mid = null;
+        while (true) {
+            InputStream inputStream = mediaUtil.getClients().getMediaServiceNoTimeout()
+                .changes("vpro", null,null, sinceString(start, mid), null, 1, false, Deletes.EXCLUDE, null, null);
+
+            JsonArrayIterator<Change> changes = new JsonArrayIterator<>(inputStream, Change.class, () -> IOUtils.closeQuietly(inputStream));
+            Change change = changes.next();
+            start = change.getPublishDate();
+
+            if (!change.isTail()) {
+                i.incrementAndGet();
+                if (i.get() > 100) {
+                    break;
+                }
+                assertThat(change.getSequence()).isNull();
+                assertThat(change.getPublishDate()).isGreaterThanOrEqualTo(prev);
+                assertThat(change.getRevision() == null || change.getRevision() > 0).isTrue();
+                assertThat(change.getMid()).withFailMessage(change.getMid() + " should be different from " + mid).isNotEqualTo(mid);
+                prev = change.getPublishDate();
+                mid = change.getMid();
+                log.info("{}", change);
+            }
+        }
+        assertThat(i.intValue()).isEqualTo(10);
     }
 
 

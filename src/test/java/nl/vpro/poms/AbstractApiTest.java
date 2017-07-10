@@ -95,7 +95,7 @@ public abstract class AbstractApiTest {
         try {
              apiVersionNumber = clients.getVersionNumber();
         } catch (Exception  e) {
-            apiVersionNumber = 0f;
+            apiVersionNumber = 5.4f;
 
         }
         mediaUtil.setCacheExpiry("1S");
