@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.time.Duration;
 import java.time.Instant;
+import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -27,6 +28,7 @@ import nl.vpro.domain.api.media.MediaResult;
 import nl.vpro.domain.api.media.MediaSearchResult;
 import nl.vpro.domain.media.MediaObject;
 import nl.vpro.domain.media.MediaType;
+import nl.vpro.domain.media.Schedule;
 import nl.vpro.jackson2.JsonArrayIterator;
 import nl.vpro.poms.AbstractApiTest;
 import nl.vpro.poms.Config;
@@ -139,36 +141,50 @@ public class ApiMediaTest extends AbstractApiTest {
     public void testChangesNoProfileCheckSkipDeletesMaxOne() throws IOException {
         assumeTrue(apiVersionNumber >= 5.4);
         final AtomicInteger i = new AtomicInteger();
-        Instant start = Instant.EPOCH;
+        final Instant JAN2017 = LocalDate.of(2016, 1, 1).atStartOfDay(Schedule.ZONE_ID).toInstant();
+        final int toFind = 100;
+        int duplicateDates = 0;
+        Instant start = JAN2017;
         Instant prev = start;
         String prevMid = null;
         String mid = null;
-        while (true) {
+        List<Change> foundWithMaxOne = new ArrayList<>();
+        while (i.getAndIncrement() < toFind) {
             InputStream inputStream = mediaUtil.getClients().getMediaServiceNoTimeout()
                 .changes("vpro", null,null, sinceString(start, mid), null, 1, false, Deletes.EXCLUDE, null, null);
 
-            JsonArrayIterator<Change> changes = new JsonArrayIterator<>(inputStream, Change.class, () -> IOUtils.closeQuietly(inputStream));
-            Change change = changes.next();
-            start = change.getPublishDate();
-
-            if (!change.isTail()) {
-                i.incrementAndGet();
-                if (i.get() > 100) {
-                    break;
-                }
+            try (JsonArrayIterator<Change> changes = new JsonArrayIterator<>(inputStream, Change.class, () -> IOUtils.closeQuietly(inputStream))) {
+                Change change = changes.next();
+                start = change.getPublishDate();
                 assertThat(change.getSequence()).isNull();
-                assertThat(change.isDeleted()).isNull();
+                assertThat(change.isDeleted()).isFalse();
+                if (change.isDeleted()) {
+                    assertThat(change.getMedia()).isNull();
+                }
 
-
+                if (change.getPublishDate().equals(prev)) {
+                    log.info("Found a multiple date {}", prev);
+                    duplicateDates++;
+                }
                 assertThat(change.getPublishDate()).isGreaterThanOrEqualTo(prev);
                 assertThat(change.getRevision() == null || change.getRevision() > 0).isTrue();
                 assertThat(change.getMid()).withFailMessage(change.getMid() + " should be different from " + mid).isNotEqualTo(mid);
                 prev = change.getPublishDate();
                 mid = change.getMid();
                 log.info("{}", change);
+                foundWithMaxOne.add(change);
             }
         }
-        assertThat(i.intValue()).isEqualTo(10);
+        List<Change> foundWithMax100 = new ArrayList<>();
+        try (JsonArrayIterator<Change> changes = mediaUtil.changes("vpro", false, JAN2017, null,  Order.ASC, toFind, Deletes.EXCLUDE)) {
+            while (changes.hasNext()) {
+                Change change = changes.next();
+                foundWithMax100.add(change);
+            }
+        }
+
+        assertThat(foundWithMaxOne).containsExactlyElementsOf(foundWithMax100);
+        // assertThat(duplicateDates).isGreaterThan(0); TODO Find an example
     }
 
 
