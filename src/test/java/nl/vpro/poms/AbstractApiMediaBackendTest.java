@@ -9,8 +9,8 @@ import java.time.Duration;
 import nl.vpro.domain.image.ImageType;
 import nl.vpro.domain.media.*;
 import nl.vpro.domain.media.support.Image;
-import nl.vpro.domain.media.support.License;
 import nl.vpro.domain.media.support.OwnerType;
+import nl.vpro.domain.support.License;
 import nl.vpro.rs.media.MediaRestClient;
 
 /**

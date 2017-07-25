@@ -19,9 +19,9 @@ import org.junit.*;
 import org.junit.runners.MethodSorters;
 
 import nl.vpro.domain.image.ImageType;
-import nl.vpro.domain.media.support.License;
 import nl.vpro.domain.media.update.ImageUpdate;
 import nl.vpro.domain.media.update.ProgramUpdate;
+import nl.vpro.domain.support.License;
 import nl.vpro.logging.LoggerOutputStream;
 import nl.vpro.poms.AbstractApiMediaBackendTest;
 import nl.vpro.poms.DoAfterException;
@@ -116,7 +116,7 @@ public class MediaBackendImagesTest extends AbstractApiMediaBackendTest {
         Instant yesterday = Instant.now().minus(Duration.ofDays(1));
 
         ImageUpdate image = update[0].getImages().get(0);
-        String urn = image.getUrnAttribute();
+        String urn = image.getUrn();
         image.setPublishStopInstant(yesterday);
 
         // and add one too
@@ -135,7 +135,7 @@ public class MediaBackendImagesTest extends AbstractApiMediaBackendTest {
                 return update[0].getImages().stream().anyMatch(iu -> Objects.equals(iu.getPublishStopInstant(), yesterday));
             });
 
-        assertThat(update[0].getImages().stream().filter(iu -> Objects.equals(iu.getPublishStopInstant(), yesterday)).findFirst().orElseThrow(IllegalStateException::new).getUrnAttribute()).isEqualTo(urn);
+        assertThat(update[0].getImages().stream().filter(iu -> Objects.equals(iu.getPublishStopInstant(), yesterday)).findFirst().orElseThrow(IllegalStateException::new).getUrn()).isEqualTo(urn);
 
         // The new image must have arrived any way:
         assertThat(update[0].getImages().stream().anyMatch(i -> i.getTitle().equals(title))).isTrue();
