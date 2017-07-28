@@ -14,6 +14,9 @@
   <logger name="nl.vpro.api.client.resteasy.NpoApiClients">
     <level value="WARN" />
   </logger>
+  <logger name="com.joestelmach.natty">
+    <level value="WARN"/>
+  </logger>
   <root>
     <level value="INFO" />
     <appender-ref ref="console" />
