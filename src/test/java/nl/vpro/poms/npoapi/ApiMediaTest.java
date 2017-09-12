@@ -141,7 +141,7 @@ public class ApiMediaTest extends AbstractApiTest {
     public void testChangesNoProfileCheckSkipDeletesMaxOne() throws IOException {
         assumeTrue(apiVersionNumber >= 5.4);
         final AtomicInteger i = new AtomicInteger();
-        final Instant JAN2017 = LocalDate.of(2016, 1, 1).atStartOfDay(Schedule.ZONE_ID).toInstant();
+        final Instant JAN2017 = LocalDate.of(2017, 1, 1).atStartOfDay(Schedule.ZONE_ID).toInstant();
         final int toFind = 100;
         int duplicateDates = 0;
         Instant start = JAN2017;
@@ -244,7 +244,9 @@ public class ApiMediaTest extends AbstractApiTest {
                     if (i.get() > 100) {
                         break;
                     }
-                    assertThat(change.getSequence()).isNotNull();
+                    if (apiVersionNumber < 5.3) {
+                        assertThat(change.getSequence()).isNotNull();
+                    }
                     assertThat(change.getRevision() == null || change.getRevision() > 0).isTrue();
                     if (! change.isDeleted()) {
                         // cannot be filled by couchdb.
