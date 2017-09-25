@@ -65,7 +65,7 @@ public class MediaBackendImagesTest extends AbstractApiMediaBackendTest {
         assumeThat(backendVersionNumber, greaterThanOrEqualTo(5.0f));
         titles.add(title);
         ImageUpdate update = random(title)
-            .type(ImageType.LOGO) // differnet types make the image unique without id.
+            .type(ImageType.LOGO) // different types make the image unique without id.
             .imageUrl("https://goo.gl/fF1Laz") // redirects
             .build();
 

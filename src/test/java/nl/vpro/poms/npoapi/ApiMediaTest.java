@@ -20,8 +20,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 
-import nl.vpro.domain.api.Change;
 import nl.vpro.domain.api.Deletes;
+import nl.vpro.domain.api.MediaChange;
 import nl.vpro.domain.api.Order;
 import nl.vpro.domain.api.media.MediaFormBuilder;
 import nl.vpro.domain.api.media.MediaResult;
@@ -148,13 +148,13 @@ public class ApiMediaTest extends AbstractApiTest {
         Instant prev = start;
         String prevMid = null;
         String mid = null;
-        List<Change> foundWithMaxOne = new ArrayList<>();
+        List<MediaChange> foundWithMaxOne = new ArrayList<>();
         while (i.getAndIncrement() < toFind) {
             InputStream inputStream = mediaUtil.getClients().getMediaServiceNoTimeout()
                 .changes("vpro", null,null, sinceString(start, mid), null, 1, false, Deletes.EXCLUDE, null, null);
 
-            try (JsonArrayIterator<Change> changes = new JsonArrayIterator<>(inputStream, Change.class, () -> IOUtils.closeQuietly(inputStream))) {
-                Change change = changes.next();
+            try (JsonArrayIterator<MediaChange> changes = new JsonArrayIterator<>(inputStream, MediaChange.class, () -> IOUtils.closeQuietly(inputStream))) {
+                MediaChange change = changes.next();
                 start = change.getPublishDate();
                 assertThat(change.getSequence()).isNull();
                 assertThat(change.isDeleted()).isFalse();
@@ -175,10 +175,10 @@ public class ApiMediaTest extends AbstractApiTest {
                 foundWithMaxOne.add(change);
             }
         }
-        List<Change> foundWithMax100 = new ArrayList<>();
-        try (JsonArrayIterator<Change> changes = mediaUtil.changes("vpro", false, JAN2017, null,  Order.ASC, toFind, Deletes.EXCLUDE)) {
+        List<MediaChange> foundWithMax100 = new ArrayList<>();
+        try (JsonArrayIterator<MediaChange> changes = mediaUtil.changes("vpro", false, JAN2017, null,  Order.ASC, toFind, Deletes.EXCLUDE)) {
             while (changes.hasNext()) {
-                Change change = changes.next();
+                MediaChange change = changes.next();
                 foundWithMax100.add(change);
             }
         }
@@ -213,9 +213,9 @@ public class ApiMediaTest extends AbstractApiTest {
     protected void testChanges(String profile) throws IOException {
         final AtomicInteger i = new AtomicInteger();
         Instant prev = FROM;
-        try(JsonArrayIterator<Change> changes = mediaUtil.changes(profile, FROM, Order.ASC, 10)) {
+        try(JsonArrayIterator<MediaChange> changes = mediaUtil.changes(profile, FROM, Order.ASC, 10)) {
             while (changes.hasNext()) {
-                Change change = changes.next();
+                MediaChange change = changes.next();
                 if (!change.isTail()) {
                     i.incrementAndGet();
                     if (i.get() > 100) {
@@ -236,9 +236,9 @@ public class ApiMediaTest extends AbstractApiTest {
         final AtomicInteger i = new AtomicInteger();
         long startSequence = couchdbSince;
         Instant prev = null;
-        try (JsonArrayIterator<Change> changes = mediaUtil.changes(profile, startSequence, Order.ASC, 100)) {
+        try (JsonArrayIterator<MediaChange> changes = mediaUtil.changes(profile, startSequence, Order.ASC, 100)) {
             while (changes.hasNext()) {
-                Change change = changes.next();
+                MediaChange change = changes.next();
                 if (!change.isTail()) {
                     i.incrementAndGet();
                     if (i.get() > 100) {
