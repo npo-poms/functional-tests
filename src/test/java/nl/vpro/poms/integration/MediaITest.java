@@ -17,6 +17,7 @@ import nl.vpro.domain.media.MediaTestDataBuilder;
 import nl.vpro.domain.media.Program;
 import nl.vpro.domain.media.Segment;
 import nl.vpro.domain.media.support.Image;
+import nl.vpro.domain.media.support.Workflow;
 import nl.vpro.domain.media.update.GroupUpdate;
 import nl.vpro.domain.media.update.ProgramUpdate;
 import nl.vpro.logging.LoggerOutputStream;
@@ -140,6 +141,8 @@ public class MediaITest extends AbstractApiMediaBackendTest {
         assertThat(clip.getImages()).hasSize(1);
         assertThat(clip.getSegments()).hasSize(1);
         assertThat(clip.getLocations()).hasSize(1);
+        assertThat(clip.getWorkflow()).isEqualTo(Workflow.PUBLISHED);
+
     }
 
     @Test
@@ -160,6 +163,7 @@ public class MediaITest extends AbstractApiMediaBackendTest {
             (c) -> c.getMainTitle().equals(clipTitle));
         assertThat(clip).isNotNull();
         assertThat(clip.getMainTitle()).isEqualTo(clipTitle);
+        assertThat(clip.getWorkflow()).isEqualTo(Workflow.PUBLISHED);
     }
 
 
@@ -183,6 +187,7 @@ public class MediaITest extends AbstractApiMediaBackendTest {
         assertThat(clip).isNotNull();
         assertThat(clip.getMainDescription()).isEqualTo(clipDescription);
         assertThat(clip.getMainTitle()).isEqualTo(clipTitle);
+        assertThat(clip.getWorkflow()).isEqualTo(Workflow.PUBLISHED);
     }
 
 
