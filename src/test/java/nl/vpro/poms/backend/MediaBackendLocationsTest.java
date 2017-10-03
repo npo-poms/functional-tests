@@ -129,12 +129,12 @@ public class MediaBackendLocationsTest extends AbstractApiMediaBackendTest {
 
 
     @Test
-    public void test21addLocationToObject() throws Exception {
+    public void test21addLocationToObjectCheck() throws Exception {
         List<String> currentLocations = new ArrayList<>();
         waitUntil(ACCEPTABLE_DURATION,
             MID + " in backend with location " + titles,
             () -> {
-                XmlCollection<LocationUpdate> update = backend.getBackendRestService().getLocations(null, MID, true);
+                    XmlCollection<LocationUpdate> update = backend.getBackendRestService().getLocations(null, MID, true);
                 currentLocations.clear();
                 currentLocations.addAll(update.stream().map(LocationUpdate::getProgramUrl).collect(Collectors.toList()));
                 return currentLocations.containsAll(titles.stream().map(this::programUrl).collect(Collectors.toSet()));
