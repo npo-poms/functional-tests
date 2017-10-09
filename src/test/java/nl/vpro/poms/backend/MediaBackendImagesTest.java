@@ -3,7 +3,6 @@ package nl.vpro.poms.backend;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.UnsupportedEncodingException;
-import java.net.URI;
 import java.net.URLEncoder;
 import java.time.Duration;
 import java.time.Instant;
@@ -19,10 +18,10 @@ import javax.xml.bind.JAXB;
 import org.junit.*;
 import org.junit.runners.MethodSorters;
 
-import nl.vpro.domain.media.support.Image;
 import nl.vpro.domain.image.ImageType;
 import nl.vpro.domain.media.AVType;
 import nl.vpro.domain.media.ProgramType;
+import nl.vpro.domain.media.support.Image;
 import nl.vpro.domain.media.support.OwnerType;
 import nl.vpro.domain.media.update.ImageUpdate;
 import nl.vpro.domain.media.update.ProgramUpdate;
@@ -37,6 +36,7 @@ import static org.assertj.core.api.Java6Assertions.assertThat;
 import static org.hamcrest.Matchers.greaterThanOrEqualTo;
 import static org.junit.Assume.assumeNoException;
 import static org.junit.Assume.assumeThat;
+import static org.junit.Assume.assumeTrue;
 
 /**
  * Tests whether adding and modifying images via the POMS backend API works.
@@ -124,13 +124,17 @@ public class MediaBackendImagesTest extends AbstractApiMediaBackendTest {
     }
 
 
+    private static String wikiImageTitle;
     @Test
     public void test12addWikimediaImage() throws UnsupportedEncodingException {
-        Image image = new Image(OwnerType.BROADCASTER, "https://commons.wikimedia.org/wiki/Category:Photos_by_User:CaribDigita/Barbados#/media/File:Barbados_Flag_fountain,_Bridgetown,_Barbados.jpg");
+        titles.add(title);
+        wikiImageTitle = title;
 
-        image.setTitle("wiki-image");
+        Image image = new Image(OwnerType.BROADCASTER, "https://commons.wikimedia.org/wiki/Category:Photos_by_User:CaribDigita/Barbados#/media/File:Barbados_Flag_fountain,_Bridgetown,_Barbados.jpg");
+        image.setTitle(title);
         ImageUpdate update = new ImageUpdate(image);
 
+        backend.setImageMetaData(true);
 
         backend.addImage(update, MID);
 
@@ -142,6 +146,12 @@ public class MediaBackendImagesTest extends AbstractApiMediaBackendTest {
     @Test
     public void test20checkArrived() throws Exception {
         checkArrived();
+        assumeTrue(wikiImageTitle != null);
+        ProgramUpdate update = backend.get(MID);
+
+        assertThat(update.getImages().stream()
+            .filter(i -> i.getTitle().equals(wikiImageTitle)).findFirst()
+            .orElseThrow(IllegalStateException::new).getCredits()).isEqualTo("CaribDigita");
     }
 
 
