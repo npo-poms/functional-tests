@@ -3,6 +3,7 @@ package nl.vpro.poms.backend;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.UnsupportedEncodingException;
+import java.net.URI;
 import java.net.URLEncoder;
 import java.time.Duration;
 import java.time.Instant;
@@ -18,7 +19,11 @@ import javax.xml.bind.JAXB;
 import org.junit.*;
 import org.junit.runners.MethodSorters;
 
+import nl.vpro.domain.media.support.Image;
 import nl.vpro.domain.image.ImageType;
+import nl.vpro.domain.media.AVType;
+import nl.vpro.domain.media.ProgramType;
+import nl.vpro.domain.media.support.OwnerType;
 import nl.vpro.domain.media.update.ImageUpdate;
 import nl.vpro.domain.media.update.ProgramUpdate;
 import nl.vpro.domain.support.License;
@@ -26,6 +31,7 @@ import nl.vpro.logging.LoggerOutputStream;
 import nl.vpro.poms.AbstractApiMediaBackendTest;
 import nl.vpro.poms.DoAfterException;
 
+import static nl.vpro.domain.media.MediaBuilder.program;
 import static nl.vpro.poms.Utils.waitUntil;
 import static org.assertj.core.api.Java6Assertions.assertThat;
 import static org.hamcrest.Matchers.greaterThanOrEqualTo;
@@ -59,6 +65,21 @@ public class MediaBackendImagesTest extends AbstractApiMediaBackendTest {
     public void setup() {
         assumeNoException(exception);
     }
+
+
+    @Test
+    public void test00setup() {
+        ProgramUpdate existing = backend.get(MID);
+        if (existing == null) {
+            log.info(backend.set(ProgramUpdate.create(program().broadcasters("VPRO").mid(MID).avType(AVType.VIDEO).type(ProgramType.CLIP).mainTitle("test"))));
+        }
+        ProgramUpdate existing2 = backend.get(ANOTHER_MID);
+        if (existing2 == null) {
+            log.info(backend.set(ProgramUpdate.create(program().broadcasters("VPRO").mid(ANOTHER_MID).avType(AVType.VIDEO).type(ProgramType.CLIP).mainTitle("test"))));
+        }
+    }
+
+
 
     @Test
     public void test01addRedirectingImage() throws UnsupportedEncodingException {
@@ -101,6 +122,21 @@ public class MediaBackendImagesTest extends AbstractApiMediaBackendTest {
         backend.set(update);
         JAXB.marshal(update, LoggerOutputStream.debug(log));
     }
+
+
+    @Test
+    public void test12addWikimediaImage() throws UnsupportedEncodingException {
+        Image image = new Image(OwnerType.BROADCASTER, "https://commons.wikimedia.org/wiki/Category:Photos_by_User:CaribDigita/Barbados#/media/File:Barbados_Flag_fountain,_Bridgetown,_Barbados.jpg");
+
+        image.setTitle("wiki-image");
+        ImageUpdate update = new ImageUpdate(image);
+
+
+        backend.addImage(update, MID);
+
+        //assertThat(update.getCredits().equals("CaribDigita"));
+    }
+
 
 
     @Test
