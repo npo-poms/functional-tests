@@ -137,8 +137,6 @@ public class MediaBackendImagesTest extends AbstractApiMediaBackendTest {
         backend.setImageMetaData(true);
 
         backend.addImage(update, MID);
-
-        //assertThat(update.getCredits().equals("CaribDigita"));
     }
 
 

@@ -1,28 +1,26 @@
 package nl.vpro.poms.backend;
 
 
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.StringWriter;
 import java.time.Duration;
 import java.util.Locale;
 
+import org.apache.commons.io.IOUtils;
 import org.junit.*;
 import org.junit.runners.MethodSorters;
-
 import com.google.common.collect.Iterators;
 import com.google.common.collect.PeekingIterator;
 
-import nl.vpro.domain.subtitles.StandaloneCue;
-import nl.vpro.domain.subtitles.Subtitles;
-import nl.vpro.domain.subtitles.SubtitlesType;
-import nl.vpro.domain.subtitles.SubtitlesUtil;
+import nl.vpro.domain.subtitles.*;
 import nl.vpro.poms.AbstractApiMediaBackendTest;
 import nl.vpro.poms.DoAfterException;
 
 import static nl.vpro.poms.Utils.waitUntil;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.number.OrderingComparison.greaterThanOrEqualTo;
-import static org.junit.Assume.assumeNoException;
-import static org.junit.Assume.assumeNotNull;
-import static org.junit.Assume.assumeThat;
+import static org.junit.Assume.*;
 
 /**
  * @author Michiel Meeuwissen
@@ -74,6 +72,8 @@ public class MediaBackendSubtitlesTest extends AbstractApiMediaBackendTest {
         backend.setSubtitles(subtitles);
     }
 
+
+
     @Test
     public void test02CheckArrived() throws Exception {
         assumeNotNull(firstTitle);
@@ -89,4 +89,47 @@ public class MediaBackendSubtitlesTest extends AbstractApiMediaBackendTest {
 
         assertThat(iterator).hasSize(3);
     }
+
+
+    @Test
+    @Ignore
+    public void testForCamielNL() throws IOException {
+
+        InputStreamReader reader = new InputStreamReader(getClass().getResourceAsStream("/POW_03372714.vtt"), "UTF-8");
+        StringWriter writer = new StringWriter();
+        IOUtils.copy(reader, writer);
+        reader.close();
+
+        Subtitles subtitles = Subtitles.webvtt("WO_VPRO_11241856", Duration.ofMinutes(0), new Locale("nl"), writer.toString());
+        subtitles.setType(SubtitlesType.CAPTION);
+
+
+        backend.setSubtitles(subtitles);
+    }
+
+    @Test
+    @Ignore
+    public void testForCamielAR() throws IOException {
+
+        InputStreamReader reader = new InputStreamReader(getClass().getResourceAsStream("/POMS_NOS_9921530.vtt"), "UTF-8");
+
+        StringWriter writer = new StringWriter();
+        IOUtils.copy(reader, writer);
+        reader.close();
+
+        Subtitles subtitles = Subtitles.webvttTranslation("WO_VPRO_11241856", Duration.ofMinutes(0), new Locale("ar"), writer.toString());
+
+        Subtitles corrected = Subtitles.from(subtitles.getId(), SubtitlesUtil.fillCueNumber(SubtitlesUtil.parse(subtitles, false)).iterator());
+
+
+        backend.setSubtitles(corrected);
+    }
+
+    @Test
+    @Ignore
+    public void deleteCaption() throws IOException {
+
+        backend.deleteSubtitles(SubtitlesId.builder().language(new Locale("ar")).type(SubtitlesType.CAPTION).mid("WO_VPRO_11241856").build());
+    }
+
 }
