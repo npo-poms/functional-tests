@@ -97,7 +97,7 @@ public class MediaBackendSubtitlesTest extends AbstractApiMediaBackendTest {
 
 
     @Test
-    public void test03WebVttWithNotesWithoutCues() throws IOException {
+    public void test03WebVttWithNotesWithoutCueNumbers() throws IOException {
         InputStream input = getClass().getResourceAsStream("/POMS_VPRO_4981202.vtt");
         ByteArrayOutputStream body = new ByteArrayOutputStream();
         IOUtils.copy(input, body);
