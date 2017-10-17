@@ -104,7 +104,7 @@ public class SubtitlesITest extends AbstractApiMediaBackendTest {
                     return Iterators.peekingIterator(
                         SubtitlesUtil.standaloneStream(
                             MediaRestClientUtils.loadOrNull(mediaUtil.getClients().getSubtitlesRestService(),
-                            MID_WITH_LOCATIONS, Locale.JAPANESE), false).iterator()
+                            MID_WITH_LOCATIONS, Locale.JAPANESE), false, false).iterator()
                     );
                 } catch (IOException ioe) {
                     return null;
