@@ -183,6 +183,24 @@ public class MediaBackendSubtitlesTest extends AbstractApiMediaBackendTest {
 
     @Test
     @Ignore
+    public void testForCamielNL2() throws IOException {
+
+        InputStreamReader reader = new InputStreamReader(getClass().getResourceAsStream("/POMS_VPRO_4959361.vtt"), "UTF-8");
+
+        StringWriter writer = new StringWriter();
+        IOUtils.copy(reader, writer);
+        reader.close();
+
+        Subtitles subtitles = Subtitles.webvtt("VPWON_1259638", Duration.ofMinutes(0), new Locale("nl"), writer.toString());
+
+        Subtitles corrected = Subtitles.from(subtitles.getId(), SubtitlesUtil.fillCueNumber(SubtitlesUtil.parse(subtitles, false)).iterator());
+
+
+        backend.setSubtitles(corrected);
+    }
+
+    @Test
+    @Ignore
     public void deleteCaption() throws IOException {
 
         backend.deleteSubtitles(SubtitlesId.builder().language(new Locale("ar")).type(SubtitlesType.CAPTION).mid("WO_VPRO_11241856").build());
