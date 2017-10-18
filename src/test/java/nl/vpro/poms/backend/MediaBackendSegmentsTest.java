@@ -142,6 +142,7 @@ public class MediaBackendSegmentsTest extends AbstractApiMediaBackendTest {
         assertThat(up).isNotNull();
         assertThat(up.getMid()).isEqualTo(programMid);
         assertThat(up.getSegments()).hasSize(1);
+        assertThat(up.getVersion()).isEqualTo(backendVersionNumber);
     }
 
 
