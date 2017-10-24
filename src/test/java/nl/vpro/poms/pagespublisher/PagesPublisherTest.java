@@ -35,7 +35,7 @@ import static org.junit.Assume.assumeNotNull;
  */
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 @Slf4j
-public class PagesPublisherITest extends AbstractApiTest {
+public class PagesPublisherTest extends AbstractApiTest {
 
 
     static PageUpdateApiUtil util = new PageUpdateApiUtil(
@@ -59,7 +59,7 @@ public class PagesPublisherITest extends AbstractApiTest {
 
     @Rule
     public DoAfterException doAfterException = new DoAfterException((t) -> {
-        PagesPublisherITest.exception = t;
+        PagesPublisherTest.exception = t;
     });
 
     private static Throwable exception = null;

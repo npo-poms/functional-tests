@@ -25,11 +25,7 @@
   <properties>
     <api.client.version>5.5-SNAPSHOT</api.client.version>
     <poms.shared.version>5.5-SNAPSHOT</poms.shared.version>
-
-
     <parkpost.version>5.5-SNAPSHOT</parkpost.version>
-    <!-- TODO: drop these dependencies -->
-    <pages.version>5.5-SNAPSHOT</pages.version>
     <image.version>5.5-SNAPSHOT</image.version>
     <media.version>5.5-SNAPSHOT</media.version>
   </properties>
