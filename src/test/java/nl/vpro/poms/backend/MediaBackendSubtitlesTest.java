@@ -139,10 +139,12 @@ public class MediaBackendSubtitlesTest extends AbstractApiMediaBackendTest {
         backend.deleteSubtitles(SubtitlesId.builder().mid(MID).language(new Locale("ar")).type(SubtitlesType.TRANSLATION).build());
         backend.deleteSubtitles(SubtitlesId.builder().mid(MID).language(Locale.CHINESE).type(SubtitlesType.TRANSLATION).build());
 
+        //Subtitles subtitles = backend.getBackendRestService().getSubtitles(MID, new Locale("ar"), SubtitlesType.TRANSLATION, null);
+
         waitUntil(ACCEPTABLE_DURATION,
-            MID + " subtitles dissappeared", () -> {
-                return backend.getBackendRestService().getSubtitles(MID, new Locale("ar"), SubtitlesType.TRANSLATION, null) == null;
-            });
+            MID + " subtitles dissappeared",
+            () -> backend.getBackendRestService().getSubtitles(MID, new Locale("ar"), SubtitlesType.TRANSLATION, null) == null
+        );
     }
 
 
