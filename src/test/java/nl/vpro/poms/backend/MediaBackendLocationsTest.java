@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import javax.xml.bind.JAXB;
@@ -46,7 +47,7 @@ public class MediaBackendLocationsTest extends AbstractApiMediaBackendTest {
 
     private static Throwable exception = null;
 
-    private static String firstLocation;
+    private static String firstTitle;
 
     @Before
     public void setup() {
@@ -56,9 +57,9 @@ public class MediaBackendLocationsTest extends AbstractApiMediaBackendTest {
     @Test
     public void test01addLocation() {
         titles.add(title);
-        firstLocation = programUrl(title);
+        firstTitle = title;
         LocationUpdate update = LocationUpdate.builder()
-            .programUrl(firstLocation)
+            .programUrl(programUrl(firstTitle))
             .build();
         backend.addLocationToProgram(update, MID);
     }
@@ -96,6 +97,7 @@ public class MediaBackendLocationsTest extends AbstractApiMediaBackendTest {
 
     @Test
     public void test12updateLocation() throws IOException {
+        String firstLocation = programUrl(firstTitle);
         LocationUpdate update = backend.getBackendRestService()
             .getLocations(null, MID, true).stream()
             .filter(l -> l.getProgramUrl().equals(firstLocation))
@@ -103,14 +105,13 @@ public class MediaBackendLocationsTest extends AbstractApiMediaBackendTest {
             .orElseThrow(() -> new IllegalArgumentException(MID + " has no location " + firstLocation));
 
         update.setProgramUrl(programUrl(title));
+        titles.remove(firstTitle);
+        titles.add(title);
 
 
         backend.addLocationToProgram(update, MID);
     }
 
-    private String programUrl(String title) {
-        return "http://www.vpro.nl/" + title;
-    }
 
 
     @Test
@@ -137,7 +138,8 @@ public class MediaBackendLocationsTest extends AbstractApiMediaBackendTest {
                     XmlCollection<LocationUpdate> update = backend.getBackendRestService().getLocations(null, MID, true);
                 currentLocations.clear();
                 currentLocations.addAll(update.stream().map(LocationUpdate::getProgramUrl).collect(Collectors.toList()));
-                return currentLocations.containsAll(titles.stream().map(this::programUrl).collect(Collectors.toSet()));
+                Set<String> exprectedLocations = titles.stream().map(this::programUrl).collect(Collectors.toSet());
+                return currentLocations.containsAll(exprectedLocations);
             });
 
     }
@@ -180,6 +182,10 @@ public class MediaBackendLocationsTest extends AbstractApiMediaBackendTest {
         assertThat(update[0].getLocations()).isEmpty();
     }
 
+
+    private String programUrl(String title) {
+        return "http://www.vpro.nl/" + title;
+    }
 
 
 }
