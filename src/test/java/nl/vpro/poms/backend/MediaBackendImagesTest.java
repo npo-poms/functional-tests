@@ -125,6 +125,8 @@ public class MediaBackendImagesTest extends AbstractApiMediaBackendTest {
 
 
     private static String wikiImageTitle;
+    private static String tineyeImageTitle;
+
     @Test
     public void test12addWikimediaImage() throws UnsupportedEncodingException {
         titles.add(title);
@@ -139,6 +141,19 @@ public class MediaBackendImagesTest extends AbstractApiMediaBackendTest {
         backend.addImage(update, MID);
     }
 
+
+    @Test
+    public void test13addTineyeImage() throws UnsupportedEncodingException {
+        titles.add(title);
+        tineyeImageTitle = title;
+
+        Image image = new Image(OwnerType.BROADCASTER, "http://files.vpro.nl/test/a.png");
+        image.setTitle(title);
+        ImageUpdate update = new ImageUpdate(image);
+
+        backend.setImageMetaData(true);
+        backend.addImage(update, MID);
+    }
 
 
     @Test
