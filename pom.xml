@@ -19,15 +19,13 @@
 
     We posten bijvoorbeeld dingen via de backend api en controleren het resultaat in de bijbehorende frontend api.
 
-    Het gaat uit van credentials ins ~/conf/npo-functional-tests.properties
+    Het gaat uit van credentials in ~/conf/npo-functional-tests.properties
   </description>
 
   <properties>
     <api.client.version>5.5-SNAPSHOT</api.client.version>
-    <poms.shared.version>5.5-SNAPSHOT</poms.shared.version>
+    <poms.shared.version>5.5.0</poms.shared.version>
     <parkpost.version>5.5-SNAPSHOT</parkpost.version>
-    <image.version>5.5-SNAPSHOT</image.version>
-    <media.version>5.5-SNAPSHOT</media.version>
   </properties>
 
   <dependencies>
@@ -86,6 +84,10 @@
     <dependency>
       <groupId>nl.vpro.shared</groupId>
       <artifactId>vpro-shared-client-resteasy</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-core</artifactId>
     </dependency>
 
   </dependencies>

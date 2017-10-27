@@ -143,6 +143,7 @@ public class MediaBackendImagesTest extends AbstractApiMediaBackendTest {
 
 
     @Test
+    @Ignore
     public void test13addTineyeImage() throws UnsupportedEncodingException {
         titles.add(title);
         tineyeImageTitle = title;
