@@ -4,10 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.io.UnsupportedEncodingException;
 
-import org.junit.Before;
-import org.junit.FixMethodOrder;
-import org.junit.Rule;
-import org.junit.Test;
+import org.junit.*;
 import org.junit.runners.MethodSorters;
 
 import nl.vpro.api.client.resteasy.PageUpdateApiClient;
@@ -24,6 +21,7 @@ import static org.junit.Assume.assumeNoException;
  */
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 @Slf4j
+@Ignore("Not yet finished. Issue is still in progress")
 public class ThesaurusPublisherTest extends AbstractApiTest {
 
    PageUpdateApiClient pageUpdateApiClient = PageUpdateApiClient.configured(
@@ -48,14 +46,17 @@ public class ThesaurusPublisherTest extends AbstractApiTest {
     public void test001CreatePerson() throws UnsupportedEncodingException {
         pageUpdateApiClient.getThesaurusUpdateRestService().submitSigned(
             NewPersonRequest.builder().person(
-                NewPerson.builder().familyName("Puk").givenName("Pietje").build()
+                NewPerson.builder().familyName("Puk").givenName("Pietje2").build()
             ).build());
 
     }
 
     @Test
     public void test100Arrived() throws Exception {
-
+        pageUpdateApiClient.getThesaurusUpdateRestService().submitSigned(
+            NewPersonRequest.builder().person(
+                NewPerson.builder().familyName("Puk").givenName("Pietje2").build()
+            ).build());
     }
 
 }
