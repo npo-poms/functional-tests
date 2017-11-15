@@ -134,7 +134,7 @@ public class MediaBackendSubtitlesTest extends AbstractApiMediaBackendTest {
 
 
     @Test
-    public void test99CleanUp() throws Exception {
+    public void test98CleanUp() throws Exception {
         backend.deleteSubtitles(SubtitlesId.builder().mid(MID).language(new Locale("ar")).type(SubtitlesType.TRANSLATION).build());
         backend.deleteSubtitles(SubtitlesId.builder().mid(MID).language(Locale.CHINESE).type(SubtitlesType.TRANSLATION).build());
 
