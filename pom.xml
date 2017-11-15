@@ -23,10 +23,10 @@
   </description>
 
   <properties>
-    <api.client.version>5.5.0</api.client.version>
-    <poms.shared.version>5.5.3</poms.shared.version>
+    <api.client.version>5.6-SNAPSHOT</api.client.version>
+    <poms.shared.version>5.5.4-SNAPSHOT</poms.shared.version>
     <parkpost.version>5.5-SNAPSHOT</parkpost.version>
-    <vpro.shared.version>1.74-SNAPSHOT</vpro.shared.version>
+    <vpro.shared.version>1.75-SNAPSHOT</vpro.shared.version>
   </properties>
 
   <dependencies>
@@ -90,7 +90,10 @@
       <groupId>org.springframework</groupId>
       <artifactId>spring-core</artifactId>
     </dependency>
-
+    <dependency>
+      <groupId>nl.vpro.shared</groupId>
+      <artifactId>vpro-shared-util</artifactId>
+    </dependency>
   </dependencies>
 
   <build>

@@ -127,7 +127,7 @@ public class MediaBackendSubtitlesTest extends AbstractApiMediaBackendTest {
                     backend.getBackendRestService().getSubtitles(MID,
                         new Locale("ar"), SubtitlesType.TRANSLATION, true), false, false).iterator()
             )
-            , (cpi) -> cpi != null && cpi.hasNext() && cpi.peek().getContent().equals(firstTitle));
+            , (cpi) -> cpi != null && cpi.hasNext());
 
         assertThat(iterator).hasSize(430);
     }
@@ -141,8 +141,12 @@ public class MediaBackendSubtitlesTest extends AbstractApiMediaBackendTest {
         //Subtitles subtitles = backend.getBackendRestService().getSubtitles(MID, new Locale("ar"), SubtitlesType.TRANSLATION, null);
 
         waitUntil(ACCEPTABLE_DURATION,
-            MID + " subtitles dissappeared",
+            MID + " ar subtitles dissappeared",
             () -> backend.getBackendRestService().getSubtitles(MID, new Locale("ar"), SubtitlesType.TRANSLATION, null) == null
+        );
+        waitUntil(ACCEPTABLE_DURATION,
+            MID + " zh subtitles dissappeared",
+            () -> backend.getBackendRestService().getSubtitles(MID, Locale.CHINESE, SubtitlesType.TRANSLATION, null) == null
         );
     }
 
@@ -166,7 +170,7 @@ public class MediaBackendSubtitlesTest extends AbstractApiMediaBackendTest {
 
     @Test
     @Ignore
-    public void testForCamielAR() throws IOException {
+    public void test99ForCamielAR() throws IOException {
 
         InputStreamReader reader = new InputStreamReader(getClass().getResourceAsStream("/POMS_VPRO_4981202.vtt"), "UTF-8");
 
@@ -184,7 +188,7 @@ public class MediaBackendSubtitlesTest extends AbstractApiMediaBackendTest {
 
     @Test
     @Ignore
-    public void testForCamielNL2() throws IOException {
+    public void test99ForCamielNL2() throws IOException {
 
         InputStreamReader reader = new InputStreamReader(getClass().getResourceAsStream("/POMS_VPRO_4959361.vtt"), "UTF-8");
 
@@ -202,7 +206,7 @@ public class MediaBackendSubtitlesTest extends AbstractApiMediaBackendTest {
 
     @Test
     @Ignore
-    public void deleteCaption() throws IOException {
+    public void test99deleteCaption() throws IOException {
 
         backend.deleteSubtitles(SubtitlesId.builder().language(new Locale("ar")).type(SubtitlesType.CAPTION).mid("WO_VPRO_11241856").build());
     }
