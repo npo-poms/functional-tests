@@ -48,7 +48,7 @@ public class ParkpostTest extends AbstractApiMediaBackendTest {
     private static final String PRODUCTCODE = "1P0203MO_JOCHEMMY_" + today.toString().replace('-','_');
 
     private static final String PARKPOST = url(backendapi, "parkpost/");
-    private static final String PROMOTED_MID = "WO_VPRO_025057";
+    private static final String PROMOTED_MID = MID;
     private static String promotionTitle;
     private static Program result;
 

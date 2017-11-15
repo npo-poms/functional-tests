@@ -33,7 +33,6 @@ import static org.junit.Assume.*;
 @Slf4j
 public class MediaBackendSubtitlesTest extends AbstractApiMediaBackendTest {
 
-    private static final String MID = "WO_VPRO_025057";
     private static final Duration ACCEPTABLE_DURATION = Duration.ofMinutes(3);
 
     @Rule

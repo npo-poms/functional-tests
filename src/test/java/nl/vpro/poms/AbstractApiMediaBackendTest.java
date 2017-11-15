@@ -6,10 +6,14 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.time.Duration;
 
+import org.junit.BeforeClass;
+
 import nl.vpro.domain.image.ImageType;
 import nl.vpro.domain.media.*;
 import nl.vpro.domain.media.support.Image;
 import nl.vpro.domain.media.support.OwnerType;
+import nl.vpro.domain.media.update.MediaUpdate;
+import nl.vpro.domain.media.update.ProgramUpdate;
 import nl.vpro.domain.support.License;
 import nl.vpro.rs.media.MediaRestClient;
 
@@ -20,9 +24,14 @@ import nl.vpro.rs.media.MediaRestClient;
 @Slf4j
 public abstract class AbstractApiMediaBackendTest extends AbstractApiTest {
 
+    protected static final String MID                = "WO_VPRO_025057";
+    protected static final String MID_WITH_LOCATIONS = "WO_VPRO_025700";
+    protected static final String ANOTHER_MID        = "WO_KRO_475084";
+
+
     protected static final MediaRestClient backend =
-        MediaRestClient.configured(Config.env(),
-            Config.getProperties(Config.Prefix.backendapi))
+        MediaRestClient.configured(Config.env(), Config.getProperties(Config.Prefix.backendapi))
+            .validateInput(true)
             .build();
     protected static final String backendVersion = backend.getVersion();
     protected static Float backendVersionNumber;
@@ -70,5 +79,19 @@ public abstract class AbstractApiMediaBackendTest extends AbstractApiTest {
                 .programUrl("https://www.vpro.nl/" + count)
                 .build();
 
+    }
+
+    @BeforeClass
+    public static void checkMids() {
+        MediaUpdate<?> mediaUpdate = backend.get(MID);
+        if (mediaUpdate == null) {
+            log.info("No media found {}.  Now creating", MID);
+            ProgramUpdate create = ProgramUpdate.create(ProgramType.CLIP);
+            create.setAVType(AVType.MIXED);
+            create.setBroadcasters("VPRO");
+            create.setMid(MID);
+            create.setMainTitle("Test");
+            backend.set(create);
+        }
     }
 }

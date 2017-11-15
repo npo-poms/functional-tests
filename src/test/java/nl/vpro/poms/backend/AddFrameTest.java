@@ -21,7 +21,7 @@ public class AddFrameTest extends AbstractApiMediaBackendTest {
 
 
     private static final Duration ACCEPTABLE_DURATION = Duration.ofMinutes(3);
-    private static final String MID = "WO_VPRO_025057";
+
 
     @Test
     public void test01() throws Exception {

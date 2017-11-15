@@ -47,8 +47,8 @@ import static org.junit.Assume.assumeTrue;
 @Slf4j
 public class MediaBackendImagesTest extends AbstractApiMediaBackendTest {
 
-    private static final String MID = "WO_VPRO_025057";
-    private static final String ANOTHER_MID = "WO_KRO_475084";
+
+
     private static final Duration ACCEPTABLE_DURATION = Duration.ofMinutes(3);
     private static final List<String> titles = new ArrayList<>();
 

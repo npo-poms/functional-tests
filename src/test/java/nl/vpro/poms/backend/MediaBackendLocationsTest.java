@@ -34,7 +34,6 @@ import static org.junit.Assume.assumeNoException;
 @Slf4j
 public class MediaBackendLocationsTest extends AbstractApiMediaBackendTest {
 
-    private static final String MID = "WO_VPRO_025057";
     private static final Duration ACCEPTABLE_DURATION = Duration.ofMinutes(3);
     private static final List<String> titles = new ArrayList<>();
 
