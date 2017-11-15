@@ -3,7 +3,9 @@ package nl.vpro.poms;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
+import java.net.InetAddress;
 import java.util.AbstractMap;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.function.Supplier;
@@ -33,7 +35,10 @@ public class Config {
     static {
 
         try {
-            PROPERTIES = ReflectionUtils.getProperties(ReflectionUtils.getConfigFilesInHome(CONFIG_FILE));
+            Map<String, String> initial = new HashMap<>();
+            initial.put("localhost", InetAddress.getLocalHost().getHostName());
+            PROPERTIES = ReflectionUtils.getProperties(initial, ReflectionUtils.getConfigFilesInHome(CONFIG_FILE)
+            );
             log.info("Reading {} configuration from {}", env(), CONFIG_FILE);
             log.debug("{}", PROPERTIES);
         } catch (IOException e) {
