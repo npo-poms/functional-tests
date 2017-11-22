@@ -33,7 +33,10 @@ public class AddFrameTest extends AbstractApiMediaBackendTest {
             MID + " has image STILL with offset " + duration,
             () -> {
                 update[0] = backend.get(MID);
-                return update[0] != null && update[0].getImages().stream().anyMatch(iu -> iu.getOffset().equals(duration) && iu.getType() == ImageType.STILL);
+                return update[0] != null &&
+                    update[0].getImages()
+                        .stream()
+                        .anyMatch(iu -> iu.getOffset().equals(duration) && iu.getType() == ImageType.STILL);
             });
     }
 

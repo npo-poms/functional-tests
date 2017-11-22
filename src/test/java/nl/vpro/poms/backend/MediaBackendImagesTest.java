@@ -19,8 +19,6 @@ import org.junit.*;
 import org.junit.runners.MethodSorters;
 
 import nl.vpro.domain.image.ImageType;
-import nl.vpro.domain.media.AVType;
-import nl.vpro.domain.media.ProgramType;
 import nl.vpro.domain.media.support.Image;
 import nl.vpro.domain.media.support.OwnerType;
 import nl.vpro.domain.media.update.ImageUpdate;
@@ -30,13 +28,10 @@ import nl.vpro.logging.LoggerOutputStream;
 import nl.vpro.poms.AbstractApiMediaBackendTest;
 import nl.vpro.poms.DoAfterException;
 
-import static nl.vpro.domain.media.MediaBuilder.program;
 import static nl.vpro.poms.Utils.waitUntil;
 import static org.assertj.core.api.Java6Assertions.assertThat;
 import static org.hamcrest.Matchers.greaterThanOrEqualTo;
-import static org.junit.Assume.assumeNoException;
-import static org.junit.Assume.assumeThat;
-import static org.junit.Assume.assumeTrue;
+import static org.junit.Assume.*;
 
 /**
  * Tests whether adding and modifying images via the POMS backend API works.
@@ -68,15 +63,9 @@ public class MediaBackendImagesTest extends AbstractApiMediaBackendTest {
 
 
     @Test
-    public void test00setup() {
-        ProgramUpdate existing = backend.get(MID);
-        if (existing == null) {
-            log.info(backend.set(ProgramUpdate.create(program().broadcasters("VPRO").mid(MID).avType(AVType.VIDEO).type(ProgramType.CLIP).mainTitle("test"))));
-        }
-        ProgramUpdate existing2 = backend.get(ANOTHER_MID);
-        if (existing2 == null) {
-            log.info(backend.set(ProgramUpdate.create(program().broadcasters("VPRO").mid(ANOTHER_MID).avType(AVType.VIDEO).type(ProgramType.CLIP).mainTitle("test"))));
-        }
+    public void test00setup() throws Exception {
+        cleanup();
+        cleanupCheck();
     }
 
 
@@ -280,6 +269,18 @@ public class MediaBackendImagesTest extends AbstractApiMediaBackendTest {
 
     @Test
     public void test98Cleanup() throws Exception {
+        cleanup();
+    }
+
+
+    @Test
+    public void test99CleanupCheck() throws Exception {
+        cleanupCheck();
+    }
+
+
+
+    protected void cleanup() throws Exception {
         backend.getBrowserCache().clear();
         ProgramUpdate update = backend.get(MID);
         log.info("Removing images " + update.getImages());
@@ -293,8 +294,7 @@ public class MediaBackendImagesTest extends AbstractApiMediaBackendTest {
     }
 
 
-    @Test
-    public void test99CleanupCheck() throws Exception {
+    protected void cleanupCheck() throws Exception {
         final ProgramUpdate[] update = new ProgramUpdate[1];
         waitUntil(ACCEPTABLE_DURATION,
             MID + " has no images any more",
@@ -312,7 +312,6 @@ public class MediaBackendImagesTest extends AbstractApiMediaBackendTest {
             });
         assertThat(update[0].getImages()).isEmpty();
     }
-
 
     protected void checkArrived() throws Exception {
         if (exception == null) {

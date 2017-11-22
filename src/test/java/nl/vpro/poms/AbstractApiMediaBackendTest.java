@@ -17,6 +17,8 @@ import nl.vpro.domain.media.update.ProgramUpdate;
 import nl.vpro.domain.support.License;
 import nl.vpro.rs.media.MediaRestClient;
 
+import static nl.vpro.domain.media.MediaBuilder.program;
+
 /**
  * @author Michiel Meeuwissen
  * @since 1.0
@@ -92,6 +94,20 @@ public abstract class AbstractApiMediaBackendTest extends AbstractApiTest {
             create.setMid(MID);
             create.setMainTitle("Test");
             backend.set(create);
+        }
+        ProgramUpdate anotherProgramUpdate = backend.get(ANOTHER_MID);
+        if (anotherProgramUpdate == null) {
+            log.info("No media found {}. Now creating", ANOTHER_MID);
+            log.info(
+                backend.set(
+                    ProgramUpdate.create(program()
+                        .broadcasters("VPRO")
+                        .mid(ANOTHER_MID)
+                        .avType(AVType.VIDEO)
+                        .type(ProgramType.CLIP)
+                        .mainTitle("test"))
+                )
+            );
         }
     }
 }
