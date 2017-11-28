@@ -24,8 +24,8 @@
 
   <properties>
     <api.client.version>5.6-SNAPSHOT</api.client.version>
-    <poms.shared.version>5.5.4-SNAPSHOT</poms.shared.version>
-    <parkpost.version>5.5-SNAPSHOT</parkpost.version>
+    <poms.shared.version>5.6-SNAPSHOT</poms.shared.version>
+    <parkpost.version>5.5.0</parkpost.version>
     <vpro.shared.version>1.75-SNAPSHOT</vpro.shared.version>
   </properties>
 
