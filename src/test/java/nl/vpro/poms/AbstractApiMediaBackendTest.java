@@ -8,6 +8,7 @@ import java.time.Duration;
 
 import org.junit.BeforeClass;
 
+import nl.vpro.api.client.utils.Config;
 import nl.vpro.domain.image.ImageType;
 import nl.vpro.domain.media.*;
 import nl.vpro.domain.media.support.Image;
@@ -31,8 +32,9 @@ public abstract class AbstractApiMediaBackendTest extends AbstractApiTest {
     protected static final String ANOTHER_MID        = "WO_KRO_475084";
 
 
+
     protected static final MediaRestClient backend =
-        MediaRestClient.configured(Config.env(), Config.getProperties(Config.Prefix.backendapi))
+        MediaRestClient.configured(CONFIG.env(), CONFIG.getProperties(Config.Prefix.backendapi))
             .validateInput(true)
             .build();
     protected static final String backendVersion = backend.getVersion();

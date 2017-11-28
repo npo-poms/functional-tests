@@ -22,7 +22,7 @@ import nl.vpro.api.client.utils.Result;
 import nl.vpro.domain.page.*;
 import nl.vpro.domain.page.update.*;
 import nl.vpro.poms.AbstractApiTest;
-import nl.vpro.poms.Config;
+import nl.vpro.api.client.utils.Config;
 import nl.vpro.poms.DoAfterException;
 import nl.vpro.poms.Utils;
 
@@ -40,7 +40,8 @@ public class PagesPublisherTest extends AbstractApiTest {
 
     static PageUpdateApiUtil util = new PageUpdateApiUtil(
         PageUpdateApiClient.configured(
-            Config.env(), Config.getProperties(Config.Prefix.pageupdateapi)
+            CONFIG.env(),
+            CONFIG.getProperties(Config.Prefix.pageupdateapi)
         ).build(),
         PageUpdateRateLimiter.builder().build()
     );

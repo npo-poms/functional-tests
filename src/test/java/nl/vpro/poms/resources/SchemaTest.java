@@ -19,7 +19,9 @@ import org.xml.sax.SAXException;
 import nl.vpro.domain.media.MediaTestDataBuilder;
 import nl.vpro.domain.media.Program;
 import nl.vpro.domain.media.update.ProgramUpdate;
-import nl.vpro.poms.Config;
+import nl.vpro.api.client.utils.Config;
+
+import static nl.vpro.poms.AbstractApiTest.CONFIG;
 
 /**
  * @author Michiel Meeuwissen
@@ -31,7 +33,7 @@ public class SchemaTest {
 
     @Test
     public void testUpdateSchema() throws IOException, SAXException {
-        String baseUrl = Config.requiredOption(Config.Prefix.poms, "baseUrl");
+        String baseUrl = CONFIG.requiredOption(Config.Prefix.poms, "baseUrl");
         SchemaFactory factory = SchemaFactory.newInstance(
             XMLConstants.W3C_XML_SCHEMA_NS_URI);
         Schema xsdSchema = factory.newSchema(
@@ -52,7 +54,7 @@ public class SchemaTest {
 
     @Test
     public void testSchema() throws IOException, SAXException {
-        String baseUrl = Config.requiredOption(Config.Prefix.poms, "baseUrl");
+        String baseUrl = CONFIG.requiredOption(Config.Prefix.poms, "baseUrl");
         SchemaFactory factory = SchemaFactory.newInstance(
             XMLConstants.W3C_XML_SCHEMA_NS_URI);
         URL url = new URL(baseUrl + "/schema/vproMedia.xsd");

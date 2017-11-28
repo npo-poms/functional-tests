@@ -17,6 +17,7 @@ import org.junit.rules.TestName;
 import org.junit.rules.Timeout;
 
 import nl.vpro.api.client.resteasy.NpoApiClients;
+import nl.vpro.api.client.utils.Config;
 import nl.vpro.api.client.utils.NpoApiMediaUtil;
 import nl.vpro.api.client.utils.NpoApiPageUtil;
 import nl.vpro.domain.classification.CachedURLClassificationServiceImpl;
@@ -31,6 +32,9 @@ import nl.vpro.domain.media.Schedule;
 public abstract class AbstractApiTest {
 
     protected static final String DASHES = "---------------------------------------------------------------------------------";
+
+
+    public static final Config CONFIG = new Config("npo-functional-tests.properties");
 
 
     static final protected  AtomicInteger testNumber = new AtomicInteger(0);
@@ -75,7 +79,7 @@ public abstract class AbstractApiTest {
 
     protected static final Duration ACCEPTABLE_DURATION_FRONTEND = Duration.ofMinutes(10);
     protected static final NpoApiClients clients =
-        NpoApiClients.configured(Config.env(), Config.getProperties(Config.Prefix.npoapi))
+        NpoApiClients.configured(CONFIG.env(), CONFIG.getProperties(Config.Prefix.npoapi))
             .warnThreshold(Duration.ofMillis(500))
             .accept(MediaType.APPLICATION_XML_TYPE)
             .build();
@@ -101,7 +105,8 @@ public abstract class AbstractApiTest {
         mediaUtil.setCacheExpiry("1S");
 
         try {
-            ClassificationServiceLocator.setInstance(new CachedURLClassificationServiceImpl(Config.requiredOption(Config.Prefix.poms, "baseUrl")));
+            ClassificationServiceLocator.setInstance(new CachedURLClassificationServiceImpl(
+                CONFIG.requiredOption(Config.Prefix.poms, "baseUrl")));
             log.debug("Installed {}", ClassificationServiceLocator.getInstance());
         } catch (MalformedURLException e) {
             log.error(e.getMessage(), e);

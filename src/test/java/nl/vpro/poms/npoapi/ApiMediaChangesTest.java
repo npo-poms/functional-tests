@@ -23,7 +23,6 @@ import nl.vpro.domain.api.Order;
 import nl.vpro.domain.media.Schedule;
 import nl.vpro.jackson2.JsonArrayIterator;
 import nl.vpro.poms.AbstractApiTest;
-import nl.vpro.poms.Config;
 
 import static nl.vpro.api.client.utils.MediaRestClientUtils.sinceString;
 import static org.assertj.core.api.Java6Assertions.assertThat;
@@ -40,7 +39,7 @@ public class ApiMediaChangesTest extends AbstractApiTest {
 
     @Before
     public void setup() {
-        switch(Config.env()) {
+        switch(CONFIG.env()) {
             case DEV:
                 couchdbSince = 25387000;
                 FROM = Instant.now().minus(Duration.ofDays(100));

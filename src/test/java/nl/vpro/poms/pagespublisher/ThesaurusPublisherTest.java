@@ -9,7 +9,7 @@ import org.junit.runners.MethodSorters;
 
 import nl.vpro.api.client.resteasy.PageUpdateApiClient;
 import nl.vpro.poms.AbstractApiTest;
-import nl.vpro.poms.Config;
+import nl.vpro.api.client.utils.Config;
 import nl.vpro.poms.DoAfterException;
 import nl.vpro.rs.thesaurus.update.NewPerson;
 import nl.vpro.rs.thesaurus.update.NewPersonRequest;
@@ -25,7 +25,8 @@ import static org.junit.Assume.assumeNoException;
 public class ThesaurusPublisherTest extends AbstractApiTest {
 
    PageUpdateApiClient pageUpdateApiClient = PageUpdateApiClient.configured(
-       Config.env(),Config.getProperties(Config.Prefix.pageupdateapi)
+       CONFIG.env(),
+       CONFIG.getProperties(Config.Prefix.pageupdateapi)
         ).build();
 
 

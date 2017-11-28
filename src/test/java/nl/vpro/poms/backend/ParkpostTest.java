@@ -32,9 +32,8 @@ import nl.vpro.parkpost.promo.bind.PromoEvent;
 import nl.vpro.poms.AbstractApiMediaBackendTest;
 
 import static com.jayway.restassured.RestAssured.given;
-import static nl.vpro.poms.Config.Prefix.backendapi;
-import static nl.vpro.poms.Config.Prefix.parkpost;
-import static nl.vpro.poms.Config.*;
+import static nl.vpro.api.client.utils.Config.Prefix.backendapi;
+import static nl.vpro.api.client.utils.Config.Prefix.parkpost;
 import static nl.vpro.poms.Utils.waitUntilNotNull;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.CoreMatchers.equalTo;
@@ -47,7 +46,7 @@ public class ParkpostTest extends AbstractApiMediaBackendTest {
     private static final LocalDate today = LocalDate.now(Schedule.ZONE_ID);
     private static final String PRODUCTCODE = "1P0203MO_JOCHEMMY_" + today.toString().replace('-','_');
 
-    private static final String PARKPOST = url(backendapi, "parkpost/");
+    private static final String PARKPOST = CONFIG.url(backendapi, "parkpost/");
     private static final String PROMOTED_MID = MID;
     private static String promotionTitle;
     private static Program result;
@@ -123,9 +122,9 @@ public class ParkpostTest extends AbstractApiMediaBackendTest {
         String resultString =
             given()
                 .auth().basic(
-                configOption(parkpost, "user")
+                CONFIG.configOption(parkpost, "user")
                     .orElse("vpro-cms"),
-                requiredOption(parkpost, "password"))
+                CONFIG.requiredOption(parkpost, "password"))
                 .contentType(ContentType.XML.withCharset(Charset.defaultCharset()))
                 .accept(ContentType.XML)
                 .body(promoEvent)
