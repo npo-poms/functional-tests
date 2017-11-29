@@ -27,7 +27,7 @@ import nl.vpro.poms.AllowUnavailable;
 
 import static com.jayway.restassured.RestAssured.given;
 import static nl.vpro.poms.AbstractApiTest.CONFIG;
-import static nl.vpro.api.client.utils.Config.Prefix.backendapi;
+import static nl.vpro.api.client.utils.Config.Prefix.backend_api;
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assume.assumeNotNull;
 
@@ -45,11 +45,11 @@ public class MediaTest {
     @Rule
     public AllowUnavailable allowUnavailable = new AllowUnavailable();
 
-    private static final String MEDIA_URL = CONFIG.url(backendapi, "media/media");
-    private static final String FIND_URL = CONFIG.url(backendapi, "media/find");
-    private static final String USERNAME = CONFIG.configOption(backendapi, "username").orElse("vpro-mediatools");
-    private static final String PASSWORD = CONFIG.requiredOption(backendapi, "password");
-    private static final String ERRORS_EMAIL = CONFIG.configOption(backendapi, "errors_email").orElse("digitaal-techniek@vpro.nl");
+    private static final String MEDIA_URL = CONFIG.url(backend_api, "media/media");
+    private static final String FIND_URL = CONFIG.url(backend_api, "media/find");
+    private static final String USERNAME = CONFIG.configOption(backend_api, "username").orElse("vpro-mediatools");
+    private static final String PASSWORD = CONFIG.requiredOption(backend_api, "password");
+    private static final String ERRORS_EMAIL = CONFIG.configOption(backend_api, "errors_email").orElse("digitaal-techniek@vpro.nl");
     private static final String BASE_CRID = "crid://apitests";
     private static final String TITLE_PREFIX = "API_FUNCTIONAL_TEST_";
     private static String dynamicSuffix;

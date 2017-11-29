@@ -41,7 +41,7 @@ public class PagesPublisherTest extends AbstractApiTest {
     static PageUpdateApiUtil util = new PageUpdateApiUtil(
         PageUpdateApiClient.configured(
             CONFIG.env(),
-            CONFIG.getProperties(Config.Prefix.pageupdateapi)
+            CONFIG.getProperties(Config.Prefix.pageupdate_api)
         ).build(),
         PageUpdateRateLimiter.builder().build()
     );

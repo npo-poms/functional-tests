@@ -34,7 +34,7 @@ public abstract class AbstractApiMediaBackendTest extends AbstractApiTest {
 
 
     protected static final MediaRestClient backend =
-        MediaRestClient.configured(CONFIG.env(), CONFIG.getProperties(Config.Prefix.backendapi))
+        MediaRestClient.configured(CONFIG.env(), CONFIG.getProperties(Config.Prefix.backend_api))
             .validateInput(true)
             .build();
     protected static final String backendVersion = backend.getVersion();
