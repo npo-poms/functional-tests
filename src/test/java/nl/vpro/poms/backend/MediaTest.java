@@ -1,5 +1,7 @@
 package nl.vpro.poms.backend;
 
+import lombok.extern.slf4j.Slf4j;
+
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.time.LocalDate;
@@ -37,6 +39,7 @@ import static org.junit.Assume.assumeNotNull;
  * @author Michiel Meeuwissen
  */
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
+@Slf4j
 public class MediaTest {
 
     @Rule
@@ -226,7 +229,7 @@ public class MediaTest {
 
     @Test
     public void test10Retrieve404() throws UnsupportedEncodingException, InterruptedException, ModificationException {
-        given()
+        log.info(given()
             .auth().basic(USERNAME, PASSWORD)
             .log().all()
             .when()
@@ -234,7 +237,8 @@ public class MediaTest {
             .then()
             .  log().all()
             .statusCode(404)
-            .extract().asString();
+            .extract()
+            .asString());
     }
 
 
