@@ -223,6 +223,21 @@ public class MediaTest {
             .  body(hasXPath("/program/@deleted", equalTo("true")));
     }
 
+
+    @Test
+    public void test10Retrieve404() throws UnsupportedEncodingException, InterruptedException, ModificationException {
+        given()
+            .auth().basic(USERNAME, PASSWORD)
+            .log().all()
+            .when()
+            .  get(MEDIA_URL + "/BESTAATNIET")
+            .then()
+            .  log().all()
+            .statusCode(404)
+            .extract().asString();
+    }
+
+
     private Program createClip(String crid, String dynamicSuffix, List<Segment> segments) throws ModificationException {
 
         return MediaTestDataBuilder.program()
