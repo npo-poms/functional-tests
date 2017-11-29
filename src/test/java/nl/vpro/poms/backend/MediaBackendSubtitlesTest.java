@@ -14,13 +14,14 @@ import com.google.common.collect.Iterators;
 import com.google.common.collect.PeekingIterator;
 
 import nl.vpro.api.rs.subtitles.Constants;
+import nl.vpro.domain.media.MediaTestDataBuilder;
+import nl.vpro.domain.media.update.ProgramUpdate;
 import nl.vpro.domain.subtitles.*;
 import nl.vpro.poms.AbstractApiMediaBackendTest;
 import nl.vpro.poms.DoAfterException;
 
 import static com.jayway.restassured.RestAssured.given;
 import static nl.vpro.api.client.utils.Config.Prefix.backendapi;
-
 import static nl.vpro.poms.Utils.waitUntil;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.number.OrderingComparison.greaterThanOrEqualTo;
@@ -132,6 +133,49 @@ public class MediaBackendSubtitlesTest extends AbstractApiMediaBackendTest {
         assertThat(iterator).hasSize(430);
     }
 
+
+    private static String newMid;
+    @Test
+    public void test05CreateSubtitlesForNewClip() throws Exception {
+
+        ProgramUpdate clip = ProgramUpdate.create(MediaTestDataBuilder.clip());
+
+        newMid = backend.set(clip);
+
+
+        log.info("New mid {}", newMid);
+
+        Subtitles subtitles = Subtitles.webvttTranslation(newMid, Duration.ofMinutes(2), new Locale("ar"),
+            "WEBVTT\n" +
+                "\n" +
+                "00:00:02.200 --> 00:00:04.150\n" +
+                "" + title + "\n" +
+                "\n" +
+                "00:00:04.200 --> 00:00:08.060\n" +
+                "*'مجلس النواب يريد المزيد من التدقيق في طلبات لجوء المثليين الجنسيين\n" +
+                "\n" +
+                ""
+        );
+        backend.setSubtitles(subtitles);
+    }
+
+
+    @Test
+    public void test06CreateSubtitlesForNewClip() throws Exception {
+        assumeNotNull(newMid);
+
+
+        PeekingIterator<StandaloneCue> iterator = waitUntil(ACCEPTABLE_DURATION,
+            newMid + "/ar has cues",
+            () -> Iterators.peekingIterator(
+                SubtitlesUtil.standaloneStream(
+                    backend.getBackendRestService().getSubtitles(newMid,
+                        new Locale("ar"), SubtitlesType.TRANSLATION, true), false, false).iterator()
+            )
+            , (cpi) -> cpi != null && cpi.hasNext());
+
+        assertThat(iterator).hasSize(2);
+    }
 
     @Test
     public void test98CleanUp() throws Exception {
