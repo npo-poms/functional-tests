@@ -79,7 +79,7 @@ public abstract class AbstractApiTest {
 
     protected static final Duration ACCEPTABLE_DURATION_FRONTEND = Duration.ofMinutes(10);
     protected static final NpoApiClients clients =
-        NpoApiClients.configured(CONFIG.getProperties(Config.Prefix.npo_api))
+        NpoApiClients.configured(CONFIG.env(), CONFIG.getProperties())
             .warnThreshold(Duration.ofMillis(500))
             .accept(MediaType.APPLICATION_XML_TYPE)
             .build();
@@ -113,7 +113,7 @@ public abstract class AbstractApiTest {
         }
 
 
-        log.info("Using {} ({})", clients, apiVersion);
+        log.info("Using {} ({}, {})", clients, apiVersion, CONFIG.env());
     }
 
 
