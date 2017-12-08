@@ -34,6 +34,8 @@ public class ApiMediaChangesTest extends AbstractApiTest {
 
     private Instant FROM = Instant.now().minus(Duration.ofDays(14));
 
+    private int CHANGES_MAX = 10;
+
     int couchdbSince;
 
 
@@ -57,8 +59,7 @@ public class ApiMediaChangesTest extends AbstractApiTest {
 
     @Test
     public void testChangesNoProfile() throws IOException {
-
-        testChanges(null, FROM, null);
+        testChanges(null, FROM, CHANGES_MAX);
     }
 
 
@@ -71,28 +72,28 @@ public class ApiMediaChangesTest extends AbstractApiTest {
 
     @Test
     public void testChangesWithProfile() throws IOException {
-        testChanges("vpro-predictions", FROM, null);
+        testChanges("vpro-predictions", FROM, CHANGES_MAX);
     }
 
     @Test(expected = javax.ws.rs.NotFoundException.class)
     public void testChangesMissingProfile() throws IOException {
-        testChanges("bestaatniet", FROM, null);
+        testChanges("bestaatniet", FROM, CHANGES_MAX);
     }
 
     @Test
     public void testChangesWithOldNoProfile() throws IOException {
-        testChangesWithOld(null, null);
+        testChangesWithOld(null, CHANGES_MAX);
     }
 
     @Test
     public void testChangesWithOldAndProfile() throws IOException {
-        testChangesWithOld("vpro-predictions", null);
+        testChangesWithOld("vpro-predictions", CHANGES_MAX);
     }
 
 
     @Test(expected = javax.ws.rs.NotFoundException.class)
     public void testChangesOldMissingProfile() throws IOException {
-        testChangesWithOld("bestaatniet", null);
+        testChangesWithOld("bestaatniet", CHANGES_MAX);
     }
 
 
