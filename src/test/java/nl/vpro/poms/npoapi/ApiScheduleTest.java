@@ -41,13 +41,13 @@ public class ApiScheduleTest extends AbstractApiTest {
 
 
     @Test
-    public void list() throws Exception {
+    public void list() {
         ScheduleResult o = clients.getScheduleService().list(today, null, null, null, "ASC", 0L, 240);
         assertThat(o.getSize()).isGreaterThan(10);
     }
 
     @Test
-    public void listBroadcaster() throws Exception {
+    public void listBroadcaster() {
         ScheduleResult o = clients.getScheduleService().listBroadcaster("VPRO", today, null, null, "broadcasters", "ASC", 0L, 240);
         assertThat(o.getSize()).isGreaterThan(10);
         int i = 0;
@@ -59,7 +59,7 @@ public class ApiScheduleTest extends AbstractApiTest {
 
 
     @Test
-    public void listChannel() throws Exception {
+    public void listChannel() {
         ScheduleResult o = clients.getScheduleService().listChannel("NED1", today, null, null, null, "ASC", 0L, 240);
         assertThat(o.getSize()).isGreaterThan(10);
         for (ApiScheduleEvent item : o.getItems()) {
@@ -68,7 +68,7 @@ public class ApiScheduleTest extends AbstractApiTest {
     }
 
     @Test
-    public void listNet() throws Exception {
+    public void listNet() {
         ScheduleResult o = clients.getScheduleService().listNet("ZAPP", today, null, null, null, "ASC", 0L, 240);
         assertThat(o.getSize()).isGreaterThan(2);
         for (ApiScheduleEvent item : o.getItems()) {
@@ -81,7 +81,7 @@ public class ApiScheduleTest extends AbstractApiTest {
 
 
     @Test
-    public void nowForBroadcaster() throws Exception {
+    public void nowForBroadcaster() {
         try {
             ApiScheduleEvent o = clients.getScheduleService().nowForBroadcaster("VPRO", null);
             assertThat(o.getMediaObject().getBroadcasters()).contains(new Broadcaster("VPRO"));
@@ -91,12 +91,12 @@ public class ApiScheduleTest extends AbstractApiTest {
     }
 
     @Test(expected = javax.ws.rs.NotFoundException.class)
-    public void nowForBroadcasterNotFound() throws Exception {
+    public void nowForBroadcasterNotFound() {
         clients.getScheduleService().nowForBroadcaster("TELEAC", null);
     }
 
     @Test
-    public void nextForBroadcaster() throws Exception {
+    public void nextForBroadcaster() {
         ApiScheduleEvent o = clients.getScheduleService().nextForBroadcaster("VPRO", null);
         System.out.println(o);
         assertThat(o.getMediaObject().getBroadcasters()).contains(new Broadcaster("VPRO"));
@@ -106,7 +106,7 @@ public class ApiScheduleTest extends AbstractApiTest {
 
 
     @Test
-    public void nowForChannel() throws Exception {
+    public void nowForChannel() {
         try {
             ApiScheduleEvent o = clients.getScheduleService().nowForChannel("NED1", null);
             System.out.println(o);
@@ -118,14 +118,14 @@ public class ApiScheduleTest extends AbstractApiTest {
     }
 
     @Test(expected = javax.ws.rs.NotFoundException.class)
-    public void nowForChannelNotFound() throws Exception {
+    public void nowForChannelNotFound() {
         ApiScheduleEvent o = clients.getScheduleService().nowForChannel("H1NL", null);
         System.out.println(o);
 
     }
 
     @Test
-    public void nextForChannel() throws Exception {
+    public void nextForChannel() {
         ApiScheduleEvent o = clients.getScheduleService().nextForChannel("NED1", null);
         System.out.println(o);
         assertThat(o.getChannel()).isEqualTo(Channel.NED1);
