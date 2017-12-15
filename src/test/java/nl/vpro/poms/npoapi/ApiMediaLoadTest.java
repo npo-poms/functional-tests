@@ -2,7 +2,6 @@ package nl.vpro.poms.npoapi;
 
 import lombok.extern.slf4j.Slf4j;
 
-import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -52,7 +51,7 @@ public class ApiMediaLoadTest extends AbstractApiTest {
 
 
     @Parameterized.Parameters
-    public static Collection<Object[]> getParameters() throws IOException {
+    public static Collection<Object[]> getParameters() {
         List<Object[]> result = new ArrayList<>();
         for (MediaType mediaType : Arrays.asList(MediaType.APPLICATION_JSON_TYPE, MediaType.APPLICATION_XML_TYPE)) {
             for (String profile : Arrays.asList(null, "vpro")) {
@@ -77,7 +76,7 @@ public class ApiMediaLoadTest extends AbstractApiTest {
     }
 
     @Test
-    public void load() throws Exception {
+    public void load() {
         assumeThat(mids.size(), greaterThan(0));
         MediaObject o = clients.getMediaService().load(mids.get(0), null, null);
         assertThat(o.getMid()).isEqualTo(mids.get(0));
