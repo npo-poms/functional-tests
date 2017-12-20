@@ -59,9 +59,7 @@ public class PagesPublisherTest extends AbstractApiTest {
 
 
     @Rule
-    public DoAfterException doAfterException = new DoAfterException((t) -> {
-        PagesPublisherTest.exception = t;
-    });
+    public DoAfterException doAfterException = new DoAfterException((t) -> PagesPublisherTest.exception = t);
 
     private static Throwable exception = null;
 
