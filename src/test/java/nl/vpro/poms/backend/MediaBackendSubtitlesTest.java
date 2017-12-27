@@ -222,7 +222,7 @@ public class MediaBackendSubtitlesTest extends AbstractApiMediaBackendTest {
         IOUtils.copy(reader, writer);
         reader.close();
 
-        Subtitles subtitles = Subtitles.webvtt("VPWON_1259638", Duration.ofMinutes(0), new Locale("ar"), writer.toString());
+        Subtitles subtitles = Subtitles.webvtt("POMS_KRO_3852926", Duration.ofMinutes(0), new Locale("ar"), writer.toString());
 
         Subtitles corrected = Subtitles.from(subtitles.getId(), SubtitlesUtil.fillCueNumber(SubtitlesUtil.parse(subtitles, false)).iterator());
 
@@ -240,7 +240,7 @@ public class MediaBackendSubtitlesTest extends AbstractApiMediaBackendTest {
         IOUtils.copy(reader, writer);
         reader.close();
 
-        Subtitles subtitles = Subtitles.webvtt("VPWON_1259638", Duration.ofMinutes(0), new Locale("nl"), writer.toString());
+        Subtitles subtitles = Subtitles.webvtt("POMS_KRO_3852926", Duration.ofMinutes(0), new Locale("nl"), writer.toString());
 
         Subtitles corrected = Subtitles.from(subtitles.getId(), SubtitlesUtil.fillCueNumber(SubtitlesUtil.parse(subtitles, false)).iterator());
 

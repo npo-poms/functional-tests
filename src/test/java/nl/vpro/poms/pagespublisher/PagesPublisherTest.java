@@ -16,13 +16,18 @@ import org.junit.Test;
 import org.junit.runners.MethodSorters;
 
 import nl.vpro.api.client.resteasy.PageUpdateApiClient;
+import nl.vpro.api.client.utils.Config;
 import nl.vpro.api.client.utils.PageUpdateApiUtil;
 import nl.vpro.api.client.utils.PageUpdateRateLimiter;
 import nl.vpro.api.client.utils.Result;
-import nl.vpro.domain.page.*;
+import nl.vpro.domain.api.page.PageForm;
+import nl.vpro.domain.page.LinkType;
+import nl.vpro.domain.page.Page;
+import nl.vpro.domain.page.Referral;
+import nl.vpro.domain.page.Section;
 import nl.vpro.domain.page.update.*;
+import nl.vpro.poms.AbstractApiMediaBackendTest;
 import nl.vpro.poms.AbstractApiTest;
-import nl.vpro.api.client.utils.Config;
 import nl.vpro.poms.DoAfterException;
 import nl.vpro.poms.Utils;
 
@@ -84,7 +89,11 @@ public class PagesPublisherTest extends AbstractApiTest {
             PageUpdateBuilder.article(urlToday)
                 .broadcasters("VPRO")
                 .title(title)
-                .embeds(EmbedUpdate.builder().midRef("WO_VPRO_025057").title("leuke embed").description("embed in " + title).build())
+                .embeds(EmbedUpdate.builder()
+                    .midRef(AbstractApiMediaBackendTest.MID)
+                    .title("leuke embed")
+                    .description("embed in " + title)
+                    .build())
                 .portal(portal)
                 .links(
                     LinkUpdate.topStory(topStoryUrl, "mooie story over sterrenhopen"),
@@ -116,9 +125,7 @@ public class PagesPublisherTest extends AbstractApiTest {
         }
 
         Result result = util.save(article);
-
-
-        System.out.println(result);
+        log.info("{}", result);
         assertThat(result.getStatus()).isEqualTo(Result.Status.SUCCESS);
         assertThat(result.getErrors()).isNull();
         log.info("{} -> {}", article, result);
@@ -180,7 +187,7 @@ public class PagesPublisherTest extends AbstractApiTest {
         Result result = util.save(article);
 
 
-        System.out.println(result);
+        log.info("{}",  result);
         assertThat(result.getStatus()).isEqualTo(Result.Status.SUCCESS);
         assertThat(result.getErrors()).isNull();
 
@@ -194,5 +201,60 @@ public class PagesPublisherTest extends AbstractApiTest {
             () ->
                 pageUtil.load(article.getUrl())[0], p -> Objects.equals(p.getTitle(), article.getTitle())
         );
+    }
+
+    private static final String TAG = "test_created_with_crid";
+    private static final String CRID_PREFIX = "crid://crids.functional.tests/";
+
+
+    @Test
+    public void test300CreateSomeWithCrid() throws UnsupportedEncodingException {
+        String url = "http://test.poms.nl/" + URLEncoder.encode(testMethod.getMethodName() + LocalDate.now(), "UTF-8");
+
+        for (int i = 0; i < 10; i++) {
+            PageUpdate article =
+                PageUpdateBuilder.article(url + "/" + i)
+                    .broadcasters("VPRO")
+                    .crids(CRID_PREFIX + i)
+                    .title(title)
+                    .tags(TAG)
+                    .build();
+            Result result = util.save(article);
+            assertThat(result.getStatus()).isEqualTo(Result.Status.SUCCESS);
+            log.info("Created {}", article);
+
+        }
+    }
+
+    @Test
+    public void test301ArrivedInAPIThenDeleteByCrid() throws Exception {
+        PageForm form = PageForm.builder()
+            .tags(TAG)
+            .build();
+
+        Utils.waitUntil(Duration.ofMinutes(2),
+        "Has pages with tag " + TAG,
+            () -> pageUtil.find(form, null, 0L, 11).getSize() >= 10);
+
+
+        // Then delete by crid
+
+        Result result = util.deleteWhereStartsWith(CRID_PREFIX);
+        assertThat(result.getStatus()).isEqualTo(Result.Status.SUCCESS);
+
+
+    }
+
+    @Test
+    public void test302DissappearedFromAPI() throws Exception {
+        PageForm form = PageForm.builder()
+            .tags(TAG)
+            .build();
+
+        Utils.waitUntil(Duration.ofMinutes(2),
+            "Has no pages with tag",
+            () -> pageUtil.find(form, null, 0L, 11).getSize() == 0);
+
+
     }
 }

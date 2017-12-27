@@ -27,7 +27,7 @@ import static nl.vpro.domain.media.MediaBuilder.program;
 @Slf4j
 public abstract class AbstractApiMediaBackendTest extends AbstractApiTest {
 
-    protected static final String MID                = "WO_VPRO_025057";
+    public static final String MID                = "WO_VPRO_025057";
     protected static final String MID_WITH_LOCATIONS = "WO_VPRO_025700";
     protected static final String ANOTHER_MID        = "WO_KRO_475084";
 
@@ -87,29 +87,34 @@ public abstract class AbstractApiMediaBackendTest extends AbstractApiTest {
 
     @BeforeClass
     public static void checkMids() {
-        MediaUpdate<?> mediaUpdate = backend.get(MID);
-        if (mediaUpdate == null) {
-            log.info("No media found {}.  Now creating", MID);
-            ProgramUpdate create = ProgramUpdate.create(ProgramType.CLIP);
-            create.setAVType(AVType.MIXED);
-            create.setBroadcasters("VPRO");
-            create.setMid(MID);
-            create.setMainTitle("Test");
-            backend.set(create);
-        }
-        ProgramUpdate anotherProgramUpdate = backend.get(ANOTHER_MID);
-        if (anotherProgramUpdate == null) {
-            log.info("No media found {}. Now creating", ANOTHER_MID);
-            log.info(
-                backend.set(
-                    ProgramUpdate.create(program()
-                        .broadcasters("VPRO")
-                        .mid(ANOTHER_MID)
-                        .avType(AVType.VIDEO)
-                        .type(ProgramType.CLIP)
-                        .mainTitle("test"))
-                )
-            );
+        try {
+            MediaUpdate<?> mediaUpdate = backend.get(MID);
+            if (mediaUpdate == null) {
+                log.info("No media found {}.  Now creating", MID);
+                ProgramUpdate create = ProgramUpdate.create(ProgramType.CLIP);
+                create.setAVType(AVType.MIXED);
+                create.setBroadcasters("VPRO");
+                create.setMid(MID);
+                create.setMainTitle("Test");
+                backend.set(create);
+            }
+            ProgramUpdate anotherProgramUpdate = backend.get(ANOTHER_MID);
+            if (anotherProgramUpdate == null) {
+                log.info("No media found {}. Now creating", ANOTHER_MID);
+                log.info(
+                    backend.set(
+                        ProgramUpdate.create(program()
+                            .broadcasters("VPRO")
+                            .mid(ANOTHER_MID)
+                            .avType(AVType.VIDEO)
+                            .type(ProgramType.CLIP)
+                            .mainTitle("test"))
+                    )
+                );
+            }
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
         }
     }
+
 }
