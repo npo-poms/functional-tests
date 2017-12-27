@@ -14,6 +14,7 @@ import com.google.common.collect.Iterators;
 import com.google.common.collect.PeekingIterator;
 
 import nl.vpro.api.rs.subtitles.Constants;
+import nl.vpro.domain.media.AVType;
 import nl.vpro.domain.media.MediaTestDataBuilder;
 import nl.vpro.domain.media.update.ProgramUpdate;
 import nl.vpro.domain.subtitles.*;
@@ -138,7 +139,7 @@ public class MediaBackendSubtitlesTest extends AbstractApiMediaBackendTest {
     @Test
     public void test05CreateSubtitlesForNewClip() throws Exception {
 
-        ProgramUpdate clip = ProgramUpdate.create(MediaTestDataBuilder.clip());
+        ProgramUpdate clip = ProgramUpdate.create(MediaTestDataBuilder.clip().avType(AVType.VIDEO));
 
         newMid = backend.set(clip);
 
