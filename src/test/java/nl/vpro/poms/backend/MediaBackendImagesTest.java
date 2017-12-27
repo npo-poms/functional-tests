@@ -113,11 +113,19 @@ public class MediaBackendImagesTest extends AbstractApiMediaBackendTest {
     }
 
 
+    @Test
+    public void test12checkArrived() throws Exception {
+        // Test 11 happens via object (not via addImage), so goes via broadcaster cues.
+        // If 13 is executed before 11 fully handled, 13 will fail.
+        // therefor we added this intermediate check.
+        checkArrived();
+    }
+
     private static String wikiImageTitle;
     private static String tineyeImageTitle;
 
     @Test
-    public void test12addWikimediaImage() throws UnsupportedEncodingException {
+    public void test13addWikimediaImage() throws UnsupportedEncodingException {
         titles.add(title);
         wikiImageTitle = title;
 
@@ -133,7 +141,7 @@ public class MediaBackendImagesTest extends AbstractApiMediaBackendTest {
 
     @Test
     @Ignore
-    public void test13addTineyeImage() throws UnsupportedEncodingException {
+    public void test14addTineyeImage() {
         titles.add(title);
         tineyeImageTitle = title;
 
@@ -352,7 +360,7 @@ public class MediaBackendImagesTest extends AbstractApiMediaBackendTest {
         ImageUpdate.Builder builder = ImageUpdate.builder()
             .type(ImageType.PICTURE)
             .title(title)
-            .imageUrl("http://images.poms.omroep.nl/image/s" + (testNumber.intValue() + 10) + "/7617.jpg?" + URLEncoder.encode(title, "UTF-8"))
+            .imageUrl("https://images.poms.omroep.nl/image/s" + (testNumber.intValue() + 10) + "/7617.jpg?" + URLEncoder.encode(title, "UTF-8"))
             .license(License.CC_BY)
             .sourceName("vpro")
             .source("https://www.vpro.nl/")

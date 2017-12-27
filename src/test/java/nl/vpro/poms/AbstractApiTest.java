@@ -60,6 +60,8 @@ public abstract class AbstractApiTest {
     public void setupTitle() {
         testNumber.incrementAndGet();
         title = testNumber.intValue() + ":" + NOW + " " + testMethod.getMethodName() + " Caf\u00E9 \u6C49"; // testing encoding too!
+
+        log.info("Running {}:{} with title {}", testNumber.get(), testMethod.getMethodName(), title);
     }
     @After
     public void cleanClient() {

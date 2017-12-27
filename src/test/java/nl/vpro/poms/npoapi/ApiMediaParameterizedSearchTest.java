@@ -86,6 +86,8 @@ public class ApiMediaParameterizedSearchTest extends AbstractSearchTest<MediaFor
 
         addAssumer("channels.json/.*/(xml|json)", minVersion(5.3));
         addAssumer("lastModifiedDesc.json/.*/(xml|json)", minVersion(5.3));
+        addAssumer("facet-title-az.json/null/(xml|json)", minVersion(5.5));
+
 
     }
 
