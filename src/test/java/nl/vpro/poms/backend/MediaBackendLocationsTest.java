@@ -160,7 +160,7 @@ public class MediaBackendLocationsTest extends AbstractApiMediaBackendTest {
 
 
     @Test
-    public void test98Cleanup() throws Exception {
+    public void test98Cleanup() {
         backend.getBrowserCache().clear();
         ProgramUpdate update = backend.get(MID);
         log.info("Removing locations " + update.getLocations());

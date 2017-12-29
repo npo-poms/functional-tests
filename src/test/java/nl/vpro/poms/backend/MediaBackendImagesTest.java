@@ -125,7 +125,7 @@ public class MediaBackendImagesTest extends AbstractApiMediaBackendTest {
     private static String tineyeImageTitle;
 
     @Test
-    public void test13addWikimediaImage() throws UnsupportedEncodingException {
+    public void test13addWikimediaImage() {
         titles.add(title);
         wikiImageTitle = title;
 
@@ -288,7 +288,7 @@ public class MediaBackendImagesTest extends AbstractApiMediaBackendTest {
 
 
 
-    protected void cleanup() throws Exception {
+    protected void cleanup() {
         backend.getBrowserCache().clear();
         ProgramUpdate update = backend.get(MID);
         log.info("Removing images " + update.getImages());

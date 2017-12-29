@@ -42,7 +42,7 @@ public class AddFrameTest extends AbstractApiMediaBackendTest {
 
 
     @Test
-    public void test98Cleanup() throws Exception {
+    public void test98Cleanup() {
         ProgramUpdate update = backend.get(MID);
         log.info("Removing images " + update.getImages());
         update.getImages().clear();
