@@ -17,6 +17,7 @@ import javax.ws.rs.core.MediaType;
 
 import org.junit.AfterClass;
 import org.junit.Before;
+import org.junit.BeforeClass;
 
 import com.google.common.collect.Sets;
 
@@ -63,6 +64,11 @@ public abstract class AbstractSearchTest<T, S> extends AbstractApiTest {
         ASSUMERS.put(Pattern.compile(pattern), consumer);
     }
 
+    @BeforeClass
+    public static void clean() {
+        USED.clear();
+        AVAILABLE.clear();
+    }
 
     @Before
     public void setUp() {
