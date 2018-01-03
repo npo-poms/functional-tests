@@ -76,12 +76,17 @@ public class ApiMediaParameterizedSearchTest extends AbstractSearchTest<MediaFor
         });
 
         addTester("facet-title-az.json/null/(xml|json)", sr -> {
-            assertThat(sr.getFacets().getTitles()).hasSize(2);
-            assertThat(sr.getFacets().getTitles().get(0).getId()).isEqualTo("a");
-            assertThat(sr.getFacets().getTitles().get(1).getId()).isEqualTo("b");
+            String testName = ApiMediaParameterizedSearchTest.this.testMethod.getMethodName();
+            if (testName.startsWith("searchMembers")) {
+                // POMS_S_VPRO_417550 has no members a*
+            } else {
+                assertThat(sr.getFacets().getTitles()).hasSize(2);
+                assertThat(sr.getFacets().getTitles().get(0).getId()).isEqualTo("a");
+                assertThat(sr.getFacets().getTitles().get(1).getId()).isEqualTo("b");
 
-            assertThat(sr.getFacets().getTitles().get(0).getCount()).isGreaterThan(0);
-            assertThat(sr.getFacets().getTitles().get(1).getCount()).isGreaterThan(0);
+                assertThat(sr.getFacets().getTitles().get(0).getCount()).isGreaterThan(0);
+                assertThat(sr.getFacets().getTitles().get(1).getCount()).isGreaterThan(0);
+            }
         });
 
         addAssumer("channels.json/.*/(xml|json)", minVersion(5.3));
