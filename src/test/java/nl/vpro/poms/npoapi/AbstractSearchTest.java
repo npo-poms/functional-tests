@@ -135,7 +135,7 @@ public abstract class AbstractSearchTest<T, S> extends AbstractApiTest {
         return new Supplier<Boolean>() {
             @Override
             public Boolean get() {
-                return apiVersionNumber > minVersion;
+                return apiVersionNumber >= minVersion;
             }
             @Override
             public String toString() {
