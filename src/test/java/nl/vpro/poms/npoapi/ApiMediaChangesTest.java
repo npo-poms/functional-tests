@@ -34,7 +34,7 @@ public class ApiMediaChangesTest extends AbstractApiTest {
 
     private Instant FROM = Instant.now().minus(Duration.ofDays(14));
 
-    private int CHANGES_MAX = 10;
+    private int CHANGES_MAX = 100;
 
     int couchdbSince;
 
