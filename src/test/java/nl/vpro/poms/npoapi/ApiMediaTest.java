@@ -2,7 +2,6 @@ package nl.vpro.poms.npoapi;
 
 import lombok.extern.slf4j.Slf4j;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -32,7 +31,7 @@ public class ApiMediaTest extends AbstractApiTest {
     }
 
     @Parameterized.Parameters
-    public static Collection<Object[]> getParameters() throws IOException {
+    public static Collection<Object[]> getParameters() {
         List<Object[]> result = new ArrayList<>();
         for (String properties : Arrays.asList(null, "none", "all")) {
             result.add(new Object[] {properties});
@@ -50,7 +49,7 @@ public class ApiMediaTest extends AbstractApiTest {
     }
 
     @Test
-    public void zeroMembers() throws Exception {
+    public void oMembers() throws Exception {
         MediaObject o = mediaUtil.loadOrNull("POMS_S_NCRV_096754");
         assertThat(o).isNotNull();
         MediaResult result = clients.getMediaService().listMembers(o.getMid(),  null, null, "ASC", 0L, 0);
@@ -58,7 +57,7 @@ public class ApiMediaTest extends AbstractApiTest {
     }
 
     @Test
-    public void findMembers() throws Exception {
+    public void findMembers() {
         MediaSearchResult result = clients.getMediaService().findMembers(MediaFormBuilder.emptyForm(), "POMS_S_VPRO_407881", null, null, 0L, 100);
         assertThat(result.getSize()).isGreaterThan(1);
 

@@ -34,7 +34,7 @@ public class ApiMediaChangesTest extends AbstractApiTest {
 
     private Instant FROM = Instant.now().minus(Duration.ofDays(14));
 
-    private int CHANGES_MAX = 100;
+    private static final int CHANGES_MAX = 100;
 
     int couchdbSince;
 
@@ -174,6 +174,7 @@ public class ApiMediaChangesTest extends AbstractApiTest {
         }
     }
 
+    // COUCHDB only triggered if setting mediaService.changesRepository=COUCHDB on server!
     void testChangesWithOld(String profile, Integer max) throws IOException {
         final AtomicInteger i = new AtomicInteger();
         long startSequence = couchdbSince;
@@ -191,7 +192,6 @@ public class ApiMediaChangesTest extends AbstractApiTest {
                     }
                     assertThat(change.getRevision() == null || change.getRevision() > 0).isTrue();
                     if (! change.isDeleted()) {
-                        // cannot be filled by couchdb.
                         assertThat(change.getPublishDate()).isNotNull();
                     }
                     if (prev != null) {
