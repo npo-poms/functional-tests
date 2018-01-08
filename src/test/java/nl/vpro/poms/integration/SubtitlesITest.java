@@ -37,7 +37,6 @@ import static org.junit.Assume.*;
 @Slf4j
 public class SubtitlesITest extends AbstractApiMediaBackendTest {
 
-    private static final String MID_WITH_LOCATIONS = "WO_VPRO_025700";
     private static final Duration ACCEPTABLE_DURATION = Duration.ofMinutes(10);
 
     public static final AvailableSubtitles JAPANESE_TRANSLATION = new AvailableSubtitles(Locale.JAPANESE, SubtitlesType.TRANSLATION);
@@ -50,7 +49,7 @@ public class SubtitlesITest extends AbstractApiMediaBackendTest {
     private static String firstTitle;
 
     @Test
-    public void test01addSubtitles() throws IOException {
+    public void test01addSubtitles() {
         assumeThat(backendVersionNumber, greaterThanOrEqualTo(5.1f));
         assumeThat(backend.getFullProgram(MID_WITH_LOCATIONS).getLocations(), not(empty()));
 
@@ -107,10 +106,24 @@ public class SubtitlesITest extends AbstractApiMediaBackendTest {
                             MID_WITH_LOCATIONS, Locale.JAPANESE), false, false).iterator()
                     );
                 } catch (IOException ioe) {
+                    log.warn(ioe.getMessage());
                     return null;
                 }
             }
-        , (pi) -> pi != null && pi.hasNext() && pi.peek().getContent().equals(firstTitle));
+        , (pi) -> {
+                if (pi == null ||  !pi.hasNext()) {
+                    log.info("No results yet");
+                    return false;
+                }
+                StandaloneCue peek = pi.peek();
+                String content = peek.getContent();
+                if (!content.equals(firstTitle)) {
+                    log.info("Found cue {} != {} yet", content, firstTitle);
+                    return false;
+                }
+                return true;
+            }
+        );
         assertThat(cueIterator).hasSize(3);
     }
 
@@ -154,10 +167,9 @@ public class SubtitlesITest extends AbstractApiMediaBackendTest {
 
     @Test
     public void test07PublishLocations() {
-        Instant now = Instant.now();
         ProgramUpdate o = backend.get(MID_WITH_LOCATIONS);
         o.getLocations().forEach(l -> {
-                l.setPublishStopInstant(null);
+            l.setPublishStopInstant(null);
             }
         );
         backend.set(o);
@@ -169,7 +181,7 @@ public class SubtitlesITest extends AbstractApiMediaBackendTest {
     }
 
     @Test
-    public void test90Cleanup() throws Exception {
+    public void test90Cleanup() {
         backend.getBackendRestService().deleteSubtitles(MID_WITH_LOCATIONS, Locale.JAPANESE, SubtitlesType.TRANSLATION, true, null);
     }
 

@@ -64,7 +64,7 @@ public class Utils {
         final T[] result = (T[]) new Object[1];
         waitUntil(acceptable, predicateDescription, new Callable<Boolean>() {
             @Override
-            public Boolean call() throws Exception {
+            public Boolean call() {
                 result[0] = r.get();
                 return result[0] != null && predicate.test(result[0]);
             }

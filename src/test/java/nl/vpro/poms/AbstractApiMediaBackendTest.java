@@ -13,6 +13,7 @@ import nl.vpro.domain.image.ImageType;
 import nl.vpro.domain.media.*;
 import nl.vpro.domain.media.support.Image;
 import nl.vpro.domain.media.support.OwnerType;
+import nl.vpro.domain.media.update.LocationUpdate;
 import nl.vpro.domain.media.update.MediaUpdate;
 import nl.vpro.domain.media.update.ProgramUpdate;
 import nl.vpro.domain.support.License;
@@ -88,15 +89,36 @@ public abstract class AbstractApiMediaBackendTest extends AbstractApiTest {
     @BeforeClass
     public static void checkMids() {
         try {
-            MediaUpdate<?> mediaUpdate = backend.get(MID);
-            if (mediaUpdate == null) {
-                log.info("No media found {}.  Now creating", MID);
-                ProgramUpdate create = ProgramUpdate.create(ProgramType.CLIP);
-                create.setAVType(AVType.MIXED);
-                create.setBroadcasters("VPRO");
-                create.setMid(MID);
-                create.setMainTitle("Test");
-                backend.set(create);
+            {
+                MediaUpdate<?> mediaUpdate = backend.get(MID);
+                if (mediaUpdate == null) {
+                    log.info("No media found {}.  Now creating", MID);
+                    ProgramUpdate create = ProgramUpdate.create(ProgramType.CLIP);
+                    create.setAVType(AVType.MIXED);
+                    create.setBroadcasters("VPRO");
+                    create.setMid(MID);
+                    create.setMainTitle("Test");
+                    backend.set(create);
+                }
+            }
+            {
+                MediaUpdate<?> mediaUpdate = backend.get(MID_WITH_LOCATIONS);
+                if (mediaUpdate == null) {
+                    mediaUpdate = ProgramUpdate.create(ProgramType.CLIP);
+                    mediaUpdate.setAVType(AVType.MIXED);
+                    mediaUpdate.setBroadcasters("VPRO");
+                    mediaUpdate.setMid(MID_WITH_LOCATIONS);
+                    mediaUpdate.setMainTitle("Test");
+                }
+                if (mediaUpdate.getLocations().isEmpty()) {
+                    log.info("No media found {} with locations.  Now creating", MID_WITH_LOCATIONS);
+                    mediaUpdate.setLocations(LocationUpdate.builder()
+                        .programUrl("http://content.omroep.nl/vpro/poms/world/15/04/88/63/NPO_bb.m4v")
+                        .bitrate(678000)
+                        .format(AVFileFormat.M4V)
+                        .build());
+                    backend.set(mediaUpdate);
+                }
             }
             ProgramUpdate anotherProgramUpdate = backend.get(ANOTHER_MID);
             if (anotherProgramUpdate == null) {
