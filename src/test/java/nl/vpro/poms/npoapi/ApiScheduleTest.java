@@ -3,6 +3,8 @@ package nl.vpro.poms.npoapi;
 import lombok.extern.slf4j.Slf4j;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -48,12 +50,17 @@ public class ApiScheduleTest extends AbstractApiTest {
 
     @Test
     public void listBroadcaster() {
-        ScheduleResult o = clients.getScheduleService().listBroadcaster("VPRO", today, null, null, "broadcasters", "ASC", 0L, 240);
-        assertThat(o.getSize()).isGreaterThan(10);
-        int i = 0;
-        for (ApiScheduleEvent item : o.getItems()) {
+        int sizeOfWeek = 0;
+        List<ApiScheduleEvent> items = new ArrayList<>();
+        for(LocalDate date = today; date.isAfter(today.minusDays(7)); date = date.minusDays(1)) {
+            ScheduleResult o = clients.getScheduleService().listBroadcaster("VPRO", date, null, null, "broadcasters", "ASC", 0L, 240);
+            sizeOfWeek += o.getSize();
+            items.addAll(o.getItems());
+        }
+        assertThat(sizeOfWeek).isGreaterThan(10);
+        for (ApiScheduleEvent item : items) {
             //System.out.println("item  " + i++ + " " + item.getMediaObject().getMid());
-            assertThat(item.getMediaObject().getBroadcasters()).contains(new Broadcaster("VPRO"));
+            assertThat(item.getParent().getBroadcasters()).contains(new Broadcaster("VPRO"));
         }
     }
 
