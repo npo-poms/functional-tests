@@ -1,4 +1,4 @@
-package nl.vpro.poms;
+package nl.vpro.rules;
 
 import org.junit.rules.TestWatcher;
 import org.junit.runner.Description;

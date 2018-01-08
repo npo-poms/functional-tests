@@ -1,7 +1,8 @@
-package nl.vpro.poms;
+package nl.vpro.rules;
 
 
-import org.junit.AssumptionViolatedException;
+import java.util.function.Consumer;
+
 import org.junit.rules.TestRule;
 import org.junit.runner.Description;
 import org.junit.runners.model.Statement;
@@ -9,7 +10,14 @@ import org.junit.runners.model.Statement;
 /**
  * @author Michiel Meeuwissen
  */
-public class AllowUnavailable implements TestRule {
+public class DoAfterException implements TestRule {
+
+    final Consumer<Throwable> job;
+
+    public DoAfterException(Consumer<Throwable> job) {
+        this.job = job;
+    }
+
     @Override
     public Statement apply(Statement base, Description description) {
         return new Statement() {
@@ -17,8 +25,9 @@ public class AllowUnavailable implements TestRule {
             public void evaluate() throws Throwable {
                 try {
                     base.evaluate();
-                } catch (javax.ws.rs.ServiceUnavailableException | java.net.ConnectException se) {
-                    throw new AssumptionViolatedException(description.toString() + ":" + se.getMessage() + " " + se.getMessage());
+                } catch (Throwable t) {
+                    job.accept(t);
+                    throw t;
                 }
             }
         };

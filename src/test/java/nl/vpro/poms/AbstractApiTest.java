@@ -24,6 +24,9 @@ import nl.vpro.api.client.utils.NpoApiPageUtil;
 import nl.vpro.domain.classification.CachedURLClassificationServiceImpl;
 import nl.vpro.domain.classification.ClassificationServiceLocator;
 import nl.vpro.domain.media.Schedule;
+import nl.vpro.rules.AllowNotImplemented;
+import nl.vpro.rules.AllowUnavailable;
+import nl.vpro.rules.TestMDC;
 
 /**
  * @author Michiel Meeuwissen

@@ -19,7 +19,7 @@ import nl.vpro.domain.media.MediaTestDataBuilder;
 import nl.vpro.domain.media.update.ProgramUpdate;
 import nl.vpro.domain.subtitles.*;
 import nl.vpro.poms.AbstractApiMediaBackendTest;
-import nl.vpro.poms.DoAfterException;
+import nl.vpro.rules.DoAfterException;
 
 import static com.jayway.restassured.RestAssured.given;
 import static nl.vpro.api.client.utils.Config.Prefix.backend_api;

@@ -28,7 +28,7 @@ import nl.vpro.domain.page.Section;
 import nl.vpro.domain.page.update.*;
 import nl.vpro.poms.AbstractApiMediaBackendTest;
 import nl.vpro.poms.AbstractApiTest;
-import nl.vpro.poms.DoAfterException;
+import nl.vpro.rules.DoAfterException;
 import nl.vpro.poms.Utils;
 
 import static org.assertj.core.api.Assertions.assertThat;

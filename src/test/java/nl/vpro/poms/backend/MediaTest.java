@@ -23,8 +23,8 @@ import nl.vpro.domain.media.search.MediaPager;
 import nl.vpro.domain.media.search.TitleForm;
 import nl.vpro.domain.media.update.ProgramUpdate;
 import nl.vpro.domain.media.update.SegmentUpdate;
-import nl.vpro.poms.AllowUnavailable;
-import nl.vpro.poms.TestMDC;
+import nl.vpro.rules.AllowUnavailable;
+import nl.vpro.rules.TestMDC;
 
 import static com.jayway.restassured.RestAssured.given;
 import static nl.vpro.poms.AbstractApiTest.CONFIG;

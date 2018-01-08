@@ -9,7 +9,7 @@ import org.junit.Test;
 
 import nl.vpro.domain.media.support.OwnerType;
 import nl.vpro.api.client.utils.Config;
-import nl.vpro.poms.TestMDC;
+import nl.vpro.rules.TestMDC;
 import nl.vpro.util.URLResource;
 
 import static nl.vpro.poms.AbstractApiTest.CONFIG;
