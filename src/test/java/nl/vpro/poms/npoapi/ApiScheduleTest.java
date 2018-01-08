@@ -16,7 +16,7 @@ import nl.vpro.domain.media.Schedule;
 import nl.vpro.domain.user.Broadcaster;
 import nl.vpro.poms.AbstractApiTest;
 
-import static org.assertj.core.api.Java6Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 
 
 @Slf4j
