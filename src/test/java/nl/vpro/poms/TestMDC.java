@@ -10,14 +10,16 @@ import org.slf4j.MDC;
  */
 public class TestMDC extends TestWatcher {
 
+    public static final String KEY = "currenttest";
+
     @Override
     protected void starting(Description d) {
-        MDC.put("currenttest", d.getTestClass().getSimpleName() + "#" + d.getMethodName());
+        MDC.put(KEY, d.getTestClass().getSimpleName() + "#" + d.getMethodName());
     }
 
     @Override
     protected void finished(Description d) {
-        MDC.remove("currenttest");
+        MDC.remove(KEY);
     }
 
 }
