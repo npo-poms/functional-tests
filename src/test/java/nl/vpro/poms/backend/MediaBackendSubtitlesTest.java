@@ -137,9 +137,11 @@ public class MediaBackendSubtitlesTest extends AbstractApiMediaBackendTest {
 
     private static String newMid;
     @Test
-    public void test05CreateSubtitlesForNewClip() throws Exception {
+    public void test05CreateSubtitlesForNewClip() {
 
-        ProgramUpdate clip = ProgramUpdate.create(MediaTestDataBuilder.clip().avType(AVType.VIDEO));
+        ProgramUpdate clip = ProgramUpdate.create(MediaTestDataBuilder.clip()
+            .broadcasters("VPRO")
+            .avType(AVType.VIDEO));
 
         newMid = backend.set(clip);
 
@@ -252,7 +254,7 @@ public class MediaBackendSubtitlesTest extends AbstractApiMediaBackendTest {
 
     @Test
     @Ignore
-    public void test99deleteCaption() throws IOException {
+    public void test99deleteCaption() {
 
         backend.deleteSubtitles(SubtitlesId.builder().language(new Locale("ar")).type(SubtitlesType.CAPTION).mid("POMS_KRO_3852926").build());
     }

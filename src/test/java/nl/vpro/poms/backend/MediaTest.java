@@ -69,7 +69,7 @@ public class MediaTest {
     }
 
     @Test
-    public void test01PostClip() throws UnsupportedEncodingException, InterruptedException, ModificationException {
+    public void test01PostClip() throws ModificationException {
         List<Segment> segments = Collections.singletonList(createSegment(null, dynamicSuffix, null));
         ProgramUpdate clip =
             ProgramUpdate.create(
@@ -91,7 +91,7 @@ public class MediaTest {
     }
 
     @Test
-    public void test02PostClipWithCrid() throws UnsupportedEncodingException, InterruptedException, ModificationException {
+    public void test02PostClipWithCrid() throws ModificationException {
         String clipCrid = clipCrid(cridIdFromSuffix);
         List<Segment> segments = Collections.singletonList(createSegment(null, dynamicSuffix, null));
         ProgramUpdate clip = ProgramUpdate.create(createClip(clipCrid, dynamicSuffix, segments));
@@ -135,7 +135,7 @@ public class MediaTest {
     }
 
     @Test
-    public void test05RetrieveClip() throws UnsupportedEncodingException, InterruptedException {
+    public void test05RetrieveClip() {
         assumeNotNull(clipMid);
         given()
             .auth().basic(USERNAME, PASSWORD)
@@ -153,7 +153,7 @@ public class MediaTest {
 
 
     @Test
-    public void test06RetrieveClipWithCrid() throws UnsupportedEncodingException, InterruptedException {
+    public void test06RetrieveClipWithCrid() throws UnsupportedEncodingException {
 
         String clipCrid = clipCrid(cridIdFromSuffix);
         String encodedClipCrid = URLEncoder.encode(clipCrid, "UTF-8");
@@ -172,7 +172,7 @@ public class MediaTest {
     }
 
     @Test
-    public void test07FindClips() throws UnsupportedEncodingException, InterruptedException {
+    public void test07FindClips() {
 
         MediaForm search = MediaForm.builder()
             .pager(MediaPager.builder().max(50).build())
@@ -198,7 +198,7 @@ public class MediaTest {
     }
 
     @Test
-    public void test08DeleteClip() throws UnsupportedEncodingException, InterruptedException {
+    public void test08DeleteClip() throws InterruptedException {
         given()
             .auth().basic(USERNAME, PASSWORD)
             .queryParam("errors", ERRORS_EMAIL)
@@ -228,7 +228,7 @@ public class MediaTest {
 
 
     @Test
-    public void test10Retrieve404() throws UnsupportedEncodingException, InterruptedException, ModificationException {
+    public void test10Retrieve404() {
         log.info(given()
             .auth().basic(USERNAME, PASSWORD)
             .log().all()
