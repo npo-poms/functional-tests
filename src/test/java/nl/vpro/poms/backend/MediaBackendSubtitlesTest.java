@@ -140,6 +140,7 @@ public class MediaBackendSubtitlesTest extends AbstractApiMediaBackendTest {
     public void test05CreateSubtitlesForNewClip() {
 
         ProgramUpdate clip = ProgramUpdate.create(MediaTestDataBuilder.clip()
+            .mainTitle(title)
             .broadcasters("VPRO")
             .avType(AVType.VIDEO));
 
