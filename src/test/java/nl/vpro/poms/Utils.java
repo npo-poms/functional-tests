@@ -17,7 +17,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class Utils {
 
-    static Logger log = LoggerFactory.getLogger(Utils.class); // will be set in AbstractApiTest for clearer logging.
+    static final Logger log = LoggerFactory.getLogger(Utils.class); 
 
     private final static Duration WAIT = Duration.ofSeconds(15);
 
