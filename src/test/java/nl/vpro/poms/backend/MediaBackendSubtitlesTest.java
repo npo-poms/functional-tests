@@ -185,7 +185,9 @@ public class MediaBackendSubtitlesTest extends AbstractApiMediaBackendTest {
     public void test98CleanUp() throws Exception {
         backend.deleteSubtitles(SubtitlesId.builder().mid(MID).language(new Locale("ar")).type(SubtitlesType.TRANSLATION).build());
         backend.deleteSubtitles(SubtitlesId.builder().mid(MID).language(Locale.CHINESE).type(SubtitlesType.TRANSLATION).build());
-
+        if (newMid != null) {
+            backend.delete(newMid);
+        }
         //Subtitles subtitles = backend.getBackendRestService().getSubtitles(MID, new Locale("ar"), SubtitlesType.TRANSLATION, null);
 
         waitUntil(ACCEPTABLE_DURATION,
@@ -196,6 +198,12 @@ public class MediaBackendSubtitlesTest extends AbstractApiMediaBackendTest {
             MID + " zh subtitles dissappeared",
             () -> backend.getBackendRestService().getSubtitles(MID, Locale.CHINESE, SubtitlesType.TRANSLATION, null) == null
         );
+        if (newMid != null) {
+            waitUntil(ACCEPTABLE_DURATION,
+                newMid + " ar subtitles dissappeared",
+                () -> backend.getBackendRestService().getSubtitles(newMid, new Locale("ar"), SubtitlesType.TRANSLATION, null) == null
+            );
+        }
     }
 
 
