@@ -59,7 +59,7 @@ public class ApiScheduleTest extends AbstractApiTest {
         }
         assertThat(sizeOfWeek).isGreaterThan(10);
         for (ApiScheduleEvent item : items) {
-            //System.out.println("item  " + i++ + " " + item.getMediaObject().getMid());
+            //log.info("item  " + i++ + " " + item.getMediaObject().getMid());
             assertThat(item.getParent().getBroadcasters()).contains(new Broadcaster("VPRO"));
         }
     }
@@ -91,9 +91,9 @@ public class ApiScheduleTest extends AbstractApiTest {
     public void nowForBroadcaster() {
         try {
             ApiScheduleEvent o = clients.getScheduleService().nowForBroadcaster("VPRO", null);
-            assertThat(o.getMediaObject().getBroadcasters()).contains(new Broadcaster("VPRO"));
+            assertThat(o.getParent().getBroadcasters()).contains(new Broadcaster("VPRO"));
         } catch (javax.ws.rs.NotFoundException nfe) {
-            System.out.println("Ok, no current schedule for VPRO");
+            log.info("Ok, no current schedule for VPRO");
         }
     }
 
@@ -105,8 +105,8 @@ public class ApiScheduleTest extends AbstractApiTest {
     @Test
     public void nextForBroadcaster() {
         ApiScheduleEvent o = clients.getScheduleService().nextForBroadcaster("VPRO", null);
-        System.out.println(o);
-        assertThat(o.getMediaObject().getBroadcasters()).contains(new Broadcaster("VPRO"));
+        log.info("{}", o);
+        assertThat(o.getParent().getBroadcasters()).contains(new Broadcaster("VPRO"));
 
 
     }
@@ -116,10 +116,10 @@ public class ApiScheduleTest extends AbstractApiTest {
     public void nowForChannel() {
         try {
             ApiScheduleEvent o = clients.getScheduleService().nowForChannel("NED1", null);
-            System.out.println(o);
+            log.info("{}", o);
             assertThat(o.getChannel()).isEqualTo(Channel.NED1);
         } catch (javax.ws.rs.NotFoundException nfe) {
-            System.out.println("Ok, no current schedule for NED1");
+            log.warn("Ok, no current schedule for NED1");
         }
 
     }
@@ -127,14 +127,14 @@ public class ApiScheduleTest extends AbstractApiTest {
     @Test(expected = javax.ws.rs.NotFoundException.class)
     public void nowForChannelNotFound() {
         ApiScheduleEvent o = clients.getScheduleService().nowForChannel("H1NL", null);
-        System.out.println(o);
+        log.error("Found {}", o);
 
     }
 
     @Test
     public void nextForChannel() {
         ApiScheduleEvent o = clients.getScheduleService().nextForChannel("NED1", null);
-        System.out.println(o);
+        log.info("{}", o);
         assertThat(o.getChannel()).isEqualTo(Channel.NED1);
 
 
@@ -148,8 +148,8 @@ public class ApiScheduleTest extends AbstractApiTest {
         ScheduleSearchResult result = clients.getScheduleService().find(form, null, "descendantOf", 0L, 4);
         assertThat(result.getItems().size()).isGreaterThanOrEqualTo(1);
         for (SearchResultItem<? extends ApiScheduleEvent> e : result) {
-            // NCRV_1347071 is descenant!
-            assertThat(e.getResult().getMediaObject().getDescendantOf()).isNotEmpty();
+            // NCRV_1347071 is descendant!
+            assertThat(e.getResult().getParent().getDescendantOf()).isNotEmpty();
         }
     }
 
