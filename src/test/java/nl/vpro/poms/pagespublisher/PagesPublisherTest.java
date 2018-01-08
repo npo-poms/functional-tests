@@ -172,9 +172,12 @@ public class PagesPublisherTest extends AbstractApiTest {
 
         Page topStory = pageUtil.load(topStoryUrl)[0];
 
-        Optional<Referral> referral = topStory.getReferrals().stream().filter(r -> r.getPageRef().equals(urlToday)).findFirst();
+        Optional<Referral> referral = topStory.getReferrals()
+            .stream()
+            .filter(r -> r.getPageRef().equals(urlToday))
+            .findFirst();
 
-        assertThat(referral).isPresent();
+        assertThat(referral).withFailMessage(topStoryUrl + " has no referral " + urlToday).isPresent();
         assertThat(referral.get().getType()).isEqualTo(LinkType.TOP_STORY);
 
     }

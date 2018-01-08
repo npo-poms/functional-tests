@@ -37,7 +37,7 @@ import static org.junit.Assume.*;
 @Slf4j
 public class SubtitlesITest extends AbstractApiMediaBackendTest {
 
-    private static final Duration ACCEPTABLE_DURATION = Duration.ofMinutes(10);
+    private static final Duration ACCEPTABLE_DURATION = Duration.ofMinutes(12);
 
     public static final AvailableSubtitles JAPANESE_TRANSLATION = new AvailableSubtitles(Locale.JAPANESE, SubtitlesType.TRANSLATION);
 

@@ -43,7 +43,6 @@ import static org.junit.Assume.*;
 public class MediaBackendImagesTest extends AbstractApiMediaBackendTest {
 
 
-
     private static final Duration ACCEPTABLE_DURATION = Duration.ofMinutes(3);
     private static final List<String> titles = new ArrayList<>();
 

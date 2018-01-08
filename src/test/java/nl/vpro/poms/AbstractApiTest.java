@@ -1,10 +1,9 @@
 package nl.vpro.poms;
 
-import lombok.extern.slf4j.Slf4j;
-
 import java.net.MalformedURLException;
 import java.time.Duration;
 import java.time.ZonedDateTime;
+import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -15,6 +14,8 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.rules.TestName;
 import org.junit.rules.Timeout;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import nl.vpro.api.client.resteasy.NpoApiClients;
 import nl.vpro.api.client.utils.Config;
@@ -28,8 +29,9 @@ import nl.vpro.domain.media.Schedule;
  * @author Michiel Meeuwissen
  * @since 1.0
  */
-@Slf4j
 public abstract class AbstractApiTest {
+    protected static Logger LOG = LoggerFactory.getLogger(AbstractApiTest.class);
+    protected Logger log = LoggerFactory.getLogger(getClass());
 
     protected static final String DASHES = "---------------------------------------------------------------------------------";
 
@@ -62,6 +64,10 @@ public abstract class AbstractApiTest {
         title = testNumber.intValue() + ":" + NOW + " " + testMethod.getMethodName() + " Caf\u00E9 \u6C49"; // testing encoding too!
 
         log.info("Running {}:{} with title {}", testNumber.get(), testMethod.getMethodName(), title);
+        if (!Objects.equals(log, LOG)) {
+            LOG = log;
+            Utils.log = LOG;
+        }
     }
     @After
     public void cleanClient() {
@@ -74,7 +80,7 @@ public abstract class AbstractApiTest {
         if (clients.getBrowserCache() != null) {
             clients.getBrowserCache().clear();
         } else {
-            log.debug("no browser cache to clear");
+            LOG.debug("no browser cache to clear");
         }
         mediaUtil.clearCache();
     }
@@ -109,13 +115,13 @@ public abstract class AbstractApiTest {
         try {
             ClassificationServiceLocator.setInstance(new CachedURLClassificationServiceImpl(
                 CONFIG.requiredOption(Config.Prefix.poms, "baseUrl")));
-            log.debug("Installed {}", ClassificationServiceLocator.getInstance());
+            LOG.debug("Installed {}", ClassificationServiceLocator.getInstance());
         } catch (MalformedURLException e) {
-            log.error(e.getMessage(), e);
+            LOG.error(e.getMessage(), e);
         }
 
 
-        log.info("Using {} ({}, {})", clients, apiVersion, CONFIG.env());
+        LOG.info("Using {} ({}, {})", clients, apiVersion, CONFIG.env());
     }
 
 
