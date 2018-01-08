@@ -16,7 +16,6 @@ import org.junit.rules.TestName;
 import org.junit.rules.Timeout;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.slf4j.MDC;
 
 import nl.vpro.api.client.resteasy.NpoApiClients;
 import nl.vpro.api.client.utils.Config;
@@ -53,6 +52,9 @@ public abstract class AbstractApiTest {
     public TestName testMethod = new TestName();
 
     @Rule
+    public TestMDC testMDC = new TestMDC();
+
+    @Rule
     public Timeout timeout = new Timeout(30, TimeUnit.MINUTES);
 
 
@@ -68,14 +70,12 @@ public abstract class AbstractApiTest {
         if (!Objects.equals(log, LOG)) {
             LOG = log;
         }
-        MDC.put("currenttest", getClass().getSimpleName() + "." + testMethod.getMethodName());
     }
     @After
     public void cleanClient() {
         clients.setProfile(null);
         clients.setProperties("");
         clearCaches();
-        MDC.remove("currenttest");
     }
 
     public static void clearCaches() {

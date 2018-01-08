@@ -24,6 +24,7 @@ import nl.vpro.domain.media.search.TitleForm;
 import nl.vpro.domain.media.update.ProgramUpdate;
 import nl.vpro.domain.media.update.SegmentUpdate;
 import nl.vpro.poms.AllowUnavailable;
+import nl.vpro.poms.TestMDC;
 
 import static com.jayway.restassured.RestAssured.given;
 import static nl.vpro.poms.AbstractApiTest.CONFIG;
@@ -44,6 +45,9 @@ public class MediaTest {
 
     @Rule
     public AllowUnavailable allowUnavailable = new AllowUnavailable();
+
+    @Rule
+    public TestMDC testMDC = new TestMDC();
 
     private static final String MEDIA_URL = CONFIG.url(backend_api, "media/media");
     private static final String FIND_URL = CONFIG.url(backend_api, "media/find");
