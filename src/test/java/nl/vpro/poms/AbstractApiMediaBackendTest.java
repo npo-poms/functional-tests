@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.time.Duration;
+import java.util.stream.Collectors;
 
 import org.junit.BeforeClass;
 
@@ -117,6 +118,13 @@ public abstract class AbstractApiMediaBackendTest extends AbstractApiTest {
                         .bitrate(678000)
                         .format(AVFileFormat.M4V)
                         .build());
+                    backend.set(mediaUpdate);
+                } else if (mediaUpdate.getLocations().stream().filter(l -> ! l.isUnderEmbargo()).collect(Collectors.toList()).isEmpty()){
+                    log.info("All locations of {} are under embargo. This is incorrect. Publishing them all.", mediaUpdate);
+                    for (LocationUpdate l : mediaUpdate.getLocations()) {
+                        l.setPublishStartInstant(null);
+                        l.setPublishStopInstant(null);
+                    }
                     backend.set(mediaUpdate);
                 }
             }
