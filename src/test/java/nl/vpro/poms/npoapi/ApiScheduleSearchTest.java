@@ -19,7 +19,7 @@ import nl.vpro.domain.api.media.ScheduleForm;
 import nl.vpro.domain.api.media.ScheduleSearchResult;
 import nl.vpro.poms.ApiSearchTestHelper;
 
-import static org.assertj.core.api.Java6Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assume.assumeTrue;
 
 @RunWith(Parameterized.class)

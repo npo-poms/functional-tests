@@ -62,7 +62,7 @@ public class MediaBackendSegmentsTest extends AbstractApiMediaBackendTest {
     }
 
     @Test
-    public void test02WaitFor() throws Exception {
+    public void test02WaitFor() {
         assumeNotNull(segmentMid);
         waitUntil(ACCEPTABLE_DURATION,
             segmentMid + " in backend",
@@ -74,7 +74,7 @@ public class MediaBackendSegmentsTest extends AbstractApiMediaBackendTest {
 
 
     @Test
-    public void test03WaitForInFrontend() throws Exception {
+    public void test03WaitForInFrontend() {
         assumeNotNull(segmentMid);
         Segment[] segments = new Segment[1];
         waitUntil(ACCEPTABLE_DURATION_FRONTEND,
@@ -124,7 +124,7 @@ public class MediaBackendSegmentsTest extends AbstractApiMediaBackendTest {
     }
 
     @Test
-    public void test05WaitFor() throws Exception {
+    public void test05WaitFor() {
         assumeNotNull(programMid);
         waitUntil(ACCEPTABLE_DURATION,
             programMid + " in backend",
@@ -135,7 +135,7 @@ public class MediaBackendSegmentsTest extends AbstractApiMediaBackendTest {
     }
 
     @Test
-    public void test06CheckResult() throws Exception {
+    public void test06CheckResult() {
         assumeNotNull(programMid);
         ProgramUpdate up = backend.get(programMid);
         assertThat(up).isNotNull();
@@ -146,7 +146,7 @@ public class MediaBackendSegmentsTest extends AbstractApiMediaBackendTest {
 
 
     @Test
-    public void test07UpdateSegmentDirectly() throws Exception {
+    public void test07UpdateSegmentDirectly() {
         assumeNotNull(segmentMid);
 
         SegmentUpdate up = backend.get(segmentMid);
@@ -158,7 +158,7 @@ public class MediaBackendSegmentsTest extends AbstractApiMediaBackendTest {
     }
 
     @Test
-    public void test08WaitFor() throws Exception {
+    public void test08WaitFor() {
         assumeNotNull(segmentMid);
         waitUntil(ACCEPTABLE_DURATION,
             segmentMid + " has title " + updatedSegmentTitle,
@@ -169,7 +169,7 @@ public class MediaBackendSegmentsTest extends AbstractApiMediaBackendTest {
     }
 
     @Test
-    public void test09UpdateSegmentViaProgram() throws Exception {
+    public void test09UpdateSegmentViaProgram() {
         assumeNotNull(segmentMid);
         ProgramUpdate programUpdate = backend.get(MID);
 
@@ -182,7 +182,7 @@ public class MediaBackendSegmentsTest extends AbstractApiMediaBackendTest {
 
 
     @Test
-    public void test10WaitFor() throws Exception {
+    public void test10WaitFor() {
         assumeNotNull(segmentMid);
         waitUntil(ACCEPTABLE_DURATION,
             segmentMid + "has title " + updatedSegmentTitle,
@@ -194,7 +194,7 @@ public class MediaBackendSegmentsTest extends AbstractApiMediaBackendTest {
 
 
     @Test
-    public void test99Cleanup() throws Exception {
+    public void test99Cleanup() {
         Program program = backend.getFullProgram(MID);
         assumeNotNull(program);
         log.info("Found {} with {} segments", program, program.getSegments().size());

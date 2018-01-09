@@ -132,7 +132,7 @@ public class PagesPublisherTest extends AbstractApiTest {
     }
 
     @Test
-    public void test100Arrived() throws Exception {
+    public void test100Arrived() {
         assumeNotNull(article);
 
         PageUpdate update = Utils.waitUntil(Duration.ofMinutes(1),
@@ -145,7 +145,7 @@ public class PagesPublisherTest extends AbstractApiTest {
     }
 
     @Test
-    public void test101ArrivedInAPI() throws Exception {
+    public void test101ArrivedInAPI() {
         assumeNotNull(article);
         Page page = Utils.waitUntil(Duration.ofMinutes(1),
             article.getUrl() + " has title " + article.getTitle(),
@@ -197,7 +197,7 @@ public class PagesPublisherTest extends AbstractApiTest {
     }
 
     @Test
-    public void test201ArrivedInApi() throws Exception {
+    public void test201ArrivedInApi() {
         assumeNotNull(article);
         Page page = Utils.waitUntil(Duration.ofMinutes(1),
             article.getUrl() + " has title " + article.getTitle(),
@@ -230,7 +230,7 @@ public class PagesPublisherTest extends AbstractApiTest {
     }
 
     @Test
-    public void test301ArrivedInAPIThenDeleteByCrid() throws Exception {
+    public void test301ArrivedInAPIThenDeleteByCrid() {
         PageForm form = PageForm.builder()
             .tags(TAG)
             .build();
@@ -249,7 +249,7 @@ public class PagesPublisherTest extends AbstractApiTest {
     }
 
     @Test
-    public void test302DissappearedFromAPI() throws Exception {
+    public void test302DissappearedFromAPI() {
         PageForm form = PageForm.builder()
             .tags(TAG)
             .build();

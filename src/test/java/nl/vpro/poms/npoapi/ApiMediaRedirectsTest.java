@@ -2,7 +2,6 @@ package nl.vpro.poms.npoapi;
 
 import lombok.extern.slf4j.Slf4j;
 
-import java.io.IOException;
 import java.util.Collection;
 import java.util.stream.Collectors;
 
@@ -36,7 +35,7 @@ public class ApiMediaRedirectsTest extends AbstractApiTest {
 
 
     @Parameterized.Parameters
-    public static Collection<Object[]> getDirects() throws IOException {
+    public static Collection<Object[]> getDirects() {
         Response response = clients.getMediaService().redirects(null);
         try {
             assertThat(response.getStatus()).isEqualTo(200);

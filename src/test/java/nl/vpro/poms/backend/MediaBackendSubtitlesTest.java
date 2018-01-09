@@ -81,7 +81,7 @@ public class MediaBackendSubtitlesTest extends AbstractApiMediaBackendTest {
 
 
     @Test
-    public void test02CheckArrived() throws Exception {
+    public void test02CheckArrived() {
         assumeNotNull(firstTitle);
 
         PeekingIterator<StandaloneCue> iterator = waitUntil(ACCEPTABLE_DURATION,
@@ -120,7 +120,7 @@ public class MediaBackendSubtitlesTest extends AbstractApiMediaBackendTest {
 
 
     @Test
-    public void test04CheckArrived() throws Exception {
+    public void test04CheckArrived() {
 
         PeekingIterator<StandaloneCue> iterator = waitUntil(ACCEPTABLE_DURATION,
             MID + "/ar has cues" ,
@@ -167,7 +167,7 @@ public class MediaBackendSubtitlesTest extends AbstractApiMediaBackendTest {
 
 
     @Test
-    public void test06CreateSubtitlesForNewClipCheckArrived() throws Exception {
+    public void test06CreateSubtitlesForNewClipCheckArrived() {
         assumeNotNull(newMid);
 
         PeekingIterator<StandaloneCue> iterator = waitUntil(ACCEPTABLE_DURATION,
@@ -183,7 +183,7 @@ public class MediaBackendSubtitlesTest extends AbstractApiMediaBackendTest {
     }
 
     @Test
-    public void test98CleanUp() throws Exception {
+    public void test98CleanUp() {
         backend.deleteSubtitles(SubtitlesId.builder().mid(MID).language(new Locale("ar")).type(SubtitlesType.TRANSLATION).build());
         backend.deleteSubtitles(SubtitlesId.builder().mid(MID).language(Locale.CHINESE).type(SubtitlesType.TRANSLATION).build());
         if (newMid != null) {

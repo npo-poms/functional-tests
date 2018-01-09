@@ -89,7 +89,7 @@ public class ApiMediaLoadTest extends AbstractApiTest {
     }
 
     @Test
-    public void loadOutsideProfile() throws Exception {
+    public void loadOutsideProfile() {
         assumeNotNull(profileName);
         assumeFalse(profileName.equals("eo"));
 
@@ -109,7 +109,7 @@ public class ApiMediaLoadTest extends AbstractApiTest {
     }
 
     @Test
-    public void loadMultiple() throws Exception {
+    public void loadMultiple() {
         clients.setProfile(null);
         MultipleMediaResult o = clients.getMediaService().loadMultiple(
             IdList.of(mids), null, null);

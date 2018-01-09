@@ -97,6 +97,7 @@ public class ApiMediaChangesTest extends AbstractApiTest {
     }
 
 
+    @SuppressWarnings("deprecation")
     @Test
     public void testChangesNoProfileCheckSkipDeletesMaxOne() throws IOException {
         assumeTrue(apiVersionNumber >= 5.4);
@@ -148,6 +149,7 @@ public class ApiMediaChangesTest extends AbstractApiTest {
     }
 
 
+    @SuppressWarnings("deprecation")
     protected void testChanges(String profile, Instant from, Integer max) throws IOException {
         Instant start = Instant.now();
         final AtomicInteger i = new AtomicInteger();
@@ -175,6 +177,7 @@ public class ApiMediaChangesTest extends AbstractApiTest {
     }
 
     // COUCHDB only triggered if setting mediaService.changesRepository=COUCHDB on server!
+    @SuppressWarnings("deprecation")
     void testChangesWithOld(String profile, Integer max) throws IOException {
         final AtomicInteger i = new AtomicInteger();
         long startSequence = couchdbSince;

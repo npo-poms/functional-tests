@@ -62,7 +62,7 @@ public class MediaBackendImagesTest extends AbstractApiMediaBackendTest {
 
 
     @Test
-    public void test00setup() throws Exception {
+    public void test00setup() {
         cleanup();
         cleanupCheck();
     }
@@ -93,7 +93,7 @@ public class MediaBackendImagesTest extends AbstractApiMediaBackendTest {
     }
 
     @Test
-    public void test10checkArrived() throws Exception {
+    public void test10checkArrived() {
         checkArrived();
     }
 
@@ -113,7 +113,7 @@ public class MediaBackendImagesTest extends AbstractApiMediaBackendTest {
 
 
     @Test
-    public void test12checkArrived() throws Exception {
+    public void test12checkArrived() {
         // Test 11 happens via object (not via addImage), so goes via broadcaster cues.
         // If 13 is executed before 11 fully handled, 13 will fail.
         // therefor we added this intermediate check.
@@ -154,7 +154,7 @@ public class MediaBackendImagesTest extends AbstractApiMediaBackendTest {
 
 
     @Test
-    public void test20checkArrived() throws Exception {
+    public void test20checkArrived() {
         checkArrived();
         assumeTrue(wikiImageTitle != null);
         ProgramUpdate update = backend.get(MID);
@@ -237,7 +237,7 @@ public class MediaBackendImagesTest extends AbstractApiMediaBackendTest {
 
 
     @Test
-    public void test30copyImageToOtherObject() throws Exception {
+    public void test30copyImageToOtherObject() {
         final ProgramUpdate[] updates = new ProgramUpdate[2];
         updates[0] = backend.get(MID);
 
@@ -275,13 +275,13 @@ public class MediaBackendImagesTest extends AbstractApiMediaBackendTest {
     }
 
     @Test
-    public void test98Cleanup() throws Exception {
+    public void test98Cleanup() {
         cleanup();
     }
 
 
     @Test
-    public void test99CleanupCheck() throws Exception {
+    public void test99CleanupCheck() {
         cleanupCheck();
     }
 
@@ -301,7 +301,7 @@ public class MediaBackendImagesTest extends AbstractApiMediaBackendTest {
     }
 
 
-    protected void cleanupCheck() throws Exception {
+    protected void cleanupCheck() {
         final ProgramUpdate[] update = new ProgramUpdate[1];
         waitUntil(ACCEPTABLE_DURATION,
             MID + " has no images any more",
@@ -320,7 +320,7 @@ public class MediaBackendImagesTest extends AbstractApiMediaBackendTest {
         assertThat(update[0].getImages()).isEmpty();
     }
 
-    protected void checkArrived() throws Exception {
+    protected void checkArrived() {
         if (exception == null) {
             final List<String> currentTitles = new ArrayList<>();
             waitUntil(ACCEPTABLE_DURATION,

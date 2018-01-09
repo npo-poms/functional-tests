@@ -77,7 +77,7 @@ public class SubtitlesITest extends AbstractApiMediaBackendTest {
 
 
     @Test
-    public void test02checkArrivedInBackend() throws Exception {
+    public void test02checkArrivedInBackend() {
         assumeThat(backendVersionNumber, greaterThanOrEqualTo(5.3f));
 
 
@@ -92,7 +92,7 @@ public class SubtitlesITest extends AbstractApiMediaBackendTest {
     }
 
     @Test
-    public void test03WaitForInFrontend() throws Exception {
+    public void test03WaitForInFrontend() {
         assumeNotNull(firstTitle);
 
         PeekingIterator<StandaloneCue> cueIterator = waitUntil(ACCEPTABLE_DURATION,
@@ -129,29 +129,24 @@ public class SubtitlesITest extends AbstractApiMediaBackendTest {
 
 
     @Test
-    public void test04WaitForInMediaFrontend() throws Exception {
+    public void test04WaitForInMediaFrontend() {
         assumeNotNull(firstTitle);
         waitUntil(ACCEPTABLE_DURATION,
             MID_WITH_LOCATIONS + " has " + JAPANESE_TRANSLATION,
-            () -> {
-
-                return mediaUtil.findByMid(MID_WITH_LOCATIONS).getAvailableSubtitles().contains(JAPANESE_TRANSLATION);
-            });
+            () -> mediaUtil.findByMid(MID_WITH_LOCATIONS).getAvailableSubtitles().contains(JAPANESE_TRANSLATION)
+        );
     }
 
     @Test
     public void test05RevokeLocations() {
         Instant now = Instant.now();
         ProgramUpdate o = backend.get(MID_WITH_LOCATIONS);
-        o.getLocations().forEach(l -> {
-            l.setPublishStopInstant(now);
-            }
-        );
+        o.getLocations().forEach(l -> l.setPublishStopInstant(now));
         backend.set(o);
     }
 
     @Test
-    public void test06WaitForInFrontend() throws Exception {
+    public void test06WaitForInFrontend() {
         assumeNotNull(firstTitle);
 
         assumeTrue(waitUntil(ACCEPTABLE_DURATION,
@@ -168,15 +163,12 @@ public class SubtitlesITest extends AbstractApiMediaBackendTest {
     @Test
     public void test07PublishLocations() {
         ProgramUpdate o = backend.get(MID_WITH_LOCATIONS);
-        o.getLocations().forEach(l -> {
-            l.setPublishStopInstant(null);
-            }
-        );
+        o.getLocations().forEach(l -> l.setPublishStopInstant(null));
         backend.set(o);
     }
 
     @Test
-    public void test08WaitForInFrontend() throws Exception {
+    public void test08WaitForInFrontend() {
         test03WaitForInFrontend();
     }
 
@@ -186,7 +178,7 @@ public class SubtitlesITest extends AbstractApiMediaBackendTest {
     }
 
     @Test
-    public void test91checkCleanup() throws Exception {
+    public void test91checkCleanup() {
         assumeThat(backendVersionNumber, greaterThanOrEqualTo(5.3f));
 
 
@@ -201,7 +193,7 @@ public class SubtitlesITest extends AbstractApiMediaBackendTest {
     }
 
     @Test
-    public void test92checkCleanupFrontend() throws Exception {
+    public void test92checkCleanupFrontend() {
         assumeThat(backendVersionNumber, greaterThanOrEqualTo(5.3f));
         waitUntil(ACCEPTABLE_DURATION,
             MID_WITH_LOCATIONS + " has not " + JAPANESE_TRANSLATION,

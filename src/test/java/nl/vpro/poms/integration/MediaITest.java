@@ -47,7 +47,7 @@ public class MediaITest extends AbstractApiMediaBackendTest {
     static String clipDescription;
 
     @Test
-    public void test001CreateMedia() throws Exception {
+    public void test001CreateMedia() {
         clipTitle = title;
         Image expiredImage = createImage();
         expiredImage.setTitle("OFFLINE" + title);
@@ -127,7 +127,7 @@ public class MediaITest extends AbstractApiMediaBackendTest {
     }
 
     @Test
-    public void test002CheckFrontendApi() throws Exception {
+    public void test002CheckFrontendApi() {
         assumeNotNull(clipMid);
         Program clip = waitUntil(Duration.ofMinutes(10),
             clipMid + " is a memberof " + groupMid,
@@ -155,7 +155,7 @@ public class MediaITest extends AbstractApiMediaBackendTest {
     }
 
     @Test
-    public void test004CheckFrontendApi() throws Exception {
+    public void test004CheckFrontendApi() {
         assumeNotNull(clipMid);
         Program clip = waitUntil(Duration.ofMinutes(10),
             clipMid + " has title " + clipTitle,
@@ -178,7 +178,7 @@ public class MediaITest extends AbstractApiMediaBackendTest {
     }
 
     @Test
-    public void test006CheckFrontendApi() throws Exception {
+    public void test006CheckFrontendApi() {
         assumeNotNull(clipMid);
         Program clip = waitUntil(Duration.ofMinutes(10),
             clipMid + " has description " + clipDescription,
@@ -192,7 +192,7 @@ public class MediaITest extends AbstractApiMediaBackendTest {
 
 
     @Test
-    public void test007WaitForImageRevocation() throws Exception {
+    public void test007WaitForImageRevocation() {
         assumeNotNull(clipMid);
         Program clip = waitUntil(Duration.ofMinutes(20),
             clipMid + " has no images any more",
@@ -203,7 +203,7 @@ public class MediaITest extends AbstractApiMediaBackendTest {
     }
 
     @Test
-    public void test008WaitForSegmentRevocation() throws Exception {
+    public void test008WaitForSegmentRevocation() {
         assumeNotNull(clipMid);
         Program clip = waitUntil(Duration.ofMinutes(20),
             clipMid + " has no segments any more",
@@ -214,7 +214,7 @@ public class MediaITest extends AbstractApiMediaBackendTest {
     }
 
     @Test
-    public void test009WaitForLocationsRevocation() throws Exception {
+    public void test009WaitForLocationsRevocation() {
         assumeNotNull(clipMid);
         Program clip = waitUntil(Duration.ofMinutes(20),
             clipMid + " has no locations any more",
@@ -225,13 +225,13 @@ public class MediaITest extends AbstractApiMediaBackendTest {
     }
 
     @Test
-    public void test100Delete() throws Exception {
+    public void test100Delete() {
         assumeNotNull(clipMid);
         backend.delete(clipMid);
     }
 
     @Test
-    public void test101CheckFrontendApi() throws Exception {
+    public void test101CheckFrontendApi() {
         assumeNotNull(clipMid);
         assertThat(waitUntil(Duration.ofMinutes(10),
             clipMid + " disappeared",

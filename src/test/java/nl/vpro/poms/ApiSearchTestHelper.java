@@ -30,7 +30,7 @@ public class ApiSearchTestHelper {
                 try {
                     T form = Jackson2Mapper.getLenientInstance().readerFor(formClass).readValue(resource.getInputStream());
                     forms.add(new AbstractMap.SimpleEntry<>(resource.getFilename(), form));
-                } catch (Exception e) {
+                } catch (Exception ignored) {
 
                 }
             }
@@ -42,7 +42,7 @@ public class ApiSearchTestHelper {
                 try {
                     T form = JAXB.unmarshal(resource.getInputStream(), formClass);
                     forms.add(new AbstractMap.SimpleEntry<>(resource.getFilename(), form));
-                } catch (Exception e) {
+                } catch (Exception ignored) {
 
                 }
             }

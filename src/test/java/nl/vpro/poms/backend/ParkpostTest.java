@@ -142,7 +142,7 @@ public class ParkpostTest extends AbstractApiMediaBackendTest {
 
 
     @Test
-    public void test002arrived() throws Exception {
+    public void test002arrived() {
         assumeTrue(result != null);
         assumeTrue(promotionTitle != null);
         MemberUpdate update = waitUntilNotNull(Duration.ofMinutes(5),
@@ -172,7 +172,7 @@ public class ParkpostTest extends AbstractApiMediaBackendTest {
 
 
     @Test
-    public void test999cleanup() throws Exception {
+    public void test999cleanup() {
         MediaUpdateList<MemberUpdate> promos = backend.getGroupMembers(PROMOTED_MID);
         int count = 0;
         for(MemberUpdate mu :promos) {

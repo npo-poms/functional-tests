@@ -54,7 +54,7 @@ public class MediaBackendTest extends AbstractApiMediaBackendTest {
 
     static String newMid;
     @Test
-    public void test01CreateObjectWithMembers() throws Exception {
+    public void test01CreateObjectWithMembers() {
         ProgramUpdate clip = ProgramUpdate.create(
             MediaTestDataBuilder.clip()
                 .title(title)
@@ -88,7 +88,7 @@ public class MediaBackendTest extends AbstractApiMediaBackendTest {
     }
 
     @Test
-    public void test02Checkarrived() throws Exception {
+    public void test02Checkarrived() {
         assumeNotNull(newMid);
 
 

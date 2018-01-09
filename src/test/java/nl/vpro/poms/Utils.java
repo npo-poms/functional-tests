@@ -1,13 +1,12 @@
 package nl.vpro.poms;
 
+import lombok.extern.slf4j.Slf4j;
+
 import java.time.Duration;
 import java.time.Instant;
 import java.util.concurrent.Callable;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -15,9 +14,8 @@ import static org.assertj.core.api.Assertions.assertThat;
  * @author Michiel Meeuwissen
  */
 
+@Slf4j
 public class Utils {
-
-    static final Logger log = LoggerFactory.getLogger(Utils.class);
 
     private final static Duration WAIT = Duration.ofSeconds(15);
 

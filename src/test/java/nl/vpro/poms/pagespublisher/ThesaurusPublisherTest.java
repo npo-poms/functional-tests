@@ -29,9 +29,7 @@ public class ThesaurusPublisherTest extends AbstractApiTest {
 
 
     @Rule
-    public DoAfterException doAfterException = new DoAfterException((t) -> {
-        ThesaurusPublisherTest.exception = t;
-    });
+    public DoAfterException doAfterException = new DoAfterException((t) -> ThesaurusPublisherTest.exception = t);
 
     private static Throwable exception = null;
 

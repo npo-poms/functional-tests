@@ -24,7 +24,7 @@ public class AddFrameTest extends AbstractApiMediaBackendTest {
 
 
     @Test
-    public void test01() throws Exception {
+    public void test01() {
         final Duration duration = Duration.ofMinutes(10).plus(Duration.ofMinutes((int) (20f * Math.random())));
         backend.getFrameCreatorRestService().createFrame(MID, duration, null, new ByteArrayInputStream("bla bla".getBytes()));
         final ProgramUpdate[] update = new ProgramUpdate[1];

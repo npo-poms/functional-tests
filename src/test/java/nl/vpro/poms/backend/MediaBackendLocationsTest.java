@@ -65,7 +65,7 @@ public class MediaBackendLocationsTest extends AbstractApiMediaBackendTest {
 
 
     @Test
-    public void test10checkArrived() throws Exception {
+    public void test10checkArrived() {
         List<String> currentLocations = new ArrayList<>();
         waitUntil(ACCEPTABLE_DURATION,
             MID + " in backend with location " + titles,
@@ -80,7 +80,7 @@ public class MediaBackendLocationsTest extends AbstractApiMediaBackendTest {
     }
 
     @Test
-    public void test11checkArrivedViaGetLocations() throws Exception {
+    public void test11checkArrivedViaGetLocations() {
         List<String> currentLocations = new ArrayList<>();
         waitUntil(ACCEPTABLE_DURATION,
             MID + " in backend with location " + titles,
@@ -129,7 +129,7 @@ public class MediaBackendLocationsTest extends AbstractApiMediaBackendTest {
 
 
     @Test
-    public void test21addLocationToObjectCheck() throws Exception {
+    public void test21addLocationToObjectCheck() {
         List<String> currentLocations = new ArrayList<>();
         waitUntil(ACCEPTABLE_DURATION,
             MID + " in backend with location " + titles,
@@ -170,7 +170,7 @@ public class MediaBackendLocationsTest extends AbstractApiMediaBackendTest {
 
 
     @Test
-    public void test99CleanupCheck() throws Exception {
+    public void test99CleanupCheck() {
         final ProgramUpdate[] update = new ProgramUpdate[1];
         waitUntil(ACCEPTABLE_DURATION,
             MID + " has no locations any more",
