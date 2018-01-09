@@ -50,19 +50,19 @@ public class MediaITest extends AbstractApiMediaBackendTest {
     public void test001CreateMedia() {
         clipTitle = title;
         Image expiredImage = createImage();
-        expiredImage.setTitle("OFFLINE" + title);
+        expiredImage.setTitle("OFFLINE " + title);
         expiredImage.setPublishStopInstant(Instant.now().minus(Duration.ofMinutes(1)));
 
         Image publishedImage = createImage();
-        publishedImage.setTitle("PUBLISHED" + title);
+        publishedImage.setTitle("PUBLISHED " + title);
         publishedImage.setPublishStopInstant(Instant.now().plus(Duration.ofMinutes(10)));
 
         Segment expiredSegment= createSegment();
-        expiredSegment.setMainTitle("OFFLINE" + title);
+        expiredSegment.setMainTitle("OFFLINE " + title);
         expiredSegment.setPublishStopInstant(Instant.now().minus(Duration.ofMinutes(1)));
 
         Segment publishedSegment = createSegment();
-        publishedSegment.setMainTitle("PUBLISHED" + title);
+        publishedSegment.setMainTitle("PUBLISHED " + title);
         publishedSegment.setPublishStopInstant(Instant.now().plus(Duration.ofMinutes(10)));
 
         Location expiredLocation = createLocation(1);
@@ -118,7 +118,7 @@ public class MediaITest extends AbstractApiMediaBackendTest {
                     .broadcasters("VPRO")
             ));
         waitUntil(Duration.ofMinutes(2),
-            clipMid + " and " + groupMid + " available",
+            "clip:" + clipMid + " and group:" + groupMid + " available",
             () -> backend.getFull(clipMid) != null && backend.getFull(groupMid) != null
         );
         log.info("Created groups {}, {}", groupMid, offlineGroup);

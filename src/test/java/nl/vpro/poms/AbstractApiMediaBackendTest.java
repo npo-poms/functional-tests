@@ -99,6 +99,7 @@ public abstract class AbstractApiMediaBackendTest extends AbstractApiTest {
                     create.setBroadcasters("VPRO");
                     create.setMid(MID);
                     create.setMainTitle("Test");
+                    create.setAgeRating(AgeRating.ALL);
                     backend.set(create);
                 }
             }
@@ -110,6 +111,8 @@ public abstract class AbstractApiMediaBackendTest extends AbstractApiTest {
                     mediaUpdate.setBroadcasters("VPRO");
                     mediaUpdate.setMid(MID_WITH_LOCATIONS);
                     mediaUpdate.setMainTitle("Test");
+                    mediaUpdate.setAgeRating(AgeRating.ALL);
+
                 }
                 if (mediaUpdate.getLocations().isEmpty()) {
                     log.info("No media found {} with locations.  Now creating", MID_WITH_LOCATIONS);
