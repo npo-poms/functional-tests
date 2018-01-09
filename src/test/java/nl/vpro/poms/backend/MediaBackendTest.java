@@ -74,8 +74,11 @@ public class MediaBackendTest extends AbstractApiMediaBackendTest {
                     .constrainedNew());
         log.info("Created {} too", newMid);
 
+
+        // TODO: this will happen via queue in ImportRoute
         String memberMid = backend.set(member);
 
+        // This won't so it may be executed earlier and hence fail (MSE-3836)
         backend.createMember(newMid, memberMid, 1);
 
     }
