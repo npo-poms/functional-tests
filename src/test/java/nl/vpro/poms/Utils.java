@@ -17,30 +17,35 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class Utils {
 
-    static final Logger log = LoggerFactory.getLogger(Utils.class); 
+    static final Logger log = LoggerFactory.getLogger(Utils.class);
 
     private final static Duration WAIT = Duration.ofSeconds(15);
 
-    private static boolean waitUntil(Duration acceptable, Callable<Boolean> r) throws Exception {
+    private static boolean waitUntil(Duration acceptable, Callable<Boolean> r)  {
         AbstractApiTest.clearCaches();
         Instant start = Instant.now();
-        Thread.sleep(Duration.ofSeconds(1).toMillis());
-        while (true) {
-            if (r.call()) {
-                log.info("{} evaluated true", r);
-                return true;
+        try {
+            Thread.sleep(Duration.ofSeconds(1).toMillis());
+            while (true) {
+                if (r.call()) {
+                    log.info("{} evaluated true", r);
+                    return true;
+                }
+                Duration duration = Duration.between(start, Instant.now());
+                if (duration.compareTo(acceptable) > 0) {
+                    log.warn("{} didn't evaluate to true after {} in less than {}", r, duration, acceptable);
+                    return false;
+                }
+                log.info("{} didn't evaluate to true yet after {}. Waiting another {}", r, duration, WAIT);
+                Thread.sleep(WAIT.toMillis());
             }
-            Duration duration = Duration.between(start, Instant.now());
-            if (duration.compareTo(acceptable) > 0) {
-                log.warn("{} didn't evaluate to true after {} in less than {}", r, duration, acceptable);
-                return false;
-            }
-            log.info("{} didn't evaluate to true yet after {}. Waiting another {}", r, duration, WAIT);
-            Thread.sleep(WAIT.toMillis());
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+            return false;
         }
     }
 
-    public static boolean waitUntil(Duration acceptable, String callableToDescription, final Callable<Boolean> r) throws Exception {
+    public static boolean waitUntil(Duration acceptable, String callableToDescription, final Callable<Boolean> r)  {
         log.info("Waiting until " + callableToDescription);
         AbstractApiTest.clearCaches();
         return waitUntil(acceptable, new Callable<Boolean>() {
@@ -56,14 +61,14 @@ public class Utils {
 
     }
 
-    public static <T> T waitUntilNotNull(Duration acceptable, Supplier<T> r) throws Exception {
+    public static <T> T waitUntilNotNull(Duration acceptable, Supplier<T> r) {
         return waitUntil(acceptable, r + " != null", r, (o) -> true);
     }
 
     /**
      * Call supplier until its result evaluates true according to given predicate or the acceptable duration elapses.
      */
-    public static <T> T waitUntil(Duration acceptable, String predicateDescription, Supplier<T> r, Predicate<T> predicate) throws Exception {
+    public static <T> T waitUntil(Duration acceptable, String predicateDescription, Supplier<T> r, Predicate<T> predicate) {
         final T[] result = (T[]) new Object[1];
         waitUntil(acceptable, predicateDescription, new Callable<Boolean>() {
             @Override
