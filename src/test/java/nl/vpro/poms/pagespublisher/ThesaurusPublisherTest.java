@@ -8,7 +8,7 @@ import org.junit.runners.MethodSorters;
 import nl.vpro.api.client.resteasy.PageUpdateApiClient;
 import nl.vpro.api.client.utils.Config;
 import nl.vpro.poms.AbstractApiTest;
-import nl.vpro.poms.DoAfterException;
+import nl.vpro.rules.DoAfterException;
 import nl.vpro.rs.thesaurus.update.NewPerson;
 import nl.vpro.rs.thesaurus.update.NewPersonRequest;
 

@@ -14,10 +14,11 @@ import nl.vpro.domain.media.update.MediaUpdateList;
 import nl.vpro.domain.media.update.MemberUpdate;
 import nl.vpro.domain.media.update.ProgramUpdate;
 import nl.vpro.poms.AbstractApiMediaBackendTest;
-import nl.vpro.poms.DoAfterException;
+import nl.vpro.rules.DoAfterException;
 
 import static nl.vpro.poms.Utils.waitUntil;
-import static org.assertj.core.api.Java6Assertions.assertThat;
+
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assume.assumeNoException;
 import static org.junit.Assume.assumeNotNull;
 
