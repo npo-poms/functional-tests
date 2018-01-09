@@ -54,7 +54,7 @@ public class MediaBackendTest extends AbstractApiMediaBackendTest {
 
     static String newMid;
     @Test
-    public void test01CreateObjectWithMembers()  {
+    public void test01CreateObjectWithMembers() throws Exception {
         ProgramUpdate clip = ProgramUpdate.create(
             MediaTestDataBuilder.clip()
                 .title(title)
@@ -77,6 +77,10 @@ public class MediaBackendTest extends AbstractApiMediaBackendTest {
 
         // TODO: this will happen via queue in ImportRoute
         String memberMid = backend.set(member);
+
+        waitUntil(Duration.ofMinutes(5),
+            "Waiting until " + memberMid + " see also MSE-3836",
+            () -> backend.get(memberMid) != null);
 
         // This won't so it may be executed earlier and hence fail (MSE-3836)
         backend.createMember(newMid, memberMid, 1);
