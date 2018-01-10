@@ -127,7 +127,7 @@ public class ApiMediaChangesTest extends AbstractApiTest {
                     log.info("Found a multiple date {}", prev);
                     duplicateDates++;
                 }
-                assertThat(change.getPublishDate()).isGreaterThanOrEqualTo(prev);
+                assertThat(change.getPublishDate()).isAfterOrEqualTo(prev);
                 assertThat(change.getRevision() == null || change.getRevision() > 0).isTrue();
                 assertThat(change.getMid()).withFailMessage(change.getMid() + " should be different from " + mid).isNotEqualTo(mid);
                 prev = change.getPublishDate();
@@ -161,7 +161,7 @@ public class ApiMediaChangesTest extends AbstractApiTest {
 
                     assertThat(change.getSequence()).isNull();
                     assertThat(change.getPublishDate()).withFailMessage("%s has no publish date", change).isNotNull();
-                    assertThat(change.getPublishDate()).isGreaterThanOrEqualTo(prev);
+                    assertThat(change.getPublishDate()).isAfterOrEqualTo(prev);
                     assertThat(change.getRevision() == null || change.getRevision() > 0).isTrue();
                     prev = change.getPublishDate();
                     if (i.incrementAndGet() % 1000 == 0) {
@@ -203,7 +203,7 @@ public class ApiMediaChangesTest extends AbstractApiTest {
                     if (prev != null) {
                         if (change.getPublishDate() != null) { // couchdb?
                             assertThat(change.getPublishDate())
-                                .isGreaterThanOrEqualTo(prev.minus(1, ChronoUnit.MINUTES)
+                                .isAfterOrEqualTo(prev.minus(1, ChronoUnit.MINUTES)
                                     .truncatedTo(ChronoUnit.MINUTES));
                         }
                     }
