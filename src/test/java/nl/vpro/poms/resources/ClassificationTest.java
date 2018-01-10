@@ -9,7 +9,7 @@ import nl.vpro.domain.classification.URLClassificationServiceImpl;
 import nl.vpro.poms.AbstractApiTest;
 import nl.vpro.api.client.utils.Config;
 
-import static org.assertj.core.api.Java6Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * @author Michiel Meeuwissen

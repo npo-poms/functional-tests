@@ -20,7 +20,7 @@ import nl.vpro.domain.media.update.SegmentUpdate;
 import nl.vpro.poms.AbstractApiMediaBackendTest;
 
 import static nl.vpro.poms.Utils.waitUntil;
-import static org.assertj.core.api.Java6Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assume.assumeNotNull;
 
 /**

@@ -25,7 +25,7 @@ import nl.vpro.jackson2.JsonArrayIterator;
 import nl.vpro.poms.AbstractApiTest;
 
 import static nl.vpro.api.client.utils.MediaRestClientUtils.sinceString;
-import static org.assertj.core.api.Java6Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assume.assumeTrue;
 
 @Slf4j

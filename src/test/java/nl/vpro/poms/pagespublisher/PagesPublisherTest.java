@@ -6,13 +6,11 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.time.Duration;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
-import org.junit.Before;
-import org.junit.FixMethodOrder;
-import org.junit.Rule;
-import org.junit.Test;
+import org.junit.*;
 import org.junit.runners.MethodSorters;
 
 import nl.vpro.api.client.resteasy.PageUpdateApiClient;
@@ -20,6 +18,8 @@ import nl.vpro.api.client.utils.Config;
 import nl.vpro.api.client.utils.PageUpdateApiUtil;
 import nl.vpro.api.client.utils.PageUpdateRateLimiter;
 import nl.vpro.api.client.utils.Result;
+import nl.vpro.domain.api.IdList;
+import nl.vpro.domain.api.MultipleEntry;
 import nl.vpro.domain.api.page.PageForm;
 import nl.vpro.domain.page.LinkType;
 import nl.vpro.domain.page.Page;
@@ -28,8 +28,8 @@ import nl.vpro.domain.page.Section;
 import nl.vpro.domain.page.update.*;
 import nl.vpro.poms.AbstractApiMediaBackendTest;
 import nl.vpro.poms.AbstractApiTest;
-import nl.vpro.rules.DoAfterException;
 import nl.vpro.poms.Utils;
+import nl.vpro.rules.DoAfterException;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assume.assumeNoException;
@@ -110,7 +110,7 @@ public class PagesPublisherTest extends AbstractApiTest {
                 .title(title)
                 .portal(portal)
                 .build());
-            assertThat(r.getStatus()).isEqualTo(Result.Status.SUCCESS);
+            assertThat(r.getStatus()).withFailMessage(r.toString()).isEqualTo(Result.Status.SUCCESS);
         }
 
         Page topStory = pageUtil.load(topStoryUrl)[0];
@@ -241,11 +241,8 @@ public class PagesPublisherTest extends AbstractApiTest {
 
 
         // Then delete by crid
-
         Result result = util.deleteWhereStartsWith(CRID_PREFIX);
         assertThat(result.getStatus()).isEqualTo(Result.Status.SUCCESS);
-
-
     }
 
     @Test
@@ -257,6 +254,32 @@ public class PagesPublisherTest extends AbstractApiTest {
         Utils.waitUntil(Duration.ofMinutes(2),
             "Has no pages with tag",
             () -> pageUtil.find(form, null, 0L, 11).getSize() == 0);
+
+
+    }
+
+
+    @Test
+    @Ignore
+    public void test999CleanUp() {
+
+        MultipleEntry<Page> multipleEntry = clients.getPageService().loadMultiple(topStoryUrl, null, null).getItems().get(0);
+
+        assertThat(multipleEntry.getResult()).isNotNull();
+
+        IdList list = new IdList();
+        for (Referral r : multipleEntry.getResult().getReferrals()) {
+            list.add(r.getPageRef());
+        }
+        List<? extends MultipleEntry<Page>> referralsAsPage = clients.getPageService().loadMultiple(list, null, null).getItems();
+
+
+        for (MultipleEntry<Page> r : referralsAsPage) {
+            log.info("{} -> {}", r.getId(), r.getResult());
+            if (r.getResult() != null) {
+                util.delete(r.getId());
+            }
+        }
 
 
     }

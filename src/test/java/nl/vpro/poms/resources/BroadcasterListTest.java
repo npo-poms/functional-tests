@@ -13,7 +13,7 @@ import nl.vpro.rules.TestMDC;
 import nl.vpro.util.URLResource;
 
 import static nl.vpro.poms.AbstractApiTest.CONFIG;
-import static org.assertj.core.api.Java6Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * @author Michiel Meeuwissen
