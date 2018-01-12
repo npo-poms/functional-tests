@@ -276,8 +276,8 @@ public class PagesPublisherTest extends AbstractApiTest {
 
         for (MultipleEntry<Page> r : referralsAsPage) {
             log.info("{} -> {}", r.getId(), r.getResult());
-            if (r.getResult() != null) {
-                util.delete(r.getId());
+            if (r.getResult() == null) {
+                log.info("result {} ", util.delete(r.getId()));
             }
         }
 
