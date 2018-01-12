@@ -67,7 +67,7 @@ public class ThesaurusPublisherTest extends AbstractApiTest {
 
     @Test
     public void test100Arrived() throws Exception {
-        assumeNotNull(givenName);
+        assumeNotNull(gtaaId);
 
         GTAAPerson item = (GTAAPerson) clients.getThesaurusRestService().itemStatus(gtaaId);
         log.info("{}", item);
@@ -78,8 +78,8 @@ public class ThesaurusPublisherTest extends AbstractApiTest {
 
 
     @Test
-    public void test101ArrivedAndFindable() throws Exception {
-        assumeNotNull(givenName);
+    public void test101ArrivedAndFindable() {
+        assumeNotNull(gtaaId);
         PersonResult persons = clients.getThesaurusRestService().findPersons(givenName, 100);
         assertThat(persons.getSize()).isGreaterThan(0); // FAILS
         for (PersonInterface p : persons) {
