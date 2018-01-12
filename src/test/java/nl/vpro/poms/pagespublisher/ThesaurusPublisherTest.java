@@ -7,10 +7,12 @@ import org.junit.runners.MethodSorters;
 
 import nl.vpro.api.client.resteasy.PageUpdateApiClient;
 import nl.vpro.api.client.utils.Config;
+import nl.vpro.domain.PersonInterface;
+import nl.vpro.domain.api.thesaurus.PersonResult;
 import nl.vpro.poms.AbstractApiTest;
-import nl.vpro.rules.DoAfterException;
 import nl.vpro.rs.thesaurus.update.NewPerson;
 import nl.vpro.rs.thesaurus.update.NewPersonRequest;
+import nl.vpro.rules.DoAfterException;
 
 import static org.junit.Assume.assumeNoException;
 
@@ -38,14 +40,19 @@ public class ThesaurusPublisherTest extends AbstractApiTest {
         assumeNoException(exception);
     }
 
+    private static String givenName;
+    private static String familyName = "Puk";
+
 
     @Test
     public void test001CreatePerson() {
+        givenName = "Pietje2" + System.currentTimeMillis();
+        log.info("Creatingng {} {}", givenName, familyName);
         pageUpdateApiClient.getThesaurusUpdateRestService().submitSigned(
             NewPersonRequest.builder().person(
                 NewPerson.builder()
                     .familyName("Puk")
-                    .givenName("Pietje2" + System.currentTimeMillis())
+                    .givenName(givenName)
                     .build()
             ).build());
 
@@ -53,12 +60,12 @@ public class ThesaurusPublisherTest extends AbstractApiTest {
 
     @Test
     public void test100Arrived() {
-        pageUpdateApiClient.getThesaurusUpdateRestService().submitSigned(
-            NewPersonRequest.builder().person(
-                NewPerson.builder()
-                    .familyName("Puk")
-                    .givenName("Pietje2").build()
-            ).build());
+        //assumeNotNull(givenName);
+        PersonResult persons = clients.getThesaurusRestService().findPersons("Pietje21515773330755", 100);
+        for (PersonInterface p : persons) {
+            log.info("{}", p);
+
+        }
     }
 
 }
