@@ -21,6 +21,7 @@ import nl.vpro.api.client.utils.Result;
 import nl.vpro.domain.api.IdList;
 import nl.vpro.domain.api.MultipleEntry;
 import nl.vpro.domain.api.page.PageForm;
+import nl.vpro.domain.api.page.PageSearchResult;
 import nl.vpro.domain.page.LinkType;
 import nl.vpro.domain.page.Page;
 import nl.vpro.domain.page.Referral;
@@ -148,9 +149,9 @@ public class PagesPublisherTest extends AbstractApiTest {
     public void test101ArrivedInAPI() {
         assumeNotNull(article);
         Page page = Utils.waitUntil(Duration.ofMinutes(1),
-            article.getUrl() + " has title " + article.getTitle(),
+            article.getUrl() + " has title " + article.getTitle() + " in " + pageUtil,
             () ->
-            pageUtil.load(article.getUrl())[0], p -> Objects.equals(p.getTitle(), article.getTitle())
+            pageUtil.load(article.getUrl())[0], p -> p != null && Objects.equals(p.getTitle(), article.getTitle())
         );
 
         assertThat(page.getTitle()).isEqualTo(article.getTitle());
@@ -253,7 +254,12 @@ public class PagesPublisherTest extends AbstractApiTest {
 
         Utils.waitUntil(Duration.ofMinutes(2),
             "Has no pages with tag",
-            () -> pageUtil.find(form, null, 0L, 11).getSize() == 0);
+            () -> {
+                PageSearchResult searchResultItems = pageUtil.find(form, null, 0L, 11);
+                log.info("Found {}", searchResultItems);
+                return searchResultItems.getSize() == 0;
+            }
+        );
 
 
     }

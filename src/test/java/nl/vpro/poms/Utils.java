@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.concurrent.Callable;
+import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
 
@@ -63,10 +64,22 @@ public class Utils {
         return waitUntil(acceptable, r + " != null", r, (o) -> true);
     }
 
+    public static <T> T waitUntil(
+        Duration acceptable,
+        String predicateDescription,
+        Supplier<T> r,
+        Predicate<T> predicate) {
+        return waitUntil(acceptable, predicateDescription, r, predicate, (result) -> predicateDescription + ": " + result + " doesn't match");
+    }
     /**
      * Call supplier until its result evaluates true according to given predicate or the acceptable duration elapses.
      */
-    public static <T> T waitUntil(Duration acceptable, String predicateDescription, Supplier<T> r, Predicate<T> predicate) {
+    public static <T> T waitUntil(
+        Duration acceptable,
+        String predicateDescription,
+        Supplier<T> r,
+        Predicate<T> predicate,
+        Function<T, String> failureDescription) {
         final T[] result = (T[]) new Object[1];
         waitUntil(acceptable, predicateDescription, new Callable<Boolean>() {
             @Override
@@ -80,7 +93,8 @@ public class Utils {
                 return predicate + " supplies: " + r + " current value: " + result[0];
             }
         });
-        assertThat(result[0]).isNotNull();
+        assertThat(result[0]).withFailMessage(predicateDescription + ":" + r + "supplied null").isNotNull();
+        assertThat(predicate.test(result[0])).withFailMessage(failureDescription.apply(result[0])).isTrue();
         return result[0];
     }
 }
