@@ -5,7 +5,9 @@ import lombok.extern.slf4j.Slf4j;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.time.Duration;
+import java.time.Instant;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -20,12 +22,10 @@ import nl.vpro.api.client.utils.PageUpdateRateLimiter;
 import nl.vpro.api.client.utils.Result;
 import nl.vpro.domain.api.IdList;
 import nl.vpro.domain.api.MultipleEntry;
+import nl.vpro.domain.api.SearchResultItem;
 import nl.vpro.domain.api.page.PageForm;
 import nl.vpro.domain.api.page.PageSearchResult;
-import nl.vpro.domain.page.LinkType;
-import nl.vpro.domain.page.Page;
-import nl.vpro.domain.page.Referral;
-import nl.vpro.domain.page.Section;
+import nl.vpro.domain.page.*;
 import nl.vpro.domain.page.update.*;
 import nl.vpro.poms.AbstractApiMediaBackendTest;
 import nl.vpro.poms.AbstractApiTest;
@@ -33,8 +33,7 @@ import nl.vpro.poms.Utils;
 import nl.vpro.rules.DoAfterException;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assume.assumeNoException;
-import static org.junit.Assume.assumeNotNull;
+import static org.junit.Assume.*;
 
 /**
  * @author Michiel Meeuwissen
@@ -127,7 +126,7 @@ public class PagesPublisherTest extends AbstractApiTest {
 
         Result result = util.save(article);
         log.info("{}", result);
-        assertThat(result.getStatus()).isEqualTo(Result.Status.SUCCESS);
+        assertThat(result.getStatus()).withFailMessage("" + result).isEqualTo(Result.Status.SUCCESS);
         assertThat(result.getErrors()).isNull();
         log.info("{} -> {}", article, result);
     }
@@ -209,19 +208,22 @@ public class PagesPublisherTest extends AbstractApiTest {
 
     private static final String TAG = "test_created_with_crid";
     private static final String CRID_PREFIX = "crid://crids.functional.tests/";
-
+    private static final List<Crid> createdCrids = new ArrayList<>();
 
     @Test
     public void test300CreateSomeWithCrid() throws UnsupportedEncodingException {
         String url = "http://test.poms.nl/" + URLEncoder.encode(testMethod.getMethodName() + LocalDate.now(), "UTF-8");
 
         for (int i = 0; i < 10; i++) {
+            createdCrids.add(new Crid(CRID_PREFIX + i));
             PageUpdate article =
                 PageUpdateBuilder.article(url + "/" + i)
                     .broadcasters("VPRO")
                     .crids(CRID_PREFIX + i)
                     .title(title)
                     .tags(TAG)
+                    .creationDate(Instant.now())
+                    .lastModified(Instant.now())
                     .build();
             Result result = util.save(article);
             assertThat(result.getStatus()).isEqualTo(Result.Status.SUCCESS);
@@ -232,13 +234,21 @@ public class PagesPublisherTest extends AbstractApiTest {
 
     @Test
     public void test301ArrivedInAPIThenDeleteByCrid() {
+        assumeTrue(createdCrids.size() > 0);
         PageForm form = PageForm.builder()
             .tags(TAG)
             .build();
 
-        Utils.waitUntil(Duration.ofMinutes(2),
-        "Has pages with tag " + TAG,
-            () -> pageUtil.find(form, null, 0L, 11).getSize() >= 10);
+        PageSearchResult searchResultItems = Utils.waitUntil(
+            Duration.ofMinutes(2),
+            "Has pages with tag " + TAG,
+            () -> pageUtil.find(form, null, 0L, 11),
+            (sr) -> sr.getSize() >= 10
+        );
+        for (SearchResultItem<? extends Page> item : searchResultItems) {
+            createdCrids.removeAll(item.getResult().getCrids());
+        }
+        assertThat(createdCrids).isEmpty();
 
 
         // Then delete by crid
