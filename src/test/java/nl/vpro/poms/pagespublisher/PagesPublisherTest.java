@@ -7,10 +7,7 @@ import java.net.URLEncoder;
 import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 
 import org.junit.*;
 import org.junit.runners.MethodSorters;
@@ -276,8 +273,51 @@ public class PagesPublisherTest extends AbstractApiTest {
 
 
     @Test
+    public void test400Consistency() {
+        Set<String> checked = new LinkedHashSet<>();
+        testConsistency(topStoryUrl, checked, false);
+        log.info("{}", checked);
+    }
+    protected void testConsistency(String url, Set<String> checked, boolean cleanup) {
+        if (checked.contains(url)) {
+            return;
+        }
+        checked.add(url);
+
+        MultipleEntry<Page> multipleEntry = clients.getPageService().loadMultiple(url, null, null).getItems().get(0);
+        if (multipleEntry.getResult() == null) {
+            log.warn("Could not find {}", url);
+            if (cleanup) {
+                util.delete(url);
+            }
+            return;
+        }
+        IdList list = new IdList();
+        if (multipleEntry.getResult().getReferrals() != null) {
+            for (Referral r : multipleEntry.getResult().getReferrals()) {
+                list.add(r.getPageRef());
+            }
+
+            List<? extends MultipleEntry<Page>> referralsAsPage = clients.getPageService().loadMultiple(list, null, null).getItems();
+
+            List<String> notFound = new ArrayList<>();
+            for (MultipleEntry<Page> r : referralsAsPage) {
+                log.info("{} -> {}", r.getId(), r.getResult());
+                if (r.getResult() == null) {
+                    notFound.add(r.getId());
+                }
+                testConsistency(r.getId(), checked, cleanup);
+            }
+            if (!notFound.isEmpty()) {
+                log.warn("Not Found{}!", notFound);
+            }
+        }
+    }
+
+
+    @Test
     @Ignore
-    public void test999CleanUp() {
+    public void test999CleanUps() {
 
         MultipleEntry<Page> multipleEntry = clients.getPageService().loadMultiple(topStoryUrl, null, null).getItems().get(0);
 
@@ -289,14 +329,23 @@ public class PagesPublisherTest extends AbstractApiTest {
         }
         List<? extends MultipleEntry<Page>> referralsAsPage = clients.getPageService().loadMultiple(list, null, null).getItems();
 
-
+        List<String> removed = new ArrayList<>();
         for (MultipleEntry<Page> r : referralsAsPage) {
             log.info("{} -> {}", r.getId(), r.getResult());
             if (r.getResult() == null) {
                 log.info("result {} ", util.delete(r.getId()));
+                removed.add(r.getId());
             }
         }
+        if (! removed.isEmpty()) {
+            log.warn("Removed {}!", removed);
+        }
 
+    }
 
+    @Test
+    @Ignore
+    public void test999CleanUp() {
+        util.delete("http://test.poms.nl/test001CreateOrUpdatePage2018-01-12");
     }
 }
