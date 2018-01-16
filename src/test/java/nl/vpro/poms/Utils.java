@@ -20,34 +20,34 @@ public class Utils {
 
     private final static Duration WAIT = Duration.ofSeconds(15);
 
-    private static boolean waitUntil(Duration acceptable, Callable<Boolean> r)  {
+    private static void waitUntil(Duration acceptable, Callable<Boolean> r)  {
         AbstractApiTest.clearCaches();
         Instant start = Instant.now();
         try {
             Thread.sleep(Duration.ofSeconds(1).toMillis());
             while (true) {
-                if (r.call()) {
+                boolean result = r.call();
+                if (result) {
                     log.info("{} evaluated true", r);
-                    return true;
+                    assertThat(result).isTrue();
+                    return;
                 }
                 Duration duration = Duration.between(start, Instant.now());
                 if (duration.compareTo(acceptable) > 0) {
-                    log.warn("{} didn't evaluate to true after {} in less than {}", r, duration, acceptable);
-                    return false;
+                    assertThat(result).withFailMessage("{} didn't evaluate to true after {} in less than {}", r, duration, acceptable).isFalse();
                 }
                 log.info("{} didn't evaluate to true yet after {}. Waiting another {}", r, duration, WAIT);
                 Thread.sleep(WAIT.toMillis());
             }
         } catch (Exception e) {
-            log.error(e.getMessage(), e);
-            return false;
+            throw new RuntimeException(e);
         }
     }
 
-    public static boolean waitUntil(Duration acceptable, String callableToDescription, final Callable<Boolean> r)  {
+    public static void waitUntil(Duration acceptable, String callableToDescription, final Callable<Boolean> r)  {
         log.info("Waiting until " + callableToDescription);
         AbstractApiTest.clearCaches();
-        return waitUntil(acceptable, new Callable<Boolean>() {
+        waitUntil(acceptable, new Callable<Boolean>() {
             @Override
             public Boolean call() throws Exception {
                 return r.call();

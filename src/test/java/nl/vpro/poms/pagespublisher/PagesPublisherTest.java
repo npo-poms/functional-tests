@@ -68,6 +68,8 @@ public class PagesPublisherTest extends AbstractApiTest {
     @Before
     public void setup() {
         assumeNoException(exception);
+
+        log.info("Testing with version {}", util.getPageUpdateApiClient().getVersionNumber());
     }
 
 
@@ -231,6 +233,7 @@ public class PagesPublisherTest extends AbstractApiTest {
 
     @Test
     public void test301ArrivedInAPIThenDeleteByCrid() {
+        assumeTrue(util.getPageUpdateApiClient().getVersionNumber() >= 5.5);
         assumeTrue(createdCrids.size() > 0);
         PageForm form = PageForm.builder()
             .tags(TAG)
@@ -255,6 +258,7 @@ public class PagesPublisherTest extends AbstractApiTest {
 
     @Test
     public void test302DissappearedFromAPI() {
+        assumeTrue(util.getPageUpdateApiClient().getVersionNumber() >= 5.5);
         PageForm form = PageForm.builder()
             .tags(TAG)
             .build();

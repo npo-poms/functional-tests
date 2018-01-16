@@ -149,15 +149,13 @@ public class SubtitlesITest extends AbstractApiMediaBackendTest {
     public void test06WaitForInFrontend() {
         assumeNotNull(firstTitle);
 
-        assumeTrue(waitUntil(ACCEPTABLE_DURATION,
+        waitUntil(ACCEPTABLE_DURATION,
             MID_WITH_LOCATIONS + " has no locations",
-            () -> mediaUtil.load(MID_WITH_LOCATIONS)[0].getLocations().isEmpty()));
+            () -> mediaUtil.load(MID_WITH_LOCATIONS)[0].getLocations().isEmpty());
 
-        assertThat(
-            waitUntil(ACCEPTABLE_DURATION,
+        waitUntil(ACCEPTABLE_DURATION,
                 MID_WITH_LOCATIONS + " has no subtitles for JAPAN",
-                () -> MediaRestClientUtils.loadOrNull(mediaUtil.getClients().getSubtitlesRestService(), MID_WITH_LOCATIONS, Locale.JAPAN) == null))
-            .isTrue();
+            () -> MediaRestClientUtils.loadOrNull(mediaUtil.getClients().getSubtitlesRestService(), MID_WITH_LOCATIONS, Locale.JAPAN) == null);
     }
 
     @Test

@@ -233,10 +233,10 @@ public class MediaITest extends AbstractApiMediaBackendTest {
     @Test
     public void test101CheckFrontendApi() {
         assumeNotNull(clipMid);
-        assertThat(waitUntil(Duration.ofMinutes(10),
+        waitUntil(Duration.ofMinutes(10),
             clipMid + " disappeared",
             () -> mediaUtil.findByMid(clipMid) == null
-        )).isTrue();
+        );
 
     }
 }
