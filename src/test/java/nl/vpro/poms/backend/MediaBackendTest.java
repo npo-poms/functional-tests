@@ -116,7 +116,7 @@ public class MediaBackendTest extends AbstractApiMediaBackendTest {
         assertThat(memberUpdates).hasSize(1);
     }
 
-    @Test
+   /* @Test
     public void test03UpdateClip() {
         ProgramUpdate clip = ProgramUpdate.create(
             MediaTestDataBuilder.clip()
@@ -136,7 +136,7 @@ public class MediaBackendTest extends AbstractApiMediaBackendTest {
 
 
     }
-
+*/
 
 
 }
