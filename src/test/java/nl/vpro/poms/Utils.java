@@ -64,6 +64,10 @@ public class Utils {
         return waitUntil(acceptable, r + " != null", r, (o) -> true);
     }
 
+    public static <T> T waitUntilNotNull(Duration acceptable, String description, Supplier<T> r) {
+        return waitUntil(acceptable, description, r, (o) -> true);
+    }
+
     public static <T> T waitUntil(
         Duration acceptable,
         String predicateDescription,
