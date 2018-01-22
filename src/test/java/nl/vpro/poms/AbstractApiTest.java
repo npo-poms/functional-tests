@@ -49,7 +49,7 @@ public abstract class AbstractApiTest {
     @Rule
     public AllowNotImplemented notImplemented = new AllowNotImplemented();
 
-    private static final String NOW = ZonedDateTime.now(Schedule.ZONE_ID).toOffsetDateTime().toString();
+    protected static final String NOW = ZonedDateTime.now(Schedule.ZONE_ID).toOffsetDateTime().toString();
 
     @Rule
     public TestName testMethod = new TestName();
