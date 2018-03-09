@@ -2,6 +2,7 @@ package nl.vpro.poms.npoapi;
 
 import lombok.extern.slf4j.Slf4j;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -70,6 +71,19 @@ public class ApiMediaTest extends AbstractApiTest {
         clients.getMediaService().load("BESTAATNIET", null, null);
     }
 
+    @Test(expected = javax.ws.rs.NotFoundException.class)
+    public void test404Youtube() {
+        // FAILS on DEV
+        clients.getMediaService().load("https://www.youtube.com/watch?v=1XiY_mhzd3Q", null, null);
+    }
+
+
+
+    @Test
+    public void test404LoadOrNull() throws IOException {
+        assertThat((MediaObject) mediaUtil.loadOrNull("https://www.youtube.com/watch?v=1XiY_mhzd3Q")).isNull();
+    }
+
     @Test
     public void descendants() {
         MediaResult result = mediaUtil.listDescendants("RBX_S_NTR_553927",
@@ -91,6 +105,7 @@ public class ApiMediaTest extends AbstractApiTest {
 
         }
     }
+
 
 
 }
