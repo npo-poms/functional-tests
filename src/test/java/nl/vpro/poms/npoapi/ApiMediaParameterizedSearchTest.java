@@ -89,6 +89,14 @@ public class ApiMediaParameterizedSearchTest extends AbstractSearchTest<MediaFor
             }
         });
 
+          addTester(5.402f,"visualsegments.json/null/(xml|json)", sr -> {
+              String testName = ApiMediaParameterizedSearchTest.this.testMethod.getMethodName();
+              if (testName.startsWith("search[")) {
+                  assertThat(sr.getSize()).isGreaterThan(0);
+              }
+
+        });
+
         addAssumer("channels.json/.*/(xml|json)", minVersion(5.3));
         addAssumer("lastModifiedDesc.json/.*/(xml|json)", minVersion(5.3));
         addAssumer("facet-title-az.json/.*/(xml|json)", minVersion(5.5));

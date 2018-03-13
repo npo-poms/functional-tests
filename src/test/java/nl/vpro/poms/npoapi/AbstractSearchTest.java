@@ -56,11 +56,8 @@ public abstract class AbstractSearchTest<T, S> extends AbstractApiTest {
     }
 
      protected void  addTester(String pattern, Consumer<S> consumer) {
-        addTester(pattern, (s) -> {
-            consumer.accept(s);
-            return true;
-        });
-    }
+         addTester(null, pattern, consumer);
+     }
 
     protected void addTester(String pattern, Function<S, Boolean> consumer) {
         Pattern p = Pattern.compile(pattern);
