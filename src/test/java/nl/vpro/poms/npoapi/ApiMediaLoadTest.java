@@ -17,6 +17,7 @@ import nl.vpro.domain.api.Error;
 import nl.vpro.domain.api.IdList;
 import nl.vpro.domain.api.MultipleMediaResult;
 import nl.vpro.domain.api.media.MediaForm;
+import nl.vpro.domain.api.media.RedirectList;
 import nl.vpro.domain.api.profile.Profile;
 import nl.vpro.domain.media.MediaObject;
 import nl.vpro.poms.AbstractApiTest;
@@ -111,6 +112,7 @@ public class ApiMediaLoadTest extends AbstractApiTest {
     @Test
     public void loadMultiple() {
         clients.setProfile(null);
+        RedirectList redirects = mediaUtil.redirects();
         MultipleMediaResult o = clients.getMediaService().loadMultiple(
             IdList.of(mids), null, null);
 
@@ -119,7 +121,17 @@ public class ApiMediaLoadTest extends AbstractApiTest {
             assertThat(o.getItems().get(i).getResult()).withFailMessage("Not found " + mids.get(i)).isNotNull();
             assertThat(o.getItems().get(i).getResult().getMainTitle()).isNotEmpty();// NPA-362
             assertThat(o.getItems().get(i).getError()).isNull();
-            assertThat(o.getItems().get(i).getResult().getMid()).isEqualTo(mids.get(i));
+            MediaObject mo = o.getItems().get(i).getResult();
+            String mid = mo.getMid();
+            if (!Objects.equals(mid, mids.get(i))) {
+                String redirected = redirects.getMap().get(mids.get(i));
+                if (redirected != null) {
+                    log.info("{} is redirected to {}", mids.get(i), redirected);
+                    mids.set(i, redirected);
+                }
+
+            }
+            assertThat(mid).isEqualTo(mids.get(i));
             if (profileName != null && clients.hasAllProperties()) {
                 assertThat(profile.getMediaProfile().test(o.getItems().get(i).getResult())).isTrue();
             }
