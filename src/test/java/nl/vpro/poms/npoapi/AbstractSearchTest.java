@@ -47,7 +47,7 @@ public abstract class AbstractSearchTest<T, S> extends AbstractApiTest {
 
 
     protected void  addTester(Float minVersion, String pattern, Consumer<S> consumer) {
-        if (minVersion == null || minVersion >= apiVersionNumber) {
+        if (minVersion == null || apiVersionNumber >= minVersion) {
             addTester(pattern, (s) -> {
                 consumer.accept(s);
                 return true;
