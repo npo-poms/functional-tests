@@ -75,7 +75,7 @@ public class ApiMediaParameterizedSearchTest extends AbstractSearchTest<MediaFor
             }
         });
 
-        addTester("facet-title-az.json/null/(xml|json)", sr -> {
+        addTester(5.5f,"facet-title-az.json/null/(xml|json)", sr -> {
             String testName = ApiMediaParameterizedSearchTest.this.testMethod.getMethodName();
             if (testName.startsWith("searchMembers")) {
                 // POMS_S_VPRO_417550 has no members a*
@@ -91,7 +91,9 @@ public class ApiMediaParameterizedSearchTest extends AbstractSearchTest<MediaFor
 
         addAssumer("channels.json/.*/(xml|json)", minVersion(5.3));
         addAssumer("lastModifiedDesc.json/.*/(xml|json)", minVersion(5.3));
-        addAssumer("facet-title-az.json/null/(xml|json)", minVersion(5.5));
+        addAssumer("facet-title-az.json/.*/(xml|json)", minVersion(5.5));
+        addAssumer("NPA-403-array.json/.*/json", minVersion(5.5));
+
 
 
     }

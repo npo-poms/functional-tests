@@ -21,6 +21,7 @@ import nl.vpro.api.client.resteasy.NpoApiClients;
 import nl.vpro.api.client.utils.Config;
 import nl.vpro.api.client.utils.NpoApiMediaUtil;
 import nl.vpro.api.client.utils.NpoApiPageUtil;
+import nl.vpro.domain.api.media.Compatibility;
 import nl.vpro.domain.classification.CachedURLClassificationServiceImpl;
 import nl.vpro.domain.classification.ClassificationServiceLocator;
 import nl.vpro.domain.media.Schedule;
@@ -113,8 +114,8 @@ public abstract class AbstractApiTest {
              apiVersionNumber = clients.getVersionNumber();
         } catch (Exception  e) {
             apiVersionNumber = 5.4f;
-
         }
+        Compatibility.setCompatibility(apiVersionNumber);
         mediaUtil.setCacheExpiry("1S");
 
         try {

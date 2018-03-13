@@ -46,7 +46,16 @@ public abstract class AbstractSearchTest<T, S> extends AbstractApiTest {
     protected MediaType accept;
 
 
-    protected void  addTester(String pattern, Consumer<S> consumer) {
+    protected void  addTester(Float minVersion, String pattern, Consumer<S> consumer) {
+        if (minVersion == null || minVersion >= apiVersionNumber) {
+            addTester(pattern, (s) -> {
+                consumer.accept(s);
+                return true;
+            });
+        }
+    }
+
+     protected void  addTester(String pattern, Consumer<S> consumer) {
         addTester(pattern, (s) -> {
             consumer.accept(s);
             return true;
