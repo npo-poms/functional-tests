@@ -32,7 +32,7 @@ import nl.vpro.parkpost.promo.bind.PromoEvent;
 import nl.vpro.poms.AbstractApiMediaBackendTest;
 
 import static com.jayway.restassured.RestAssured.given;
-import static nl.vpro.api.client.utils.Config.Prefix.backend_api;
+import static nl.vpro.api.client.utils.Config.Prefix.npo_backend_api;
 import static nl.vpro.api.client.utils.Config.Prefix.parkpost;
 import static nl.vpro.poms.Utils.waitUntilNotNull;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -46,7 +46,7 @@ public class ParkpostTest extends AbstractApiMediaBackendTest {
     private static final LocalDate today = LocalDate.now(Schedule.ZONE_ID);
     private static final String PRODUCTCODE = "1P0203MO_JOCHEMMY_" + today.toString().replace('-','_');
 
-    private static final String PARKPOST = CONFIG.url(backend_api, "parkpost/");
+    private static final String PARKPOST = CONFIG.url(npo_backend_api, "parkpost/");
     private static final String PROMOTED_MID = MID;
     private static String promotionTitle;
     private static Program result;

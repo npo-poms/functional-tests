@@ -29,7 +29,7 @@ public class ThesaurusPublisherTest extends AbstractApiTest {
 
    PageUpdateApiClient pageUpdateApiClient = PageUpdateApiClient.configured(
        CONFIG.env(),
-       CONFIG.getProperties(Config.Prefix.pageupdate_api)
+       CONFIG.getProperties(Config.Prefix.npo_pageupdate_api)
    ).build();
 
 

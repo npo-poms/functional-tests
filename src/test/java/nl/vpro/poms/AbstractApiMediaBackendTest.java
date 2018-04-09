@@ -36,7 +36,8 @@ public abstract class AbstractApiMediaBackendTest extends AbstractApiTest {
 
 
     protected static final MediaRestClient backend =
-        MediaRestClient.configured(CONFIG.env(), CONFIG.getProperties(Config.Prefix.backend_api))
+        MediaRestClient.configured(CONFIG.env(), CONFIG.getProperties(Config.Prefix.npo_backend_api))
+            .followMerges(true)
             .validateInput(true)
             .lookupCrids(true)
             .build();

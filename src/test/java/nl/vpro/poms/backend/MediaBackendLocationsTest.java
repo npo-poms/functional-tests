@@ -53,6 +53,22 @@ public class MediaBackendLocationsTest extends AbstractApiMediaBackendTest {
         assumeNoException(exception);
     }
 
+/*
+
+    @Test
+    public void testAddLocation() {
+        titles.add(title);
+        firstTitle = title;
+        LocationUpdate update = LocationUpdate.builder()
+            .programUrl(programUrl(firstTitle))
+            .build();
+        backend.addLocationToProgram(update, "WO_VPRO_3250811");
+    }
+
+*/
+
+
+
     @Test
     public void test01addLocation() {
         titles.add(title);

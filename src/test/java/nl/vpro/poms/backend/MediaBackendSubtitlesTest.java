@@ -22,7 +22,7 @@ import nl.vpro.poms.AbstractApiMediaBackendTest;
 import nl.vpro.rules.DoAfterException;
 
 import static com.jayway.restassured.RestAssured.given;
-import static nl.vpro.api.client.utils.Config.Prefix.backend_api;
+import static nl.vpro.api.client.utils.Config.Prefix.npo_backend_api;
 import static nl.vpro.poms.Utils.waitUntil;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.number.OrderingComparison.greaterThanOrEqualTo;
@@ -110,7 +110,7 @@ public class MediaBackendSubtitlesTest extends AbstractApiMediaBackendTest {
             .queryParam("errors", backend.getErrors())
             .log().all()
             .when()
-            .  post(CONFIG.url(backend_api, "media/subtitles/" + MID + "/ar/TRANSLATION"))
+            .  post(CONFIG.url(npo_backend_api, "media/subtitles/" + MID + "/ar/TRANSLATION"))
             .then()
             .  log().all()
             .statusCode(202)
