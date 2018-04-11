@@ -22,10 +22,11 @@ import nl.vpro.domain.api.MultipleEntry;
 import nl.vpro.domain.api.SearchResultItem;
 import nl.vpro.domain.api.page.PageForm;
 import nl.vpro.domain.api.page.PageSearchResult;
+import nl.vpro.domain.media.MediaObject;
+import nl.vpro.domain.media.update.MediaUpdate;
 import nl.vpro.domain.page.*;
 import nl.vpro.domain.page.update.*;
 import nl.vpro.poms.AbstractApiMediaBackendTest;
-import nl.vpro.poms.AbstractApiTest;
 import nl.vpro.poms.Utils;
 import nl.vpro.rules.DoAfterException;
 
@@ -37,7 +38,7 @@ import static org.junit.Assume.*;
  */
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 @Slf4j
-public class PagesPublisherTest extends AbstractApiTest {
+public class PagesPublisherTest extends AbstractApiMediaBackendTest {
 
 
     static PageUpdateApiUtil util = new PageUpdateApiUtil(
@@ -94,7 +95,7 @@ public class PagesPublisherTest extends AbstractApiTest {
                 .broadcasters("VPRO")
                 .title(title)
                 .embeds(EmbedUpdate.builder()
-                    .midRef(AbstractApiMediaBackendTest.MID)
+                    .midRef(MID)
                     .title("leuke embed")
                     .description("embed in " + title)
                     .build())
@@ -208,6 +209,43 @@ public class PagesPublisherTest extends AbstractApiTest {
             () ->
                 pageUtil.load(article.getUrl())[0], p -> Objects.equals(p.getTitle(), article.getTitle())
         );
+
+        MediaObject embedded = mediaUtil.findByMid(MID);
+        assertThat(page.getEmbeds().get(0).getMedia().getMid()).isEqualTo(MID);
+        assertThat(page.getEmbeds().get(0).getMedia().getMainTitle()).isEqualTo(embedded.getMainTitle());
+    }
+
+    private static String embeddedTitle;
+
+    @Test
+    public void test202UpdateExistingEmbeddedMedia() {
+        MediaUpdate<?> embedded = backend.get(MID);
+        embeddedTitle = "Updated by " + title;
+        embedded.setMainTitle(embeddedTitle);
+        backend.set(embedded);
+
+
+    }
+
+
+    @Test
+    public void test203ArrivedInApi() {
+        assumeNotNull(article);
+        assumeNotNull(embeddedTitle);
+
+        MediaObject fromApi = Utils.waitUntil(Duration.ofMinutes(1),
+            MID + " has title " + embeddedTitle,
+            () -> mediaUtil.findByMid(MID),
+            mo -> mo.getMainTitle().equals(embeddedTitle)
+        );
+
+        Page page = Utils.waitUntil(Duration.ofMinutes(1),
+            article.getUrl() + " has embedded " + MID + " with title " + embeddedTitle,
+            () ->
+                pageUtil.load(article.getUrl())[0], p -> Objects.equals(p.getEmbeds().get(0).getMedia().getMainTitle(), embeddedTitle)
+        );
+
+        assertThat(page.getEmbeds().get(0).getMedia().getMainTitle()).isEqualTo(embeddedTitle);
     }
 
     private static final String TAG = "test_created_with_crid";
