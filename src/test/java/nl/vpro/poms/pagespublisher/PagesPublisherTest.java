@@ -82,7 +82,12 @@ public class PagesPublisherTest extends AbstractApiTest {
 
 
         PortalUpdate portal = new PortalUpdate("WETENSCHAP24", "http://test.poms.nl");
-        portal.setSection(new Section("/" + testMethod.getMethodName(), "Display name " + testMethod.getMethodName()));
+        portal.setSection(
+            Section.builder()
+                .path("/" + testMethod.getMethodName())
+                .displayName("Display name " + testMethod.getMethodName())
+                .build()
+        );
 
         article =
             PageUpdateBuilder.article(urlToday)
