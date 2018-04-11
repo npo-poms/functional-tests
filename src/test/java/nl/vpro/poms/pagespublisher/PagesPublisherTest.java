@@ -240,6 +240,7 @@ public class PagesPublisherTest extends AbstractApiTest {
     public void test301ArrivedInAPIThenDeleteByCrid() {
         assumeTrue(util.getPageUpdateApiClient().getVersionNumber() >= 5.5);
         assumeTrue(createdCrids.size() > 0);
+
         PageForm form = PageForm.builder()
             .tags(TAG)
             .build();
@@ -247,17 +248,20 @@ public class PagesPublisherTest extends AbstractApiTest {
         PageSearchResult searchResultItems = Utils.waitUntil(
             Duration.ofMinutes(2),
             "Has pages with tag " + TAG,
-            () -> pageUtil.find(form, null, 0L, 11),
+            () -> pageUtil.find(form, null, 0L, 240),
             (sr) -> sr.getSize() >= 10
         );
+
         for (SearchResultItem<? extends Page> item : searchResultItems) {
+            log.info("Found {} with crids: ", item, item.getResult().getCrids());
             createdCrids.removeAll(item.getResult().getCrids());
         }
-        assertThat(createdCrids).isEmpty();
-
 
         // Then delete by crid
         Result result = util.deleteWhereStartsWith(CRID_PREFIX);
+
+        assertThat(createdCrids).isEmpty();
+
         assertThat(result.getStatus()).isEqualTo(Result.Status.SUCCESS);
     }
 
@@ -325,7 +329,6 @@ public class PagesPublisherTest extends AbstractApiTest {
 
 
     @Test
-    @Ignore
     public void test999CleanUps() {
 
         MultipleEntry<Page> multipleEntry = clients.getPageService().loadMultiple(topStoryUrl, null, null).getItems().get(0);
