@@ -94,15 +94,26 @@ public abstract class AbstractApiMediaBackendTest extends AbstractApiTest {
         try {
             {
                 MediaUpdate<?> mediaUpdate = backend.get(MID);
+                boolean needSet = false;
                 if (mediaUpdate == null) {
                     log.info("No media found {}.  Now creating", MID);
-                    ProgramUpdate create = ProgramUpdate.create(ProgramType.CLIP);
-                    create.setAVType(AVType.MIXED);
-                    create.setBroadcasters("VPRO");
-                    create.setMid(MID);
-                    create.setMainTitle("Test");
-                    create.setAgeRating(AgeRating.ALL);
-                    backend.set(create);
+                    mediaUpdate = ProgramUpdate.create(ProgramType.CLIP);
+                    mediaUpdate.setAVType(AVType.MIXED);
+                    mediaUpdate.setMid(MID);
+                    mediaUpdate.setAgeRating(AgeRating.ALL);
+                    needSet = true;
+                }
+                if (! mediaUpdate.getBroadcasters().contains("VPRO")) {
+                    mediaUpdate.setBroadcasters("VPRO");
+                    needSet = true;
+                }
+                if (! mediaUpdate.getMainTitle().equals("testclip michiel")) {
+                    mediaUpdate.setMainTitle("testclip michiel");
+                    needSet = true;
+
+                }
+                if (needSet) {
+                    backend.set(mediaUpdate);
                 }
             }
             {

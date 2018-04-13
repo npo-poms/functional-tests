@@ -215,15 +215,14 @@ public class PagesPublisherTest extends AbstractApiMediaBackendTest {
         assertThat(page.getEmbeds().get(0).getMedia().getMainTitle()).isEqualTo(embedded.getMainTitle());
     }
 
-    private static String embeddedTitle;
+    private static String embeddedDescription;
 
     @Test
     public void test202UpdateExistingEmbeddedMedia() {
         MediaUpdate<?> embedded = backend.get(MID);
-        embeddedTitle = "Updated by " + title;
-        embedded.setMainTitle(embeddedTitle);
+        embeddedDescription = "Updated by " + title;
+        embedded.setMainDescription(embeddedDescription);
         backend.set(embedded);
-
 
     }
 
@@ -231,21 +230,22 @@ public class PagesPublisherTest extends AbstractApiMediaBackendTest {
     @Test
     public void test203ArrivedInApi() {
         assumeNotNull(article);
-        assumeNotNull(embeddedTitle);
+        assumeNotNull(embeddedDescription);
 
         MediaObject fromApi = Utils.waitUntil(Duration.ofMinutes(1),
-            MID + " has title " + embeddedTitle,
+            MID + " has description " + embeddedDescription,
             () -> mediaUtil.findByMid(MID),
-            mo -> mo.getMainTitle().equals(embeddedTitle)
+            mo -> mo.getMainDescription().equals(embeddedDescription)
         );
 
         Page page = Utils.waitUntil(Duration.ofMinutes(1),
-            article.getUrl() + " has embedded " + MID + " with title " + embeddedTitle,
+            article.getUrl() + " has embedded " + MID + " with description " + embeddedDescription,
             () ->
-                pageUtil.load(article.getUrl())[0], p -> Objects.equals(p.getEmbeds().get(0).getMedia().getMainTitle(), embeddedTitle)
+                pageUtil.load(article.getUrl())[0],
+            p -> Objects.equals(p.getEmbeds().get(0).getMedia().getMainDescription(), embeddedDescription)
         );
 
-        assertThat(page.getEmbeds().get(0).getMedia().getMainTitle()).isEqualTo(embeddedTitle);
+        assertThat(page.getEmbeds().get(0).getMedia().getMainDescription()).isEqualTo(embeddedDescription);
     }
 
     private static final String TAG = "test_created_with_crid";
@@ -396,6 +396,6 @@ public class PagesPublisherTest extends AbstractApiMediaBackendTest {
     @Test
     @Ignore
     public void test999CleanUp() {
-        util.delete("http://test.poms.nl/test001CreateOrUpdatePage2018-01-12");
+        util.deleteWhereStartsWith("http://test.poms.nl/");
     }
 }
