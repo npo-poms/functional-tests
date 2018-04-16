@@ -39,6 +39,8 @@ public class Utils {
                 log.info("{} didn't evaluate to true yet after {}. Waiting another {}", r, duration, WAIT);
                 Thread.sleep(WAIT.toMillis());
             }
+        } catch (RuntimeException rte) {
+            throw rte;
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
