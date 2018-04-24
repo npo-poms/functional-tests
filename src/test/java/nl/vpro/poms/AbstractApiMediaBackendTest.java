@@ -29,6 +29,8 @@ import static nl.vpro.domain.media.MediaBuilder.program;
 @Slf4j
 public abstract class AbstractApiMediaBackendTest extends AbstractApiTest {
 
+
+
     public static final String MID                = "WO_VPRO_025057";
     protected static final String MID_WITH_LOCATIONS = "WO_VPRO_025700";
     protected static final String ANOTHER_MID        = "WO_KRO_475084";
@@ -40,6 +42,7 @@ public abstract class AbstractApiMediaBackendTest extends AbstractApiTest {
             .followMerges(true)
             .validateInput(true)
             .lookupCrids(true)
+            .version("5.7")
             .build();
     protected static final String backendVersion = backend.getVersion();
     protected static Float backendVersionNumber;

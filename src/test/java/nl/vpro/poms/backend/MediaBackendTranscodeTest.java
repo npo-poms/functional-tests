@@ -2,13 +2,12 @@ package nl.vpro.poms.backend;
 
 import lombok.extern.slf4j.Slf4j;
 
+import java.io.IOException;
 import java.time.Duration;
 
 import org.junit.*;
 import org.junit.runners.MethodSorters;
 
-import nl.vpro.domain.media.AVType;
-import nl.vpro.domain.media.AgeRating;
 import nl.vpro.domain.media.Encryption;
 import nl.vpro.domain.media.MediaBuilder;
 import nl.vpro.domain.media.update.ProgramUpdate;
@@ -48,18 +47,14 @@ public class MediaBackendTranscodeTest extends AbstractApiMediaBackendTest {
 
 
     @Test
-    public void test01Transcode() {
+    public void test01Transcode() throws IOException {
         assumeTrue(backendVersionNumber > 5.6f);
 
         String newMid = backend.set(ProgramUpdate.create(MediaBuilder.clip()
             .mainTitle(title)
-            .ageRating(AgeRating.ALL)
             .broadcasters("VPRO")
-            .avType(AVType.VIDEO)
             .build())
         );
-
-        /// wacht tot bestaat.
 
         TranscodeRequest request =
             TranscodeRequest.builder()
@@ -69,7 +64,8 @@ public class MediaBackendTranscodeTest extends AbstractApiMediaBackendTest {
                 .build();
 
 
-        backend.getBackendRestService().transcode(null, request);
+        String result = backend.transcode(request);
+        log.info("{}: {}", newMid, result);
     }
 
 
