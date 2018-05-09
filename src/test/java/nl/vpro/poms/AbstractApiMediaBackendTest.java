@@ -42,7 +42,7 @@ public abstract class AbstractApiMediaBackendTest extends AbstractApiTest {
             .followMerges(true)
             .validateInput(true)
             .lookupCrids(true)
-            .version("5.7")
+            //.version("5.7")
             .build();
     protected static final String backendVersion = backend.getVersion();
     protected static Float backendVersionNumber;

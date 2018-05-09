@@ -14,6 +14,7 @@ import nl.vpro.domain.media.update.ProgramUpdate;
 import nl.vpro.poms.AbstractApiMediaBackendTest;
 
 import static nl.vpro.poms.Utils.waitUntil;
+import static org.junit.Assume.assumeTrue;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 @Slf4j
@@ -36,7 +37,7 @@ public class AddFrameTest extends AbstractApiMediaBackendTest {
                 return update[0] != null &&
                     update[0].getImages()
                         .stream()
-                        .anyMatch(iu -> iu.getOffset().equals(duration) && iu.getType() == ImageType.STILL);
+                        .anyMatch(iu -> iu != null && iu.getOffset() != null && iu.getOffset().equals(duration) && iu.getType() == ImageType.STILL);
             });
     }
 
@@ -44,6 +45,7 @@ public class AddFrameTest extends AbstractApiMediaBackendTest {
     @Test
     public void test98Cleanup() {
         ProgramUpdate update = backend.get(MID);
+        assumeTrue(update != null);
         log.info("Removing images " + update.getImages());
         update.getImages().clear();
         backend.set(update);

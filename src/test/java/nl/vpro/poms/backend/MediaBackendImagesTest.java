@@ -139,7 +139,7 @@ public class MediaBackendImagesTest extends AbstractApiMediaBackendTest {
 
 
     @Test
-    @Ignore
+    //@Ignore
     public void test14addTineyeImage() {
         titles.add(title);
         tineyeImageTitle = title;
