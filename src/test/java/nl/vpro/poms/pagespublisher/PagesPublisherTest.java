@@ -235,14 +235,14 @@ public class PagesPublisherTest extends AbstractApiMediaBackendTest {
         MediaObject fromApi = Utils.waitUntil(Duration.ofMinutes(1),
             MID + " has description " + embeddedDescription,
             () -> mediaUtil.findByMid(MID),
-            mo -> mo.getMainDescription().equals(embeddedDescription)
+            mo -> mo != null && Objects.equals(mo.getMainDescription(), embeddedDescription)
         );
 
         Page page = Utils.waitUntil(Duration.ofMinutes(1),
             article.getUrl() + " has embedded " + MID + " with description " + embeddedDescription,
             () ->
                 pageUtil.load(article.getUrl())[0],
-            p -> Objects.equals(p.getEmbeds().get(0).getMedia().getMainDescription(), embeddedDescription)
+            p -> p != null && Objects.equals(p.getEmbeds().get(0).getMedia().getMainDescription(), embeddedDescription)
         );
 
         assertThat(page.getEmbeds().get(0).getMedia().getMainDescription()).isEqualTo(embeddedDescription);
