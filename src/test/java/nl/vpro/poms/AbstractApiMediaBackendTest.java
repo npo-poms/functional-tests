@@ -100,7 +100,8 @@ public abstract class AbstractApiMediaBackendTest extends AbstractApiTest {
                 boolean needSet = false;
                 if (mediaUpdate == null) {
                     log.info("No media found {}.  Now creating", MID);
-                    mediaUpdate = ProgramUpdate.create(ProgramType.CLIP);
+                    mediaUpdate = ProgramUpdate.create();
+                    ((ProgramUpdate) mediaUpdate).setType(ProgramType.CLIP);
                     mediaUpdate.setAVType(AVType.MIXED);
                     mediaUpdate.setMid(MID);
                     mediaUpdate.setAgeRating(AgeRating.ALL);
@@ -122,7 +123,8 @@ public abstract class AbstractApiMediaBackendTest extends AbstractApiTest {
             {
                 MediaUpdate<?> mediaUpdate = backend.get(MID_WITH_LOCATIONS);
                 if (mediaUpdate == null) {
-                    mediaUpdate = ProgramUpdate.create(ProgramType.CLIP);
+                    mediaUpdate = ProgramUpdate.create();
+                    ((ProgramUpdate) mediaUpdate).setType(ProgramType.CLIP);
                     mediaUpdate.setAVType(AVType.MIXED);
                     mediaUpdate.setBroadcasters("VPRO");
                     mediaUpdate.setMid(MID_WITH_LOCATIONS);

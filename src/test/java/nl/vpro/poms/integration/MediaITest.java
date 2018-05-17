@@ -92,6 +92,8 @@ public class MediaITest extends AbstractApiMediaBackendTest {
                         expiredLocation,
                         publishedLocation
                     )
+                .build()
+
             );
         clipMid = backend.set(clip);
         JAXB.marshal(clip, LoggerOutputStream.debug(log));
@@ -105,6 +107,8 @@ public class MediaITest extends AbstractApiMediaBackendTest {
                     .clearBroadcasters()
                     .withAgeRating()
                     .broadcasters("VPRO")
+                    .build()
+
             ));
         String offlineGroup = backend.set(
             GroupUpdate.create(
@@ -116,6 +120,7 @@ public class MediaITest extends AbstractApiMediaBackendTest {
                     .clearBroadcasters()
                     .withAgeRating()
                     .broadcasters("VPRO")
+                    .build()
             ));
         waitUntil(Duration.ofMinutes(2),
             "clip:" + clipMid + " and group:" + groupMid + " available",

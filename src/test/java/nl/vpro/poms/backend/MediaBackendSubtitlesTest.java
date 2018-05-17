@@ -144,7 +144,7 @@ public class MediaBackendSubtitlesTest extends AbstractApiMediaBackendTest {
         ProgramUpdate clip = ProgramUpdate.create(MediaTestDataBuilder.clip()
             .mainTitle(title)
             .broadcasters("VPRO")
-            .avType(AVType.VIDEO));
+            .avType(AVType.VIDEO).build());
 
         newMid = backend.set(clip);
 

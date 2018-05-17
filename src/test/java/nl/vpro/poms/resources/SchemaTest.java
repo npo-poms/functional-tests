@@ -41,7 +41,7 @@ public class SchemaTest {
         Validator xsdValidator = xsdSchema.newValidator();
 
         ProgramUpdate update = ProgramUpdate.create(MediaTestDataBuilder.program()
-            .withEverything());
+            .withEverything().build());
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         JAXB.marshal(update, out);
         System.out.println(new String(out.toByteArray()));

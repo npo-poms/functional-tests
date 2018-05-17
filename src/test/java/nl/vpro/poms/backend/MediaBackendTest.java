@@ -68,6 +68,7 @@ public class MediaBackendTest extends AbstractApiMediaBackendTest {
                 .broadcasters("VPRO")
                 .languages("ZH")
                 .constrainedNew()
+                .build()
         );
         clip.setVersion(5.5f);
 
@@ -80,7 +81,8 @@ public class MediaBackendTest extends AbstractApiMediaBackendTest {
                 MediaTestDataBuilder.clip()
                     .title(title + "_members")
                     .broadcasters("VPRO")
-                    .constrainedNew());
+                    .constrainedNew()
+                    .build());
 
         // TODO: this will happen via queue in ImportRoute
         String memberMid = backend.set(member);
