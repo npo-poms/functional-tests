@@ -99,7 +99,7 @@ public class MediaBackendTest extends AbstractApiMediaBackendTest {
     }
 
     @Test
-    public void test02Checkarrived() {
+    public void test02CheckArrived() {
         assumeNotNull(newMid);
 
         ProgramUpdate u = waitUntil(
