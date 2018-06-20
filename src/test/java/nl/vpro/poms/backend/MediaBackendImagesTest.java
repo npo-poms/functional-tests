@@ -42,7 +42,6 @@ import static org.junit.Assume.*;
 @Slf4j
 public class MediaBackendImagesTest extends AbstractApiMediaBackendTest {
 
-
     private static final Duration ACCEPTABLE_DURATION = Duration.ofMinutes(3);
     private static final List<String> titles = new ArrayList<>();
 
@@ -289,15 +288,19 @@ public class MediaBackendImagesTest extends AbstractApiMediaBackendTest {
 
     protected void cleanup() {
         backend.getBrowserCache().clear();
-        ProgramUpdate update = backend.get(MID);
-        log.info("Removing images " + update.getImages());
-        update.getImages().clear();
-        backend.set(update);
 
+        ProgramUpdate update;
         update = backend.get(ANOTHER_MID);
         log.info("Removing images " + update.getImages());
         update.getImages().clear();
         backend.set(update);
+
+        update = backend.get(MID);
+        log.info("Removing images " + update.getImages());
+        update.getImages().clear();
+        backend.set(update);
+
+
     }
 
 

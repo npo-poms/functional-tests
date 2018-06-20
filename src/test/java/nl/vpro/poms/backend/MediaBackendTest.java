@@ -74,6 +74,7 @@ public class MediaBackendTest extends AbstractApiMediaBackendTest {
 
         newMid = backend.set(clip);
         assertThat(newMid).isNotEmpty();
+
         log.info("Created {}", newMid);
 
         ProgramUpdate member = ProgramUpdate

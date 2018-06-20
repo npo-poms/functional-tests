@@ -235,7 +235,14 @@ public class PagesPublisherTest extends AbstractApiMediaBackendTest {
         MediaObject fromApi = Utils.waitUntil(Duration.ofMinutes(1),
             MID + " has description " + embeddedDescription,
             () -> mediaUtil.findByMid(MID),
-            mo -> mo != null && Objects.equals(mo.getMainDescription(), embeddedDescription)
+            mo -> {
+                if (mo != null) {
+                    log.info("{} : {}", mo, mo.getMainDescription());
+                    return Objects.equals(mo.getMainDescription(), embeddedDescription);
+                } else {
+                    return false;
+                }
+            }
         );
 
         Page page = Utils.waitUntil(Duration.ofMinutes(1),
