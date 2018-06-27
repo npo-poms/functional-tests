@@ -2,7 +2,6 @@ package nl.vpro.poms.backend;
 
 import lombok.extern.slf4j.Slf4j;
 
-import java.io.ByteArrayInputStream;
 import java.time.Duration;
 
 import org.junit.FixMethodOrder;
@@ -27,7 +26,7 @@ public class AddFrameTest extends AbstractApiMediaBackendTest {
     @Test
     public void test01() {
         final Duration duration = Duration.ofMinutes(10).plus(Duration.ofMinutes((int) (20f * Math.random())));
-        backend.getFrameCreatorRestService().createFrame(MID, duration, null, new ByteArrayInputStream("bla bla".getBytes()));
+        backend.getFrameCreatorRestService().createFrame(MID, duration, null, getClass().getResourceAsStream("/VPRO.png"));
         final ProgramUpdate[] update = new ProgramUpdate[1];
 
         waitUntil(ACCEPTABLE_DURATION,
