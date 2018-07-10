@@ -1,6 +1,5 @@
 package nl.vpro.poms;
 
-import java.net.MalformedURLException;
 import java.time.Duration;
 import java.time.ZonedDateTime;
 import java.util.Objects;
@@ -118,13 +117,9 @@ public abstract class AbstractApiTest {
         Compatibility.setCompatibility(apiVersionNumber);
         mediaUtil.setCacheExpiry("1S");
 
-        try {
-            ClassificationServiceLocator.setInstance(new CachedURLClassificationServiceImpl(
-                CONFIG.requiredOption(Config.Prefix.poms, "baseUrl")));
-            LOG.debug("Installed {}", ClassificationServiceLocator.getInstance());
-        } catch (MalformedURLException e) {
-            LOG.error(e.getMessage(), e);
-        }
+        ClassificationServiceLocator.setInstance(new CachedURLClassificationServiceImpl(
+            CONFIG.requiredOption(Config.Prefix.poms, "baseUrl")));
+        LOG.debug("Installed {}", ClassificationServiceLocator.getInstance());
 
 
         LOG.info("Using {} ({}, {})", clients, apiVersion, CONFIG.env());
