@@ -25,25 +25,19 @@
   <properties>
     <api.client.version>5.8-SNAPSHOT</api.client.version>
     <poms.shared.version>5.8-SNAPSHOT</poms.shared.version>
-    <parkpost.version>5.7.3</parkpost.version>
     <vpro.shared.version>1.79-SNAPSHOT</vpro.shared.version>
   </properties>
 
   <dependencies>
     <dependency>
-      <groupId>com.jayway.restassured</groupId>
+      <groupId>io.rest-assured</groupId>
       <artifactId>rest-assured</artifactId>
-      <version>2.9.0</version>
+      <version>3.1.0</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>nl.vpro.media</groupId>
       <artifactId>media-test</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>nl.vpro.media</groupId>
-      <artifactId>media-parkpost</artifactId>
-      <version>${parkpost.version}</version>
     </dependency>
     <dependency>
       <groupId>junit</groupId>
