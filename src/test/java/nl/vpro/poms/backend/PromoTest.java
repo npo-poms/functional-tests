@@ -165,6 +165,7 @@ public class PromoTest extends AbstractApiMediaBackendTest {
 
     @Test
     public void test004arrived() {
+        // FAILS MSE-4091
         testArrived(2);
     }
 
