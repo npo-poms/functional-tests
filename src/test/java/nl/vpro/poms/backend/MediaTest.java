@@ -1,5 +1,7 @@
 package nl.vpro.poms.backend;
 
+import io.restassured.RestAssured;
+import io.restassured.http.ContentType;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.UnsupportedEncodingException;
@@ -12,9 +14,6 @@ import java.util.List;
 import org.junit.*;
 import org.junit.runners.MethodSorters;
 
-import com.jayway.restassured.RestAssured;
-import com.jayway.restassured.http.ContentType;
-
 import nl.vpro.domain.media.*;
 import nl.vpro.domain.media.exceptions.ModificationException;
 import nl.vpro.domain.media.search.DateRange;
@@ -26,9 +25,9 @@ import nl.vpro.domain.media.update.SegmentUpdate;
 import nl.vpro.rules.AllowUnavailable;
 import nl.vpro.rules.TestMDC;
 
-import static com.jayway.restassured.RestAssured.given;
-import static nl.vpro.poms.AbstractApiTest.CONFIG;
+import static io.restassured.RestAssured.given;
 import static nl.vpro.api.client.utils.Config.Prefix.npo_backend_api;
+import static nl.vpro.poms.AbstractApiTest.CONFIG;
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assume.assumeNotNull;
 
