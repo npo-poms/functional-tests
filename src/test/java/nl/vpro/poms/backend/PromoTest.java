@@ -1,12 +1,16 @@
 package nl.vpro.poms.backend;
 
+import io.restassured.RestAssured;
+import io.restassured.http.ContentType;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.StringReader;
+import java.io.StringWriter;
 import java.nio.charset.Charset;
 import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalDate;
+import java.util.Arrays;
 import java.util.SortedSet;
 
 import javax.xml.bind.JAXB;
@@ -17,21 +21,16 @@ import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
 
-import com.jayway.restassured.RestAssured;
-import com.jayway.restassured.http.ContentType;
-
-import nl.vpro.domain.media.MediaType;
-import nl.vpro.domain.media.Program;
-import nl.vpro.domain.media.ProgramType;
-import nl.vpro.domain.media.Schedule;
+import nl.vpro.domain.media.*;
 import nl.vpro.domain.media.update.MediaUpdateList;
 import nl.vpro.domain.media.update.MemberUpdate;
 import nl.vpro.domain.media.update.RelationUpdate;
 import nl.vpro.parkpost.ProductCode;
+import nl.vpro.parkpost.promo.bind.File;
 import nl.vpro.parkpost.promo.bind.PromoEvent;
 import nl.vpro.poms.AbstractApiMediaBackendTest;
 
-import static com.jayway.restassured.RestAssured.given;
+import static io.restassured.RestAssured.given;
 import static nl.vpro.api.client.utils.Config.Prefix.npo_backend_api;
 import static nl.vpro.api.client.utils.Config.Prefix.parkpost;
 import static nl.vpro.poms.Utils.waitUntilNotNull;
@@ -41,7 +40,7 @@ import static org.junit.Assume.assumeTrue;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 @Slf4j
-public class ParkpostTest extends AbstractApiMediaBackendTest {
+public class PromoTest extends AbstractApiMediaBackendTest {
 
     private static final LocalDate today = LocalDate.now(Schedule.ZONE_ID);
     private static final String PRODUCTCODE = "1P0203MO_JOCHEMMY_" + today.toString().replace('-','_');
@@ -50,6 +49,7 @@ public class ParkpostTest extends AbstractApiMediaBackendTest {
     private static final String PROMOTED_MID = MID;
     private static String promotionTitle;
     private static Program result;
+    private static PromoEvent promoEvent;
 
     private static final String EXAMPLE = "<NPO_gfxwrp>\n" +
         "  <ProductCode>2P0108MO_BLAUWBLO</ProductCode>\n" +
@@ -99,6 +99,26 @@ public class ParkpostTest extends AbstractApiMediaBackendTest {
         "        <File format=\"MP4\" bitrate=\"1000000\">http://download.omroep.nl/npo/promo/3P1101MO_DODENLIE.mp4</File>\n" +
         "    </Files>\n" +
         "</NPO_gfxwrp>\n";
+
+    private static final String EXAMPLE3 = "<NPO_gfxwrp>\n" +
+        "    <ProductCode>1P1507MO_HOEBORDE</ProductCode>\n" +
+        "    <OrderCode>1P180715_NTR__HOE_EEN_____</OrderCode>\n" +
+        "    <PromotedProgramProductCode>VPWON_1293630</PromotedProgramProductCode>\n" +
+        "    <Referrer></Referrer>\n" +
+        "    <MXF_Name>32118324</MXF_Name>\n" +
+        "    <ProgramTitle>Andere Tijden Sport</ProgramTitle>\n" +
+        "    <EpisodeTitle>Hoe een Bordeel de Tour binnenrijdt</EpisodeTitle>\n" +
+        "    <PromoType>P</PromoType>\n" +
+        "    <Broadcaster>NTR</Broadcaster>\n" +
+        "    <TrailerTitle>Andere Tijden Sport</TrailerTitle>\n" +
+        "    <SerieTitle>Andere Tijden Sport</SerieTitle>\n" +
+        "    <FrameCount>750</FrameCount>\n" +
+        "    <VideoFormat>HD</VideoFormat>\n" +
+        "    <FirstTransmissionDate>2018-07-15T23:00:00+02:00</FirstTransmissionDate>\n" +
+        "    <PlacingWindowStart>2018-07-14T06:00:00+02:00</PlacingWindowStart>\n" +
+        "    <PlacingWindowEnd>2018-07-15T06:00:00+02:00</PlacingWindowEnd>\n" +
+        "</NPO_gfxwrp>\n";
+
     @Before
     public void setUp() {
         RestAssured.useRelaxedHTTPSValidation();
@@ -110,30 +130,15 @@ public class ParkpostTest extends AbstractApiMediaBackendTest {
 
     @Test
     public void test001() {
-
-        PromoEvent promoEvent = new PromoEvent();
-        promotionTitle = title;
-        promoEvent.setProductCode(PRODUCTCODE);
-        promoEvent.setPromotedProgramProductCode(PROMOTED_MID);
-        promoEvent.setPromoType(ProductCode.Type.P);
-        promoEvent.setProgramTitle(promotionTitle);
-        //promoEvent.setFrameCount(100L);
-        //promoEvent.setBroadcaster("VPRO");
-        String resultString =
-            given()
-                .auth().basic(
-                CONFIG.configOption(parkpost, "user")
-                    .orElse("vpro-cms"),
-                CONFIG.requiredOption(parkpost, "password"))
-                .contentType(ContentType.XML.withCharset(Charset.defaultCharset()))
-                .accept(ContentType.XML)
-                .body(promoEvent)
-                .when()
-                .   post(PARKPOST + "promo")
-                .then()
-                .   log().all()
-                .   statusCode(AnyOf.anyOf(equalTo(202), equalTo(503)))
-                .   extract().asString();
+        promoEvent = todaysPromoEvent();
+        promoEvent.setFiles(Arrays.asList(
+            File.builder().fileName("http://adaptive.npostreaming.nl/u/npo/promo/3P1101MO_DODENLIE/3P1101MO_DODENLIE.ismv").build(),
+            File.builder().fileName("http://adaptive.npostreaming.nl/u/npo/promo/3P1101MO_DODENLIE/3P1101MO_DODENLIE.ismc").build(),
+            File.builder().fileName("http://adaptive.npostreaming.nl/u/npo/promo/3P1101MO_DODENLIE/3P1101MO_DODENLIE.ism").build(),
+            File.builder().fileName("http://download.omroep.nl/npo/promo/3P1101MO_DODENLIE.mp4").format(AVFileFormat.MP4).bitrate(1_000_000).build()
+            )
+        );
+        String resultString = send(promoEvent);
         result = JAXB.unmarshal(new StringReader(resultString), Program.class);
         assertThat(result.getType()).isEqualTo(ProgramType.PROMO);
         assertThat(result.getMemberOf().first().getMediaRef()).isEqualTo(PROMOTED_MID);
@@ -143,6 +148,28 @@ public class ParkpostTest extends AbstractApiMediaBackendTest {
 
     @Test
     public void test002arrived() {
+        testArrived(2);
+    }
+
+
+    @Test
+    public void test003RepostWithoutFiles() {
+        assumeTrue(promoEvent != null);
+        promoEvent.setFiles(null);
+        String resultString = send(promoEvent);
+        result = JAXB.unmarshal(new StringReader(resultString), Program.class);
+        assertThat(result.getType()).isEqualTo(ProgramType.PROMO);
+        assertThat(result.getMemberOf().first().getMediaRef()).isEqualTo(PROMOTED_MID);
+        log.info("Received {}", result);
+    }
+
+    @Test
+    public void test004arrived() {
+        testArrived(2);
+    }
+
+
+    protected void testArrived(int expectedLocations) {
         assumeTrue(result != null);
         assumeTrue(promotionTitle != null);
         MemberUpdate update = waitUntilNotNull(Duration.ofMinutes(5),
@@ -168,8 +195,9 @@ public class ParkpostTest extends AbstractApiMediaBackendTest {
             .orElse(null)
         ).isEqualTo(PRODUCTCODE);
         assertThat(update.getMediaUpdate().getTitles().first().getTitle()).isEqualTo(promotionTitle);
-    }
 
+        assertThat(update.getMediaUpdate().getLocations()).hasSize(expectedLocations);
+    }
 
     @Test
     public void test999cleanup() {
@@ -187,6 +215,42 @@ public class ParkpostTest extends AbstractApiMediaBackendTest {
         }
         log.info("Deleted {} promos for {}", count, PROMOTED_MID);
     }
+    protected PromoEvent todaysPromoEvent() {
+        PromoEvent promoEvent = new PromoEvent();
+        promotionTitle = title;
+        promoEvent.setProductCode(PRODUCTCODE);
+        promoEvent.setPromotedProgramProductCode(PROMOTED_MID);
+        promoEvent.setPromoType(ProductCode.Type.P);
+        promoEvent.setProgramTitle(promotionTitle);
+        return promoEvent;
+    }
 
+    protected String send(Object object) {
+        StringWriter writer = new StringWriter();
+        JAXB.marshal(object, writer);
+        return send(writer.toString());
+    }
+
+    protected String send(String xml) {
+        log.info("Sending {}", xml);
+        String resultString =
+            given()
+                .auth().basic(
+                CONFIG.configOption(parkpost, "user")
+                    .orElse("vpro-cms"),
+                CONFIG.requiredOption(parkpost, "password"))
+                .contentType(ContentType.XML.withCharset(Charset.defaultCharset()))
+                .accept(ContentType.XML)
+                .body(xml)
+                .when()
+                .   post(PARKPOST + "promo")
+                .then()
+                .   log().all()
+                .   statusCode(AnyOf.anyOf(equalTo(202), equalTo(503)))
+                .   extract().asString();
+
+        return resultString;
+
+    }
 
 }
