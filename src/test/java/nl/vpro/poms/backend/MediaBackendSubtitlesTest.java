@@ -21,7 +21,7 @@ import nl.vpro.domain.subtitles.*;
 import nl.vpro.poms.AbstractApiMediaBackendTest;
 import nl.vpro.rules.DoAfterException;
 
-import static com.jayway.restassured.RestAssured.given;
+import static io.restassured.RestAssured.given;
 import static nl.vpro.api.client.utils.Config.Prefix.npo_backend_api;
 import static nl.vpro.poms.Utils.waitUntil;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -106,7 +106,7 @@ public class MediaBackendSubtitlesTest extends AbstractApiMediaBackendTest {
             .auth()
             .basic(backend.getUserName(), backend.getPassword())
             .contentType(Constants.VTT)
-            .content(body.toByteArray())
+            .body(body.toByteArray())
             .queryParam("errors", backend.getErrors())
             .log().all()
             .when()
