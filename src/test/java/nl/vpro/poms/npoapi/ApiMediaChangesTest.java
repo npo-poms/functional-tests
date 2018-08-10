@@ -149,6 +149,19 @@ public class ApiMediaChangesTest extends AbstractApiTest {
     }
 
 
+    @Test
+    public void NPA_453() throws IOException {
+        //https://rs.poms.omroep.nl/v1/api/media/changes?profile=bnnvara&publishedSince=2015-03-22T03%3A43%3A05Z%2CRBX_EO_667486&order=asc&max=100&checkProfile=true&deletes=INCLUDE
+        Instant start = Instant.parse("2015-03-22T03:43:05Z");
+        InputStream inputStream = mediaUtil.getClients().getMediaServiceNoTimeout()
+            .changes("bnnvara", null,null, sinceString(start, "RBX_EO_667486"), "asc", 100, true, Deletes.INCLUDE, null, null);
+
+        try (JsonArrayIterator<MediaChange> changes = new JsonArrayIterator<>(inputStream, MediaChange.class, () -> IOUtils.closeQuietly(inputStream))) {
+            MediaChange change = changes.next();
+        }
+
+    }
+
     @SuppressWarnings("deprecation")
     protected void testChanges(String profile, Instant from, Integer max) throws IOException {
         Instant start = Instant.now();

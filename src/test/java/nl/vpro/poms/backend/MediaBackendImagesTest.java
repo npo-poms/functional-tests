@@ -75,7 +75,6 @@ public class MediaBackendImagesTest extends AbstractApiMediaBackendTest {
         ImageUpdate update = random(title)
             .type(ImageType.LOGO) // different types make the image unique without id.
             .source("https://google.com/")
-            //.source("bla")
             .imageUrl("https://goo.gl/fKL1rj") // redirects
             .build();
 
@@ -277,7 +276,7 @@ public class MediaBackendImagesTest extends AbstractApiMediaBackendTest {
 
 
     @Test(expected = nl.vpro.rs.media.ResponseError.class)
-    public void test01addInvalidImage() throws UnsupportedEncodingException {
+    public void test31addInvalidImage() throws UnsupportedEncodingException {
         assumeThat(backendVersionNumber, greaterThanOrEqualTo(5.8f));
         titles.add(title);
         ImageUpdate update = random(title)

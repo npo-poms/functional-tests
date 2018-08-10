@@ -3,18 +3,23 @@ package nl.vpro.poms.poms;
 import io.restassured.RestAssured;
 import lombok.extern.slf4j.Slf4j;
 
+import java.io.IOException;
+
 import org.junit.Before;
 import org.junit.FixMethodOrder;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
 
+import nl.vpro.domain.media.Platform;
+import nl.vpro.domain.media.update.PredictionUpdate;
+import nl.vpro.poms.AbstractApiMediaBackendTest;
 import nl.vpro.rules.AllowUnavailable;
 import nl.vpro.rules.TestMDC;
 
 import static io.restassured.RestAssured.given;
 import static nl.vpro.api.client.utils.Config.Prefix.poms;
-import static nl.vpro.poms.AbstractApiTest.CONFIG;
+import static org.assertj.core.api.Assertions.assertThat;
 
 
 /**
@@ -23,7 +28,7 @@ import static nl.vpro.poms.AbstractApiTest.CONFIG;
  */
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 @Slf4j
-public class LetterBoxTest {
+public class LetterBoxTest extends AbstractApiMediaBackendTest {
 
     @Rule
     public AllowUnavailable allowUnavailable = new AllowUnavailable();
@@ -41,20 +46,53 @@ public class LetterBoxTest {
         RestAssured.urlEncodingEnabled = false;
     }
 
+    static String nepEndpoint = null;
+
+
     @Test
     public void test01GetList() {
         String s =
             given()
                 .auth().basic(USERNAME, PASSWORD)
-                .log().all()
+                .log().ifValidationFails()
                 .when()
                 .  get(IMPORT_URL)
                 .then()
-                .  log().all()
+                .  log().ifError()
                 .  statusCode(200)
                 .  extract().asString();
 
-        String[] split = s.split("\t");
+        String[] split = s.split("\n");
+        for (String e : split) {
+            String endpoint = e.split("\t", 2)[0];
+            log.info(endpoint);
+            if (endpoint.endsWith("/import/nep")) {
+                nepEndpoint = endpoint;
+            }
+        }
+        assertThat(nepEndpoint).isNotNull();
+    }
+
+
+
+    @Test
+    public void test02PostToNEP() throws IOException {
+        given()
+            .auth().basic(USERNAME, PASSWORD)
+            .log().ifValidationFails()
+            .when()
+            .  body("<notify drm=\"false\"\n" +
+                "        type=\"ONLINE\"\n" +
+                "        mid=\"" + MID + "\" timestamp=\"2017-04-21T16:09:19\" xmlns=\"urn:vpro:media:notify:2017\" />")
+            .  contentType("application/xml")
+            .  post(nepEndpoint)
+            . then()
+            .    log().all()
+            .    statusCode(200)
+            .     extract().asString();
+
+        backend.getBackendRestService().setPrediction(null, MID, Platform.INTERNETVOD, true, null, PredictionUpdate.builder().platform(Platform.INTERNETVOD).build());
+
 
     }
 

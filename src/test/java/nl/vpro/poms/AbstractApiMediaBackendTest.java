@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.time.Duration;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 import org.junit.BeforeClass;
@@ -108,7 +109,7 @@ public abstract class AbstractApiMediaBackendTest extends AbstractApiTest {
                     mediaUpdate.setBroadcasters("VPRO");
                     needSet = true;
                 }
-                if (! mediaUpdate.getMainTitle().equals("testclip michiel")) {
+                if (!Objects.equals(mediaUpdate.getMainTitle(), "testclip michiel")) {
                     mediaUpdate.setMainTitle("testclip michiel");
                     needSet = true;
 
