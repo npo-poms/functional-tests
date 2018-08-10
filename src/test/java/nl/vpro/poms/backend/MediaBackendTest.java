@@ -12,6 +12,7 @@ import org.junit.*;
 import org.junit.runners.MethodSorters;
 
 import nl.vpro.domain.media.AgeRating;
+import nl.vpro.domain.media.MediaBuilder;
 import nl.vpro.domain.media.MediaTestDataBuilder;
 import nl.vpro.domain.media.update.MediaUpdateList;
 import nl.vpro.domain.media.update.MemberUpdate;
@@ -140,6 +141,25 @@ public class MediaBackendTest extends AbstractApiMediaBackendTest {
 
     }
 */
+
+
+    @Test
+    public void test03CreateObjectWithoutBroadcaster() {
+        backend.setValidateInput(false);
+        ProgramUpdate clip = ProgramUpdate.create(
+            MediaBuilder.clip()
+                .ageRating(AgeRating.ALL)
+                .mainTitle(title)
+                .languages("ZH")
+                .build()
+        );
+        clip.setVersion(5.5f);
+
+        String mid = backend.set(clip);
+        assertThat(mid).isNotEmpty();
+        log.info("Created mid {}", mid);
+
+    }
 
 
 }

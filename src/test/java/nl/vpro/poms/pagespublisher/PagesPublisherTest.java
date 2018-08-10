@@ -261,7 +261,7 @@ public class PagesPublisherTest extends AbstractApiMediaBackendTest {
 
     @Test
     public void test300CreateSomeWithCrid() throws UnsupportedEncodingException {
-        String url = "http://test.poms.nl/" + URLEncoder.encode(testMethod.getMethodName() + LocalDate.now(), "UTF-8");
+        String url = "http://test.poms.nl/\u00E9\u00E9n/" + URLEncoder.encode(testMethod.getMethodName() + LocalDate.now(), "UTF-8");
 
         for (int i = 0; i < 10; i++) {
             createdCrids.add(new Crid(CRID_PREFIX + i));
@@ -325,8 +325,6 @@ public class PagesPublisherTest extends AbstractApiMediaBackendTest {
                 return searchResultItems.getSize() == 0;
             }
         );
-
-
     }
 
 
@@ -336,6 +334,8 @@ public class PagesPublisherTest extends AbstractApiMediaBackendTest {
         testConsistency(topStoryUrl, checked, false);
         log.info("{}", checked);
     }
+
+
     protected void testConsistency(String url, Set<String> checked, boolean cleanup) {
         if (checked.contains(url)) {
             return;

@@ -74,7 +74,9 @@ public class MediaBackendImagesTest extends AbstractApiMediaBackendTest {
         titles.add(title);
         ImageUpdate update = random(title)
             .type(ImageType.LOGO) // different types make the image unique without id.
-            .imageUrl("https://goo.gl/fF1Laz") // redirects
+            .source("https://google.com/")
+            //.source("bla")
+            .imageUrl("https://goo.gl/fKL1rj") // redirects
             .build();
 
         backend.addImage(update, MID);
@@ -272,6 +274,21 @@ public class MediaBackendImagesTest extends AbstractApiMediaBackendTest {
         assertThat(updates[0].getImages().stream()
             .filter(match).findFirst().orElseThrow(IllegalStateException::new).getId()).isEqualTo(first.getId());
     }
+
+
+    @Test(expected = nl.vpro.rs.media.ResponseError.class)
+    public void test01addInvalidImage() throws UnsupportedEncodingException {
+        assumeThat(backendVersionNumber, greaterThanOrEqualTo(5.8f));
+        titles.add(title);
+        ImageUpdate update = random(title)
+            .type(ImageType.LOGO) // different types make the image unique without id.
+            .source("bla") // invalid!
+            .imageUrl("https://goo.gl/fKL1rj") // redirects
+            .build();
+
+        backend.addImage(update, MID);
+    }
+
 
     @Test
     public void test98Cleanup() {
