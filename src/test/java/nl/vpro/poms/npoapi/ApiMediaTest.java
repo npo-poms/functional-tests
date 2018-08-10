@@ -70,6 +70,10 @@ public class ApiMediaTest extends AbstractApiTest {
     public void test404() {
         clients.getMediaService().load("BESTAATNIET", null, null);
     }
+    @Test(expected = javax.ws.rs.NotFoundException.class)
+    public void test404WithSlash() {
+        clients.getMediaService().load("BESTAAT/NIET", null, null);
+    }
 
     @Test(expected = javax.ws.rs.NotFoundException.class)
     public void test404Youtube() {

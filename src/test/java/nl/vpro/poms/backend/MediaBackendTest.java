@@ -3,8 +3,6 @@ package nl.vpro.poms.backend;
 import lombok.extern.slf4j.Slf4j;
 
 import java.time.Duration;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
 
@@ -35,10 +33,7 @@ import static org.junit.Assume.*;
 @Slf4j
 public class MediaBackendTest extends AbstractApiMediaBackendTest {
 
-
-
     private static final Duration ACCEPTABLE_DURATION = Duration.ofMinutes(3);
-    private static final List<String> titles = new ArrayList<>();
 
     @Rule
     public DoAfterException doAfterException = new DoAfterException((t) -> {
