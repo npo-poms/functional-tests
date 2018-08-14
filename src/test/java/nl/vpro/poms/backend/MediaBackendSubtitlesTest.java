@@ -108,7 +108,7 @@ public class MediaBackendSubtitlesTest extends AbstractApiMediaBackendTest {
             .contentType(Constants.VTT)
             .body(body.toByteArray())
             .queryParam("errors", backend.getErrors())
-            .log().all()
+            .log().uri().log().parameters().log().headers()
             .when()
             .  post(CONFIG.url(npo_backend_api, "media/subtitles/" + MID + "/ar/TRANSLATION"))
             .then()
@@ -138,7 +138,7 @@ public class MediaBackendSubtitlesTest extends AbstractApiMediaBackendTest {
     private static String newMid;
 
     @Test
-    @Ignore("TODO: Known to fail.")
+    @Ignore("Known to fail MSE-3836")
     public void test05CreateSubtitlesForNewClip() {
 
         ProgramUpdate clip = ProgramUpdate.create(MediaTestDataBuilder.clip()
