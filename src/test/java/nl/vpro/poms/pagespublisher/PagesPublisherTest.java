@@ -13,7 +13,6 @@ import org.junit.*;
 import org.junit.runners.MethodSorters;
 
 import nl.vpro.api.client.resteasy.PageUpdateApiClient;
-import nl.vpro.api.client.utils.Config;
 import nl.vpro.api.client.utils.PageUpdateApiUtil;
 import nl.vpro.api.client.utils.PageUpdateRateLimiter;
 import nl.vpro.api.client.utils.Result;
@@ -30,6 +29,8 @@ import nl.vpro.poms.AbstractApiMediaBackendTest;
 import nl.vpro.poms.Utils;
 import nl.vpro.rules.DoAfterException;
 
+import static io.restassured.RestAssured.given;
+import static nl.vpro.api.client.utils.Config.Prefix.npo_pageupdate_api;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assume.*;
 
@@ -44,7 +45,7 @@ public class PagesPublisherTest extends AbstractApiMediaBackendTest {
     static PageUpdateApiUtil util = new PageUpdateApiUtil(
         PageUpdateApiClient.configured(
             CONFIG.env(),
-            CONFIG.getProperties(Config.Prefix.npo_pageupdate_api)
+            CONFIG.getProperties(npo_pageupdate_api)
         ).build(),
         PageUpdateRateLimiter.builder().build()
     );
@@ -333,6 +334,48 @@ public class PagesPublisherTest extends AbstractApiMediaBackendTest {
         Set<String> checked = new LinkedHashSet<>();
         testConsistency(topStoryUrl, checked, false);
         log.info("{}", checked);
+    }
+
+    @Test
+    public void test500PostInvalid() {
+        String user = CONFIG.requiredOption(npo_pageupdate_api, "user");
+        String password= CONFIG.requiredOption(npo_pageupdate_api, "password");
+        String url = CONFIG.requiredOption(npo_pageupdate_api, "baseUrl");
+
+        given()
+            .auth().basic(user, password)
+            .log().all()
+            .when()
+            .  contentType("application/xml")
+            .  body("<a />")
+            .  post(url + "/api/pages/updates")
+            .then()
+            .  log().all()
+            .  statusCode(400);
+
+    }
+
+    @Test
+    public void test501PostInvalid() {
+        String user = CONFIG.requiredOption(npo_pageupdate_api, "user");
+        String password= CONFIG.requiredOption(npo_pageupdate_api, "password");
+        String url = CONFIG.requiredOption(npo_pageupdate_api, "baseUrl");
+
+        given()
+            .auth().basic(user, password)
+            .log().all()
+            .when()
+            .  contentType("application/xml")
+            .  body("<page type=\"AUDIO\" url=\"http://test.kassa.nl/article/1234\"  xmlns=\"urn:vpro:pages:update:2013\">\n" +
+                "  <crid>crid://bla/vara/1234</crid>\n" +
+                "  <broadcaster>VARA</broadcaster>\n" +
+                "  <title>Hoi5 &ldquo;</title>\n" +
+                "</page>")
+            .  post(url + "/api/pages/updates")
+            .then()
+            .  log().all()
+            .  statusCode(400);
+
     }
 
 
