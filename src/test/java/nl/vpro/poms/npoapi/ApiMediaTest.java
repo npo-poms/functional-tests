@@ -12,6 +12,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 
+import nl.vpro.domain.api.Error;
 import nl.vpro.domain.api.Order;
 import nl.vpro.domain.api.media.MediaFormBuilder;
 import nl.vpro.domain.api.media.MediaResult;
@@ -72,7 +73,14 @@ public class ApiMediaTest extends AbstractApiTest {
     }
     @Test(expected = javax.ws.rs.NotFoundException.class)
     public void test404WithSlash() {
-        clients.getMediaService().load("BESTAAT/NIET", null, null);
+        try {
+            clients.getMediaService().load("BESTAAT/NIET", null, null);
+        } catch (javax.ws.rs.NotFoundException nfe) {
+            log.info("{}", nfe.getResponse(), nfe);
+            Error error = (Error) nfe.getResponse().getEntity();
+            assertThat(error.getMessage()).contains("BESTAAT/NIET");
+            throw nfe;
+        }
     }
 
     @Test(expected = javax.ws.rs.NotFoundException.class)
