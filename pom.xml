@@ -4,23 +4,16 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <parent>
-    <groupId>nl.vpro.poms</groupId>
-    <artifactId>poms-parent</artifactId>
-    <version>5.9-SNAPSHOT</version>
-  </parent>
-  <artifactId>poms-functional-tests</artifactId>
+  <groupId>nl.vpro.poms</groupId>
+  <artifactId>poms-functional-tests-parent</artifactId>
   <version>1.0-SNAPSHOT</version>
+  <packaging>pom</packaging>
 
+  <modules>
+    <module>poms-functional-tests</module>
+    <module>poms-functional-tests-selenium</module>
 
-
-  <description>
-    We verzamelen hierin tests die met werkelijke deployments communiceren en kijken of alles nog werkt.
-
-    We posten bijvoorbeeld dingen via de backend api en controleren het resultaat in de bijbehorende frontend api.
-
-    Het gaat uit van credentials in ~/conf/npo-functional-tests.properties
-  </description>
+  </modules>
 
   <properties>
     <api.client.version>5.8-SNAPSHOT</api.client.version>
@@ -28,67 +21,6 @@
     <vpro.shared.version>1.80-SNAPSHOT</vpro.shared.version>
   </properties>
 
-  <dependencies>
-    <dependency>
-      <groupId>io.rest-assured</groupId>
-      <artifactId>rest-assured</artifactId>
-      <version>3.1.0</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>nl.vpro.media</groupId>
-      <artifactId>media-test</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.slf4j</groupId>
-      <artifactId>slf4j-log4j12</artifactId>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>log4j</groupId>
-      <artifactId>log4j</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>nl.vpro.api-client</groupId>
-      <artifactId>client-resteasy</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>nl.vpro.api-client</groupId>
-      <artifactId>media-backend-rs-client</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>nl.vpro.api-client</groupId>
-      <artifactId>client-utils</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>javax</groupId>
-      <artifactId>javaee-api</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.projectlombok</groupId>
-      <artifactId>lombok</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>nl.vpro.shared</groupId>
-      <artifactId>vpro-shared-test</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>nl.vpro.shared</groupId>
-      <artifactId>vpro-shared-client-resteasy</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.springframework</groupId>
-      <artifactId>spring-core</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>nl.vpro.shared</groupId>
-      <artifactId>vpro-shared-util</artifactId>
-    </dependency>
-  </dependencies>
 
   <build>
     <defaultGoal>test</defaultGoal>
@@ -105,6 +37,21 @@
             </goals>
           </execution>
         </executions>
+      </plugin>
+      <plugin>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.8.0</version>
+        <configuration>
+          <source>1.8</source>
+          <target>1.8</target>
+          <encoding>UTF-8</encoding>
+          <compilerArgs>
+            <!-- would this help intellij? It seems not.
+            <processor>org.hibernate.jpamodelgen.JPAMetaModelEntityProcessor</processor>
+            -->
+            <arg>-parameters</arg>
+          </compilerArgs>
+        </configuration>
       </plugin>
     </plugins>
   </build>
@@ -134,4 +81,81 @@
     </pluginRepository>
   </pluginRepositories>
 
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>io.rest-assured</groupId>
+        <artifactId>rest-assured</artifactId>
+        <version>3.1.0</version>
+        <scope>test</scope>
+      </dependency>
+      <dependency>
+        <groupId>junit</groupId>
+        <artifactId>junit</artifactId>
+        <version>4.12</version>
+      </dependency>
+      <dependency>
+        <groupId>org.slf4j</groupId>
+        <artifactId>slf4j-log4j12</artifactId>
+        <version>1.7.25</version>
+      </dependency>
+      <dependency>
+        <groupId>org.projectlombok</groupId>
+        <artifactId>lombok</artifactId>
+        <version>1.18.0</version>
+      </dependency>
+      <dependency>
+        <groupId>log4j</groupId>
+        <artifactId>log4j</artifactId>
+        <version>1.2.17</version>
+      </dependency>
+      <dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-core</artifactId>
+        <version>5.0.6.RELEASE</version>
+      </dependency>
+      <dependency>
+        <groupId>javax</groupId>
+        <artifactId>javaee-api</artifactId>
+        <version>7.0</version>
+      </dependency>
+      <dependency>
+        <groupId>nl.vpro.media</groupId>
+        <artifactId>media-test</artifactId>
+        <version>${poms.shared.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>nl.vpro.api-client</groupId>
+        <artifactId>client-resteasy</artifactId>
+        <version>${api.client.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>nl.vpro.shared</groupId>
+        <artifactId>vpro-shared-test</artifactId>
+        <version>${vpro.shared.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>nl.vpro.shared</groupId>
+        <artifactId>vpro-shared-client-resteasy</artifactId>
+        <version>${vpro.shared.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>nl.vpro.shared</groupId>
+        <artifactId>vpro-shared-util</artifactId>
+        <version>${vpro.shared.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>nl.vpro.api-client</groupId>
+        <artifactId>media-backend-rs-client</artifactId>
+        <version>${api.client.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>nl.vpro.api-client</groupId>
+        <artifactId>client-utils</artifactId>
+        <version>${api.client.version}</version>
+      </dependency>
+
+    </dependencies>
+
+  </dependencyManagement>
 </project>
