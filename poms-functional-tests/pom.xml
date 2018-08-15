@@ -27,6 +27,11 @@
 
   <dependencies>
     <dependency>
+      <groupId>nl.vpro.poms</groupId>
+      <artifactId>poms-functional-tests-shared</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
       <groupId>io.rest-assured</groupId>
       <artifactId>rest-assured</artifactId>
       <scope>test</scope>
