@@ -15,6 +15,11 @@ import nl.vpro.poms.AbstractApiMediaBackendTest;
 import static nl.vpro.poms.Utils.waitUntil;
 import static org.junit.Assume.assumeTrue;
 
+/**
+ * 2018-08-14
+ * 5.9-SNAPSHOT @ dev :ok
+ * 5.7.9 @ test: 403 permission denied (we moeten hiervoor een account hebben, anders kunnen we niet testen!)
+ */
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 @Slf4j
 public class AddFrameTest extends AbstractApiMediaBackendTest {

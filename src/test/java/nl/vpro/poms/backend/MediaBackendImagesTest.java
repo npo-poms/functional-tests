@@ -19,8 +19,6 @@ import org.junit.*;
 import org.junit.runners.MethodSorters;
 
 import nl.vpro.domain.image.ImageType;
-import nl.vpro.domain.media.support.Image;
-import nl.vpro.domain.media.support.OwnerType;
 import nl.vpro.domain.media.update.ImageUpdate;
 import nl.vpro.domain.media.update.ProgramUpdate;
 import nl.vpro.domain.support.License;
@@ -32,6 +30,13 @@ import static nl.vpro.poms.Utils.waitUntil;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.greaterThanOrEqualTo;
 import static org.junit.Assume.*;
+
+
+/*
+ * 2018-08-14
+ * 5.9-SNAPSHOT @ dev : 500
+ * 5.7.9 @ test: 403 permission denied (we moeten hiervoor een account hebben, anders kunnen we niet testen!)
+ */
 
 /**
  * Tests whether adding and modifying images via the POMS backend API works.
@@ -128,9 +133,11 @@ public class MediaBackendImagesTest extends AbstractApiMediaBackendTest {
         titles.add(title);
         wikiImageTitle = title;
 
-        Image image = new Image(OwnerType.BROADCASTER, "https://commons.wikimedia.org/wiki/Category:Photos_by_User:CaribDigita/Barbados#/media/File:Barbados_Flag_fountain,_Bridgetown,_Barbados.jpg");
-        image.setTitle(title);
-        ImageUpdate update = new ImageUpdate(image);
+        ImageUpdate update = ImageUpdate.builder()
+            .imageUrl("https://commons.wikimedia.org/wiki/Category:Photos_by_User:CaribDigita/Barbados#/media/File:Barbados_Flag_fountain,_Bridgetown,_Barbados.jpg")
+            .type(ImageType.PICTURE)
+            .title(title)
+            .build();
 
         backend.setImageMetaData(true);
 
@@ -144,9 +151,11 @@ public class MediaBackendImagesTest extends AbstractApiMediaBackendTest {
         titles.add(title);
         tineyeImageTitle = title;
 
-        Image image = new Image(OwnerType.BROADCASTER, "http://files.vpro.nl/test/a.png");
-        image.setTitle(title);
-        ImageUpdate update = new ImageUpdate(image);
+        ImageUpdate update = ImageUpdate.builder()
+            .imageUrl("http://files.vpro.nl/test/a.png")
+            .type(ImageType.PICTURE)
+            .title(title)
+            .build();
 
         backend.setImageMetaData(true);
         backend.addImage(update, MID);
@@ -365,7 +374,7 @@ public class MediaBackendImagesTest extends AbstractApiMediaBackendTest {
             .source("http://dummyimage.com/")
             .credits(getClass().getName());
             */
-        /*
+        /* // lorempixel geeft geen response meer...
         return ImageUpdate.builder()
             .type(ImageType.PICTURE)
             .title(title)
