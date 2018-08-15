@@ -21,7 +21,7 @@ import nl.vpro.logging.LoggerOutputStream;
 import nl.vpro.poms.AbstractApiMediaBackendTest;
 import nl.vpro.rules.DoAfterException;
 
-import static nl.vpro.poms.Utils.waitUntil;
+import static nl.vpro.testutils.Utils.waitUntil;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assume.assumeNoException;
 

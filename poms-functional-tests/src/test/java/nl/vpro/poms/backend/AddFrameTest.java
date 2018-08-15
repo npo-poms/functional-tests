@@ -12,7 +12,7 @@ import nl.vpro.domain.image.ImageType;
 import nl.vpro.domain.media.update.ProgramUpdate;
 import nl.vpro.poms.AbstractApiMediaBackendTest;
 
-import static nl.vpro.poms.Utils.waitUntil;
+import static nl.vpro.testutils.Utils.waitUntil;
 import static org.junit.Assume.assumeTrue;
 
 /**

@@ -1,4 +1,4 @@
-package nl.vpro.poms;
+package nl.vpro.testutils;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -20,8 +20,10 @@ public class Utils {
 
     private final static Duration WAIT = Duration.ofSeconds(15);
 
+    public static final ThreadLocal<Runnable> clearCaches = ThreadLocal.withInitial((Supplier<Runnable>) () -> () -> {});
+
     private static void waitUntil(Duration acceptable, Callable<Boolean> r)  {
-        AbstractApiTest.clearCaches();
+        clearCaches.get().run();
         Instant start = Instant.now();
         try {
             Thread.sleep(Duration.ofSeconds(1).toMillis());
@@ -48,7 +50,7 @@ public class Utils {
 
     public static void waitUntil(Duration acceptable, String callableToDescription, final Callable<Boolean> r)  {
         log.info("Waiting until " + callableToDescription);
-        AbstractApiTest.clearCaches();
+        clearCaches.get().run();
         waitUntil(acceptable, new Callable<Boolean>() {
             @Override
             public Boolean call() throws Exception {

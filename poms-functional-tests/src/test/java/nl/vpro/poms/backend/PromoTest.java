@@ -33,7 +33,7 @@ import nl.vpro.poms.AbstractApiMediaBackendTest;
 import static io.restassured.RestAssured.given;
 import static nl.vpro.api.client.utils.Config.Prefix.npo_backend_api;
 import static nl.vpro.api.client.utils.Config.Prefix.parkpost;
-import static nl.vpro.poms.Utils.waitUntilNotNull;
+import static nl.vpro.testutils.Utils.waitUntilNotNull;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assume.assumeTrue;

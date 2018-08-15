@@ -13,8 +13,6 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.rules.TestName;
 import org.junit.rules.Timeout;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import nl.vpro.api.client.resteasy.NpoApiClients;
 import nl.vpro.api.client.utils.Config;
@@ -27,14 +25,15 @@ import nl.vpro.domain.media.Schedule;
 import nl.vpro.rules.AllowNotImplemented;
 import nl.vpro.rules.AllowUnavailable;
 import nl.vpro.rules.TestMDC;
+import nl.vpro.testutils.AbstractTest;
+import nl.vpro.testutils.Utils;
 
 /**
  * @author Michiel Meeuwissen
  * @since 1.0
  */
-public abstract class AbstractApiTest {
-    protected static Logger LOG = LoggerFactory.getLogger(AbstractApiTest.class);
-    protected Logger log = LoggerFactory.getLogger(getClass());
+public abstract class AbstractApiTest extends AbstractTest  {
+
 
     protected static final String DASHES = "---------------------------------------------------------------------------------";
 
@@ -66,6 +65,7 @@ public abstract class AbstractApiTest {
 
     @Before
     public void setupTitle() {
+        Utils.clearCaches.set(this::clearCaches);
         testNumber.incrementAndGet();
         title = testNumber.intValue() + ":" + NOW + " " + testMethod.getMethodName() + " Caf\u00E9 \u6C49"; // testing encoding too!
 
@@ -81,7 +81,8 @@ public abstract class AbstractApiTest {
         clearCaches();
     }
 
-    public static void clearCaches() {
+    @Override
+    public void clearCaches() {
         if (clients.getBrowserCache() != null) {
             clients.getBrowserCache().clear();
         } else {

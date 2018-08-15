@@ -23,7 +23,7 @@ import nl.vpro.rules.DoAfterException;
 
 import static io.restassured.RestAssured.given;
 import static nl.vpro.api.client.utils.Config.Prefix.npo_backend_api;
-import static nl.vpro.poms.Utils.waitUntil;
+import static nl.vpro.testutils.Utils.waitUntil;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.number.OrderingComparison.greaterThanOrEqualTo;
 import static org.junit.Assume.*;

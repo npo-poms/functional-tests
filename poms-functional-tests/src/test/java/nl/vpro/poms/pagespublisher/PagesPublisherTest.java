@@ -26,7 +26,7 @@ import nl.vpro.domain.media.update.MediaUpdate;
 import nl.vpro.domain.page.*;
 import nl.vpro.domain.page.update.*;
 import nl.vpro.poms.AbstractApiMediaBackendTest;
-import nl.vpro.poms.Utils;
+import nl.vpro.testutils.Utils;
 import nl.vpro.rules.DoAfterException;
 
 import static io.restassured.RestAssured.given;
