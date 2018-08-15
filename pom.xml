@@ -12,6 +12,8 @@
   <modules>
     <module>poms-functional-tests</module>
     <module>poms-functional-tests-selenium</module>
+    <module>poms-functional-tests-shared</module>
+
 
   </modules>
 
@@ -55,6 +57,14 @@
       </plugin>
     </plugins>
   </build>
+
+  <dependencies>
+    <dependency>
+      <groupId>nl.vpro.poms</groupId>
+      <artifactId>poms-functional-tests-shared</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+  </dependencies>
 
   <repositories>
     <repository>
@@ -153,6 +163,16 @@
         <groupId>nl.vpro.api-client</groupId>
         <artifactId>client-utils</artifactId>
         <version>${api.client.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.commons</groupId>
+        <artifactId>commons-lang3</artifactId>
+        <version>3.7</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.commons</groupId>
+        <artifactId>commons-text</artifactId>
+        <version>1.4</version>
       </dependency>
 
     </dependencies>
