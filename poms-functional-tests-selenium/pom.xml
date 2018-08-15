@@ -10,6 +10,39 @@
     <version>1.0-SNAPSHOT</version>
   </parent>
   <artifactId>poms-functional-tests-selenium</artifactId>
-
+  <dependencies>
+    <!-- junit -->
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+    </dependency>
+    <!-- https://mvnrepository.com/artifact/org.projectlombok/lombok -->
+    <dependency>
+      <groupId>org.projectlombok</groupId>
+      <artifactId>lombok</artifactId>
+      <scope>provided</scope>
+    </dependency>
+    <!-- https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-slf4j-impl -->
+    <dependency>
+      <groupId>org.apache.logging.log4j</groupId>
+      <artifactId>log4j-slf4j-impl</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>log4j</groupId>
+      <artifactId>log4j</artifactId>
+    </dependency>
+    <!-- Selenium -->
+    <dependency>
+      <groupId>org.seleniumhq.selenium</groupId>
+      <artifactId>selenium-java</artifactId>
+      <version>3.13.0</version>
+    </dependency>
+    <!-- https://mvnrepository.com/artifact/com.paulhammant/ngwebdriver -->
+    <dependency>
+      <groupId>com.paulhammant</groupId>
+      <artifactId>ngwebdriver</artifactId>
+      <version>1.1.4</version>
+    </dependency>
+  </dependencies>
 
 </project>
