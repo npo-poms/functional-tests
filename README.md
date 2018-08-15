@@ -1,4 +1,4 @@
-# functional-tests
+# POMS functional tests
 
 These are functional integration tests for POMS and the NPO Frontend and Backend API.
 
