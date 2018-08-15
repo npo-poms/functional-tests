@@ -1,17 +1,19 @@
 package nl.vpro.poms.selenium.maken;
 
 
-import com.paulhammant.ngwebdriver.NgWebDriver;
 import lombok.extern.slf4j.Slf4j;
+
+import java.util.stream.Collectors;
+
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import nl.vpro.poms.config.Webtest;
+import com.paulhammant.ngwebdriver.NgWebDriver;
 
-import java.util.stream.Collectors;
+import nl.vpro.poms.config.Webtest;
 
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.runners.MethodSorters.NAME_ASCENDING;
@@ -32,9 +34,7 @@ public class SpomsCreateUserWebTest extends Webtest{
      */
     @BeforeClass
     public static void setUp() {
-        login(CONFIG.getProperties().get("PomsTestFrontend.URL"),
-                CONFIG.getProperties().get("SpeciaalVfGebruiker.LOGIN"),
-                CONFIG.getProperties().get("SpeciaalVfGebruiker.PASSWORD"));
+        loginVPROand3voor12();
     }
 
     /**

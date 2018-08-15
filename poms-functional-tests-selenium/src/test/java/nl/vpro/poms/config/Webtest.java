@@ -1,17 +1,21 @@
 package nl.vpro.poms.config;
 
+import lombok.extern.slf4j.Slf4j;
+
 import java.util.concurrent.TimeUnit;
 
+import org.junit.Assume;
 import org.openqa.selenium.By;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 
 import nl.vpro.api.client.utils.Config;
 
+@Slf4j
 public abstract class Webtest {
     protected static ChromeDriver driver;
 
-    protected static final Config CONFIG = new Config("npo-browser-tests.properties");
+    protected static final Config CONFIG = new Config("npo-functional-tests.properties", "npo-browser-tests.properties");
 
 
 
@@ -25,4 +29,17 @@ public abstract class Webtest {
         driver.findElement(By.id("password")).sendKeys(password);
         driver.findElement(By.name("submit")).click();
     }
+
+    public static void loginVPROand3voor12() {
+        String url = CONFIG.getProperties(Config.Prefix.poms).get("baseUrl");
+        log.info("poms {}", url);
+        String user =  CONFIG.getProperties().get("SpeciaalVfGebruiker.LOGIN");
+        String password =  CONFIG.getProperties().get("SpeciaalVfGebruiker.PASSWORD");
+        Assume.assumeNotNull(user, password);
+        login(
+            url,
+            user,
+            password);
+    }
+
 }

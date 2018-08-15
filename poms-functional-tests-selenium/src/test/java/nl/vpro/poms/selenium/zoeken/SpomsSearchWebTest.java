@@ -1,13 +1,14 @@
 package nl.vpro.poms.selenium.zoeken;
 
-import com.paulhammant.ngwebdriver.NgWebDriver;
 import lombok.extern.slf4j.Slf4j;
+
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import com.paulhammant.ngwebdriver.NgWebDriver;
 
 import nl.vpro.poms.config.Webtest;
 
@@ -28,9 +29,7 @@ public class SpomsSearchWebTest extends Webtest {
      */
     @BeforeClass
     public static void setUp() {
-        login(CONFIG.getProperties().get("PomsTestFrontend.URL"),
-                CONFIG.getProperties().get("SpeciaalVfGebruiker.LOGIN"),
-                CONFIG.getProperties().get("SpeciaalVfGebruiker.PASSWORD"));
+        loginVPROand3voor12();
     }
 
     /**
