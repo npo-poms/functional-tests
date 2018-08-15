@@ -25,6 +25,14 @@ import static nl.vpro.testutils.Utils.waitUntil;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assume.assumeNoException;
 
+
+/*
+ * 2018-08-15
+ * 5.9-SNAPSHOT @ dev : allemaal ok
+
+ */
+
+
 /**
  * Tests whether adding and modifying locations via the POMS backend API works.
  *

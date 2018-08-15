@@ -33,9 +33,9 @@ import static org.junit.Assume.*;
 
 
 /*
- * 2018-08-14
- * 5.9-SNAPSHOT @ dev : 500
- * 5.7.9 @ test: 403 permission denied (we moeten hiervoor een account hebben, anders kunnen we niet testen!)
+ * 2018-08-15
+ * 5.9-SNAPSHOT @ dev : allemaal ok
+ * 5.7.9 @ test: de eerste test gaat fout.
  */
 
 /**
