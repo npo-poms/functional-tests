@@ -1,4 +1,4 @@
-package poms.zoeken;
+package nl.vpro.poms.selenium.zoeken;
 
 import com.paulhammant.ngwebdriver.NgWebDriver;
 import lombok.extern.slf4j.Slf4j;
@@ -9,7 +9,7 @@ import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
-import poms.config.Webtest;
+import nl.vpro.poms.config.Webtest;
 
 import static org.junit.runners.MethodSorters.NAME_ASCENDING;
 

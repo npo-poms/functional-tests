@@ -1,4 +1,4 @@
-package poms.maken;
+package nl.vpro.poms.selenium.maken;
 
 
 import com.paulhammant.ngwebdriver.NgWebDriver;
@@ -9,7 +9,7 @@ import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import poms.config.Webtest;
+import nl.vpro.poms.config.Webtest;
 
 import java.util.stream.Collectors;
 

@@ -1,12 +1,12 @@
-package poms.config;
+package nl.vpro.poms.config;
+
+import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 
 import nl.vpro.api.client.utils.Config;
-
-import java.util.concurrent.TimeUnit;
 
 public abstract class Webtest {
     protected static ChromeDriver driver;
