@@ -10,4 +10,6 @@ This is currently split up in 3 modules
 * the other functional tests use API's only, and e.g. create or change data using the backend api and checks whether those changes arrive correctly in the frontend API. This in many cases also uses java clients which are implemented using the actual domain objects. 
 
 
-These tests are automaticly run every day on a server @VPRO via jenkins on the 'dev' environments. At request the tests can also be run on the 'test' environment or even on production.
+These tests are automaticly run every day on a [jenkins server](https://jenkins.vpro.nl/job/POMS%20Functional%20Tests/) (requires login)  on the 'dev' environments. At request the tests can also be run on the 'test' environment or even on production.
+
+The tests require a configuration file `${USER.HOME}/conf/npo-functional-tests.properties` and the selenium tests additionally require `${USER.HOME}/conf/npo-browser-tests.properties`. These files must contain the required credentials to be able to run the tests.
