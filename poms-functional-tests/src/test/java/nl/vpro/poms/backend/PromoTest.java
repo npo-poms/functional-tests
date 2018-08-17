@@ -38,6 +38,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assume.assumeTrue;
 
+
+/*
+ * 2018-08-17:
+ * 5.9-SNAPSHOT @ dev : allemaal ok
+ */
+
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 @Slf4j
 public class PromoTest extends AbstractApiMediaBackendTest {
