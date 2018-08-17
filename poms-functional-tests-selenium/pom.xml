@@ -27,13 +27,11 @@
       <groupId>log4j</groupId>
       <artifactId>log4j</artifactId>
     </dependency>
-    <!-- Selenium -->
     <dependency>
       <groupId>org.seleniumhq.selenium</groupId>
       <artifactId>selenium-java</artifactId>
       <version>3.13.0</version>
     </dependency>
-    <!-- https://mvnrepository.com/artifact/com.paulhammant/ngwebdriver -->
     <dependency>
       <groupId>com.paulhammant</groupId>
       <artifactId>ngwebdriver</artifactId>

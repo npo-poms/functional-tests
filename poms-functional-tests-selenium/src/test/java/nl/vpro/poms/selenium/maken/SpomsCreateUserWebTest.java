@@ -103,7 +103,7 @@ public class SpomsCreateUserWebTest extends Webtest{
 
         driver.findElement(By.cssSelector("button[ng-click='controller.submit()']")).click();
 
-        WebElement clipboard = driver.findElement(By.cssSelector("input[type='text' ng-model='formData.text']"));
+        //WebElement clipboard = driver.findElement(By.cssSelector("input[type='text' ng-model='formData.text']"));
 
         // find MID, URN here
 
