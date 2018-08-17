@@ -16,6 +16,7 @@ import nl.vpro.domain.media.update.MediaUpdateList;
 import nl.vpro.domain.media.update.MemberUpdate;
 import nl.vpro.domain.media.update.ProgramUpdate;
 import nl.vpro.poms.AbstractApiMediaBackendTest;
+import nl.vpro.rs.media.ResponseError;
 import nl.vpro.rules.DoAfterException;
 
 import static nl.vpro.testutils.Utils.waitUntil;
@@ -24,9 +25,7 @@ import static org.hamcrest.Matchers.isEmptyOrNullString;
 import static org.hamcrest.Matchers.not;
 import static org.junit.Assume.*;
 
-/**
- * Tests whether adding and modifying images via the POMS backend API works.
- *
+/***
  * @author Michiel Meeuwissen
  */
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
@@ -138,6 +137,10 @@ public class MediaBackendTest extends AbstractApiMediaBackendTest {
 */
 
 
+    /**
+     * It should simple provisionlly accept.
+     *
+     */
     @Test
     public void test03CreateObjectWithoutBroadcaster() {
         backend.setValidateInput(false);
@@ -149,10 +152,14 @@ public class MediaBackendTest extends AbstractApiMediaBackendTest {
                 .build()
         );
         clip.setVersion(5.5f);
-
-        String mid = backend.set(clip);
-        assertThat(mid).isNotEmpty();
-        log.info("Created mid {}", mid);
+        try {
+            String mid = backend.set(clip);
+            log.info("Found mid {}", mid);
+            //fail("Should give error on creating object without any broadcasters. But created  " + mid);
+        } catch (ResponseError re) {
+            log.info("Response: {}", re);
+            assertThat(re.getStatus()).isEqualTo(401);
+        }
 
     }
 
