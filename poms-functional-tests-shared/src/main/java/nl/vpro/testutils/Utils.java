@@ -50,10 +50,10 @@ public class Utils {
 
     public static void waitUntil(Duration acceptable, String callableToDescription, final Callable<Boolean> r)  {
         log.info("Waiting until " + callableToDescription);
-        clearCaches.get().run();
         waitUntil(acceptable, new Callable<Boolean>() {
             @Override
             public Boolean call() throws Exception {
+                clearCaches.get().run();
                 return r.call();
             }
 
@@ -92,6 +92,7 @@ public class Utils {
         waitUntil(acceptable, predicateDescription, new Callable<Boolean>() {
             @Override
             public Boolean call() {
+                clearCaches.get().run();
                 result[0] = r.get();
                 return result[0] != null && predicate.test(result[0]);
             }

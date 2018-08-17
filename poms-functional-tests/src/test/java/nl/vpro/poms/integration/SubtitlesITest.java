@@ -179,7 +179,6 @@ public class SubtitlesITest extends AbstractApiMediaBackendTest {
     public void test91checkCleanup() {
         assumeThat(backendVersionNumber, greaterThanOrEqualTo(5.3f));
 
-
         waitUntil(ACCEPTABLE_DURATION,
             MID_WITH_LOCATIONS + " has no " + JAPANESE_TRANSLATION,
             () -> {
@@ -192,6 +191,7 @@ public class SubtitlesITest extends AbstractApiMediaBackendTest {
 
     @Test
     public void test92checkCleanupFrontend() {
+
         assumeThat(backendVersionNumber, greaterThanOrEqualTo(5.3f));
         waitUntil(ACCEPTABLE_DURATION,
             MID_WITH_LOCATIONS + " has not " + JAPANESE_TRANSLATION,
