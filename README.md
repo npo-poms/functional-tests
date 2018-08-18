@@ -14,3 +14,6 @@ These tests are automaticly run every day on a [jenkins server](https://jenkins.
 
 The tests require a configuration file `${USER.HOME}/conf/npo-functional-tests.properties` and the selenium
 tests additionally require `${USER.HOME}/conf/npo-browser-tests.properties`. These files must contain the required credentials to be able to run the tests.  Default values can be found in src/main/test/resources of the relevant module.
+
+## Remarks
+If you want to run all tests, you need to check out this including git submodules. One of things which are tests is whether all examples of https://github.com/npo-poms/api/tree/master/examples execute without errors (and for a bunch of them extra checks are implemented)
