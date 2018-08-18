@@ -89,5 +89,9 @@
       <groupId>nl.vpro.shared</groupId>
       <artifactId>vpro-shared-util</artifactId>
     </dependency>
+     <dependency>
+       <groupId>nl.publiekeomroep</groupId>
+       <artifactId>poms-shared-domain</artifactId>
+     </dependency>
   </dependencies>
 </project>
