@@ -15,9 +15,9 @@ import nl.vpro.poms.AbstractApiMediaBackendTest;
 import nl.vpro.rules.DoAfterException;
 
 import static org.junit.Assume.assumeNoException;
+import static org.junit.Assume.assumeTrue;
 
 /**
- * Tests whether adding and modifying locations via the POMS backend API works.
  *
  * @author Michiel Meeuwissen
  */
@@ -46,7 +46,7 @@ public class MediaBackendTranscodeTest extends AbstractApiMediaBackendTest {
 
     @Test
     public void test01Transcode() {
-        //assumeTrue(backendVersionNumber > 5.6f);
+        assumeTrue(backendVersionNumber > 5.6f);
 
         String newMid = backend.set(ProgramUpdate.create(MediaBuilder.clip()
             .mainTitle(title)

@@ -167,6 +167,11 @@
         <version>${api.client.version}</version>
       </dependency>
       <dependency>
+        <groupId>nl.publiekeomroep</groupId>
+        <artifactId>poms-shared-domain</artifactId>
+        <version>${poms.shared.version}</version>
+      </dependency>
+      <dependency>
         <groupId>org.apache.commons</groupId>
         <artifactId>commons-lang3</artifactId>
         <version>3.7</version>
