@@ -37,7 +37,7 @@ public class Utils {
                 Duration duration = Duration.between(start, Instant.now());
                 if (duration.compareTo(acceptable) > 0) {
                     assertThat(result)
-                        .withFailMessage("{} didn't evaluate to true after {} in less than {}", r, duration, acceptable)
+                        .withFailMessage("%s didn't evaluate to true after %s in less than %s", r, duration, acceptable)
                         .isTrue();
                 }
                 log.info("{} didn't evaluate to true yet after {} (< {}). Waiting another {}", r, duration, acceptable, WAIT);
