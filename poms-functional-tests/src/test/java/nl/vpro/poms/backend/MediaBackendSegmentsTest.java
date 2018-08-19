@@ -192,7 +192,7 @@ public class MediaBackendSegmentsTest extends AbstractApiMediaBackendTest {
     public void test10WaitFor() {
         assumeNotNull(segmentMid);
         waitUntil(ACCEPTABLE_DURATION,
-            segmentMid + "has title " + updatedSegmentTitle,
+            segmentMid + " has title " + updatedSegmentTitle,
             () -> {
             SegmentUpdate up = backend.get(segmentMid);
             return up.fetch().getMainTitle().equals(updatedSegmentTitle);
