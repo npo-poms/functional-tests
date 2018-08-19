@@ -17,3 +17,6 @@ tests additionally require `${USER.HOME}/conf/npo-browser-tests.properties`. The
 
 ## Remarks
 If you want to run all tests, you need to check out this including git submodules. One of things which are tests is whether all examples of https://github.com/npo-poms/api/tree/master/examples execute without errors (and for a bunch of them extra checks are implemented)
+```bash
+git clone --recurse-submodules https://github.com/npo-poms/functional-tests.git
+```
