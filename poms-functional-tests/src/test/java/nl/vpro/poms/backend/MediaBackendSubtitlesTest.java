@@ -214,8 +214,7 @@ public class MediaBackendSubtitlesTest extends AbstractApiMediaBackendTest {
 
 
 
-    @Test
-    @Ignore
+    //@Test
     public void testForCamielNL() throws IOException {
 
         InputStreamReader reader = new InputStreamReader(getClass().getResourceAsStream("/POW_03372714.vtt"), "UTF-8");
@@ -230,8 +229,7 @@ public class MediaBackendSubtitlesTest extends AbstractApiMediaBackendTest {
         backend.setSubtitles(subtitles);
     }
 
-    @Test
-    @Ignore
+    //@Test
     public void test99ForCamielAR() throws IOException {
 
         InputStreamReader reader = new InputStreamReader(getClass().getResourceAsStream("/POMS_VPRO_4981202.vtt"), "UTF-8");
@@ -249,8 +247,7 @@ public class MediaBackendSubtitlesTest extends AbstractApiMediaBackendTest {
         backend.setSubtitles(corrected);
     }
 
-    @Test
-    @Ignore
+    //@Test
     public void test99ForCamielNL2() throws IOException {
 
         InputStreamReader reader = new InputStreamReader(getClass().getResourceAsStream("/POMS_VPRO_4959361.vtt"), "UTF-8");
@@ -267,8 +264,7 @@ public class MediaBackendSubtitlesTest extends AbstractApiMediaBackendTest {
         backend.setSubtitles(corrected);
     }
 
-    @Test
-    @Ignore
+    //@Test
     public void test99deleteCaption() {
 
         backend.deleteSubtitles(SubtitlesId.builder().language(new Locale("ar")).type(SubtitlesType.CAPTION).mid("POMS_KRO_3852926").build());
