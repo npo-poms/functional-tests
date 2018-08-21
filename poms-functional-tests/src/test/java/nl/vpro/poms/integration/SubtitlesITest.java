@@ -211,7 +211,6 @@ public class SubtitlesITest extends AbstractApiMediaBackendTest {
             () -> ! mediaUtil.findByMid(MID_WITH_LOCATIONS).getAvailableSubtitles().contains(JAPANESE_TRANSLATION));
 
 
-        // TODO: FAILS
         waitUntil(ACCEPTABLE_DURATION,
             MID_WITH_LOCATIONS + " has no subtitles for JAPAN",
             () -> MediaRestClientUtils.loadOrNull(mediaUtil.getClients().getSubtitlesRestService(), MID_WITH_LOCATIONS, Locale.JAPAN) == null);
