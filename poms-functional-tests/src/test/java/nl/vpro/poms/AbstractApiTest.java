@@ -4,7 +4,6 @@ import java.time.Duration;
 import java.time.ZonedDateTime;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicInteger;
 
 import javax.ws.rs.core.MediaType;
 
@@ -13,7 +12,6 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.rules.TestName;
 import org.junit.rules.Timeout;
-import org.slf4j.MDC;
 
 import nl.vpro.api.client.resteasy.NpoApiClients;
 import nl.vpro.api.client.utils.Config;
@@ -42,7 +40,6 @@ public abstract class AbstractApiTest extends AbstractTest  {
     public static final Config CONFIG = new Config("npo-functional-tests.properties");
 
 
-    static final protected  AtomicInteger testNumber = new AtomicInteger(0);
     @Rule
     public AllowUnavailable unavailable = new AllowUnavailable();
 
@@ -67,10 +64,9 @@ public abstract class AbstractApiTest extends AbstractTest  {
     @Before
     public void setupTitle() {
         Utils.clearCaches.set(this::clearCaches);
-        testNumber.incrementAndGet();
-        title = testNumber.intValue() + ":" + NOW + " " + testMethod.getMethodName() + " Caf\u00E9 \u6C49"; // testing encoding too!
-        MDC.put("testNumber", String.valueOf(testNumber.get()) + ":");
-        log.info("Running {}:{} with title {}", testNumber.get(), testMethod.getMethodName(), title);
+        title = testMDC.getTestNumber() + ":" + NOW + " " + testMethod.getMethodName() + " Caf\u00E9 \u6C49"; // testing encoding too!
+
+        log.info("Running {} with title {}", testMethod.getMethodName(), title);
         if (!Objects.equals(log, LOG)) {
             LOG = log;
         }
