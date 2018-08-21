@@ -90,7 +90,7 @@ public class SubtitlesITest extends AbstractApiMediaBackendTest {
                 MediaObject mo = backend.getFull(MID_WITH_LOCATIONS);
                 return mo.getAvailableSubtitles().contains(JAPANESE_TRANSLATION);
             });
-
+        arrivedInBackend = true;
 
     }
 
