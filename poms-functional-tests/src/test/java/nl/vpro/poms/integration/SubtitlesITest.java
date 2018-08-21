@@ -41,12 +41,15 @@ public class SubtitlesITest extends AbstractApiMediaBackendTest {
 
     public static final AvailableSubtitles JAPANESE_TRANSLATION = new AvailableSubtitles(Locale.JAPANESE, SubtitlesType.TRANSLATION);
 
+
     @Before
     public void setup() {
 
     }
 
     private static String firstTitle;
+
+    private static boolean arrivedInBackend = false;
 
     @Test
     public void test01addSubtitles() {
@@ -94,6 +97,7 @@ public class SubtitlesITest extends AbstractApiMediaBackendTest {
     @Test
     public void test03WaitForCuesAvailableInFrontend() {
         assumeNotNull(firstTitle);
+        assumeTrue(arrivedInBackend);
 
         PeekingIterator<StandaloneCue> cueIterator = waitUntil(ACCEPTABLE_DURATION,
             MID_WITH_LOCATIONS + "/" + Locale.JAPANESE + "[0]=" + firstTitle,
@@ -131,6 +135,8 @@ public class SubtitlesITest extends AbstractApiMediaBackendTest {
     @Test
     public void test04WaitForInMediaFrontend() {
         assumeNotNull(firstTitle);
+        assumeTrue(arrivedInBackend);
+
         waitUntil(ACCEPTABLE_DURATION,
             MID_WITH_LOCATIONS + " has " + JAPANESE_TRANSLATION,
             () -> mediaUtil.findByMid(MID_WITH_LOCATIONS).getAvailableSubtitles().contains(JAPANESE_TRANSLATION)
@@ -148,6 +154,8 @@ public class SubtitlesITest extends AbstractApiMediaBackendTest {
     @Test
     public void test06WaitForCuesDisappearedInFrontend() {
         assumeNotNull(firstTitle);
+        assumeTrue(arrivedInBackend);
+
 
         waitUntil(ACCEPTABLE_DURATION,
             MID_WITH_LOCATIONS + " has no locations",
@@ -160,6 +168,8 @@ public class SubtitlesITest extends AbstractApiMediaBackendTest {
 
     @Test
     public void test07PublishLocations() {
+        assumeTrue(arrivedInBackend);
+
         ProgramUpdate o = backend.get(MID_WITH_LOCATIONS);
         o.getLocations().forEach(l -> l.setPublishStopInstant(null));
         backend.set(o);
@@ -167,6 +177,8 @@ public class SubtitlesITest extends AbstractApiMediaBackendTest {
 
     @Test
     public void test08WaitForCuesAvailableInFrontend() {
+        assumeTrue(arrivedInBackend);
+
         test03WaitForCuesAvailableInFrontend();
     }
 
