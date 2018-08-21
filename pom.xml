@@ -10,11 +10,9 @@
   <packaging>pom</packaging>
 
   <modules>
-    <module>poms-functional-tests</module>
-    <module>poms-functional-tests-selenium</module>
     <module>poms-functional-tests-shared</module>
-
-
+    <module>poms-functional-tests-selenium</module>
+    <module>poms-functional-tests</module>
   </modules>
 
   <properties>
@@ -55,6 +53,14 @@
           </compilerArgs>
         </configuration>
       </plugin>
+       <plugin>
+         <groupId>org.apache.maven.plugins</groupId>
+         <artifactId>maven-surefire-plugin</artifactId>
+         <version>2.22.0</version>
+         <configuration>
+           <forkCount>0</forkCount>
+         </configuration>
+       </plugin>
     </plugins>
   </build>
 

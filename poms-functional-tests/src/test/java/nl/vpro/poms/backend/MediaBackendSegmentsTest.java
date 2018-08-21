@@ -26,7 +26,7 @@ import static org.junit.Assume.assumeNotNull;
 
 
 /*
- * 2018-08-15
+ * 2018-08-20
  * 5.9-SNAPSHOT @ dev : allemaal ok
 
  */
@@ -80,6 +80,9 @@ public class MediaBackendSegmentsTest extends AbstractApiMediaBackendTest {
     }
 
 
+    /**
+     * TODO: this actually checks the frontend. This is therefor not a pure backend test
+     */
     @Test
     public void test03WaitForInFrontend() {
         assumeNotNull(segmentMid);
@@ -180,7 +183,11 @@ public class MediaBackendSegmentsTest extends AbstractApiMediaBackendTest {
         assumeNotNull(segmentMid);
         ProgramUpdate programUpdate = backend.get(MID);
 
-        SegmentUpdate segmentUpdate = programUpdate.getSegments().stream().filter(s -> s.getMid().equals(segmentMid)).findFirst().orElseThrow(IllegalStateException::new);
+        SegmentUpdate segmentUpdate = programUpdate.getSegments()
+            .stream()
+            .filter(s -> s.getMid().equals(segmentMid))
+            .findFirst()
+            .orElseThrow(IllegalStateException::new);
         updatedSegmentTitle = segmentUpdate.fetch().getMainTitle() + " -> " + title;
         segmentUpdate.setMainTitle(updatedSegmentTitle);
 
@@ -192,7 +199,7 @@ public class MediaBackendSegmentsTest extends AbstractApiMediaBackendTest {
     public void test10WaitFor() {
         assumeNotNull(segmentMid);
         waitUntil(ACCEPTABLE_DURATION,
-            segmentMid + "has title " + updatedSegmentTitle,
+            segmentMid + " has title " + updatedSegmentTitle,
             () -> {
             SegmentUpdate up = backend.get(segmentMid);
             return up.fetch().getMainTitle().equals(updatedSegmentTitle);

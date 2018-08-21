@@ -10,7 +10,7 @@ import org.slf4j.MDC;
  */
 public class TestMDC extends TestWatcher {
 
-    public static final String KEY = "currenttest";
+    public static final String KEY = "currentTest";
 
     @Override
     protected void starting(Description d) {

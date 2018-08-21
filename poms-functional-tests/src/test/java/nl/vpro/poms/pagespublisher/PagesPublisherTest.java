@@ -42,6 +42,8 @@ import static org.junit.Assume.*;
 public class PagesPublisherTest extends AbstractApiMediaBackendTest {
 
 
+    private static final Duration ACCEPTABLE_DURATION = Duration.ofMinutes(3);
+
     static PageUpdateApiUtil util = new PageUpdateApiUtil(
         PageUpdateApiClient.configured(
             CONFIG.env(),
@@ -141,7 +143,7 @@ public class PagesPublisherTest extends AbstractApiMediaBackendTest {
     public void test100Arrived() {
         assumeNotNull(article);
 
-        PageUpdate update = Utils.waitUntil(Duration.ofMinutes(1),
+        PageUpdate update = Utils.waitUntil(ACCEPTABLE_DURATION,
             article.getUrl() + " has title " + article.getTitle(),
             () ->
             util.get(article.getUrl()),
@@ -153,7 +155,7 @@ public class PagesPublisherTest extends AbstractApiMediaBackendTest {
     @Test
     public void test101ArrivedInAPI() {
         assumeNotNull(article);
-        Page page = Utils.waitUntil(Duration.ofMinutes(1),
+        Page page = Utils.waitUntil(ACCEPTABLE_DURATION,
             article.getUrl() + " has title " + article.getTitle() + " in " + pageUtil,
             () ->
             pageUtil.load(article.getUrl())[0], p -> p != null && Objects.equals(p.getTitle(), article.getTitle())
@@ -205,7 +207,7 @@ public class PagesPublisherTest extends AbstractApiMediaBackendTest {
     @Test
     public void test201ArrivedInApi() {
         assumeNotNull(article);
-        Page page = Utils.waitUntil(Duration.ofMinutes(1),
+        Page page = Utils.waitUntil(ACCEPTABLE_DURATION,
             article.getUrl() + " has title " + article.getTitle(),
             () ->
                 pageUtil.load(article.getUrl())[0], p -> Objects.equals(p.getTitle(), article.getTitle())
@@ -233,7 +235,7 @@ public class PagesPublisherTest extends AbstractApiMediaBackendTest {
         assumeNotNull(article);
         assumeNotNull(embeddedDescription);
 
-        MediaObject fromApi = Utils.waitUntil(Duration.ofMinutes(1),
+        MediaObject fromApi = Utils.waitUntil(ACCEPTABLE_DURATION,
             MID + " has description " + embeddedDescription,
             () -> mediaUtil.findByMid(MID),
             mo -> {
@@ -246,7 +248,7 @@ public class PagesPublisherTest extends AbstractApiMediaBackendTest {
             }
         );
 
-        Page page = Utils.waitUntil(Duration.ofMinutes(1),
+        Page page = Utils.waitUntil(ACCEPTABLE_DURATION,
             article.getUrl() + " has embedded " + MID + " with description " + embeddedDescription,
             () ->
                 pageUtil.load(article.getUrl())[0],
@@ -292,7 +294,7 @@ public class PagesPublisherTest extends AbstractApiMediaBackendTest {
             .build();
 
         PageSearchResult searchResultItems = Utils.waitUntil(
-            Duration.ofMinutes(2),
+            ACCEPTABLE_DURATION,
             "Has pages with tag " + TAG,
             () -> pageUtil.find(form, null, 0L, 240),
             (sr) -> sr.getSize() >= 10
@@ -318,7 +320,7 @@ public class PagesPublisherTest extends AbstractApiMediaBackendTest {
             .tags(TAG)
             .build();
 
-        Utils.waitUntil(Duration.ofMinutes(2),
+        Utils.waitUntil(ACCEPTABLE_DURATION,
             "Has no pages with tag",
             () -> {
                 PageSearchResult searchResultItems = pageUtil.find(form, null, 0L, 11);

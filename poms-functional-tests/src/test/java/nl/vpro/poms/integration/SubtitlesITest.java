@@ -92,7 +92,7 @@ public class SubtitlesITest extends AbstractApiMediaBackendTest {
     }
 
     @Test
-    public void test03WaitForInFrontend() {
+    public void test03WaitForCuesAvailableInFrontend() {
         assumeNotNull(firstTitle);
 
         PeekingIterator<StandaloneCue> cueIterator = waitUntil(ACCEPTABLE_DURATION,
@@ -146,7 +146,7 @@ public class SubtitlesITest extends AbstractApiMediaBackendTest {
     }
 
     @Test
-    public void test06WaitForInFrontend() {
+    public void test06WaitForCuesDisappearedInFrontend() {
         assumeNotNull(firstTitle);
 
         waitUntil(ACCEPTABLE_DURATION,
@@ -166,13 +166,14 @@ public class SubtitlesITest extends AbstractApiMediaBackendTest {
     }
 
     @Test
-    public void test08WaitForInFrontend() {
-        test03WaitForInFrontend();
+    public void test08WaitForCuesAvailableInFrontend() {
+        test03WaitForCuesAvailableInFrontend();
     }
 
     @Test
     public void test90Cleanup() {
-        backend.getBackendRestService().deleteSubtitles(MID_WITH_LOCATIONS, Locale.JAPANESE, SubtitlesType.TRANSLATION, true, null);
+        backend.getBackendRestService()
+            .deleteSubtitles(MID_WITH_LOCATIONS, Locale.JAPANESE, SubtitlesType.TRANSLATION, true, null);
     }
 
     @Test
@@ -194,10 +195,14 @@ public class SubtitlesITest extends AbstractApiMediaBackendTest {
 
         assumeThat(backendVersionNumber, greaterThanOrEqualTo(5.3f));
         waitUntil(ACCEPTABLE_DURATION,
-            MID_WITH_LOCATIONS + " has not " + JAPANESE_TRANSLATION,
+            MID_WITH_LOCATIONS + " has no " + JAPANESE_TRANSLATION,
             () -> ! mediaUtil.findByMid(MID_WITH_LOCATIONS).getAvailableSubtitles().contains(JAPANESE_TRANSLATION));
 
 
+        // TODO: FAILS
+        waitUntil(ACCEPTABLE_DURATION,
+            MID_WITH_LOCATIONS + " has no subtitles for JAPAN",
+            () -> MediaRestClientUtils.loadOrNull(mediaUtil.getClients().getSubtitlesRestService(), MID_WITH_LOCATIONS, Locale.JAPAN) == null);
     }
 
 }
