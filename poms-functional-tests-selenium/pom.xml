@@ -41,6 +41,10 @@
       <groupId>nl.vpro.poms</groupId>
       <artifactId>poms-functional-tests-shared</artifactId>
     </dependency>
+    <dependency>
+      <groupId>nl.vpro.shared</groupId>
+      <artifactId>vpro-shared-util</artifactId>
+    </dependency>
   </dependencies>
 
 </project>
