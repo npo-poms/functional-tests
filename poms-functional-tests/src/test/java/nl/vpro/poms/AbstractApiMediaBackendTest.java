@@ -8,6 +8,7 @@ import java.time.Duration;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+import org.junit.Before;
 import org.junit.BeforeClass;
 
 import nl.vpro.api.client.utils.Config;
@@ -88,6 +89,11 @@ public abstract class AbstractApiMediaBackendTest extends AbstractApiTest {
                 .programUrl("https://www.vpro.nl/" + count)
                 .build();
 
+    }
+
+    @Before
+    public void abstractSetUp() {
+        backend.setValidateInput(true);
     }
 
     @BeforeClass
