@@ -96,39 +96,7 @@ public class SubtitlesITest extends AbstractApiMediaBackendTest {
 
     @Test
     public void test03WaitForCuesAvailableInFrontend() {
-        assumeNotNull(firstTitle);
-        assumeTrue(arrivedInBackend);
-
-        PeekingIterator<StandaloneCue> cueIterator = waitUntil(ACCEPTABLE_DURATION,
-            MID_WITH_LOCATIONS + "/" + Locale.JAPANESE + "[0]=" + firstTitle,
-            () -> {
-                clearCaches();
-                try {
-                    return Iterators.peekingIterator(
-                        SubtitlesUtil.standaloneStream(
-                            MediaRestClientUtils.loadOrNull(mediaUtil.getClients().getSubtitlesRestService(),
-                            MID_WITH_LOCATIONS, Locale.JAPANESE), false, false).iterator()
-                    );
-                } catch (IOException ioe) {
-                    log.warn(ioe.getMessage());
-                    return null;
-                }
-            }
-        , (pi) -> {
-                if (pi == null ||  !pi.hasNext()) {
-                    log.info("No results yet");
-                    return false;
-                }
-                StandaloneCue peek = pi.peek();
-                String content = peek.getContent();
-                if (!content.equals(firstTitle)) {
-                    log.info("Found cue {} != {} yet", content, firstTitle);
-                    return false;
-                }
-                return true;
-            }
-        );
-        assertThat(cueIterator).hasSize(3);
+        waitForCuesAvailableInFrontend();
     }
 
 
@@ -177,9 +145,7 @@ public class SubtitlesITest extends AbstractApiMediaBackendTest {
 
     @Test
     public void test08WaitForCuesAvailableInFrontend() {
-        assumeTrue(arrivedInBackend);
-
-        test03WaitForCuesAvailableInFrontend();
+        waitForCuesAvailableInFrontend();
     }
 
     @Test
@@ -204,7 +170,7 @@ public class SubtitlesITest extends AbstractApiMediaBackendTest {
 
     @Test
     public void test92checkCleanupFrontend() {
-
+        assumeNotNull(firstTitle);
         assumeThat(backendVersionNumber, greaterThanOrEqualTo(5.3f));
         waitUntil(ACCEPTABLE_DURATION,
             MID_WITH_LOCATIONS + " has no " + JAPANESE_TRANSLATION,
@@ -215,5 +181,43 @@ public class SubtitlesITest extends AbstractApiMediaBackendTest {
             MID_WITH_LOCATIONS + " has no subtitles for JAPAN",
             () -> MediaRestClientUtils.loadOrNull(mediaUtil.getClients().getSubtitlesRestService(), MID_WITH_LOCATIONS, Locale.JAPAN) == null);
     }
+
+
+     protected void waitForCuesAvailableInFrontend() {
+        assumeNotNull(firstTitle);
+         assumeTrue(arrivedInBackend);
+
+        PeekingIterator<StandaloneCue> cueIterator = waitUntil(ACCEPTABLE_DURATION,
+            MID_WITH_LOCATIONS + "/" + Locale.JAPANESE + "[0]=" + firstTitle,
+            () -> {
+                clearCaches();
+                try {
+                    return Iterators.peekingIterator(
+                        SubtitlesUtil.standaloneStream(
+                            MediaRestClientUtils.loadOrNull(mediaUtil.getClients().getSubtitlesRestService(),
+                            MID_WITH_LOCATIONS, Locale.JAPANESE), false, false).iterator()
+                    );
+                } catch (IOException ioe) {
+                    log.warn(ioe.getMessage());
+                    return null;
+                }
+            }
+        , (pi) -> {
+                if (pi == null ||  !pi.hasNext()) {
+                    log.info("No results yet");
+                    return false;
+                }
+                StandaloneCue peek = pi.peek();
+                String content = peek.getContent();
+                if (!content.equals(firstTitle)) {
+                    log.info("Found cue {} != {} yet", content, firstTitle);
+                    return false;
+                }
+                return true;
+            }
+        );
+        assertThat(cueIterator).hasSize(3);
+    }
+
 
 }
