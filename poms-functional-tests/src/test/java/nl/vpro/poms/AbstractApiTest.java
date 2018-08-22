@@ -83,7 +83,7 @@ public abstract class AbstractApiTest extends AbstractTest  {
         if (clients.getBrowserCache() != null) {
             clients.getBrowserCache().clear();
         } else {
-            LOG.debug("no browser cache to clear");
+            log.debug("no browser cache to clear");
         }
         mediaUtil.clearCache();
     }
