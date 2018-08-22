@@ -387,7 +387,7 @@ public class MediaBackendImagesTest extends AbstractApiMediaBackendTest {
         ImageUpdate.Builder builder = ImageUpdate.builder()
             .type(ImageType.PICTURE)
             .title(title)
-            .imageUrl("https://images.poms.omroep.nl/image/s" + (testNumber.intValue() + 10) + "/7617.jpg?" + URLEncoder.encode(title, "UTF-8"))
+            .imageUrl("https://images.poms.omroep.nl/image/s" + (testMDC.getTestNumber() + 10) + "/7617.jpg?" + URLEncoder.encode(title, "UTF-8"))
             .license(License.CC_BY)
             .sourceName("vpro")
             .source("https://www.vpro.nl/")
