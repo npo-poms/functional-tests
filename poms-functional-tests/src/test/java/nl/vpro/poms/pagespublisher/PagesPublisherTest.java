@@ -132,7 +132,7 @@ public class PagesPublisherTest extends AbstractApiMediaBackendTest {
             assertThat(r.getStatus()).isEqualTo(Result.Status.SUCCESS);
         }
 
-        Result result = util.save(article);
+        Result<Void> result = util.save(article);
         log.info("{}", result);
         assertThat(result.getStatus()).withFailMessage("" + result).isEqualTo(Result.Status.SUCCESS);
         assertThat(result.getErrors()).isNull();
