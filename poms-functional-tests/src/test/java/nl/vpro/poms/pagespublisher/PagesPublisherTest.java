@@ -158,7 +158,9 @@ public class PagesPublisherTest extends AbstractApiMediaBackendTest {
         Page page = Utils.waitUntil(ACCEPTABLE_DURATION,
             article.getUrl() + " has title " + article.getTitle() + " in " + pageUtil,
             () ->
-            pageUtil.load(article.getUrl())[0], p -> p != null && Objects.equals(p.getTitle(), article.getTitle())
+                pageUtil.load(article.getUrl())[0],
+            p -> p != null && Objects.equals(p.getTitle(), article.getTitle()) &&
+                p.getEmbeds() != null && p.getEmbeds().size() > 0
         );
 
         assertThat(page.getTitle()).isEqualTo(article.getTitle());
@@ -261,6 +263,8 @@ public class PagesPublisherTest extends AbstractApiMediaBackendTest {
     private static final String TAG = "test_created_with_crid";
     private static final String CRID_PREFIX = "crid://crids.functional.tests/";
     private static final List<Crid> createdCrids = new ArrayList<>();
+    private static final List<String> createdUrls = new ArrayList<>();
+    private static final List<String> modifiedUrls = new ArrayList<>();
 
     @Test
     public void test300CreateSomeWithCrid() throws UnsupportedEncodingException {
@@ -268,8 +272,10 @@ public class PagesPublisherTest extends AbstractApiMediaBackendTest {
 
         for (int i = 0; i < 10; i++) {
             createdCrids.add(new Crid(CRID_PREFIX + i));
+            String createdUrl = url + "/" + i;
+            createdUrls.add(createdUrl);
             PageUpdate article =
-                PageUpdateBuilder.article(url + "/" + i)
+                PageUpdateBuilder.article(createdUrl)
                     .broadcasters("VPRO")
                     .crids(CRID_PREFIX + i)
                     .title(title)
@@ -285,7 +291,7 @@ public class PagesPublisherTest extends AbstractApiMediaBackendTest {
     }
 
     @Test
-    public void test301ArrivedInAPIThenDeleteByCrid() {
+    public void test301ArrivedInAPI() {
         assumeTrue(util.getPageUpdateApiClient().getVersionNumber() >= 5.5);
         assumeTrue(createdCrids.size() > 0);
 
@@ -297,24 +303,94 @@ public class PagesPublisherTest extends AbstractApiMediaBackendTest {
             ACCEPTABLE_DURATION,
             "Has pages with tag " + TAG,
             () -> pageUtil.find(form, null, 0L, 240),
-            (sr) -> sr.getSize() >= 10
+            (sr) -> sr.getSize() >= createdCrids.size()
         );
+        List<Crid> foundCrids = new ArrayList<>();
+        List<String> foundUrls= new ArrayList<>();
+
 
         for (SearchResultItem<? extends Page> item : searchResultItems) {
             log.info("Found {} with crids: ", item, item.getResult().getCrids());
-            createdCrids.removeAll(item.getResult().getCrids());
+            foundCrids.addAll(item.getResult().getCrids());
+            foundUrls.add(item.getResult().getUrl());
+        }
+        assertThat(foundCrids).containsOnlyOnce(createdCrids.toArray(new Crid[0]));
+        assertThat(foundUrls).containsOnlyOnce(createdUrls.toArray(new String[0]));
+    }
+
+
+    @Test
+    public void test302UpdateUrl() throws UnsupportedEncodingException {
+        assumeTrue(util.getPageUpdateApiClient().getVersionNumber() >= 5.5);
+        assumeTrue(createdCrids.size() > 0);
+        assumeTrue(createdUrls.size() > 0);
+
+        String url = "http://test.poms.nl/\u00E9\u00E9n/" + URLEncoder.encode(testMethod.getMethodName() + LocalDate.now(), "UTF-8");
+
+        int i = 0;
+        for (Crid crid: createdCrids) {
+            String modifiedUrl = url + "/" + i++;
+            modifiedUrls.add(modifiedUrl);
+            PageUpdate article =
+                PageUpdateBuilder.article(modifiedUrl)
+                    .broadcasters("VPRO")
+                    .crids(crid)
+                    .title(title + " (modified)")
+                    .tags(TAG)
+                    .creationDate(Instant.now())
+                    .lastModified(Instant.now())
+                    .build();
+            Result result = util.save(article);
+            assertThat(result.getStatus()).isEqualTo(Result.Status.SUCCESS);
+            log.info("Created {}", article);
         }
 
+    }
+
+    @Test
+    public void test303ModificationsArrivedInAPI() {
+        assumeTrue(util.getPageUpdateApiClient().getVersionNumber() >= 5.5);
+        assumeTrue(createdCrids.size() > 0);
+        assumeTrue(createdUrls.size() > 0);
+        assumeTrue(modifiedUrls.size() > 0);
+
+        PageForm form = PageForm.builder()
+            .tags(TAG)
+            .build();
+
+        PageSearchResult searchResultItems = Utils.waitUntil(
+            ACCEPTABLE_DURATION,
+            "Has pages with tag " + TAG,
+            () -> pageUtil.find(form, null, 0L, 240),
+            (sr) -> sr.getSize() >= createdCrids.size()
+        );
+        List<Crid> foundCrids = new ArrayList<>();
+        List<String> foundUrls= new ArrayList<>();
+
+
+        for (SearchResultItem<? extends Page> item : searchResultItems) {
+            log.info("Found {} with crids: ", item, item.getResult().getCrids());
+            foundCrids.addAll(item.getResult().getCrids());
+            foundUrls.add(item.getResult().getUrl());
+        }
+        assertThat(foundCrids).containsOnlyOnce(createdCrids.toArray(new Crid[0]));
+        assertThat(foundUrls).doesNotContain(createdUrls.toArray(new String[0]));
+        assertThat(foundUrls).containsOnlyOnce(modifiedUrls.toArray(new String[0]));
+    }
+
+
+    @Test
+    public void test304DeleteByCrid() {
         // Then delete by crid
         Result result = util.deleteWhereStartsWith(CRID_PREFIX);
 
         assertThat(createdCrids).isEmpty();
 
-        assertThat(result.getStatus()).isEqualTo(Result.Status.SUCCESS);
+        assertThat(result.getStatus()).withFailMessage(result.getErrors()).isEqualTo(Result.Status.SUCCESS);
     }
 
     @Test
-    public void test302DissappearedFromAPI() {
+    public void test305DissappearedFromAPI() {
         assumeTrue(util.getPageUpdateApiClient().getVersionNumber() >= 5.5);
         PageForm form = PageForm.builder()
             .tags(TAG)
