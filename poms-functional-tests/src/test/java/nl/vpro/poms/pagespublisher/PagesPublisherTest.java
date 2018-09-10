@@ -9,6 +9,8 @@ import java.time.Instant;
 import java.time.LocalDate;
 import java.util.*;
 
+import javax.ws.rs.NotFoundException;
+
 import org.junit.*;
 import org.junit.runners.MethodSorters;
 
@@ -26,8 +28,8 @@ import nl.vpro.domain.media.update.MediaUpdate;
 import nl.vpro.domain.page.*;
 import nl.vpro.domain.page.update.*;
 import nl.vpro.poms.AbstractApiMediaBackendTest;
-import nl.vpro.testutils.Utils;
 import nl.vpro.rules.DoAfterException;
+import nl.vpro.testutils.Utils;
 
 import static io.restassured.RestAssured.given;
 import static nl.vpro.api.client.utils.Config.Prefix.npo_pageupdate_api;
@@ -65,7 +67,9 @@ public class PagesPublisherTest extends AbstractApiMediaBackendTest {
 
 
     @Rule
-    public DoAfterException doAfterException = new DoAfterException((t) -> PagesPublisherTest.exception = t);
+    public DoAfterException doAfterException = new DoAfterException((t) ->
+        PagesPublisherTest.exception = t
+    );
 
     private static Throwable exception = null;
 
@@ -110,7 +114,7 @@ public class PagesPublisherTest extends AbstractApiMediaBackendTest {
                 )
             .build();
 
-        Page yesterday = pageUtil.load(urlYesterday)[0];
+        PageUpdate yesterday = util.get(urlYesterday);
         if (yesterday == null) {
             log.info("Article for yesterday {} not found (perhaps test didn't run yesterday). Making it for now, to test referrals too" , urlYesterday);
             Result r = util.save(PageUpdateBuilder.article(urlYesterday)
@@ -121,7 +125,7 @@ public class PagesPublisherTest extends AbstractApiMediaBackendTest {
             assertThat(r.getStatus()).withFailMessage(r.toString()).isEqualTo(Result.Status.SUCCESS);
         }
 
-        Page topStory = pageUtil.load(topStoryUrl)[0];
+        PageUpdate topStory = util.get(topStoryUrl);
         if (topStory == null) {
             log.info("Topstory {} not found. Making it now", topStoryUrl);
             Result r = util.save(PageUpdateBuilder.article(topStoryUrl)
@@ -152,9 +156,27 @@ public class PagesPublisherTest extends AbstractApiMediaBackendTest {
         assertThat(update.getTitle()).isEqualTo(article.getTitle());
     }
 
+
     @Test
-    public void test101ArrivedInAPI() {
+    public void test101Published() {
         assumeNotNull(article);
+
+        Page update = Utils.waitUntil(ACCEPTABLE_DURATION,
+            article.getUrl() + " has title " + article.getTitle(),
+            () ->
+            util.getPage(article.getUrl()).orElse(null),
+            p -> Objects.equals(p.getTitle(), article.getTitle())
+        );
+        assertThat(update.getTitle()).isEqualTo(article.getTitle());
+    }
+
+
+
+    @Test
+    public void test102ArrivedInAPI() {
+        assumeNotNull(article);
+        assumeTrue(pageUtil.getClients().isAvailable());
+
         Page page = Utils.waitUntil(ACCEPTABLE_DURATION,
             article.getUrl() + " has title " + article.getTitle() + " in " + pageUtil,
             () ->
@@ -207,8 +229,25 @@ public class PagesPublisherTest extends AbstractApiMediaBackendTest {
     }
 
     @Test
-    public void test201ArrivedInApi() {
+    public void test201Published() {
         assumeNotNull(article);
+
+        Page page = Utils.waitUntil(ACCEPTABLE_DURATION,
+            article.getUrl() + " has title " + article.getTitle(),
+            () ->
+                util.getPage(article.getUrl()).orElse(null), p -> Objects.equals(p.getTitle(), article.getTitle())
+        );
+
+        MediaObject embedded = util.getMedia(MID).orElseThrow(() -> new NotFoundException(MID));
+        assertThat(page.getEmbeds().get(0).getMedia().getMid()).isEqualTo(MID);
+        assertThat(page.getEmbeds().get(0).getMedia().getMainTitle()).isEqualTo(embedded.getMainTitle());
+    }
+
+    @Test
+    public void test202ArrivedInApi() {
+        assumeNotNull(article);
+        assumeTrue(pageUtil.getClients().isAvailable());
+
         Page page = Utils.waitUntil(ACCEPTABLE_DURATION,
             article.getUrl() + " has title " + article.getTitle(),
             () ->
@@ -223,7 +262,9 @@ public class PagesPublisherTest extends AbstractApiMediaBackendTest {
     private static String embeddedDescription;
 
     @Test
-    public void test202UpdateExistingEmbeddedMedia() {
+    public void test203UpdateExistingEmbeddedMedia() {
+        assumeTrue(backend.isAvailable());
+
         MediaUpdate<?> embedded = backend.get(MID);
         embeddedDescription = "Updated by " + title;
         embedded.setMainDescription(embeddedDescription);
@@ -233,9 +274,10 @@ public class PagesPublisherTest extends AbstractApiMediaBackendTest {
 
 
     @Test
-    public void test203ArrivedInApi() {
+    public void test204ArrivedInApi() {
         assumeNotNull(article);
         assumeNotNull(embeddedDescription);
+        assumeTrue(pageUtil.getClients().isAvailable());
 
         MediaObject fromApi = Utils.waitUntil(ACCEPTABLE_DURATION,
             MID + " has description " + embeddedDescription,
@@ -294,6 +336,7 @@ public class PagesPublisherTest extends AbstractApiMediaBackendTest {
     public void test301ArrivedInAPI() {
         assumeTrue(util.getPageUpdateApiClient().getVersionNumber() >= 5.5);
         assumeTrue(createdCrids.size() > 0);
+        assumeTrue(pageUtil.getClients().isAvailable());
 
         PageForm form = PageForm.builder()
             .tags(TAG)
@@ -353,6 +396,8 @@ public class PagesPublisherTest extends AbstractApiMediaBackendTest {
         assumeTrue(createdCrids.size() > 0);
         assumeTrue(createdUrls.size() > 0);
         assumeTrue(modifiedUrls.size() > 0);
+        assumeTrue(pageUtil.getClients().isAvailable());
+
 
         PageForm form = PageForm.builder()
             .tags(TAG)
@@ -382,9 +427,9 @@ public class PagesPublisherTest extends AbstractApiMediaBackendTest {
     @Test
     public void test304DeleteByCrid() {
         // Then delete by crid
-        Result result = util.deleteWhereStartsWith(CRID_PREFIX);
+        Result<DeleteResult> result = util.deleteWhereStartsWith(CRID_PREFIX);
 
-        assertThat(createdCrids).isEmpty();
+        assertThat(result.getEntity().getCount()).isGreaterThan(0);;
 
         assertThat(result.getStatus()).withFailMessage(result.getErrors()).isEqualTo(Result.Status.SUCCESS);
     }
@@ -392,6 +437,8 @@ public class PagesPublisherTest extends AbstractApiMediaBackendTest {
     @Test
     public void test305DissappearedFromAPI() {
         assumeTrue(util.getPageUpdateApiClient().getVersionNumber() >= 5.5);
+        assumeTrue(pageUtil.getClients().isAvailable());
+
         PageForm form = PageForm.builder()
             .tags(TAG)
             .build();

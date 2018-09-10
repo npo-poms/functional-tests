@@ -184,7 +184,7 @@ public class PromoTest extends AbstractApiMediaBackendTest {
                 MediaUpdateList<MemberUpdate> groupMembers = backend.getGroupMembers(PROMOTED_MID);
                 return groupMembers
                     .stream()
-                    .filter(mu -> mu.getMediaUpdate().getTitles().first().getTitle().equals(promotionTitle))
+                    .filter(mu -> mu.getMediaUpdate().getTitles().first().get().equals(promotionTitle))
                     .findFirst()
                     .orElse(null);
             }
@@ -201,7 +201,7 @@ public class PromoTest extends AbstractApiMediaBackendTest {
             .map(RelationUpdate::getText)
             .orElse(null)
         ).isEqualTo(PRODUCTCODE);
-        assertThat(update.getMediaUpdate().getTitles().first().getTitle()).isEqualTo(promotionTitle);
+        assertThat(update.getMediaUpdate().getTitles().first().get()).isEqualTo(promotionTitle);
 
         assertThat(update.getMediaUpdate().getLocations()).hasSize(expectedLocations);
     }

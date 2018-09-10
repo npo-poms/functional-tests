@@ -108,8 +108,9 @@ public abstract class AbstractApiTest extends AbstractTest  {
 
     static {
         try {
-             apiVersionNumber = clients.getVersionNumber();
+            apiVersionNumber = clients.getVersionNumber();
         } catch (Exception  e) {
+            LOG.warn(e.getMessage());
             apiVersionNumber = 5.4f;
         }
         Compatibility.setCompatibility(apiVersionNumber);
