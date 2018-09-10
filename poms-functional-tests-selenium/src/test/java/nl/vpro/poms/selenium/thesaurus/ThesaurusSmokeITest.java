@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.util.concurrent.TimeUnit;
 
+import nl.vpro.poms.config.Webtest;
 import org.junit.*;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -19,9 +20,7 @@ import static org.junit.runners.MethodSorters.NAME_ASCENDING;
 @FixMethodOrder(NAME_ASCENDING)
 @Slf4j
 @Ignore("Credentials not yet arranged")
-public class ThesaurusSmokeITest {
-
-    private static WebDriver driver;
+public class ThesaurusSmokeITest extends Webtest{
 
     /**
      * Sets up. the
@@ -30,16 +29,11 @@ public class ThesaurusSmokeITest {
      */
     @BeforeClass
     public static void setUp() throws Exception {
-        ChromeOptions options = new ChromeOptions();
-        options.setHeadless(false);
+        loginGtaaBrowserTest();
 
-        driver = new ChromeDriver(options);
-        driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
-        driver.get("https://demo-cgms-gtaa.binnenkort-op.vpro.nl/");
-
-        driver.findElement(By.id("username")).sendKeys("<user here>");
-        driver.findElement(By.id("password")).sendKeys("<password here>");
-        driver.findElement(By.id("kc-login")).click();
+        // after logging in first we have to go to the demo interface again, because of
+        // sso choices.
+        driver.get("https://rs-dev.poms.omroep.nl/v1/thesaurus/example/");
     }
 
 
