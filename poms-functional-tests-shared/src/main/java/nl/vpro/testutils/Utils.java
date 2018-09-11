@@ -36,9 +36,11 @@ public class Utils {
                 }
                 Duration duration = Duration.between(start, Instant.now());
                 if (duration.compareTo(acceptable) > 0) {
-                    assertThat(result).withFailMessage("{} didn't evaluate to true after {} in less than {}", r, duration, acceptable).isFalse();
+                    assertThat(result)
+                        .withFailMessage("%s didn't evaluate to true after %s in less than %s", r, duration, acceptable)
+                        .isTrue();
                 }
-                log.info("{} didn't evaluate to true yet after {}. Waiting another {}", r, duration, WAIT);
+                log.info("{} didn't evaluate to true yet after {} (< {}). Waiting another {}", r, duration, acceptable, WAIT);
                 Thread.sleep(WAIT.toMillis());
             }
         } catch (RuntimeException rte) {
@@ -50,10 +52,10 @@ public class Utils {
 
     public static void waitUntil(Duration acceptable, String callableToDescription, final Callable<Boolean> r)  {
         log.info("Waiting until " + callableToDescription);
-        clearCaches.get().run();
         waitUntil(acceptable, new Callable<Boolean>() {
             @Override
             public Boolean call() throws Exception {
+                clearCaches.get().run();
                 return r.call();
             }
 
@@ -92,6 +94,7 @@ public class Utils {
         waitUntil(acceptable, predicateDescription, new Callable<Boolean>() {
             @Override
             public Boolean call() {
+                clearCaches.get().run();
                 result[0] = r.get();
                 return result[0] != null && predicate.test(result[0]);
             }

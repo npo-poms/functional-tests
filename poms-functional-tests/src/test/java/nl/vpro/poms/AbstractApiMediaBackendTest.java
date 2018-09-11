@@ -8,6 +8,7 @@ import java.time.Duration;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+import org.junit.Before;
 import org.junit.BeforeClass;
 
 import nl.vpro.api.client.utils.Config;
@@ -30,7 +31,7 @@ import static nl.vpro.domain.media.MediaBuilder.program;
 @Slf4j
 public abstract class AbstractApiMediaBackendTest extends AbstractApiTest {
 
-    public static final String MID                = "WO_VPRO_025057";
+    public static final String MID                   = "WO_VPRO_025057";
     protected static final String MID_WITH_LOCATIONS = "WO_VPRO_025700";
     protected static final String ANOTHER_MID        = "WO_VPRO_4911154";
 
@@ -88,6 +89,11 @@ public abstract class AbstractApiMediaBackendTest extends AbstractApiTest {
                 .programUrl("https://www.vpro.nl/" + count)
                 .build();
 
+    }
+
+    @Before
+    public void abstractSetUp() {
+        backend.setValidateInput(true);
     }
 
     @BeforeClass

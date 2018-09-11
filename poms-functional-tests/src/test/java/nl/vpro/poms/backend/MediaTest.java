@@ -27,10 +27,17 @@ import nl.vpro.rules.TestMDC;
 
 import static io.restassured.RestAssured.given;
 import static nl.vpro.api.client.utils.Config.Prefix.npo_backend_api;
+import static nl.vpro.domain.Xmlns.NAMESPACE_CONTEXT;
 import static nl.vpro.poms.AbstractApiTest.CONFIG;
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assume.assumeNotNull;
 
+
+
+/*
+ * 2018-08-17:
+ * 5.9-SNAPSHOT @ dev : allemaal ok
+ */
 
 /**
  * Basic tests which do not even use our client.
@@ -133,7 +140,7 @@ public class MediaTest {
 
     @Test
     public void test04WaitForProcessing() throws InterruptedException {
-        // Wait for posted clips to be processed
+        log.info("Waiting for {} to be processed", clipMid);
         Thread.sleep(60000);
     }
 
@@ -150,8 +157,11 @@ public class MediaTest {
             .then()
             .  log().all()
             .  statusCode(200)
-            .  body(hasXPath("/program/title[@type='MAIN']/text()", equalTo(TITLE_PREFIX + dynamicSuffix)))
-            .  body(hasXPath("/program/@deleted", isEmptyOrNullString()));
+            .  body(hasXPath(
+                "/u:program/u:title[@type='MAIN']/text()", NAMESPACE_CONTEXT,
+                equalTo(TITLE_PREFIX + dynamicSuffix)
+            ))
+            .  body(hasXPath("/u:program/@deleted", NAMESPACE_CONTEXT, isEmptyOrNullString()));
     }
 
 
@@ -170,8 +180,9 @@ public class MediaTest {
             .then()
             .  log().all()
             .  statusCode(200)
-            .  body(hasXPath("/program/title[@type='MAIN']/text()", equalTo(TITLE_PREFIX + dynamicSuffix)))
-            .  body(hasXPath("/program/@deleted", isEmptyOrNullString()));
+            .  body(hasXPath("/u:program/u:title[@type='MAIN']/text()",
+                NAMESPACE_CONTEXT, equalTo(TITLE_PREFIX + dynamicSuffix)))
+            .  body(hasXPath("/u:program/@deleted", NAMESPACE_CONTEXT, isEmptyOrNullString()));
     }
 
     @Test
@@ -195,7 +206,7 @@ public class MediaTest {
             .then()
             .  log().all()
             .  statusCode(200)
-            .  body(hasXPath("/list/@totalCount", equalTo("2")))
+            .  body(hasXPath("/s:list/@totalCount", NAMESPACE_CONTEXT, equalTo("2")))
 
         ;
     }
@@ -226,7 +237,7 @@ public class MediaTest {
             .then()
             .  log().all()
             .  statusCode(200)
-            .  body(hasXPath("/program/@deleted", equalTo("true")));
+            .  body(hasXPath("/u:program/@deleted", NAMESPACE_CONTEXT, equalTo("true")));
     }
 
 

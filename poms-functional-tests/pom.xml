@@ -19,12 +19,6 @@
     Het gaat uit van credentials in ~/conf/npo-functional-tests.properties
   </description>
 
-  <properties>
-    <api.client.version>5.8-SNAPSHOT</api.client.version>
-    <poms.shared.version>5.9-SNAPSHOT</poms.shared.version>
-    <vpro.shared.version>1.80-SNAPSHOT</vpro.shared.version>
-  </properties>
-
   <dependencies>
     <dependency>
       <groupId>nl.vpro.poms</groupId>
@@ -89,5 +83,9 @@
       <groupId>nl.vpro.shared</groupId>
       <artifactId>vpro-shared-util</artifactId>
     </dependency>
+     <dependency>
+       <groupId>nl.publiekeomroep</groupId>
+       <artifactId>poms-shared-domain</artifactId>
+     </dependency>
   </dependencies>
 </project>

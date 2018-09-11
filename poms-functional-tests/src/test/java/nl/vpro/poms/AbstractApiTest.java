@@ -4,7 +4,6 @@ import java.time.Duration;
 import java.time.ZonedDateTime;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicInteger;
 
 import javax.ws.rs.core.MediaType;
 
@@ -41,7 +40,6 @@ public abstract class AbstractApiTest extends AbstractTest  {
     public static final Config CONFIG = new Config("npo-functional-tests.properties");
 
 
-    static final protected  AtomicInteger testNumber = new AtomicInteger(0);
     @Rule
     public AllowUnavailable unavailable = new AllowUnavailable();
 
@@ -66,10 +64,9 @@ public abstract class AbstractApiTest extends AbstractTest  {
     @Before
     public void setupTitle() {
         Utils.clearCaches.set(this::clearCaches);
-        testNumber.incrementAndGet();
-        title = testNumber.intValue() + ":" + NOW + " " + testMethod.getMethodName() + " Caf\u00E9 \u6C49"; // testing encoding too!
+        title = testMDC.getTestNumber() + ":" + NOW + " " + testMethod.getMethodName() + " Caf\u00E9 \u6C49"; // testing encoding too!
 
-        log.info("Running {}:{} with title {}", testNumber.get(), testMethod.getMethodName(), title);
+        log.info("Running {} with title {}", testMethod.getMethodName(), title);
         if (!Objects.equals(log, LOG)) {
             LOG = log;
         }
@@ -86,7 +83,7 @@ public abstract class AbstractApiTest extends AbstractTest  {
         if (clients.getBrowserCache() != null) {
             clients.getBrowserCache().clear();
         } else {
-            LOG.debug("no browser cache to clear");
+            log.debug("no browser cache to clear");
         }
         mediaUtil.clearCache();
     }
@@ -111,8 +108,9 @@ public abstract class AbstractApiTest extends AbstractTest  {
 
     static {
         try {
-             apiVersionNumber = clients.getVersionNumber();
+            apiVersionNumber = clients.getVersionNumber();
         } catch (Exception  e) {
+            LOG.warn(e.getMessage());
             apiVersionNumber = 5.4f;
         }
         Compatibility.setCompatibility(apiVersionNumber);

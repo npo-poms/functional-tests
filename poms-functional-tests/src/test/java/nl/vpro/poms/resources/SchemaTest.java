@@ -1,5 +1,7 @@
 package nl.vpro.poms.resources;
 
+import lombok.extern.slf4j.Slf4j;
+
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -26,6 +28,7 @@ import static nl.vpro.poms.AbstractApiTest.CONFIG;
 /**
  * @author Michiel Meeuwissen
  */
+@Slf4j
 public class SchemaTest {
 
 
@@ -41,10 +44,11 @@ public class SchemaTest {
         Validator xsdValidator = xsdSchema.newValidator();
 
         ProgramUpdate update = ProgramUpdate.create(MediaTestDataBuilder.program()
-            .withEverything().build());
+            .withEverything(5.8f)
+            .build());
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         JAXB.marshal(update, out);
-        System.out.println(new String(out.toByteArray()));
+        log.info(new String(out.toByteArray()));
 
         Source streamSource = new StreamSource(new ByteArrayInputStream(out.toByteArray()));
         xsdValidator.validate(streamSource);
@@ -58,7 +62,7 @@ public class SchemaTest {
         SchemaFactory factory = SchemaFactory.newInstance(
             XMLConstants.W3C_XML_SCHEMA_NS_URI);
         URL url = new URL(baseUrl + "/schema/vproMedia.xsd");
-        System.out.println(url);
+        log.info("{}", url);
         Schema xsdSchema = factory.newSchema(url);
         //Schema xsdSchema = factory.newSchema(new StreamSource(getClass().getClassLoader().getResourceAsStream("/nl/vpro/domain/media/vproMedia.xsd")));
         Validator xsdValidator = xsdSchema.newValidator();
@@ -66,7 +70,7 @@ public class SchemaTest {
         Program program = MediaTestDataBuilder.program().withEverything().build();
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         JAXB.marshal(program, out);
-        System.out.println(new String(out.toByteArray()));
+        log.info(new String(out.toByteArray()));
 
         Source streamSource = new StreamSource(new ByteArrayInputStream(out.toByteArray()));
         xsdValidator.validate(streamSource);

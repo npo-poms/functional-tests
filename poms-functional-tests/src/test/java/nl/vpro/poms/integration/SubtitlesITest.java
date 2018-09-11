@@ -41,12 +41,15 @@ public class SubtitlesITest extends AbstractApiMediaBackendTest {
 
     public static final AvailableSubtitles JAPANESE_TRANSLATION = new AvailableSubtitles(Locale.JAPANESE, SubtitlesType.TRANSLATION);
 
+
     @Before
     public void setup() {
 
     }
 
     private static String firstTitle;
+
+    private static boolean arrivedInBackend = false;
 
     @Test
     public void test01addSubtitles() {
@@ -87,13 +90,102 @@ public class SubtitlesITest extends AbstractApiMediaBackendTest {
                 MediaObject mo = backend.getFull(MID_WITH_LOCATIONS);
                 return mo.getAvailableSubtitles().contains(JAPANESE_TRANSLATION);
             });
+        arrivedInBackend = true;
+
+    }
+
+    @Test
+    public void test03WaitForCuesAvailableInFrontend() {
+        waitForCuesAvailableInFrontend();
+    }
+
+
+    @Test
+    public void test04WaitForInMediaFrontend() {
+        assumeNotNull(firstTitle);
+        assumeTrue(arrivedInBackend);
+
+        waitUntil(ACCEPTABLE_DURATION,
+            MID_WITH_LOCATIONS + " has " + JAPANESE_TRANSLATION,
+            () -> mediaUtil.findByMid(MID_WITH_LOCATIONS).getAvailableSubtitles().contains(JAPANESE_TRANSLATION)
+        );
+    }
+
+    @Test
+    public void test05RevokeLocations() {
+        Instant now = Instant.now();
+        ProgramUpdate o = backend.get(MID_WITH_LOCATIONS);
+        o.getLocations().forEach(l -> l.setPublishStopInstant(now));
+        backend.set(o);
+    }
+
+    @Test
+    public void test06WaitForCuesDisappearedInFrontend() {
+        assumeNotNull(firstTitle);
+        assumeTrue(arrivedInBackend);
+
+
+        waitUntil(ACCEPTABLE_DURATION,
+            MID_WITH_LOCATIONS + " has no locations",
+            () -> mediaUtil.load(MID_WITH_LOCATIONS)[0].getLocations().isEmpty());
+
+        waitUntil(ACCEPTABLE_DURATION,
+                MID_WITH_LOCATIONS + " has no subtitles for JAPAN",
+            () -> MediaRestClientUtils.loadOrNull(mediaUtil.getClients().getSubtitlesRestService(), MID_WITH_LOCATIONS, Locale.JAPAN) == null);
+    }
+
+    @Test
+    public void test07PublishLocations() {
+        assumeTrue(arrivedInBackend);
+
+        ProgramUpdate o = backend.get(MID_WITH_LOCATIONS);
+        o.getLocations().forEach(l -> l.setPublishStopInstant(null));
+        backend.set(o);
+    }
+
+    @Test
+    public void test08WaitForCuesAvailableInFrontend() {
+        waitForCuesAvailableInFrontend();
+    }
+
+    @Test
+    public void test90Cleanup() {
+        backend.getBackendRestService()
+            .deleteSubtitles(MID_WITH_LOCATIONS, Locale.JAPANESE, SubtitlesType.TRANSLATION, true, null);
+    }
+
+    @Test
+    public void test91checkCleanup() {
+        assumeThat(backendVersionNumber, greaterThanOrEqualTo(5.3f));
+
+        waitUntil(ACCEPTABLE_DURATION,
+            MID_WITH_LOCATIONS + " has no " + JAPANESE_TRANSLATION,
+            () -> {
+                MediaObject mo = backend.getFull(MID_WITH_LOCATIONS);
+                return ! mo.getAvailableSubtitles().contains(JAPANESE_TRANSLATION);
+            });
 
 
     }
 
     @Test
-    public void test03WaitForInFrontend() {
+    public void test92checkCleanupFrontend() {
         assumeNotNull(firstTitle);
+        assumeThat(backendVersionNumber, greaterThanOrEqualTo(5.3f));
+        waitUntil(ACCEPTABLE_DURATION,
+            MID_WITH_LOCATIONS + " has no " + JAPANESE_TRANSLATION,
+            () -> ! mediaUtil.findByMid(MID_WITH_LOCATIONS).getAvailableSubtitles().contains(JAPANESE_TRANSLATION));
+
+
+        waitUntil(ACCEPTABLE_DURATION,
+            MID_WITH_LOCATIONS + " has no subtitles for JAPAN",
+            () -> MediaRestClientUtils.loadOrNull(mediaUtil.getClients().getSubtitlesRestService(), MID_WITH_LOCATIONS, Locale.JAPAN) == null);
+    }
+
+
+     protected void waitForCuesAvailableInFrontend() {
+        assumeNotNull(firstTitle);
+         assumeTrue(arrivedInBackend);
 
         PeekingIterator<StandaloneCue> cueIterator = waitUntil(ACCEPTABLE_DURATION,
             MID_WITH_LOCATIONS + "/" + Locale.JAPANESE + "[0]=" + firstTitle,
@@ -127,77 +219,5 @@ public class SubtitlesITest extends AbstractApiMediaBackendTest {
         assertThat(cueIterator).hasSize(3);
     }
 
-
-    @Test
-    public void test04WaitForInMediaFrontend() {
-        assumeNotNull(firstTitle);
-        waitUntil(ACCEPTABLE_DURATION,
-            MID_WITH_LOCATIONS + " has " + JAPANESE_TRANSLATION,
-            () -> mediaUtil.findByMid(MID_WITH_LOCATIONS).getAvailableSubtitles().contains(JAPANESE_TRANSLATION)
-        );
-    }
-
-    @Test
-    public void test05RevokeLocations() {
-        Instant now = Instant.now();
-        ProgramUpdate o = backend.get(MID_WITH_LOCATIONS);
-        o.getLocations().forEach(l -> l.setPublishStopInstant(now));
-        backend.set(o);
-    }
-
-    @Test
-    public void test06WaitForInFrontend() {
-        assumeNotNull(firstTitle);
-
-        waitUntil(ACCEPTABLE_DURATION,
-            MID_WITH_LOCATIONS + " has no locations",
-            () -> mediaUtil.load(MID_WITH_LOCATIONS)[0].getLocations().isEmpty());
-
-        waitUntil(ACCEPTABLE_DURATION,
-                MID_WITH_LOCATIONS + " has no subtitles for JAPAN",
-            () -> MediaRestClientUtils.loadOrNull(mediaUtil.getClients().getSubtitlesRestService(), MID_WITH_LOCATIONS, Locale.JAPAN) == null);
-    }
-
-    @Test
-    public void test07PublishLocations() {
-        ProgramUpdate o = backend.get(MID_WITH_LOCATIONS);
-        o.getLocations().forEach(l -> l.setPublishStopInstant(null));
-        backend.set(o);
-    }
-
-    @Test
-    public void test08WaitForInFrontend() {
-        test03WaitForInFrontend();
-    }
-
-    @Test
-    public void test90Cleanup() {
-        backend.getBackendRestService().deleteSubtitles(MID_WITH_LOCATIONS, Locale.JAPANESE, SubtitlesType.TRANSLATION, true, null);
-    }
-
-    @Test
-    public void test91checkCleanup() {
-        assumeThat(backendVersionNumber, greaterThanOrEqualTo(5.3f));
-
-
-        waitUntil(ACCEPTABLE_DURATION,
-            MID_WITH_LOCATIONS + " has no " + JAPANESE_TRANSLATION,
-            () -> {
-                MediaObject mo = backend.getFull(MID_WITH_LOCATIONS);
-                return ! mo.getAvailableSubtitles().contains(JAPANESE_TRANSLATION);
-            });
-
-
-    }
-
-    @Test
-    public void test92checkCleanupFrontend() {
-        assumeThat(backendVersionNumber, greaterThanOrEqualTo(5.3f));
-        waitUntil(ACCEPTABLE_DURATION,
-            MID_WITH_LOCATIONS + " has not " + JAPANESE_TRANSLATION,
-            () -> ! mediaUtil.findByMid(MID_WITH_LOCATIONS).getAvailableSubtitles().contains(JAPANESE_TRANSLATION));
-
-
-    }
 
 }

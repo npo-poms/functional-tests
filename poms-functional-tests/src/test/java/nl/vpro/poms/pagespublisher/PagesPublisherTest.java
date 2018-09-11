@@ -9,6 +9,8 @@ import java.time.Instant;
 import java.time.LocalDate;
 import java.util.*;
 
+import javax.ws.rs.NotFoundException;
+
 import org.junit.*;
 import org.junit.runners.MethodSorters;
 
@@ -26,8 +28,8 @@ import nl.vpro.domain.media.update.MediaUpdate;
 import nl.vpro.domain.page.*;
 import nl.vpro.domain.page.update.*;
 import nl.vpro.poms.AbstractApiMediaBackendTest;
-import nl.vpro.testutils.Utils;
 import nl.vpro.rules.DoAfterException;
+import nl.vpro.testutils.Utils;
 
 import static io.restassured.RestAssured.given;
 import static nl.vpro.api.client.utils.Config.Prefix.npo_pageupdate_api;
@@ -41,6 +43,8 @@ import static org.junit.Assume.*;
 @Slf4j
 public class PagesPublisherTest extends AbstractApiMediaBackendTest {
 
+
+    private static final Duration ACCEPTABLE_DURATION = Duration.ofMinutes(3);
 
     static PageUpdateApiUtil util = new PageUpdateApiUtil(
         PageUpdateApiClient.configured(
@@ -63,7 +67,9 @@ public class PagesPublisherTest extends AbstractApiMediaBackendTest {
 
 
     @Rule
-    public DoAfterException doAfterException = new DoAfterException((t) -> PagesPublisherTest.exception = t);
+    public DoAfterException doAfterException = new DoAfterException((t) ->
+        PagesPublisherTest.exception = t
+    );
 
     private static Throwable exception = null;
 
@@ -108,7 +114,7 @@ public class PagesPublisherTest extends AbstractApiMediaBackendTest {
                 )
             .build();
 
-        Page yesterday = pageUtil.load(urlYesterday)[0];
+        PageUpdate yesterday = util.get(urlYesterday);
         if (yesterday == null) {
             log.info("Article for yesterday {} not found (perhaps test didn't run yesterday). Making it for now, to test referrals too" , urlYesterday);
             Result r = util.save(PageUpdateBuilder.article(urlYesterday)
@@ -119,7 +125,7 @@ public class PagesPublisherTest extends AbstractApiMediaBackendTest {
             assertThat(r.getStatus()).withFailMessage(r.toString()).isEqualTo(Result.Status.SUCCESS);
         }
 
-        Page topStory = pageUtil.load(topStoryUrl)[0];
+        PageUpdate topStory = util.get(topStoryUrl);
         if (topStory == null) {
             log.info("Topstory {} not found. Making it now", topStoryUrl);
             Result r = util.save(PageUpdateBuilder.article(topStoryUrl)
@@ -130,7 +136,7 @@ public class PagesPublisherTest extends AbstractApiMediaBackendTest {
             assertThat(r.getStatus()).isEqualTo(Result.Status.SUCCESS);
         }
 
-        Result result = util.save(article);
+        Result<Void> result = util.save(article);
         log.info("{}", result);
         assertThat(result.getStatus()).withFailMessage("" + result).isEqualTo(Result.Status.SUCCESS);
         assertThat(result.getErrors()).isNull();
@@ -141,7 +147,7 @@ public class PagesPublisherTest extends AbstractApiMediaBackendTest {
     public void test100Arrived() {
         assumeNotNull(article);
 
-        PageUpdate update = Utils.waitUntil(Duration.ofMinutes(1),
+        PageUpdate update = Utils.waitUntil(ACCEPTABLE_DURATION,
             article.getUrl() + " has title " + article.getTitle(),
             () ->
             util.get(article.getUrl()),
@@ -150,13 +156,33 @@ public class PagesPublisherTest extends AbstractApiMediaBackendTest {
         assertThat(update.getTitle()).isEqualTo(article.getTitle());
     }
 
+
     @Test
-    public void test101ArrivedInAPI() {
+    public void test101Published() {
         assumeNotNull(article);
-        Page page = Utils.waitUntil(Duration.ofMinutes(1),
+
+        Page update = Utils.waitUntil(ACCEPTABLE_DURATION,
+            article.getUrl() + " has title " + article.getTitle(),
+            () ->
+            util.getPage(article.getUrl()).orElse(null),
+            p -> Objects.equals(p.getTitle(), article.getTitle())
+        );
+        assertThat(update.getTitle()).isEqualTo(article.getTitle());
+    }
+
+
+
+    @Test
+    public void test102ArrivedInAPI() {
+        assumeNotNull(article);
+        assumeTrue(pageUtil.getClients().isAvailable());
+
+        Page page = Utils.waitUntil(ACCEPTABLE_DURATION,
             article.getUrl() + " has title " + article.getTitle() + " in " + pageUtil,
             () ->
-            pageUtil.load(article.getUrl())[0], p -> p != null && Objects.equals(p.getTitle(), article.getTitle())
+                pageUtil.load(article.getUrl())[0],
+            p -> p != null && Objects.equals(p.getTitle(), article.getTitle()) &&
+                p.getEmbeds() != null && p.getEmbeds().size() > 0
         );
 
         assertThat(page.getTitle()).isEqualTo(article.getTitle());
@@ -203,9 +229,26 @@ public class PagesPublisherTest extends AbstractApiMediaBackendTest {
     }
 
     @Test
-    public void test201ArrivedInApi() {
+    public void test201Published() {
         assumeNotNull(article);
-        Page page = Utils.waitUntil(Duration.ofMinutes(1),
+
+        Page page = Utils.waitUntil(ACCEPTABLE_DURATION,
+            article.getUrl() + " has title " + article.getTitle(),
+            () ->
+                util.getPage(article.getUrl()).orElse(null), p -> Objects.equals(p.getTitle(), article.getTitle())
+        );
+
+        MediaObject embedded = util.getMedia(MID).orElseThrow(() -> new NotFoundException(MID));
+        assertThat(page.getEmbeds().get(0).getMedia().getMid()).isEqualTo(MID);
+        assertThat(page.getEmbeds().get(0).getMedia().getMainTitle()).isEqualTo(embedded.getMainTitle());
+    }
+
+    @Test
+    public void test202ArrivedInApi() {
+        assumeNotNull(article);
+        assumeTrue(pageUtil.getClients().isAvailable());
+
+        Page page = Utils.waitUntil(ACCEPTABLE_DURATION,
             article.getUrl() + " has title " + article.getTitle(),
             () ->
                 pageUtil.load(article.getUrl())[0], p -> Objects.equals(p.getTitle(), article.getTitle())
@@ -219,7 +262,9 @@ public class PagesPublisherTest extends AbstractApiMediaBackendTest {
     private static String embeddedDescription;
 
     @Test
-    public void test202UpdateExistingEmbeddedMedia() {
+    public void test203UpdateExistingEmbeddedMedia() {
+        assumeTrue(backend.isAvailable());
+
         MediaUpdate<?> embedded = backend.get(MID);
         embeddedDescription = "Updated by " + title;
         embedded.setMainDescription(embeddedDescription);
@@ -229,11 +274,12 @@ public class PagesPublisherTest extends AbstractApiMediaBackendTest {
 
 
     @Test
-    public void test203ArrivedInApi() {
+    public void test204ArrivedInApi() {
         assumeNotNull(article);
         assumeNotNull(embeddedDescription);
+        assumeTrue(pageUtil.getClients().isAvailable());
 
-        MediaObject fromApi = Utils.waitUntil(Duration.ofMinutes(1),
+        MediaObject fromApi = Utils.waitUntil(ACCEPTABLE_DURATION,
             MID + " has description " + embeddedDescription,
             () -> mediaUtil.findByMid(MID),
             mo -> {
@@ -246,7 +292,7 @@ public class PagesPublisherTest extends AbstractApiMediaBackendTest {
             }
         );
 
-        Page page = Utils.waitUntil(Duration.ofMinutes(1),
+        Page page = Utils.waitUntil(ACCEPTABLE_DURATION,
             article.getUrl() + " has embedded " + MID + " with description " + embeddedDescription,
             () ->
                 pageUtil.load(article.getUrl())[0],
@@ -259,6 +305,8 @@ public class PagesPublisherTest extends AbstractApiMediaBackendTest {
     private static final String TAG = "test_created_with_crid";
     private static final String CRID_PREFIX = "crid://crids.functional.tests/";
     private static final List<Crid> createdCrids = new ArrayList<>();
+    private static final List<String> createdUrls = new ArrayList<>();
+    private static final List<String> modifiedUrls = new ArrayList<>();
 
     @Test
     public void test300CreateSomeWithCrid() throws UnsupportedEncodingException {
@@ -266,8 +314,10 @@ public class PagesPublisherTest extends AbstractApiMediaBackendTest {
 
         for (int i = 0; i < 10; i++) {
             createdCrids.add(new Crid(CRID_PREFIX + i));
+            String createdUrl = url + "/" + i;
+            createdUrls.add(createdUrl);
             PageUpdate article =
-                PageUpdateBuilder.article(url + "/" + i)
+                PageUpdateBuilder.article(createdUrl)
                     .broadcasters("VPRO")
                     .crids(CRID_PREFIX + i)
                     .title(title)
@@ -283,42 +333,117 @@ public class PagesPublisherTest extends AbstractApiMediaBackendTest {
     }
 
     @Test
-    public void test301ArrivedInAPIThenDeleteByCrid() {
+    public void test301ArrivedInAPI() {
         assumeTrue(util.getPageUpdateApiClient().getVersionNumber() >= 5.5);
         assumeTrue(createdCrids.size() > 0);
+        assumeTrue(pageUtil.getClients().isAvailable());
 
         PageForm form = PageForm.builder()
             .tags(TAG)
             .build();
 
         PageSearchResult searchResultItems = Utils.waitUntil(
-            Duration.ofMinutes(2),
+            ACCEPTABLE_DURATION,
             "Has pages with tag " + TAG,
             () -> pageUtil.find(form, null, 0L, 240),
-            (sr) -> sr.getSize() >= 10
+            (sr) -> sr.getSize() >= createdCrids.size()
         );
+        List<Crid> foundCrids = new ArrayList<>();
+        List<String> foundUrls= new ArrayList<>();
+
 
         for (SearchResultItem<? extends Page> item : searchResultItems) {
             log.info("Found {} with crids: ", item, item.getResult().getCrids());
-            createdCrids.removeAll(item.getResult().getCrids());
+            foundCrids.addAll(item.getResult().getCrids());
+            foundUrls.add(item.getResult().getUrl());
+        }
+        assertThat(foundCrids).containsOnlyOnce(createdCrids.toArray(new Crid[0]));
+        assertThat(foundUrls).containsOnlyOnce(createdUrls.toArray(new String[0]));
+    }
+
+
+    @Test
+    public void test302UpdateUrl() throws UnsupportedEncodingException {
+        assumeTrue(util.getPageUpdateApiClient().getVersionNumber() >= 5.5);
+        assumeTrue(createdCrids.size() > 0);
+        assumeTrue(createdUrls.size() > 0);
+
+        String url = "http://test.poms.nl/\u00E9\u00E9n/" + URLEncoder.encode(testMethod.getMethodName() + LocalDate.now(), "UTF-8");
+
+        int i = 0;
+        for (Crid crid: createdCrids) {
+            String modifiedUrl = url + "/" + i++;
+            modifiedUrls.add(modifiedUrl);
+            PageUpdate article =
+                PageUpdateBuilder.article(modifiedUrl)
+                    .broadcasters("VPRO")
+                    .crids(crid)
+                    .title(title + " (modified)")
+                    .tags(TAG)
+                    .creationDate(Instant.now())
+                    .lastModified(Instant.now())
+                    .build();
+            Result result = util.save(article);
+            assertThat(result.getStatus()).isEqualTo(Result.Status.SUCCESS);
+            log.info("Created {}", article);
         }
 
-        // Then delete by crid
-        Result result = util.deleteWhereStartsWith(CRID_PREFIX);
-
-        assertThat(createdCrids).isEmpty();
-
-        assertThat(result.getStatus()).isEqualTo(Result.Status.SUCCESS);
     }
 
     @Test
-    public void test302DissappearedFromAPI() {
+    public void test303ModificationsArrivedInAPI() {
         assumeTrue(util.getPageUpdateApiClient().getVersionNumber() >= 5.5);
+        assumeTrue(createdCrids.size() > 0);
+        assumeTrue(createdUrls.size() > 0);
+        assumeTrue(modifiedUrls.size() > 0);
+        assumeTrue(pageUtil.getClients().isAvailable());
+
+
         PageForm form = PageForm.builder()
             .tags(TAG)
             .build();
 
-        Utils.waitUntil(Duration.ofMinutes(2),
+        PageSearchResult searchResultItems = Utils.waitUntil(
+            ACCEPTABLE_DURATION,
+            "Has pages with tag " + TAG,
+            () -> pageUtil.find(form, null, 0L, 240),
+            (sr) -> sr.getSize() >= createdCrids.size()
+        );
+        List<Crid> foundCrids = new ArrayList<>();
+        List<String> foundUrls= new ArrayList<>();
+
+
+        for (SearchResultItem<? extends Page> item : searchResultItems) {
+            log.info("Found {} with crids: ", item, item.getResult().getCrids());
+            foundCrids.addAll(item.getResult().getCrids());
+            foundUrls.add(item.getResult().getUrl());
+        }
+        assertThat(foundCrids).containsOnlyOnce(createdCrids.toArray(new Crid[0]));
+        assertThat(foundUrls).doesNotContain(createdUrls.toArray(new String[0]));
+        assertThat(foundUrls).containsOnlyOnce(modifiedUrls.toArray(new String[0]));
+    }
+
+
+    @Test
+    public void test304DeleteByCrid() {
+        // Then delete by crid
+        Result<DeleteResult> result = util.deleteWhereStartsWith(CRID_PREFIX);
+
+        assertThat(result.getEntity().getCount()).isGreaterThan(0);;
+
+        assertThat(result.getStatus()).withFailMessage(result.getErrors()).isEqualTo(Result.Status.SUCCESS);
+    }
+
+    @Test
+    public void test305DissappearedFromAPI() {
+        assumeTrue(util.getPageUpdateApiClient().getVersionNumber() >= 5.5);
+        assumeTrue(pageUtil.getClients().isAvailable());
+
+        PageForm form = PageForm.builder()
+            .tags(TAG)
+            .build();
+
+        Utils.waitUntil(ACCEPTABLE_DURATION,
             "Has no pages with tag",
             () -> {
                 PageSearchResult searchResultItems = pageUtil.find(form, null, 0L, 11);
