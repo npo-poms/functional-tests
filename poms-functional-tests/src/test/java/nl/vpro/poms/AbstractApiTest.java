@@ -63,7 +63,7 @@ public abstract class AbstractApiTest extends AbstractTest  {
 
     @Before
     public void setupTitle() {
-        Utils.clearCaches.set(this::clearCaches);
+        Utils.CLEAR_CACHES.set(this::clearCaches);
         title = testMDC.getTestNumber() + ":" + NOW + " " + testMethod.getMethodName() + " Caf\u00E9 \u6C49"; // testing encoding too!
 
         log.info("Running {} with title {}", testMethod.getMethodName(), title);

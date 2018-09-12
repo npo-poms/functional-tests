@@ -123,7 +123,7 @@ public class MediaITest extends AbstractApiMediaBackendTest {
                     .build()
             ));
         waitUntil(Duration.ofMinutes(2),
-            "clip:" + clipMid + " and group:" + groupMid + " available",
+            () -> "clip:" + clipMid + " and group:" + groupMid + " available",
             () -> backend.getFull(clipMid) != null && backend.getFull(groupMid) != null
         );
         log.info("Created groups {}, {}", groupMid, offlineGroup);
@@ -239,7 +239,7 @@ public class MediaITest extends AbstractApiMediaBackendTest {
     public void test101CheckFrontendApi() {
         assumeNotNull(clipMid);
         waitUntil(Duration.ofMinutes(10),
-            clipMid + " disappeared",
+            () -> clipMid + " disappeared",
             () -> mediaUtil.findByMid(clipMid) == null
         );
 

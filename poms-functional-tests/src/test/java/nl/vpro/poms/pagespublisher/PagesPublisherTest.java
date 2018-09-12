@@ -30,6 +30,8 @@ import nl.vpro.domain.page.update.*;
 import nl.vpro.poms.AbstractApiMediaBackendTest;
 import nl.vpro.rules.DoAfterException;
 import nl.vpro.testutils.Utils;
+import nl.vpro.testutils.Utils.Check;
+
 
 import static io.restassured.RestAssured.given;
 import static nl.vpro.api.client.utils.Config.Prefix.npo_pageupdate_api;
@@ -178,11 +180,16 @@ public class PagesPublisherTest extends AbstractApiMediaBackendTest {
         assumeTrue(pageUtil.getClients().isAvailable());
 
         Page page = Utils.waitUntil(ACCEPTABLE_DURATION,
-            article.getUrl() + " has title " + article.getTitle() + " in " + pageUtil,
             () ->
                 pageUtil.load(article.getUrl())[0],
-            p -> p != null && Objects.equals(p.getTitle(), article.getTitle()) &&
-                p.getEmbeds() != null && p.getEmbeds().size() > 0
+            Check.<Page>builder()
+                .description(article.getUrl() + " has title " + article.getTitle())
+                .predicate(p -> Objects.equals(p.getTitle(), article.getTitle()))
+                .build(),
+            Check.<Page>builder()
+                .description(article.getUrl() + " has embeds")
+                .predicate(p -> p.getEmbeds() != null && p.getEmbeds().size() > 0)
+                .build()
         );
 
         assertThat(page.getTitle()).isEqualTo(article.getTitle());
@@ -364,9 +371,10 @@ public class PagesPublisherTest extends AbstractApiMediaBackendTest {
 
     @Test
     public void test302UpdateUrl() throws UnsupportedEncodingException {
-        assumeTrue(util.getPageUpdateApiClient().getVersionNumber() >= 5.5);
+        createdCrids.add(new Crid("crid://crids.functional.tests/3"));
+        //assumeTrue(util.getPageUpdateApiClient().getVersionNumber() >= 5.5);
         assumeTrue(createdCrids.size() > 0);
-        assumeTrue(createdUrls.size() > 0);
+        //assumeTrue(createdUrls.size() > 0);
 
         String url = "http://test.poms.nl/\u00E9\u00E9n/" + URLEncoder.encode(testMethod.getMethodName() + LocalDate.now(), "UTF-8");
 
@@ -434,6 +442,18 @@ public class PagesPublisherTest extends AbstractApiMediaBackendTest {
         assertThat(result.getStatus()).withFailMessage(result.getErrors()).isEqualTo(Result.Status.SUCCESS);
     }
 
+
+    @Test
+    public void test304DeleteByUrl() {
+        // Then delete by crid
+        Result<DeleteResult> result = util.deleteWhereStartsWith(CRID_PREFIX);
+
+        assertThat(result.getEntity().getCount()).isGreaterThan(0);;
+
+        assertThat(result.getStatus()).withFailMessage(result.getErrors()).isEqualTo(Result.Status.SUCCESS);
+    }
+
+
     @Test
     public void test305DissappearedFromAPI() {
         assumeTrue(util.getPageUpdateApiClient().getVersionNumber() >= 5.5);
@@ -444,7 +464,7 @@ public class PagesPublisherTest extends AbstractApiMediaBackendTest {
             .build();
 
         Utils.waitUntil(ACCEPTABLE_DURATION,
-            "Has no pages with tag",
+            () -> "Has no pages with tag",
             () -> {
                 PageSearchResult searchResultItems = pageUtil.find(form, null, 0L, 11);
                 log.info("Found {}", searchResultItems);
@@ -500,6 +520,31 @@ public class PagesPublisherTest extends AbstractApiMediaBackendTest {
             .then()
             .  log().all()
             .  statusCode(400);
+
+    }
+
+
+    @Test
+    @Ignore
+    public void testPage() {
+        Result<?> r = util.save(PageUpdateBuilder.article("htpt://www.vpro.nl/1234")
+            .crids("crid://bla/1234")
+            .broadcasters("VPRO")
+            .title(title)
+            .build());
+            assertThat(r.getStatus()).withFailMessage(r.toString()).isEqualTo(Result.Status.SUCCESS);
+
+    }
+
+    @Test
+    @Ignore
+    public void updateUrl() {
+        Result<?> r = util.save(PageUpdateBuilder.article("htpt://www.vpro.nl/1234/updated/again")
+            .crids("crid://bla/1234")
+            .broadcasters("VPRO")
+            .title(title)
+            .build());
+            assertThat(r.getStatus()).withFailMessage(r.toString()).isEqualTo(Result.Status.SUCCESS);
 
     }
 
