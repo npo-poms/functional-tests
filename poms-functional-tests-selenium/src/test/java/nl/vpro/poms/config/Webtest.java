@@ -52,22 +52,13 @@ public abstract class Webtest {
 
     public static void loginGtaaBrowserTest() {
         ChromeOptions options = new ChromeOptions();
-        String url = CONFIG.getProperties(Config.Prefix.npo_api).get("baseUrl") + "/thesaurus/example/";
+        String url = CONFIG.getProperties(Config.Prefix.npo_api).get("baseUrl") + "/thesaurus/example/person/";
         options.setHeadless(false);
         String user =  CONFIG.getProperties().get("SpeciaalVfGebruiker.LOGIN");
         String password =  CONFIG.getProperties().get("SpeciaalVfGebruiker.PASSWORD");
 
-        login(url,
-                user,
-                password);
+        login(url, user, password);
 
-        //driver = new ChromeDriver(options);
-        //driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
-        //driver.get("http://rs-dev.poms.omroep.nl/v1/thesaurus/example/");
-
-        //driver.findElement(By.id("username")).sendKeys("<user here>");
-        //driver.findElement(By.id("password")).sendKeys("<password here>");
-        //driver.findElement(By.id("kc-login")).click();
     }
 
 }
