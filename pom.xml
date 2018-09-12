@@ -16,7 +16,7 @@
   </modules>
 
   <properties>
-    <api.client.version>5.8-SNAPSHOT</api.client.version>
+    <api.client.version>5.9-SNAPSHOT</api.client.version>
     <poms.shared.version>5.9-SNAPSHOT</poms.shared.version>
     <vpro.shared.version>2.0-SNAPSHOT</vpro.shared.version>
   </properties>
