@@ -29,7 +29,7 @@ public class ThesaurusSmokeITest extends Webtest{
 
         // after logging in first we have to go to the demo interface again, because of
         //sso choices.
-        String url = CONFIG.getProperties(Config.Prefix.npo_api).get("baseUrl") + "/thesaurus/example/person/";
+        String url = CONFIG.getProperties(Config.Prefix.npo_api).get("baseUrl") + "/thesaurus/example/";
         driver.get(url);
 
     }

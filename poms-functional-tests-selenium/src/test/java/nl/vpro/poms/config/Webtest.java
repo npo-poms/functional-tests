@@ -52,7 +52,7 @@ public abstract class Webtest {
 
     public static void loginGtaaBrowserTest() {
         ChromeOptions options = new ChromeOptions();
-        String url = CONFIG.getProperties(Config.Prefix.npo_api).get("baseUrl") + "/thesaurus/example/person/";
+        String url = CONFIG.getProperties(Config.Prefix.npo_api).get("baseUrl") + "/thesaurus/example/";
         options.setHeadless(false);
         String user =  CONFIG.getProperties().get("SpeciaalVfGebruiker.LOGIN");
         String password =  CONFIG.getProperties().get("SpeciaalVfGebruiker.PASSWORD");
