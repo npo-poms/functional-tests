@@ -28,10 +28,11 @@ public abstract class Webtest {
 
     protected static void login(String address, String userName, String password) {
         ChromeOptions options = new ChromeOptions();
-        options.setHeadless(true);
+        options.setHeadless(false);
         driver = new ChromeDriver(options);
         driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
         driver.get(address);
+
         driver.findElement(By.id("username")).sendKeys(userName);
         driver.findElement(By.id("password")).sendKeys(password);
         driver.findElement(By.name("submit")).click();
@@ -47,6 +48,17 @@ public abstract class Webtest {
             url,
             user,
             password);
+    }
+
+    public static void loginGtaaBrowserTest() {
+        ChromeOptions options = new ChromeOptions();
+        String url = CONFIG.getProperties(Config.Prefix.npo_api).get("baseUrl") + "/thesaurus/example/";
+        options.setHeadless(false);
+        String user =  CONFIG.getProperties().get("SpeciaalVfGebruiker.LOGIN");
+        String password =  CONFIG.getProperties().get("SpeciaalVfGebruiker.PASSWORD");
+
+        login(url, user, password);
+
     }
 
 }
