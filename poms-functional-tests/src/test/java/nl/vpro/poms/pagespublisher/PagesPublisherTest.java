@@ -284,7 +284,7 @@ public class PagesPublisherTest extends AbstractApiMediaBackendTest {
 
 
     @Test
-    public void test204ArrivedInApi() {
+    public void test204ArrivedInMediaApi() {
         assumeNotNull(article);
         assumeNotNull(embeddedDescription);
         assumeTrue(pageUtil.getClients().isAvailable());
@@ -301,7 +301,10 @@ public class PagesPublisherTest extends AbstractApiMediaBackendTest {
                 }
             }
         );
+    }
 
+    @Test
+    public void test205ArrivedInPagesApi() {
         Page page = Utils.waitUntil(ACCEPTABLE_PAGE_PUBLISHED_DURATION,
             article.getUrl() + " has embedded " + MID + " with description " + embeddedDescription,
             () ->
