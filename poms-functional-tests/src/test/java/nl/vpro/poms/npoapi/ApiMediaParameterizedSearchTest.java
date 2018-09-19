@@ -80,12 +80,18 @@ public class ApiMediaParameterizedSearchTest extends AbstractSearchTest<MediaFor
             if (testName.startsWith("searchMembers")) {
                 // POMS_S_VPRO_417550 has no members a*
             } else {
-                assertThat(sr.getFacets().getTitles()).hasSize(2);
+                assertThat(sr.getFacets().getTitles()).hasSize(26);
                 assertThat(sr.getFacets().getTitles().get(0).getId()).isEqualTo("a");
                 assertThat(sr.getFacets().getTitles().get(1).getId()).isEqualTo("b");
 
                 assertThat(sr.getFacets().getTitles().get(0).getCount()).isGreaterThan(0);
                 assertThat(sr.getFacets().getTitles().get(1).getCount()).isGreaterThan(0);
+
+                // this json search on a* so the facet 'a' should be selected
+                // TODO: I think this fails.
+                assertThat(sr.getSelectedFacets().getTitles()).hasSize(1);
+                assertThat(sr.getSelectedFacets().getTitles().get(0).getId()).isEqualTo("a");
+                assertThat(sr.getFacets().getTitles().get(0).isSelected()).isTrue();
             }
         });
 
