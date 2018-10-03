@@ -438,7 +438,36 @@ public class PagesPublisherTest extends AbstractApiMediaBackendTest {
 
 
     @Test
-    public void test304DeleteByCrid() {
+    public void test304DeleteByOneCrid() {
+        Result<DeleteResult> result = util.delete(createdCrids.get(0).getValue());
+
+
+        assertThat(result.getStatus())
+            .withFailMessage(result.getErrors() == null ? "Status is not success but " + result.getStatus() : result.getErrors())
+            .isEqualTo(Result.Status.SUCCESS);
+    }
+
+
+    @Test
+    public void test305DissappearedFromAPI() {
+        assumeTrue(util.getPageUpdateApiClient().getVersionNumber() >= 5.5);
+        String cridToDelete = createdCrids.get(0).getValue();
+        assumeTrue(pageUtil.getClients().isAvailable());
+
+
+        Utils.waitUntil(ACCEPTABLE_PAGE_PUBLISHED_DURATION,
+            () -> "Has no page with crid " + cridToDelete,
+            () -> {
+                Page found = pageUtil.load(cridToDelete)[0];
+                log.info("Found {}", found);
+                return found == null;
+            }
+        );
+    }
+
+
+    @Test
+    public void test306DeleteByCrids() {
         Result<DeleteResult> result = util.deleteWhereStartsWith(CRID_PREFIX);
 
         //assertThat(result.getEntity().getCount()).isGreaterThan(0);;
@@ -451,7 +480,7 @@ public class PagesPublisherTest extends AbstractApiMediaBackendTest {
 
 
     @Test
-    public void test305DissappearedFromAPI() {
+    public void test307DissappearedFromAPI() {
         assumeTrue(util.getPageUpdateApiClient().getVersionNumber() >= 5.5);
         assumeTrue(pageUtil.getClients().isAvailable());
 
