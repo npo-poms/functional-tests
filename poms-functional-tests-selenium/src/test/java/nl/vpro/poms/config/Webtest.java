@@ -25,10 +25,9 @@ public abstract class Webtest {
     protected static final Config CONFIG = new Config("npo-functional-tests.properties", "npo-browser-tests.properties");
 
 
-
     protected static void login(String address, String userName, String password) {
         ChromeOptions options = new ChromeOptions();
-        options.setHeadless(false);
+        options.setHeadless(true);
         driver = new ChromeDriver(options);
         driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
         driver.get(address);
