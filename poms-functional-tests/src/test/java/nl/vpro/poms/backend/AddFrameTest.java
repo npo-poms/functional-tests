@@ -31,7 +31,7 @@ public class AddFrameTest extends AbstractApiMediaBackendTest {
     @Test
     public void test01() {
         final Duration duration = Duration.ofMinutes(10).plus(Duration.ofMinutes((int) (20f * Math.random())));
-        backend.getFrameCreatorRestService().createFrame(MID, duration, null, getClass().getResourceAsStream("/VPRO.png"));
+        backend.getFrameCreatorRestService().createFrame(MID, duration, null, null, getClass().getResourceAsStream("/VPRO.png"));
         final ProgramUpdate[] update = new ProgramUpdate[1];
 
         waitUntil(ACCEPTABLE_DURATION,
