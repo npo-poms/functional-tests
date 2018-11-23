@@ -49,6 +49,7 @@ public class AddFrameTest extends AbstractApiMediaBackendTest {
 
     @Test
     public void test98Cleanup() {
+        // TODO dit werkt niet.
         ProgramUpdate update = backend.get(MID);
         assumeTrue(update != null);
         log.info("Removing images " + update.getImages());
