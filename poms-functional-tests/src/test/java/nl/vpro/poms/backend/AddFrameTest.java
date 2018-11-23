@@ -9,7 +9,6 @@ import org.junit.Test;
 import org.junit.runners.MethodSorters;
 
 import nl.vpro.domain.image.ImageType;
-import nl.vpro.domain.media.Program;
 import nl.vpro.domain.media.update.ProgramUpdate;
 import nl.vpro.poms.AbstractApiMediaBackendTest;
 
@@ -33,12 +32,12 @@ public class AddFrameTest extends AbstractApiMediaBackendTest {
     @Test
     public void test01() {
         backend.getFrameCreatorRestService().createFrame(MID, offset, null, null, getClass().getResourceAsStream("/VPRO.png"));
-        final Program[] update = new Program[1];
+        final ProgramUpdate[] update = new ProgramUpdate[1];
 
         waitUntil(ACCEPTABLE_DURATION,
             MID + " has image STILL with offset " + offset,
             () -> {
-                update[0] = backend.getFullProgram(MID);
+                update[0] = backend_authority.get(MID);
                 return update[0] != null &&
                     update[0].getImages()
                         .stream()
@@ -49,12 +48,12 @@ public class AddFrameTest extends AbstractApiMediaBackendTest {
 
     @Test
     public void test98Cleanup() {
-        // TODO dit werkt niet.
-        ProgramUpdate update = backend.get(MID);
+        ProgramUpdate update = backend_authority.get(MID);
         assumeTrue(update != null);
         log.info("Removing images " + update.getImages());
         update.getImages().clear();
-        backend.set(update);
+        backend_authority.set(update);
+
     }
 
 }

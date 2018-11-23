@@ -43,6 +43,16 @@ public abstract class AbstractApiMediaBackendTest extends AbstractApiTest {
             .lookupCrids(true)
             //.version("5.7")
             .build();
+
+
+    protected static final MediaRestClient backend_authority  =
+        MediaRestClient.configured(CONFIG.env(), CONFIG.getProperties(Config.Prefix.npo_backend_api))
+            .followMerges(true)
+            .validateInput(true)
+            .lookupCrids(true)
+            .owner(OwnerType.AUTHORITY)
+            //.version("5.7")
+            .build();
     protected static final String backendVersion = backend.getVersion();
     protected static Float backendVersionNumber;
 
