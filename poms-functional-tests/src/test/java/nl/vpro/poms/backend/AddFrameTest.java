@@ -27,21 +27,21 @@ public class AddFrameTest extends AbstractApiMediaBackendTest {
 
     private static final Duration ACCEPTABLE_DURATION = Duration.ofMinutes(3);
 
+    private static final Duration offset = Duration.ofMinutes(10).plus(Duration.ofMinutes((int) (20f * Math.random())));
 
     @Test
     public void test01() {
-        final Duration duration = Duration.ofMinutes(10).plus(Duration.ofMinutes((int) (20f * Math.random())));
-        backend.getFrameCreatorRestService().createFrame(MID, duration, null, null, getClass().getResourceAsStream("/VPRO.png"));
+        backend.getFrameCreatorRestService().createFrame(MID, offset, null, null, getClass().getResourceAsStream("/VPRO.png"));
         final ProgramUpdate[] update = new ProgramUpdate[1];
 
         waitUntil(ACCEPTABLE_DURATION,
-            MID + " has image STILL with offset " + duration,
+            MID + " has image STILL with offset " + offset,
             () -> {
                 update[0] = backend.get(MID);
                 return update[0] != null &&
                     update[0].getImages()
                         .stream()
-                        .anyMatch(iu -> iu != null && iu.getOffset() != null && iu.getOffset().equals(duration) && iu.getType() == ImageType.STILL);
+                        .anyMatch(iu -> iu != null && iu.getOffset() != null && iu.getOffset().equals(offset) && iu.getType() == ImageType.STILL);
             });
     }
 
