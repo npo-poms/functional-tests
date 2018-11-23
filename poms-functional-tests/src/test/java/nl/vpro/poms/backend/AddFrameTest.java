@@ -9,6 +9,7 @@ import org.junit.Test;
 import org.junit.runners.MethodSorters;
 
 import nl.vpro.domain.image.ImageType;
+import nl.vpro.domain.media.Program;
 import nl.vpro.domain.media.update.ProgramUpdate;
 import nl.vpro.poms.AbstractApiMediaBackendTest;
 
@@ -32,12 +33,12 @@ public class AddFrameTest extends AbstractApiMediaBackendTest {
     @Test
     public void test01() {
         backend.getFrameCreatorRestService().createFrame(MID, offset, null, null, getClass().getResourceAsStream("/VPRO.png"));
-        final ProgramUpdate[] update = new ProgramUpdate[1];
+        final Program[] update = new Program[1];
 
         waitUntil(ACCEPTABLE_DURATION,
             MID + " has image STILL with offset " + offset,
             () -> {
-                update[0] = backend.get(MID);
+                update[0] = backend.getFullProgram(MID);
                 return update[0] != null &&
                     update[0].getImages()
                         .stream()
