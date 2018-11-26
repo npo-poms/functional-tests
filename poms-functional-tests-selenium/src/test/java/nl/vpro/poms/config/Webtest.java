@@ -88,7 +88,8 @@ public abstract class Webtest {
         File dest = new File("/tmp/" + version + "/chromedriver");
         dest.getParentFile().mkdirs();
         if (! dest.exists()) {
-            HttpResponse getZip = client.execute(new HttpGet("https://chromedriver.storage.googleapis.com/" + version + "/" + file));
+            String url = "https://chromedriver.storage.googleapis.com/" + version + "/" + file;
+            HttpResponse getZip = client.execute(new HttpGet(url));
             try (InputStream inputStream = getZip.getEntity().getContent();
                  OutputStream out = new FileOutputStream(dest)) {
                 ZipInputStream zipInputStream = new ZipInputStream(inputStream);
@@ -96,10 +97,11 @@ public abstract class Webtest {
                 log.info("Reading {} ({} bytes)", nextEntry, nextEntry.getSize());
                 IOUtils.copy(zipInputStream, out);
                 dest.setExecutable(true);
+                log.info("Downloaded {} -> {}", url, dest);
             }
 
         }
-
+        log.info("Using driver {}", dest);
         System.setProperty("webdriver.chrome.driver", dest.getAbsolutePath());
 
     }
