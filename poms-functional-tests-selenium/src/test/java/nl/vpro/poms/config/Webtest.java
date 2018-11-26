@@ -32,6 +32,8 @@ public abstract class Webtest {
 
     protected static ChromeDriver driver;
 
+    protected static String CHROME_DRIVER_VERSION = "2.41"; // null is 'newest'.
+
     protected static final Config CONFIG = new Config("npo-functional-tests.properties", "npo-browser-tests.properties");
 
 
@@ -72,11 +74,14 @@ public abstract class Webtest {
 
     protected static void getDriver() throws IOException {
         try (CloseableHttpClient client = HttpClientBuilder.create().build()) {
-            HttpResponse getVersion = client.execute(new HttpGet("https://chromedriver.storage.googleapis.com/LATEST_RELEASE"));
+            String version = CHROME_DRIVER_VERSION;
+            if (version  == null) {
+                HttpResponse getVersion = client.execute(new HttpGet("https://chromedriver.storage.googleapis.com/LATEST_RELEASE"));
 
-            ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-            getVersion.getEntity().writeTo(bytes);
-            String version = new String(bytes.toByteArray());
+                ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+                getVersion.getEntity().writeTo(bytes);
+                version = new String(bytes.toByteArray());
+            }
 
             String osName = System.getProperty("os.name");
             String file = "chromedriver_linux64.zip";
