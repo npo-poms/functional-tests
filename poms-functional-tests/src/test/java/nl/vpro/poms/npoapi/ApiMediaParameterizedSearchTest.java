@@ -89,6 +89,8 @@ public class ApiMediaParameterizedSearchTest extends AbstractSearchTest<MediaFor
 
                 // this json search on a* so the facet 'a' should be selected
                 // TODO: I think this fails.
+                assertThat(sr.getSelectedFacets()).isNotNull();
+                assertThat(sr.getSelectedFacets().getTitles()).isNotNull();
                 assertThat(sr.getSelectedFacets().getTitles()).hasSize(1);
                 assertThat(sr.getSelectedFacets().getTitles().get(0).getId()).isEqualTo("a");
                 assertThat(sr.getFacets().getTitles().get(0).isSelected()).isTrue();
