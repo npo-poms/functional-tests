@@ -2,10 +2,14 @@ package nl.vpro.poms.selenium.thesaurus;
 
 import lombok.extern.slf4j.Slf4j;
 
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
+import org.junit.FixMethodOrder;
+import org.junit.Test;
+import org.openqa.selenium.By;
+
 import nl.vpro.api.client.utils.Config;
 import nl.vpro.poms.config.Webtest;
-import org.junit.*;
-import org.openqa.selenium.By;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.runners.MethodSorters.NAME_ASCENDING;
@@ -15,7 +19,6 @@ import static org.junit.runners.MethodSorters.NAME_ASCENDING;
  */
 @FixMethodOrder(NAME_ASCENDING)
 @Slf4j
-@Ignore("Credentials not yet arranged")
 public class ThesaurusSmokeITest extends Webtest{
 
     /**
