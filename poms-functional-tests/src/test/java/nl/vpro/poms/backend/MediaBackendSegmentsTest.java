@@ -127,7 +127,8 @@ public class MediaBackendSegmentsTest extends AbstractApiMediaBackendTest {
                 .avType(AVType.VIDEO)
                 .mainTitle(title)
                 .ageRating(AgeRating.ALL)
-                .segments(segment));
+                .segments(segment)
+        );
         JAXB.marshal(update, System.out);
         programMid = backend.set(update);
         log.info("Created " + programMid);
