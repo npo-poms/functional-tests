@@ -109,7 +109,7 @@ public class MediaBackendLocationsTest extends AbstractApiMediaBackendTest {
         waitUntil(ACCEPTABLE_DURATION,
             MID + " in backend with location " + titles,
             () -> {
-                XmlCollection<LocationUpdate> update = backend.getBackendRestService().getLocations(null, MID, true);
+                XmlCollection<LocationUpdate> update = backend.getBackendRestService().getLocations(null, MID, true, null);
                 currentLocations.clear();
                 currentLocations.addAll(update.stream().map(LocationUpdate::getProgramUrl).collect(Collectors.toList()));
                 return currentLocations.containsAll(titles.stream().map(this::programUrl).collect(Collectors.toSet()));
@@ -122,7 +122,7 @@ public class MediaBackendLocationsTest extends AbstractApiMediaBackendTest {
     public void test12updateLocation() throws IOException {
         String firstLocation = programUrl(firstTitle);
         LocationUpdate update = backend.getBackendRestService()
-            .getLocations(null, MID, true).stream()
+            .getLocations(null, MID, true, null).stream()
             .filter(l -> l.getProgramUrl().equals(firstLocation))
             .findFirst()
             .orElseThrow(() -> new IllegalArgumentException(MID + " has no location " + firstLocation));
@@ -158,7 +158,7 @@ public class MediaBackendLocationsTest extends AbstractApiMediaBackendTest {
         waitUntil(ACCEPTABLE_DURATION,
             MID + " in backend with location " + titles,
             () -> {
-                    XmlCollection<LocationUpdate> update = backend.getBackendRestService().getLocations(null, MID, true);
+                    XmlCollection<LocationUpdate> update = backend.getBackendRestService().getLocations(null, MID, true, null);
                 currentLocations.clear();
                 currentLocations.addAll(update.stream().map(LocationUpdate::getProgramUrl).collect(Collectors.toList()));
                 Set<String> exprectedLocations = titles.stream().map(this::programUrl).collect(Collectors.toSet());

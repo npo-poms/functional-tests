@@ -22,6 +22,7 @@ import org.junit.Test;
 import org.junit.runners.MethodSorters;
 
 import nl.vpro.domain.media.*;
+import nl.vpro.domain.media.update.LocationUpdate;
 import nl.vpro.domain.media.update.MediaUpdateList;
 import nl.vpro.domain.media.update.MemberUpdate;
 import nl.vpro.domain.media.update.RelationUpdate;
@@ -154,7 +155,12 @@ public class PromoTest extends AbstractApiMediaBackendTest {
 
     @Test
     public void test002arrived() {
-        testArrived(2);
+        //promotionTitle = "1:2018-11-26T11:48:37.341+01:00 test001 Café 汉";
+        MemberUpdate update = testArrived(2);
+        log.info("TODO the following looks wrong:");
+        for (LocationUpdate lu : update.getMediaUpdate().getLocations()) {
+            log.info("{}", lu);
+        }
     }
 
 
@@ -176,8 +182,7 @@ public class PromoTest extends AbstractApiMediaBackendTest {
     }
 
 
-    protected void testArrived(int expectedLocations) {
-        assumeTrue(result != null);
+    protected MemberUpdate testArrived(int expectedLocations) {
         assumeTrue(promotionTitle != null);
         MemberUpdate update = waitUntilNotNull(Duration.ofMinutes(5),
             () -> {
@@ -204,6 +209,7 @@ public class PromoTest extends AbstractApiMediaBackendTest {
         assertThat(update.getMediaUpdate().getTitles().first().get()).isEqualTo(promotionTitle);
 
         assertThat(update.getMediaUpdate().getLocations()).hasSize(expectedLocations);
+        return update;
     }
 
     @Test
