@@ -15,7 +15,6 @@ import org.apache.http.impl.client.HttpClientBuilder;
 import org.junit.Assume;
 import org.junit.BeforeClass;
 import org.junit.Rule;
-import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -109,11 +108,6 @@ public abstract class Webtest {
     @BeforeClass
     public static void setupDriver() throws IOException {
         getDriver();
-    }
-
-    @Test
-    public void  test() {
-
     }
 
 }
