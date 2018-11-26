@@ -50,7 +50,7 @@ public class ThesaurusPublisherTest extends AbstractApiTest {
     public void test001CreatePerson() {
         givenName = "Pietje2" + System.currentTimeMillis();
         log.info("Creating {} {}", givenName, familyName);
-        GTAAPerson created = pageUpdateApiClient.getThesaurusUpdateRestService().submitSignedPerson(null,
+        GTAAPerson created = pageUpdateApiClient.getThesaurusUpdateRestService().submit(null,
             GTAANewPerson.builder()
                 .familyName("Puk")
                 .givenName(givenName)
