@@ -15,6 +15,7 @@ import org.junit.rules.Timeout;
 
 import nl.vpro.api.client.resteasy.NpoApiClients;
 import nl.vpro.api.client.utils.Config;
+import nl.vpro.api.client.utils.NpoApiImageUtil;
 import nl.vpro.api.client.utils.NpoApiMediaUtil;
 import nl.vpro.api.client.utils.NpoApiPageUtil;
 import nl.vpro.domain.api.media.Compatibility;
@@ -97,6 +98,8 @@ public abstract class AbstractApiTest extends AbstractTest  {
 
     protected static final NpoApiMediaUtil mediaUtil = new NpoApiMediaUtil(clients);
     protected static final NpoApiPageUtil pageUtil = new NpoApiPageUtil(clients);
+    protected static final NpoApiImageUtil imageUtil = new NpoApiImageUtil("https://images.poms.omroep.nl");
+
 
 
     protected static final String apiVersion = clients.getVersion();

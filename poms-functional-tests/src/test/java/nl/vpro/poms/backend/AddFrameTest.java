@@ -6,6 +6,7 @@ import java.time.Duration;
 import java.util.stream.Collectors;
 
 import org.junit.FixMethodOrder;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
 
@@ -45,6 +46,24 @@ public class AddFrameTest extends AbstractApiMediaBackendTest {
                     update[0].getImages()
                         .stream()
                         .anyMatch(iu -> iu != null && iu.getOffset() != null && iu.getOffset().equals(offset) && iu.getType() == ImageType.STILL);
+            });
+    }
+
+
+
+    @Test
+    @Ignore("TODO")
+    public void test01Overwerite() {
+        backend.getFrameCreatorRestService().createFrame(MID, offset, null, null, getClass().getResourceAsStream("/VPRO1970's.png"));
+        waitUntil(ACCEPTABLE_DURATION,
+            MID + " has image STILL with offset " + offset,
+            () -> {
+                ProgramUpdate p  = backend_authority.get(MID);
+                return p != null &&
+                    p.getImages()
+                        .stream()
+                        .anyMatch(iu -> iu != null && iu.getOffset() != null && iu.getOffset().equals(offset) && iu.getType() == ImageType.STILL
+                            && imageUtil.getSize(iu).get()  == 2621);
             });
     }
 
