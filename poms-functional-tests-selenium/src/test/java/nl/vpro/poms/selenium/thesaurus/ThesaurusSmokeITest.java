@@ -19,15 +19,14 @@ import static org.junit.runners.MethodSorters.NAME_ASCENDING;
  */
 @FixMethodOrder(NAME_ASCENDING)
 @Slf4j
-public class ThesaurusSmokeITest extends Webtest{
+public class ThesaurusSmokeITest extends Webtest {
 
     /**
      * Sets up. the
      *
-     * @throws Exception the exception
      */
     @BeforeClass
-    public static void setUp() throws Exception {
+    public static void setUp() {
         loginGtaaBrowserTest();
 
         // after logging in first we have to go to the demo interface again, because of
@@ -43,10 +42,9 @@ public class ThesaurusSmokeITest extends Webtest{
      * <p>
      * TODO: Ideally this should be implemented with an ExpectedCondition
      *
-     * @throws Exception throws all exceptions
      */
     @Test
-    public void test001Login() throws Exception {
+    public void test001Login() {
         assertEquals("POMS GTAA", driver.getTitle());
     }
 
@@ -56,10 +54,9 @@ public class ThesaurusSmokeITest extends Webtest{
      * <p>
      * TODO: Ideally this should be implemented with an ExpectedCondition
      *
-     * @throws Exception throws all exceptions
      */
     @Test
-    public void test002FindJanPeter() throws Exception {
+    public void test002FindJanPeter() {
         driver.findElement(By.id("givenName")).sendKeys("Jan Peter");
         driver.findElement(By.id("familyName")).sendKeys("Balkenende");
         driver.findElement(By.id("open")).click();
@@ -85,10 +82,9 @@ public class ThesaurusSmokeITest extends Webtest{
     /**
      * Tear down.
      *
-     * @throws Exception the exception
      */
     @AfterClass
-    public static void tearDown() throws Exception {
+    public static void tearDown() {
         driver.quit();
     }
 }
