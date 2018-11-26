@@ -87,10 +87,13 @@ public abstract class Webtest {
             String file = "chromedriver_linux64.zip";
             if (osName.startsWith("Mac")) {
                 file = "chromedriver_mac64.zip";
+            } else if (osName.startsWith("Windows")) {
+                file = "chromedriver_win32.zip";
             }
+
             log.info("Using {} {}", version, file);
 
-            File dest = new File("/tmp/" + version + "/chromedriver");
+            File dest = new File(System.getProperty("java.io.tmpdir"), version + File.separator + "chromedriver");
             dest.getParentFile().mkdirs();
             if (! dest.exists()) {
                 String url = "https://chromedriver.storage.googleapis.com/" + version + "/" + file;
