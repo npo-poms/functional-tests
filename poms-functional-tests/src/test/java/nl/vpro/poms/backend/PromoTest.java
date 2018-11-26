@@ -26,6 +26,7 @@ import nl.vpro.domain.media.update.LocationUpdate;
 import nl.vpro.domain.media.update.MediaUpdateList;
 import nl.vpro.domain.media.update.MemberUpdate;
 import nl.vpro.domain.media.update.RelationUpdate;
+import nl.vpro.domain.user.Broadcaster;
 import nl.vpro.parkpost.ProductCode;
 import nl.vpro.parkpost.promo.bind.File;
 import nl.vpro.parkpost.promo.bind.PromoEvent;
@@ -149,6 +150,7 @@ public class PromoTest extends AbstractApiMediaBackendTest {
         result = JAXB.unmarshal(new StringReader(resultString), Program.class);
         assertThat(result.getType()).isEqualTo(ProgramType.PROMO);
         assertThat(result.getMemberOf().first().getMediaRef()).isEqualTo(PROMOTED_MID);
+        assertThat(result.getBroadcasters()).contains(new Broadcaster("EO"));
         log.info("Received {}", result);
     }
 
@@ -235,6 +237,7 @@ public class PromoTest extends AbstractApiMediaBackendTest {
         promoEvent.setPromotedProgramProductCode(PROMOTED_MID);
         promoEvent.setPromoType(ProductCode.Type.P);
         promoEvent.setProgramTitle(promotionTitle);
+        promoEvent.setBroadcaster("EO");
         return promoEvent;
     }
 
