@@ -2,7 +2,6 @@ package nl.vpro.poms.selenium.thesaurus;
 
 import lombok.extern.slf4j.Slf4j;
 
-import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
@@ -79,13 +78,4 @@ public class ThesaurusSmokeITest extends Webtest {
         assertEquals(2, counter);
     }
 
-
-    /**
-     * Tear down.
-     *
-     */
-    @AfterClass
-    public static void tearDown() {
-        driver.quit();
-    }
 }

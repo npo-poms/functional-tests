@@ -2,12 +2,12 @@ package nl.vpro.poms.selenium.zoeken;
 
 import lombok.extern.slf4j.Slf4j;
 
-import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+
 import com.paulhammant.ngwebdriver.NgWebDriver;
 
 import nl.vpro.poms.config.Webtest;
@@ -57,13 +57,5 @@ public class SpomsSearchWebTest extends Webtest {
 
     }
 
-    /**
-     * Tear down.
-     *
-     * @throws Exception the exception
-     */
-    @AfterClass
-    public static void tearDown() throws Exception {
-        driver.quit();
-    }
+
 }

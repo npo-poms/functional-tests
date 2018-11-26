@@ -5,12 +5,12 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.util.stream.Collectors;
 
-import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+
 import com.paulhammant.ngwebdriver.NgWebDriver;
 
 import nl.vpro.poms.config.Webtest;
@@ -27,7 +27,7 @@ import static org.junit.runners.MethodSorters.NAME_ASCENDING;
  */
 @FixMethodOrder(NAME_ASCENDING)
 @Slf4j
-public class SpomsCreateUserWebTest extends Webtest{
+public class SpomsCreateUserWebTest extends Webtest {
 
     /**
      * Sets up. a webdriver connected logged in to Poms interface using SpeciaalVfGebruiken from properties file
@@ -110,13 +110,4 @@ public class SpomsCreateUserWebTest extends Webtest{
 
     }
 
-    /**
-     * Tear down.
-     *
-     * @throws Exception the exception
-     */
-    @AfterClass
-    public static void tearDown() throws Exception {
-        driver.quit();
-    }
 }

@@ -12,6 +12,7 @@ import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
+import org.junit.AfterClass;
 import org.junit.Assume;
 import org.junit.BeforeClass;
 import org.junit.Rule;
@@ -109,6 +110,20 @@ public abstract class Webtest {
     @BeforeClass
     public static void setupDriver() throws IOException {
         getDriver();
+    }
+
+
+    /**
+     * Tear down.
+     *
+     */
+    @AfterClass
+    public static void tearDown() {
+        if (driver != null) {
+            driver.quit();
+        } else {
+            log.warn("No driver set");
+        }
     }
 
 }
