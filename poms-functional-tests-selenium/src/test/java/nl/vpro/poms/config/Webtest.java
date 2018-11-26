@@ -2,10 +2,20 @@ package nl.vpro.poms.config;
 
 import lombok.extern.slf4j.Slf4j;
 
+import java.io.*;
 import java.util.concurrent.TimeUnit;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
 
+import org.apache.commons.io.IOUtils;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.HttpClientBuilder;
 import org.junit.Assume;
+import org.junit.BeforeClass;
 import org.junit.Rule;
+import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -57,6 +67,50 @@ public abstract class Webtest {
         String password =  CONFIG.getProperties().get("SpeciaalVfGebruiker.PASSWORD");
 
         login(url, user, password);
+
+    }
+
+    protected static void getDriver() throws IOException {
+        HttpClient client = HttpClientBuilder.create().build();
+        HttpResponse getVersion = client.execute(new HttpGet("https://chromedriver.storage.googleapis.com/LATEST_RELEASE"));
+
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        getVersion.getEntity().writeTo(bytes);
+        String version = new String(bytes.toByteArray());
+
+        String osName = System.getProperty("os.name");
+        String file = "chromedriver_linux64.zip";
+        if (osName.startsWith("Mac")) {
+            file = "chromedriver_mac64.zip";
+        }
+        log.info("Using {} {}", version, file);
+
+        File dest = new File("/tmp/" + version + "/chromedriver");
+        dest.getParentFile().mkdirs();
+        if (! dest.exists()) {
+            HttpResponse getZip = client.execute(new HttpGet("https://chromedriver.storage.googleapis.com/" + version + "/" + file));
+            try (InputStream inputStream = getZip.getEntity().getContent();
+                 OutputStream out = new FileOutputStream(dest)) {
+                ZipInputStream zipInputStream = new ZipInputStream(inputStream);
+                ZipEntry nextEntry = zipInputStream.getNextEntry();
+                log.info("Reading {} ({} bytes)", nextEntry, nextEntry.getSize());
+                IOUtils.copy(zipInputStream, out);
+                dest.setExecutable(true);
+            }
+
+        }
+
+        System.setProperty("webdriver.chrome.driver", dest.getAbsolutePath());
+
+    }
+
+    @BeforeClass
+    public static void setupDriver() throws IOException {
+        getDriver();
+    }
+
+    @Test
+    public void  test() {
 
     }
 
