@@ -9,8 +9,8 @@ import java.util.zip.ZipInputStream;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.junit.Assume;
 import org.junit.BeforeClass;
@@ -70,38 +70,39 @@ public abstract class Webtest {
     }
 
     protected static void getDriver() throws IOException {
-        HttpClient client = HttpClientBuilder.create().build();
-        HttpResponse getVersion = client.execute(new HttpGet("https://chromedriver.storage.googleapis.com/LATEST_RELEASE"));
+        try (CloseableHttpClient client = HttpClientBuilder.create().build()) {
+            HttpResponse getVersion = client.execute(new HttpGet("https://chromedriver.storage.googleapis.com/LATEST_RELEASE"));
 
-        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-        getVersion.getEntity().writeTo(bytes);
-        String version = new String(bytes.toByteArray());
+            ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+            getVersion.getEntity().writeTo(bytes);
+            String version = new String(bytes.toByteArray());
 
-        String osName = System.getProperty("os.name");
-        String file = "chromedriver_linux64.zip";
-        if (osName.startsWith("Mac")) {
-            file = "chromedriver_mac64.zip";
-        }
-        log.info("Using {} {}", version, file);
-
-        File dest = new File("/tmp/" + version + "/chromedriver");
-        dest.getParentFile().mkdirs();
-        if (! dest.exists()) {
-            String url = "https://chromedriver.storage.googleapis.com/" + version + "/" + file;
-            HttpResponse getZip = client.execute(new HttpGet(url));
-            try (InputStream inputStream = getZip.getEntity().getContent();
-                 OutputStream out = new FileOutputStream(dest)) {
-                ZipInputStream zipInputStream = new ZipInputStream(inputStream);
-                ZipEntry nextEntry = zipInputStream.getNextEntry();
-                log.info("Reading {} ({} bytes)", nextEntry, nextEntry.getSize());
-                IOUtils.copy(zipInputStream, out);
-                dest.setExecutable(true);
-                log.info("Downloaded {} -> {}", url, dest);
+            String osName = System.getProperty("os.name");
+            String file = "chromedriver_linux64.zip";
+            if (osName.startsWith("Mac")) {
+                file = "chromedriver_mac64.zip";
             }
+            log.info("Using {} {}", version, file);
 
+            File dest = new File("/tmp/" + version + "/chromedriver");
+            dest.getParentFile().mkdirs();
+            if (! dest.exists()) {
+                String url = "https://chromedriver.storage.googleapis.com/" + version + "/" + file;
+                HttpResponse getZip = client.execute(new HttpGet(url));
+                try (InputStream inputStream = getZip.getEntity().getContent();
+                     OutputStream out = new FileOutputStream(dest)) {
+                    ZipInputStream zipInputStream = new ZipInputStream(inputStream);
+                    ZipEntry nextEntry = zipInputStream.getNextEntry();
+                    log.info("Reading {} ({} bytes)", nextEntry, nextEntry.getSize());
+                    IOUtils.copy(zipInputStream, out);
+                    dest.setExecutable(true);
+                    log.info("Downloaded {} -> {}", url, dest);
+                }
+
+            }
+            log.info("Using driver {}", dest);
+            System.setProperty("webdriver.chrome.driver", dest.getAbsolutePath());
         }
-        log.info("Using driver {}", dest);
-        System.setProperty("webdriver.chrome.driver", dest.getAbsolutePath());
 
     }
 
