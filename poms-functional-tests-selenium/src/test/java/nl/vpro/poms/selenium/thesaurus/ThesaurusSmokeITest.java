@@ -10,7 +10,8 @@ import org.openqa.selenium.By;
 import nl.vpro.api.client.utils.Config;
 import nl.vpro.poms.config.Webtest;
 
-import static org.junit.Assert.assertEquals;
+
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.runners.MethodSorters.NAME_ASCENDING;
 
 /**
@@ -45,7 +46,7 @@ public class ThesaurusSmokeITest extends Webtest {
      */
     @Test
     public void test001Login() {
-        assertEquals("POMS GTAA", driver.getTitle());
+        assertThat(driver.getTitle()).isEqualTo("POMS GTAA");
     }
 
     /**
@@ -75,7 +76,7 @@ public class ThesaurusSmokeITest extends Webtest {
                 .filter(s -> s.getText().contains("Jan Peter"))
                 .count();
 
-        assertEquals(2, counter);
+        assertThat(counter).isGreaterThanOrEqualTo(2);
     }
 
 }
