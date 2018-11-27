@@ -39,10 +39,12 @@ public abstract class Webtest {
 
     protected static void login(String address, String userName, String password) {
         ChromeOptions options = new ChromeOptions();
+        options.addArguments("--incognito");
         options.setHeadless(true);
         driver = new ChromeDriver(options);
         driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
         driver.get(address);
+
 
         driver.findElement(By.id("username")).sendKeys(userName);
         driver.findElement(By.id("password")).sendKeys(password);
