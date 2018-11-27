@@ -37,7 +37,9 @@ import static org.junit.Assume.*;
 @Slf4j
 public class SubtitlesITest extends AbstractApiMediaBackendTest {
 
-    private static final Duration ACCEPTABLE_DURATION = Duration.ofMinutes(12);
+    private static final Duration ACCEPTABLE_DURATION_BACKEND = Duration.ofMinutes(2);
+
+    private static final Duration ACCEPTABLE_DURATION_FRONTEND = Duration.ofMinutes(12);
 
     public static final AvailableSubtitles JAPANESE_TRANSLATION = new AvailableSubtitles(Locale.JAPANESE, SubtitlesType.TRANSLATION);
 
@@ -84,7 +86,7 @@ public class SubtitlesITest extends AbstractApiMediaBackendTest {
         assumeThat(backendVersionNumber, greaterThanOrEqualTo(5.3f));
 
 
-        waitUntil(ACCEPTABLE_DURATION,
+        waitUntil(ACCEPTABLE_DURATION_BACKEND,
             MID_WITH_LOCATIONS + " has " + JAPANESE_TRANSLATION,
             () -> {
                 MediaObject mo = backend.getFull(MID_WITH_LOCATIONS);
@@ -105,7 +107,7 @@ public class SubtitlesITest extends AbstractApiMediaBackendTest {
         assumeNotNull(firstTitle);
         assumeTrue(arrivedInBackend);
 
-        waitUntil(ACCEPTABLE_DURATION,
+        waitUntil(ACCEPTABLE_DURATION_FRONTEND,
             MID_WITH_LOCATIONS + " has " + JAPANESE_TRANSLATION,
             () -> mediaUtil.findByMid(MID_WITH_LOCATIONS).getAvailableSubtitles().contains(JAPANESE_TRANSLATION)
         );
@@ -125,11 +127,11 @@ public class SubtitlesITest extends AbstractApiMediaBackendTest {
         assumeTrue(arrivedInBackend);
 
 
-        waitUntil(ACCEPTABLE_DURATION,
+        waitUntil(ACCEPTABLE_DURATION_FRONTEND,
             MID_WITH_LOCATIONS + " has no locations",
             () -> mediaUtil.load(MID_WITH_LOCATIONS)[0].getLocations().isEmpty());
 
-        waitUntil(ACCEPTABLE_DURATION,
+        waitUntil(ACCEPTABLE_DURATION_FRONTEND,
                 MID_WITH_LOCATIONS + " has no subtitles for JAPAN",
             () -> MediaRestClientUtils.loadOrNull(mediaUtil.getClients().getSubtitlesRestService(), MID_WITH_LOCATIONS, Locale.JAPAN) == null);
     }
@@ -158,7 +160,7 @@ public class SubtitlesITest extends AbstractApiMediaBackendTest {
     public void test91checkCleanup() {
         assumeThat(backendVersionNumber, greaterThanOrEqualTo(5.3f));
 
-        waitUntil(ACCEPTABLE_DURATION,
+        waitUntil(ACCEPTABLE_DURATION_BACKEND,
             MID_WITH_LOCATIONS + " has no " + JAPANESE_TRANSLATION,
             () -> {
                 MediaObject mo = backend.getFull(MID_WITH_LOCATIONS);
@@ -172,23 +174,23 @@ public class SubtitlesITest extends AbstractApiMediaBackendTest {
     public void test92checkCleanupFrontend() {
         assumeNotNull(firstTitle);
         assumeThat(backendVersionNumber, greaterThanOrEqualTo(5.3f));
-        waitUntil(ACCEPTABLE_DURATION,
+        waitUntil(ACCEPTABLE_DURATION_FRONTEND,
             MID_WITH_LOCATIONS + " has no " + JAPANESE_TRANSLATION,
             () -> ! mediaUtil.findByMid(MID_WITH_LOCATIONS).getAvailableSubtitles().contains(JAPANESE_TRANSLATION));
 
 
-        waitUntil(ACCEPTABLE_DURATION,
+        waitUntil(ACCEPTABLE_DURATION_FRONTEND,
             MID_WITH_LOCATIONS + " has no subtitles for JAPAN",
             () -> MediaRestClientUtils.loadOrNull(mediaUtil.getClients().getSubtitlesRestService(), MID_WITH_LOCATIONS, Locale.JAPAN) == null);
     }
 
 
      protected void waitForCuesAvailableInFrontend() {
-        assumeNotNull(firstTitle);
+         assumeNotNull(firstTitle);
          assumeTrue(arrivedInBackend);
 
-        PeekingIterator<StandaloneCue> cueIterator = waitUntil(ACCEPTABLE_DURATION,
-            MID_WITH_LOCATIONS + "/" + Locale.JAPANESE + "[0]=" + firstTitle,
+         PeekingIterator<StandaloneCue> cueIterator = waitUntil(ACCEPTABLE_DURATION_FRONTEND,
+             MID_WITH_LOCATIONS + "/" + Locale.JAPANESE + "[0]=" + firstTitle,
             () -> {
                 clearCaches();
                 try {

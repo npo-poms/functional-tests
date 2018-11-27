@@ -34,7 +34,7 @@ public class ApiPageTest extends AbstractApiTest {
         for (Referral r : multipleEntry.getResult().getReferrals()) {
             list.add(r.getPageRef());
         }
-        log.info("{} has the following referrals {}. Now loading them as apage", topStoryUrl, list);
+        log.info("{} has the following referrals {}. Now loading them as a page", topStoryUrl, list);
         List<? extends MultipleEntry<Page>> referralsAsPage =
             clients.getPageService().loadMultiple(list, null, null).getItems();
 
@@ -45,8 +45,15 @@ public class ApiPageTest extends AbstractApiTest {
                 notFound.add(r);
             }
         }
+        for (MultipleEntry<Page> nf : notFound) {
+            MultipleEntry<Page> retried = clients.getPageService().loadMultiple(nf.getId(), null, null).getItems().get(0);
+            if (retried.getResult() != null) {
+                log.error("tried again: {}", retried);
+            }
+        }
         assertThat(notFound).isEmpty();
         log.info("That's ok, every referral page is effectively found");
+
 
     }
 
