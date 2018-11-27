@@ -48,7 +48,7 @@ public class PagesPublisherTest extends AbstractApiMediaBackendTest {
 
 
     private static final Duration ACCEPTABLE_DURATION = Duration.ofMinutes(3);
-    private static final Duration ACCEPTABLE_PAGE_PUBLISHED_DURATION = Duration.ofMinutes(5);
+    private static final Duration ACCEPTABLE_PAGE_PUBLISHED_DURATION = Duration.ofMinutes(10);
     private static final Duration ACCEPTABLE_MEDIA_PUBLISHED_DURATION = Duration.ofMinutes(15);
 
     static PageUpdateApiUtil util = new PageUpdateApiUtil(
