@@ -94,8 +94,6 @@ public class AddFrameTest extends AbstractApiMediaBackendTest {
 
     @Test
     public void test99CheckCleanup() {
-        log.info("{}", imageUtil.getBaseUrl());
-
          waitUntil(ACCEPTABLE_DURATION,
             MID + " has no stills",
             () -> {

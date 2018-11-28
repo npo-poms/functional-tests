@@ -43,11 +43,16 @@ public class PersonsWebTest extends Webtest {
     public void test02AddPerson() {
         driver.findElement(By.cssSelector("div.media-section-general-left > poms-persons > div > button")).click();
         driver.findElement(By.cssSelector("#suggestions")).sendKeys(firstName + " " + lastName);
+        ngWebDriver.waitForAngularRequestsToFinish();
         driver.findElement(By.cssSelector("div.col-12.personfields  span.new")).click();
+
+        ngWebDriver.waitForAngularRequestsToFinish();
 
         driver.findElement(By.id("givenName")).sendKeys(firstName);
         driver.findElement(By.id("familyName")).sendKeys(lastName);
         driver.findElement(By.id("role")).sendKeys("Redacteur");
+        ngWebDriver.waitForAngularRequestsToFinish();
+
         driver.findElement(By.cssSelector("#scroll-spy-top > div.modal.fade.modal-person.in > div > div > form > div.footer-container > div > button:nth-child(2)")).click();
 
         ngWebDriver.waitForAngularRequestsToFinish();
