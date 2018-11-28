@@ -16,6 +16,7 @@ import nl.vpro.domain.image.ImageType;
 import nl.vpro.domain.media.*;
 import nl.vpro.domain.media.support.Image;
 import nl.vpro.domain.media.support.OwnerType;
+import nl.vpro.domain.media.update.AssemblageConfig;
 import nl.vpro.domain.media.update.LocationUpdate;
 import nl.vpro.domain.media.update.MediaUpdate;
 import nl.vpro.domain.media.update.ProgramUpdate;
@@ -104,6 +105,8 @@ public abstract class AbstractApiMediaBackendTest extends AbstractApiTest {
     @Before
     public void abstractSetUp() {
         backend.setValidateInput(true);
+        backend.setStealCrids(AssemblageConfig.Steal.IF_DELETED);
+        backend.setLookupCrids(true);
     }
 
     @BeforeClass

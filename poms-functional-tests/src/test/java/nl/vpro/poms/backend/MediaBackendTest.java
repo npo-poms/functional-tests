@@ -5,16 +5,17 @@ import lombok.extern.slf4j.Slf4j;
 import java.time.Duration;
 import java.util.Locale;
 import java.util.Objects;
+import java.util.Optional;
+import java.util.function.Predicate;
 
+import org.assertj.core.api.Assertions;
 import org.junit.*;
 import org.junit.runners.MethodSorters;
 
 import nl.vpro.domain.media.AgeRating;
 import nl.vpro.domain.media.MediaBuilder;
 import nl.vpro.domain.media.MediaTestDataBuilder;
-import nl.vpro.domain.media.update.MediaUpdateList;
-import nl.vpro.domain.media.update.MemberUpdate;
-import nl.vpro.domain.media.update.ProgramUpdate;
+import nl.vpro.domain.media.update.*;
 import nl.vpro.poms.AbstractApiMediaBackendTest;
 import nl.vpro.rs.media.ResponseError;
 import nl.vpro.rules.DoAfterException;
@@ -166,6 +167,94 @@ public class MediaBackendTest extends AbstractApiMediaBackendTest {
             assertThat(re.getStatus()).isEqualTo(401);
         }
 
+    }
+
+    private static final String CRID = "crid://test.poms/1";
+
+    @Test
+    public void test04DeleteForCridIfExists() {
+        log.info("{}", backend.deleteIfExists(CRID));
+        Optional<ProgramUpdate> pu = waitUntil(
+            ACCEPTABLE_DURATION,
+            CRID + " does not exists (or is deleted)",
+            () -> backend.optional(CRID),
+            o -> ! o.isPresent() || o.get().isDeleted());
+        pu.ifPresent(
+            programUpdate -> log.info("Found {}", programUpdate)
+        );
+
+
+    }
+
+    private static String midWithCrid;
+    private static String againMidWithCrid;
+    private static String againMidWithStolenCrid;
+
+
+    @Test
+    public void test05CreateObjectWithCrids() {
+        backend.setLookupCrids(false);
+        ProgramUpdate clip = ProgramUpdate.create(
+            MediaBuilder.clip()
+                .ageRating(AgeRating.ALL)
+                .broadcasters("VPRO")
+                .mainTitle(title)
+                .crids("crid://test.poms/1")
+                .build()
+        );
+        midWithCrid = backend.set(clip);
+        log.info("Found mid {}", midWithCrid);
+        ProgramUpdate created = waitUntil(ACCEPTABLE_DURATION,
+            midWithCrid + " exists",
+            () -> backend.get(midWithCrid),
+            Objects::nonNull);
+        assertThat(created.getCrids()).contains(CRID);
+    }
+    @Test
+    public void test06CreateObjectWithCrids() {
+        backend.setLookupCrids(false);
+        ProgramUpdate clip = ProgramUpdate.create(
+            MediaBuilder.clip()
+                .ageRating(AgeRating.ALL)
+                .broadcasters("VPRO")
+                .mainTitle(title)
+                .crids("crid://test.poms/1")
+                .build()
+        );
+        againMidWithCrid = backend.set(clip);
+        log.info("Found another mid {}. This clip may not actually appear!", againMidWithCrid);
+    }
+
+    @Test
+    public void test07CreateObjectWithStolenCrids() {
+        backend.setLookupCrids(false);
+        backend.setStealCrids(AssemblageConfig.Steal.YES);
+        ProgramUpdate clip = ProgramUpdate.create(
+            MediaBuilder.clip()
+                .ageRating(AgeRating.ALL)
+                .broadcasters("VPRO")
+                .mainTitle(title)
+                .crids("crid://test.poms/1")
+                .build()
+        );
+        againMidWithStolenCrid = backend.set(clip);
+        log.info("Found another mid {}", againMidWithStolenCrid);
+        waitUntil(ACCEPTABLE_DURATION,
+            CRID + " exists ",
+            () -> backend.get(againMidWithStolenCrid),
+            (Predicate<MediaUpdate>) u -> u != null && u.getCrids().contains(CRID));
+    }
+
+
+    @Test
+    public void test08checkObjectsWithCrids() {
+        assumeNotNull(midWithCrid, againMidWithCrid, againMidWithStolenCrid);
+        waitUntil(ACCEPTABLE_DURATION,
+            CRID + " exists ",
+            () -> backend.get(midWithCrid),
+            (Predicate<MediaUpdate>) u -> u != null && ! u.getCrids().contains(CRID));
+
+        Assertions.assertThat((Object) backend.get(againMidWithCrid)).isNull();
     }
 
 
