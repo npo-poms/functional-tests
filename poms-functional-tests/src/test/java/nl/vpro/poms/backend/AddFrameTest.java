@@ -100,7 +100,8 @@ public class AddFrameTest extends AbstractApiMediaBackendTest {
             MID + " has no stills",
             () -> {
                 Program p = backend.getFullProgram(MID);
-                return p != null &&
+                log.info("Found image for {}: {}", MID, p.getImages());
+                return
                     p.getImages()
                         .stream()
                         .filter(iu -> iu != null && iu.getOwner() == OwnerType.AUTHORITY && iu.getType() == ImageType.STILL)
