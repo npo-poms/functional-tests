@@ -94,13 +94,11 @@ public class AddFrameTest extends AbstractApiMediaBackendTest {
 
     @Test
     public void test99CheckCleanup() {
-        log.info("{}", imageUtil.getBaseUrl());
-
          waitUntil(ACCEPTABLE_DURATION,
             MID + " has no stills",
             () -> {
                 Program p = backend.getFullProgram(MID);
-                log.info("Found image for {}: {}", MID, p.getImages());
+                log.info("Found images for {}: {}", MID, p.getImages());
                 return
                     p.getImages()
                         .stream()

@@ -59,8 +59,13 @@ public class Utils {
         waitUntil(acceptable, new Callable<Boolean>() {
             @Override
             public Boolean call() throws Exception {
-                CLEAR_CACHES.get().run();
-                return r.call();
+                try {
+                    CLEAR_CACHES.get().run();
+                    return r.call();
+                } catch (Exception e) {
+                    log.error(e.getMessage(), e);
+                    throw e;
+                }
             }
 
             public String toString() {
