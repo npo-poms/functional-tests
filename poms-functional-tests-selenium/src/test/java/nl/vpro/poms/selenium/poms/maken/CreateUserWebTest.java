@@ -1,4 +1,4 @@
-package nl.vpro.poms.selenium.maken;
+package nl.vpro.poms.selenium.poms.maken;
 
 
 import lombok.extern.slf4j.Slf4j;
@@ -27,7 +27,7 @@ import static org.junit.runners.MethodSorters.NAME_ASCENDING;
  */
 @FixMethodOrder(NAME_ASCENDING)
 @Slf4j
-public class SpomsCreateUserWebTest extends Webtest {
+public class CreateUserWebTest extends Webtest {
 
     /**
      * Sets up. a webdriver connected logged in to Poms interface using SpeciaalVfGebruiken from properties file

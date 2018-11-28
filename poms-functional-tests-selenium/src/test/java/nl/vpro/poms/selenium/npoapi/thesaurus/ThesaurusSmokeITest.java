@@ -1,4 +1,4 @@
-package nl.vpro.poms.selenium.thesaurus;
+package nl.vpro.poms.selenium.npoapi.thesaurus;
 
 import lombok.extern.slf4j.Slf4j;
 

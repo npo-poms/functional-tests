@@ -1,4 +1,4 @@
-package nl.vpro.poms.selenium.zoeken;
+package nl.vpro.poms.selenium.poms.zoeken;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -22,7 +22,7 @@ import static org.junit.runners.MethodSorters.NAME_ASCENDING;
  */
 @FixMethodOrder(NAME_ASCENDING)
 @Slf4j
-public class SpomsSearchWebTest extends Webtest {
+public class SearchWebTest extends Webtest {
 
     /**
      * Sets up. a webdriver connected logged in to Poms interface using SpeciaalVfGebruiken from properties file
