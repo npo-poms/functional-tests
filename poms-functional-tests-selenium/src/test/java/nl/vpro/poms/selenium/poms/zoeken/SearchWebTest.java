@@ -8,8 +8,6 @@ import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
-import com.paulhammant.ngwebdriver.NgWebDriver;
-
 import nl.vpro.poms.config.Webtest;
 
 import static org.junit.runners.MethodSorters.NAME_ASCENDING;
@@ -37,7 +35,6 @@ public class SearchWebTest extends Webtest {
      */
     @Test
     public void search1() {
-        NgWebDriver ngWebDriver = new NgWebDriver(driver);
 
         // Kies Nieuwe zoekopdracht
         ngWebDriver.waitForAngularRequestsToFinish();

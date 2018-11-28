@@ -11,8 +11,6 @@ import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
-import com.paulhammant.ngwebdriver.NgWebDriver;
-
 import nl.vpro.poms.config.Webtest;
 
 import static org.junit.Assert.assertArrayEquals;
@@ -44,7 +42,6 @@ public class CreateUserWebTest extends Webtest {
      */
     @Test
     public void createUser1() {
-        NgWebDriver ngWebDriver = new NgWebDriver(driver);
 
         // Kies Nieuw
         ngWebDriver.waitForAngularRequestsToFinish();

@@ -20,17 +20,26 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 
+import com.paulhammant.ngwebdriver.NgWebDriver;
+
 import nl.vpro.api.client.utils.Config;
 import nl.vpro.rules.TestMDC;
 
 @Slf4j
 public abstract class Webtest {
 
+    public static final String    MID                = "WO_VPRO_025057";
+
+
     @Rule
     public TestMDC testMDC = new TestMDC();
 
 
+
     protected static ChromeDriver driver;
+
+    protected static NgWebDriver ngWebDriver;
+
 
     protected static String CHROME_DRIVER_VERSION = "2.41"; // null is 'newest'.
 
@@ -40,7 +49,7 @@ public abstract class Webtest {
     protected static void login(String address, String userName, String password) {
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--incognito");
-        options.setHeadless(true);
+        options.setHeadless(Boolean.parseBoolean(CONFIG.getProperties().get("headless")));
         driver = new ChromeDriver(options);
         driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
         driver.get(address);
@@ -49,6 +58,8 @@ public abstract class Webtest {
         driver.findElement(By.id("username")).sendKeys(userName);
         driver.findElement(By.id("password")).sendKeys(password);
         driver.findElement(By.name("submit")).click();
+        ngWebDriver = new NgWebDriver(driver);
+
     }
 
     public static void loginVPROand3voor12() {
@@ -130,7 +141,9 @@ public abstract class Webtest {
     @AfterClass
     public static void tearDown() {
         if (driver != null) {
-            driver.quit();
+            if (Boolean.parseBoolean(CONFIG.getProperties().get("headless"))) {
+                driver.quit();
+            }
         } else {
             log.warn("No driver set");
         }
