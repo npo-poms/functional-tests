@@ -98,7 +98,7 @@ public abstract class AbstractApiTest extends AbstractTest  {
 
     protected static final NpoApiMediaUtil mediaUtil = new NpoApiMediaUtil(clients);
     protected static final NpoApiPageUtil pageUtil = new NpoApiPageUtil(clients);
-    protected static final NpoApiImageUtil imageUtil = new NpoApiImageUtil("https://images.poms.omroep.nl");
+    protected static final NpoApiImageUtil imageUtil = new NpoApiImageUtil(CONFIG.getProperties(Config.Prefix.images).get("baseUrl"));
 
 
 
@@ -125,6 +125,8 @@ public abstract class AbstractApiTest extends AbstractTest  {
 
 
         LOG.info("Using {} ({}, {})", clients, apiVersion, CONFIG.env());
+
+        LOG.info("Image server: {}", imageUtil);
     }
 
 

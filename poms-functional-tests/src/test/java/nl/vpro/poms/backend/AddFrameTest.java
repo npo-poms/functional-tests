@@ -6,7 +6,6 @@ import java.time.Duration;
 import java.util.stream.Collectors;
 
 import org.junit.FixMethodOrder;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
 
@@ -33,8 +32,12 @@ public class AddFrameTest extends AbstractApiMediaBackendTest {
 
     private static final Duration offset = Duration.ofMinutes(10).plus(Duration.ofMinutes((int) (20f * Math.random())));
 
+    private static long jpegSizeOfImage = 13991L;
+
+
     @Test
     public void test01() {
+
         backend.getFrameCreatorRestService().createFrame(MID, offset, null, null, getClass().getResourceAsStream("/VPRO.png"));
         final ProgramUpdate[] update = new ProgramUpdate[1];
 
@@ -45,25 +48,35 @@ public class AddFrameTest extends AbstractApiMediaBackendTest {
                 return update[0] != null &&
                     update[0].getImages()
                         .stream()
-                        .anyMatch(iu -> iu != null && iu.getOffset() != null && iu.getOffset().equals(offset) && iu.getType() == ImageType.STILL);
+                        .anyMatch(iu ->
+                            iu != null &&
+                                iu.getOffset() != null &&
+                                iu.getOffset().equals(offset) &&
+                                iu.getType() == ImageType.STILL &&
+                                imageUtil.getSize(iu).get() != jpegSizeOfImage
+                        );
             });
     }
 
 
 
     @Test
-    @Ignore("TODO")
-    public void test01Overwerite() {
+    public void test01Overwrite() {
         backend.getFrameCreatorRestService().createFrame(MID, offset, null, null, getClass().getResourceAsStream("/VPRO1970's.png"));
         waitUntil(ACCEPTABLE_DURATION,
-            MID + " has image STILL with offset " + offset,
+            MID + " has image STILL with offset " + offset + " and size " + jpegSizeOfImage,
             () -> {
                 ProgramUpdate p  = backend_authority.get(MID);
                 return p != null &&
                     p.getImages()
                         .stream()
-                        .anyMatch(iu -> iu != null && iu.getOffset() != null && iu.getOffset().equals(offset) && iu.getType() == ImageType.STILL
-                            && imageUtil.getSize(iu).get()  == 2621);
+                        .anyMatch(iu ->
+                            iu != null &&
+                                iu.getOffset() != null &&
+                                iu.getOffset().equals(offset) &&
+                                iu.getType() == ImageType.STILL &&
+                                imageUtil.getSize(iu).get()  == jpegSizeOfImage
+                        );
             });
     }
 
@@ -81,6 +94,8 @@ public class AddFrameTest extends AbstractApiMediaBackendTest {
 
     @Test
     public void test99CheckCleanup() {
+        log.info("{}", imageUtil.getBaseUrl());
+
          waitUntil(ACCEPTABLE_DURATION,
             MID + " has no stills",
             () -> {
@@ -91,11 +106,7 @@ public class AddFrameTest extends AbstractApiMediaBackendTest {
                         .filter(iu -> iu != null && iu.getOwner() == OwnerType.AUTHORITY && iu.getType() == ImageType.STILL)
                         .collect(Collectors.toList()).size() == 0;
             });
-        ProgramUpdate update = backend_authority.get(MID);
-        assumeTrue(update != null);
-        log.info("Removing images " + update.getImages());
-        update.getImages().clear();
-        backend_authority.set(update);
+
 
     }
 
