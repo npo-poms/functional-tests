@@ -17,7 +17,7 @@
 
   <properties>
     <api.client.version>5.9-SNAPSHOT</api.client.version>
-    <poms.shared.version>5.9-SNAPSHOT</poms.shared.version>
+    <poms.shared.version>5.9.0</poms.shared.version>
     <vpro.shared.version>2.2.0</vpro.shared.version>
   </properties>
 
