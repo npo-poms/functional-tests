@@ -7,6 +7,8 @@ import java.time.Duration;
 import java.time.Instant;
 import java.util.Locale;
 
+import javax.ws.rs.core.Response;
+
 import org.junit.Before;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
@@ -152,8 +154,10 @@ public class SubtitlesITest extends AbstractApiMediaBackendTest {
 
     @Test
     public void test90Cleanup() {
-        backend.getBackendRestService()
-            .deleteSubtitles(MID_WITH_LOCATIONS, Locale.JAPANESE, SubtitlesType.TRANSLATION, true, null);
+        try(Response response = backend.getBackendRestService()
+            .deleteSubtitles(MID_WITH_LOCATIONS, Locale.JAPANESE, SubtitlesType.TRANSLATION, true, null)) {
+            log.info("{}", response);
+        }
     }
 
     @Test
