@@ -6,6 +6,8 @@ import org.junit.BeforeClass;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 
 import nl.vpro.api.client.utils.Config;
 import nl.vpro.poms.config.Webtest;
@@ -41,7 +43,15 @@ public class PersonsWebTest extends Webtest {
     }
     @Test
     public void test02AddPerson() {
-        driver.findElement(By.cssSelector("div.media-section-general-left > poms-persons > div > button")).click();
+        ngWebDriver.waitForAngularRequestsToFinish();
+
+
+        WebElement element = driver.findElement(By.cssSelector("#media-general-WO_VPRO_025057 > div.media-section-general-left > poms-persons > div > button"));
+        Actions actions = new Actions(driver);
+        actions.moveToElement(element);
+        actions.perform();
+
+        element.click();
         driver.findElement(By.cssSelector("#suggestions")).sendKeys(firstName + " " + lastName);
         ngWebDriver.waitForAngularRequestsToFinish();
         driver.findElement(By.cssSelector("div.col-12.personfields  span.new")).click();

@@ -98,7 +98,7 @@ public class AddFrameTest extends AbstractApiMediaBackendTest {
             MID + " has no stills",
             () -> {
                 Program p = backend.getFullProgram(MID);
-                log.info("Found image for {}: {}", MID, p.getImages());
+                log.info("Found images for {}: {}", MID, p.getImages());
                 return
                     p.getImages()
                         .stream()
