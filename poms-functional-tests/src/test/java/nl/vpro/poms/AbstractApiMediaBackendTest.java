@@ -106,7 +106,7 @@ public abstract class AbstractApiMediaBackendTest extends AbstractApiTest {
 
 
     @Rule
-    public Timeout globalTimeout = Timeout.seconds(Duration.ofMinutes(15).toSeconds());
+    public Timeout globalTimeout = Timeout.millis(Duration.ofMinutes(15).toMillis());
 
 
     @Before
