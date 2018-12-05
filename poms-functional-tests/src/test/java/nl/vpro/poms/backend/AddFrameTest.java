@@ -7,7 +7,9 @@ import java.util.stream.Collectors;
 
 import org.junit.BeforeClass;
 import org.junit.FixMethodOrder;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.Timeout;
 import org.junit.runners.MethodSorters;
 
 import nl.vpro.domain.image.ImageType;
@@ -27,7 +29,6 @@ import static org.junit.Assume.assumeTrue;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 @Slf4j
 public class AddFrameTest extends AbstractApiMediaBackendTest {
-
 
     private static final Duration ACCEPTABLE_DURATION = Duration.ofMinutes(3);
 
