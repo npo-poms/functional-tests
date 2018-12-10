@@ -102,14 +102,21 @@ public class AddFrameTest extends AbstractApiMediaBackendTest {
          waitUntil(ACCEPTABLE_DURATION,
             MID + " has no stills",
             () -> {
-                log.info("Getting full {}", MID);;
-                Program p = backend.getFullProgram(MID);
-                log.info("Found images for {}: {}", MID, p.getImages());
-                return
-                    p.getImages()
-                        .stream()
-                        .filter(iu -> iu != null && iu.getOwner() == OwnerType.AUTHORITY && iu.getType() == ImageType.STILL)
-                        .collect(Collectors.toList()).size() == 0;
+                try {
+                    log.info("Getting full {}", MID);
+                    ;
+                    Program p = backend.getFullProgram(MID);
+                    log.info("Found images for {}: {}", MID, p.getImages());
+                    return
+                        p.getImages()
+                            .stream()
+                            .filter(iu -> iu != null && iu.getOwner() == OwnerType.AUTHORITY && iu.getType() == ImageType.STILL)
+                            .collect(Collectors.toList()).size() == 0;
+
+                } catch (Exception e) {
+                    log.error(e.getMessage(), e);
+                    return false;
+                }
             });
 
 

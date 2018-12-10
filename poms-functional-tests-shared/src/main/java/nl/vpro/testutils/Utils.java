@@ -32,7 +32,12 @@ public class Utils {
         try {
             Thread.sleep(Duration.ofSeconds(1).toMillis());
             while (true) {
-                boolean result = r.call();
+                boolean result = false;
+                try {
+                    result = r.call();
+                } catch (Throwable t) {
+                    log.warn(t.getMessage(), t);
+                }
                 if (result) {
                     log.info("{} evaluated true", r);
                     assertThat(result).isTrue();
