@@ -2,10 +2,6 @@ package nl.vpro.poms.npoapi;
 
 import lombok.extern.slf4j.Slf4j;
 
-import java.io.IOException;
-import java.io.OutputStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Consumer;
@@ -18,7 +14,6 @@ import javax.ws.rs.core.MediaType;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
-
 import com.google.common.collect.Sets;
 
 import nl.vpro.poms.AbstractApiTest;
@@ -33,7 +28,6 @@ import static org.junit.Assume.assumeTrue;
  */
 @Slf4j
 public abstract class AbstractSearchTest<T, S> extends AbstractApiTest {
-    private static final boolean writeTempFiles = false;
     protected Map<Pattern, Function<S, Boolean>> TESTERS = new HashMap<>();
     protected static Map<String, AtomicInteger> USED = new HashMap<>();
     protected static Set<String> AVAILABLE = new HashSet<>();
@@ -154,14 +148,7 @@ public abstract class AbstractSearchTest<T, S> extends AbstractApiTest {
         return minVersion(IntegerVersion.of(parts));
     }
 
-    protected OutputStream getTempStream(String name) throws IOException {
-        if (writeTempFiles) {
-            Path tempFile = Files.createTempFile(name.replaceAll("/", "_"), ".json");
-            return Files.newOutputStream(tempFile);
-        } else {
-            return System.out;
-        }
-    }
+
 
     protected <U> void test(String name, U object) throws Exception {
         Jackson2TestUtil.roundTrip(object);
