@@ -58,7 +58,7 @@ public class AddFrameTest extends AbstractApiMediaBackendTest {
                                 iu.getOffset() != null &&
                                 iu.getOffset().equals(offset) &&
                                 iu.getType() == ImageType.STILL &&
-                                imageUtil.getSize(iu).get() != jpegSizeOfImage
+                                imageUtil.getSize(iu).orElse(-1L) != jpegSizeOfImage
                         );
             });
     }
@@ -80,7 +80,7 @@ public class AddFrameTest extends AbstractApiMediaBackendTest {
                                 iu.getOffset() != null &&
                                 iu.getOffset().equals(offset) &&
                                 iu.getType() == ImageType.STILL &&
-                                imageUtil.getSize(iu).get()  == jpegSizeOfImage
+                                imageUtil.getSize(iu).orElse(-1L)  == jpegSizeOfImage
                         );
             });
     }
