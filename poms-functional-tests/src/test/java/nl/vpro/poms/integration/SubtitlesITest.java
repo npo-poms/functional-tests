@@ -26,6 +26,7 @@ import nl.vpro.domain.subtitles.Subtitles;
 import nl.vpro.domain.subtitles.SubtitlesType;
 import nl.vpro.domain.subtitles.SubtitlesUtil;
 import nl.vpro.poms.AbstractApiMediaBackendTest;
+import nl.vpro.util.Version;
 
 import static nl.vpro.testutils.Utils.waitUntil;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -57,7 +58,7 @@ public class SubtitlesITest extends AbstractApiMediaBackendTest {
 
     @Test
     public void test01addSubtitles() {
-        assumeThat(backendVersionNumber, greaterThanOrEqualTo(5.1f));
+        assumeThat(backendVersionNumber, greaterThanOrEqualTo(Version.of(5, 1)));
         assumeThat(backend.getFullProgram(MID_WITH_LOCATIONS).getLocations(), not(empty()));
 
         firstTitle = title;
@@ -85,7 +86,7 @@ public class SubtitlesITest extends AbstractApiMediaBackendTest {
 
     @Test
     public void test02checkArrivedInBackend() {
-        assumeThat(backendVersionNumber, greaterThanOrEqualTo(5.3f));
+        assumeThat(backendVersionNumber, greaterThanOrEqualTo(Version.of(5, 3)));
 
 
         waitUntil(ACCEPTABLE_DURATION_BACKEND,
@@ -162,7 +163,7 @@ public class SubtitlesITest extends AbstractApiMediaBackendTest {
 
     @Test
     public void test91checkCleanup() {
-        assumeThat(backendVersionNumber, greaterThanOrEqualTo(5.3f));
+        assumeThat(backendVersionNumber, greaterThanOrEqualTo(Version.of(5, 3)));
 
         waitUntil(ACCEPTABLE_DURATION_BACKEND,
             MID_WITH_LOCATIONS + " has no " + JAPANESE_TRANSLATION,
@@ -177,7 +178,7 @@ public class SubtitlesITest extends AbstractApiMediaBackendTest {
     @Test
     public void test92checkCleanupFrontend() {
         assumeNotNull(firstTitle);
-        assumeThat(backendVersionNumber, greaterThanOrEqualTo(5.3f));
+        assumeThat(backendVersionNumber, greaterThanOrEqualTo(Version.of(5, 3)));
         waitUntil(ACCEPTABLE_DURATION_FRONTEND,
             MID_WITH_LOCATIONS + " has no " + JAPANESE_TRANSLATION,
             () -> ! mediaUtil.findByMid(MID_WITH_LOCATIONS).getAvailableSubtitles().contains(JAPANESE_TRANSLATION));

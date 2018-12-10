@@ -24,6 +24,8 @@ import nl.vpro.domain.media.update.MediaUpdate;
 import nl.vpro.domain.media.update.ProgramUpdate;
 import nl.vpro.domain.support.License;
 import nl.vpro.rs.media.MediaRestClient;
+import nl.vpro.util.IntegerVersion;
+import nl.vpro.util.Version;
 
 import static nl.vpro.domain.media.MediaBuilder.program;
 
@@ -57,17 +59,17 @@ public abstract class AbstractApiMediaBackendTest extends AbstractApiTest {
             //.version("5.7")
             .build();
     protected static final String backendVersion = backend.getVersion();
-    protected static Float backendVersionNumber;
+    protected static IntegerVersion backendVersionNumber;
 
 
     static {
         try {
             backendVersionNumber = backend.getVersionNumber();
         } catch (Exception e) {
-            backendVersionNumber = 0f;
+            backendVersionNumber = Version.of(0);
 
         }
-        log.info("Using {} ({})", backend, backendVersion);
+        log.info("Using {} ({}, -> )", backend, backendVersion, backendVersionNumber);
     }
 
     public Image createImage() {

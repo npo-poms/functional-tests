@@ -20,6 +20,7 @@ import nl.vpro.domain.media.DescendantRef;
 import nl.vpro.domain.media.MediaObject;
 import nl.vpro.domain.media.MediaType;
 import nl.vpro.poms.ApiSearchTestHelper;
+import nl.vpro.util.Version;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assume.assumeTrue;
@@ -75,7 +76,7 @@ public class ApiMediaParameterizedSearchTest extends AbstractSearchTest<MediaFor
             }
         });
 
-        addTester(5.5f,"facet-title-az.json/null/(xml|json)", sr -> {
+        addTester(Version.of(5, 5),"facet-title-az.json/null/(xml|json)", sr -> {
             String testName = ApiMediaParameterizedSearchTest.this.testMethod.getMethodName();
             if (testName.startsWith("searchMembers")) {
                 // POMS_S_VPRO_417550 has no members a*
@@ -97,7 +98,7 @@ public class ApiMediaParameterizedSearchTest extends AbstractSearchTest<MediaFor
             }
         });
 
-          addTester(5.402f,"visualsegments.json/null/(xml|json)", sr -> {
+          addTester(Version.of(5, 4, 2),"visualsegments.json/null/(xml|json)", sr -> {
               String testName = ApiMediaParameterizedSearchTest.this.testMethod.getMethodName();
               if (testName.startsWith("search[")) {
                   assertThat(sr.getSize()).isGreaterThan(0);
@@ -105,10 +106,10 @@ public class ApiMediaParameterizedSearchTest extends AbstractSearchTest<MediaFor
 
         });
 
-        addAssumer("channels.json/.*/(xml|json)", minVersion(5.3));
-        addAssumer("lastModifiedDesc.json/.*/(xml|json)", minVersion(5.3));
-        addAssumer("facet-title-az.json/.*/(xml|json)", minVersion(5.5));
-        addAssumer("NPA-403-array.json/.*/json", minVersion(5.5));
+        addAssumer("channels.json/.*/(xml|json)", minVersion(5, 3));
+        addAssumer("lastModifiedDesc.json/.*/(xml|json)", minVersion(5, 3));
+        addAssumer("facet-title-az.json/.*/(xml|json)", minVersion(5, 5));
+        addAssumer("NPA-403-array.json/.*/json", minVersion(5, 5));
 
 
 

@@ -32,11 +32,13 @@ import nl.vpro.poms.AbstractApiMediaBackendTest;
 import nl.vpro.rules.DoAfterException;
 import nl.vpro.testutils.Utils;
 import nl.vpro.testutils.Utils.Check;
+import nl.vpro.util.Version;
 
 
 import static io.restassured.RestAssured.given;
 import static nl.vpro.api.client.utils.Config.Prefix.npo_pageupdate_api;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.hamcrest.Matchers.greaterThanOrEqualTo;
 import static org.junit.Assume.*;
 
 /**
@@ -347,7 +349,7 @@ public class PagesPublisherTest extends AbstractApiMediaBackendTest {
 
     @Test
     public void test301ArrivedInAPI() {
-        assumeTrue(util.getPageUpdateApiClient().getVersionNumber() >= 5.5);
+        assumeThat(util.getPageUpdateApiClient().getVersionNumber(),  greaterThanOrEqualTo(Version.of(5, 5)));
         assumeTrue(createdCrids.size() > 0);
         assumeTrue(pageUtil.getClients().isAvailable());
 
@@ -378,7 +380,7 @@ public class PagesPublisherTest extends AbstractApiMediaBackendTest {
     @Test
     public void test302UpdateUrls() throws UnsupportedEncodingException {
         //createdCrids.add(new Crid("crid://crids.functional.tests/3"));
-        assumeTrue(util.getPageUpdateApiClient().getVersionNumber() >= 5.5);
+        assumeThat(util.getPageUpdateApiClient().getVersionNumber(),  greaterThanOrEqualTo(Version.of(5, 5)));
         assumeTrue(createdCrids.size() > 0);
         assumeTrue(createdUrls.size() > 0);
 
@@ -406,7 +408,8 @@ public class PagesPublisherTest extends AbstractApiMediaBackendTest {
 
     @Test
     public void test303ModificationsArrivedInAPI() {
-        assumeTrue(util.getPageUpdateApiClient().getVersionNumber() >= 5.5);
+        assumeThat(util.getPageUpdateApiClient().getVersionNumber(),  greaterThanOrEqualTo(Version.of(5, 5)));
+
         assumeTrue(createdCrids.size() > 0);
         assumeTrue(createdUrls.size() > 0);
         assumeTrue(modifiedUrls.size() > 0);
@@ -450,7 +453,7 @@ public class PagesPublisherTest extends AbstractApiMediaBackendTest {
 
     @Test
     public void test305DissappearedFromAPI() {
-        assumeTrue(util.getPageUpdateApiClient().getVersionNumber() >= 5.5);
+        assumeThat(util.getPageUpdateApiClient().getVersionNumber(),  greaterThanOrEqualTo(Version.of(5, 5)));
         String cridToDelete = createdCrids.get(0).getValue();
         assumeTrue(pageUtil.getClients().isAvailable());
 
@@ -481,7 +484,7 @@ public class PagesPublisherTest extends AbstractApiMediaBackendTest {
 
     @Test
     public void test307DissappearedFromAPI() {
-        assumeTrue(util.getPageUpdateApiClient().getVersionNumber() >= 5.5);
+        assumeThat(util.getPageUpdateApiClient().getVersionNumber(),  greaterThanOrEqualTo(Version.of(5, 5)));
         assumeTrue(pageUtil.getClients().isAvailable());
 
         PageForm form = PageForm.builder()

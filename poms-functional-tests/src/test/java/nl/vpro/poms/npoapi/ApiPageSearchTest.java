@@ -28,8 +28,8 @@ public class ApiPageSearchTest extends AbstractSearchTest<PageForm, PageSearchRe
             assertThat(sr.getItems()).isNotEmpty();
             }
         );
-        addAssumer("regexp.json/.*", minVersion(4.806));
-        addAssumer("tags.json/.*", minVersion(4.806));
+        addAssumer("regexp.json/.*", minVersion(4, 8, 6));
+        addAssumer("tags.json/.*", minVersion(4, 8, 6));
 
     }
 

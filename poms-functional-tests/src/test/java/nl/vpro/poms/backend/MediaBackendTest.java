@@ -19,6 +19,7 @@ import nl.vpro.domain.media.update.*;
 import nl.vpro.poms.AbstractApiMediaBackendTest;
 import nl.vpro.rs.media.ResponseError;
 import nl.vpro.rules.DoAfterException;
+import nl.vpro.util.Version;
 
 import static nl.vpro.testutils.Utils.waitUntil;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -71,7 +72,7 @@ public class MediaBackendTest extends AbstractApiMediaBackendTest {
                 .constrainedNew()
                 .build()
         );
-        clip.setVersion(5.5f);
+        clip.setVersion(Version.of(5, 5));
 
         newMid = backend.set(clip);
         assertThat(newMid).isNotEmpty();
@@ -157,7 +158,7 @@ public class MediaBackendTest extends AbstractApiMediaBackendTest {
                 .languages("ZH")
                 .build()
         );
-        clip.setVersion(5.5f);
+        clip.setVersion(Version.of(5, 5));
         try {
             String mid = backend.set(clip);
             log.info("Found mid {}", mid);

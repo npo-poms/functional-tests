@@ -25,6 +25,7 @@ import nl.vpro.domain.support.License;
 import nl.vpro.logging.LoggerOutputStream;
 import nl.vpro.poms.AbstractApiMediaBackendTest;
 import nl.vpro.rules.DoAfterException;
+import nl.vpro.util.Version;
 
 import static nl.vpro.testutils.Utils.waitUntil;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -75,7 +76,7 @@ public class MediaBackendImagesTest extends AbstractApiMediaBackendTest {
 
     @Test
     public void test01addRedirectingImage() throws UnsupportedEncodingException {
-        assumeThat(backendVersionNumber, greaterThanOrEqualTo(5.0f));
+        assumeThat(backendVersionNumber, greaterThanOrEqualTo(Version.of(5)));
         titles.add(title);
         ImageUpdate update = random(title)
             .type(ImageType.LOGO) // different types make the image unique without id.
@@ -286,7 +287,7 @@ public class MediaBackendImagesTest extends AbstractApiMediaBackendTest {
 
     @Test(expected = nl.vpro.rs.media.ResponseError.class)
     public void test31addInvalidImage() throws UnsupportedEncodingException {
-        assumeThat(backendVersionNumber, greaterThanOrEqualTo(5.8f));
+        assumeThat(backendVersionNumber, greaterThanOrEqualTo(Version.of(5, 8)));
         titles.add(title);
         ImageUpdate update = random(title)
             .type(ImageType.LOGO) // different types make the image unique without id.

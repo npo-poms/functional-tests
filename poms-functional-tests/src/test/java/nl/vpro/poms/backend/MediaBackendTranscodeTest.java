@@ -2,8 +2,6 @@ package nl.vpro.poms.backend;
 
 import lombok.extern.slf4j.Slf4j;
 
-import java.time.Duration;
-
 import org.junit.*;
 import org.junit.runners.MethodSorters;
 
@@ -13,9 +11,11 @@ import nl.vpro.domain.media.update.ProgramUpdate;
 import nl.vpro.domain.media.update.TranscodeRequest;
 import nl.vpro.poms.AbstractApiMediaBackendTest;
 import nl.vpro.rules.DoAfterException;
+import nl.vpro.util.Version;
 
+import static org.hamcrest.Matchers.greaterThanOrEqualTo;
 import static org.junit.Assume.assumeNoException;
-import static org.junit.Assume.assumeTrue;
+import static org.junit.Assume.assumeThat;
 
 /**
  *
@@ -25,7 +25,6 @@ import static org.junit.Assume.assumeTrue;
 @Slf4j
 public class MediaBackendTranscodeTest extends AbstractApiMediaBackendTest {
 
-    private static final Duration ACCEPTABLE_DURATION = Duration.ofMinutes(3);
 
     @Rule
     public DoAfterException doAfterException = new DoAfterException((t) -> {
@@ -46,7 +45,7 @@ public class MediaBackendTranscodeTest extends AbstractApiMediaBackendTest {
 
     @Test
     public void test01Transcode() {
-        assumeTrue(backendVersionNumber > 5.6f);
+        assumeThat(backendVersionNumber,  greaterThanOrEqualTo(Version.of(5, 6)));
 
         String newMid = backend.set(ProgramUpdate.create(MediaBuilder.clip()
             .mainTitle(title)

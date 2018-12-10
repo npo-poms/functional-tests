@@ -23,6 +23,7 @@ import com.google.common.collect.Sets;
 
 import nl.vpro.poms.AbstractApiTest;
 import nl.vpro.test.util.jackson2.Jackson2TestUtil;
+import nl.vpro.util.IntegerVersion;
 
 import static org.junit.Assume.assumeTrue;
 
@@ -46,8 +47,8 @@ public abstract class AbstractSearchTest<T, S> extends AbstractApiTest {
     protected MediaType accept;
 
 
-    protected void  addTester(Float minVersion, String pattern, Consumer<S> consumer) {
-        if (minVersion == null || apiVersionNumber >= minVersion) {
+    protected void  addTester(IntegerVersion minVersion, String pattern, Consumer<S> consumer) {
+        if (minVersion == null || apiVersionNumber.isNotBefore(minVersion)) {
             addTester(pattern, (s) -> {
                 consumer.accept(s);
                 return true;
@@ -137,17 +138,20 @@ public abstract class AbstractSearchTest<T, S> extends AbstractApiTest {
     }
 
 
-    protected static Supplier<Boolean> minVersion(final double minVersion) {
+    protected static Supplier<Boolean> minVersion(final IntegerVersion minVersion) {
         return new Supplier<Boolean>() {
             @Override
             public Boolean get() {
-                return apiVersionNumber >= minVersion;
+                return apiVersionNumber.isNotBefore(minVersion);
             }
             @Override
             public String toString() {
                 return "" + apiVersionNumber + " < " +  minVersion;
             }
         };
+    }
+    protected static Supplier<Boolean> minVersion(int... parts) {
+        return minVersion(IntegerVersion.of(parts));
     }
 
     protected OutputStream getTempStream(String name) throws IOException {

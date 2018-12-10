@@ -7,9 +7,7 @@ import java.util.stream.Collectors;
 
 import org.junit.BeforeClass;
 import org.junit.FixMethodOrder;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.Timeout;
 import org.junit.runners.MethodSorters;
 
 import nl.vpro.domain.image.ImageType;
@@ -71,7 +69,7 @@ public class AddFrameTest extends AbstractApiMediaBackendTest {
     public void test01Overwrite() {
         backend.getFrameCreatorRestService().createFrame(MID, offset, null, null, getClass().getResourceAsStream("/VPRO1970's.png"));
         waitUntil(ACCEPTABLE_DURATION,
-            MID + " has image STILL with offset " + offset + " and size " + jpegSizeOfImage,
+            MID + " has STILL image with offset " + offset + " and size " + jpegSizeOfImage,
             () -> {
                 ProgramUpdate p  = backend_authority.get(MID);
                 return p != null &&

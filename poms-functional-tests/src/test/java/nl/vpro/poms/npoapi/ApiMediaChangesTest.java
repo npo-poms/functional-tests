@@ -23,6 +23,7 @@ import nl.vpro.domain.api.Order;
 import nl.vpro.domain.media.Schedule;
 import nl.vpro.jackson2.JsonArrayIterator;
 import nl.vpro.poms.AbstractApiTest;
+import nl.vpro.util.Version;
 
 import static nl.vpro.api.client.utils.MediaRestClientUtils.sinceString;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -100,7 +101,7 @@ public class ApiMediaChangesTest extends AbstractApiTest {
     @SuppressWarnings("deprecation")
     @Test
     public void testChangesNoProfileCheckSkipDeletesMaxOne() throws IOException {
-        assumeTrue(apiVersionNumber >= 5.4);
+        assumeTrue(apiVersionNumber.isNotBefore(Version.of(5, 4)));
         final AtomicInteger i = new AtomicInteger();
         final Instant JAN2017 = LocalDate.of(2017, 1, 1).atStartOfDay(Schedule.ZONE_ID).toInstant();
         final int toFind = 100;
@@ -203,7 +204,7 @@ public class ApiMediaChangesTest extends AbstractApiTest {
                     if (i.get() > 100) {
                         break;
                     }
-                    if (apiVersionNumber < 5.3) {
+                    if (apiVersionNumber.isBefore(5, 3)) {
                         assertThat(change.getSequence()).isNotNull();
                     }
                     assertThat(change.getRevision() == null || change.getRevision() > 0).isTrue();

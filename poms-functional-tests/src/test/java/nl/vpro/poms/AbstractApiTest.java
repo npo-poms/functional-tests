@@ -27,6 +27,8 @@ import nl.vpro.rules.AllowUnavailable;
 import nl.vpro.rules.TestMDC;
 import nl.vpro.testutils.AbstractTest;
 import nl.vpro.testutils.Utils;
+import nl.vpro.util.IntegerVersion;
+import nl.vpro.util.Version;
 
 /**
  * @author Michiel Meeuwissen
@@ -105,8 +107,7 @@ public abstract class AbstractApiTest extends AbstractTest  {
     protected static final String apiVersion = clients.getVersion();
 
 
-    protected static Float apiVersionNumber;
-    protected static Float backendVersionNumber;
+    protected static IntegerVersion apiVersionNumber;
 
 
     static {
@@ -114,7 +115,7 @@ public abstract class AbstractApiTest extends AbstractTest  {
             apiVersionNumber = clients.getVersionNumber();
         } catch (Exception  e) {
             LOG.warn(e.getMessage());
-            apiVersionNumber = 5.4f;
+            apiVersionNumber = Version.of(5, 9);
         }
         Compatibility.setCompatibility(apiVersionNumber);
         mediaUtil.setCacheExpiry("1S");

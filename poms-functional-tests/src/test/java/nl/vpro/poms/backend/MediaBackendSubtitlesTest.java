@@ -20,6 +20,7 @@ import nl.vpro.domain.media.update.ProgramUpdate;
 import nl.vpro.domain.subtitles.*;
 import nl.vpro.poms.AbstractApiMediaBackendTest;
 import nl.vpro.rules.DoAfterException;
+import nl.vpro.util.Version;
 
 import static io.restassured.RestAssured.given;
 import static nl.vpro.api.client.utils.Config.Prefix.npo_backend_api;
@@ -60,7 +61,7 @@ public class MediaBackendSubtitlesTest extends AbstractApiMediaBackendTest {
 
     @Test
     public void test01addSubtitles() {
-        assumeThat(backendVersionNumber, greaterThanOrEqualTo(5.1f));
+        assumeThat(backendVersionNumber, greaterThanOrEqualTo(Version.of(5, 1)));
 
         firstTitle = title;
         Subtitles subtitles = Subtitles.webvttTranslation(MID, Duration.ofMinutes(2), Locale.CHINESE,
