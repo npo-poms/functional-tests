@@ -10,6 +10,8 @@ import java.util.stream.Collectors;
 
 import org.junit.Before;
 import org.junit.BeforeClass;
+import org.junit.Rule;
+import org.junit.rules.Timeout;
 
 import nl.vpro.api.client.utils.Config;
 import nl.vpro.domain.image.ImageType;
@@ -101,6 +103,11 @@ public abstract class AbstractApiMediaBackendTest extends AbstractApiTest {
                 .build();
 
     }
+
+
+    @Rule
+    public Timeout globalTimeout = Timeout.millis(Duration.ofMinutes(15).toMillis());
+
 
     @Before
     public void abstractSetUp() {

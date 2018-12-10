@@ -5,8 +5,11 @@ import lombok.extern.slf4j.Slf4j;
 import java.time.Duration;
 import java.util.stream.Collectors;
 
+import org.junit.BeforeClass;
 import org.junit.FixMethodOrder;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.Timeout;
 import org.junit.runners.MethodSorters;
 
 import nl.vpro.domain.image.ImageType;
@@ -27,12 +30,16 @@ import static org.junit.Assume.assumeTrue;
 @Slf4j
 public class AddFrameTest extends AbstractApiMediaBackendTest {
 
-
     private static final Duration ACCEPTABLE_DURATION = Duration.ofMinutes(3);
 
     private static final Duration offset = Duration.ofMinutes(10).plus(Duration.ofMinutes((int) (20f * Math.random())));
 
     private static long jpegSizeOfImage = 13991L;
+
+    @BeforeClass
+    public static void init() {
+        log.info("Offset for this test {}", offset);
+    }
 
 
     @Test
