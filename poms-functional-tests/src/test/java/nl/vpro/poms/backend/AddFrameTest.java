@@ -102,6 +102,7 @@ public class AddFrameTest extends AbstractApiMediaBackendTest {
          waitUntil(ACCEPTABLE_DURATION,
             MID + " has no stills",
             () -> {
+                log.info("Getting full {}", MID);;
                 Program p = backend.getFullProgram(MID);
                 log.info("Found images for {}: {}", MID, p.getImages());
                 return
