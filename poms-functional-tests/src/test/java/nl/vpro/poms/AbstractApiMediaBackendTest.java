@@ -69,7 +69,7 @@ public abstract class AbstractApiMediaBackendTest extends AbstractApiTest {
             backendVersionNumber = Version.of(0);
 
         }
-        log.info("Using {} ({}, -> )", backend, backendVersion, backendVersionNumber);
+        log.info("Using {} ({} -> {})", backend, backendVersion, backendVersionNumber);
     }
 
     public Image createImage() {
