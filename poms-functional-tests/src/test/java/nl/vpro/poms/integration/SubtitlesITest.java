@@ -42,7 +42,7 @@ public class SubtitlesITest extends AbstractApiMediaBackendTest {
 
     private static final Duration ACCEPTABLE_DURATION_BACKEND = Duration.ofMinutes(2);
 
-    private static final Duration ACCEPTABLE_DURATION_FRONTEND = Duration.ofMinutes(12);
+    private static final Duration ACCEPTABLE_DURATION_FRONTEND = Duration.ofMinutes(15);
 
     public static final AvailableSubtitles JAPANESE_TRANSLATION = new AvailableSubtitles(Locale.JAPANESE, SubtitlesType.TRANSLATION);
 
