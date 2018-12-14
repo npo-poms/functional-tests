@@ -5,6 +5,8 @@ import lombok.extern.slf4j.Slf4j;
 import java.time.Duration;
 import java.util.stream.Collectors;
 
+import javax.ws.rs.core.Response;
+
 import org.junit.BeforeClass;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
@@ -43,7 +45,10 @@ public class AddFrameTest extends AbstractApiMediaBackendTest {
     @Test
     public void test01() {
 
-        backend.getFrameCreatorRestService().createFrame(MID, offset, null, null, getClass().getResourceAsStream("/VPRO.png"));
+        try (Response response = backend.getFrameCreatorRestService().createFrame(MID, offset, null, null, getClass().getResourceAsStream("/VPRO.png"))) {
+            log.info("{}", response);
+        }
+
         final ProgramUpdate[] update = new ProgramUpdate[1];
 
         waitUntil(ACCEPTABLE_DURATION,
@@ -67,7 +72,9 @@ public class AddFrameTest extends AbstractApiMediaBackendTest {
 
     @Test
     public void test01Overwrite() {
-        backend.getFrameCreatorRestService().createFrame(MID, offset, null, null, getClass().getResourceAsStream("/VPRO1970's.png"));
+        try (Response response = backend.getFrameCreatorRestService().createFrame(MID, offset, null, null, getClass().getResourceAsStream("/VPRO1970's.png"))) {
+            log.info("{}", response);
+        }
         waitUntil(ACCEPTABLE_DURATION,
             MID + " has STILL image with offset " + offset + " and size " + jpegSizeOfImage,
             () -> {

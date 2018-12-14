@@ -235,6 +235,8 @@ public class MediaBackendTest extends AbstractApiMediaBackendTest {
                 .ageRating(AgeRating.ALL)
                 .broadcasters("VPRO")
                 .mainTitle(title)
+                .ageRatingAllIfUnset()
+
                 .crids("crid://test.poms/1")
                 .build()
         );
