@@ -16,7 +16,7 @@
     <level value="WARN"/>
   </logger>
   <logger name="nl.vpro.rs.media.MediaRestClient.4">
-    <level value="WARN"/>
+    <level value="INFO"/>
   </logger>
   <logger name="com.joestelmach.natty">
     <level value="WARN"/>
