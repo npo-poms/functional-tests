@@ -256,7 +256,7 @@ public class MediaTest {
     }
 
 
-    private Program createClip(String crid, String dynamicSuffix, List<Segment> segments) throws ModificationException {
+    private Program createClip(String crid, String dynamicSuffix, List<Segment> segments) {
 
         return MediaTestDataBuilder.program()
             .validNew()
@@ -272,7 +272,7 @@ public class MediaTest {
 
 
 
-    private Segment createSegment(String crid, String dynamicSuffix, String midRef) throws ModificationException {
+    private Segment createSegment(String crid, String dynamicSuffix, String midRef) {
         return MediaTestDataBuilder.segment()
             .validNew()
             .crids(crid)

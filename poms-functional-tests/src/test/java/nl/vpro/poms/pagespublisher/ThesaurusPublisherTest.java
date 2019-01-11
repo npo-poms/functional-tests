@@ -63,7 +63,7 @@ public class ThesaurusPublisherTest extends AbstractApiTest {
     }
 
     @Test
-    public void test100Arrived() throws Exception {
+    public void test100Arrived() {
         assumeNotNull(gtaaId);
         log.info("Getting person with id {}", gtaaId);
         GTAAPerson item = (GTAAPerson) clients.getThesaurusRestService().itemStatus(gtaaId);
