@@ -76,7 +76,7 @@ public class LetterBoxTest extends AbstractApiMediaBackendTest {
 
 
     @Test
-    public void test02PostToNEP() {
+    public void test02PostToNEP() throws IOException {
         given()
             .auth().basic(USERNAME, PASSWORD)
             .log().ifValidationFails()
