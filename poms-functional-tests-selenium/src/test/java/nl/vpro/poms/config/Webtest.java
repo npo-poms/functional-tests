@@ -16,6 +16,7 @@ import org.junit.AfterClass;
 import org.junit.Assume;
 import org.junit.BeforeClass;
 import org.junit.Rule;
+import org.junit.rules.Timeout;
 import org.openqa.selenium.By;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -28,7 +29,12 @@ import nl.vpro.rules.TestMDC;
 @Slf4j
 public abstract class Webtest {
 
+
     public static final String    MID                = "WO_VPRO_025057";
+
+
+    @Rule
+    public Timeout timeout = new Timeout(5, TimeUnit.MINUTES);
 
 
     @Rule
