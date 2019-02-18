@@ -34,7 +34,8 @@ public class AddFrameTest extends AbstractApiMediaBackendTest {
 
     private static final Duration offset = Duration.ofMinutes(10).plus(Duration.ofMinutes((int) (20f * Math.random())));
 
-    private static long jpegSizeOfImage = 13991L;
+    //private static long jpegSizeOfImage = 13991L;
+    private static long originalSizeOfImage = 2621;
 
     @BeforeClass
     public static void init() {
@@ -46,7 +47,7 @@ public class AddFrameTest extends AbstractApiMediaBackendTest {
     public void test01() {
 
         try (Response response = backend.getFrameCreatorRestService().createFrame(MID, offset, null, null, getClass().getResourceAsStream("/VPRO.png"))) {
-            log.info("{}", response);
+            log.info("Response: {}", response);
         }
 
         final ProgramUpdate[] update = new ProgramUpdate[1];
@@ -63,7 +64,7 @@ public class AddFrameTest extends AbstractApiMediaBackendTest {
                                 iu.getOffset() != null &&
                                 iu.getOffset().equals(offset) &&
                                 iu.getType() == ImageType.STILL &&
-                                imageUtil.getSize(iu).orElse(-1L) != jpegSizeOfImage
+                                imageUtil.getSize(iu).orElse(-1L) != originalSizeOfImage
                         );
             });
     }
@@ -76,7 +77,7 @@ public class AddFrameTest extends AbstractApiMediaBackendTest {
             log.info("{}", response);
         }
         waitUntil(ACCEPTABLE_DURATION,
-            MID + " has STILL image with offset " + offset + " and size " + jpegSizeOfImage,
+            MID + " has STILL image with offset " + offset + " and size " + originalSizeOfImage,
             () -> {
                 ProgramUpdate p  = backend_authority.get(MID);
                 return p != null &&
@@ -87,7 +88,7 @@ public class AddFrameTest extends AbstractApiMediaBackendTest {
                                 iu.getOffset() != null &&
                                 iu.getOffset().equals(offset) &&
                                 iu.getType() == ImageType.STILL &&
-                                imageUtil.getSize(iu).orElse(-1L)  == jpegSizeOfImage
+                                imageUtil.getSize(iu).orElse(-1L)  == originalSizeOfImage
                         );
             });
     }
