@@ -2,7 +2,7 @@
 
 These are functional integration tests for POMS and the NPO Frontend and Backend API.
 
-This is used to test actual deployments of [POMS](https://poms.omroep.nl/), the [POMS Backend API](https://api.poms.omroep.nl), and the [POMS Frontend API)(https://rs.poms.omroep.nl)
+This is used to test actual deployments of [POMS](https://poms.omroep.nl/), the [POMS Backend API](https://api.poms.omroep.nl), and the [POMS Frontend API](https://rs.poms.omroep.nl)
 
 This is currently split up in 3 modules
 * a shared module, this contains only code which is shared by the other modules but no actual tests
