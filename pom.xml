@@ -168,7 +168,7 @@
         <version>${api.client.version}</version>
       </dependency>
       <dependency>
-        <groupId>nl.publiekeomroep</groupId>
+        <groupId>nl.vpro.poms</groupId>
         <artifactId>poms-shared-domain</artifactId>
         <version>${poms.shared.version}</version>
       </dependency>
