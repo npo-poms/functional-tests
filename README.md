@@ -23,4 +23,4 @@ git clone --recurse-submodules https://github.com/npo-poms/functional-tests.git
 ```
 
 ### Lombok
-We use [lombok](https://projectlombok.org) to avoid boiler plate. The maven build is aware of this but your idea may need help. E.g. for intellij: https://plugins.jetbrains.com/plugin/6317-lombok-plugin
+We use [lombok](https://projectlombok.org) to avoid boiler plate code. The maven build is aware of this but your IDE may need help. E.g. for intellij: https://plugins.jetbrains.com/plugin/6317-lombok-plugin
