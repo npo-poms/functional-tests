@@ -16,11 +16,11 @@ The tests require a configuration file `${USER.HOME}/conf/npo-functional-tests.p
 tests additionally require `${USER.HOME}/conf/npo-browser-tests.properties`. These files must contain the required credentials to be able to run the tests.  Default values can be found in src/main/test/resources of the relevant module.
 
 ## Remarks
-# Externals
+### Externals
 If you want to run all tests, you need to check out this including git submodules. One of things which are tests is whether all examples of https://github.com/npo-poms/api/tree/master/examples execute without errors (and for a bunch of them extra checks are implemented)
 ```bash
 git clone --recurse-submodules https://github.com/npo-poms/functional-tests.git
 ```
 
-# Lombok
+### Lombok
 We use [lombok](https://projectlombok.org) to avoid boiler plate. The maven build is aware of this but your idea may need help. E.g. for intellij: https://plugins.jetbrains.com/plugin/6317-lombok-plugin
