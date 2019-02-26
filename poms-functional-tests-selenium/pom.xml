@@ -45,6 +45,11 @@
       <groupId>nl.vpro.shared</groupId>
       <artifactId>vpro-shared-util</artifactId>
     </dependency>
+    <dependency>
+      <groupId>io.github.bonigarcia</groupId>
+      <artifactId>webdrivermanager</artifactId>
+      <version>3.3.0</version>
+    </dependency>
   </dependencies>
 
 </project>
