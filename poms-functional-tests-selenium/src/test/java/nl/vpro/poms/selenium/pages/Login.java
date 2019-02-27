@@ -19,8 +19,8 @@ public class Login extends AbstractPage {
 
     private static final By passwdBy = By.id("password");
 
-    private static final By loginBy = By.xpath("//input[@name='submit' and @value='LOGIN']");
-
+    private static final By loginBy = By.cssSelector("input.btn-submit");
+    
     private static final String URL = CONFIG.getProperties(Config.Prefix.poms).get("baseUrl");
 
     public Login(WebDriver driver ) {

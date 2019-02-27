@@ -20,9 +20,11 @@ public class AddNewObjectOverlayPage extends AbstractPage {
 	
 	private static final String typeOptionTemplate = "//div[contains(text(),'%s')]";
 	
+	private static final String selectedOmroepTemplate = "//div[@class='dropdown-selected' and contains(text(),'%s')]";
+	
 	private static final By maakAanButtonBy = By.xpath("//button[contains(text(),'Maak aan')]");
 	
-	private static final By closeBy = By.xpath("//div[@class='modal-close-button']");
+	private static final By closeBy = By.cssSelector("div.modal-close-button");
 
 	public AddNewObjectOverlayPage(WebDriver driver) {
 		super(driver);
@@ -54,6 +56,12 @@ public class AddNewObjectOverlayPage extends AbstractPage {
 		avTypeElement.click();
 		clickOption(avType);
 	}
+	
+	public boolean omroepIsSelected(String omroep) {
+		By omroepSelectedBy = By.xpath(String.format(selectedOmroepTemplate, omroep));
+		WebElement omroepSelectedElement = driver.findElement(omroepSelectedBy);
+		return omroepSelectedElement.isDisplayed();
+	}
 
 	public void chooseGenre(String genre) {
 		WebDriverWait wait = new WebDriverWait(driver, 30, 100);
@@ -84,5 +92,6 @@ public class AddNewObjectOverlayPage extends AbstractPage {
 		WebElement closeElement = driver.findElement(closeBy);
 		closeElement.click();
 	}
+
 
 }

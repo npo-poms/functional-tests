@@ -2,3 +2,14 @@ target
 *.iml
 api
 .idea
+/.metadata/
+.recommenders/
+poms-functional-tests-selenium/.classpath
+poms-functional-tests-selenium/.project
+poms-functional-tests-selenium/.settings/
+poms-functional-tests-shared/.classpath
+poms-functional-tests-shared/.project
+poms-functional-tests-shared/.settings
+poms-functional-tests/.classpath
+poms-functional-tests/.project
+poms-functional-tests/.settings/

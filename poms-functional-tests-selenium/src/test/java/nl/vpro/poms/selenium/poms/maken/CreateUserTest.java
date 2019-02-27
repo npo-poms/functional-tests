@@ -62,13 +62,20 @@ public class CreateUserTest {
     @Test
     public void createUser3() {
     	loginSpeciaalVf();
+    	
     	Search search = new Search(driver);
     	search.goToAccountInstellingen();
+    	
     	AccountSettingsOverlayPage overlayPage = new AccountSettingsOverlayPage(driver);
     	overlayPage.addStandaardOmroep("NPS");
     	overlayPage.clickOpslaan();
     	search.clickNew();
-//    	logout();
+    	
+    	AddNewObjectOverlayPage overlay = new AddNewObjectOverlayPage(driver);
+    	Assert.assertTrue("Standard omroep NPS is present", overlay.omroepIsSelected("NPS"));
+    	overlay.close();
+    	
+    	logout();
     }
     
 	private void loginSpeciaalVf() {
