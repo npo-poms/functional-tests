@@ -8,13 +8,13 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Predicate;
 
+import javax.xml.bind.JAXB;
+
 import org.assertj.core.api.Assertions;
 import org.junit.*;
 import org.junit.runners.MethodSorters;
 
-import nl.vpro.domain.media.AgeRating;
-import nl.vpro.domain.media.MediaBuilder;
-import nl.vpro.domain.media.MediaTestDataBuilder;
+import nl.vpro.domain.media.*;
 import nl.vpro.domain.media.update.*;
 import nl.vpro.poms.AbstractApiMediaBackendTest;
 import nl.vpro.rs.media.ResponseError;
@@ -69,11 +69,13 @@ public class MediaBackendTest extends AbstractApiMediaBackendTest {
                 .title(title)
                 .broadcasters("VPRO")
                 .languages("ZH")
+                .predictions(Prediction.builder().platform(Platform.INTERNETVOD).encryption(Encryption.NONE).plannedAvailability(true).build())
                 .constrainedNew()
                 .build()
         );
-        clip.setVersion(Version.of(5, 5));
+        clip.setVersion(Version.of(5, 9));
 
+        JAXB.marshal(clip, System.out);
         newMid = backend.set(clip);
         assertThat(newMid).isNotEmpty();
 
@@ -112,6 +114,8 @@ public class MediaBackendTest extends AbstractApiMediaBackendTest {
             Objects::nonNull);
         //assertThat(u.getSegments()).hasSize(1);
         assertThat(u.getLanguages()).containsExactly(new Locale("ZH"));
+        assertThat(u.getPredictions()).hasSize(1);
+        assertThat(u.getPredictions().first().getPlatform()).isEqualTo(Platform.INTERNETVOD);
 
         MediaUpdateList<MemberUpdate> memberUpdates = waitUntil(ACCEPTABLE_DURATION,
             newMid + " exists and has one member",
@@ -119,6 +123,7 @@ public class MediaBackendTest extends AbstractApiMediaBackendTest {
             (groupMembers) -> groupMembers.size() == 1
         );
         assertThat(memberUpdates).hasSize(1);
+
     }
 
    /* @Test
