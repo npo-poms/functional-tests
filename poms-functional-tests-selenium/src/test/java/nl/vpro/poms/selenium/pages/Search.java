@@ -1,11 +1,16 @@
 package nl.vpro.poms.selenium.pages;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+
+import com.paulhammant.ngwebdriver.NgWebDriver;
+
+import nl.vpro.poms.selenium.util.Sleeper;
 
 public class Search extends AbstractPage {
 
@@ -46,13 +51,19 @@ public class Search extends AbstractPage {
     }
 
 	public void goToAccountInstellingen() {
+		NgWebDriver ngWebDriver = new NgWebDriver((JavascriptExecutor) driver);
+		WebDriverWait wait = new WebDriverWait(driver, 30, 100);
 		clickMenu();
+		wait.until(ExpectedConditions.elementToBeClickable(accountInstellingenBy));
 		WebElement accountInstellingenElement = driver.findElement(accountInstellingenBy);
 		accountInstellingenElement.click();
 	}
 
 	private void clickMenu() {
+		NgWebDriver ngWebDriver = new NgWebDriver((JavascriptExecutor) driver);
+		ngWebDriver.waitForAngularRequestsToFinish();
 		WebElement menuElement = driver.findElement(menuBy);
 		menuElement.click();
+		Sleeper.sleep(5000);
 	}
 }
