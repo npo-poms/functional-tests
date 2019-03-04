@@ -9,6 +9,8 @@ import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import com.paulhammant.ngwebdriver.NgWebDriver;
+
 import nl.vpro.poms.selenium.util.Sleeper;
 
 public class AccountSettingsOverlayPage extends AbstractPage {
@@ -42,31 +44,39 @@ public class AccountSettingsOverlayPage extends AbstractPage {
 
 	public void addStandaardOmroep(String omroep) {
 		clickStandaardOmroepDropdown();
+		NgWebDriver ngWebDriver = new NgWebDriver((JavascriptExecutor) driver);
 		By omroepBy = By.xpath(String.format(standaardOmroepTemplate, omroep));
 		WebElement omroepElement = driver.findElement(omroepBy);
 		((JavascriptExecutor) driver).executeScript("arguments[0].click()", omroepElement);
 //		omroepElement.click();
-		Sleeper.sleep(5000);
+		ngWebDriver.waitForAngularRequestsToFinish();
+//		Sleeper.sleep(5000);
 	}
 
 	public void removeStandaardOmroep(String omroep) {
+		NgWebDriver ngWebDriver = new NgWebDriver((JavascriptExecutor) driver);
 		clickStandaardOmroepDropdown();
 		By selectedStandaardOmroepBy = By.xpath(String.format(selectedStandaardOmroepTemplate, omroep));
 		WebElement selectedStandaardOmroepElement = driver.findElement(selectedStandaardOmroepBy);
 		selectedStandaardOmroepElement.click();
+		ngWebDriver.waitForAngularRequestsToFinish();
 	}
 
 	private void clickStandaardOmroepDropdown() {
+		NgWebDriver ngWebDriver = new NgWebDriver((JavascriptExecutor) driver);
 		WebDriverWait wait = new WebDriverWait(driver, 30, 100);
 		wait.until(ExpectedConditions.elementToBeClickable(standaardOmroepDropdownBy));
 		WebElement standaardOmroepDropdown = driver.findElement(standaardOmroepDropdownBy);
 		standaardOmroepDropdown.click();
+		ngWebDriver.waitForAngularRequestsToFinish();
 	}
 
 	public void clickOpslaan() {
 //		Sleeper.sleep(5000);
+		NgWebDriver ngWebDriver = new NgWebDriver((JavascriptExecutor) driver);
 		WebElement opslaanElement = driver.findElement(opslaanBy);
 		opslaanElement.click();
+		ngWebDriver.waitForAngularRequestsToFinish();
 		WebDriverWait wait = new WebDriverWait(driver, 30, 100);
 		wait.until(new ExpectedCondition<Boolean>() {
 			@Override
@@ -74,6 +84,6 @@ public class AccountSettingsOverlayPage extends AbstractPage {
 				return localDriver.findElements(formBy).size() == 0;
 			}
 		});
-		Sleeper.sleep(2000);
+//		Sleeper.sleep(2000);
 	}
 }

@@ -57,6 +57,7 @@ public class Search extends AbstractPage {
 		wait.until(ExpectedConditions.elementToBeClickable(accountInstellingenBy));
 		WebElement accountInstellingenElement = driver.findElement(accountInstellingenBy);
 		accountInstellingenElement.click();
+		ngWebDriver.waitForAngularRequestsToFinish();
 	}
 
 	private void clickMenu() {
@@ -64,6 +65,7 @@ public class Search extends AbstractPage {
 		ngWebDriver.waitForAngularRequestsToFinish();
 		WebElement menuElement = driver.findElement(menuBy);
 		menuElement.click();
+		ngWebDriver.waitForAngularRequestsToFinish();
 		Sleeper.sleep(5000);
 	}
 }

@@ -3,6 +3,7 @@ package nl.vpro.poms.selenium.poms.maken;
 import org.junit.*;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
+//import org.openqa.selenium.support.ui.Sleeper;
 
 import com.paulhammant.ngwebdriver.NgWebDriver;
 
@@ -11,18 +12,17 @@ import nl.vpro.poms.selenium.pages.AddNewObjectOverlayPage;
 import nl.vpro.poms.selenium.pages.Login;
 import nl.vpro.poms.selenium.pages.Search;
 import nl.vpro.poms.selenium.util.DateFactory;
-import nl.vpro.poms.selenium.util.Sleeper;
 import nl.vpro.poms.selenium.util.WebDriverFactory;
 import nl.vpro.poms.selenium.util.WebDriverFactory.Browser;
 
 import static nl.vpro.poms.selenium.util.Config.CONFIG;
 
 
+
 public class CreateUserTest {
 
     private WebDriver driver;
     
-
     @Before
     public void setUp() {
         driver = WebDriverFactory.getWebDriver(Browser.CHROME);
@@ -35,7 +35,7 @@ public class CreateUserTest {
     }
 
     @Test
-    public void createUser1() {
+    public void testMaakAanDisabled() {
         loginSpeciaalVf();
         
         Search search = new Search(driver);
@@ -49,7 +49,7 @@ public class CreateUserTest {
     }
     
     @Test
-    public void createUser2() {
+    public void testMakeNewClip() {
     	loginSpeciaalVf();
     	
     	Search search = new Search(driver);
@@ -66,7 +66,7 @@ public class CreateUserTest {
     }
     
     @Test
-    public void createUser3() {
+    public void testAddNewStandardOmroep() {
     	loginSpeciaalVf();
     	
     	Search search = new Search(driver);
@@ -78,9 +78,11 @@ public class CreateUserTest {
     	System.out.println("###" + visibleStandaardOmroep);
 //		Assert.assertFalse(String.format("Standard omroep %s is not present", omroep), 
 //				visibleStandaardOmroep);
-    	overlayPage.addStandaardOmroep(omroep);
-    	overlayPage.clickOpslaan();
+//    	overlayPage.addStandaardOmroep(omroep);
+//    	overlayPage.clickOpslaan();
+//    	Sleeper.sleep(Duration.ofSeconds(5));
 //    	Sleeper.sleep(5000);
+    	
     	
 //    	search.clickNew();
 //    	AddNewObjectOverlayPage overlay = new AddNewObjectOverlayPage(driver);
@@ -93,7 +95,7 @@ public class CreateUserTest {
     }
     
     @Test
-    public void createUser4() {
+    public void testAddTwoStandardOmroep() {
     	loginSpeciaalVf();
     
     	Search search = new Search(driver);
@@ -124,7 +126,7 @@ public class CreateUserTest {
     }
     
     @Test
-    public void createUser5() {
+    public void testPersistStandardOmroep() {
     	loginSpeciaalVf();
     
     	Search search = new Search(driver);
