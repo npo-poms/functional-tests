@@ -44,6 +44,7 @@ public class Search extends AbstractPage {
 	private static final By zoekMetDatumBy = By.cssSelector("a.search-daterange-submit");
 	private static final By tagMenuBy = By.cssSelector("[name=Tags] > span");
 	private static final By tabInputBy = By.cssSelector("[name=Tags] input");
+	private static final String selectedOptionTemplate = "//*[contains(@class,'dropdown-selected') and contains(text(), '%s')]";
     
     public Search(WebDriver driver) {
         super(driver);
@@ -186,5 +187,13 @@ public class Search extends AbstractPage {
 		tagElement.click();
 		WebElement tagInputElement = driver.findElement(tabInputBy);
 		tagInputElement.sendKeys(tag);
+	}
+	
+	public void removeSelectedOption(String option) {
+		WebDriverWait wait = new WebDriverWait(driver, 30, 100);
+		By selectedOptionBy = By.xpath(String.format(selectedOptionTemplate, option));
+		WebElement selectedOptionElement = driver.findElement(selectedOptionBy);
+		wait.until(ExpectedConditions.elementToBeClickable(selectedOptionElement));
+		selectedOptionElement.click();
 	}
 }

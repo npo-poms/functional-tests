@@ -131,7 +131,7 @@ public class SearchTest extends AbstractTest {
 		Search search = new Search(driver);
 		search.selectOptionFromMenu("Omroepen", "AVRO");
 		search.enterQuery("pluk");
-		
+		search.removeSelectedOption("AVRO");
 //		logout();
 	}
 	
