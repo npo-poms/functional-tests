@@ -3,9 +3,10 @@ package nl.vpro.poms.selenium.poms.zoeken;
 import static nl.vpro.poms.selenium.util.Config.CONFIG;
 
 import java.util.Date;
+import java.util.List;
 
 import org.junit.Test;
-
+import org.openqa.selenium.WebElement;
 import org.junit.Assert;
 import nl.vpro.poms.selenium.pages.Login;
 import nl.vpro.poms.selenium.pages.Search;
@@ -132,7 +133,17 @@ public class SearchTest extends AbstractTest {
 		search.selectOptionFromMenu("Omroepen", "AVRO");
 		search.enterQuery("pluk");
 		search.removeSelectedOption("AVRO");
-//		logout();
+		logout();
+	}
+	
+	@Test
+	public void testWithTitleSuggestion() {
+		loginSpeciaalVf();
+		Search search = new Search(driver);
+		search.enterQuery("pluk");
+		List<WebElement> suggestions = search.getSuggestions("pluk");
+		Assert.assertFalse(suggestions.isEmpty());
+		logout();
 	}
 	
 	private void loginSpeciaalVf() {

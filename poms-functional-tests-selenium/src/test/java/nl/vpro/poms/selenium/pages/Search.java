@@ -45,6 +45,7 @@ public class Search extends AbstractPage {
 	private static final By tagMenuBy = By.cssSelector("[name=Tags] > span");
 	private static final By tabInputBy = By.cssSelector("[name=Tags] input");
 	private static final String selectedOptionTemplate = "//*[contains(@class,'dropdown-selected') and contains(text(), '%s')]";
+	private static final String dropdownSuggestionTemplate = "//span[@ng-switch-when='searchSuggestion' and contains(translate(text(),'ABCDEFGHIJKLMNOPURSTUWXYZ','abcdefghijklmnopurstuwxyz'),translate('%s','ABCDEFGHIJKLMNOPURSTUWXYZ','abcdefghijklmnopurstuwxyz'))]";
     
     public Search(WebDriver driver) {
         super(driver);
@@ -195,5 +196,15 @@ public class Search extends AbstractPage {
 		WebElement selectedOptionElement = driver.findElement(selectedOptionBy);
 		wait.until(ExpectedConditions.elementToBeClickable(selectedOptionElement));
 		selectedOptionElement.click();
+	}
+
+	public List<WebElement> getSuggestions(String key) {
+		WebElement selectedOptionElement = driver.findElement(queryBy);
+		selectedOptionElement.click();
+		Sleeper.sleep(1000);
+		String format = String.format(dropdownSuggestionTemplate, key);
+		System.out.println(format);
+		By dropdownSuggestionBy = By.xpath(format);
+		return driver.findElements(dropdownSuggestionBy);
 	}
 }
