@@ -146,6 +146,20 @@ public class SearchTest extends AbstractTest {
 		logout();
 	}
 	
+	@Test
+	public void testAddAndRemoveColumn() {
+		loginSpeciaalVf();
+		Search search = new Search(driver);
+		search.addOrRemoveColumn("MID");
+		Assert.assertTrue(search.isColumnSelectorChecked("MID"));
+		logout();
+		loginSpeciaalVf();
+		Assert.assertTrue(search.isColumnSelectorChecked("MID"));
+		search.addOrRemoveColumn("MID");
+		Assert.assertFalse(search.isColumnSelectorChecked("MID"));
+		logout();
+	}
+	
 	private void loginSpeciaalVf() {
 		Login login = new Login(driver);
 		login.gotoPage();

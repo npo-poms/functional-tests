@@ -203,4 +203,24 @@ public class Search extends AbstractPage {
 		By dropdownSuggestionBy = By.xpath(format);
 		return driver.findElements(dropdownSuggestionBy);
 	}
+
+	public void addOrRemoveColumn(String column) {
+		WebElement columnSelectElement = driver.findElement(columnSelectBy);
+		columnSelectElement.click();
+		By columnCheckboxBy = By.xpath(String.format(columnCheckboxTemplate, column));
+		WebElement columnCheckboxElement = driver.findElement(columnCheckboxBy);
+		columnCheckboxElement.click();
+		columnSelectElement.click();
+	}
+
+	public boolean isColumnSelectorChecked(String column) {
+		wait.until(ExpectedConditions.visibilityOfElementLocated(columnSelectBy));
+		WebElement columnSelectElement = driver.findElement(columnSelectBy);
+		columnSelectElement.click();
+		By columnCheckboxBy = By.xpath(String.format(columnCheckboxTemplate, column));
+		WebElement columnCheckboxElement = driver.findElement(columnCheckboxBy);
+		String checked = columnCheckboxElement.getAttribute("checked");
+		columnSelectElement.click();
+		return "true".equals(checked);
+	}
 }
