@@ -46,20 +46,20 @@ public class Search extends AbstractPage {
 	private static final By tabInputBy = By.cssSelector("[name=Tags] input");
 	private static final String selectedOptionTemplate = "//*[contains(@class,'dropdown-selected') and contains(text(), '%s')]";
 	private static final String dropdownSuggestionTemplate = "//span[@ng-switch-when='searchSuggestion' and contains(translate(text(),'ABCDEFGHIJKLMNOPURSTUWXYZ','abcdefghijklmnopurstuwxyz'),translate('%s','ABCDEFGHIJKLMNOPURSTUWXYZ','abcdefghijklmnopurstuwxyz'))]";
+	private static final By columnSelectBy = By.cssSelector("div.column-select-icon");
+	private static final String columnCheckboxTemplate = "//span[contains(text(),'%s')]/following-sibling::input[@type='checkbox']";
     
     public Search(WebDriver driver) {
         super(driver);
     }
     
     public void clickNew() {
-    	WebDriverWait wait = new WebDriverWait(driver, 30, 100);
     	wait.until(ExpectedConditions.elementToBeClickable(newBy));
 		WebElement element = driver.findElement(newBy);
 		element.click();
 	}
 
     public void logout() {
-    	WebDriverWait wait = new WebDriverWait(driver, 30, 100);
     	wait.until(new ExpectedCondition<Boolean>() {
 						@Override
 						public Boolean apply(WebDriver localDriver) {
@@ -77,7 +77,6 @@ public class Search extends AbstractPage {
 
 	public void goToAccountInstellingen() {
 		NgWebDriver ngWebDriver = new NgWebDriver((JavascriptExecutor) driver);
-		WebDriverWait wait = new WebDriverWait(driver, 30, 100);
 		clickMenu();
 		wait.until(ExpectedConditions.elementToBeClickable(accountInstellingenBy));
 		WebElement accountInstellingenElement = driver.findElement(accountInstellingenBy);
@@ -95,7 +94,6 @@ public class Search extends AbstractPage {
 	}
 
 	public void enterQuery(String query) {
-//		WebDriverWait wait = new WebDriverWait(driver, 30, 100);
 		WebElement queryElement = driver.findElement(queryBy);
 		queryElement.sendKeys(query);
 		clickZoeken();
@@ -133,7 +131,6 @@ public class Search extends AbstractPage {
 	}
 
 	public void enterSorteerdatumDates(String start, String end) {
-		// TODO: Add date kind: Sorteerdatum/Uitzenddatum, Uitzenddatum, Gewijzigd, Aangemaakt
 		clickDatePersonMenu();
 		WebElement uitzenddatumElement = driver.findElement(sorteerdatumBy);
 		uitzenddatumElement.click();
@@ -142,7 +139,6 @@ public class Search extends AbstractPage {
 	}
 	
 	public void enterUitzenddatumDates(String start, String end) {
-		// TODO: Add date kind: Sorteerdatum/Uitzenddatum, Uitzenddatum, Gewijzigd, Aangemaakt
 		clickDatePersonMenu();
 		WebElement uitzenddatumElement = driver.findElement(uitzenddatumBy);
 		uitzenddatumElement.click();

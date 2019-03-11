@@ -64,7 +64,6 @@ public class AccountSettingsOverlayPage extends AbstractPage {
 
 	private void clickStandaardOmroepDropdown() {
 		NgWebDriver ngWebDriver = new NgWebDriver((JavascriptExecutor) driver);
-		WebDriverWait wait = new WebDriverWait(driver, 30, 100);
 		wait.until(ExpectedConditions.elementToBeClickable(standaardOmroepDropdownBy));
 		WebElement standaardOmroepDropdown = driver.findElement(standaardOmroepDropdownBy);
 		standaardOmroepDropdown.click();
@@ -72,18 +71,15 @@ public class AccountSettingsOverlayPage extends AbstractPage {
 	}
 
 	public void clickOpslaan() {
-//		Sleeper.sleep(5000);
 		NgWebDriver ngWebDriver = new NgWebDriver((JavascriptExecutor) driver);
 		WebElement opslaanElement = driver.findElement(opslaanBy);
 		opslaanElement.click();
 		ngWebDriver.waitForAngularRequestsToFinish();
-		WebDriverWait wait = new WebDriverWait(driver, 30, 100);
 		wait.until(new ExpectedCondition<Boolean>() {
 			@Override
 			public Boolean apply(WebDriver localDriver) {
 				return localDriver.findElements(formBy).size() == 0;
 			}
 		});
-//		Sleeper.sleep(2000);
 	}
 }

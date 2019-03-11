@@ -35,14 +35,12 @@ public class AddNewObjectOverlayPage extends AbstractPage {
 	}
 	
 	public void enterTitle(String title) {
-		WebDriverWait wait = new WebDriverWait(driver, 30, 100);
 		wait.until(ExpectedConditions.elementToBeClickable(titleInputBy));
 		WebElement titleInputElement = driver.findElement(titleInputBy);
 		titleInputElement.sendKeys(title);
 	}
 
 	public void chooseMediaType(String mediaType) {
-		WebDriverWait wait = new WebDriverWait(driver, 30, 100);
 		wait.until(ExpectedConditions.elementToBeClickable(mediaTypeBy));
 		WebElement mediaTypeElement = driver.findElement(mediaTypeBy);
 		mediaTypeElement.click();
@@ -50,7 +48,6 @@ public class AddNewObjectOverlayPage extends AbstractPage {
 	}
 	
 	public void chooseAvType(String avType) {
-		WebDriverWait wait = new WebDriverWait(driver, 30, 100);
 		wait.until(ExpectedConditions.elementToBeClickable(avTypeBy));
 		WebElement avTypeElement = driver.findElement(avTypeBy);
 		avTypeElement.click();
@@ -64,7 +61,6 @@ public class AddNewObjectOverlayPage extends AbstractPage {
 	}
 
 	public void chooseGenre(String genre) {
-		WebDriverWait wait = new WebDriverWait(driver, 30, 100);
 		wait.until(ExpectedConditions.elementToBeClickable(genreBy));
 		WebElement genreElement = driver.findElement(genreBy);
 		genreElement.click();
@@ -92,6 +88,4 @@ public class AddNewObjectOverlayPage extends AbstractPage {
 		WebElement closeElement = driver.findElement(closeBy);
 		closeElement.click();
 	}
-
-
 }
