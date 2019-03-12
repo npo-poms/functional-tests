@@ -1,5 +1,7 @@
 package nl.vpro.poms.selenium.pages;
 
+import java.util.List;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.NoSuchElementException;
@@ -13,7 +15,7 @@ import com.paulhammant.ngwebdriver.NgWebDriver;
 
 import nl.vpro.poms.selenium.util.Sleeper;
 
-public class AccountSettingsOverlayPage extends AbstractPage {
+public class AccountSettingsOverlayPage extends AbstractOverlayPage {
 
 //	private static final By standaardOmroepDropdownBy = By.xpath("//span[contains(text(),'Standaard-omroepen')]");
 	private static final By standaardOmroepDropdownBy = By.cssSelector("poms-ui-select-multi[name=Standaard-omroepen] > span");
@@ -27,6 +29,15 @@ public class AccountSettingsOverlayPage extends AbstractPage {
 	private static final String selectedOmroepTemplate = "//div[@class='dropdown-selected' and contains(text(),'%s')]";
 
 	private static final By opslaanBy = By.xpath("//button[contains(text(),'Opslaan')]");
+	
+	private static final By rolesBy = By.cssSelector("span[data-ng-repeat='role in editor.roles']");
+	
+	private static final By roleParagraphBy = By.cssSelector("p.modal-text-small");
+	
+	private static final String singleRoleTemplate = "//span[@data-ng-repeat='role in editor.roles' and contains(text(), '%s')]";
+	
+//	private static final String ownerButtonTemplate = "input[name='ownertype][value='%s']";
+	private static final String ownerButtonTemplate = "input[value='%s']";
 
 	public AccountSettingsOverlayPage(WebDriver driver) {
 		super(driver);
@@ -81,5 +92,29 @@ public class AccountSettingsOverlayPage extends AbstractPage {
 				return localDriver.findElements(formBy).size() == 0;
 			}
 		});
+	}
+
+	public List<WebElement> getRoles() {
+		List<WebElement> roles = driver.findElements(rolesBy);
+		return roles;
+	}
+	
+	public boolean hasRole(String role) {
+		WebElement roleParagraphElement = driver.findElement(roleParagraphBy);
+		By roleBy = By.xpath(String.format(singleRoleTemplate, role));
+		System.out.println("XXX" + roleBy.toString());
+		WebElement roleElement = roleParagraphElement.findElement(roleBy);
+		String roleText = roleElement.getAttribute("innerHTML");
+		System.out.println("###" + roleText);
+		if (roleText == null) {
+			return false;
+		}
+		return roleText.contains(role);
+	}
+
+	public void checkOwner(String owner) {
+		By ownerBy = By.cssSelector(String.format(ownerButtonTemplate, owner));
+		WebElement ownerElement = driver.findElement(ownerBy);
+		ownerElement.click();
 	}
 }

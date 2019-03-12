@@ -9,6 +9,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -29,6 +30,7 @@ public class Search extends AbstractPage {
     
     private static final By queryBy = By.cssSelector("input#query");
 	private static final By zoekenBy = By.cssSelector("button#submit");
+	private static final By wissenBy = By.xpath("//button[contains(text(),'Wissen')]");
 	private static final By resultTableBy = By.cssSelector("table.search-results-list");
 	private static final String foundItemTemplate = "span[title='%s']";
 	private static final By closeTabBy = By.cssSelector("span.tab-close");
@@ -48,7 +50,12 @@ public class Search extends AbstractPage {
 	private static final String dropdownSuggestionTemplate = "//span[@ng-switch-when='searchSuggestion' and contains(translate(text(),'ABCDEFGHIJKLMNOPURSTUWXYZ','abcdefghijklmnopurstuwxyz'),translate('%s','ABCDEFGHIJKLMNOPURSTUWXYZ','abcdefghijklmnopurstuwxyz'))]";
 	private static final By columnSelectBy = By.cssSelector("div.column-select-icon");
 	private static final String columnCheckboxTemplate = "//span[contains(text(),'%s')]/following-sibling::input[@type='checkbox']";
-    
+	private static final By tableRowsBy = By.cssSelector("tr.poms-table-row");
+	private static final By imagesBy = By.cssSelector("div.media-images");
+	
+	private static final String SCROLL_SCRIPT = 
+			"window.scrollBy(0,(-window.innerHeight + arguments[0].getBoundingClientRect().top + arguments[0].getBoundingClientRect().bottom) / 2);";
+	
     public Search(WebDriver driver) {
         super(driver);
     }
@@ -223,4 +230,41 @@ public class Search extends AbstractPage {
 		columnSelectElement.click();
 		return "true".equals(checked);
 	}
+
+	// TODO: To be included?
+	public void clickRow(int index) {
+		wait.until(ExpectedConditions.visibilityOfElementLocated(tableRowsBy));
+		List<WebElement> tableRows = driver.findElements(tableRowsBy);
+		WebElement row = tableRows.get(index);
+		WebElement span = row.findElement(By.cssSelector("span"));
+		moveToElement(span);
+		Actions actions = new Actions(driver);
+		actions.moveToElement(span).doubleClick().perform();
+		
+	}
+	// TODO: To be included?
+	private void moveToElement(WebElement element) {
+		((JavascriptExecutor) driver).executeScript(SCROLL_SCRIPT, element);
+		((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView({block: 'center'});", element);
+	}
+	// TODO: To be included?
+	public void scrollToAfbeeldingen() {
+		WebElement element = driver.findElement(imagesBy);
+		moveToElement(element);
+		Actions actions = new Actions(driver);
+		actions.moveToElement(element).doubleClick().perform();
+	}
+	// TODO: To be included?
+//	public List<WebElement> getTableRows() {
+//		wait.until(ExpectedConditions.visibilityOfElementLocated(tableRowsBy));
+//		List<WebElement> tableRows = driver.findElements(tableRowsBy);
+//		return tableRows;
+//	}
+
+	public void clickWissen() {
+		WebElement wissenElement = driver.findElement(wissenBy);
+		wissenElement.click();
+	}
+	
+	
 }

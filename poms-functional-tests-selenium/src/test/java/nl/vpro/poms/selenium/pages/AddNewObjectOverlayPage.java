@@ -6,7 +6,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-public class AddNewObjectOverlayPage extends AbstractPage {
+public class AddNewObjectOverlayPage extends AbstractOverlayPage {
 	
 	private static final By titleInputBy = By.id("inputTitle");
 	
@@ -24,8 +24,6 @@ public class AddNewObjectOverlayPage extends AbstractPage {
 	
 	private static final By maakAanButtonBy = By.xpath("//button[contains(text(),'Maak aan')]");
 	
-	private static final By closeBy = By.cssSelector("div.modal-close-button");
-
 	public AddNewObjectOverlayPage(WebDriver driver) {
 		super(driver);
 	}
@@ -84,8 +82,4 @@ public class AddNewObjectOverlayPage extends AbstractPage {
 		maakAanButton.click();
 	}
 
-	public void close() {
-		WebElement closeElement = driver.findElement(closeBy);
-		closeElement.click();
-	}
 }
