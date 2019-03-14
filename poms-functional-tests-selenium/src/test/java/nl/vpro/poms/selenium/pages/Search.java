@@ -52,6 +52,9 @@ public class Search extends AbstractPage {
 	private static final String columnCheckboxTemplate = "//span[contains(text(),'%s')]/following-sibling::input[@type='checkbox']";
 	private static final By tableRowsBy = By.cssSelector("tr.poms-table-row");
 	private static final By imagesBy = By.cssSelector("div.media-images");
+	private static final By adminBy = By.xpath("//span[contains(text(), 'admin') and contains(@class, 'btn-text-icon-admin')]");
+	private static final String adminItemTemplate = "//a[contains(text(), '%s')]";
+	
 	
 	private static final String SCROLL_SCRIPT = 
 			"window.scrollBy(0,(-window.innerHeight + arguments[0].getBoundingClientRect().top + arguments[0].getBoundingClientRect().bottom) / 2);";
@@ -264,6 +267,14 @@ public class Search extends AbstractPage {
 	public void clickWissen() {
 		WebElement wissenElement = driver.findElement(wissenBy);
 		wissenElement.click();
+	}
+
+	public void clickAdminItem(String item) {
+		WebElement adminElement = driver.findElement(adminBy);
+		adminElement.click();
+		By itemBy = By.xpath(String.format(adminItemTemplate, item));
+		WebElement itemElement = driver.findElement(itemBy);
+		itemElement.click();
 	}
 	
 	

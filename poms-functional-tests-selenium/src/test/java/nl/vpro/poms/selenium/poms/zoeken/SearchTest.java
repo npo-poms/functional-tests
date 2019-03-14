@@ -168,9 +168,4 @@ public class SearchTest extends AbstractTest {
 		login.login(user, password);
 	}
 
-	private void logout() {
-		Search search = new Search(driver);
-		search.logout();
-	}
-
 }

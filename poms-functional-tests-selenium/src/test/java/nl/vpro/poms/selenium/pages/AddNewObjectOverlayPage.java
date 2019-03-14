@@ -82,4 +82,15 @@ public class AddNewObjectOverlayPage extends AbstractOverlayPage {
 		maakAanButton.click();
 	}
 
+	/*
+	 * This method should be unnecessary! Clicks away the error message page.
+	 */
+	@Deprecated
+	public void clickHerlaad() {
+		By herlaadButtonBy = By.xpath("//button[contains(text(), 'herlaad')]");
+		wait.until(ExpectedConditions.elementToBeClickable(herlaadButtonBy));
+		WebElement herlaadButton = driver.findElement(herlaadButtonBy );
+		herlaadButton.click();
+	}
+
 }

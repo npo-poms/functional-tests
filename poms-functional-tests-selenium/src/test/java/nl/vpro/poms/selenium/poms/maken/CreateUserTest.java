@@ -11,6 +11,7 @@ import nl.vpro.poms.selenium.pages.AccountSettingsOverlayPage;
 import nl.vpro.poms.selenium.pages.AddNewObjectOverlayPage;
 import nl.vpro.poms.selenium.pages.Login;
 import nl.vpro.poms.selenium.pages.Search;
+import nl.vpro.poms.selenium.poms.AbstractTest;
 import nl.vpro.poms.selenium.util.DateFactory;
 import nl.vpro.poms.selenium.util.WebDriverFactory;
 import nl.vpro.poms.selenium.util.WebDriverFactory.Browser;
@@ -19,7 +20,7 @@ import static nl.vpro.poms.selenium.util.Config.CONFIG;
 
 
 
-public class CreateUserTest {
+public class CreateUserTest extends AbstractTest {
 
     private WebDriver driver;
     
@@ -161,8 +162,4 @@ public class CreateUserTest {
         login.login(user, password);
 	}
 	
-	private void logout() {
-		Search search = new Search(driver);
-		search.logout();
-	}
 }

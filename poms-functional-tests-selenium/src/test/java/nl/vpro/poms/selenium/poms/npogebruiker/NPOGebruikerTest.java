@@ -57,8 +57,4 @@ loginSpeciaalNPOGebruiker();
 		login.login(user, password);
 	}
 
-	private void logout() {
-		Search search = new Search(driver);
-		search.logout();
-	}
 }

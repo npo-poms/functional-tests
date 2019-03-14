@@ -29,7 +29,7 @@ public class ChangeTest extends AbstractTest {
 //		actions.doubleClick(row);
 		search.clickRow(0);
 		search.scrollToAfbeeldingen();
-//		logout();
+		logout();
 	}
 	
 	@Test
@@ -39,7 +39,18 @@ public class ChangeTest extends AbstractTest {
 		search.selectOptionFromMenu("Omroepen", "VPRO");
 		search.selectOptionFromMenu("MediaType", "Clip");
 		search.clickWissen();
-//		logout();
+		logout();
+	}
+	
+	@Test
+	public void testNietBewerken() {
+		loginSpeciaalVf();
+		Search search = new Search(driver);
+		search.clickWissen();
+		search.selectOptionFromMenu("Omroepen", "NPO");
+		search.selectOptionFromMenu("Criteria", "Mag schrijven");
+		
+		logout();
 	}
 	
 	private void loginSpeciaalVf() {
@@ -50,8 +61,4 @@ public class ChangeTest extends AbstractTest {
 		login.login(user, password);
 	}
 
-	private void logout() {
-		Search search = new Search(driver);
-		search.logout();
-	}
 }
