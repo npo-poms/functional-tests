@@ -6,7 +6,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-public class AddNewObjectOverlayPage extends AbstractPage {
+public class AddNewObjectOverlayPage extends AbstractOverlayPage {
 	
 	private static final By titleInputBy = By.id("inputTitle");
 	
@@ -24,8 +24,6 @@ public class AddNewObjectOverlayPage extends AbstractPage {
 	
 	private static final By maakAanButtonBy = By.xpath("//button[contains(text(),'Maak aan')]");
 	
-	private static final By closeBy = By.cssSelector("div.modal-close-button");
-
 	public AddNewObjectOverlayPage(WebDriver driver) {
 		super(driver);
 	}
@@ -35,14 +33,12 @@ public class AddNewObjectOverlayPage extends AbstractPage {
 	}
 	
 	public void enterTitle(String title) {
-		WebDriverWait wait = new WebDriverWait(driver, 30, 100);
 		wait.until(ExpectedConditions.elementToBeClickable(titleInputBy));
 		WebElement titleInputElement = driver.findElement(titleInputBy);
 		titleInputElement.sendKeys(title);
 	}
 
 	public void chooseMediaType(String mediaType) {
-		WebDriverWait wait = new WebDriverWait(driver, 30, 100);
 		wait.until(ExpectedConditions.elementToBeClickable(mediaTypeBy));
 		WebElement mediaTypeElement = driver.findElement(mediaTypeBy);
 		mediaTypeElement.click();
@@ -50,7 +46,6 @@ public class AddNewObjectOverlayPage extends AbstractPage {
 	}
 	
 	public void chooseAvType(String avType) {
-		WebDriverWait wait = new WebDriverWait(driver, 30, 100);
 		wait.until(ExpectedConditions.elementToBeClickable(avTypeBy));
 		WebElement avTypeElement = driver.findElement(avTypeBy);
 		avTypeElement.click();
@@ -64,7 +59,6 @@ public class AddNewObjectOverlayPage extends AbstractPage {
 	}
 
 	public void chooseGenre(String genre) {
-		WebDriverWait wait = new WebDriverWait(driver, 30, 100);
 		wait.until(ExpectedConditions.elementToBeClickable(genreBy));
 		WebElement genreElement = driver.findElement(genreBy);
 		genreElement.click();
@@ -88,10 +82,15 @@ public class AddNewObjectOverlayPage extends AbstractPage {
 		maakAanButton.click();
 	}
 
-	public void close() {
-		WebElement closeElement = driver.findElement(closeBy);
-		closeElement.click();
+	/*
+	 * This method should be unnecessary! Clicks away the error message page.
+	 */
+	@Deprecated
+	public void clickHerlaad() {
+		By herlaadButtonBy = By.xpath("//button[contains(text(), 'herlaad')]");
+		wait.until(ExpectedConditions.elementToBeClickable(herlaadButtonBy));
+		WebElement herlaadButton = driver.findElement(herlaadButtonBy );
+		herlaadButton.click();
 	}
-
 
 }

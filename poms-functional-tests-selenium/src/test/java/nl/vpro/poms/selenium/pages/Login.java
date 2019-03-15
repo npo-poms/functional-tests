@@ -34,7 +34,6 @@ public class Login extends AbstractPage {
     public void login(String user, String passwd) {
 //    	log.info("Log in user {}", user);
         Assume.assumeNotNull(user, passwd);
-        WebDriverWait wait = new WebDriverWait(driver, 30, 100);
         wait.until(ExpectedConditions.elementToBeClickable(usernameBy));
         WebElement usernameElement = driver.findElement(usernameBy);
         usernameElement.sendKeys(user);
