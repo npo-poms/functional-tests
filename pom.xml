@@ -19,6 +19,7 @@
     <api.client.version>5.10-SNAPSHOT</api.client.version>
     <poms.shared.version>5.10.0</poms.shared.version>
     <vpro.shared.version>2.5.0</vpro.shared.version>
+    <selenium.version>3.141.59</selenium.version>
   </properties>
 
 
@@ -182,7 +183,21 @@
         <artifactId>commons-text</artifactId>
         <version>1.6</version>
       </dependency>
-
+      <dependency>
+         <groupId>org.seleniumhq.selenium</groupId>
+        <artifactId>selenium-java</artifactId>
+        <version>${selenium.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.paulhammant</groupId>
+        <artifactId>ngwebdriver</artifactId>
+        <version>1.1.4</version>
+      </dependency>
+      <dependency>
+        <groupId>io.github.bonigarcia</groupId>
+        <artifactId>webdrivermanager</artifactId>
+        <version>3.3.0</version>
+      </dependency>
     </dependencies>
 
   </dependencyManagement>

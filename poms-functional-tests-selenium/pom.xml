@@ -30,12 +30,10 @@
     <dependency>
       <groupId>org.seleniumhq.selenium</groupId>
       <artifactId>selenium-java</artifactId>
-      <version>3.13.0</version>
     </dependency>
     <dependency>
       <groupId>com.paulhammant</groupId>
       <artifactId>ngwebdriver</artifactId>
-      <version>1.1.4</version>
     </dependency>
     <dependency>
       <groupId>nl.vpro.poms</groupId>
@@ -48,7 +46,6 @@
     <dependency>
       <groupId>io.github.bonigarcia</groupId>
       <artifactId>webdrivermanager</artifactId>
-      <version>3.3.0</version>
     </dependency>
   </dependencies>
 
