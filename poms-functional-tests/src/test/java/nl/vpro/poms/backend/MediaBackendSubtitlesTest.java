@@ -99,7 +99,7 @@ public class MediaBackendSubtitlesTest extends AbstractApiMediaBackendTest {
             )
             , (cpi) -> cpi != null && cpi.hasNext() && cpi.peek().getContent().equals(firstTitle));
 
-        assertThat(iterator).asList().hasSize(3);
+        assertThat(iterator).toIterable().hasSize(3);
     }
 
 
@@ -137,7 +137,7 @@ public class MediaBackendSubtitlesTest extends AbstractApiMediaBackendTest {
             )
             , (cpi) -> cpi != null && cpi.hasNext());
 
-        assertThat(iterator).asList().hasSize(430);
+        assertThat(iterator).toIterable().hasSize(430);
     }
 
 
@@ -185,7 +185,7 @@ public class MediaBackendSubtitlesTest extends AbstractApiMediaBackendTest {
             )
             , (cpi) -> cpi != null && cpi.hasNext());
 
-        assertThat(iterator).asList().hasSize(2);
+        assertThat(iterator).toIterable().hasSize(2);
     }
 
     @Test
