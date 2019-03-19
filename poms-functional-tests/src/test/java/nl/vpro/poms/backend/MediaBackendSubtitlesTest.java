@@ -10,6 +10,7 @@ import java.util.Locale;
 import org.apache.commons.io.IOUtils;
 import org.junit.*;
 import org.junit.runners.MethodSorters;
+
 import com.google.common.collect.Iterators;
 import com.google.common.collect.PeekingIterator;
 
@@ -23,6 +24,7 @@ import nl.vpro.rules.DoAfterException;
 import nl.vpro.util.Version;
 
 import static io.restassured.RestAssured.given;
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static nl.vpro.api.client.utils.Config.Prefix.npo_backend_api;
 import static nl.vpro.testutils.Utils.waitUntil;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -218,7 +220,7 @@ public class MediaBackendSubtitlesTest extends AbstractApiMediaBackendTest {
     //@Test
     public void testForCamielNL() throws IOException {
 
-        InputStreamReader reader = new InputStreamReader(getClass().getResourceAsStream("/POW_03372714.vtt"), "UTF-8");
+        InputStreamReader reader = new InputStreamReader(getClass().getResourceAsStream("/POW_03372714.vtt"), UTF_8);
         StringWriter writer = new StringWriter();
         IOUtils.copy(reader, writer);
         reader.close();
@@ -233,7 +235,7 @@ public class MediaBackendSubtitlesTest extends AbstractApiMediaBackendTest {
     //@Test
     public void test99ForCamielAR() throws IOException {
 
-        InputStreamReader reader = new InputStreamReader(getClass().getResourceAsStream("/POMS_VPRO_4981202.vtt"), "UTF-8");
+        InputStreamReader reader = new InputStreamReader(getClass().getResourceAsStream("/POMS_VPRO_4981202.vtt"), UTF_8);
 
         StringWriter writer = new StringWriter();
         IOUtils.copy(reader, writer);
@@ -251,7 +253,7 @@ public class MediaBackendSubtitlesTest extends AbstractApiMediaBackendTest {
     //@Test
     public void test99ForCamielNL2() throws IOException {
 
-        InputStreamReader reader = new InputStreamReader(getClass().getResourceAsStream("/POMS_VPRO_4959361.vtt"), "UTF-8");
+        InputStreamReader reader = new InputStreamReader(getClass().getResourceAsStream("/POMS_VPRO_4959361.vtt"), UTF_8);
 
         StringWriter writer = new StringWriter();
         IOUtils.copy(reader, writer);
