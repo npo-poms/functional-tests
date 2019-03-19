@@ -223,7 +223,7 @@ public class SubtitlesITest extends AbstractApiMediaBackendTest {
                 return true;
             }
         );
-        assertThat(cueIterator).asList().hasSize(3);
+        assertThat(cueIterator).toIterable().hasSize(3);
     }
 
 
