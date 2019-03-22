@@ -11,6 +11,9 @@ import nl.vpro.poms.selenium.pages.Search;
 import nl.vpro.poms.selenium.util.WebDriverFactory;
 import nl.vpro.poms.selenium.util.WebDriverFactory.Browser;
 
+/**
+ * TODO: This is more or less the same idea as {@link nl.vpro.poms.config.Webtest} I think one or the other must be dropped.
+ */
 public abstract class AbstractTest {
 
 	protected WebDriver driver;
@@ -32,5 +35,4 @@ public abstract class AbstractTest {
     protected void waitForAngularRequestsToFinish() {
         new NgWebDriver((JavascriptExecutor) driver).waitForAngularRequestsToFinish();
     }
-
 }
