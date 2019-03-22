@@ -8,8 +8,6 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import com.paulhammant.ngwebdriver.NgWebDriver;
 
-import nl.vpro.poms.selenium.util.Sleeper;
-
 public class OmroepenOverlayPage extends AbstractOverlayPage {
 	
 	private static final By addOmroepBy = By.cssSelector("button.modal-broadcasters-add");
@@ -40,6 +38,11 @@ public class OmroepenOverlayPage extends AbstractOverlayPage {
 		enterText(pdIdBy, omroep);
 		WebElement bewaarButton = driver.findElement(bewaarBy);
 		bewaarButton.click();
+	}
+
+	public void deleteOmroep(String omroep) {
+		NgWebDriver ngWebDr = new NgWebDriver((JavascriptExecutor) driver);
+		// TODO
 	}
 	
 	private void enterText(By by, String text) {

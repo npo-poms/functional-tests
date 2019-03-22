@@ -2,20 +2,19 @@ package nl.vpro.poms.selenium.poms.wijzigen;
 
 import org.junit.Test;
 
-import nl.vpro.poms.selenium.pages.Login;
 import nl.vpro.poms.selenium.pages.Search;
 import nl.vpro.poms.selenium.poms.AbstractTest;
 import nl.vpro.poms.selenium.util.WebDriverFactory;
 
 public class ChangeTest extends AbstractTest {
 
-	public ChangeTest(WebDriverFactory.Browser browser) {
-		super(browser);
+	public ChangeTest(WebDriverFactory.Browser browser, String version) {
+		super(browser, version);
 	}
 
 	@Test
 	public void testWijzig() {
-		loginSpeciaalVf();
+		login().speciaalVf();
 		Search search = new Search(driver);
 		search.selectOptionFromMenu("Omroepen", "VPRO");
 		search.selectOptionFromMenu("MediaType", "Clip");
@@ -33,7 +32,7 @@ public class ChangeTest extends AbstractTest {
 	
 	@Test
 	public void testWissen() {
-		loginSpeciaalVf();
+		login().speciaalVf();
 		Search search = new Search(driver);
 		search.selectOptionFromMenu("Omroepen", "VPRO");
 		search.selectOptionFromMenu("MediaType", "Clip");
@@ -43,7 +42,7 @@ public class ChangeTest extends AbstractTest {
 	
 	@Test
 	public void testNietBewerken() {
-		loginSpeciaalVf();
+		login().speciaalVf();
 		Search search = new Search(driver);
 		search.clickWissen();
 		search.selectOptionFromMenu("Omroepen", "NPO");
@@ -51,13 +50,6 @@ public class ChangeTest extends AbstractTest {
 		
 		logout();
 	}
-	
-	private void loginSpeciaalVf() {
-		Login login = new Login(driver);
-		login.gotoPage();
-		String user = CONFIG.getProperties().get("SpeciaalVfGebruiker.LOGIN");
-		String password = CONFIG.getProperties().get("SpeciaalVfGebruiker.PASSWORD");
-		login.login(user, password);
-	}
+	 
 
 }

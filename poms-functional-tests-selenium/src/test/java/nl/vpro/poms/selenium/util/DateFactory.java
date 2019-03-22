@@ -6,19 +6,19 @@ import java.util.Calendar;
 import java.util.Date;
 
 public class DateFactory {
-	private static final Format sdf = 
+	private static final Format SDF =
 			new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
 	
-	private static final Format todayFormat =
+	private static final Format TODAY_FORMAT =
 			new SimpleDateFormat("dd-MM-yyyy");
 	
 	public static String getNow() {
 		Date now = Calendar.getInstance().getTime();
-		return sdf.format(now);
+		return SDF.format(now);
 	}
 	
 	public static String getToday() {
 		Date today = Calendar.getInstance().getTime();
-		return todayFormat.format(today);
+		return TODAY_FORMAT.format(today);
 	}
 }

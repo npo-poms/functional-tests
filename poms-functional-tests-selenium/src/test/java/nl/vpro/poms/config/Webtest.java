@@ -13,7 +13,6 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.junit.AfterClass;
-import org.junit.Assume;
 import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.rules.Timeout;
@@ -66,18 +65,6 @@ public abstract class Webtest {
         driver.findElement(By.name("submit")).click();
         ngWebDriver = new NgWebDriver(driver);
 
-    }
-
-    public static void loginVPROand3voor12() {
-        String url = CONFIG.getProperties(Config.Prefix.poms).get("baseUrl");
-        log.info("poms {}", url);
-        String user =  CONFIG.getProperties().get("SpeciaalVfGebruiker.LOGIN");
-        String password =  CONFIG.getProperties().get("SpeciaalVfGebruiker.PASSWORD");
-        Assume.assumeNotNull(user, password);
-        login(
-            url,
-            user,
-            password);
     }
 
     public static void loginGtaaBrowserTest() {

@@ -16,22 +16,28 @@ public class WebDriverFactory {
         CHROME, 
         FIREFOX
     }
-    public static WebDriver getWebDriver(Browser browser) {
+    public static WebDriver getWebDriver(Browser browser, String version) {
         WebDriver driver;
         boolean headless = Boolean.parseBoolean(AbstractTest.CONFIG.getProperties().get("headless"));
         // So, if you don't want headless, to test these tests, please add
         // headless=false to ~/conf/npo-browser-tests..proeprties
         switch (browser) {
             case CHROME:
-                WebDriverManager.chromedriver().setup();
+                WebDriverManager
+                    .chromedriver()
+                    .version(version)
+                    .setup();
                 ChromeOptions options = new ChromeOptions();
                 options.addArguments("--incognito");
                 options.setHeadless(headless);
                 driver = new ChromeDriver(options);
                 break;
             case FIREFOX:
-            	WebDriverManager.firefoxdriver().setup();
-            	FirefoxOptions ffoptions = new FirefoxOptions();
+            	WebDriverManager
+                    .firefoxdriver()
+                    .version(version)
+                    .setup();
+                FirefoxOptions ffoptions = new FirefoxOptions();
             	ffoptions.addArguments("--incognito");
                 ffoptions.setHeadless(headless);
             	driver = new FirefoxDriver(ffoptions);

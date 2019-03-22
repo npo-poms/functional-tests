@@ -20,8 +20,7 @@ public class Search extends AbstractPage {
 	private static final By newBy = By.cssSelector(".header-link-new");
     private static final By logoutBy = By.xpath("//a[text()='log uit']");
     private static final By accountInstellingenBy = By.xpath("//a[contains(text(),'account-instellingen')]");
-    private static final By loggedOutBy = By.cssSelector("div#msg > h2");
-    private static final By menuBy = 
+	private static final By menuBy =
     		By.cssSelector(".header-account-buttons > .header-account-link:first-child > span");
     private static final By overlayFormBy = By.cssSelector("div.modal-backdrop");
     
@@ -79,8 +78,7 @@ public class Search extends AbstractPage {
         wait.until(ExpectedConditions.elementToBeClickable(logoutBy));
         WebElement logoutElement = driver.findElement(logoutBy);
 		logoutElement.click();
-        wait.until(ExpectedConditions.textToBePresentInElementLocated(
-            loggedOutBy, "Succesvol uitgelogd."));
+        wait.until(ExpectedConditions.presenceOfElementLocated(Cas.successFullLogout));
     }
 
 	public void goToAccountInstellingen() {

@@ -2,13 +2,15 @@ package nl.vpro.poms.selenium.poms.zoeken;
 
 import lombok.extern.slf4j.Slf4j;
 
-import org.junit.BeforeClass;
+import javax.annotation.Nonnull;
+
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
-import nl.vpro.poms.config.Webtest;
+import nl.vpro.poms.selenium.poms.AbstractTest;
+import nl.vpro.poms.selenium.util.WebDriverFactory;
 
 import static org.junit.runners.MethodSorters.NAME_ASCENDING;
 
@@ -20,24 +22,29 @@ import static org.junit.runners.MethodSorters.NAME_ASCENDING;
  */
 @FixMethodOrder(NAME_ASCENDING)
 @Slf4j
-public class SearchWebTest extends Webtest {
+public class SearchWebTest extends AbstractTest {
+
+    protected SearchWebTest(@Nonnull WebDriverFactory.Browser browser, @Nonnull String version) {
+        super(browser, version);
+    }
 
     /**
      * Sets up. a webdriver connected logged in to Poms interface using SpeciaalVfGebruiken from properties file
      */
-    @BeforeClass
-    public static void setUp() {
-        loginVPROand3voor12();
+    @Test
+
+    public void test00Login() {
+        login().VPROand3voor12();
     }
 
     /**
      * Use the search field to find 'klusjesmannen'
      */
     @Test
-    public void search1() {
+    public void test02Search1() {
 
         // Kies Nieuwe zoekopdracht
-        ngWebDriver.waitForAngularRequestsToFinish();
+        waitForAngularRequestsToFinish();
         driver.findElement(By.cssSelector("a[title='Nieuwe zoekopdracht']")).click();
 
         // Selecteer zoekscherm, selecteer de zichtbare

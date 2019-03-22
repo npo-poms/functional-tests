@@ -5,13 +5,13 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.util.stream.Collectors;
 
-import org.junit.BeforeClass;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
-import nl.vpro.poms.config.Webtest;
+import nl.vpro.poms.selenium.poms.AbstractTest;
+import nl.vpro.poms.selenium.util.WebDriverFactory;
 
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.runners.MethodSorters.NAME_ASCENDING;
@@ -25,14 +25,18 @@ import static org.junit.runners.MethodSorters.NAME_ASCENDING;
  */
 @FixMethodOrder(NAME_ASCENDING)
 @Slf4j
-public class CreateUserWebTest extends Webtest {
+public class CreateUserWebTest extends AbstractTest {
+
+    protected CreateUserWebTest(WebDriverFactory.Browser browser, String version) {
+        super(browser, version);
+    }
 
     /**
      * Sets up. a webdriver connected logged in to Poms interface using SpeciaalVfGebruiken from properties file
      */
-    @BeforeClass
-    public static void setUp() {
-        loginVPROand3voor12();
+    @Test
+    public void test00login() {
+        login().VPROand3voor12();
     }
 
     /**
@@ -44,7 +48,7 @@ public class CreateUserWebTest extends Webtest {
     public void createUser1() {
 
         // Kies Nieuw
-        ngWebDriver.waitForAngularRequestsToFinish();
+        waitForAngularRequestsToFinish();
         driver.findElement(By.linkText("NIEUW")).click();
 
         // Kies media type "Clip maar vul het formulier onvolledig in, er ontbreken nog verplichte(*) velden

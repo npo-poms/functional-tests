@@ -6,7 +6,6 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.openqa.selenium.WebElement;
 
-import nl.vpro.poms.selenium.pages.Login;
 import nl.vpro.poms.selenium.pages.Search;
 import nl.vpro.poms.selenium.poms.AbstractTest;
 import nl.vpro.poms.selenium.util.DateFactory;
@@ -14,13 +13,13 @@ import nl.vpro.poms.selenium.util.WebDriverFactory;
 
 public class SearchTest extends AbstractTest {
 
-	public SearchTest(WebDriverFactory.Browser browser) {
-		super(browser);
+	public SearchTest(WebDriverFactory.Browser browser, String version) {
+		super(browser, version);
 	}
 
 	@Test
 	public void testSearch() {
-		loginSpeciaalVf();
+		login().speciaalVf();
 		
 		Search search = new Search(driver);
 		search.enterQuery("klusjesmannen");
@@ -30,7 +29,7 @@ public class SearchTest extends AbstractTest {
 	
 	@Test
 	public void testSearchTwice() {
-		loginSpeciaalVf();
+		login().speciaalVf();
 		Search search = new Search(driver);
 		search.enterQuery("klusjesmannen");
 		search.closeTab();
@@ -41,7 +40,7 @@ public class SearchTest extends AbstractTest {
 	
 	@Test
 	public void testSearchWithAv() {
-		loginSpeciaalVf();
+		login().speciaalVf();
 		Search search = new Search(driver);
 		search.enterQuery("klusjesmannen");
 		search.selectOptionFromMenu("avType", "Audio");
@@ -51,7 +50,7 @@ public class SearchTest extends AbstractTest {
 
 	@Test
 	public void testSearchWithClip() {
-		loginSpeciaalVf();
+		login().speciaalVf();
 		Search search = new Search(driver);
 		search.enterQuery("klusjesmannen");
 		search.selectOptionFromMenu("MediaType", "Clip");
@@ -61,7 +60,7 @@ public class SearchTest extends AbstractTest {
 	
 	@Test
 	public void testSearchWithOmroep() {
-		loginSpeciaalVf();
+		login().speciaalVf();
 		Search search = new Search(driver);
 		search.enterQuery("zembla");
 		search.selectOptionFromMenu("Omroepen", "VARA");
@@ -71,7 +70,7 @@ public class SearchTest extends AbstractTest {
 	
 	@Test
 	public void testSearchWithCriteria() {
-		loginSpeciaalVf();
+		login().speciaalVf();
 		Search search = new Search(driver);
 		search.enterQuery("zembla");
 		search.selectOptionFromMenu("Criteria", "Niet op radio/tv");
@@ -81,7 +80,7 @@ public class SearchTest extends AbstractTest {
 	
 	@Test
 	public void testWithSorteerData() {
-		loginSpeciaalVf();
+		login().speciaalVf();
 		Search search = new Search(driver);
 		search.enterQuery("zembla");
 		search.enterSorteerdatumDates("01-01-2001", DateFactory.getToday()); 
@@ -91,7 +90,7 @@ public class SearchTest extends AbstractTest {
 	
 	@Test
 	public void testWithUitzendData() {
-		loginSpeciaalVf();
+		login().speciaalVf();
 		Search search = new Search(driver);
 		search.enterQuery("zembla");
 		search.enterUitzenddatumDates("01-01-2001", DateFactory.getToday()); 
@@ -101,7 +100,7 @@ public class SearchTest extends AbstractTest {
 	
 	@Test
 	public void testWithGewijzigdData() {
-		loginSpeciaalVf();
+		login().speciaalVf();
 		Search search = new Search(driver);
 		search.enterQuery("zembla");
 		search.enterGewijzigdDates("01-01-2001", DateFactory.getToday()); 
@@ -111,7 +110,7 @@ public class SearchTest extends AbstractTest {
 	
 	@Test
 	public void testWithAangemaaktData() {
-		loginSpeciaalVf();
+		login().speciaalVf();
 		Search search = new Search(driver);
 		search.enterQuery("zembla");
 		search.enterUitzenddatumDates("01-01-2001", DateFactory.getToday()); 
@@ -121,7 +120,7 @@ public class SearchTest extends AbstractTest {
 	
 	@Test
 	public void testWithTags() {
-		loginSpeciaalVf();
+		login().speciaalVf();
 		Search search = new Search(driver);
 		search.enterQuery("zembla");
 		search.enterTags("Dassenbos");
@@ -131,7 +130,7 @@ public class SearchTest extends AbstractTest {
 	
 	@Test
 	public void testWithTitleAndOmroep() {
-		loginSpeciaalVf();
+		login().speciaalVf();
 		Search search = new Search(driver);
 		search.selectOptionFromMenu("Omroepen", "AVRO");
 		search.enterQuery("pluk");
@@ -141,7 +140,7 @@ public class SearchTest extends AbstractTest {
 	
 	@Test
 	public void testWithTitleSuggestion() {
-		loginSpeciaalVf();
+		login().speciaalVf();
 		Search search = new Search(driver);
 		search.enterQuery("pluk");
 		List<WebElement> suggestions = search.getSuggestions("pluk");
@@ -151,24 +150,18 @@ public class SearchTest extends AbstractTest {
 	
 	@Test
 	public void testAddAndRemoveColumn() {
-		loginSpeciaalVf();
+		login().speciaalVf();
 		Search search = new Search(driver);
 		search.addOrRemoveColumn("MID");
 		Assert.assertTrue(search.isColumnSelectorChecked("MID"));
 		logout();
-		loginSpeciaalVf();
+		login().speciaalVf();
 		Assert.assertTrue(search.isColumnSelectorChecked("MID"));
 		search.addOrRemoveColumn("MID");
 		Assert.assertFalse(search.isColumnSelectorChecked("MID"));
 		logout();
 	}
 	
-	private void loginSpeciaalVf() {
-		Login login = new Login(driver);
-		login.gotoPage();
-		String user = CONFIG.getProperties().get("SpeciaalVfGebruiker.LOGIN");
-		String password = CONFIG.getProperties().get("SpeciaalVfGebruiker.PASSWORD");
-		login.login(user, password);
-	}
+	 
 
 }

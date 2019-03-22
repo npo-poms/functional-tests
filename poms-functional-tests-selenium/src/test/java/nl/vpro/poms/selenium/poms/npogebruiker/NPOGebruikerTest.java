@@ -5,20 +5,19 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import nl.vpro.poms.selenium.pages.AccountSettingsOverlayPage;
-import nl.vpro.poms.selenium.pages.Login;
 import nl.vpro.poms.selenium.pages.Search;
 import nl.vpro.poms.selenium.poms.AbstractTest;
 import nl.vpro.poms.selenium.util.WebDriverFactory;
 
 public class NPOGebruikerTest extends AbstractTest {
 
-	public NPOGebruikerTest(WebDriverFactory.Browser browser) {
-		super(browser);
+	public NPOGebruikerTest(WebDriverFactory.Browser browser, String version) {
+		super(browser, version);
 	}
 
 	@Test
 	public void testNPOGebruiker() {
-		loginSpeciaalNPOGebruiker();
+		login().speciaalNPOGebruiker();
 		
 		Search search = new Search(driver);
     	search.goToAccountInstellingen();
@@ -32,7 +31,7 @@ public class NPOGebruikerTest extends AbstractTest {
 	
 	@Test
 	public void testEigenaar() {
-loginSpeciaalNPOGebruiker();
+		login().speciaalNPOGebruiker();
 		
 		Search search = new Search(driver);
     	search.goToAccountInstellingen();
@@ -49,12 +48,6 @@ loginSpeciaalNPOGebruiker();
 //		logout();
 	}
 	
-	private void loginSpeciaalNPOGebruiker() {
-		Login login = new Login(driver);
-		login.gotoPage();
-		String user = CONFIG.getProperties().get("MISGebruiker.LOGIN");
-		String password = CONFIG.getProperties().get("MISGebruiker.PASSWORD");
-		login.login(user, password);
-	}
+
 
 }

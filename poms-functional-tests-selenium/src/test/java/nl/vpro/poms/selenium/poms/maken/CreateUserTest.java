@@ -1,11 +1,12 @@
 package nl.vpro.poms.selenium.poms.maken;
 
+import javax.annotation.Nonnull;
+
 import org.junit.Assert;
 import org.junit.Test;
 
 import nl.vpro.poms.selenium.pages.AccountSettingsOverlayPage;
 import nl.vpro.poms.selenium.pages.AddNewObjectOverlayPage;
-import nl.vpro.poms.selenium.pages.Login;
 import nl.vpro.poms.selenium.pages.Search;
 import nl.vpro.poms.selenium.poms.AbstractTest;
 import nl.vpro.poms.selenium.util.DateFactory;
@@ -18,14 +19,13 @@ import nl.vpro.poms.selenium.util.WebDriverFactory.Browser;
 public class CreateUserTest extends AbstractTest {
 
 
-	public CreateUserTest(Browser browser) {
-		super(browser);
+	protected CreateUserTest(@Nonnull Browser browser, @Nonnull String version) {
+		super(browser, version);
 	}
 
-
-    @Test
+	@Test
     public void testMaakAanDisabled() {
-        loginSpeciaalVf();
+        login().speciaalVf();
         
         Search search = new Search(driver);
         search.clickNew();
@@ -39,7 +39,7 @@ public class CreateUserTest extends AbstractTest {
     
     @Test
     public void testMakeNewClip() {
-    	loginSpeciaalVf();
+    	login().speciaalVf();
     	
     	Search search = new Search(driver);
         search.clickNew();
@@ -56,7 +56,7 @@ public class CreateUserTest extends AbstractTest {
     
     @Test
     public void testAddNewStandardOmroep() {
-    	loginSpeciaalVf();
+    	login().speciaalVf();
     	
     	Search search = new Search(driver);
     	search.goToAccountInstellingen();
@@ -85,7 +85,7 @@ public class CreateUserTest extends AbstractTest {
     
     @Test
     public void testAddTwoStandardOmroep() {
-    	loginSpeciaalVf();
+    	login().speciaalVf();
     
     	Search search = new Search(driver);
     	search.goToAccountInstellingen();
@@ -116,7 +116,7 @@ public class CreateUserTest extends AbstractTest {
     
     @Test
     public void testPersistStandardOmroep() {
-    	loginSpeciaalVf();
+    	login().speciaalVf();
     
     	Search search = new Search(driver);
     	search.goToAccountInstellingen();
@@ -131,7 +131,7 @@ public class CreateUserTest extends AbstractTest {
 		Assert.assertTrue(String.format("Standard omroep %s is present", "NPS"), omroepIsVisible);
     	
     	logout();
-    	loginSpeciaalVf();
+    	login().speciaalVf();
     	search = new Search(driver);
     	search.goToAccountInstellingen();
     	
@@ -142,12 +142,6 @@ public class CreateUserTest extends AbstractTest {
 		logout();
     }
     
-	private void loginSpeciaalVf() {
-		Login login = new Login(driver);
-        login.gotoPage();
-        String user =  CONFIG.getProperties().get("SpeciaalVfGebruiker.LOGIN");
-        String password =  CONFIG.getProperties().get("SpeciaalVfGebruiker.PASSWORD");
-        login.login(user, password);
-	}
+	
 	
 }
