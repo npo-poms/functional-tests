@@ -29,7 +29,7 @@ public class PersonsWebTest extends AbstractTest {
     static String firstName = "Pietje";
     static String lastName = "Puk" + System.currentTimeMillis();
 
-    protected PersonsWebTest(@Nonnull WebDriverFactory.Browser browser, @Nonnull String version) {
+    public PersonsWebTest(@Nonnull WebDriverFactory.Browser browser, @Nonnull String version) {
         super(browser, version);
     }
 
