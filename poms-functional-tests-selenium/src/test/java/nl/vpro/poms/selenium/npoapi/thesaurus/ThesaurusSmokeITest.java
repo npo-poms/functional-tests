@@ -22,7 +22,7 @@ import static org.junit.runners.MethodSorters.NAME_ASCENDING;
 @Slf4j
 public class ThesaurusSmokeITest extends AbstractTest {
 
-    protected ThesaurusSmokeITest(@Nonnull WebDriverFactory.Browser browser, @Nonnull String version) {
+    public ThesaurusSmokeITest(@Nonnull WebDriverFactory.Browser browser, @Nonnull String version) {
         super(browser, version);
     }
 

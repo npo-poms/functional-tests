@@ -232,6 +232,7 @@ public class Search extends AbstractPage {
 
 	// TODO: To be included?
 	public void clickRow(int index) {
+
 		wait.until(ExpectedConditions.visibilityOfElementLocated(tableRowsBy));
 		List<WebElement> tableRows = driver.findElements(tableRowsBy);
 		WebElement row = tableRows.get(index);
