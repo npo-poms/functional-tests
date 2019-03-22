@@ -1,12 +1,6 @@
 package nl.vpro.poms.selenium.poms.wijzigen;
 
-import static nl.vpro.poms.selenium.util.Config.CONFIG;
-
-import java.util.List;
-
 import org.junit.Test;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Actions;
 
 import nl.vpro.poms.selenium.pages.Login;
 import nl.vpro.poms.selenium.pages.Search;

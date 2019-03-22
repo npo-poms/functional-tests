@@ -1,9 +1,10 @@
 package nl.vpro.poms.selenium.poms.maken;
 
-import org.junit.*;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
-//import org.openqa.selenium.support.ui.Sleeper;
 
 import com.paulhammant.ngwebdriver.NgWebDriver;
 
@@ -16,7 +17,7 @@ import nl.vpro.poms.selenium.util.DateFactory;
 import nl.vpro.poms.selenium.util.WebDriverFactory;
 import nl.vpro.poms.selenium.util.WebDriverFactory.Browser;
 
-import static nl.vpro.poms.selenium.util.Config.CONFIG;
+//import org.openqa.selenium.support.ui.Sleeper;
 
 
 
@@ -30,10 +31,6 @@ public class CreateUserTest extends AbstractTest {
         NgWebDriver ngWebDriver = new NgWebDriver((JavascriptExecutor) driver);
     }
 
-    @After
-    public void tearDown() {
-//        driver.quit();
-    }
 
     @Test
     public void testMaakAanDisabled() {

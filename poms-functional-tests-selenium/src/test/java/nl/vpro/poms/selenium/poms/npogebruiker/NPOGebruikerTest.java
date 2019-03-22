@@ -1,12 +1,8 @@
 package nl.vpro.poms.selenium.poms.npogebruiker;
 
-import static nl.vpro.poms.selenium.util.Config.CONFIG;
-
-import java.util.List;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.openqa.selenium.WebElement;
 
 import nl.vpro.poms.selenium.pages.AccountSettingsOverlayPage;
 import nl.vpro.poms.selenium.pages.Login;
@@ -23,7 +19,6 @@ public class NPOGebruikerTest extends AbstractTest {
     	search.goToAccountInstellingen();
     	
     	AccountSettingsOverlayPage overlayPage = new AccountSettingsOverlayPage(driver);
-    	List<WebElement> roles = overlayPage.getRoles();
     	boolean hasRole = overlayPage.hasRole("MEDIA_MIS");
     	Assert.assertTrue(hasRole);
     	overlayPage.close();

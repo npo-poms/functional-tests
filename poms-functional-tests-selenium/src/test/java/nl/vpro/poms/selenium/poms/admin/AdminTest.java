@@ -9,7 +9,6 @@ import nl.vpro.poms.selenium.pages.Search;
 import nl.vpro.poms.selenium.poms.AbstractTest;
 import nl.vpro.poms.selenium.util.DateFactory;
 
-import static nl.vpro.poms.selenium.util.Config.CONFIG;
 
 public class AdminTest extends AbstractTest {
 

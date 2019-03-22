@@ -48,6 +48,7 @@ public class OmroepenOverlayPage extends AbstractOverlayPage {
 		element.sendKeys(text);
 	}
 	
+	@Override
 	public void close() {
 		super.close();
 //		wait.until(ExpectedConditions.invisibilityOfElementLocated(overlayBy));

@@ -1,13 +1,11 @@
 package nl.vpro.poms.selenium.poms.zoeken;
 
-import static nl.vpro.poms.selenium.util.Config.CONFIG;
-
-import java.util.Date;
 import java.util.List;
 
+import org.junit.Assert;
 import org.junit.Test;
 import org.openqa.selenium.WebElement;
-import org.junit.Assert;
+
 import nl.vpro.poms.selenium.pages.Login;
 import nl.vpro.poms.selenium.pages.Search;
 import nl.vpro.poms.selenium.poms.AbstractTest;

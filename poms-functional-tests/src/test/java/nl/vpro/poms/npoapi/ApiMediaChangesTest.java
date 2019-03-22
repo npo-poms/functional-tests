@@ -157,9 +157,13 @@ public class ApiMediaChangesTest extends AbstractApiTest {
         InputStream inputStream = mediaUtil.getClients().getMediaServiceNoTimeout()
             .changes("bnnvara", null,null, sinceString(start, "RBX_EO_667486"), "asc", 100, true, Deletes.INCLUDE, null, null);
 
-        try (JsonArrayIterator<MediaChange> changes = new JsonArrayIterator<>(inputStream, MediaChange.class, () -> IOUtils.closeQuietly(inputStream))) {
+        try (JsonArrayIterator<MediaChange> changes = new JsonArrayIterator<>(inputStream,
+            MediaChange.class, () -> IOUtils.closeQuietly(inputStream))) {
             MediaChange change = changes.next();
+            log.info("{}", change);
         }
+
+
 
     }
 
@@ -232,6 +236,5 @@ public class ApiMediaChangesTest extends AbstractApiTest {
         assertThat(i.intValue()).isEqualTo(100);
 
     }
-
 
 }

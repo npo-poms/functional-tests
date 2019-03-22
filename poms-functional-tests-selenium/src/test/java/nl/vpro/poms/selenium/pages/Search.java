@@ -1,9 +1,6 @@
 package nl.vpro.poms.selenium.pages;
 
-import java.util.Date;
 import java.util.List;
-
-import javax.xml.stream.events.StartElement;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
@@ -30,7 +27,8 @@ public class Search extends AbstractPage {
     
     private static final By queryBy = By.cssSelector("input#query");
 	private static final By zoekenBy = By.cssSelector("button#submit");
-	private static final By wissenBy = By.xpath("//button[contains(text(),'Wissen')]");
+	//private static final By wissenBy = By.xpath("//button[contains(text(),'Wissen')]");
+	private static final By wissenBy = By.cssSelector("button#clear");
 	private static final By resultTableBy = By.cssSelector("table.search-results-list");
 	private static final String foundItemTemplate = "span[title='%s']";
 	private static final By closeTabBy = By.cssSelector("span.tab-close");

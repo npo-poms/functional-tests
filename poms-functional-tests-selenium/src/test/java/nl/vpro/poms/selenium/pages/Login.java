@@ -1,17 +1,15 @@
 package nl.vpro.poms.selenium.pages;
 
-import lombok.extern.slf4j.Slf4j;
-
 import org.junit.Assume;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
 import nl.vpro.api.client.utils.Config;
 
-import static nl.vpro.poms.selenium.util.Config.CONFIG;
+import static nl.vpro.poms.selenium.poms.AbstractTest.CONFIG;
+
 
 public class Login extends AbstractPage {
 

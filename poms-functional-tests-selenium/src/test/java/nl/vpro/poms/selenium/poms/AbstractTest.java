@@ -7,6 +7,7 @@ import org.openqa.selenium.WebDriver;
 
 import com.paulhammant.ngwebdriver.NgWebDriver;
 
+import nl.vpro.api.client.utils.Config;
 import nl.vpro.poms.selenium.pages.Search;
 import nl.vpro.poms.selenium.util.WebDriverFactory;
 import nl.vpro.poms.selenium.util.WebDriverFactory.Browser;
@@ -15,6 +16,10 @@ import nl.vpro.poms.selenium.util.WebDriverFactory.Browser;
  * TODO: This is more or less the same idea as {@link nl.vpro.poms.config.Webtest} I think one or the other must be dropped.
  */
 public abstract class AbstractTest {
+
+    public static final Config CONFIG =
+        new Config("npo-functional-tests.properties", "npo-browser-tests.properties");
+
 
 	protected WebDriver driver;
 
