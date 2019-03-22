@@ -52,9 +52,8 @@ public class ThesaurusSmokeITest extends AbstractTest {
      *
      */
     @Test
-    public void test002FindJanPeter() {
-        driver.findElement(By.id("givenName")).sendKeys("Jan Peter");
-        driver.findElement(By.id("familyName")).sendKeys("Balkenende");
+    public void test002FindJanPeter() throws InterruptedException {
+        driver.findElement(By.id("value")).sendKeys("Jan Peter Balkenende");
         driver.findElement(By.id("open")).click();
 
         for (String windowHandleId : driver.getWindowHandles()) {
@@ -65,7 +64,7 @@ public class ThesaurusSmokeITest extends AbstractTest {
             }
 
         }
-
+        Thread.sleep(1000);
         long counter = driver.findElements(By.xpath("//ul/li"))
                 .stream()
                 .filter(s -> s.getText().contains("Jan Peter"))

@@ -41,10 +41,11 @@ public class PomsLogin extends AbstractPage {
     public void gotoLogin(@Nonnull String user, @Nonnull String passwd) {
         gotoPage();
         login(user, passwd);
+        // TODO: known issue: login will not sent back to correct url
+        gotoPage();
     }
 
      public void login(@Nonnull String user, @Nonnull String passwd) {
-        gotoPage();
 //    	log.info("Log in user {}", user);
         Assume.assumeNotNull(user, passwd);
         wait.until(ExpectedConditions.elementToBeClickable(usernameBy));
@@ -84,7 +85,7 @@ public class PomsLogin extends AbstractPage {
     public void gtaaBrowserTest() {
         String user =  CONFIG.getProperty("SpeciaalVfGebruiker.LOGIN");
         String password =  CONFIG.getProperty("SpeciaalVfGebruiker.PASSWORD");
-        login(user, password);
+        gotoLogin(user, password);
 
     }
 }

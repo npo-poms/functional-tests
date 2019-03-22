@@ -93,6 +93,7 @@ public abstract class AbstractTest {
     public static void tearDownClass() {
         for (WebDriver wd : staticDrivers.values()) {
             wd.quit();
+            wd.close();
         }
     }
 
