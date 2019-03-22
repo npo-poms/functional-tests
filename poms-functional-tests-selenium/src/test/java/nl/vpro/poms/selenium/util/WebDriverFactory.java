@@ -19,6 +19,8 @@ public class WebDriverFactory {
     public static WebDriver getWebDriver(Browser browser) {
         WebDriver driver;
         boolean headless = Boolean.parseBoolean(AbstractTest.CONFIG.getProperties().get("headless"));
+        // So, if you don't want headless, to test these tests, please add
+        // headless=false to ~/conf/npo-browser-tests..proeprties
         switch (browser) {
             case CHROME:
                 WebDriverManager.chromedriver().setup();

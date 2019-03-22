@@ -10,8 +10,13 @@ import nl.vpro.poms.selenium.pages.Login;
 import nl.vpro.poms.selenium.pages.Search;
 import nl.vpro.poms.selenium.poms.AbstractTest;
 import nl.vpro.poms.selenium.util.DateFactory;
+import nl.vpro.poms.selenium.util.WebDriverFactory;
 
 public class SearchTest extends AbstractTest {
+
+	public SearchTest(WebDriverFactory.Browser browser) {
+		super(browser);
+	}
 
 	@Test
 	public void testSearch() {

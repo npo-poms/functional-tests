@@ -8,9 +8,14 @@ import nl.vpro.poms.selenium.pages.OmroepenOverlayPage;
 import nl.vpro.poms.selenium.pages.Search;
 import nl.vpro.poms.selenium.poms.AbstractTest;
 import nl.vpro.poms.selenium.util.DateFactory;
+import nl.vpro.poms.selenium.util.WebDriverFactory;
 
 
 public class AdminTest extends AbstractTest {
+
+	public AdminTest(WebDriverFactory.Browser browser) {
+		super(browser);
+	}
 
 	@Test
 	public void testAdmin() {

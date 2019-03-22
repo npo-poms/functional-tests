@@ -8,9 +8,14 @@ import nl.vpro.poms.selenium.pages.AccountSettingsOverlayPage;
 import nl.vpro.poms.selenium.pages.Login;
 import nl.vpro.poms.selenium.pages.Search;
 import nl.vpro.poms.selenium.poms.AbstractTest;
+import nl.vpro.poms.selenium.util.WebDriverFactory;
 
 public class NPOGebruikerTest extends AbstractTest {
-	
+
+	public NPOGebruikerTest(WebDriverFactory.Browser browser) {
+		super(browser);
+	}
+
 	@Test
 	public void testNPOGebruiker() {
 		loginSpeciaalNPOGebruiker();

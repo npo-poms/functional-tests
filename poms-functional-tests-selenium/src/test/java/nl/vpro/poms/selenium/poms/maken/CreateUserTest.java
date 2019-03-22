@@ -1,12 +1,7 @@
 package nl.vpro.poms.selenium.poms.maken;
 
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebDriver;
-
-import com.paulhammant.ngwebdriver.NgWebDriver;
 
 import nl.vpro.poms.selenium.pages.AccountSettingsOverlayPage;
 import nl.vpro.poms.selenium.pages.AddNewObjectOverlayPage;
@@ -14,7 +9,6 @@ import nl.vpro.poms.selenium.pages.Login;
 import nl.vpro.poms.selenium.pages.Search;
 import nl.vpro.poms.selenium.poms.AbstractTest;
 import nl.vpro.poms.selenium.util.DateFactory;
-import nl.vpro.poms.selenium.util.WebDriverFactory;
 import nl.vpro.poms.selenium.util.WebDriverFactory.Browser;
 
 //import org.openqa.selenium.support.ui.Sleeper;
@@ -23,13 +17,10 @@ import nl.vpro.poms.selenium.util.WebDriverFactory.Browser;
 
 public class CreateUserTest extends AbstractTest {
 
-    private WebDriver driver;
-    
-    @Before
-    public void setUp() {
-        driver = WebDriverFactory.getWebDriver(Browser.CHROME);
-        NgWebDriver ngWebDriver = new NgWebDriver((JavascriptExecutor) driver);
-    }
+
+	public CreateUserTest(Browser browser) {
+		super(browser);
+	}
 
 
     @Test

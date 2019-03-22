@@ -5,8 +5,13 @@ import org.junit.Test;
 import nl.vpro.poms.selenium.pages.Login;
 import nl.vpro.poms.selenium.pages.Search;
 import nl.vpro.poms.selenium.poms.AbstractTest;
+import nl.vpro.poms.selenium.util.WebDriverFactory;
 
 public class ChangeTest extends AbstractTest {
+
+	public ChangeTest(WebDriverFactory.Browser browser) {
+		super(browser);
+	}
 
 	@Test
 	public void testWijzig() {
