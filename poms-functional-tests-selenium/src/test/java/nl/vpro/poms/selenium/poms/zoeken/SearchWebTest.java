@@ -24,8 +24,8 @@ import static org.junit.runners.MethodSorters.NAME_ASCENDING;
 @Slf4j
 public class SearchWebTest extends AbstractTest {
 
-    public SearchWebTest(@Nonnull WebDriverFactory.Browser browser, @Nonnull String version) {
-        super(browser, version);
+    public SearchWebTest(@Nonnull WebDriverFactory.Browser browser) {
+        super(browser);
     }
 
     /**

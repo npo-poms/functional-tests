@@ -12,8 +12,8 @@ import nl.vpro.poms.selenium.util.WebDriverFactory;
 
 public class AdminTest extends AbstractTest {
 
-	public AdminTest(WebDriverFactory.Browser browser, String version) {
-		super(browser, version);
+	public AdminTest(WebDriverFactory.Browser browser) {
+		super(browser);
 	}
 
 	@Test

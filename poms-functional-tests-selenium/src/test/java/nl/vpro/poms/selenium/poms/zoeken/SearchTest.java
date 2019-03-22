@@ -9,12 +9,12 @@ import org.openqa.selenium.WebElement;
 import nl.vpro.poms.selenium.pages.Search;
 import nl.vpro.poms.selenium.poms.AbstractTest;
 import nl.vpro.poms.selenium.util.DateFactory;
-import nl.vpro.poms.selenium.util.WebDriverFactory;
+import nl.vpro.poms.selenium.util.WebDriverFactory.Browser;
 
 public class SearchTest extends AbstractTest {
 
-	public SearchTest(WebDriverFactory.Browser browser, String version) {
-		super(browser, version);
+	public SearchTest(Browser browser) {
+		super(browser);
 	}
 
 	@Test

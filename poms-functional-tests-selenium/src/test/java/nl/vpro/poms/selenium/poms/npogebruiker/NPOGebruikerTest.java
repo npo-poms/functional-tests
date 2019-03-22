@@ -11,8 +11,8 @@ import nl.vpro.poms.selenium.util.WebDriverFactory;
 
 public class NPOGebruikerTest extends AbstractTest {
 
-	public NPOGebruikerTest(WebDriverFactory.Browser browser, String version) {
-		super(browser, version);
+	public NPOGebruikerTest(WebDriverFactory.Browser browser) {
+		super(browser);
 	}
 
 	@Test

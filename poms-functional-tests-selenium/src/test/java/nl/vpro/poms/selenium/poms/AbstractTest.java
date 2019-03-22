@@ -1,5 +1,7 @@
 package nl.vpro.poms.selenium.poms;
 
+import io.github.bonigarcia.wdm.DriverManagerType;
+
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.concurrent.TimeUnit;
@@ -20,7 +22,6 @@ import com.paulhammant.ngwebdriver.NgWebDriver;
 import nl.vpro.api.client.utils.Config;
 import nl.vpro.poms.selenium.pages.PomsLogin;
 import nl.vpro.poms.selenium.pages.Search;
-import nl.vpro.poms.selenium.util.WebDriverFactory;
 import nl.vpro.poms.selenium.util.WebDriverFactory.Browser;
 import nl.vpro.rules.TestMDC;
 
@@ -46,7 +47,6 @@ public abstract class AbstractTest {
 
 
     private final Browser browser;
-    private final String version;
 
 	protected WebDriver driver;
 
@@ -56,20 +56,19 @@ public abstract class AbstractTest {
     public static Collection<Object[]> data() {
         return Arrays.asList(
             new Object[][]{
-                {Browser.CHROME, "2.41"}, // 2.41 corresponds with the chrome on jenkins.
-                {Browser.FIREFOX, null}
+                {new Browser(DriverManagerType.CHROME, "2.41")}, // 2.41 corresponds with the chrome on jenkins.
+                {new Browser(DriverManagerType.FIREFOX, null)}
             }
         );
     }
 
-    protected AbstractTest(@Nonnull Browser browser, @Nonnull String version) {
+    protected AbstractTest(@Nonnull Browser browser) {
         this.browser = browser;
-        this.version = version;
     }
 
 	@Before
     public void setUp() {
-        driver = WebDriverFactory.getWebDriver(browser, version);
+        driver = browser.asWebDriver();
     }
 
     @After

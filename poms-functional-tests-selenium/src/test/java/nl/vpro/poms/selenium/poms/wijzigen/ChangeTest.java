@@ -8,8 +8,8 @@ import nl.vpro.poms.selenium.util.WebDriverFactory;
 
 public class ChangeTest extends AbstractTest {
 
-	public ChangeTest(WebDriverFactory.Browser browser, String version) {
-		super(browser, version);
+	public ChangeTest(WebDriverFactory.Browser browser) {
+		super(browser);
 	}
 
 	@Test

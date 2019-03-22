@@ -11,7 +11,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
 import nl.vpro.poms.selenium.poms.AbstractTest;
-import nl.vpro.poms.selenium.util.WebDriverFactory;
+import nl.vpro.poms.selenium.util.WebDriverFactory.Browser;
 
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.runners.MethodSorters.NAME_ASCENDING;
@@ -27,8 +27,8 @@ import static org.junit.runners.MethodSorters.NAME_ASCENDING;
 @Slf4j
 public class CreateUserWebTest extends AbstractTest {
 
-    public CreateUserWebTest(WebDriverFactory.Browser browser, String version) {
-        super(browser, version);
+    public CreateUserWebTest(Browser browser) {
+        super(browser);
     }
 
     /**
