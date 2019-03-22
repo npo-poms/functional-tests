@@ -1,7 +1,5 @@
 package nl.vpro.poms.selenium.poms.admin;
 
-import static nl.vpro.poms.selenium.util.Config.CONFIG;
-
 import org.junit.Test;
 
 import nl.vpro.poms.selenium.pages.AddNewObjectOverlayPage;
@@ -10,6 +8,8 @@ import nl.vpro.poms.selenium.pages.OmroepenOverlayPage;
 import nl.vpro.poms.selenium.pages.Search;
 import nl.vpro.poms.selenium.poms.AbstractTest;
 import nl.vpro.poms.selenium.util.DateFactory;
+
+import static nl.vpro.poms.selenium.util.Config.CONFIG;
 
 public class AdminTest extends AbstractTest {
 
@@ -39,6 +39,8 @@ public class AdminTest extends AbstractTest {
 		loginSpeciaalAdminGebruiker();
 		Search search = new Search(driver);
 		search.clickAdminItem("omroepen");
+		waitForAngularRequestsToFinish();
+
 		OmroepenOverlayPage overlay = new OmroepenOverlayPage(driver);
 		overlay.addOmroep("Test");
 		overlay.close();
