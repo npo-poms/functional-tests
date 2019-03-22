@@ -26,7 +26,7 @@ public class WebDriverFactory {
 
     private static boolean headless;
     static {
-          headless = Boolean.parseBoolean(AbstractTest.CONFIG.getProperties().get("headless"));
+          headless = Boolean.parseBoolean(AbstractTest.CONFIG.getProperty("headless"));
     }
     private static LoadingCache<DriverManagerType, WebDriverManager> CACHE = CacheBuilder
         .newBuilder()

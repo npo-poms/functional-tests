@@ -59,31 +59,31 @@ public class PomsLogin extends AbstractPage {
 
 
     public void VPROand3voor12() {
-        String user =  CONFIG.getProperties().get("SpeciaalVfGebruiker.LOGIN");
-        String password =  CONFIG.getProperties().get("SpeciaalVfGebruiker.PASSWORD");
+        String user =  CONFIG.getProperty("SpeciaalVfGebruiker.LOGIN");
+        String password =  CONFIG.getProperty("SpeciaalVfGebruiker.PASSWORD");
         Assume.assumeNotNull(user, password);
         gotoLogin(user, password);
     }
 
     public void speciaalNPOGebruiker() {
-        String user = CONFIG.getProperties().get("MISGebruiker.LOGIN");
-		String password = CONFIG.getProperties().get("MISGebruiker.PASSWORD");
+        String user = CONFIG.getProperty("MISGebruiker.LOGIN");
+		String password = CONFIG.getProperty("MISGebruiker.PASSWORD");
 		gotoLogin(user, password);
 	}
 	public void speciaalAdminGebruiker() {
-		String user = CONFIG.getProperties().get("AdminGebruiker.LOGIN");
-		String password = CONFIG.getProperties().get("AdminGebruiker.PASSWORD");
+		String user = CONFIG.getProperty("AdminGebruiker.LOGIN");
+		String password = CONFIG.getProperty("AdminGebruiker.PASSWORD");
 		gotoLogin(user, password);
 	}
 	public void speciaalVf() {
-        String user =  CONFIG.getProperties().get("SpeciaalVfGebruiker.LOGIN");
-        String password =  CONFIG.getProperties().get("SpeciaalVfGebruiker.PASSWORD");
+        String user =  CONFIG.getProperty("SpeciaalVfGebruiker.LOGIN");
+        String password =  CONFIG.getProperty("SpeciaalVfGebruiker.PASSWORD");
         gotoLogin(user, password);
 	}
 
     public void gtaaBrowserTest() {
-        String user =  CONFIG.getProperties().get("SpeciaalVfGebruiker.LOGIN");
-        String password =  CONFIG.getProperties().get("SpeciaalVfGebruiker.PASSWORD");
+        String user =  CONFIG.getProperty("SpeciaalVfGebruiker.LOGIN");
+        String password =  CONFIG.getProperty("SpeciaalVfGebruiker.PASSWORD");
         login(user, password);
 
     }

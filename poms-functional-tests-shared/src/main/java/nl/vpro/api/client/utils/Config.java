@@ -109,9 +109,17 @@ public class Config {
 
     }
 
-    public Map<String, String> getProperties() {
+    private Map<String, String> getProperties() {
         return properties.entrySet().stream()
             .collect(Collectors.toMap((e) -> e.getKey().toString(), Map.Entry::getValue));
+    }
+
+    public String getProperty(String key) {
+        String value = getProperties().get(key);
+        if (value == null) {
+            throw new IllegalArgumentException("No such key " + key);
+        }
+        return value;
     }
 
     public  Map<String, String> getProperties(Prefix prefix) {
