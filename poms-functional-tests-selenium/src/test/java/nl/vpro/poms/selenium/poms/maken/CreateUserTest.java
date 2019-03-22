@@ -19,7 +19,7 @@ import nl.vpro.poms.selenium.util.WebDriverFactory.Browser;
 public class CreateUserTest extends AbstractTest {
 
 
-	protected CreateUserTest(@Nonnull Browser browser, @Nonnull String version) {
+	public CreateUserTest(@Nonnull Browser browser, @Nonnull String version) {
 		super(browser, version);
 	}
 
