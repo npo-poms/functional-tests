@@ -2,14 +2,15 @@ package nl.vpro.poms.selenium.npoapi.thesaurus;
 
 import lombok.extern.slf4j.Slf4j;
 
-import org.junit.BeforeClass;
+import javax.annotation.Nonnull;
+
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.openqa.selenium.By;
 
 import nl.vpro.api.client.utils.Config;
-import nl.vpro.poms.config.Webtest;
-
+import nl.vpro.poms.selenium.poms.AbstractTest;
+import nl.vpro.poms.selenium.util.WebDriverFactory;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.runners.MethodSorters.NAME_ASCENDING;
@@ -19,22 +20,16 @@ import static org.junit.runners.MethodSorters.NAME_ASCENDING;
  */
 @FixMethodOrder(NAME_ASCENDING)
 @Slf4j
-public class ThesaurusSmokeITest extends Webtest {
+public class ThesaurusSmokeITest extends AbstractTest {
 
-    /**
-     * Sets up. the
-     *
-     */
-    @BeforeClass
-    public static void setUp() {
-        loginGtaaBrowserTest();
+    protected ThesaurusSmokeITest(@Nonnull WebDriverFactory.Browser browser, @Nonnull String version) {
+        super(browser, version);
+    }
 
-        // after logging in first we have to go to the demo interface again, because of
-        //sso choices.
+    @Test
+    public void test000login() {
         String url = CONFIG.getProperties(Config.Prefix.npo_api).get("baseUrl") + "/thesaurus/example/";
-        log.info("Using {}", url);
-        driver.get(url);
-
+        login(url).gtaaBrowserTest();
     }
 
 

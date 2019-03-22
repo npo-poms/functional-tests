@@ -14,7 +14,6 @@ import nl.vpro.api.client.utils.Config;
 import nl.vpro.poms.selenium.poms.AbstractTest;
 import nl.vpro.poms.selenium.util.WebDriverFactory;
 
-import static nl.vpro.poms.config.Webtest.MID;
 import static org.junit.runners.MethodSorters.NAME_ASCENDING;
 
 /**

@@ -16,7 +16,7 @@ import static nl.vpro.poms.selenium.poms.AbstractTest.CONFIG;
 
 
 @Slf4j
-public class Login extends AbstractPage {
+public class PomsLogin extends AbstractPage {
 
     private static final By usernameBy = By.id("username");
 
@@ -26,12 +26,16 @@ public class Login extends AbstractPage {
     
     private static final String URL = CONFIG.getProperties(Config.Prefix.poms).get("baseUrl");
 
-    public Login(WebDriver driver ) {
+    private final String url;
+
+    public PomsLogin(String url, WebDriver driver ) {
         super(driver);
+        this.url = url == null ? URL : url;
+
     }
     public void gotoPage() {
 //        log.info("poms {}", URL);
-        driver.navigate().to(URL);
+        driver.navigate().to(url);
     }
 
     public void gotoLogin(@Nonnull String user, @Nonnull String passwd) {
@@ -77,4 +81,10 @@ public class Login extends AbstractPage {
         gotoLogin(user, password);
 	}
 
+    public void gtaaBrowserTest() {
+        String user =  CONFIG.getProperties().get("SpeciaalVfGebruiker.LOGIN");
+        String password =  CONFIG.getProperties().get("SpeciaalVfGebruiker.PASSWORD");
+        login(user, password);
+
+    }
 }
