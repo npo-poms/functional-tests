@@ -1,6 +1,7 @@
 package nl.vpro.poms.selenium.util;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
+import lombok.extern.slf4j.Slf4j;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -11,6 +12,7 @@ import org.openqa.selenium.firefox.FirefoxOptions;
 import nl.vpro.poms.selenium.poms.AbstractTest;
 
 
+@Slf4j
 public class WebDriverFactory {
     public enum Browser {
         CHROME, 
@@ -21,6 +23,11 @@ public class WebDriverFactory {
         boolean headless = Boolean.parseBoolean(AbstractTest.CONFIG.getProperties().get("headless"));
         // So, if you don't want headless, to test these tests, please add
         // headless=false to ~/conf/npo-browser-tests..proeprties
+        if (! headless) {
+            log.info("Running with a HEAD {} {}", browser, version);
+        } else {
+            log.info("Running headless {} {}", browser, version);
+        }
         switch (browser) {
             case CHROME:
                 WebDriverManager

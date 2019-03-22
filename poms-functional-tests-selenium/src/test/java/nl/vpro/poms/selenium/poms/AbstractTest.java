@@ -56,7 +56,7 @@ public abstract class AbstractTest {
     public static Collection<Object[]> data() {
         return Arrays.asList(
             new Object[][]{
-                {Browser.CHROME, null},
+                {Browser.CHROME, "2.41"}, // 2.41 corresponds with the chrome on jenkins.
                 {Browser.FIREFOX, null}
             }
         );
