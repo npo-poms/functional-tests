@@ -18,12 +18,10 @@ import nl.vpro.domain.image.ImageType;
 import nl.vpro.domain.media.*;
 import nl.vpro.domain.media.support.Image;
 import nl.vpro.domain.media.support.OwnerType;
-import nl.vpro.domain.media.update.AssemblageConfig;
-import nl.vpro.domain.media.update.LocationUpdate;
-import nl.vpro.domain.media.update.MediaUpdate;
-import nl.vpro.domain.media.update.ProgramUpdate;
+import nl.vpro.domain.media.update.*;
 import nl.vpro.domain.support.License;
 import nl.vpro.rs.media.MediaRestClient;
+import nl.vpro.rules.TestMDC;
 import nl.vpro.util.IntegerVersion;
 import nl.vpro.util.Version;
 
@@ -193,5 +191,43 @@ public abstract class AbstractApiMediaBackendTest extends AbstractApiTest {
             log.error(e.getMessage(), e);
         }
     }
+
+    protected ImageUpdate.Builder randomImage(String title) throws UnsupportedEncodingException {
+        return randomImage(testMDC, title).credits(getClass().getName());
+    }
+
+    protected static ImageUpdate.Builder randomImage(TestMDC testMDC, String title) throws UnsupportedEncodingException {
+        /*return ImageUpdate.builder()
+            .type(ImageType.PICTURE)
+            .title(title)
+            .imageUrl("https://dummyimage.com/150x150&text=" + URLEncoder.encode(title, "UTF-8"))
+            .license(License.CC_BY)
+            .sourceName("dummyimage")
+            .source("http://dummyimage.com/")
+            .credits(getClass().getName());
+            */
+        /* // lorempixel geeft geen response meer...
+        return ImageUpdate.builder()
+            .type(ImageType.PICTURE)
+            .title(title)
+            .imageUrl("http://lorempixel.com/400/200/sports/T" + URLEncoder.encode(title, "UTF-8") + "/")
+            .license(License.CC_BY)
+            .sourceName("lorempixel")
+            .source("http://lorempixel.com/")
+            .credits(getClass().getName());
+            */
+        ImageUpdate.Builder builder = ImageUpdate.builder()
+            .type(ImageType.PICTURE)
+            .title(title)
+            .imageUrl("https://images.poms.omroep.nl/image/s" + (testMDC.getTestNumber() + 10) + "/7617.jpg?" + URLEncoder.encode(title, "UTF-8"))
+            .license(License.CC_BY)
+            .sourceName("vpro")
+            .source("https://www.vpro.nl/");
+
+        log.info("Creating image {}", builder);
+        return builder;
+    }
+
+
 
 }

@@ -3,7 +3,6 @@ package nl.vpro.poms.backend;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
@@ -21,7 +20,6 @@ import org.junit.runners.MethodSorters;
 import nl.vpro.domain.image.ImageType;
 import nl.vpro.domain.media.update.ImageUpdate;
 import nl.vpro.domain.media.update.ProgramUpdate;
-import nl.vpro.domain.support.License;
 import nl.vpro.logging.LoggerOutputStream;
 import nl.vpro.poms.AbstractApiMediaBackendTest;
 import nl.vpro.rules.DoAfterException;
@@ -78,7 +76,7 @@ public class MediaBackendImagesTest extends AbstractApiMediaBackendTest {
     public void test01addRedirectingImage() throws UnsupportedEncodingException {
         assumeThat(backendVersionNumber, greaterThanOrEqualTo(Version.of(5)));
         titles.add(title);
-        ImageUpdate update = random(title)
+        ImageUpdate update = randomImage(title)
             .type(ImageType.LOGO) // different types make the image unique without id.
             .source("https://google.com/")
             .imageUrl("https://goo.gl/fKL1rj") // redirects
@@ -92,7 +90,7 @@ public class MediaBackendImagesTest extends AbstractApiMediaBackendTest {
     public void test02addImage() throws UnsupportedEncodingException {
         titles.add(title);
 
-        ImageUpdate update = random(title)
+        ImageUpdate update = randomImage(title)
             .type(ImageType.BACKGROUND)
             .build();
         backend.addImage(update, MID);
@@ -107,7 +105,7 @@ public class MediaBackendImagesTest extends AbstractApiMediaBackendTest {
     @Test
     public void test11addImageToObject() throws UnsupportedEncodingException {
         titles.add(title);
-        ImageUpdate imageUpdate  = random(title)
+        ImageUpdate imageUpdate  = randomImage(title)
             .type(ImageType.ICON)
             .build();
 
@@ -186,7 +184,7 @@ public class MediaBackendImagesTest extends AbstractApiMediaBackendTest {
         image.setPublishStopInstant(yesterday);
 
         // and add one too
-        ImageUpdate newImage = random(title)
+        ImageUpdate newImage = randomImage(title)
             .type(ImageType.PORTRAIT)
             .build();
 
@@ -222,7 +220,7 @@ public class MediaBackendImagesTest extends AbstractApiMediaBackendTest {
         image.setDescription(newDescription);
 
         // and add one too
-        ImageUpdate newImage = random(title)
+        ImageUpdate newImage = randomImage(title)
             .type(ImageType.PROMO_LANDSCAPE)
             .build();
 
@@ -289,7 +287,7 @@ public class MediaBackendImagesTest extends AbstractApiMediaBackendTest {
     public void test31addInvalidImage() throws UnsupportedEncodingException {
         assumeThat(backendVersionNumber, greaterThanOrEqualTo(Version.of(5, 8)));
         titles.add(title);
-        ImageUpdate update = random(title)
+        ImageUpdate update = randomImage(title)
             .type(ImageType.LOGO) // different types make the image unique without id.
             .source("bla") // invalid!
             .imageUrl("https://goo.gl/fKL1rj") // redirects
@@ -365,37 +363,9 @@ public class MediaBackendImagesTest extends AbstractApiMediaBackendTest {
         }
     }
 
-    protected ImageUpdate.Builder random(String title) throws UnsupportedEncodingException {
-        /*return ImageUpdate.builder()
-            .type(ImageType.PICTURE)
-            .title(title)
-            .imageUrl("https://dummyimage.com/150x150&text=" + URLEncoder.encode(title, "UTF-8"))
-            .license(License.CC_BY)
-            .sourceName("dummyimage")
-            .source("http://dummyimage.com/")
-            .credits(getClass().getName());
-            */
-        /* // lorempixel geeft geen response meer...
-        return ImageUpdate.builder()
-            .type(ImageType.PICTURE)
-            .title(title)
-            .imageUrl("http://lorempixel.com/400/200/sports/T" + URLEncoder.encode(title, "UTF-8") + "/")
-            .license(License.CC_BY)
-            .sourceName("lorempixel")
-            .source("http://lorempixel.com/")
-            .credits(getClass().getName());
-            */
-        ImageUpdate.Builder builder = ImageUpdate.builder()
-            .type(ImageType.PICTURE)
-            .title(title)
-            .imageUrl("https://images.poms.omroep.nl/image/s" + (testMDC.getTestNumber() + 10) + "/7617.jpg?" + URLEncoder.encode(title, "UTF-8"))
-            .license(License.CC_BY)
-            .sourceName("vpro")
-            .source("https://www.vpro.nl/")
-            .credits(getClass().getName());
-        log.info("Creating image {}", builder);
-        return builder;
-    }
+
+
+
 
 
 }
