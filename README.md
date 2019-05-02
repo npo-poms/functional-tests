@@ -13,7 +13,12 @@ This is currently split up in 3 modules
 These tests are automaticly run every day on a [jenkins server](https://jenkins.vpro.nl/job/POMS%20Functional%20Tests/) (requires login)  on the 'dev' environments. At request the tests can also be run on the 'test' environment or even on production.
 
 The tests require a configuration file `${USER.HOME}/conf/npo-functional-tests.properties` and the selenium
-tests additionally require `${USER.HOME}/conf/npo-browser-tests.properties`. These files must contain the required credentials to be able to run the tests.  Default values can be found in src/main/test/resources of the relevant module.
+tests additionally require `${USER.HOME}/conf/npo-browser-tests.properties`. These files must contain the required credentials to be able to run the tests.  
+Default values can be found in src/main/test/resources of the relevant module.
+To test against poms-dev ensure you fill in *npo-backend-api.password* (for the user: *npo-backend-api.user* )
+Also you need to set your email in the *npo-backend-api.errors* property.
+
+*Note:* By default the ```test``` environment properties will be used. If you want to change that just specify your own env=[local, dev, prod] property in the file.
 
 ## Remarks
 ### Externals

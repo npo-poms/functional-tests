@@ -113,7 +113,7 @@ public class ApiMediaTest extends AbstractApiTest {
         String mid = "RBX_S_NTR_553927";
         MediaResult result = mediaUtil.getClients()
             .getMediaService()
-            .listRelated(mid, null, null);
+            .listRelated(mid, null, null, null);
         assertThat(result.getSize()).isGreaterThan(0);
         log.info("Related to {}", mid);
         for (MediaObject o : result) {

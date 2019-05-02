@@ -244,7 +244,7 @@ public class MediaBackendSubtitlesTest extends AbstractApiMediaBackendTest {
         Subtitles subtitles = Subtitles.webvttTranslation("POMS_KRO_3852926", Duration.ofMinutes(0), new Locale("ar"), writer.toString());
 
 
-        Subtitles corrected = Subtitles.from(subtitles.getId(), SubtitlesUtil.fillCueNumber(SubtitlesUtil.parse(subtitles, false)).iterator());
+        Subtitles corrected = Subtitles.from(subtitles.getId(), SubtitlesUtil.fillCueNumber(SubtitlesUtil.parse(subtitles, false).getCues()).iterator());
 
 
         backend.setSubtitles(corrected);
@@ -261,7 +261,7 @@ public class MediaBackendSubtitlesTest extends AbstractApiMediaBackendTest {
 
         Subtitles subtitles = Subtitles.webvtt("POMS_KRO_3852926", Duration.ofMinutes(0), new Locale("nl"), writer.toString());
 
-        Subtitles corrected = Subtitles.from(subtitles.getId(), SubtitlesUtil.fillCueNumber(SubtitlesUtil.parse(subtitles, false)).iterator());
+        Subtitles corrected = Subtitles.from(subtitles.getId(), SubtitlesUtil.fillCueNumber(SubtitlesUtil.parse(subtitles, false).getCues()).iterator());
 
 
         backend.setSubtitles(corrected);
