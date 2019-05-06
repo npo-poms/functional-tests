@@ -48,16 +48,16 @@
       <artifactId>log4j</artifactId>
     </dependency>
     <dependency>
-      <groupId>nl.vpro.api-client</groupId>
-      <artifactId>client-resteasy</artifactId>
+      <groupId>nl.vpro.poms</groupId>
+      <artifactId>frontend-api-client</artifactId>
     </dependency>
     <dependency>
-      <groupId>nl.vpro.api-client</groupId>
-      <artifactId>media-backend-rs-client</artifactId>
+      <groupId>nl.vpro.poms</groupId>
+      <artifactId>media-backend-api-client</artifactId>
     </dependency>
     <dependency>
-      <groupId>nl.vpro.api-client</groupId>
-      <artifactId>client-utils</artifactId>
+      <groupId>nl.vpro.poms</groupId>
+      <artifactId>client-extras</artifactId>
     </dependency>
     <dependency>
       <groupId>javax</groupId>
