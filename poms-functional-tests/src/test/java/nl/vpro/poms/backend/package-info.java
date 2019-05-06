@@ -1,5 +1,5 @@
 /**
- * Deze tests praten slechts tegen de POMS backend API
+ * These tests only use the POMS backend API. The issue changes, and look if they arrived correctly (again using the backend api itself)
  * @author Michiel Meeuwissen
  */
 package nl.vpro.poms.backend;

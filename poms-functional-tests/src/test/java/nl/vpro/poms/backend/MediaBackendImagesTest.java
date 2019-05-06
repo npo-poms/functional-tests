@@ -35,7 +35,10 @@ import static org.junit.Assume.*;
  * 2018-08-15
  * 5.9-SNAPSHOT @ dev : allemaal ok
  * 5.7.9 @ test: de eerste test gaat fout.
+ * 2019-05-06
+ *  5.11-SNAPSHOT @ dev :ok
  */
+
 
 /**
  * Tests whether adding and modifying images via the POMS backend API works.

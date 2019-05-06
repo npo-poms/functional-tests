@@ -19,7 +19,7 @@
     <level value="DEBUG"/>
   </logger>
   <logger name="nl.vpro.util">
-    <level value="DEBUG"/>
+    <level value="WARN"/>
   </logger>
   <logger name="com.joestelmach.natty">
     <level value="WARN"/>
