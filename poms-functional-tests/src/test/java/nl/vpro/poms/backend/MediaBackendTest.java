@@ -275,7 +275,7 @@ public class MediaBackendTest extends AbstractApiMediaBackendTest {
      * An owner is not able to change data from a different one.
      */
     @Test
-    public void test09CreateObjectWithoutIntentionsAndTargetGroups() {
+    public void test09CreateObjectWithIntentionsAndTargetGroups() {
         //Given a new Media with intentions and targetgroups from multiple owners
         //And a clientApi configured with a specific owner
         Intentions intentions1 = Intentions.builder()
@@ -285,7 +285,7 @@ public class MediaBackendTest extends AbstractApiMediaBackendTest {
                 .build();
         Intentions intentions2 = Intentions.builder()
                 .owner(NPO).values(Arrays.asList(
-                        new Intention(IntentionType.INFORM_INDEPTH)))
+                        new Intention(IntentionType.ACTIVATING)))
                 .build();
 
         TargetGroups target1 = TargetGroups.builder()
@@ -318,11 +318,11 @@ public class MediaBackendTest extends AbstractApiMediaBackendTest {
                 mid + " exists",
                 () -> backend.get(mid),
                 Objects::nonNull);
+        assertThat(created.getIntentions()).contains(intentions1.getValues().get(0).getValue());
         assertThat(created.getIntentions()).contains(intentions1.getValues().get(1).getValue());
-        assertThat(created.getIntentions()).contains(intentions1.getValues().get(2).getValue());
-        assertThat(created.getIntentions()).doesNotContain(intentions2.getValues().get(1).getValue());
-        assertThat(created.getTargetGroups()).contains(target1.getValues().get(1).getValue());
-        assertThat(created.getTargetGroups()).doesNotContain(target2.getValues().get(1).getValue());
+        assertThat(created.getIntentions()).doesNotContain(intentions2.getValues().get(0).getValue());
+        assertThat(created.getTargetGroups()).contains(target1.getValues().get(0).getValue());
+        assertThat(created.getTargetGroups()).doesNotContain(target2.getValues().get(0).getValue());
 
     }
 
