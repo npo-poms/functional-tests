@@ -139,7 +139,7 @@
         <version>${poms.shared.version}</version>
       </dependency>
       <dependency>
-        <groupId>nl.vpro.poms</groupId>
+        <groupId>nl.vpro.poms.api-clients</groupId>
         <artifactId>frontend-api-client</artifactId>
         <version>${api.client.version}</version>
       </dependency>
@@ -159,12 +159,12 @@
         <version>${vpro.shared.version}</version>
       </dependency>
       <dependency>
-        <groupId>nl.vpro.poms</groupId>
+        <groupId>nl.vpro.poms.api-clients</groupId>
         <artifactId>media-backend-api-client</artifactId>
         <version>${api.client.version}</version>
       </dependency>
       <dependency>
-        <groupId>nl.vpro.poms</groupId>
+        <groupId>nl.vpro.poms.api-clients</groupId>
         <artifactId>client-extras</artifactId>
         <version>${api.client.version}</version>
       </dependency>
