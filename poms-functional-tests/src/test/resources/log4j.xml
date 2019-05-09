@@ -12,10 +12,10 @@
   <logger name="nl.vpro.api.client.resteasy.AbstractApiClient.4">
     <level value="WARN" />
   </logger>
-  <logger name="nl.vpro.api.client.resteasy.NpoApiClients.4">
+  <logger name="nl.vpro.api.client.frontend.NpoApiClients.4">
     <level value="WARN"/>
   </logger>
-  <logger name="nl.vpro.rs.media.MediaRestClient.4">
+  <logger name="nl.vpro.api.client.media.MediaRestClient.4">
     <level value="DEBUG"/>
   </logger>
   <logger name="nl.vpro.util">

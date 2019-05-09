@@ -20,7 +20,7 @@ import nl.vpro.domain.media.support.Image;
 import nl.vpro.domain.media.support.OwnerType;
 import nl.vpro.domain.media.update.*;
 import nl.vpro.domain.support.License;
-import nl.vpro.rs.media.MediaRestClient;
+import nl.vpro.api.client.media.MediaRestClient;
 import nl.vpro.rules.TestMDC;
 import nl.vpro.util.IntegerVersion;
 import nl.vpro.util.Version;

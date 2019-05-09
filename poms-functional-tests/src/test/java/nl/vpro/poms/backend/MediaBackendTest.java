@@ -19,7 +19,7 @@ import org.junit.runners.MethodSorters;
 import nl.vpro.domain.media.*;
 import nl.vpro.domain.media.update.*;
 import nl.vpro.poms.AbstractApiMediaBackendTest;
-import nl.vpro.rs.media.ResponseError;
+import nl.vpro.api.client.media.ResponseError;
 import nl.vpro.rules.DoAfterException;
 import nl.vpro.util.Version;
 

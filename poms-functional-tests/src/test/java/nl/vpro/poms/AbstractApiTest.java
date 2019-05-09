@@ -13,7 +13,7 @@ import org.junit.Rule;
 import org.junit.rules.TestName;
 import org.junit.rules.Timeout;
 
-import nl.vpro.api.client.resteasy.NpoApiClients;
+import nl.vpro.api.client.frontend.NpoApiClients;
 import nl.vpro.api.client.utils.Config;
 import nl.vpro.api.client.utils.NpoApiImageUtil;
 import nl.vpro.api.client.utils.NpoApiMediaUtil;

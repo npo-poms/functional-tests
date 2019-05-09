@@ -14,6 +14,7 @@ import java.util.stream.Collectors;
 
 import javax.xml.bind.JAXB;
 
+import nl.vpro.api.client.media.ResponseError;
 import org.junit.*;
 import org.junit.runners.MethodSorters;
 
@@ -286,7 +287,7 @@ public class MediaBackendImagesTest extends AbstractApiMediaBackendTest {
     }
 
 
-    @Test(expected = nl.vpro.rs.media.ResponseError.class)
+    @Test(expected = ResponseError.class)
     public void test31addInvalidImage() throws UnsupportedEncodingException {
         assumeThat(backendVersionNumber, greaterThanOrEqualTo(Version.of(5, 8)));
         titles.add(title);

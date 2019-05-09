@@ -5,7 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.junit.*;
 import org.junit.runners.MethodSorters;
 
-import nl.vpro.api.client.resteasy.PageUpdateApiClient;
+import nl.vpro.api.client.pages.PageUpdateApiClient;
 import nl.vpro.api.client.utils.Config;
 import nl.vpro.domain.PersonInterface;
 import nl.vpro.domain.api.thesaurus.PersonResult;

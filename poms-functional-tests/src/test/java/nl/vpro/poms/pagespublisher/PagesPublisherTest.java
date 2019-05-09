@@ -15,7 +15,7 @@ import javax.ws.rs.NotFoundException;
 import org.junit.*;
 import org.junit.runners.MethodSorters;
 
-import nl.vpro.api.client.resteasy.PageUpdateApiClient;
+import nl.vpro.api.client.pages.PageUpdateApiClient;
 import nl.vpro.api.client.utils.PageUpdateApiUtil;
 import nl.vpro.api.client.utils.PageUpdateRateLimiter;
 import nl.vpro.api.client.utils.Result;
