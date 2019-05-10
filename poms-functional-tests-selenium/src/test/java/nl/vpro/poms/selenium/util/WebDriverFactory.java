@@ -25,7 +25,7 @@ public class WebDriverFactory {
                 WebDriverManager.chromedriver().setup();
                 ChromeOptions options = new ChromeOptions();
                 options.addArguments("--incognito");
-                options.addArguments("--lang=nl");
+                options.addArguments("--lang=en");
 //                options.setHeadless(headless);
                 driver = new ChromeDriver(options);
                 break;
