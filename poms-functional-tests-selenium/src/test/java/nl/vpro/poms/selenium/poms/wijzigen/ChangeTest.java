@@ -1,20 +1,14 @@
 package nl.vpro.poms.selenium.poms.wijzigen;
 
-import org.junit.Test;
-
 import nl.vpro.poms.selenium.pages.Search;
 import nl.vpro.poms.selenium.poms.AbstractTest;
-import nl.vpro.poms.selenium.util.WebDriverFactory;
+import org.junit.Test;
 
 public class ChangeTest extends AbstractTest {
 
-	public ChangeTest(WebDriverFactory.Browser browser) {
-		super(browser);
-	}
-
 	@Test
 	public void testWijzig() {
-		login().speciaalVf();
+		loginSpeciaalVf();
 		Search search = new Search(driver);
 		search.selectOptionFromMenu("Omroepen", "VPRO");
 		search.selectOptionFromMenu("MediaType", "Clip");
@@ -32,7 +26,7 @@ public class ChangeTest extends AbstractTest {
 	
 	@Test
 	public void testWissen() {
-		login().speciaalVf();
+		loginSpeciaalVf();
 		Search search = new Search(driver);
 		search.selectOptionFromMenu("Omroepen", "VPRO");
 		search.selectOptionFromMenu("MediaType", "Clip");
@@ -42,7 +36,7 @@ public class ChangeTest extends AbstractTest {
 	
 	@Test
 	public void testNietBewerken() {
-		login().speciaalVf();
+		loginSpeciaalVf();
 		Search search = new Search(driver);
 		search.clickWissen();
 		search.selectOptionFromMenu("Omroepen", "NPO");
@@ -50,6 +44,6 @@ public class ChangeTest extends AbstractTest {
 		
 		logout();
 	}
-	 
+
 
 }
