@@ -1,10 +1,8 @@
 package nl.vpro.poms.selenium.poms.wijzigen;
 
-import org.junit.Test;
-
 import nl.vpro.poms.selenium.pages.Search;
 import nl.vpro.poms.selenium.poms.AbstractTest;
-import nl.vpro.poms.selenium.util.WebDriverFactory;
+import org.junit.Test;
 
 public class ChangeTest extends AbstractTest {
 
@@ -50,6 +48,6 @@ public class ChangeTest extends AbstractTest {
 		
 		logout();
 	}
-	 
+
 
 }

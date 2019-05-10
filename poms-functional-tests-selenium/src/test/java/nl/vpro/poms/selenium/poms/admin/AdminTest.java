@@ -1,14 +1,15 @@
 package nl.vpro.poms.selenium.poms.admin;
 
-import org.junit.Test;
-
 import nl.vpro.poms.selenium.pages.AddNewObjectOverlayPage;
 import nl.vpro.poms.selenium.pages.OmroepenOverlayPage;
 import nl.vpro.poms.selenium.pages.Search;
 import nl.vpro.poms.selenium.poms.AbstractTest;
 import nl.vpro.poms.selenium.util.DateFactory;
-import nl.vpro.poms.selenium.util.WebDriverFactory;
+import nl.vpro.poms.selenium.util.types.AvType;
+import nl.vpro.poms.selenium.util.types.MediaType;
+import org.junit.Test;
 
+import static nl.vpro.poms.selenium.util.Config.CONFIG;
 
 public class AdminTest extends AbstractTest {
 
@@ -25,8 +26,8 @@ public class AdminTest extends AbstractTest {
 		AddNewObjectOverlayPage addOverlay = new AddNewObjectOverlayPage(driver);
 		String title = "Test " + DateFactory.getNow();
 		addOverlay.enterTitle(title);
-		addOverlay.chooseMediaType("Clip");
-		addOverlay.chooseAvType("Video");
+		addOverlay.chooseMediaType(MediaType.CLIP);
+		addOverlay.chooseAvType(AvType.VIDEO);
 		addOverlay.chooseGenre("Jeugd");
 		addOverlay.clickMaakAan();
 		
