@@ -8,6 +8,8 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
 
+import java.util.concurrent.TimeUnit;
+
 import static nl.vpro.poms.selenium.util.Config.CONFIG;
 
 public class WebDriverFactory {
@@ -22,7 +24,8 @@ public class WebDriverFactory {
             case CHROME:
                 WebDriverManager.chromedriver().setup();
                 ChromeOptions options = new ChromeOptions();
-//                options.addArguments("--incognito");
+                options.addArguments("--incognito");
+                options.addArguments("--lang=nl");
 //                options.setHeadless(headless);
                 driver = new ChromeDriver(options);
                 break;
@@ -36,6 +39,7 @@ public class WebDriverFactory {
             default:
                 driver = null;
         }
+        driver.manage().timeouts().pageLoadTimeout(30, TimeUnit.SECONDS);
         return driver;
     }
 }

@@ -4,6 +4,7 @@ api
 .idea
 /.metadata/
 .recommenders/
+npo-browser-tests.properties
 poms-functional-tests-selenium/.classpath
 poms-functional-tests-selenium/.project
 poms-functional-tests-selenium/.settings/

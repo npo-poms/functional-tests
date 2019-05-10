@@ -1,15 +1,10 @@
 package nl.vpro.poms.selenium.pages;
 
-import lombok.extern.slf4j.Slf4j;
-
+import nl.vpro.api.client.utils.Config;
 import org.junit.Assume;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
-
-import nl.vpro.api.client.utils.Config;
 
 import static nl.vpro.poms.selenium.util.Config.CONFIG;
 
@@ -23,7 +18,7 @@ public class Login extends AbstractPage {
     
     private static final String URL = CONFIG.getProperties(Config.Prefix.poms).get("baseUrl");
 
-    public Login(WebDriver driver ) {
+    public Login(WebDriver driver) {
         super(driver);
     }
     public void gotoPage() {
@@ -32,13 +27,11 @@ public class Login extends AbstractPage {
     }
 
     public void login(String user, String passwd) {
-//    	log.info("Log in user {}", user);
+//  log.info("Log in user {}", user);
         Assume.assumeNotNull(user, passwd);
-        wait.until(ExpectedConditions.elementToBeClickable(usernameBy));
-        WebElement usernameElement = driver.findElement(usernameBy);
-        usernameElement.sendKeys(user);
-        WebElement passwdElement = driver.findElement(passwdBy);
-        passwdElement.sendKeys(passwd);
+
+        waitUtil.waitAndSendkeys(usernameBy, user);
+        waitUtil.waitAndSendkeys(passwdBy, passwd);
         WebElement login = driver.findElement(loginBy);
         login.click();
     }

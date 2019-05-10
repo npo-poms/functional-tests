@@ -1,165 +1,89 @@
 package nl.vpro.poms.selenium.poms.maken;
 
-import org.junit.*;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebDriver;
-//import org.openqa.selenium.support.ui.Sleeper;
-
-import com.paulhammant.ngwebdriver.NgWebDriver;
-
-import nl.vpro.poms.selenium.pages.AccountSettingsOverlayPage;
-import nl.vpro.poms.selenium.pages.AddNewObjectOverlayPage;
-import nl.vpro.poms.selenium.pages.Login;
-import nl.vpro.poms.selenium.pages.Search;
+import nl.vpro.poms.selenium.pages.*;
 import nl.vpro.poms.selenium.poms.AbstractTest;
 import nl.vpro.poms.selenium.util.DateFactory;
-import nl.vpro.poms.selenium.util.WebDriverFactory;
-import nl.vpro.poms.selenium.util.WebDriverFactory.Browser;
+import nl.vpro.poms.selenium.util.types.AvType;
+import nl.vpro.poms.selenium.util.types.MediaType;
+import org.junit.After;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
 
-import static nl.vpro.poms.selenium.util.Config.CONFIG;
-
+//import org.openqa.selenium.support.ui.Sleeper;
 
 
 public class CreateUserTest extends AbstractTest {
 
-    private WebDriver driver;
-    
     @Before
-    public void setUp() {
-        driver = WebDriverFactory.getWebDriver(Browser.CHROME);
-        NgWebDriver ngWebDriver = new NgWebDriver((JavascriptExecutor) driver);
+    public void setup() {
+        loginSpeciaalVf();
     }
 
     @After
-    public void tearDown() {
-//        driver.quit();
+    public void logout() {
+        super.logout();
+    }
+
+    /**
+     * - Kies Nieuw en kies media Type ""Clip""
+     * - Vul het formulier onvolledig in, er ontbreken nog verplichte(*) velden
+     * - Druk op 'Maak aan'"
+     */
+    @Test
+    public void testMaakAanDisabled() {
+        HomePage homepage = new HomePage(driver);
+        AddNewObjectOverlayPage overlay = homepage.clickNew();
+        overlay.chooseMediaType(MediaType.CLIP);
+
+        Assert.assertFalse("Button 'Maak Aan' must be disabled", overlay.isEnabledMaakAan());
+        overlay.close();
+    }
+
+    /**
+     * "- Log in als omroep-gebruiker
+     * - Kies Nieuw en kies media Type ""Clip""
+     * - Vul het formulier volledig in, totdat er geen velden meer in te vullen zijn.
+     * - Druk op 'Maak aan'"
+     * <p>
+     * "Het object wordt opgeslagen en krijgt:
+     * - Een MID
+     * - Een URN
+     * - Een status 'Voor publicatie'
+     * - De tab is bovenaan gearceerd
+     * "
+     */
+    @Test
+    public void testMaakNieuweClip() {
+        HomePage homepage = new HomePage(driver);
+        homepage.clickNew()
+                .enterTitle("Clip" + DateFactory.getNow())
+                .chooseMediaType(MediaType.CLIP)
+                .chooseAvType(AvType.VIDEO)
+                .chooseGenre("Jeugd")
+                .selectPublicationPeriod(DateFactory.getToday(), DateFactory.getToday())
+                .clickMaakAan();
+
+        MediaItemPage itemPage = new MediaItemPage(driver);
+        Assert.assertTrue(!itemPage.getMID().isEmpty());
+        Assert.assertTrue(itemPage.getStatus().equals("Voor publicatie"));
+        Assert.assertTrue(!itemPage.getURN().isEmpty());
     }
 
     @Test
-    public void testMaakAanDisabled() {
-        loginSpeciaalVf();
-        
-        Search search = new Search(driver);
-        search.clickNew();
-        AddNewObjectOverlayPage overlay = new AddNewObjectOverlayPage(driver);
-        overlay.chooseMediaType("Clip");
-        
-        Assert.assertTrue("Button 'Maak Aan' must be disabled", overlay.isDisabledMaakAan());
-        overlay.close();
-        logout();
+    public void testWijzigStandaardOmroep() {
+        Assert.fail("Bug gemeldt");
     }
-    
+
     @Test
-    public void testMakeNewClip() {
-    	loginSpeciaalVf();
-    	
-    	Search search = new Search(driver);
-        search.clickNew();
-        AddNewObjectOverlayPage overlay = new AddNewObjectOverlayPage(driver);
-        overlay.enterTitle("Clip" + DateFactory.getNow());
-        overlay.chooseMediaType("Clip");
-        overlay.chooseAvType("Video");
-        overlay.chooseGenre("Jeugd");
-        Assert.assertFalse("Button 'Maak Aan' must be enabled", overlay.isDisabledMaakAan());
-        overlay.clickMaakAan();
-        
-    	logout();
+    public void testVoegTweeStandaardOmroepenToe() {
+        Assert.fail("Bug gemeldt");
     }
-    
+
     @Test
-    public void testAddNewStandardOmroep() {
-    	loginSpeciaalVf();
-    	
-    	Search search = new Search(driver);
-    	search.goToAccountInstellingen();
-    	
-    	AccountSettingsOverlayPage overlayPage = new AccountSettingsOverlayPage(driver);
-    	String omroep = "NPS";
-		boolean visibleStandaardOmroep = overlayPage.isVisibleStandaardOmroep(omroep);
-    	System.out.println("###" + visibleStandaardOmroep);
-//		Assert.assertFalse(String.format("Standard omroep %s is not present", omroep), 
-//				visibleStandaardOmroep);
-//    	overlayPage.addStandaardOmroep(omroep);
-//    	overlayPage.clickOpslaan();
-//    	Sleeper.sleep(Duration.ofSeconds(5));
-//    	Sleeper.sleep(5000);
-    	
-    	
-//    	search.clickNew();
-//    	AddNewObjectOverlayPage overlay = new AddNewObjectOverlayPage(driver);
-//    	boolean omroepIsSelected = overlay.omroepIsSelected(omroep);
-//    	System.out.println(omroepIsSelected);
-//		Assert.assertTrue(String.format("Standard omroep %s is present", omroep), omroepIsSelected);
-//    	overlay.close();
-//    	
-//    	logout();
+    public void testPersistStandaardOmroep() {
+        Assert.fail("Bug gemeldt");
     }
-    
-    @Test
-    public void testAddTwoStandardOmroep() {
-    	loginSpeciaalVf();
-    
-    	Search search = new Search(driver);
-    	search.goToAccountInstellingen();
-    	
-    	AccountSettingsOverlayPage overlayPage = new AccountSettingsOverlayPage(driver);
-    	String nps = "NPS";
-		boolean visibleStandaardOmroep = overlayPage.isVisibleStandaardOmroep(nps);
-		Assert.assertFalse(String.format("Standard omroep %s is not present", nps), 
-				visibleStandaardOmroep);
-		String vpro = "VPRO";
-		visibleStandaardOmroep = overlayPage.isVisibleStandaardOmroep(vpro);
-		Assert.assertFalse(String.format("Standard omroep %s is not present", vpro), 
-				visibleStandaardOmroep);
-    	overlayPage.addStandaardOmroep(nps);
-    	overlayPage.addStandaardOmroep(vpro);
-    	overlayPage.clickOpslaan();
-    	search.clickNew();
-    	
-    	AddNewObjectOverlayPage overlay = new AddNewObjectOverlayPage(driver);
-    	boolean omroepIsSelected = overlay.omroepIsSelected(nps);
-		Assert.assertTrue(String.format("Standard omroep %s is present", nps), omroepIsSelected);
-		omroepIsSelected = overlay.omroepIsSelected(vpro);
-		Assert.assertTrue(String.format("Standard omroep %s is present", vpro), omroepIsSelected);
-    	overlay.close();
-    	
-    	logout();
-    }
-    
-    @Test
-    public void testPersistStandardOmroep() {
-    	loginSpeciaalVf();
-    
-    	Search search = new Search(driver);
-    	search.goToAccountInstellingen();
-    	
-    	AccountSettingsOverlayPage overlayPage = new AccountSettingsOverlayPage(driver);
-    	overlayPage.removeStandaardOmroep("VRPO");
-    	overlayPage.addStandaardOmroep("NPS");
-    	
-    	overlayPage.clickOpslaan();
-    	search.goToAccountInstellingen();
-    	boolean omroepIsVisible = overlayPage.isVisibleStandaardOmroep("NPS");
-		Assert.assertTrue(String.format("Standard omroep %s is present", "NPS"), omroepIsVisible);
-    	
-    	logout();
-    	loginSpeciaalVf();
-    	search = new Search(driver);
-    	search.goToAccountInstellingen();
-    	
-    	overlayPage = new AccountSettingsOverlayPage(driver);
-    	omroepIsVisible = overlayPage.isVisibleStandaardOmroep("NPS");
-		Assert.assertTrue(String.format("Standard omroep %s is present", "NPS"), omroepIsVisible);
-		overlayPage.clickOpslaan();
-		logout();
-    }
-    
-	private void loginSpeciaalVf() {
-		Login login = new Login(driver);
-        login.gotoPage();
-        String user =  CONFIG.getProperties().get("SpeciaalVfGebruiker.LOGIN");
-        String password =  CONFIG.getProperties().get("SpeciaalVfGebruiker.PASSWORD");
-        login.login(user, password);
-	}
-	
+
+
 }

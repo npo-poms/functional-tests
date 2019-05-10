@@ -1,16 +1,8 @@
 package nl.vpro.poms.selenium.poms.wijzigen;
 
-import static nl.vpro.poms.selenium.util.Config.CONFIG;
-
-import java.util.List;
-
-import org.junit.Test;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Actions;
-
-import nl.vpro.poms.selenium.pages.Login;
 import nl.vpro.poms.selenium.pages.Search;
 import nl.vpro.poms.selenium.poms.AbstractTest;
+import org.junit.Test;
 
 public class ChangeTest extends AbstractTest {
 
@@ -52,13 +44,6 @@ public class ChangeTest extends AbstractTest {
 		
 		logout();
 	}
-	
-	private void loginSpeciaalVf() {
-		Login login = new Login(driver);
-		login.gotoPage();
-		String user = CONFIG.getProperties().get("SpeciaalVfGebruiker.LOGIN");
-		String password = CONFIG.getProperties().get("SpeciaalVfGebruiker.PASSWORD");
-		login.login(user, password);
-	}
+
 
 }
