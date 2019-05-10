@@ -2,13 +2,28 @@ package nl.vpro.poms.selenium.poms.wijzigen;
 
 import nl.vpro.poms.selenium.pages.Search;
 import nl.vpro.poms.selenium.poms.AbstractTest;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 
 public class ChangeTest extends AbstractTest {
 
-	public ChangeTest(WebDriverFactory.Browser browser) {
-		super(browser);
+	@Before
+	public void setup() {
+		loginSpeciaalVf();
 	}
+
+	@After
+	public void teardown() {
+		loginSpeciaalVf();
+	}
+
+
+
+
+
+
+
 
 	@Test
 	public void testWijzig() {
