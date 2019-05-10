@@ -21,7 +21,6 @@ public class WebDriverUtil {
     }
 
     public void waitAndClick(By by) {
-//        ngWait.waitForAngularRequestsToFinish();
         wait.until(ExpectedConditions.elementToBeClickable(by));
         driver.findElement(by).click();
         ngWait.waitForAngularRequestsToFinish();

@@ -3,6 +3,7 @@ package nl.vpro.poms.selenium.pages;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.Select;
 
 public class MediaItemPage extends AbstractPage {
 
@@ -40,11 +41,24 @@ public class MediaItemPage extends AbstractPage {
         return driver.findElement(By.xpath("//h2[text() = 'Sorteerdatum']/../p")).getText();
     }
 
-    public void clickUitzendingen() {
-        waitUtil.waitAndClick(By.xpath("//span[contains(text(), 'Uitzendingen')]"));
+    public void clickMenuItem(String menuItem) {
+        waitUtil.waitAndClick(By.xpath("(//span[contains(text(), '" + menuItem +"')])[last()]"));
+        waitUtil.waitForVisible(By.xpath("//li[@class='media-item-navigation-link active']/descendant::*[contains(text(), '" + menuItem + "')]"));
+    }
+
+    public void clickAlgemeen() {
+        waitUtil.waitAndClick(By.xpath("(//span[contains(text(), 'Uitzendingen')])[last()]"));
+
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     public void doubleClickUitzending(String date) {
+        //waitUtil.waitForVisible(By.xpath("//span[contains(text(), '" + date + "')]/../../../tr"));
+        //waitUtil.isElementPresent(By.xpath("//span[contains(text(), '" + date + "')]/../../../tr"));
         Actions actions = new Actions(driver);
         actions.moveToElement(driver.findElement(By.xpath("//span[contains(text(), '" + date + "')]/../../../tr"))).doubleClick().perform();
     }
@@ -56,4 +70,18 @@ public class MediaItemPage extends AbstractPage {
     public void clickOpslaan() {
         waitUtil.waitAndClick(By.xpath("//button[contains(text(), 'Bewaar')]"));
     }
+
+    public void changeKanaal(String kanaal){
+        Select itemKanaal = new Select(driver.findElement(By.name("channel")));
+        itemKanaal.selectByVisibleText(kanaal);
+    }
+
+    public void changeEndDate(String date) {
+        waitUtil.waitAndSendkeys(By.name("stop"), date);
+    }
+
+    public void inputValueInInput(String name, String value) {
+        waitUtil.waitAndSendkeys(By.name(name), value);
+    }
+
 }

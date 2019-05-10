@@ -9,6 +9,7 @@ import nl.vpro.poms.selenium.util.types.MediaType;
 import org.junit.Before;
 import org.junit.Test;
 
+import static org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class NPOGebruikerTest extends AbstractTest {
@@ -49,7 +50,7 @@ public class NPOGebruikerTest extends AbstractTest {
         Search search = new Search(driver);
         search.selectOptionFromMenu("MediaType", MediaType.UITZENDING.getType());
         search.selectOptionFromMenu("Criteria", "Mag schrijven");
-        search.selectOptionFromMenu("Criteria", "Beschikbaar op streaming platform");
+        //        search.selectOptionFromMenu("Criteria", "Beschikbaar op streaming platform");
         search.selectOptionFromMenu("avType", AvType.VIDEO.getType());
         search.selectOptionFromMenu("Zenders", "Nederland 1");
         String mediatype = search.clickRow(1)
@@ -66,14 +67,42 @@ public class NPOGebruikerTest extends AbstractTest {
         search.selectOptionFromMenu("Criteria", "Beschikbaar op streaming platform");
         search.selectOptionFromMenu("avType", AvType.VIDEO.getType());
         search.selectOptionFromMenu("Zenders", "Nederland 1");
-        MediaItemPage itemPage = search.clickRow(0);
+        MediaItemPage itemPage = search.clickRow(1);
         String sorteerDatumTijd = itemPage.getSorteerDatumTijd();
 
-        itemPage.clickUitzendingen();
+        itemPage.clickMenuItem("Uitzendingen");
         itemPage.doubleClickUitzending(sorteerDatumTijd);
+
+        /** @@@@@ Variabelen voor Test @@@@@@@ */
+
+        String randomTitel = randomAlphanumeric(12);
+        String randomAflevering = randomAlphanumeric(8);
+        String randomTitelKort = randomAlphanumeric(6);
+        String randomAfkorting = randomAlphanumeric(3);
+        String randomWerkTitel = randomAlphanumeric(10);
+        String randomOrgineleTitel = randomAlphanumeric(10);
+        String randomBeschrijving = randomAlphanumeric(50);
+        String randomKorteOmschrijving = randomAlphanumeric(50);
+        String randomEenRegelBeschrijving = randomAlphanumeric(20);
+
+        itemPage.changeKanaal("Nederland 1");
         itemPage.changeStartDate("31-12-2015 20:55");
+        //        Hier gebleven !!!
+        itemPage.inputValueInInput("mainTitle", randomTitel);
+        itemPage.inputValueInInput("subTitle", randomAflevering);
+        itemPage.inputValueInInput("shortTitle", randomTitelKort);
+        itemPage.inputValueInInput("abbreviationTitle", randomAfkorting);
+        itemPage.inputValueInInput("workTitle", randomWerkTitel);
+        itemPage.inputValueInInput("originalTitle", randomOrgineleTitel);
+        itemPage.inputValueInInput("mainDescription", randomBeschrijving);
+        itemPage.inputValueInInput("shortDescription", randomKorteOmschrijving);
+        itemPage.inputValueInInput("kickerDescription", randomEenRegelBeschrijving);
+
         itemPage.clickOpslaan();
+        itemPage.clickMenuItem("Algemeen");
+        assertThat(itemPage.getSorteerDatumTijd()).isEqualTo("31-12-2015 20:55");
     }
+
 
 
 }
