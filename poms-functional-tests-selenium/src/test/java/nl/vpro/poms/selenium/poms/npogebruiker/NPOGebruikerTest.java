@@ -75,6 +75,8 @@ public class NPOGebruikerTest extends AbstractTest {
 
         /** @@@@@ Variabelen voor Test @@@@@@@ */
 
+        String startDate = "01-01-2020 13:00";
+        String endDate = "01-01-2020 16:00";
         String randomTitel = randomAlphanumeric(12);
         String randomAflevering = randomAlphanumeric(8);
         String randomTitelKort = randomAlphanumeric(6);
@@ -86,8 +88,8 @@ public class NPOGebruikerTest extends AbstractTest {
         String randomEenRegelBeschrijving = randomAlphanumeric(20);
 
         itemPage.changeKanaal("Nederland 1");
-        itemPage.changeStartDate("31-12-2015 20:55");
-        //        Hier gebleven !!!
+        itemPage.changeStartDate(startDate);
+        itemPage.changeEndDate(endDate);
         itemPage.inputValueInInput("mainTitle", randomTitel);
         itemPage.inputValueInInput("subTitle", randomAflevering);
         itemPage.inputValueInInput("shortTitle", randomTitelKort);
@@ -100,9 +102,12 @@ public class NPOGebruikerTest extends AbstractTest {
 
         itemPage.clickOpslaan();
         itemPage.clickMenuItem("Algemeen");
-        assertThat(itemPage.getSorteerDatumTijd()).isEqualTo("31-12-2015 20:55");
+        assertThat(itemPage.getSorteerDatumTijd()).isEqualTo(startDate);
+        assertThat(itemPage.getUitzendigData()).isEqualTo("01-01-2020 13:00 (TV Gelderland)");
+
+        // Hier gebleven
+        // checkUitzendingGegevensKanaal(String kanaal);
+        // checkUitzendingGegevensDatum(String datum)
+
     }
-
-
-
 }
