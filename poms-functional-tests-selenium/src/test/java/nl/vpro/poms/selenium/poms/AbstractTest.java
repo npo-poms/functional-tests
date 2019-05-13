@@ -92,8 +92,8 @@ public abstract class AbstractTest {
     @AfterClass
     public static void tearDownClass() {
         for (WebDriver wd : staticDrivers.values()) {
-            wd.quit();
             wd.close();
+            wd.quit();
         }
     }
 
