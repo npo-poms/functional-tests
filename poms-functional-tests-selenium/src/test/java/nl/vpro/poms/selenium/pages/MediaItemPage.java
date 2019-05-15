@@ -89,6 +89,11 @@ public class MediaItemPage extends AbstractPage {
         waitUtil.waitAndSendkeys(By.name(name), value);
     }
 
+    public String getValueForInInputWithName(String name) {
+        return driver.findElement(By.name(name)).getText();
+    }
+
+
     public String getUitzendingGegevensKanaal(){
         return driver.findElement(By.xpath("//td/descendant::*[@ng-switch-when='channel']")).getText();
     }
@@ -104,4 +109,9 @@ public class MediaItemPage extends AbstractPage {
     public String getUitzendingOmschrijving(){
         return driver.findElement(By.xpath("//td/descendant::*[@ng-switch-when='description']")).getText();
     }
+
+    public void klikOpKnopMetNaam(String naambutton){
+        waitUtil.waitAndClick(By.xpath("//button[contains(text(), '" + naambutton + "')]"));
+    }
+
 }
