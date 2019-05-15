@@ -104,13 +104,24 @@ public class NPOGebruikerTest extends AbstractTest {
         itemPage.clickOpslaan();
         itemPage.clickMenuItem("Algemeen");
         assertThat(itemPage.getSorteerDatumTijd()).isEqualTo(startDate);
-        assertThat(itemPage.getUitzendigData()).isEqualTo("01-01-2020 13:00 (TV Gelderland)");
-        assertThat(itemPage.getUitzendigData()).isEqualTo("01-01-2020 13:00 (TV Gelderland)");
+        assertThat(itemPage.getUitzendigData()).isEqualTo(""+startDate+" (TV Gelderland)");
 
         assertThat(itemPage.getUitzendingGegevensKanaal()).isEqualTo("Nederland 1");
         assertThat(itemPage.getUitzendingGegevensDatum()).isEqualTo(startDate);
         assertThat(itemPage.getUitzendingTitel()).isEqualTo(randomTitel);
         assertThat(itemPage.getUitzendingOmschrijving()).isEqualTo(randomBeschrijving);
+
+        itemPage.doubleClickUitzending(startDate);
+        assertThat(itemPage.getValueForInInputWithName("mainTitle")).isEqualTo(randomTitel);
+        assertThat(itemPage.getValueForInInputWithName("subTitle")).isEqualTo(randomAflevering);
+        assertThat(itemPage.getValueForInInputWithName("shortTitle")).isEqualTo(randomTitelKort);
+        assertThat(itemPage.getValueForInInputWithName("abbreviationTitle")).isEqualTo(randomAfkorting);
+        assertThat(itemPage.getValueForInInputWithName("workTitle")).isEqualTo(randomWerkTitel);
+        assertThat(itemPage.getValueForInInputWithName("originalTitle")).isEqualTo(randomOrgineleTitel);
+        assertThat(itemPage.getValueForInInputWithName("mainDescription")).isEqualTo(randomBeschrijving);
+        assertThat(itemPage.getValueForInInputWithName("shortDescription")).isEqualTo(randomKorteOmschrijving);
+        assertThat(itemPage.getValueForInInputWithName("kickerDescription")).isEqualTo(randomEenRegelBeschrijving);
+        itemPage.klikOpKnopMetNaam("Annuleer");
 
         // Hier gebleven
         // checkUitzendingGegevensKanaal(String kanaal);
