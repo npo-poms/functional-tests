@@ -69,6 +69,7 @@ public class NPOGebruikerTest extends AbstractTest {
         search.selectOptionFromMenu("Zenders", "Nederland 1");
         MediaItemPage itemPage = search.clickRow(1);
         String sorteerDatumTijd = itemPage.getSorteerDatumTijd();
+        String uitzendingGegevens = itemPage.getUitzendigData();
 
         itemPage.clickMenuItem("Uitzendingen");
         itemPage.doubleClickUitzending(sorteerDatumTijd);
@@ -104,6 +105,12 @@ public class NPOGebruikerTest extends AbstractTest {
         itemPage.clickMenuItem("Algemeen");
         assertThat(itemPage.getSorteerDatumTijd()).isEqualTo(startDate);
         assertThat(itemPage.getUitzendigData()).isEqualTo("01-01-2020 13:00 (TV Gelderland)");
+        assertThat(itemPage.getUitzendigData()).isEqualTo("01-01-2020 13:00 (TV Gelderland)");
+
+        assertThat(itemPage.getUitzendingGegevensKanaal()).isEqualTo("Nederland 1");
+        assertThat(itemPage.getUitzendingGegevensDatum()).isEqualTo(startDate);
+        assertThat(itemPage.getUitzendingTitel()).isEqualTo(randomTitel);
+        assertThat(itemPage.getUitzendingOmschrijving()).isEqualTo(randomBeschrijving);
 
         // Hier gebleven
         // checkUitzendingGegevensKanaal(String kanaal);
