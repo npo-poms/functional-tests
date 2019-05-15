@@ -43,7 +43,7 @@ public class MediaItemPage extends AbstractPage {
 
     public String getUitzendigData(){
         waitUtil.waitForVisible(By.cssSelector("[title='bekijk alle uitzenddata']"));
-        return driver.findElement(By.cssSelector("bekijk alle uitzenddata")).getText();
+        return driver.findElement(By.cssSelector("[title='bekijk alle uitzenddata']")).getText();
     }
 
     public void clickMenuItem(String menuItem) {
@@ -89,13 +89,19 @@ public class MediaItemPage extends AbstractPage {
         waitUtil.waitAndSendkeys(By.name(name), value);
     }
 
-    public String checkUitzendingGegevensKanaal(String kanaal){
-        waitUtil.waitForVisible(By.xpath("//td[@class='column-events-channel']/descendant::*[contains(text(), '" + kanaal + "')]"));
-        return driver.findElement(By.xpath("//td[@class='column-events-channel']/descendant::*[contains(text(), '" + kanaal + "'")).getText();
+    public String getUitzendingGegevensKanaal(){
+        return driver.findElement(By.xpath("//td/descendant::*[@ng-switch-when='channel']")).getText();
     }
 
-    public String checkUitzendingGegevensDatum(String datum){
-        waitUtil.waitForVisible(By.xpath("//td[@class='column-events-start']/descendant::*[contains(text(), '" + datum + "')]"));
-        return driver.findElement(By.xpath("//td[@class='column-events-start']/descendant::*[contains(text(), '" + datum + "')]")).getText();
+    public String getUitzendingGegevensDatum(){
+        return driver.findElement(By.xpath("//td/descendant::*[@ng-switch-when='start']")).getText();
+    }
+
+    public String getUitzendingTitel(){
+        return driver.findElement(By.xpath("//td/descendant::*[@ng-switch-when='title']")).getText();
+    }
+
+    public String getUitzendingOmschrijving(){
+        return driver.findElement(By.xpath("//td/descendant::*[@ng-switch-when='description']")).getText();
     }
 }
