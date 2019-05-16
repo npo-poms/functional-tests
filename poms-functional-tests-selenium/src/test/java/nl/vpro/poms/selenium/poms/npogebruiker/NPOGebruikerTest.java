@@ -6,6 +6,7 @@ import nl.vpro.poms.selenium.pages.Search;
 import nl.vpro.poms.selenium.poms.AbstractTest;
 import nl.vpro.poms.selenium.util.types.AvType;
 import nl.vpro.poms.selenium.util.types.MediaType;
+import org.assertj.core.api.SoftAssertions;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -47,13 +48,8 @@ public class NPOGebruikerTest extends AbstractTest {
      */
     @Test
     public void testWijzigUitzendingInClip() {
-        Search search = new Search(driver);
-        search.selectOptionFromMenu("MediaType", MediaType.UITZENDING.getType());
-        search.selectOptionFromMenu("Criteria", "Mag schrijven");
-        //        search.selectOptionFromMenu("Criteria", "Beschikbaar op streaming platform");
-        search.selectOptionFromMenu("avType", AvType.VIDEO.getType());
-        search.selectOptionFromMenu("Zenders", "Nederland 1");
-        String mediatype = search.clickRow(1)
+        Search search = getSearch();
+        String mediatype = search.clickRow(0)
                 .changeMediaType(MediaType.CLIP.getType())
                 .getMediaType();
         assertThat(mediatype).isEqualTo("Clip");
@@ -61,12 +57,7 @@ public class NPOGebruikerTest extends AbstractTest {
 
     @Test
     public void testVervroegUitzending() {
-        Search search = new Search(driver);
-        search.selectOptionFromMenu("MediaType", MediaType.UITZENDING.getType());
-        //search.selectOptionFromMenu("Criteria", "Mag schrijven");
-        search.selectOptionFromMenu("Criteria", "Beschikbaar op streaming platform");
-        search.selectOptionFromMenu("avType", AvType.VIDEO.getType());
-        search.selectOptionFromMenu("Zenders", "Nederland 1");
+        Search search = getSearch();
         MediaItemPage itemPage = search.clickRow(1);
         String sorteerDatumTijd = itemPage.getSorteerDatumTijd();
         String uitzendingGegevens = itemPage.getUitzendigData();
@@ -102,30 +93,42 @@ public class NPOGebruikerTest extends AbstractTest {
         itemPage.inputValueInInput("kickerDescription", randomEenRegelBeschrijving);
 
         itemPage.clickOpslaan();
+        itemPage.checkOfPopupUitzendingDissappear();
         itemPage.clickMenuItem("Algemeen");
-        assertThat(itemPage.getSorteerDatumTijd()).isEqualTo(startDate);
-        assertThat(itemPage.getUitzendigData()).isEqualTo(""+startDate+" (TV Gelderland)");
 
-        assertThat(itemPage.getUitzendingGegevensKanaal()).isEqualTo("Nederland 1");
-        assertThat(itemPage.getUitzendingGegevensDatum()).isEqualTo(startDate);
-        assertThat(itemPage.getUitzendingTitel()).isEqualTo(randomTitel);
-        assertThat(itemPage.getUitzendingOmschrijving()).isEqualTo(randomBeschrijving);
+        SoftAssertions softly = new SoftAssertions();
+        softly.assertThat(itemPage.getSorteerDatumTijd()).isEqualTo(startDate);
+        softly.assertThat(itemPage.getUitzendigData()).isEqualTo(""+startDate+" (TV Gelderland)");
+
+        softly.assertThat(itemPage.getUitzendingGegevensKanaal()).isEqualTo("Nederland 1");
+        softly.assertThat(itemPage.getUitzendingGegevensDatum()).isEqualTo(startDate);
+        softly.assertThat(itemPage.getUitzendingTitel()).isEqualTo(randomTitel);
+        softly.assertThat(itemPage.getUitzendingOmschrijving()).isEqualTo(randomBeschrijving);
 
         itemPage.doubleClickUitzending(startDate);
-        assertThat(itemPage.getValueForInInputWithName("mainTitle")).isEqualTo(randomTitel);
-        assertThat(itemPage.getValueForInInputWithName("subTitle")).isEqualTo(randomAflevering);
-        assertThat(itemPage.getValueForInInputWithName("shortTitle")).isEqualTo(randomTitelKort);
-        assertThat(itemPage.getValueForInInputWithName("abbreviationTitle")).isEqualTo(randomAfkorting);
-        assertThat(itemPage.getValueForInInputWithName("workTitle")).isEqualTo(randomWerkTitel);
-        assertThat(itemPage.getValueForInInputWithName("originalTitle")).isEqualTo(randomOrgineleTitel);
-        assertThat(itemPage.getValueForInInputWithName("mainDescription")).isEqualTo(randomBeschrijving);
-        assertThat(itemPage.getValueForInInputWithName("shortDescription")).isEqualTo(randomKorteOmschrijving);
-        assertThat(itemPage.getValueForInInputWithName("kickerDescription")).isEqualTo(randomEenRegelBeschrijving);
+        softly.assertThat(itemPage.getValueForInInputWithName("mainTitle")).isEqualTo(randomTitel);
+        softly.assertThat(itemPage.getValueForInInputWithName("subTitle")).isEqualTo(randomAflevering);
+        softly.assertThat(itemPage.getValueForInInputWithName("shortTitle")).isEqualTo(randomTitelKort);
+        softly.assertThat(itemPage.getValueForInInputWithName("abbreviationTitle")).isEqualTo(randomAfkorting);
+        softly.assertThat(itemPage.getValueForInInputWithName("workTitle")).isEqualTo(randomWerkTitel);
+        softly.assertThat(itemPage.getValueForInInputWithName("originalTitle")).isEqualTo(randomOrgineleTitel);
+        softly.assertThat(itemPage.getValueForInInputWithName("mainDescription")).isEqualTo(randomBeschrijving);
+        softly.assertThat(itemPage.getValueForInInputWithName("shortDescription")).isEqualTo(randomKorteOmschrijving);
+        softly.assertThat(itemPage.getValueForInInputWithName("kickerDescription")).isEqualTo(randomEenRegelBeschrijving);
         itemPage.klikOpKnopMetNaam("Annuleer");
 
-        // Hier gebleven
-        // checkUitzendingGegevensKanaal(String kanaal);
-        // checkUitzendingGegevensDatum(String datum)
+        softly.assertAll();
 
+    }
+
+    private Search getSearch() {
+        Search search = new Search(driver);
+        //        search.clickNew();
+        search.selectOptionFromMenu("MediaType", MediaType.UITZENDING.getType());
+        search.selectOptionFromMenu("Criteria", "Mag schrijven");
+        //        search.selectOptionFromMenu("Criteria", "Beschikbaar op streaming platform");
+        search.selectOptionFromMenu("avType", AvType.VIDEO.getType());
+        search.selectOptionFromMenu("Zenders", "Nederland 1");
+        return search;
     }
 }
