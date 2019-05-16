@@ -1,9 +1,12 @@
 package nl.vpro.poms.selenium.pages;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.Select;
+
+import static org.assertj.core.api.Fail.fail;
 
 public class MediaItemPage extends AbstractPage {
 
@@ -47,8 +50,13 @@ public class MediaItemPage extends AbstractPage {
     }
 
     public void clickMenuItem(String menuItem) {
+        waitUtil.waitForVisible(By.xpath("(//span[contains(text(), '" + menuItem +"')])[last()]"));
         waitUtil.waitAndClick(By.xpath("(//span[contains(text(), '" + menuItem +"')])[last()]"));
         waitUtil.waitForVisible(By.xpath("//li[@class='media-item-navigation-link active']/descendant::*[contains(text(), '" + menuItem + "')]"));
+    }
+
+    public void checkOfPopupUitzendingDissappear(){
+        waitUtil.waitForInvisible(By.name("editScheduleEventForm"));
     }
 
     public void clickAlgemeen() {
@@ -90,7 +98,15 @@ public class MediaItemPage extends AbstractPage {
     }
 
     public String getValueForInInputWithName(String name) {
-        return driver.findElement(By.name(name)).getText();
+        Object value = ((JavascriptExecutor) driver).executeScript("return document.getElementsByName('" + name +"')[0].value");
+        String returnValue = "";
+        if (value instanceof String) {
+            returnValue = value.toString();
+        } else {
+            fail("Error in the javascript on the page");
+            System.out.println("Error in the javascript on the page");
+        }
+        return returnValue;
     }
 
 

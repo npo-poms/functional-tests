@@ -6,6 +6,7 @@ import nl.vpro.poms.selenium.util.WebDriverFactory;
 import nl.vpro.poms.selenium.util.WebDriverFactory.Browser;
 import org.junit.After;
 import org.junit.Before;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 
 import static nl.vpro.poms.selenium.util.Config.CONFIG;
@@ -49,5 +50,7 @@ public abstract class AbstractTest {
     protected void logout() {
         Search search = new Search(driver);
         search.logout();
+        driver.manage().deleteAllCookies();
+        ((JavascriptExecutor) driver).executeScript("javascript:localStorage.clear(); javascript:sessionStorage.clear();");
     }
 }
