@@ -38,7 +38,7 @@ public class WebDriverUtil {
 
     public void waitForInvisible(By by) {
         wait.until(ExpectedConditions.invisibilityOfElementLocated(by));
-        //Sleeper.sleep(250);
+        ngWait.waitForAngularRequestsToFinish();
     }
 
     public void waitForTextToBePresent(By by, String text) {
@@ -55,9 +55,18 @@ public class WebDriverUtil {
         return driver.findElement(by).getAttribute(attribute);
     }
 
-
     public void clickIfAvailable(By xpath) {
         driver.findElements(xpath).stream().filter(WebElement::isDisplayed)
                 .forEach(WebElement::click);
     }
+    public void clickAndWaitAndKeepTrying(){
+    /** 1: try catch loop om te proberen klikken.
+     *  2: Afvangen van error coverad by object overheen.
+     *  3: Afvangen van error van niet clickable
+     *  4: daarna nog een keer proberen.
+     *  5: Na een bepaalde tijd stoppen met proberen.
+     * */
+
+    }
+
 }
