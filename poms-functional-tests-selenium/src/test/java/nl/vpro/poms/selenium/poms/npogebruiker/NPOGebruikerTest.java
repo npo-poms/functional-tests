@@ -4,6 +4,7 @@ import nl.vpro.poms.selenium.pages.AccountSettingsOverlayPage;
 import nl.vpro.poms.selenium.pages.MediaItemPage;
 import nl.vpro.poms.selenium.pages.Search;
 import nl.vpro.poms.selenium.poms.AbstractTest;
+import nl.vpro.poms.selenium.util.WebDriverUtil;
 import nl.vpro.poms.selenium.util.types.AvType;
 import nl.vpro.poms.selenium.util.types.MediaType;
 import org.assertj.core.api.SoftAssertions;
@@ -58,7 +59,9 @@ public class NPOGebruikerTest extends AbstractTest {
     @Test
     public void testVervroegUitzending() {
         Search search = getSearch();
+        MediaItemPage media = new MediaItemPage(driver);
         MediaItemPage itemPage = search.clickRow(1);
+        String title = itemPage.getMediaItemTitle();
         String sorteerDatumTijd = itemPage.getSorteerDatumTijd();
         String uitzendingGegevens = itemPage.getUitzendigData();
 
@@ -100,6 +103,7 @@ public class NPOGebruikerTest extends AbstractTest {
         softly.assertThat(itemPage.getSorteerDatumTijd()).isEqualTo(startDate);
         softly.assertThat(itemPage.getUitzendigData()).isEqualTo(""+startDate+" (TV Gelderland)");
 
+        media.moveToElementXpath("//td/descendant::*[@ng-switch-when='channel']");
         softly.assertThat(itemPage.getUitzendingGegevensKanaal()).isEqualTo("Nederland 1");
         softly.assertThat(itemPage.getUitzendingGegevensDatum()).isEqualTo(startDate);
         softly.assertThat(itemPage.getUitzendingTitel()).isEqualTo(randomTitel);
@@ -117,6 +121,7 @@ public class NPOGebruikerTest extends AbstractTest {
         softly.assertThat(itemPage.getValueForInInputWithName("kickerDescription")).isEqualTo(randomEenRegelBeschrijving);
         itemPage.klikOpKnopMetNaam("Annuleer");
 
+        // Verder gaan met @@@@@ controleren op title @@@@@
         softly.assertAll();
 
     }

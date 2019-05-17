@@ -1,5 +1,6 @@
 package nl.vpro.poms.selenium.pages;
 
+import com.paulhammant.ngwebdriver.NgWebDriver;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
@@ -50,6 +51,7 @@ public class MediaItemPage extends AbstractPage {
     }
 
     public void clickMenuItem(String menuItem) {
+//        Nog verder uitzoeken
         waitUtil.waitForVisible(By.xpath("(//span[contains(text(), '" + menuItem +"')])[last()]"));
         waitUtil.waitAndClick(By.xpath("(//span[contains(text(), '" + menuItem +"')])[last()]"));
         waitUtil.waitForVisible(By.xpath("//li[@class='media-item-navigation-link active']/descendant::*[contains(text(), '" + menuItem + "')]"));
@@ -57,16 +59,17 @@ public class MediaItemPage extends AbstractPage {
 
     public void checkOfPopupUitzendingDissappear(){
         waitUtil.waitForInvisible(By.name("editScheduleEventForm"));
+        waitUtil.waitForInvisible(By.xpath("//label[@label-for='channel' and contains(text(), 'Kanaal:')]"));
     }
 
     public void clickAlgemeen() {
         waitUtil.waitAndClick(By.xpath("(//span[contains(text(), 'Uitzendingen')])[last()]"));
-
-        try {
-            Thread.sleep(5000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+//
+//        try {
+//            Thread.sleep(5000);
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        }
     }
 
     public void doubleClickUitzending(String date) {
@@ -75,6 +78,12 @@ public class MediaItemPage extends AbstractPage {
         Actions actions = new Actions(driver);
         actions.moveToElement(driver.findElement(By.xpath("//span[contains(text(), '" + date + "')]/../../../tr"))).doubleClick().perform();
     }
+
+    public void moveToElementXpath(String xpath) {
+        Actions actions = new Actions(driver);
+        actions.moveToElement(driver.findElement(By.xpath(""+xpath+""))).perform();
+    }
+
 
     public void changeStartDate(String date) {
         waitUtil.waitAndSendkeys(By.name("start"), date);
@@ -128,6 +137,10 @@ public class MediaItemPage extends AbstractPage {
 
     public void klikOpKnopMetNaam(String naambutton){
         waitUtil.waitAndClick(By.xpath("//button[contains(text(), '" + naambutton + "')]"));
+    }
+
+    public String getMediaItemTitle(){
+        return driver.findElement(By.cssSelector("h1[class='viewer-title'][style]")).getText();
     }
 
 }
