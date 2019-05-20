@@ -1,12 +1,17 @@
 package nl.vpro.poms.selenium.util;
 
 import com.paulhammant.ngwebdriver.NgWebDriver;
-import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.FluentWait;
+import org.openqa.selenium.support.ui.Wait;
 import org.openqa.selenium.support.ui.WebDriverWait;
+
+import java.time.Duration;
+import java.util.concurrent.TimeUnit;
+import java.util.function.Function;
+
+import static java.util.concurrent.TimeUnit.SECONDS;
 
 public class WebDriverUtil {
 
@@ -17,6 +22,7 @@ public class WebDriverUtil {
     public WebDriverUtil(WebDriver driver) {
         this.driver = driver;
         this.wait = new WebDriverWait(driver, 15, 250);
+        this.wait.ignoring(NoSuchElementException.class);
         this.ngWait = new NgWebDriver((JavascriptExecutor) driver);
     }
 
@@ -59,14 +65,14 @@ public class WebDriverUtil {
         driver.findElements(xpath).stream().filter(WebElement::isDisplayed)
                 .forEach(WebElement::click);
     }
-    public void clickAndWaitAndKeepTrying(){
-    /** 1: try catch loop om te proberen klikken.
-     *  2: Afvangen van error coverad by object overheen.
-     *  3: Afvangen van error van niet clickable
-     *  4: daarna nog een keer proberen.
-     *  5: Na een bepaalde tijd stoppen met proberen.
-     * */
 
+    public void refreshUntilVisible(String elementxpath){
+        wait.until(new Function<WebDriver, WebElement>() {
+            public WebElement apply(WebDriver driver){
+                driver.navigate().refresh();
+                return driver.findElement(By.xpath(elementxpath));
+            }
+        });
     }
 
 }
