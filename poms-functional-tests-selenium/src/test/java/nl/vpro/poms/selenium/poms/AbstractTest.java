@@ -41,6 +41,15 @@ public abstract class AbstractTest {
         login.login(user, password);
     }
 
+    protected void loginOmroepGebruiker() {
+        Login login = new Login(driver);
+        login.gotoPage();
+        String user = CONFIG.getProperties().get("OmroepGebruiker.LOGIN");
+        String password = CONFIG.getProperties().get("OmroepGebruiker.PASSWORD");
+        login.login(user, password);
+    }
+
+
     protected void logout() {
         Search search = new Search(driver);
         search.logout();
