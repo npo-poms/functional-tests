@@ -1,12 +1,15 @@
 package nl.vpro.poms.selenium.pages;
 
 import com.paulhammant.ngwebdriver.NgWebDriver;
-import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.Select;
 
+import java.time.Duration;
+import java.util.function.Function;
+
+import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.assertj.core.api.Fail.fail;
 
 public class MediaItemPage extends AbstractPage {
@@ -140,7 +143,12 @@ public class MediaItemPage extends AbstractPage {
     }
 
     public String getMediaItemTitle(){
-        return driver.findElement(By.cssSelector("h1[class='viewer-title'][style]")).getText();
+        waitUtil.waitForVisible(By.cssSelector("h1[class='viewer-title']"));
+        return driver.findElement(By.cssSelector("h1[class='viewer-title']")).getText();
+    }
+
+    public void refreshUntilUitzendingGegevensWithStartDate(String startDate) {
+        waitUtil.refreshUntilVisible("//*[@title='bekijk alle uitzenddata' and contains(text(), '" +startDate+" (Nederland 1)')]");
     }
 
 }

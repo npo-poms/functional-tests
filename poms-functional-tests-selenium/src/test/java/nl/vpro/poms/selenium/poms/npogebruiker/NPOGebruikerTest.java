@@ -10,11 +10,21 @@ import nl.vpro.poms.selenium.util.types.MediaType;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.Before;
 import org.junit.Test;
+import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.FluentWait;
+import org.openqa.selenium.support.ui.Wait;
 
+import java.util.function.Function;
+
+import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class NPOGebruikerTest extends AbstractTest {
+    private Wait<WebDriver> waitFluent;
 
     @Before
     public void setup() {
@@ -62,6 +72,7 @@ public class NPOGebruikerTest extends AbstractTest {
         MediaItemPage media = new MediaItemPage(driver);
         MediaItemPage itemPage = search.clickRow(1);
         String title = itemPage.getMediaItemTitle();
+        System.out.println(title);
         String sorteerDatumTijd = itemPage.getSorteerDatumTijd();
         String uitzendingGegevens = itemPage.getUitzendigData();
 
@@ -99,9 +110,11 @@ public class NPOGebruikerTest extends AbstractTest {
         itemPage.checkOfPopupUitzendingDissappear();
         itemPage.clickMenuItem("Algemeen");
 
+        itemPage.refreshUntilUitzendingGegevensWithStartDate(startDate);
+
         SoftAssertions softly = new SoftAssertions();
         softly.assertThat(itemPage.getSorteerDatumTijd()).isEqualTo(startDate);
-        softly.assertThat(itemPage.getUitzendigData()).isEqualTo(""+startDate+" (TV Gelderland)");
+        softly.assertThat(itemPage.getUitzendigData()).isEqualTo(""+startDate+" (Nederland 1)");
 
         media.moveToElementXpath("//td/descendant::*[@ng-switch-when='channel']");
         softly.assertThat(itemPage.getUitzendingGegevensKanaal()).isEqualTo("Nederland 1");
