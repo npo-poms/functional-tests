@@ -200,14 +200,14 @@ public class Search extends AbstractPage {
         waitUtil.waitAndClick(By.xpath(String.format(adminItemTemplate, item)));
     }
 
-    public void getSearchRowSorteerDatumKanaal(){
-        waitUtil.waitForVisible(By.cssSelector("tr td [ng-if*='sortDateScheduleEvent']"));
+    public String getSearchRowSorteerDatumKanaal(){
+       waitUtil.waitForVisible(By.cssSelector("tr td [ng-if*='sortDateScheduleEvent']"));
+       return driver.findElement(By.cssSelector("tr td [ng-if*='sortDateScheduleEvent']")).getText();
     }
 
     public String getSearchRowSorteerDatumKanaal(String sorteerdatum){
         waitUtil.waitForVisible(By.xpath("(//tr/descendant::*[contains(text(),'"+sorteerdatum+"')]/descendant::*)[1]"));
-        return driver.findElement(By.xpath("(//tr/descendant::*[contains(text(),'"+sorteerdatum+"')]/descendant::*)[1]")).toString();
+        return driver.findElement(By.xpath("(//tr/descendant::*[contains(text(),'"+sorteerdatum+"')]/descendant::*)[1]")).getText();
     }
-
 
 }
