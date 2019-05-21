@@ -1,5 +1,7 @@
 package nl.vpro.poms.selenium.pages;
 
+import net.bytebuddy.asm.Advice;
+import nl.vpro.poms.selenium.util.WebDriverUtil;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 
@@ -196,6 +198,15 @@ public class Search extends AbstractPage {
     public void clickAdminItem(String item) {
         waitUtil.waitAndClick(adminBy);
         waitUtil.waitAndClick(By.xpath(String.format(adminItemTemplate, item)));
+    }
+
+    public void getSearchRowSorteerDatumKanaal(){
+        waitUtil.waitForVisible(By.cssSelector("tr td [ng-if*='sortDateScheduleEvent']"));
+    }
+
+    public String getSearchRowSorteerDatumKanaal(String sorteerdatum){
+        waitUtil.waitForVisible(By.xpath("(//tr/descendant::*[contains(text(),'"+sorteerdatum+"')]/descendant::*)[1]"));
+        return driver.findElement(By.xpath("(//tr/descendant::*[contains(text(),'"+sorteerdatum+"')]/descendant::*)[1]")).toString();
     }
 
 
