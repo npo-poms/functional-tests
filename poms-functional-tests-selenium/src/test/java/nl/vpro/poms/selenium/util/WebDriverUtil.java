@@ -28,14 +28,21 @@ public class WebDriverUtil {
 
     public void waitAndClick(By by) {
         wait.until(ExpectedConditions.elementToBeClickable(by));
-        driver.findElement(by).click();
+        driver.findElements(by)
+                .stream()
+                .filter(WebElement::isDisplayed)
+                .findFirst().get().click();
         ngWait.waitForAngularRequestsToFinish();
     }
 
     public void waitAndSendkeys(By by, String text) {
         wait.until(ExpectedConditions.visibilityOfElementLocated(by));
         driver.findElement(by).clear();
-        driver.findElement(by).sendKeys(text);
+        driver.findElements(by)
+                .stream()
+                .filter(WebElement::isDisplayed)
+                .findFirst().get().sendKeys(text);
+        //driver.findElement(by).sendKeys(text);
     }
 
     public void waitForVisible(By by) {
@@ -58,7 +65,18 @@ public class WebDriverUtil {
 
     public String getAtrributeFrom(By by, String attribute) {
         this.waitForVisible(by);
-        return driver.findElement(by).getAttribute(attribute);
+        return driver.findElements(by)
+                .stream()
+                .filter(WebElement::isDisplayed)
+                .findFirst().get().getAttribute(attribute);
+    }
+
+    public String waitAndGetText(By by) {
+        this.waitForVisible(by);
+        return driver.findElements(by)
+                .stream()
+                .filter(WebElement::isDisplayed)
+                .findFirst().get().getText();
     }
 
     public void clickIfAvailable(By xpath) {
@@ -66,9 +84,9 @@ public class WebDriverUtil {
                 .forEach(WebElement::click);
     }
 
-    public void refreshUntilVisible(String elementxpath){
+    public void refreshUntilVisible(String elementxpath) {
         wait.until(new Function<WebDriver, WebElement>() {
-            public WebElement apply(WebDriver driver){
+            public WebElement apply(WebDriver driver) {
                 driver.navigate().refresh();
                 return driver.findElement(By.xpath(elementxpath));
             }

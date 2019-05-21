@@ -62,4 +62,9 @@ public abstract class AbstractTest {
         driver.manage().deleteAllCookies();
         ((JavascriptExecutor) driver).executeScript("javascript:localStorage.clear(); javascript:sessionStorage.clear();");
     }
+
+    protected void logOutWithOutClear() {
+        Search search = new Search(driver);
+        search.logout();
+    }
 }

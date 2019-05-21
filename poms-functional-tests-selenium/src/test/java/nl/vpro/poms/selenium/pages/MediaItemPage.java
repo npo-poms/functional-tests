@@ -142,9 +142,8 @@ public class MediaItemPage extends AbstractPage {
         waitUtil.waitAndClick(By.xpath("//button[contains(text(), '" + naambutton + "')]"));
     }
 
-    public String getMediaItemTitle(){
-        waitUtil.waitForVisible(By.cssSelector("h1[class='viewer-title']"));
-        return driver.findElement(By.cssSelector("h1[class='viewer-title']")).getText();
+    public String getMediaItemTitle() {
+        return waitUtil.waitAndGetText(By.cssSelector("h1[class='viewer-title']"));
     }
 
     public void refreshUntilUitzendingGegevensWithStartDate(String startDate) {
