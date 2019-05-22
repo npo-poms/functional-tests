@@ -9,6 +9,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.omg.PortableServer.ServantActivatorHelper;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebElement;
 
 import java.util.ArrayList;
@@ -31,8 +32,7 @@ public class GidsTest extends AbstractTest {
         search.enterSorteerdatumDates(DateFactory.getToday(), "");
         search.selectOptionFromMenu("Zenders", "Nederland 1");
         search.clickZoeken();
-
-        //        assertThat(search.getSearchRowSorteerDatumKanaal()).isEqualTo("(NED1)");
+        search.getMultibleRowsAndCheckTextEquals(By.xpath("//tr/descendant::*[contains(@ng-if, 'sortDateScheduleEvent')]"), "(NED1)");
     }
 
     @Test
@@ -41,15 +41,21 @@ public class GidsTest extends AbstractTest {
         search.selectOptionFromMenu("Zenders", "Nederland 1");
         search.enterSorteerdatumDates(DateFactory.getToday(),DateFactory.getToday());
         search.clickZoeken();
-        search.getMultibleRowsAndCheckText(By.xpath("//tr/descendant::*[contains(@ng-if, 'sortDateScheduleEvent')]"), "(NED1)");
+        search.getMultibleRowsAndCheckTextContains(By.cssSelector("[ng-switch-when='sortDate']"), DateFactory.getToday());
     }
-
+    
+    @Test
     public void SPOMSGIDS3(){
         Search search = new Search(driver);
         search.selectOptionFromMenu("Zenders", "Nederland 1");
+        search.removeSelectedOption("Nederland 1");
+        search.selectOptionFromMenu("Zenders", "Radio 1");
         search.enterSorteerdatumDates(DateFactory.getToday(),DateFactory.getToday());
         search.clickZoeken();
-        assertThat(search.getSearchRowSorteerDatumKanaal(DateFactory.getToday())).isEqualTo("(NED1)");
+        Dimension ScreenSize = driver.manage().window().getSize();
+        driver.manage().window().maximize();
+        search.addOrRemoveColumn("Laatste uitzending");
+        search.clickOnColum("Laatste uitzending");
     }
 
     @After
