@@ -47,6 +47,8 @@ public class Search extends AbstractPage {
     private static final By imagesBy = By.cssSelector("div.media-images");
     private static final By adminBy = By.xpath("//span[contains(text(), 'admin') and contains(@class, 'btn-text-icon-admin')]");
     private static final String adminItemTemplate = "//a[contains(text(), '%s')]";
+    private static final String columCss = "[class*='column-header'][title='%s']";
+
 
 
     private static final String SCROLL_SCRIPT =
@@ -213,7 +215,7 @@ public class Search extends AbstractPage {
         return driver.findElement(By.xpath("(//tr/descendant::*[contains(text(),'"+sorteerdatum+"')]/descendant::*)[1]")).getText();
     }
 
-    public void getMultibleRowsAndCheckText(By by, String waardetext){
+    public void getMultibleRowsAndCheckTextEquals(By by, String waardetext){
         List<WebElement> listElements=driver.findElements(by);
 //        "//tr/descendant::*[contains(@ng-if, 'sortDateScheduleEvent')]"
         List<String> elementstotext=new ArrayList<>();
@@ -228,5 +230,32 @@ public class Search extends AbstractPage {
         }
     }
 
+    public void getMultibleRowsAndCheckTextContains(By by, String waardetext){
+        List<WebElement> listElements=driver.findElements(by);
+//        "//tr/descendant::*[contains(@ng-if, 'sortDateScheduleEvent')]"
+        List<String> elementstotext=new ArrayList<>();
+
+        for(int i=0; i<listElements.size(); i++){
+            if(listElements.get(i).isDisplayed())
+                elementstotext.add(listElements.get(i).getText());
+        }
+
+        for(String Element:elementstotext){
+            assertThat(Element).contains(waardetext);
+        }
+    }
+
+    public void clickOnColum(String columname){
+        waitUtil.waitAndClick(By.cssSelector(String.format(columCss, columname)));
+    }
+
+    public void doubleClickOnColum(String columname){
+        waitUtil.waitForVisible(By.xpath(String.format(columCss, columname)));
+
+        Actions action = new Actions(driver);
+        WebElement element=driver.findElement(By.cssSelector(String.format(columCss, columname)));
+
+        action.doubleClick(element).perform();
+    }
 
 }

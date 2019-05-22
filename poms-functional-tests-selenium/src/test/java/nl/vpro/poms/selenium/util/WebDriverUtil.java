@@ -47,6 +47,7 @@ public class WebDriverUtil {
     }
 
     public void waitForVisible(By by) {
+        ngWait.waitForAngularRequestsToFinish();
         wait.until(ExpectedConditions.visibilityOfElementLocated(by));
     }
 
