@@ -5,7 +5,10 @@ import nl.vpro.poms.selenium.util.WebDriverUtil;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 public class Search extends AbstractPage {
 
@@ -209,5 +212,21 @@ public class Search extends AbstractPage {
         waitUtil.waitForVisible(By.xpath("(//tr/descendant::*[contains(text(),'"+sorteerdatum+"')]/descendant::*)[1]"));
         return driver.findElement(By.xpath("(//tr/descendant::*[contains(text(),'"+sorteerdatum+"')]/descendant::*)[1]")).getText();
     }
+
+    public void getMultibleRowsAndCheckText(By by, String waardetext){
+        List<WebElement> listElements=driver.findElements(by);
+//        "//tr/descendant::*[contains(@ng-if, 'sortDateScheduleEvent')]"
+        List<String> elementstotext=new ArrayList<>();
+
+        for(int i=0; i<listElements.size(); i++){
+            if(listElements.get(i).isDisplayed())
+                elementstotext.add(listElements.get(i).getText());
+        }
+
+        for(String Element:elementstotext){
+            assertThat(Element).isEqualTo(waardetext);
+        }
+    }
+
 
 }
