@@ -29,7 +29,6 @@ public class Login extends AbstractPage {
     public void login(String user, String passwd) {
 //  log.info("Log in user {}", user);
         Assume.assumeNotNull(user, passwd);
-
         waitUtil.waitAndSendkeys(usernameBy, user);
         waitUtil.waitAndSendkeys(passwdBy, passwd);
         WebElement login = driver.findElement(loginBy);

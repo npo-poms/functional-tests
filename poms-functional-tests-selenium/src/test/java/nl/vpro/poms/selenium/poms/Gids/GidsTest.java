@@ -9,6 +9,10 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.omg.PortableServer.ServantActivatorHelper;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
@@ -32,12 +36,12 @@ public class GidsTest extends AbstractTest {
     }
 
     @Test
-    public void SPOMSGIDS2(){
+    public void SPOMSGIDS2() {
         Search search = new Search(driver);
         search.selectOptionFromMenu("Zenders", "Nederland 1");
         search.enterSorteerdatumDates(DateFactory.getToday(),DateFactory.getToday());
         search.clickZoeken();
-        assertThat(search.getSearchRowSorteerDatumKanaal(DateFactory.getToday())).isEqualTo("(NED1)");
+        search.getMultibleRowsAndCheckText(By.xpath("//tr/descendant::*[contains(@ng-if, 'sortDateScheduleEvent')]"), "(NED1)");
     }
 
     public void SPOMSGIDS3(){
@@ -47,8 +51,6 @@ public class GidsTest extends AbstractTest {
         search.clickZoeken();
         assertThat(search.getSearchRowSorteerDatumKanaal(DateFactory.getToday())).isEqualTo("(NED1)");
     }
-
-
 
     @After
     public void logOut(){
