@@ -59,6 +59,7 @@ public class GidsTest extends AbstractTest {
         search.doubleClickOnColum("Laatste uitzending");
         search.getMultibleRowsAndCheckTextEquals(By.xpath(sorteerDatumKanaal), "(RAD1)");
         search.getAndCheckTimeBetweenTwoBroadcastsLessThenFourHours();
+        // Regel 233 omzetten naar Java 8
     }
 
     @After

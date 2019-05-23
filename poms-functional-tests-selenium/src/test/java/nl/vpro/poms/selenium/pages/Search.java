@@ -230,7 +230,9 @@ public class Search extends AbstractPage {
                 .forEach(item -> assertThat(item).isEqualTo(waardetext));
     }
 
+    // !!!!!! Nog aanpassen !!!!!!
     public void getMultibleRowsAndCheckTextContains(By by, String waardetext) {
+        List<WebElement> listElements = driver.findElements(by);
         List<WebElement> listElements = driver.findElements(by);
 
         List<String> elementstotext = new ArrayList<>();
