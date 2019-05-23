@@ -1,12 +1,20 @@
 package nl.vpro.poms.selenium.pages;
 
+import com.paulhammant.ngwebdriver.NgWebDriver;
 import net.bytebuddy.asm.Advice;
+import net.bytebuddy.matcher.StringMatcher;
 import nl.vpro.poms.selenium.util.WebDriverUtil;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 
+import java.time.Duration;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
@@ -48,8 +56,6 @@ public class Search extends AbstractPage {
     private static final By adminBy = By.xpath("//span[contains(text(), 'admin') and contains(@class, 'btn-text-icon-admin')]");
     private static final String adminItemTemplate = "//a[contains(text(), '%s')]";
     private static final String columCss = "[class*='column-header'][title='%s']";
-
-
 
     private static final String SCROLL_SCRIPT =
             "window.scrollBy(0,(-window.innerHeight + arguments[0].getBoundingClientRect().top + arguments[0].getBoundingClientRect().bottom) / 2);";
@@ -205,57 +211,64 @@ public class Search extends AbstractPage {
         waitUtil.waitAndClick(By.xpath(String.format(adminItemTemplate, item)));
     }
 
-    public String getSearchRowSorteerDatumKanaal(){
-       waitUtil.waitForVisible(By.cssSelector("tr td [ng-if*='sortDateScheduleEvent']"));
-       return driver.findElement(By.cssSelector("tr td [ng-if*='sortDateScheduleEvent']")).getText();
+    public String getSearchRowSorteerDatumKanaal() {
+        waitUtil.waitForVisible(By.cssSelector("tr td [ng-if*='sortDateScheduleEvent']"));
+        return driver.findElement(By.cssSelector("tr td [ng-if*='sortDateScheduleEvent']")).getText();
     }
 
-    public String getSearchRowSorteerDatumKanaal(String sorteerdatum){
-        waitUtil.waitForVisible(By.xpath("(//tr/descendant::*[contains(text(),'"+sorteerdatum+"')]/descendant::*)[1]"));
-        return driver.findElement(By.xpath("(//tr/descendant::*[contains(text(),'"+sorteerdatum+"')]/descendant::*)[1]")).getText();
+    public String getSearchRowSorteerDatumKanaal(String sorteerdatum) {
+        waitUtil.waitForVisible(By.xpath("(//tr/descendant::*[contains(text(),'" + sorteerdatum + "')]/descendant::*)[1]"));
+        return driver.findElement(By.xpath("(//tr/descendant::*[contains(text(),'" + sorteerdatum + "')]/descendant::*)[1]")).getText();
     }
 
-    public void getMultibleRowsAndCheckTextEquals(By by, String waardetext){
-        List<WebElement> listElements=driver.findElements(by);
-//        "//tr/descendant::*[contains(@ng-if, 'sortDateScheduleEvent')]"
-        List<String> elementstotext=new ArrayList<>();
+    public void getMultibleRowsAndCheckTextEquals(By by, String waardetext) {
+        new NgWebDriver((JavascriptExecutor) driver).waitForAngularRequestsToFinish();
+        driver.findElements(by)
+                .stream()
+                .filter(WebElement::isDisplayed)
+                .map(WebElement::getText)
+                .forEach(item -> assertThat(item).isEqualTo(waardetext));
+    }
 
-        for(int i=0; i<listElements.size(); i++){
-            if(listElements.get(i).isDisplayed())
+    public void getMultibleRowsAndCheckTextContains(By by, String waardetext) {
+        List<WebElement> listElements = driver.findElements(by);
+
+        List<String> elementstotext = new ArrayList<>();
+
+        for (int i = 0; i < listElements.size(); i++) {
+            if (listElements.get(i).isDisplayed())
                 elementstotext.add(listElements.get(i).getText());
         }
 
-        for(String Element:elementstotext){
-            assertThat(Element).isEqualTo(waardetext);
-        }
-    }
-
-    public void getMultibleRowsAndCheckTextContains(By by, String waardetext){
-        List<WebElement> listElements=driver.findElements(by);
-//        "//tr/descendant::*[contains(@ng-if, 'sortDateScheduleEvent')]"
-        List<String> elementstotext=new ArrayList<>();
-
-        for(int i=0; i<listElements.size(); i++){
-            if(listElements.get(i).isDisplayed())
-                elementstotext.add(listElements.get(i).getText());
-        }
-
-        for(String Element:elementstotext){
+        for (String Element : elementstotext) {
             assertThat(Element).contains(waardetext);
         }
     }
 
-    public void clickOnColum(String columname){
+    public void clickOnColum(String columname) {
         waitUtil.waitAndClick(By.cssSelector(String.format(columCss, columname)));
     }
 
-    public void doubleClickOnColum(String columname){
-        waitUtil.waitForVisible(By.xpath(String.format(columCss, columname)));
+    public void doubleClickOnColum(String columname) {
+        waitUtil.waitForVisible(By.cssSelector(String.format(columCss, columname)));
 
         Actions action = new Actions(driver);
-        WebElement element=driver.findElement(By.cssSelector(String.format(columCss, columname)));
+        WebElement element = driver.findElement(By.cssSelector(String.format(columCss, columname)));
 
         action.doubleClick(element).perform();
     }
 
+    public void getAndCheckTimeBetweenTwoBroadcastsLessThenFourHours() {
+        List<WebElement> listElementsBoardCastTime = driver.findElements(By.cssSelector("[ng-if*='item.lastScheduleEvent']"));
+
+        for (int i = 0; i < listElementsBoardCastTime.size(); i++) {
+            if (i + 1 < listElementsBoardCastTime.size()) {
+
+                ZonedDateTime varFirstDateTime = ZonedDateTime.parse(listElementsBoardCastTime.get(i).getAttribute("title"), DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm").withZone(ZoneId.of("Europe/Amsterdam")));
+                ZonedDateTime varSecondDateTime = ZonedDateTime.parse(listElementsBoardCastTime.get(i + 1).getAttribute("title"), DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm").withZone(ZoneId.of("Europe/Amsterdam")));
+
+                assertThat(Duration.between(varFirstDateTime, varSecondDateTime).toMinutes()).isLessThan(240);
+            }
+        }
+    }
 }
