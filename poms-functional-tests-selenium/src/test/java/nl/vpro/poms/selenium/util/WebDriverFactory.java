@@ -50,6 +50,7 @@ public class WebDriverFactory {
                 ChromeOptions options = new ChromeOptions();
                 options.addArguments("--incognito");
                 options.addArguments("--lang=en");
+                options.addArguments("--start-maximized");
 //                options.setHeadless(headless);
                 driver = new ChromeDriver(options);
                 break;

@@ -11,13 +11,14 @@ import org.omg.PortableServer.ServantActivatorHelper;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebElement;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 public class GidsTest extends AbstractTest {
+
+    // Variables
+    private static final String sorteerDatumKanaal = "//tr/descendant::*[contains(@ng-if, 'sortDateScheduleEvent')]";
 
     @Before
     public void setup() {
@@ -52,10 +53,12 @@ public class GidsTest extends AbstractTest {
         search.selectOptionFromMenu("Zenders", "Radio 1");
         search.enterSorteerdatumDates(DateFactory.getToday(),DateFactory.getToday());
         search.clickZoeken();
-        Dimension ScreenSize = driver.manage().window().getSize();
-        driver.manage().window().maximize();
+        //        Dimension ScreenSize = driver.manage().window().getSize();
+        //        driver.manage().window().maximize();
         search.addOrRemoveColumn("Laatste uitzending");
-        search.clickOnColum("Laatste uitzending");
+        search.doubleClickOnColum("Laatste uitzending");
+        search.getMultibleRowsAndCheckTextEquals(By.xpath(sorteerDatumKanaal), "(RAD1)");
+        search.getAndCheckTimeBetweenTwoBroadcastsLessThenFourHours();
     }
 
     @After
