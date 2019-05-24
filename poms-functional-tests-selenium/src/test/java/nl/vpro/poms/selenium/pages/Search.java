@@ -232,19 +232,11 @@ public class Search extends AbstractPage {
 
     // !!!!!! Nog aanpassen !!!!!!
     public void getMultibleRowsAndCheckTextContains(By by, String waardetext) {
-        List<WebElement> listElements = driver.findElements(by);
-        List<WebElement> listElements = driver.findElements(by);
-
-        List<String> elementstotext = new ArrayList<>();
-
-        for (int i = 0; i < listElements.size(); i++) {
-            if (listElements.get(i).isDisplayed())
-                elementstotext.add(listElements.get(i).getText());
-        }
-
-        for (String Element : elementstotext) {
-            assertThat(Element).contains(waardetext);
-        }
+        driver.findElements(by)
+            .stream()
+            .filter(WebElement::isDisplayed)
+                .map(WebElement::getText)
+                .forEach(item -> assertThat(item).contains(waardetext));
     }
 
     public void clickOnColum(String columname) {
