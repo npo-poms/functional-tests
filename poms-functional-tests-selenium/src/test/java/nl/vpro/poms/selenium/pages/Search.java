@@ -1,9 +1,6 @@
 package nl.vpro.poms.selenium.pages;
 
 import com.paulhammant.ngwebdriver.NgWebDriver;
-import net.bytebuddy.asm.Advice;
-import net.bytebuddy.matcher.StringMatcher;
-import nl.vpro.poms.selenium.util.WebDriverUtil;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 
@@ -11,10 +8,7 @@ import java.time.Duration;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
@@ -25,16 +19,15 @@ public class Search extends AbstractPage {
     private static final By logoutBy = By.xpath("//a[text()='log uit']");
     private static final By accountInstellingenBy = By.xpath("//a[contains(text(),'account-instellingen')]");
     private static final By loggedOutBy = By.cssSelector("div#msg > h2");
-    private static final By menuBy =
-            By.cssSelector(".header-account-buttons > .header-account-link:first-child > span");
+    private static final By menuBy = By.cssSelector(".header-account-buttons > .header-account-link:first-child > span");
     private static final By overlayFormBy = By.cssSelector("div.modal-backdrop");
-
     private static final By queryBy = By.cssSelector("input#query");
     private static final By zoekenBy = By.cssSelector("button#submit");
     private static final By wissenBy = By.xpath("//button[contains(text(),'Wissen')]");
     private static final By resultTableBy = By.cssSelector("table.search-results-list");
     private static final String foundItemTemplate = "span[title='%s']";
     private static final By closeTabBy = By.cssSelector("span.tab-close");
+    private static final String closeTabByName = "//*[contains(@class, 'tab-search') or contains(@class, 'tab-edit')]/descendant::*[contains(text(), '%s')]/../../descendant::*[@class='tab-close']";
     private static final String criteriaMenuTemplate = ".poms-uiselect[name=%s]";
     private static final String menuOptionTemplate = "//div[contains(text(),'%s')]";
     private static final By datePersonMenuBy = By.xpath("//span[contains(text(), 'Datum & Persoon')]");
@@ -56,9 +49,8 @@ public class Search extends AbstractPage {
     private static final By adminBy = By.xpath("//span[contains(text(), 'admin') and contains(@class, 'btn-text-icon-admin')]");
     private static final String adminItemTemplate = "//a[contains(text(), '%s')]";
     private static final String columCss = "[class*='column-header'][title='%s']";
-
-    private static final String SCROLL_SCRIPT =
-            "window.scrollBy(0,(-window.innerHeight + arguments[0].getBoundingClientRect().top + arguments[0].getBoundingClientRect().bottom) / 2);";
+    private static final String SearchItemRow = "tr[class*='poms-table-row']:nth-of-type(%s) [class='column-title'] [title]";
+    private static final String SCROLL_SCRIPT = "window.scrollBy(0,(-window.innerHeight + arguments[0].getBoundingClientRect().top + arguments[0].getBoundingClientRect().bottom) / 2);";
 
     public Search(WebDriver driver) {
         super(driver);
@@ -100,8 +92,27 @@ public class Search extends AbstractPage {
         return waitUtil.isElementPresent(By.cssSelector(String.format(foundItemTemplate, title)));
     }
 
+    public String getItemListTitle(int itemNumber) {
+        waitUtil.waitForVisible(By.cssSelector(String.format(SearchItemRow, itemNumber)));
+        return driver.findElement(By.cssSelector(String.format(SearchItemRow, itemNumber))).getText();
+    }
+
+    public void clickOnTabWithTitle(By by, String title) {
+        driver.findElements(by)
+                .stream()
+                .filter(WebElement::isDisplayed)
+                .filter(webElement -> webElement.getText().equals(title))
+                .findFirst().get().click()
+        ;
+    }
+
     public void closeTab() {
         waitUtil.waitAndClick(closeTabBy);
+    }
+
+    public void closeTabTitle(String title) {
+        waitUtil.waitForVisible(By.xpath(String.format(closeTabByName, title)));
+        waitUtil.waitAndClick(By.xpath(String.format(closeTabByName, title)));
     }
 
     public void selectOptionFromMenu(String menu, String option) {
@@ -226,17 +237,20 @@ public class Search extends AbstractPage {
         driver.findElements(by)
                 .stream()
                 .filter(WebElement::isDisplayed)
-                .map(WebElement::getText)
-                .forEach(item -> assertThat(item).isEqualTo(waardetext));
+                .map((WebElement::getText))
+                .forEach(item ->
+                        assertThat(item).isEqualTo(waardetext)
+                );
     }
 
-    // !!!!!! Nog aanpassen !!!!!!
     public void getMultibleRowsAndCheckTextContains(By by, String waardetext) {
         driver.findElements(by)
-            .stream()
-            .filter(WebElement::isDisplayed)
+                .stream()
+                .filter(WebElement::isDisplayed)
                 .map(WebElement::getText)
-                .forEach(item -> assertThat(item).contains(waardetext));
+                .forEach(item ->
+                        assertThat(item).contains(waardetext)
+                );
     }
 
     public void clickOnColum(String columname) {

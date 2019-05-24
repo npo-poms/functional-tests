@@ -1,18 +1,14 @@
 package nl.vpro.poms.selenium.poms.Gids;
 
+import nl.vpro.poms.selenium.pages.MediaItemPage;
 import nl.vpro.poms.selenium.pages.Search;
 import nl.vpro.poms.selenium.poms.AbstractTest;
 import nl.vpro.poms.selenium.util.DateFactory;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
-import org.omg.PortableServer.ServantActivatorHelper;
 import org.openqa.selenium.By;
-import org.openqa.selenium.Dimension;
-import org.openqa.selenium.WebElement;
-import java.util.ArrayList;
-import java.util.List;
+
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 public class GidsTest extends AbstractTest {
@@ -50,21 +46,51 @@ public class GidsTest extends AbstractTest {
         Search search = new Search(driver);
         search.selectOptionFromMenu("Zenders", "Nederland 1");
         search.removeSelectedOption("Nederland 1");
-        search.selectOptionFromMenu("Zenders", "Radio 1");
-        search.enterSorteerdatumDates(DateFactory.getToday(),DateFactory.getToday());
-        search.clickZoeken();
-        //        Dimension ScreenSize = driver.manage().window().getSize();
-        //        driver.manage().window().maximize();
-        search.addOrRemoveColumn("Laatste uitzending");
-        search.doubleClickOnColum("Laatste uitzending");
+        setupSearchAndSort(search);
         search.getMultibleRowsAndCheckTextEquals(By.xpath(sorteerDatumKanaal), "(RAD1)");
         search.getAndCheckTimeBetweenTwoBroadcastsLessThenFourHours();
     }
 
     @Test
     public void SPOMSGIDS5(){
+        Search search = new Search(driver);
+        setupSearchAndSort(search);
+        checkAndOpenMediaItem(search);
+    }
+
+    @Test
+    public void SPOMSGIDS7(){
+        Search search = new Search(driver);
+        setupSearchAndSort(search);
+        String title = checkAndOpenMediaItem(search);
+        search.clickOnTabWithTitle(By.cssSelector(".tab .tab-title"),title);
+        search.closeTabTitle(title);
+        search.removeSelectedOption("Radio 1");
+        search.selectOptionFromMenu("Zenders", "Nederland 3 & Zapp");
+        search.clickOnColum("Laatste uitzending");
+//        Nog checken !!!
+        search.getMultibleRowsAndCheckTextEquals(By.xpath(sorteerDatumKanaal), "(NED3)");
+//      Regex toevoegen \s[(][a-zA-Z]{3}\d[)] Controleren !!!!
+        search.getAndCheckTimeBetweenTwoBroadcastsLessThenFourHours();
 
     }
+
+    private void setupSearchAndSort(Search search) {
+        search.selectOptionFromMenu("Zenders", "Radio 1");
+        search.enterSorteerdatumDates(DateFactory.getToday(),DateFactory.getToday());
+        search.clickZoeken();
+        search.addOrRemoveColumn("Laatste uitzending");
+        search.doubleClickOnColum("Laatste uitzending");
+    }
+
+    private String checkAndOpenMediaItem(Search search) {
+        String titleItem = search.getItemListTitle(1);
+        MediaItemPage media = new MediaItemPage(driver);
+        MediaItemPage itemPage = search.clickRow(0);
+        assertThat(itemPage.getMediaItemTitle()).isEqualTo(titleItem);
+        return titleItem;
+    }
+
 
     @After
     public void logOut(){

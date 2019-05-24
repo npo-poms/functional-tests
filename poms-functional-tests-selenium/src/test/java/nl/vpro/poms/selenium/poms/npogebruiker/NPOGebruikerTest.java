@@ -4,22 +4,14 @@ import nl.vpro.poms.selenium.pages.AccountSettingsOverlayPage;
 import nl.vpro.poms.selenium.pages.MediaItemPage;
 import nl.vpro.poms.selenium.pages.Search;
 import nl.vpro.poms.selenium.poms.AbstractTest;
-import nl.vpro.poms.selenium.util.WebDriverUtil;
 import nl.vpro.poms.selenium.util.types.AvType;
 import nl.vpro.poms.selenium.util.types.MediaType;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.Before;
 import org.junit.Test;
-import org.openqa.selenium.By;
-import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.Wait;
 
-import java.util.function.Function;
-
-import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric;
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -114,7 +106,7 @@ public class NPOGebruikerTest extends AbstractTest {
 
         SoftAssertions softly = new SoftAssertions();
         softly.assertThat(itemPage.getSorteerDatumTijd()).isEqualTo(startDate);
-        softly.assertThat(itemPage.getUitzendigData()).isEqualTo(""+startDate+" (Nederland 1)");
+        softly.assertThat(itemPage.getUitzendigData()).isEqualTo("" + startDate + " (Nederland 1)");
 
         media.moveToElementXpath("//td/descendant::*[@ng-switch-when='channel']");
         softly.assertThat(itemPage.getUitzendingGegevensKanaal()).isEqualTo("Nederland 1");
@@ -146,7 +138,7 @@ public class NPOGebruikerTest extends AbstractTest {
         search.selectOptionFromMenu("Criteria", "Mag schrijven");
         //        search.selectOptionFromMenu("Criteria", "Beschikbaar op streaming platform");
         search.selectOptionFromMenu("avType", AvType.VIDEO.getType());
-        search.selectOptionFromMenu("Zenders", "Nederland 1");
+        //search.selectOptionFromMenu("Zenders", "Nederland 1");
         return search;
     }
 }
