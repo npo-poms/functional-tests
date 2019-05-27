@@ -9,8 +9,12 @@ import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
+import static org.assertj.core.api.AssertionsForClassTypes.anyOf;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.assertj.core.internal.bytebuddy.matcher.ElementMatchers.is;
 
 public class Search extends AbstractPage {
 
@@ -25,6 +29,7 @@ public class Search extends AbstractPage {
     private static final By zoekenBy = By.cssSelector("button#submit");
     private static final By wissenBy = By.xpath("//button[contains(text(),'Wissen')]");
     private static final By resultTableBy = By.cssSelector("table.search-results-list");
+    private static final By lastBroadcastTimeChannel = By.cssSelector("[ng-if*='item.lastScheduleEvent']");
     private static final String foundItemTemplate = "span[title='%s']";
     private static final By closeTabBy = By.cssSelector("span.tab-close");
     private static final String closeTabByName = "//*[contains(@class, 'tab-search') or contains(@class, 'tab-edit')]/descendant::*[contains(text(), '%s')]/../../descendant::*[@class='tab-close']";
@@ -193,6 +198,12 @@ public class Search extends AbstractPage {
         return new MediaItemPage(driver);
     }
 
+    public int countRows() {
+        waitUtil.waitForVisible(tableRowsBy);
+        List<WebElement> tableRows = driver.findElements(tableRowsBy);
+        return tableRows.size();
+    }
+
     // TODO: move to helper class
     private void moveToElement(WebElement element) {
         ((JavascriptExecutor) driver).executeScript(SCROLL_SCRIPT, element);
@@ -267,13 +278,23 @@ public class Search extends AbstractPage {
     }
 
     public void getAndCheckTimeBetweenTwoBroadcastsLessThenFourHours() {
-        List<WebElement> listElementsBoardCastTime = driver.findElements(By.cssSelector("[ng-if*='item.lastScheduleEvent']"));
+        Pattern getDate = Pattern.compile("\\d{2}-\\d{2}-\\d{4}\\s\\d{2}:\\d{2}");
+        List<WebElement> listElementsBoardCastTime = driver.findElements(lastBroadcastTimeChannel);
 
-        for (int i = 0; i < listElementsBoardCastTime.size(); i++) {
-            if (i + 1 < listElementsBoardCastTime.size()) {
+        List<String> elementText = null;
+//        Nog aanpassen klopt niet !!! Geeft een boolean terug. Aanpassen naar substring !!!!!
+//        ########################################################################################
+        for(int i=0; i < listElementsBoardCastTime.size();i++){
+            String getElementText = listElementsBoardCastTime.get(i).getText();
+            elementText.add(getDate.matcher(getElementText).group(0));
 
-                ZonedDateTime varFirstDateTime = ZonedDateTime.parse(listElementsBoardCastTime.get(i).getAttribute("title"), DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm").withZone(ZoneId.of("Europe/Amsterdam")));
-                ZonedDateTime varSecondDateTime = ZonedDateTime.parse(listElementsBoardCastTime.get(i + 1).getAttribute("title"), DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm").withZone(ZoneId.of("Europe/Amsterdam")));
+        }
+
+        for (int i = 0; i < elementText.size(); i++) {
+            if (i + 1 < elementText.size()) {
+
+                ZonedDateTime varFirstDateTime = ZonedDateTime.parse(elementText.get(i), DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm").withZone(ZoneId.of("Europe/Amsterdam")));
+                ZonedDateTime varSecondDateTime = ZonedDateTime.parse(elementText.get(i+1), DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm").withZone(ZoneId.of("Europe/Amsterdam")));
 
                 assertThat(Duration.between(varFirstDateTime, varSecondDateTime).toMinutes()).isLessThan(240);
             }
