@@ -48,7 +48,7 @@ public class GidsTest extends AbstractTest {
         search.removeSelectedOption("Nederland 1");
         setupSearchAndSort(search);
         search.getMultibleRowsAndCheckTextEquals(By.xpath(sorteerDatumKanaal), "(RAD1)");
-        search.getAndCheckTimeBetweenTwoBroadcastsLessThenFourHours();
+        search.getAndCheckTimeBetweenTwoBroadcastsLessThenMinutes(240);
     }
 
     @Test
@@ -62,12 +62,11 @@ public class GidsTest extends AbstractTest {
     public void SPOMSGIDS7(){
         Search search = new Search(driver);
         setupSearchAndSort(search);
-        search.clickOnColum("Laatste uitzending");
         search.removeSelectedOption("Radio 1");
         search.selectOptionFromMenu("Zenders", "Nederland 3 & Zapp");
         assertThat(search.countRows()).isGreaterThanOrEqualTo(1);
 //        Nog naar kijken !!! Matches geeft boolean terug aanpassen naar Substring !!!
-        search.getAndCheckTimeBetweenTwoBroadcastsLessThenFourHours();
+        search.getAndCheckTimeBetweenTwoBroadcastsLessThenMinutes(180);
     }
 
     private void setupSearchAndSort(Search search) {
@@ -75,6 +74,7 @@ public class GidsTest extends AbstractTest {
         search.enterSorteerdatumDates(DateFactory.getToday(),DateFactory.getToday());
         search.clickZoeken();
         search.addOrRemoveColumn("Laatste uitzending");
+        search.clickOnColum("Laatste uitzending");
         search.clickOnColum("Laatste uitzending");
     }
 
