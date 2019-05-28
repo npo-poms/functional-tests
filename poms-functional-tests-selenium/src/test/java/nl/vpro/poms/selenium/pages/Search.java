@@ -8,6 +8,7 @@ import java.time.Duration;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -278,16 +279,18 @@ public class Search extends AbstractPage {
     }
 
     public void getAndCheckTimeBetweenTwoBroadcastsLessThenFourHours() {
-        Pattern getDate = Pattern.compile("\\d{2}-\\d{2}-\\d{4}\\s\\d{2}:\\d{2}");
+        Pattern pattern = Pattern.compile("\\d{2}-\\d{2}-\\d{4}\\s\\d{2}:\\d{2}");
         List<WebElement> listElementsBoardCastTime = driver.findElements(lastBroadcastTimeChannel);
 
-        List<String> elementText = null;
-//        Nog aanpassen klopt niet !!! Geeft een boolean terug. Aanpassen naar substring !!!!!
-//        ########################################################################################
+        List<String> elementText = new ArrayList<String>();
         for(int i=0; i < listElementsBoardCastTime.size();i++){
-            String getElementText = listElementsBoardCastTime.get(i).getText();
-            elementText.add(getDate.matcher(getElementText).group(0));
-
+            if(listElementsBoardCastTime.get(i).isDisplayed()){
+                String getElementText = listElementsBoardCastTime.get(i).getText();
+                Matcher matcher = pattern.matcher(getElementText);
+                matcher.find();
+                String TextAfterMatch = matcher.group(0);
+                elementText.add(TextAfterMatch);
+            }
         }
 
         for (int i = 0; i < elementText.size(); i++) {
@@ -296,7 +299,7 @@ public class Search extends AbstractPage {
                 ZonedDateTime varFirstDateTime = ZonedDateTime.parse(elementText.get(i), DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm").withZone(ZoneId.of("Europe/Amsterdam")));
                 ZonedDateTime varSecondDateTime = ZonedDateTime.parse(elementText.get(i+1), DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm").withZone(ZoneId.of("Europe/Amsterdam")));
 
-                assertThat(Duration.between(varFirstDateTime, varSecondDateTime).toMinutes()).isLessThan(240);
+                assertThat(Duration.between(varFirstDateTime, varSecondDateTime).toMinutes()).isNotNegative().isLessThan(240);
             }
         }
     }
