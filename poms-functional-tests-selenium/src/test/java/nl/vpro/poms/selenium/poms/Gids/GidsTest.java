@@ -62,6 +62,7 @@ public class GidsTest extends AbstractTest {
     public void SPOMSGIDS7(){
         Search search = new Search(driver);
         setupSearchAndSort(search);
+        search.clickOnColum("Laatste uitzending");
         search.removeSelectedOption("Radio 1");
         search.selectOptionFromMenu("Zenders", "Nederland 3 & Zapp");
         assertThat(search.countRows()).isGreaterThanOrEqualTo(1);
