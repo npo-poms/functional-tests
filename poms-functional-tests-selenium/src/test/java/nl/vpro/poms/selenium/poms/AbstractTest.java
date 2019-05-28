@@ -50,6 +50,8 @@ public abstract class AbstractTest {
     }
 
 
+
+
     protected void logout() {
         Search search = new Search(driver);
         search.logout();
