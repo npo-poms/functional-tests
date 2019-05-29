@@ -50,13 +50,14 @@ public abstract class AbstractTest {
     protected void loginOmroepGebruiker() {
         Login login = new Login(driver);
         login.gotoPage();
-        String user = CONFIG.getProperties().get("OmroepGebruiker.LOGIN");
-        String password = CONFIG.getProperties().get("OmroepGebruiker.PASSWORD");
+        String user = CONFIG.getProperties().get("SpeciaalVfGebruiker.LOGIN");
+        String password = CONFIG.getProperties().get("SpeciaalVfGebruiker.PASSWORD");
         login.login(user, password);
     }
 
-
-
+    protected void openCMSSelectorPage(){
+        driver.navigate().to(CONFIG.getProperties().get("npo-poms-cms.test.baseUrl"));
+    }
 
     protected void logout() {
         Search search = new Search(driver);
