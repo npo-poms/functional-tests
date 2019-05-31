@@ -55,6 +55,8 @@ public class MediaBackendSubtitlesTest extends AbstractApiMediaBackendTest {
     private static Throwable exception = null;
 
     private static String firstTitle;
+    private static String updatedFirstTitle;
+
 
     @Before
     public void setup() {
@@ -91,22 +93,68 @@ public class MediaBackendSubtitlesTest extends AbstractApiMediaBackendTest {
     @Test
     public void test02CheckArrived() {
         assumeNotNull(firstTitle);
-
+        final Subtitles[] found = new Subtitles[1];
         PeekingIterator<StandaloneCue> iterator = waitUntil(ACCEPTABLE_DURATION,
             MID + "/" + Locale.CHINESE + "[0]=" + firstTitle,
-            () -> Iterators.peekingIterator(
-            SubtitlesUtil.standaloneStream(
-                backend.getBackendRestService().getSubtitles(MID,
-                Locale.CHINESE, SubtitlesType.TRANSLATION, true), false, false).iterator()
-            )
+            () ->  {
+                found[0] = backend.getBackendRestService().getSubtitles(MID, Locale.CHINESE, SubtitlesType.TRANSLATION, true);
+                return Iterators.peekingIterator(SubtitlesUtil.standaloneStream(found[0], false, false).iterator());
+            }
             , (cpi) -> cpi != null && cpi.hasNext() && cpi.peek().getContent().equals(firstTitle));
 
         assertThat(iterator).toIterable().hasSize(3);
+        assertThat(found[0].getCreationDate()).isEqualTo(found[0].getLastModified());
+
     }
 
 
     @Test
-    public void test03WebVttWithNotesWithoutCueNumbers() throws IOException {
+    public void test03updateSubtitles() throws InterruptedException {
+        assumeThat(backendVersionNumber, greaterThanOrEqualTo(Version.of(5, 11)));
+        Thread.sleep(2L);
+        updatedFirstTitle = title;
+        Subtitles subtitles = Subtitles.webvttTranslation(MID, Duration.ofMinutes(2), Locale.CHINESE,
+            "WEBVTT\n" +
+                "\n" +
+                "1\n" +
+                "00:00:02.200 --> 00:00:04.150\n" +
+                "" + title + "\n" +
+                "\n" +
+                "2\n" +
+                "00:00:04.200 --> 00:00:08.060\n" +
+                "*'k Heb een paar puntjes die ik met je wil bespreken\n" +
+                "\n" +
+                "3\n" +
+                "00:00:08.110 --> 00:00:11.060\n" +
+                "*Dat wil ik doen in jouw mobiele bakkerij\n" +
+                "\n" +
+                ""
+        );
+        backend.setSubtitles(subtitles);
+    }
+
+    @Test
+    public void test04CheckArrived() {
+        assumeNotNull(updatedFirstTitle);
+
+        final Subtitles[] found = new Subtitles[1];
+        PeekingIterator<StandaloneCue> iterator = waitUntil(ACCEPTABLE_DURATION,
+            MID + "/" + Locale.CHINESE + "[0]=" + updatedFirstTitle,
+            () -> {
+                found[0] = backend.getBackendRestService().getSubtitles(MID, Locale.CHINESE, SubtitlesType.TRANSLATION, true);
+                return Iterators.peekingIterator(SubtitlesUtil.standaloneStream(found[0], false, false).iterator());
+            }
+            , (cpi) -> cpi != null && cpi.hasNext() && cpi.peek().getContent().equals(updatedFirstTitle));
+
+        assertThat(iterator).toIterable().hasSize(3);
+        assertThat(found[0].getCreationDate()).isBefore(found[0].getLastModified());
+    }
+
+
+
+
+    @Test
+    public void test06WebVttWithNotesWithoutCueNumbers() throws IOException {
         InputStream input = getClass().getResourceAsStream("/POMS_VPRO_4981202.vtt");
         ByteArrayOutputStream body = new ByteArrayOutputStream();
         IOUtils.copy(input, body);
@@ -128,7 +176,7 @@ public class MediaBackendSubtitlesTest extends AbstractApiMediaBackendTest {
 
 
     @Test
-    public void test04CheckArrived() {
+    public void test07CheckArrived() {
 
         PeekingIterator<StandaloneCue> iterator = waitUntil(ACCEPTABLE_DURATION,
             MID + "/ar has cues" ,
@@ -147,7 +195,7 @@ public class MediaBackendSubtitlesTest extends AbstractApiMediaBackendTest {
 
     @Test
     @Ignore("Known to fail MSE-3836")
-    public void test05CreateSubtitlesForNewClip() {
+    public void test08CreateSubtitlesForNewClip() {
 
         ProgramUpdate clip = ProgramUpdate.create(MediaTestDataBuilder.clip()
             .mainTitle(title)
@@ -175,7 +223,7 @@ public class MediaBackendSubtitlesTest extends AbstractApiMediaBackendTest {
 
 
     @Test
-    public void test06CreateSubtitlesForNewClipCheckArrived() {
+    public void test09CreateSubtitlesForNewClipCheckArrived() {
         assumeNotNull(newMid);
 
         PeekingIterator<StandaloneCue> iterator = waitUntil(ACCEPTABLE_DURATION,
