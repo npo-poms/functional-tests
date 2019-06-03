@@ -52,6 +52,7 @@ public class WebDriverUtil {
     }
 
     public void waitForInvisible(By by) {
+        ngWait.waitForAngularRequestsToFinish();
         wait.until(ExpectedConditions.invisibilityOfElementLocated(by));
         ngWait.waitForAngularRequestsToFinish();
     }

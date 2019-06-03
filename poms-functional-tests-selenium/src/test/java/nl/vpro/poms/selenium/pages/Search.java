@@ -13,9 +13,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static org.assertj.core.api.AssertionsForClassTypes.anyOf;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.assertj.core.internal.bytebuddy.matcher.ElementMatchers.is;
 
 public class Search extends AbstractPage {
 
@@ -305,5 +303,8 @@ public class Search extends AbstractPage {
                 assertThat(durationBetweenMinutes).isNotNegative().isLessThan(minutes);
             }
         }
+    }
+    public String getMidFromColum(int columNumber){
+        return waitUtil.waitAndGetText(By.cssSelector("tbody tr:nth-of-type("+columNumber+") [ng-switch-when='mid']"));
     }
 }
