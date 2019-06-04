@@ -6,12 +6,9 @@ import org.openqa.selenium.*;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.openqa.selenium.*;
-import org.openqa.selenium.support.ui.ExpectedCondition;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 public class AccountSettingsOverlayPage extends AbstractOverlayPage {
 
-    //	private static final By standaardOmroepDropdownBy = By.xpath("//span[contains(text(),'Standaard-omroepen')]");
+
     private static final By standaardOmroepDropdownBy = By.cssSelector("poms-ui-select-multi[name=Standaard-omroepen] > span");
 
     private static final String selectedStandaardOmroepTemplate = "//div[@class='dropdown-selected' and contains(text(), '%s')]";

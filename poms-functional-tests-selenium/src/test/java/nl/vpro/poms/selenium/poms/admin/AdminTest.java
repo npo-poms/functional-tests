@@ -1,6 +1,7 @@
 package nl.vpro.poms.selenium.poms.admin;
 
 import nl.vpro.poms.selenium.pages.AddNewObjectOverlayPage;
+import nl.vpro.poms.selenium.pages.Login;
 import nl.vpro.poms.selenium.pages.OmroepenOverlayPage;
 import nl.vpro.poms.selenium.pages.Search;
 import nl.vpro.poms.selenium.poms.AbstractTest;
@@ -13,13 +14,9 @@ import static nl.vpro.poms.selenium.util.Config.CONFIG;
 
 public class AdminTest extends AbstractTest {
 
-	public AdminTest(WebDriverFactory.Browser browser) {
-		super(browser);
-	}
-
 	@Test
 	public void testAdmin() {
-		login().speciaalAdminGebruiker();
+		loginSpeciaalAdminGebruiker();
 		
 		Search search = new Search(driver);
 		search.clickNew();
@@ -40,28 +37,25 @@ public class AdminTest extends AbstractTest {
 	
 	@Test
 	public void testAddAndRemoveOmroep() {
-		login().speciaalAdminGebruiker();
+		loginSpeciaalAdminGebruiker();
 		Search search = new Search(driver);
-
-
-		{
-			// add
-			search.clickAdminItem("omroepen");
-			waitForAngularRequestsToFinish();
-			OmroepenOverlayPage overlay = new OmroepenOverlayPage(driver);
-			overlay.addOmroep("Test");
-			overlay.close();
-		}
-		{ // delete again
-			search.clickAdminItem("omroepen");
-
-			OmroepenOverlayPage overlay = new OmroepenOverlayPage(driver);
-			overlay.deleteOmroep("Test");
-			overlay.close();
-		}
-		logout();
+		search.clickAdminItem("omroepen");
+		OmroepenOverlayPage overlay = new OmroepenOverlayPage(driver);
+		overlay.addOmroep("Test");
+		overlay.close();
+		
+		search.clickAdminItem("omroepen");
+		
+		
+//		logout();
 	}
 	
-
+	private void loginSpeciaalAdminGebruiker() {
+		Login login = new Login(driver);
+		login.gotoPage();
+		String user = CONFIG.getProperties().get("AdminGebruiker.LOGIN");
+		String password = CONFIG.getProperties().get("AdminGebruiker.PASSWORD");
+		login.login(user, password);
+	}
 
 }

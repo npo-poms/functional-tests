@@ -27,7 +27,7 @@ public class ChangeTest extends AbstractTest {
 
 	@Test
 	public void testWijzig() {
-		login().speciaalVf();
+		loginSpeciaalVf();
 		Search search = new Search(driver);
 		search.selectOptionFromMenu("Omroepen", "VPRO");
 		search.selectOptionFromMenu("MediaType", "Clip");
@@ -45,7 +45,7 @@ public class ChangeTest extends AbstractTest {
 	
 	@Test
 	public void testWissen() {
-		login().speciaalVf();
+		loginSpeciaalVf();
 		Search search = new Search(driver);
 		search.selectOptionFromMenu("Omroepen", "VPRO");
 		search.selectOptionFromMenu("MediaType", "Clip");
@@ -55,7 +55,7 @@ public class ChangeTest extends AbstractTest {
 	
 	@Test
 	public void testNietBewerken() {
-		login().speciaalVf();
+		loginSpeciaalVf();
 		Search search = new Search(driver);
 		search.clickWissen();
 		search.selectOptionFromMenu("Omroepen", "NPO");
