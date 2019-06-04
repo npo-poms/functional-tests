@@ -23,6 +23,7 @@ import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 
 import nl.vpro.poms.selenium.poms.AbstractTest;
+import org.openqa.selenium.firefox.FirefoxProfile;
 
 import java.util.concurrent.ExecutionException;
 
@@ -31,9 +32,11 @@ import java.util.concurrent.ExecutionException;
 public class WebDriverFactory {
 
     private static boolean headless;
+
     static {
         headless = Boolean.parseBoolean(CONFIG.getProperty("headless"));
     }
+
     private static LoadingCache<DriverManagerType, WebDriverManager> CACHE = CacheBuilder
             .newBuilder()
             .build(new CacheLoader<DriverManagerType, WebDriverManager>() {
@@ -67,7 +70,6 @@ public class WebDriverFactory {
                 CACHE.get(type);
                 switch (type) {
                     case CHROME:
-
                         ChromeOptions options = new ChromeOptions();
                         options.addArguments("--incognito");
                         options.addArguments("--lang=en");
@@ -75,8 +77,12 @@ public class WebDriverFactory {
                         options.setHeadless(headless);
                         return new ChromeDriver(options);
                     case FIREFOX:
+                        FirefoxProfile profile = new FirefoxProfile();
+                        profile.setPreference("intl.accept_languages", "en");
+
                         FirefoxOptions ffoptions = new FirefoxOptions();
                         ffoptions.addArguments("--incognito");
+                        ffoptions.setProfile(profile);
                         ffoptions.setHeadless(headless);
                         return new FirefoxDriver(ffoptions);
                     default:

@@ -38,14 +38,11 @@ public abstract class AbstractTest {
 
     public static final String MID = "WO_VPRO_025057";
 
-
     @Rule
     public Timeout timeout = new Timeout(5, TimeUnit.MINUTES);
 
-
     @Rule
     public TestMDC testMDC = new TestMDC();
-
 
     private final Browser browser;
 
