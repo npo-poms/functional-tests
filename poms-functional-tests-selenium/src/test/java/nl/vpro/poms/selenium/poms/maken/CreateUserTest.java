@@ -3,6 +3,7 @@ package nl.vpro.poms.selenium.poms.maken;
 import nl.vpro.poms.selenium.pages.*;
 import nl.vpro.poms.selenium.poms.AbstractTest;
 import nl.vpro.poms.selenium.util.DateFactory;
+import nl.vpro.poms.selenium.util.WebDriverFactory;
 import nl.vpro.poms.selenium.util.types.AvType;
 import nl.vpro.poms.selenium.util.types.MediaType;
 import org.junit.After;
@@ -10,14 +11,18 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-//import org.openqa.selenium.support.ui.Sleeper;
+import javax.annotation.Nonnull;
 
 
 public class CreateUserTest extends AbstractTest {
 
+    public CreateUserTest(@Nonnull WebDriverFactory.Browser browser) {
+        super(browser);
+    }
+
     @Before
     public void setup() {
-        loginSpeciaalVf();
+        login().speciaalVf();
     }
 
     @After

@@ -4,10 +4,12 @@ import nl.vpro.poms.selenium.pages.OmroepVideoDetailInfoPage;
 import nl.vpro.poms.selenium.pages.OmroepVideoPage;
 import nl.vpro.poms.selenium.pages.Search;
 import nl.vpro.poms.selenium.poms.AbstractTest;
+import nl.vpro.poms.selenium.util.WebDriverFactory;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import javax.annotation.Nonnull;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -20,10 +22,13 @@ public class ItemizerTest extends AbstractTest {
     private String firstSegmentName;
     private String secondSegmentName;
 
+    public ItemizerTest(@Nonnull WebDriverFactory.Browser browser) {
+        super(browser);
+    }
 
     @Before
     public void setup() {
-        loginSpeciaalVf();
+        login().speciaalVf();
     }
 
     @After

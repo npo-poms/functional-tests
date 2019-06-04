@@ -6,13 +6,21 @@ import nl.vpro.poms.selenium.pages.OmroepenOverlayPage;
 import nl.vpro.poms.selenium.pages.Search;
 import nl.vpro.poms.selenium.poms.AbstractTest;
 import nl.vpro.poms.selenium.util.DateFactory;
+import nl.vpro.poms.selenium.util.WebDriverFactory;
 import nl.vpro.poms.selenium.util.types.AvType;
 import nl.vpro.poms.selenium.util.types.MediaType;
 import org.junit.Test;
 
+import javax.annotation.Nonnull;
+
 import static nl.vpro.poms.selenium.util.Config.CONFIG;
 
 public class AdminTest extends AbstractTest {
+
+
+	public AdminTest(@Nonnull WebDriverFactory.Browser browser) {
+		super(browser);
+	}
 
 	@Test
 	public void testAdmin() {
@@ -53,8 +61,8 @@ public class AdminTest extends AbstractTest {
 	private void loginSpeciaalAdminGebruiker() {
 		Login login = new Login(driver);
 		login.gotoPage();
-		String user = CONFIG.getProperties().get("AdminGebruiker.LOGIN");
-		String password = CONFIG.getProperties().get("AdminGebruiker.PASSWORD");
+		String user = CONFIG.getProperty("AdminGebruiker.LOGIN");
+		String password = CONFIG.getProperty("AdminGebruiker.PASSWORD");
 		login.login(user, password);
 	}
 

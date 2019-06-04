@@ -4,6 +4,7 @@ import nl.vpro.poms.selenium.pages.AccountSettingsOverlayPage;
 import nl.vpro.poms.selenium.pages.MediaItemPage;
 import nl.vpro.poms.selenium.pages.Search;
 import nl.vpro.poms.selenium.poms.AbstractTest;
+import nl.vpro.poms.selenium.util.WebDriverFactory;
 import nl.vpro.poms.selenium.util.types.AvType;
 import nl.vpro.poms.selenium.util.types.MediaType;
 import org.assertj.core.api.SoftAssertions;
@@ -16,11 +17,17 @@ import static org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class NPOGebruikerTest extends AbstractTest {
+
+    public NPOGebruikerTest(WebDriverFactory.Browser browser) {
+        super(browser);
+    }
+
+
     private Wait<WebDriver> waitFluent;
 
     @Before
     public void setup() {
-        loginNPOGebruiker();
+        login().speciaalNPOGebruiker();
     }
 
     @Test

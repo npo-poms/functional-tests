@@ -48,16 +48,10 @@ public class PomsLogin extends AbstractPage {
      public void login(@Nonnull String user, @Nonnull String passwd) {
 //    	log.info("Log in user {}", user);
         Assume.assumeNotNull(user, passwd);
-        wait.until(ExpectedConditions.elementToBeClickable(usernameBy));
-        WebElement usernameElement = driver.findElement(usernameBy);
-        usernameElement.sendKeys(user);
-        WebElement passwdElement = driver.findElement(passwdBy);
-        passwdElement.sendKeys(passwd);
-        WebElement login = driver.findElement(loginBy);
-        login.click();
+         waitUtil.waitAndSendkeys(usernameBy, user);
+         waitUtil.waitAndSendkeys(passwdBy, passwd);
+         waitUtil.waitAndClick(loginBy);
     }
-
-
 
     public void VPROand3voor12() {
         String user =  CONFIG.getProperty("SpeciaalVfGebruiker.LOGIN");

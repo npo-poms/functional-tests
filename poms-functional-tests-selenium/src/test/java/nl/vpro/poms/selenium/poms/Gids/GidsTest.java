@@ -4,21 +4,28 @@ import nl.vpro.poms.selenium.pages.MediaItemPage;
 import nl.vpro.poms.selenium.pages.Search;
 import nl.vpro.poms.selenium.poms.AbstractTest;
 import nl.vpro.poms.selenium.util.DateFactory;
+import nl.vpro.poms.selenium.util.WebDriverFactory;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.By;
 
+import javax.annotation.Nonnull;
+
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 public class GidsTest extends AbstractTest {
+
+    public GidsTest(@Nonnull WebDriverFactory.Browser browser) {
+        super(browser);
+    }
 
     // Variables
     private static final String sorteerDatumKanaal = "//tr/descendant::*[contains(@ng-if, 'sortDateScheduleEvent')]";
 
     @Before
     public void setup() {
-        loginOmroepGebruiker();
+        login().speciaalNPOGebruiker();
     }
 
     @Test
