@@ -27,54 +27,51 @@ import nl.vpro.poms.selenium.util.WebDriverFactory.Browser;
 import nl.vpro.rules.TestMDC;
 
 /**
+ *
  */
 @RunWith(Parameterized.class)
 @Slf4j
 public abstract class AbstractTest {
 
     public static final Config CONFIG =
-        new Config("npo-functional-tests.properties", "npo-browser-tests.properties");
+            new Config("npo-functional-tests.properties", "npo-browser-tests.properties");
 
-    public static final String    MID                = "WO_VPRO_025057";
-
+    public static final String MID = "WO_VPRO_025057";
 
     @Rule
     public Timeout timeout = new Timeout(5, TimeUnit.MINUTES);
 
-
     @Rule
     public TestMDC testMDC = new TestMDC();
 
-
-
     private final Browser browser;
 
-	protected WebDriver driver;
+    protected WebDriver driver;
 
-	protected static Map<Browser, WebDriver> staticDrivers = new HashMap<>();
+    protected static Map<Browser, WebDriver> staticDrivers = new HashMap<>();
 
-	protected boolean setupEach = true;
+    protected boolean setupEach = true;
 
     @Parameterized.Parameters
     public static Collection<Object[]> data() {
         return Arrays.asList(
-            new Object[][]{
-                {new Browser(DriverManagerType.CHROME, "2.41")} // 2.41 corresponds with the chrome on jenkins.
+                new Object[][]{
+                        {new Browser(DriverManagerType.CHROME, "2.41")} // 2.41 corresponds with the chrome on jenkins.
 
-                ,{new Browser(DriverManagerType.FIREFOX, null)}
-            }
+                        , {new Browser(DriverManagerType.FIREFOX, null)}
+                }
         );
     }
 
     protected AbstractTest(@Nonnull Browser browser) {
         this.browser = browser;
         this.setupEach = this.getClass().getAnnotation(FixMethodOrder.class) == null;
-        if (! this.setupEach) {
-            log.info("Running with fixed method order, so keeping the driver between the tests");
+        if (!this.setupEach) {
+            //log.info("Running with fixed method order, so keeping the driver between the tests");
         }
     }
 
-	@Before
+    @Before
     public void setUp() {
         if (setupEach) {
             driver = browser.asWebDriver();
@@ -89,6 +86,7 @@ public abstract class AbstractTest {
             driver.quit();
         }
     }
+
     @AfterClass
     public static void tearDownClass() {
         for (WebDriver wd : staticDrivers.values()) {
@@ -106,9 +104,10 @@ public abstract class AbstractTest {
     }
 
     protected void logout() {
-		Search search = new Search(driver);
-		search.logout();
-	}
+        Search search = new Search(driver);
+        search.logout();
+    }
+
     protected void waitForAngularRequestsToFinish() {
         new NgWebDriver((JavascriptExecutor) driver).waitForAngularRequestsToFinish();
     }
