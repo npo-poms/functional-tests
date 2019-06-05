@@ -15,12 +15,18 @@ public class CMSMediaSelector extends AbstractPage {
 
     String mainCMSWindow;
     String pomsWindow;
+    String UrlCmsMediaSelector = "https://poms-test.omroep.nl/CMSSelector/example/";
+    WebDriverWait wait ;
 
 
     public CMSMediaSelector(WebDriver driver) {
         super(driver);
+        this.wait = new WebDriverWait(driver, 15, 250);
     }
 
+    public void openUrlCmsMediaSelector(){
+        driver.navigate().to(UrlCmsMediaSelector);
+    }
 
     public void clickButtonSelect() {
 
@@ -33,11 +39,12 @@ public class CMSMediaSelector extends AbstractPage {
         driver.getWindowHandles().forEach(windowHandle -> {
             driver.switchTo().window(windowHandle);
         });
-        wait.until(ExpectedConditions.titleContains("POMS"));
+        wait.until(ExpectedConditions.titleContains("Publieke Omroep Media Service (POMS)"));
     }
 
     public void switchToCMSWindow() {
         pomsWindow = driver.getWindowHandle();
+
         driver.getWindowHandles().forEach(windowHandle -> {
             driver.switchTo().window(windowHandle);
         });

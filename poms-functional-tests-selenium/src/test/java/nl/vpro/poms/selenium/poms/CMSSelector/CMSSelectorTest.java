@@ -23,24 +23,22 @@ public class CMSSelectorTest extends AbstractTest {
     public void SPOMSCMSSELECTOR1(){
         login().speciaalNPOGebruiker();
         logout();
-       //openCMSSelectorPage();
+
         CMSMediaSelector cms = new CMSMediaSelector(driver);
+        cms.openUrlCmsMediaSelector();
         cms.clickButtonSelect();
-
-//        Hier gebleven geeft error uitzoeken
-        cms.switchToPomsWindows();
-        Search search = new Search(driver);
-        search.clickRow(0);
-
         cms.switchToPomsWindows();
         cms.checkLoginTextBoxes();
         cms.checkIfNotDisplayedTables();
         cms.loginNPOGebruikerMediaSelector();
+
+        Search search = new Search(driver);
         search.addOrRemoveColumn("MID");
         String MID = search.getMidFromColum(1);
-        MediaItemPage itemPage = search.clickRow(0);
+        search.clickRow(0);
+
         cms.switchToCMSWindow();
-// Hier gebleven en nog aanpassen, schakelen tussen popup en main scherm !!!
+        // !!!!! Hier gebleven en nog aanpassen, schakelen tussen popup en main scherm !!!
         assertThat(cms.getResult()).isEqualTo(MID);
 
     }
