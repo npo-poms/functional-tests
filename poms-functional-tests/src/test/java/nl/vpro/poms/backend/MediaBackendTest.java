@@ -11,15 +11,15 @@ import java.util.function.Predicate;
 
 import javax.xml.bind.JAXB;
 
-import nl.vpro.domain.media.support.OwnerType;
 import org.assertj.core.api.Assertions;
 import org.junit.*;
 import org.junit.runners.MethodSorters;
 
+import nl.vpro.api.client.media.ResponseError;
 import nl.vpro.domain.media.*;
+import nl.vpro.domain.media.support.OwnerType;
 import nl.vpro.domain.media.update.*;
 import nl.vpro.poms.AbstractApiMediaBackendTest;
-import nl.vpro.api.client.media.ResponseError;
 import nl.vpro.rules.DoAfterException;
 import nl.vpro.util.Version;
 
@@ -173,7 +173,7 @@ public class MediaBackendTest extends AbstractApiMediaBackendTest {
             log.info("Found mid {}", mid);
             //fail("Should give error on creating object without any broadcasters. But created  " + mid);
         } catch (ResponseError re) {
-            log.info("Response: {}", re);
+            log.info("Response: {}", re.getMessage(), re);
             assertThat(re.getStatus()).isEqualTo(401);
         }
 
@@ -280,20 +280,20 @@ public class MediaBackendTest extends AbstractApiMediaBackendTest {
         //And a clientApi configured with a specific owner
         Intentions intentions1 = Intentions.builder()
                 .owner(BROADCASTER).values(Arrays.asList(
-                        new Intention(IntentionType.ENTERTAINMENT_INFORMATIVE),
-                        new Intention(IntentionType.INFORM_INDEPTH)))
+                        IntentionType.ENTERTAINMENT_INFORMATIVE,
+                        IntentionType.INFORM_INDEPTH))
                 .build();
         Intentions intentions2 = Intentions.builder()
                 .owner(NPO).values(Arrays.asList(
-                        new Intention(IntentionType.ACTIVATING)))
+                        IntentionType.ACTIVATING))
                 .build();
 
         TargetGroups target1 = TargetGroups.builder()
-                .values(Arrays.asList(new TargetGroup(TargetGroupType.ADULTS)))
+                .values(Arrays.asList(TargetGroupType.ADULTS))
                 .owner(OwnerType.BROADCASTER)
                 .build();
         TargetGroups target2 = TargetGroups.builder()
-                .values(Arrays.asList(new TargetGroup(TargetGroupType.KIDS_6), new TargetGroup(TargetGroupType.KIDS_12)))
+                .values(Arrays.asList(TargetGroupType.KIDS_6, TargetGroupType.KIDS_12))
                 .owner(OwnerType.NPO)
                 .build();
         backend.setValidateInput(false);
