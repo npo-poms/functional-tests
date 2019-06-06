@@ -58,7 +58,7 @@ public abstract class AbstractTest {
                 new Object[][]{
                         {new Browser(DriverManagerType.CHROME, "2.41")} // 2.41 corresponds with the chrome on jenkins.
 
-                        ,{new Browser(DriverManagerType.FIREFOX, null)}
+//                        ,{new Browser(DriverManagerType.FIREFOX, null)}
                 }
         );
     }

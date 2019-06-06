@@ -3,12 +3,16 @@ package nl.vpro.poms.selenium.pages;
 
 import nl.vpro.poms.selenium.poms.AbstractTest;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 
+import java.util.Set;
+
 import static nl.vpro.poms.selenium.poms.AbstractTest.CONFIG;
+import static org.assertj.core.api.Fail.fail;
 
 
 public class CMSMediaSelector extends AbstractPage {
@@ -16,7 +20,7 @@ public class CMSMediaSelector extends AbstractPage {
     String mainCMSWindow;
     String pomsWindow;
     String UrlCmsMediaSelector = "https://poms-test.omroep.nl/CMSSelector/example/";
-    WebDriverWait wait ;
+    WebDriverWait wait;
 
 
     public CMSMediaSelector(WebDriver driver) {
@@ -24,7 +28,7 @@ public class CMSMediaSelector extends AbstractPage {
         this.wait = new WebDriverWait(driver, 15, 250);
     }
 
-    public void openUrlCmsMediaSelector(){
+    public void openUrlCmsMediaSelector() {
         driver.navigate().to(UrlCmsMediaSelector);
     }
 
@@ -34,8 +38,7 @@ public class CMSMediaSelector extends AbstractPage {
     }
 
     public void switchToPomsWindows() {
-        mainCMSWindow = driver.getWindowHandle();
-
+//        mainCMSWindow = driver.getWindowHandle();
         driver.getWindowHandles().forEach(windowHandle -> {
             driver.switchTo().window(windowHandle);
         });
@@ -43,8 +46,6 @@ public class CMSMediaSelector extends AbstractPage {
     }
 
     public void switchToCMSWindow() {
-        pomsWindow = driver.getWindowHandle();
-
         driver.getWindowHandles().forEach(windowHandle -> {
             driver.switchTo().window(windowHandle);
         });
@@ -68,6 +69,16 @@ public class CMSMediaSelector extends AbstractPage {
     }
 
     public String getResult() {
-        return waitUtil.waitAndGetText(By.cssSelector("input#value"));
+        waitUtil.waitForVisible(By.cssSelector("input#value"));
+        Object value = ((JavascriptExecutor) driver).executeScript("return document.querySelector('input#value').value");
+        String returnValue = "";
+        if (value instanceof String) {
+            returnValue = value.toString();
+        } else {
+            fail("Error in the javascript on the page");
+            System.out.println("Error in the javascript on the page");
+        }
+        return returnValue;
     }
+
 }

@@ -38,9 +38,7 @@ public class CMSSelectorTest extends AbstractTest {
         search.clickRow(0);
 
         cms.switchToCMSWindow();
-        // !!!!! Hier gebleven en nog aanpassen, schakelen tussen popup en main scherm !!!
         assertThat(cms.getResult()).isEqualTo(MID);
-
     }
 
 

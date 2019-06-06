@@ -10,6 +10,7 @@ import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -306,7 +307,9 @@ public class Search extends AbstractPage {
     }
 
     public String getMidFromColum(int columNumber){
-        return waitUtil.waitAndGetText(By.cssSelector("tbody tr:nth-of-type("+columNumber+") [ng-switch-when='mid']"));
+        waitUtil.waitForVisible(By.cssSelector("tbody tr:nth-of-type("+columNumber+") [ng-switch-when='mid'] input"));
+        WebElement element = driver.findElement(By.cssSelector("tbody tr:nth-of-type("+columNumber+") [ng-switch-when='mid'] input"));
+        return element.getAttribute("value");
     }
 
 }
