@@ -41,5 +41,22 @@ public class CMSSelectorTest extends AbstractTest {
         assertThat(cms.getResult()).isEqualTo(MID);
     }
 
+    public void SPOMSCMSSELECTOR2(){
+        openCmsPopupAddSearch();
+    }
+
+    private void openCmsPopupAddSearch() {
+        CMSMediaSelector cms = new CMSMediaSelector(driver);
+        cms.openUrlCmsMediaSelector();
+        cms.clickButtonSelect();
+        cms.switchToPomsWindows();
+        cms.checkLoginTextBoxes();
+        cms.checkIfNotDisplayedTables();
+        cms.loginNPOGebruikerMediaSelector();
+
+        Search search = new Search(driver);
+        search.addOrRemoveColumn("MID");
+    }
+
 
 }
