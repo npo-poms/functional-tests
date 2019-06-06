@@ -100,6 +100,7 @@ public class MediaBackendSubtitlesTest extends AbstractApiMediaBackendTest {
             , (cpi) -> cpi != null && cpi.hasNext() && cpi.peek().getContent().equals(firstTitle));
 
         assertThat(iterator).toIterable().hasSize(3);
+        // TODO: Fails, creation/lastmodified instant are not exposed yet via backend api
         assertThat(found[0].getCreationInstant()).isEqualTo(found[0].getLastModifiedInstant());
 
     }
@@ -144,6 +145,7 @@ public class MediaBackendSubtitlesTest extends AbstractApiMediaBackendTest {
             , (cpi) -> cpi != null && cpi.hasNext() && cpi.peek().getContent().equals(updatedFirstTitle));
 
         assertThat(iterator).toIterable().hasSize(3);
+        // TODO: Fails, creation/lastmodified instant are not exposed yet via backend api
         assertThat(found[0].getCreationInstant()).isBefore(found[0].getLastModifiedInstant());
     }
 
