@@ -1,19 +1,9 @@
 package nl.vpro.poms.backend;
 
 
-import lombok.extern.slf4j.Slf4j;
-
-import java.io.*;
-import java.time.Duration;
-import java.util.Locale;
-
-import org.apache.commons.io.IOUtils;
-import org.junit.*;
-import org.junit.runners.MethodSorters;
-
 import com.google.common.collect.Iterators;
 import com.google.common.collect.PeekingIterator;
-
+import lombok.extern.slf4j.Slf4j;
 import nl.vpro.api.rs.subtitles.Constants;
 import nl.vpro.domain.media.AVType;
 import nl.vpro.domain.media.MediaTestDataBuilder;
@@ -22,6 +12,13 @@ import nl.vpro.domain.subtitles.*;
 import nl.vpro.poms.AbstractApiMediaBackendTest;
 import nl.vpro.rules.DoAfterException;
 import nl.vpro.util.Version;
+import org.apache.commons.io.IOUtils;
+import org.junit.*;
+import org.junit.runners.MethodSorters;
+
+import java.io.*;
+import java.time.Duration;
+import java.util.Locale;
 
 import static io.restassured.RestAssured.given;
 import static java.nio.charset.StandardCharsets.UTF_8;
@@ -103,7 +100,7 @@ public class MediaBackendSubtitlesTest extends AbstractApiMediaBackendTest {
             , (cpi) -> cpi != null && cpi.hasNext() && cpi.peek().getContent().equals(firstTitle));
 
         assertThat(iterator).toIterable().hasSize(3);
-        assertThat(found[0].getCreationDate()).isEqualTo(found[0].getLastModified());
+        assertThat(found[0].getCreationInstant()).isEqualTo(found[0].getLastModifiedInstant());
 
     }
 
@@ -147,7 +144,7 @@ public class MediaBackendSubtitlesTest extends AbstractApiMediaBackendTest {
             , (cpi) -> cpi != null && cpi.hasNext() && cpi.peek().getContent().equals(updatedFirstTitle));
 
         assertThat(iterator).toIterable().hasSize(3);
-        assertThat(found[0].getCreationDate()).isBefore(found[0].getLastModified());
+        assertThat(found[0].getCreationInstant()).isBefore(found[0].getLastModifiedInstant());
     }
 
 
