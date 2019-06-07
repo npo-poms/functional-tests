@@ -7,6 +7,7 @@ import nl.vpro.poms.selenium.poms.AbstractTest;
 
 import nl.vpro.poms.selenium.util.WebDriverFactory;
 import org.junit.Test;
+import org.openqa.selenium.By;
 
 import javax.annotation.Nonnull;
 
@@ -41,11 +42,21 @@ public class CMSSelectorTest extends AbstractTest {
         assertThat(cms.getResult()).isEqualTo(MID);
     }
 
+    @Test
     public void SPOMSCMSSELECTOR2(){
-        openCmsPopupAddSearch();
+        Search search = openCmsPopupAddSearch();
+        search.selectOptionFromMenu("MediaType","Uitzending");
+        search.clickOnColum("Type");
+        search.getMultibleRowsAndCheckTextEquals(By.xpath("//td[@class='column-type']/child::*/child::*"), "Uitzending");
+        search.removeSelectedOption("Uitzending");
+
+        search.selectOptionFromMenu("Omroepen","TROS");
+        search.addOrRemoveColumn("Omroep");
+        search.getMultibleRowsAndCheckTextEquals(By.xpath("//td[@class='column-broadcasters']/child::*/child::*"), "TROS");
+        search.removeSelectedOption("TROS");
     }
 
-    private void openCmsPopupAddSearch() {
+    private Search openCmsPopupAddSearch() {
         CMSMediaSelector cms = new CMSMediaSelector(driver);
         cms.openUrlCmsMediaSelector();
         cms.clickButtonSelect();
@@ -55,7 +66,7 @@ public class CMSSelectorTest extends AbstractTest {
         cms.loginNPOGebruikerMediaSelector();
 
         Search search = new Search(driver);
-        search.addOrRemoveColumn("MID");
+        return search;
     }
 
 
