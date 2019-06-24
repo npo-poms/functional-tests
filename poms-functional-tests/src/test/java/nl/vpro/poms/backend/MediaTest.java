@@ -16,7 +16,7 @@ import org.junit.runners.MethodSorters;
 
 import nl.vpro.domain.media.*;
 import nl.vpro.domain.media.exceptions.ModificationException;
-import nl.vpro.domain.media.search.DateRange;
+import nl.vpro.domain.media.search.InstantRange;
 import nl.vpro.domain.media.search.MediaForm;
 import nl.vpro.domain.media.search.MediaPager;
 import nl.vpro.domain.media.search.TitleForm;
@@ -191,7 +191,7 @@ public class MediaTest {
         MediaForm search = MediaForm.builder()
             .pager(MediaPager.builder().max(50).build())
             .broadcaster("VPRO")
-            .creationRange(new DateRange(LocalDate.now().atStartOfDay(), LocalDate.now().atStartOfDay().plusHours(24)))
+            .creationRange(new InstantRange(LocalDate.now().atStartOfDay(), LocalDate.now().atStartOfDay().plusHours(24)))
             .build();
 
         TitleForm form = new TitleForm(TITLE_PREFIX + dynamicSuffix, false);

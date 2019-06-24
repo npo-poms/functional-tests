@@ -22,6 +22,7 @@ import nl.vpro.domain.media.MediaTestDataBuilder;
 import nl.vpro.domain.media.Program;
 import nl.vpro.domain.media.update.ProgramUpdate;
 import nl.vpro.api.client.utils.Config;
+import nl.vpro.util.IntegerVersion;
 
 import static nl.vpro.poms.AbstractApiTest.CONFIG;
 
@@ -44,8 +45,9 @@ public class SchemaTest {
         Validator xsdValidator = xsdSchema.newValidator();
 
         ProgramUpdate update = ProgramUpdate.create(MediaTestDataBuilder.program()
-            .withEverything(5.8f)
+            .withEverything(IntegerVersion.of(5, 10))
             .build());
+
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         JAXB.marshal(update, out);
         log.info(new String(out.toByteArray()));
