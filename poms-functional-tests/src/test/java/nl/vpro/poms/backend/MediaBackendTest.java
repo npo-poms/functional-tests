@@ -296,6 +296,16 @@ public class MediaBackendTest extends AbstractApiMediaBackendTest {
                 .values(Arrays.asList(TargetGroupType.KIDS_6, TargetGroupType.KIDS_12))
                 .owner(OwnerType.NPO)
                 .build();
+
+        GeoLocation geoLocation = GeoLocation.builder().name("Amsterdam")
+                .relationType(GeoRelationType.SUBJECT)
+                .description("City center").build();
+
+        GeoLocations geoLocations1 = GeoLocations.builder()
+                .values(Arrays.asList(geoLocation))
+                .owner(OwnerType.NPO)
+                .build();
+
         backend.setValidateInput(false);
         ProgramUpdate clip = ProgramUpdate.create(
                 MediaBuilder.clip()
