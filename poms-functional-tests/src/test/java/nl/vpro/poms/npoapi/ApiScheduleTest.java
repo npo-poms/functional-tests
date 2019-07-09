@@ -1,14 +1,6 @@
 package nl.vpro.poms.npoapi;
 
 import lombok.extern.slf4j.Slf4j;
-
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-
-import org.junit.Before;
-import org.junit.Test;
-
 import nl.vpro.domain.api.ApiScheduleEvent;
 import nl.vpro.domain.api.SearchResultItem;
 import nl.vpro.domain.api.media.*;
@@ -17,6 +9,12 @@ import nl.vpro.domain.media.Net;
 import nl.vpro.domain.media.Schedule;
 import nl.vpro.domain.user.Broadcaster;
 import nl.vpro.poms.AbstractApiTest;
+import org.junit.Before;
+import org.junit.Test;
+
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -90,7 +88,7 @@ public class ApiScheduleTest extends AbstractApiTest {
     @Test
     public void nowForBroadcaster() {
         try {
-            ApiScheduleEvent o = clients.getScheduleService().nowForBroadcaster("VPRO", null);
+            ApiScheduleEvent o = clients.getScheduleService().nowForBroadcaster("VPRO", null, true, null);
             assertThat(o.getParent().getBroadcasters()).contains(new Broadcaster("VPRO"));
         } catch (javax.ws.rs.NotFoundException nfe) {
             log.info("Ok, no current schedule for VPRO");
@@ -99,12 +97,12 @@ public class ApiScheduleTest extends AbstractApiTest {
 
     @Test(expected = javax.ws.rs.NotFoundException.class)
     public void nowForBroadcasterNotFound() {
-        clients.getScheduleService().nowForBroadcaster("TELEAC", null);
+        clients.getScheduleService().nowForBroadcaster("TELEAC", null, true, null);
     }
 
     @Test
     public void nextForBroadcaster() {
-        ApiScheduleEvent o = clients.getScheduleService().nextForBroadcaster("VPRO", null);
+        ApiScheduleEvent o = clients.getScheduleService().nextForBroadcaster("VPRO", null, null);
         log.info("{}", o);
         assertThat(o.getParent().getBroadcasters()).contains(new Broadcaster("VPRO"));
 
@@ -115,7 +113,7 @@ public class ApiScheduleTest extends AbstractApiTest {
     @Test
     public void nowForChannel() {
         try {
-            ApiScheduleEvent o = clients.getScheduleService().nowForChannel("NED1", null);
+            ApiScheduleEvent o = clients.getScheduleService().nowForChannel("NED1", null, null);
             log.info("{}", o);
             assertThat(o.getChannel()).isEqualTo(Channel.NED1);
         } catch (javax.ws.rs.NotFoundException nfe) {
@@ -126,14 +124,14 @@ public class ApiScheduleTest extends AbstractApiTest {
 
     @Test(expected = javax.ws.rs.NotFoundException.class)
     public void nowForChannelNotFound() {
-        ApiScheduleEvent o = clients.getScheduleService().nowForChannel("H1NL", null);
+        ApiScheduleEvent o = clients.getScheduleService().nowForChannel("H1NL", null, null);
         log.error("Found {}", o);
 
     }
 
     @Test
     public void nextForChannel() {
-        ApiScheduleEvent o = clients.getScheduleService().nextForChannel("NED1", null);
+        ApiScheduleEvent o = clients.getScheduleService().nextForChannel("NED1", null, null);
         log.info("{}", o);
         assertThat(o.getChannel()).isEqualTo(Channel.NED1);
 
