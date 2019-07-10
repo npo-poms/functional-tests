@@ -1,4 +1,4 @@
-package nl.vpro.poms.selenium.poms.Gids;
+package nl.vpro.poms.selenium.poms.gids;
 
 import javax.annotation.Nonnull;
 
