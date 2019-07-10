@@ -15,9 +15,9 @@ import org.junit.*;
 import org.junit.rules.Timeout;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
+import org.openqa.selenium.Dimension;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
-
 import com.paulhammant.ngwebdriver.NgWebDriver;
 
 import nl.vpro.api.client.utils.Config;
@@ -50,16 +50,15 @@ public abstract class AbstractTest {
 
     protected static Map<Browser, WebDriver> staticDrivers = new HashMap<>();
 
-    protected boolean setupEach = true;
+    protected boolean setupEach;
 
     @Parameterized.Parameters
     public static Collection<Object[]> data() {
         return Arrays.asList(
-                new Object[][]{
-                        {new Browser(DriverManagerType.CHROME, "2.41")} // 2.41 corresponds with the chrome on jenkins.
-
-                        , {new Browser(DriverManagerType.FIREFOX, null)}
-                }
+            new Object[][]{
+                {new Browser(DriverManagerType.CHROME, "2.41")}, // 2.41 corresponds with the chrome on jenkins.
+                {new Browser(DriverManagerType.FIREFOX, null)}
+            }
         );
     }
 
@@ -67,17 +66,25 @@ public abstract class AbstractTest {
         this.browser = browser;
         this.setupEach = this.getClass().getAnnotation(FixMethodOrder.class) == null;
         if (!this.setupEach) {
-            //log.info("Running with fixed method order, so keeping the driver between the tests");
+            log.info("Running with fixed method order, so keeping the driver between the tests");
         }
     }
 
     @Before
     public void setUp() {
         if (setupEach) {
-            driver = browser.asWebDriver();
+            driver = createDriver(browser);
+
         } else {
-            driver = staticDrivers.computeIfAbsent(browser, Browser::asWebDriver);
+            driver = staticDrivers.computeIfAbsent(browser, AbstractTest::createDriver);
         }
+    }
+
+    public static WebDriver createDriver(Browser browser) {
+        WebDriver driver = browser.asWebDriver();
+        Dimension d = new Dimension(800,800);
+        driver.manage().window().setSize(d);
+        return driver;
     }
 
     @After
