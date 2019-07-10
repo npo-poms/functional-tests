@@ -3,10 +3,7 @@ package nl.vpro.poms.selenium.poms;
 import io.github.bonigarcia.wdm.DriverManagerType;
 import lombok.extern.slf4j.Slf4j;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 import javax.annotation.Nonnull;
@@ -54,12 +51,15 @@ public abstract class AbstractTest {
 
     @Parameterized.Parameters
     public static Collection<Object[]> data() {
-        return Arrays.asList(
-            new Object[][]{
-                {new Browser(DriverManagerType.CHROME, "2.41")}, // 2.41 corresponds with the chrome on jenkins.
-                {new Browser(DriverManagerType.FIREFOX, null)}
-            }
-        );
+        List<Object[]> result = new ArrayList<>();
+        List<String> browsers = Arrays.asList(CONFIG.getProperty("browsers").split("\\s*,\\s*"));
+        if (browsers.contains("chrome")) {
+            result.add(new Object[]{new Browser(DriverManagerType.CHROME, "2.41")}); // 2.41 corresponds with the chrome on jenkins.
+        }
+        if (browsers.contains("firefox")) {
+            result.add(new Object[]{new Browser(DriverManagerType.FIREFOX, null)});
+        }
+        return result;
     }
 
     protected AbstractTest(@Nonnull Browser browser) {
@@ -74,7 +74,6 @@ public abstract class AbstractTest {
     public void setUp() {
         if (setupEach) {
             driver = createDriver(browser);
-
         } else {
             driver = staticDrivers.computeIfAbsent(browser, AbstractTest::createDriver);
         }
@@ -82,7 +81,8 @@ public abstract class AbstractTest {
 
     public static WebDriver createDriver(Browser browser) {
         WebDriver driver = browser.asWebDriver();
-        Dimension d = new Dimension(800,800);
+        // The dimension of the browser should be big enough, (headless browser seem to be small!), otherwise test will keep waiting forever
+        Dimension d = new Dimension(2000,1500);
         driver.manage().window().setSize(d);
         return driver;
     }
@@ -90,14 +90,16 @@ public abstract class AbstractTest {
     @After
     public void tearDown() {
         if (setupEach) {
-            driver.quit();
+            if (driver != null) {
+                driver.close();
+                driver.quit();
+            }
         }
     }
 
     @AfterClass
     public static void tearDownClass() {
         for (WebDriver wd : staticDrivers.values()) {
-            wd.close();
             wd.quit();
         }
     }

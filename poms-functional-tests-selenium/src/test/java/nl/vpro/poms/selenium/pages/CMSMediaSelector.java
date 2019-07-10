@@ -1,15 +1,16 @@
 package nl.vpro.poms.selenium.pages;
 
 
-import nl.vpro.poms.selenium.poms.AbstractTest;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
-
 
 import static nl.vpro.poms.selenium.poms.AbstractTest.CONFIG;
 
+
+/**
+ * TODO: Doesn't work, should it nowt at least open the correct url?
+ */
 
 public class CMSMediaSelector extends AbstractPage {
 
@@ -23,7 +24,6 @@ public class CMSMediaSelector extends AbstractPage {
 
 
     public void clickButtonSelect() {
-
         waitUtil.waitAndClick(By.cssSelector("button#select"));
     }
 
