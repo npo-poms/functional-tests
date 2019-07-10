@@ -56,6 +56,13 @@ public class CMSSelectorTest extends AbstractTest {
         search.removeSelectedOption("TROS");
     }
 
+    @Test
+    public void SPOMSCMSSELECTOR3(){
+        Search Search = openCmsPopupAddSearch();
+        Search.addOrRemoveColumn("Gewijzigd op");
+        assertThat(Search.checkIfColumnNameExcists("Gewijzigd op")).isEqualTo(true);
+    }
+
     private Search openCmsPopupAddSearch() {
         CMSMediaSelector cms = new CMSMediaSelector(driver);
         cms.openUrlCmsMediaSelector();

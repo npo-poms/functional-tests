@@ -189,6 +189,16 @@ public class Search extends AbstractPage {
         return "true".equals(columnState);
     }
 
+    public boolean checkIfColumnNameExcists(String columnName) {
+        boolean foundItem = false;
+        if(driver.findElements(By.cssSelector(String.format(columCss, columnName))).size() >= 1) {
+            foundItem = true;}
+        else{
+            foundItem = false;
+        }
+        return foundItem;
+    }
+
     public MediaItemPage clickRow(int index) {
         waitUtil.waitForVisible(tableRowsBy);
         List<WebElement> tableRows = driver.findElements(tableRowsBy);
