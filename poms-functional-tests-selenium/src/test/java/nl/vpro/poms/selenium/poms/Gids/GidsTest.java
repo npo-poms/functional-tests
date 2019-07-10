@@ -1,16 +1,17 @@
 package nl.vpro.poms.selenium.poms.Gids;
 
-import nl.vpro.poms.selenium.pages.MediaItemPage;
-import nl.vpro.poms.selenium.pages.Search;
-import nl.vpro.poms.selenium.poms.AbstractTest;
-import nl.vpro.poms.selenium.util.DateFactory;
-import nl.vpro.poms.selenium.util.WebDriverFactory;
+import javax.annotation.Nonnull;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.By;
 
-import javax.annotation.Nonnull;
+import nl.vpro.poms.selenium.pages.MediaItemPage;
+import nl.vpro.poms.selenium.pages.Search;
+import nl.vpro.poms.selenium.poms.AbstractTest;
+import nl.vpro.poms.selenium.util.DateFactory;
+import nl.vpro.poms.selenium.util.WebDriverFactory;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
@@ -47,7 +48,7 @@ public class GidsTest extends AbstractTest {
         search.clickZoeken();
         search.getMultibleRowsAndCheckTextContains(By.cssSelector("[ng-switch-when='sortDate']"), DateFactory.getToday());
     }
-    
+
     @Test
     public void SPOMSGIDS3(){
         Search search = new Search(driver);
@@ -87,7 +88,6 @@ public class GidsTest extends AbstractTest {
 
     private String checkAndOpenMediaItem(Search search) {
         String titleItem = search.getItemListTitle(1);
-        MediaItemPage media = new MediaItemPage(driver);
         MediaItemPage itemPage = search.clickRow(0);
         assertThat(itemPage.getMediaItemTitle()).isEqualTo(titleItem);
         return titleItem;
