@@ -1,23 +1,17 @@
 package nl.vpro.poms.selenium.util;
 
-import com.paulhammant.ngwebdriver.NgWebDriver;
-import org.openqa.selenium.*;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.FluentWait;
-import org.openqa.selenium.support.ui.Wait;
-import org.openqa.selenium.support.ui.WebDriverWait;
-
-import java.time.Duration;
-import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
 
-import static java.util.concurrent.TimeUnit.SECONDS;
+import org.openqa.selenium.*;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+import com.paulhammant.ngwebdriver.NgWebDriver;
 
 public class WebDriverUtil {
 
-    private WebDriver driver;
-    private WebDriverWait wait;
-    private NgWebDriver ngWait;
+    private final WebDriver driver;
+    private final WebDriverWait wait;
+    private final NgWebDriver ngWait;
 
     public WebDriverUtil(WebDriver driver) {
         this.driver = driver;
