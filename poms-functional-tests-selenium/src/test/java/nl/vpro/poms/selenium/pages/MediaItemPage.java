@@ -13,6 +13,8 @@ import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.assertj.core.api.Fail.fail;
 
 public class MediaItemPage extends AbstractPage {
+    private static final String xpathViewerTitle = "//*[@class='viewer-title' and contains(text(), '%s')]";
+    private static final String xpathViewerSubTitle = "//*[@class='viewer-subtitle' and contains(text(), '%s')]";
 
     public MediaItemPage(WebDriver driver) {
         super(driver);
@@ -144,6 +146,14 @@ public class MediaItemPage extends AbstractPage {
 
     public String getMediaItemTitle() {
         return waitUtil.waitAndGetText(By.cssSelector("h1[class='viewer-title']"));
+    }
+
+    public void waitAndCheckMediaItemTitle(String title) {
+        waitUtil.waitForVisible(By.xpath(String.format(xpathViewerTitle, title)));
+    }
+
+    public void waitAndCheckMediaItemSubTitle(String title) {
+        waitUtil.waitForVisible(By.xpath(String.format(xpathViewerSubTitle, title)));
     }
 
     public void refreshUntilUitzendingGegevensWithStartDate(String startDate) {

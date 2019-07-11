@@ -98,8 +98,8 @@ public class Search extends AbstractPage {
     }
 
     public String getItemListTitle(int itemNumber) {
-        waitUtil.waitForVisible(By.cssSelector(String.format(SearchItemRow, itemNumber)));
-        return driver.findElement(By.cssSelector(String.format(SearchItemRow, itemNumber))).getText();
+        waitUtil.waitForVisible(By.cssSelector(String.format(SearchItemRow, itemNumber+1)));
+        return driver.findElement(By.cssSelector(String.format(SearchItemRow, itemNumber+1))).getText();
     }
 
     public void clickOnTabWithTitle(By by, String title) {
@@ -215,18 +215,24 @@ public class Search extends AbstractPage {
     }
 
     // TODO: move to helper class
-    private void moveToElement(WebElement element) {
-        ((JavascriptExecutor) driver).executeScript(SCROLL_SCRIPT, element);
-        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView({block: 'center'});", element);
+    private void moveToElement(By by){
+        WebElement element = driver.findElement(by);
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView();", element);
+
+        //        Actions actions = new Actions(driver);
+        //        actions.moveToElement(element).perform();
+        //        ((JavascriptExecutor) driver).executeScript(SCROLL_SCRIPT, element);
+        //        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView({block: 'center'});", element);
     }
 
     // TODO: To be included?
     public void scrollToAfbeeldingen() {
         WebElement element = driver.findElement(imagesBy);
-        moveToElement(element);
+        moveToElement(imagesBy);
         Actions actions = new Actions(driver);
         actions.moveToElement(element).doubleClick().perform();
     }
+
     // TODO: To be included?
 //	public List<WebElement> getTableRows() {
 //		wait.until(ExpectedConditions.visibilityOfElementLocated(tableRowsBy));
