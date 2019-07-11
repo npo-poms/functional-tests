@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.util.*;
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Logger;
 
 import javax.annotation.Nonnull;
 
@@ -35,6 +36,8 @@ public abstract class AbstractTest {
 
     public static final String MID = "WO_VPRO_025057";
 
+    private static final Logger log = Logger.getLogger(AbstractTest.class.getName() );
+
     @Rule
     public Timeout timeout = new Timeout(5, TimeUnit.MINUTES);
 
@@ -51,15 +54,6 @@ public abstract class AbstractTest {
 
     @Parameterized.Parameters
     public static Collection<Object[]> data() {
-<<<<<<< HEAD
-        return Arrays.asList(
-                new Object[][]{
-                        {new Browser(DriverManagerType.CHROME, "2.41")} // 2.41 corresponds with the chrome on jenkins.
-
-                        ,{new Browser(DriverManagerType.FIREFOX, null)}
-                }
-        );
-=======
         List<Object[]> result = new ArrayList<>();
         List<String> browsers = Arrays.asList(CONFIG.getProperty("browsers").split("\\s*,\\s*"));
         if (browsers.contains("chrome")) {
@@ -69,7 +63,6 @@ public abstract class AbstractTest {
             result.add(new Object[]{new Browser(DriverManagerType.FIREFOX, null)});
         }
         return result;
->>>>>>> upstream/master
     }
 
     protected AbstractTest(@Nonnull Browser browser) {

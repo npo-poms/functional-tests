@@ -15,7 +15,7 @@ import javax.annotation.Nonnull;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class CMSSelectorTest extends AbstractTest {
-    
+
     public CMSSelectorTest(@Nonnull WebDriverFactory.Browser browser) {
         super(browser);
     }
@@ -28,9 +28,9 @@ public class CMSSelectorTest extends AbstractTest {
         cms.openUrlCmsMediaSelector();
         cms.clickButtonSelect();
         cms.switchToPomsWindows();
-        cms.checkLoginTextBoxes();
-        cms.checkIfNotDisplayedTables();
-        cms.loginNPOGebruikerMediaSelector();
+        //        cms.checkLoginTextBoxes();
+        //        cms.checkIfNotDisplayedTables();
+        //         cms.loginNPOGebruikerMediaSelector();
 
         Search search = new Search(driver);
         search.addOrRemoveColumn("MID");
