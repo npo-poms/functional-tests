@@ -116,8 +116,8 @@ public class NPOGebruikerTest extends AbstractTest {
         softly.assertThat(itemPage.getUitzendigData()).isEqualTo("" + startDate + " (Nederland 1)");
 
         media.moveToElementXpath("//td/descendant::*[@ng-switch-when='channel']");
-        softly.assertThat(itemPage.getUitzendingGegevensKanaal()).isEqualTo("Nederland 1");
-        softly.assertThat(itemPage.getUitzendingGegevensDatum()).isEqualTo(startDate);
+        softly.assertThat(itemPage.getUitzendingGegevensEersteKanaal()).isEqualTo("Nederland 1");
+        softly.assertThat(itemPage.getUitzendingGegevensEersteDatum()).isEqualTo(startDate);
         softly.assertThat(itemPage.getUitzendingTitel()).isEqualTo(randomTitel);
         softly.assertThat(itemPage.getUitzendingOmschrijving()).isEqualTo(randomBeschrijving);
 

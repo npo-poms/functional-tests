@@ -85,10 +85,9 @@ public class MediaItemPage extends AbstractPage {
     }
 
     public void moveToElementXpath(String xpath) {
-        Actions actions = new Actions(driver);
-        actions.moveToElement(driver.findElement(By.xpath(""+xpath+""))).perform();
+        WebElement element = driver.findElement(By.xpath(xpath));
+        ((JavascriptExecutor)driver).executeScript("arguments[0].scrollIntoView();", element);
     }
-
 
     public void changeStartDate(String date) {
         waitUtil.waitAndSendkeys(By.name("start"), date);
@@ -124,12 +123,12 @@ public class MediaItemPage extends AbstractPage {
     }
 
 
-    public String getUitzendingGegevensKanaal(){
-        return driver.findElement(By.xpath("//td/descendant::*[@ng-switch-when='channel']")).getText();
+    public String getUitzendingGegevensEersteKanaal(){
+        return driver.findElement(By.xpath("(//td/descendant::*[@ng-switch-when='channel'])[1]")).getText();
     }
 
-    public String getUitzendingGegevensDatum(){
-        return driver.findElement(By.xpath("//td/descendant::*[@ng-switch-when='start']")).getText();
+    public String getUitzendingGegevensEersteDatum(){
+        return driver.findElement(By.xpath("(//td/descendant::*[@ng-switch-when='start'])[1]")).getText();
     }
 
     public String getUitzendingTitel(){

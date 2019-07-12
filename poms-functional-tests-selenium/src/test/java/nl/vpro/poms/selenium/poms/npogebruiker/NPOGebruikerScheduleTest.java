@@ -4,11 +4,8 @@ import nl.vpro.poms.selenium.pages.MediaItemPage;
 import nl.vpro.poms.selenium.pages.Search;
 import nl.vpro.poms.selenium.poms.AbstractTest;
 import nl.vpro.poms.selenium.util.WebDriverFactory;
-import nl.vpro.poms.selenium.util.WebDriverUtil;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.Test;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
 
 import javax.annotation.Nonnull;
 
@@ -28,12 +25,13 @@ public class NPOGebruikerScheduleTest extends AbstractTest {
         search.selectOptionFromMenu("Zenders", "Nederland 2");
         search.clickZoeken();
         SoftAssertions softly = new SoftAssertions();
-        softly.assertThat(search.getItemListTitle(0)).contains("Een bitterzoete verleiding");
-        MediaItemPage itemPage = search.clickRow(0);
-        itemPage.waitAndCheckMediaItemSubTitle("Een bitterzoete verleiding");
+        search.clickOnColum("Sorteerdatum");
+        softly.assertThat(search.getItemListTitle(2)).contains("2Doc: Of Fathers and Sons");
+        MediaItemPage itemPage = search.clickRow(2);
+        softly.assertThat(itemPage.getMediaItemTitle()).contains("2Doc: Of Fathers and Sons");
         itemPage.moveToElementXpath("//*[@class='media-section-title'  and contains(text(), 'Uitzendingen')]");
-        softly.assertThat(itemPage.getUitzendingGegevensKanaal()).contains("Nederland 2");
-        softly.assertThat(itemPage.getUitzendingGegevensDatum()).contains("24-03-2008 22:10");
+        softly.assertThat(itemPage.getUitzendingGegevensEersteKanaal()).contains("Nederland 2");
+        softly.assertThat(itemPage.getUitzendingGegevensEersteDatum()).contains("21-01-2019 22:55");
         softly.assertAll();
     }
 
