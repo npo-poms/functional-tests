@@ -1,11 +1,17 @@
 package nl.vpro.poms.selenium.pages;
 
 import com.paulhammant.ngwebdriver.NgWebDriver;
+import nl.vpro.poms.selenium.util.WebDriverUtil;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.Select;
 
+import java.io.File;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.time.Duration;
 import java.util.function.Function;
 
@@ -15,6 +21,11 @@ import static org.assertj.core.api.Fail.fail;
 public class MediaItemPage extends AbstractPage {
     private static final String xpathViewerTitle = "//*[@class='viewer-title' and contains(text(), '%s')]";
     private static final String xpathViewerSubTitle = "//*[@class='viewer-subtitle' and contains(text(), '%s')]";
+    private static final String xpathUitzendingen = "//*[@class='media-section-title'  and contains(text(), '%s')]";
+    private static final String xpathAfbeeldingen = "//*[@class='media-section-title'  and contains(text(), '%s')]";
+    private static final String buttonAfbeeldingToevoegen = "//button[contains(text(), 'Afbeelding toevoegen')]";
+    private static final String cssInputUploadAfbeelding = "input#inputFile";
+
 
     public MediaItemPage(WebDriver driver) {
         super(driver);
@@ -84,9 +95,36 @@ public class MediaItemPage extends AbstractPage {
         actions.moveToElement(driver.findElement(By.xpath("//span[contains(text(), '" + date + "')]/../../../tr"))).doubleClick().perform();
     }
 
-    public void moveToElementXpath(String xpath) {
-        WebElement element = driver.findElement(By.xpath(xpath));
-        ((JavascriptExecutor)driver).executeScript("arguments[0].scrollIntoView();", element);
+    public void moveToUitzendingen(){
+        moveToElement(By.xpath(String.format(xpathUitzendingen, "Uitzendingen")));
+    }
+
+    public void moveToAfbeeldingen(){
+        moveToElement(By.xpath(String.format(xpathAfbeeldingen, "Afbeeldingen")));
+    }
+
+    public void upLoadAfbeeldingMetNaam(String naam) throws URISyntaxException {
+        ngWait.waitForAngularRequestsToFinish();
+        wait.until(ExpectedConditions.elementToBeClickable(By.xpath(buttonAfbeeldingToevoegen)));
+
+//        Nog 1 input vergeten en deze nog toevoegen !!!!!!
+        cssInputUploadAfbeelding
+        WebElement inputUploadAfbeelding = driver
+        WebElement buttonUploadAfbeelding = driver.findElement(By.xpath(buttonAfbeeldingToevoegen));
+
+
+
+
+
+        URL url  = getClass().getClassLoader().getResource(naam);
+
+        URI uri = url.toURI();
+
+        File file = new File(uri);
+
+        String path = file.getAbsolutePath();
+
+        buttonUploadAfbeelding.sendKeys(path);
     }
 
     public void changeStartDate(String date) {
@@ -157,6 +195,12 @@ public class MediaItemPage extends AbstractPage {
 
     public void refreshUntilUitzendingGegevensWithStartDate(String startDate) {
         waitUtil.refreshUntilVisible("//*[@title='bekijk alle uitzenddata' and contains(text(), '" +startDate+" (Nederland 1)')]");
+    }
+
+    public void moveToElement(By by) {
+        ngWait.waitForAngularRequestsToFinish();
+        WebElement element = driver.findElement(by);
+        ((JavascriptExecutor)driver).executeScript("arguments[0].scrollIntoView();", element);
     }
 
 }

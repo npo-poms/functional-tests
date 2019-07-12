@@ -29,7 +29,7 @@ public class NPOGebruikerScheduleTest extends AbstractTest {
         softly.assertThat(search.getItemListTitle(2)).contains("2Doc: Of Fathers and Sons");
         MediaItemPage itemPage = search.clickRow(2);
         softly.assertThat(itemPage.getMediaItemTitle()).contains("2Doc: Of Fathers and Sons");
-        itemPage.moveToElementXpath("//*[@class='media-section-title'  and contains(text(), 'Uitzendingen')]");
+        itemPage.moveToUitzendingen();
         softly.assertThat(itemPage.getUitzendingGegevensEersteKanaal()).contains("Nederland 2");
         softly.assertThat(itemPage.getUitzendingGegevensEersteDatum()).contains("21-01-2019 22:55");
         softly.assertAll();

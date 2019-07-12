@@ -1,11 +1,12 @@
 package nl.vpro.poms.selenium.poms.wijzigen;
 
+import nl.vpro.poms.selenium.pages.MediaItemPage;
 import nl.vpro.poms.selenium.pages.Search;
 import nl.vpro.poms.selenium.poms.AbstractTest;
 import nl.vpro.poms.selenium.util.WebDriverFactory;
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
+
+import java.net.URISyntaxException;
 
 public class ChangeTest extends AbstractTest {
 
@@ -14,21 +15,18 @@ public class ChangeTest extends AbstractTest {
 	}
 
 	@Test
-	public void testWijzig() {
+	public void SPOMSEDITUPLOAD1() throws InterruptedException, URISyntaxException {
 		login().speciaalVf();
 		Search search = new Search(driver);
 		search.selectOptionFromMenu("Omroepen", "VPRO");
 		search.selectOptionFromMenu("MediaType", "Clip");
-//		List<WebElement> tableRows = search.getTableRows();
-//		for (WebElement row: tableRows) {
-//			System.out.println("###" + row);
-//		}
-//		WebElement row = tableRows.get(0);
-//		Actions actions = new Actions(driver);
-//		actions.doubleClick(row);
-		search.clickRow(0);
-		search.scrollToAfbeeldingen();
-		logout();
+		search.clickOnColum("Sorteerdatum");
+		MediaItemPage item = search.clickRow(0);
+		item.moveToAfbeeldingen();
+//		Letop nog klaar stuk vergeten. Input toevoegen en script aanpassen!
+		item.upLoadAfbeeldingMetNaam("afbeeldingtest.png");
+		Thread.sleep(4000);
+//		logout();
 	}
 	
 	@Test

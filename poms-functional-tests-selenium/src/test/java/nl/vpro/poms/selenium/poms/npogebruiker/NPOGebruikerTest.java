@@ -10,6 +10,7 @@ import nl.vpro.poms.selenium.util.types.MediaType;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.Before;
 import org.junit.Test;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.Wait;
 
@@ -115,7 +116,7 @@ public class NPOGebruikerTest extends AbstractTest {
         softly.assertThat(itemPage.getSorteerDatumTijd()).isEqualTo(startDate);
         softly.assertThat(itemPage.getUitzendigData()).isEqualTo("" + startDate + " (Nederland 1)");
 
-        media.moveToElementXpath("//td/descendant::*[@ng-switch-when='channel']");
+        media.moveToElement(By.xpath("//td/descendant::*[@ng-switch-when='channel']"));
         softly.assertThat(itemPage.getUitzendingGegevensEersteKanaal()).isEqualTo("Nederland 1");
         softly.assertThat(itemPage.getUitzendingGegevensEersteDatum()).isEqualTo(startDate);
         softly.assertThat(itemPage.getUitzendingTitel()).isEqualTo(randomTitel);
