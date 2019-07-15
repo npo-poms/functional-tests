@@ -25,7 +25,11 @@ public class MediaItemPage extends AbstractPage {
     private static final String xpathAfbeeldingen = "//*[@class='media-section-title'  and contains(text(), '%s')]";
     private static final String buttonAfbeeldingToevoegen = "//button[contains(text(), 'Afbeelding toevoegen')]";
     private static final String cssInputUploadAfbeelding = "input#inputFile";
-
+    private static final String cssImageTitle = "input#inputTitle";
+    private static final String cssImageDescription = "textarea#inputDescription";
+    private static final String xpathInputSelectImageType = "//*[contains(text(), 'Abeeldingstype')]/../descendant::input";
+    private static final String xpathImageTypeOption = "//*[contains(@class, 'option')]/descendant::*[contains(text(), '%s')]";
+    private static final String xpathButtonMaakAan = "//button[contains(text(), '%s')]";
 
     public MediaItemPage(WebDriver driver) {
         super(driver);
@@ -103,18 +107,16 @@ public class MediaItemPage extends AbstractPage {
         moveToElement(By.xpath(String.format(xpathAfbeeldingen, "Afbeeldingen")));
     }
 
-    public void upLoadAfbeeldingMetNaam(String naam) throws URISyntaxException {
+    public void clickOnAfbeeldingToevoegen(){
         ngWait.waitForAngularRequestsToFinish();
-        wait.until(ExpectedConditions.elementToBeClickable(By.xpath(buttonAfbeeldingToevoegen)));
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath(buttonAfbeeldingToevoegen)));
+        driver.findElement(By.xpath(buttonAfbeeldingToevoegen)).click();
+    }
 
-//        Nog 1 input vergeten en deze nog toevoegen !!!!!!
-        cssInputUploadAfbeelding
-        WebElement inputUploadAfbeelding = driver
-        WebElement buttonUploadAfbeelding = driver.findElement(By.xpath(buttonAfbeeldingToevoegen));
+    public void upLoadAfbeeldingMetNaam(String naam) throws URISyntaxException {
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.cssSelector(cssInputUploadAfbeelding)));
 
-
-
-
+        WebElement inputUploadAfbeelding = driver.findElement(By.cssSelector(cssInputUploadAfbeelding));
 
         URL url  = getClass().getClassLoader().getResource(naam);
 
@@ -124,7 +126,35 @@ public class MediaItemPage extends AbstractPage {
 
         String path = file.getAbsolutePath();
 
-        buttonUploadAfbeelding.sendKeys(path);
+        inputUploadAfbeelding.sendKeys(path);
+    }
+
+    public void imageAddTitle(String title){
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.cssSelector(cssImageTitle)));
+        WebElement imageTitle = driver.findElement(By.cssSelector(cssImageTitle));
+        imageTitle.sendKeys(title);
+    }
+
+    public void imageAddDescription(String description){
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.cssSelector(cssImageDescription)));
+        WebElement imageDescription = driver.findElement(By.cssSelector(cssImageDescription));
+        imageDescription.sendKeys(description);
+    }
+
+    public void imageAddType(String type){
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath(xpathInputSelectImageType)));
+        WebElement imageType = driver.findElement(By.xpath(xpathInputSelectImageType));
+        imageType.click();
+
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath(String.format(xpathImageTypeOption, type))));
+        WebElement option = driver.findElement(By.xpath(String.format(xpathImageTypeOption, type)));
+        option.click();
+    }
+
+    public void clickButtonMaakAan(){
+        wait.until(ExpectedConditions.elementToBeClickable(By.xpath(String.format(xpathButtonMaakAan, "Maak aan"))));
+        WebElement buttonMaakAan = driver.findElement(By.xpath(String.format(xpathButtonMaakAan, "Maak aan")));
+        buttonMaakAan.click();
     }
 
     public void changeStartDate(String date) {

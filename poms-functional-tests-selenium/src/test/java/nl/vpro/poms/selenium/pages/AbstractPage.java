@@ -19,9 +19,10 @@ public abstract class AbstractPage {
 
 
     protected AbstractPage(WebDriver driver) {
-        this.waitUtil = new WebDriverUtil(driver);
         this.driver = driver;
+        this.waitUtil = new WebDriverUtil(driver);
         this.ngWait = new NgWebDriver((JavascriptExecutor) driver);
+        this.wait = new WebDriverWait(driver, 5);
     }
 
 }
