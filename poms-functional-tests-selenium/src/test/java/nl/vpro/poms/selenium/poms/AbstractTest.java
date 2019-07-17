@@ -70,7 +70,7 @@ public abstract class AbstractTest {
         this.browser = browser;
         this.setupEach = this.getClass().getAnnotation(FixMethodOrder.class) == null;
         if (!this.setupEach && !loggedAboutSetupEach.getOrDefault(getClass(), false)) {
-            log.info("\nRunning with fixed method order, so keeping the driver between the tests");
+            log.info("\nRunning" + getClass() + " with fixed method order, so keeping the driver between the tests");
             loggedAboutSetupEach.put(getClass(), true);
         }
     }
