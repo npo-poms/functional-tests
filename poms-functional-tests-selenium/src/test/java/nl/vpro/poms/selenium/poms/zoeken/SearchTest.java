@@ -40,7 +40,7 @@ public class SearchTest extends AbstractTest {
     @Test
     public void testSearch() {
         search.enterQuery("klusjesmannen");
-        assertTrue("Items 'Klusjesmannen' found", search.itemFound("De Klusjesmannen"));
+        assertFound("De Klusjesmannen");
     }
 
     @Test
@@ -48,7 +48,7 @@ public class SearchTest extends AbstractTest {
         search.enterQuery("klusjesmannen");
         search.closeTab();
         search.enterQuery("klusjesmannen");
-        assertTrue("Items 'Klusjesmannen' found", search.itemFound("De Klusjesmannen"));
+        assertFound( "De Klusjesmannen");
     }
 
     @Test
@@ -56,7 +56,7 @@ public class SearchTest extends AbstractTest {
         search.enterQuery("klusjesmannen");
         search.selectOptionFromMenu("avType", AvType.AUDIO.getType());
         search.clickZoeken();
-        assertTrue("Items 'A je to! 40 jaar Buurman en Buurman' found", search.itemFound("A je to! 40 jaar Buurman en Buurman"));
+        assertFound( "A je to! 40 jaar Buurman en Buurman");
     }
 
     @Test
@@ -65,7 +65,7 @@ public class SearchTest extends AbstractTest {
         search.selectOptionFromMenu("avType", AvType.VIDEO.getType());
         search.selectOptionFromMenu("MediaType", MediaType.CLIP.getType());
         search.clickZoeken();
-        assertTrue("Items 'Casa Jepie Makandra' found", search.itemFound("Casa Jepie Makandra"));
+        assertFound("Casa Jepie Makandra");
     }
 
     @Test
@@ -73,7 +73,8 @@ public class SearchTest extends AbstractTest {
         search.enterQuery("zembl");
         search.selectOptionFromMenu("Omroepen", "VARA");
         search.clickZoeken();
-        assertTrue("Items 'Zembla' found", search.itemFound("Zembla"));
+        assertFound("Zembla");
+
     }
 
     @Test
@@ -81,21 +82,21 @@ public class SearchTest extends AbstractTest {
         search.enterQuery("zembla");
         search.selectOptionFromMenu("Criteria", "Niet op radio/tv");
         search.clickZoeken();
-        assertTrue("Items 'Zembla' found", search.itemFound("Zembla"));
+        assertFound("Zembla");
     }
 
     @Test
     public void testWithSorteerData() {
         search.enterQuery("zembla");
         search.enterSorteerdatumDates("01-01-2001", DateFactory.getToday());
-        assertTrue("Items 'Zembla' found", search.itemFound("Zembla"));
+        assertFound("Zembla");
     }
 
     @Test
     public void testWithUitzendData() {
         search.enterQuery("zembla");
         search.enterUitzenddatumDates("01-01-2001", DateFactory.getToday());
-        assertTrue("Items 'Zembla' found", search.itemFound("Zembla"));
+        assertFound("Zembla");
     }
 
     @Test
@@ -103,14 +104,14 @@ public class SearchTest extends AbstractTest {
         Search search = new Search(webDriverUtil);
         search.enterQuery("zembla");
         search.enterGewijzigdDates("01-01-2001", DateFactory.getToday());
-        assertTrue("Items 'Zembla' found", search.itemFound("Zembla"));
+        assertFound("Zembla");
     }
 
     @Test
     public void testSearchWithAangemaaktData() {
         search.enterQuery("zembla");
         search.enterUitzenddatumDates("01-01-2001", DateFactory.getToday());
-        assertTrue("Items 'Zembla' found", search.itemFound("Zembla"));
+        assertFound("Zembla");
     }
 
     @Test
@@ -118,14 +119,14 @@ public class SearchTest extends AbstractTest {
         search.enterQuery("Dokter Pop");
         search.enterTags("secret garden");
         search.clickZoeken();
-        assertTrue("Items 'Dokter Pop: een liedje van Springsteen dat lijkt o' found", search.itemFound("Dokter Pop: een liedje van Springsteen dat lijkt o"));
+        assertFound("Dokter Pop: een liedje van Springsteen dat lijkt o");
     }
 
     @Test
     public void testSearchWithTitleAndOmroep() {
         search.selectOptionFromMenu("Omroepen", "AVRO");
         search.enterQuery("pluk");
-        assertTrue("Items 'Pluk van de Petteflet' found", search.itemFound("Pluk van de Petteflet"));
+        assertFound("Pluk van de Petteflet");
     }
 
     @Test
@@ -145,5 +146,10 @@ public class SearchTest extends AbstractTest {
         Assert.assertFalse(search.isColumnSelectorChecked("MID"));
     }
 
+
+    protected void assertFound(String searchText) {
+        assertTrue("Items '" + searchText + "'not found", search.itemFound(searchText));
+
+    }
 
 }
