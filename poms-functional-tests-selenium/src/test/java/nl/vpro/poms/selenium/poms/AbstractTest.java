@@ -1,7 +1,6 @@
 package nl.vpro.poms.selenium.poms;
 
 import io.github.bonigarcia.wdm.DriverManagerType;
-import lombok.extern.slf4j.Slf4j;
 
 import java.util.*;
 import java.util.concurrent.TimeUnit;
@@ -15,6 +14,8 @@ import org.junit.runners.Parameterized;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import com.paulhammant.ngwebdriver.NgWebDriver;
 
 import nl.vpro.api.client.utils.Config;
@@ -27,8 +28,10 @@ import nl.vpro.rules.TestMDC;
  *
  */
 @RunWith(Parameterized.class)
-@Slf4j
 public abstract class AbstractTest {
+    static final Logger LOG = LoggerFactory.getLogger(AbstractTest.class);
+    Logger log = LoggerFactory.getLogger(getClass());
+
 
     public static final Config CONFIG =
             new Config("npo-functional-tests.properties", "npo-browser-tests.properties");
@@ -47,6 +50,7 @@ public abstract class AbstractTest {
 
     protected static Map<Browser, WebDriver> staticDrivers = new HashMap<>();
 
+    protected static Map<Class, Boolean> loggedAboutSetupEach = new HashMap<>();
     protected boolean setupEach;
 
     @Parameterized.Parameters
@@ -65,8 +69,9 @@ public abstract class AbstractTest {
     protected AbstractTest(@Nonnull Browser browser) {
         this.browser = browser;
         this.setupEach = this.getClass().getAnnotation(FixMethodOrder.class) == null;
-        if (!this.setupEach) {
-            log.info("Running with fixed method order, so keeping the driver between the tests");
+        if (!this.setupEach && !loggedAboutSetupEach.getOrDefault(getClass(), false)) {
+            log.info("\nRunning with fixed method order, so keeping the driver between the tests");
+            loggedAboutSetupEach.put(getClass(), true);
         }
     }
 
@@ -87,7 +92,7 @@ public abstract class AbstractTest {
             driver.manage().window().setSize(d);
             return driver;
         } catch (Exception e) {
-            log.error("Could not create driver for " + browser + ":" + e.getMessage(), e);
+            LOG.error("Could not create driver for " + browser + ":" + e.getMessage(), e);
             throw e;
         }
     }

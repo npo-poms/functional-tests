@@ -45,7 +45,6 @@ public class PersonsWebTest extends AbstractTest {
      */
     @Test
     public void test01OpenObject() {
-
         driver.get(CONFIG.getProperties(Config.Prefix.poms).get("baseUrl") + "/#/edit/" + MID);
 
     }
