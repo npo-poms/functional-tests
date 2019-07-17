@@ -14,6 +14,8 @@ import org.junit.runners.Parameterized;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.paulhammant.ngwebdriver.NgWebDriver;
@@ -133,5 +135,14 @@ public abstract class AbstractTest {
 
     protected void waitForAngularRequestsToFinish() {
         new NgWebDriver((JavascriptExecutor) driver).waitForAngularRequestsToFinish();
+    }
+
+    protected void scrollIntoView(WebElement element) {
+        log.info("moving to {}", element);
+        //((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", element);
+        Actions actions = new Actions(driver);
+        actions.moveToElement(element);
+        actions.perform();
+        waitForAngularRequestsToFinish();
     }
 }
