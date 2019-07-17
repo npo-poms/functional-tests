@@ -79,12 +79,17 @@ public abstract class AbstractTest {
         }
     }
 
-    public static WebDriver createDriver(Browser browser) {
-        WebDriver driver = browser.asWebDriver();
-        // The dimension of the browser should be big enough, (headless browser seem to be small!), otherwise test will keep waiting forever
-        Dimension d = new Dimension(2000,1500);
-        driver.manage().window().setSize(d);
-        return driver;
+    private static WebDriver createDriver(Browser browser) {
+        try {
+            WebDriver driver = browser.asWebDriver();
+            // The dimension of the browser should be big enough, (headless browser seem to be small!), otherwise test will keep waiting forever
+            Dimension d = new Dimension(2000, 1500);
+            driver.manage().window().setSize(d);
+            return driver;
+        } catch (Exception e) {
+            log.error("Could not create driver for " + browser + ":" + e.getMessage(), e);
+            throw e;
+        }
     }
 
     @After
@@ -113,8 +118,12 @@ public abstract class AbstractTest {
     }
 
     protected void logout() {
-        Search search = new Search(driver);
-        search.logout();
+        if (driver != null) {
+            Search search = new Search(driver);
+            search.logout();
+        } else {
+            log.error("Cannot logout because no driver");
+        }
     }
 
     protected void waitForAngularRequestsToFinish() {
