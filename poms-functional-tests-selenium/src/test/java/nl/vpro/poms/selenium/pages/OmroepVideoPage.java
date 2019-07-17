@@ -1,13 +1,13 @@
 package nl.vpro.poms.selenium.pages;
 
+import java.util.List;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 
-
-import java.util.List;
+import nl.vpro.poms.selenium.util.WebDriverUtil;
 
 
 public class OmroepVideoPage extends AbstractPage {
@@ -53,7 +53,7 @@ public class OmroepVideoPage extends AbstractPage {
     private By pictureButton = By.xpath("//div[@class='canvas-grab']");
     private By pictureLocation = By.xpath("//div[@ng-if='still']");
 
-    public OmroepVideoPage(WebDriver driver) {
+    public OmroepVideoPage(WebDriverUtil driver) {
         super(driver);
     }
 
@@ -70,7 +70,7 @@ public class OmroepVideoPage extends AbstractPage {
 
         ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView();", element1);
 
-        waitUtil.waitAndClick(addSegment);
+        webDriverUtil.waitAndClick(addSegment);
     }
 
     public void enterTitelSegmentPopup(String textToEnter) {

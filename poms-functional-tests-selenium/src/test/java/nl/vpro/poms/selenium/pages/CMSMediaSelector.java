@@ -2,8 +2,9 @@ package nl.vpro.poms.selenium.pages;
 
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+
+import nl.vpro.poms.selenium.util.WebDriverUtil;
 
 import static nl.vpro.poms.selenium.poms.AbstractTest.CONFIG;
 
@@ -18,13 +19,13 @@ public class CMSMediaSelector extends AbstractPage {
     String pomsWindow;
 
 
-    public CMSMediaSelector(WebDriver driver) {
+    public CMSMediaSelector(WebDriverUtil driver) {
         super(driver);
     }
 
 
     public void clickButtonSelect() {
-        waitUtil.waitAndClick(By.cssSelector("button#select"));
+        webDriverUtil.waitAndClick(By.cssSelector("button#select"));
     }
 
     public void switchToPomsWindows() {
@@ -33,7 +34,7 @@ public class CMSMediaSelector extends AbstractPage {
         driver.getWindowHandles().forEach(windowHandle -> {
             driver.switchTo().window(windowHandle);
         });
-        wait.until(ExpectedConditions.titleContains("POMS"));
+        webDriverUtil.getWait().until(ExpectedConditions.titleContains("POMS"));
     }
 
     public void switchToCMSWindow() {
@@ -41,26 +42,26 @@ public class CMSMediaSelector extends AbstractPage {
         driver.getWindowHandles().forEach(windowHandle -> {
             driver.switchTo().window(windowHandle);
         });
-        wait.until(ExpectedConditions.titleContains("POMS Media selector"));
+        webDriverUtil.getWait().until(ExpectedConditions.titleContains("POMS Media selector"));
     }
 
     public void loginNPOGebruikerMediaSelector() {
-        Login login = new Login(driver);
+        Login login = new Login(webDriverUtil);
         String user = CONFIG.getProperty("SpeciaalVfGebruiker.LOGIN");
         String password = CONFIG.getProperty("SpeciaalVfGebruiker.PASSWORD");
         login.login(user, password);
     }
 
     public void checkIfNotDisplayedTables() {
-        waitUtil.waitForInvisible(By.cssSelector("tr"));
+        webDriverUtil.waitForInvisible(By.cssSelector("tr"));
     }
 
     public void checkLoginTextBoxes() {
-        waitUtil.waitForVisible(By.id("username"));
-        waitUtil.waitForVisible(By.id("password"));
+        webDriverUtil.waitForVisible(By.id("username"));
+        webDriverUtil.waitForVisible(By.id("password"));
     }
 
     public String getResult() {
-        return waitUtil.waitAndGetText(By.cssSelector("input#value"));
+        return webDriverUtil.waitAndGetText(By.cssSelector("input#value"));
     }
 }

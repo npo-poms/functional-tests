@@ -22,12 +22,12 @@ public class CMSSelectorTest extends AbstractTest {
     @Test
     public void SPOMSCMSSELECTOR1(){
         login().speciaalNPOGebruiker();
-        CMSMediaSelector cms = new CMSMediaSelector(driver);
+        CMSMediaSelector cms = new CMSMediaSelector(webDriverUtil);
         cms.clickButtonSelect();
 
 //        Hier gebleven geeft error uitzoeken
         cms.switchToPomsWindows();
-        Search search = new Search(driver);
+        Search search = new Search(webDriverUtil);
         search.clickRow(0);
 
         cms.switchToPomsWindows();

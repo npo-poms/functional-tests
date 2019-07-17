@@ -49,33 +49,33 @@ public class PersonsWebTest extends AbstractTest {
     }
     @Test
     public void test02AddPerson() {
-        waitForAngularRequestsToFinish();
+        webDriverUtil.waitForAngularRequestsToFinish();
 
         String selector = "#media-general-WO_VPRO_025057 > div.media-section-general-left > poms-persons > div > button";
         log.info("Opening persons of {}", selector);
         WebElement element = driver.findElement(By.cssSelector(selector));
 
-        scrollIntoView(element);
+        webDriverUtil.scrollIntoView(element);
 
         log.info("Clicking {}", element);
 
         element.click();
         driver.findElement(By.cssSelector("#suggestions")).sendKeys(firstName + " " + lastName);
-        waitForAngularRequestsToFinish();
+        webDriverUtil.waitForAngularRequestsToFinish();
         driver.findElement(By.cssSelector("div.col-12.personfields  span.new")).click();
 
-        waitForAngularRequestsToFinish();
+        webDriverUtil.waitForAngularRequestsToFinish();
 
         log.info("Checking contents");
 
         driver.findElement(By.id("givenName")).sendKeys(firstName);
         driver.findElement(By.id("familyName")).sendKeys(lastName);
         driver.findElement(By.id("role")).sendKeys("Redacteur");
-        waitForAngularRequestsToFinish();
+        webDriverUtil.waitForAngularRequestsToFinish();
 
         driver.findElement(By.cssSelector("#scroll-spy-top > div.modal.fade.modal-person.in > div > div > form > div.footer-container > div > button:nth-child(2)")).click();
 
-        waitForAngularRequestsToFinish();
+        webDriverUtil.waitForAngularRequestsToFinish();
 
 
         // TODO add Checks.

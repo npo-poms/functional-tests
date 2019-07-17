@@ -6,11 +6,9 @@ import javax.annotation.Nonnull;
 
 import org.junit.Assume;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import nl.vpro.api.client.utils.Config;
+import nl.vpro.poms.selenium.util.WebDriverUtil;
 
 import static nl.vpro.poms.selenium.poms.AbstractTest.CONFIG;
 
@@ -23,19 +21,21 @@ public class PomsLogin extends AbstractPage {
     private static final By passwdBy = By.id("password");
 
     private static final By loginBy = By.cssSelector("input.btn-submit");
-    
+
     private static final String URL = CONFIG.getProperties(Config.Prefix.poms).get("baseUrl");
 
     private final String url;
 
-    public PomsLogin(String url, WebDriver driver ) {
-        super(driver);
+    public PomsLogin(String url, WebDriverUtil util) {
+        super(util);
         this.url = url == null ? URL : url;
 
     }
     public void gotoPage() {
 //        log.info("poms {}", URL);
-        driver.navigate().to(url);
+//
+//
+        webDriverUtil.getDriver().navigate().to(url);
     }
 
     public void gotoLogin(@Nonnull String user, @Nonnull String passwd) {
@@ -48,9 +48,9 @@ public class PomsLogin extends AbstractPage {
      public void login(@Nonnull String user, @Nonnull String passwd) {
 //    	log.info("Log in user {}", user);
         Assume.assumeNotNull(user, passwd);
-         waitUtil.waitAndSendkeys(usernameBy, user);
-         waitUtil.waitAndSendkeys(passwdBy, passwd);
-         waitUtil.waitAndClick(loginBy);
+         webDriverUtil.waitAndSendkeys(usernameBy, user);
+         webDriverUtil.waitAndSendkeys(passwdBy, passwd);
+         webDriverUtil.waitAndClick(loginBy);
     }
 
     public void VPROand3voor12() {

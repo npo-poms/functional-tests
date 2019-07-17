@@ -1,18 +1,19 @@
 package nl.vpro.poms.selenium.pages;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
+
+import nl.vpro.poms.selenium.util.WebDriverUtil;
 
 public abstract class AbstractOverlayPage extends AbstractPage {
 
     private static final By closeBy = By.cssSelector("div.modal-close-button");
 
-    protected AbstractOverlayPage(WebDriver driver) {
+    protected AbstractOverlayPage(WebDriverUtil driver) {
         super(driver);
     }
 
     public void close() {
-        waitUtil.waitAndClick(closeBy);
-        waitUtil.waitForInvisible(By.cssSelector(".modal-dialog"));
+        webDriverUtil.waitAndClick(closeBy);
+        webDriverUtil.waitForInvisible(By.cssSelector(".modal-dialog"));
     }
 }

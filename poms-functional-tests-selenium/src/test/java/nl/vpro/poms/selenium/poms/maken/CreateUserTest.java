@@ -43,7 +43,7 @@ public class CreateUserTest extends AbstractTest {
      */
     @Test
     public void testMaakAanDisabled() {
-        HomePage homepage = new HomePage(driver);
+        HomePage homepage = new HomePage(webDriverUtil);
         AddNewObjectOverlayPage overlay = homepage.clickNew();
         overlay.chooseMediaType(MediaType.CLIP);
 
@@ -66,7 +66,7 @@ public class CreateUserTest extends AbstractTest {
      */
     @Test
     public void testMaakNieuweClip() {
-        HomePage homepage = new HomePage(driver);
+        HomePage homepage = new HomePage(webDriverUtil);
         homepage.clickNew()
                 .enterTitle("Clip" + DateFactory.getNow())
                 .chooseMediaType(MediaType.CLIP)
@@ -75,7 +75,7 @@ public class CreateUserTest extends AbstractTest {
                 .selectPublicationPeriod(DateFactory.getToday(), DateFactory.getToday())
                 .clickMaakAan();
 
-        MediaItemPage itemPage = new MediaItemPage(driver);
+        MediaItemPage itemPage = new MediaItemPage(webDriverUtil);
         assertFalse(itemPage.getMID().isEmpty());
         assertEquals("Voor publicatie", itemPage.getStatus());
         assertFalse(itemPage.getURN().isEmpty());

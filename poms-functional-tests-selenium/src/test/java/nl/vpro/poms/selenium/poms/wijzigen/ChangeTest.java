@@ -1,11 +1,12 @@
 package nl.vpro.poms.selenium.poms.wijzigen;
 
-import nl.vpro.poms.selenium.pages.Search;
-import nl.vpro.poms.selenium.poms.AbstractTest;
-import nl.vpro.poms.selenium.util.WebDriverFactory;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+
+import nl.vpro.poms.selenium.pages.Search;
+import nl.vpro.poms.selenium.poms.AbstractTest;
+import nl.vpro.poms.selenium.util.WebDriverFactory;
 
 public class ChangeTest extends AbstractTest {
 
@@ -13,10 +14,18 @@ public class ChangeTest extends AbstractTest {
 		super(browser);
 	}
 
+	@Before
+	public void firstLogin() {
+		login().speciaalVf();
+	}
+	@After
+	public void afterwardsLogout() {
+		logout();
+	}
+
 	@Test
 	public void testWijzig() {
-		login().speciaalVf();
-		Search search = new Search(driver);
+		Search search = new Search(webDriverUtil);
 		search.selectOptionFromMenu("Omroepen", "VPRO");
 		search.selectOptionFromMenu("MediaType", "Clip");
 //		List<WebElement> tableRows = search.getTableRows();
@@ -27,29 +36,24 @@ public class ChangeTest extends AbstractTest {
 //		Actions actions = new Actions(driver);
 //		actions.doubleClick(row);
 		search.clickRow(0);
+		webDriverUtil.waitForAngularRequestsToFinish();
 		search.scrollToAfbeeldingen();
-		logout();
 	}
-	
+
 	@Test
 	public void testWissen() {
-		login().speciaalVf();
-		Search search = new Search(driver);
+		Search search = new Search(webDriverUtil);
 		search.selectOptionFromMenu("Omroepen", "VPRO");
 		search.selectOptionFromMenu("MediaType", "Clip");
 		search.clickWissen();
-		logout();
 	}
-	
+
 	@Test
 	public void testNietBewerken() {
-		login().speciaalVf();
-		Search search = new Search(driver);
+		Search search = new Search(webDriverUtil);
 		search.clickWissen();
 		search.selectOptionFromMenu("Omroepen", "NPO");
 		search.selectOptionFromMenu("Criteria", "Mag schrijven");
-		
-		logout();
 	}
 
 

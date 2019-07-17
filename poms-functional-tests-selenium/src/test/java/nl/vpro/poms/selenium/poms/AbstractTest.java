@@ -12,17 +12,15 @@ import org.junit.rules.Timeout;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.openqa.selenium.Dimension;
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import com.paulhammant.ngwebdriver.NgWebDriver;
 
 import nl.vpro.api.client.utils.Config;
 import nl.vpro.poms.selenium.pages.PomsLogin;
 import nl.vpro.poms.selenium.pages.Search;
 import nl.vpro.poms.selenium.util.WebDriverFactory.Browser;
+import nl.vpro.poms.selenium.util.WebDriverUtil;
 import nl.vpro.rules.TestMDC;
 
 /**
@@ -31,7 +29,7 @@ import nl.vpro.rules.TestMDC;
 @RunWith(Parameterized.class)
 public abstract class AbstractTest {
     static final Logger LOG = LoggerFactory.getLogger(AbstractTest.class);
-    Logger log = LoggerFactory.getLogger(getClass());
+    protected Logger log = LoggerFactory.getLogger(getClass());
 
 
     public static final Config CONFIG =
@@ -48,6 +46,7 @@ public abstract class AbstractTest {
     private final Browser browser;
 
     protected WebDriver driver;
+    protected WebDriverUtil webDriverUtil;
 
     protected static Map<Browser, WebDriver> staticDrivers = new HashMap<>();
 
@@ -83,6 +82,7 @@ public abstract class AbstractTest {
         } else {
             driver = staticDrivers.computeIfAbsent(browser, AbstractTest::createDriver);
         }
+        webDriverUtil  = new WebDriverUtil(driver, log);
     }
 
     private static WebDriver createDriver(Browser browser) {
@@ -116,7 +116,7 @@ public abstract class AbstractTest {
     }
 
     protected PomsLogin login(String url) {
-        return new PomsLogin(url, driver);
+        return new PomsLogin(url, webDriverUtil);
     }
 
     protected PomsLogin login() {
@@ -125,23 +125,11 @@ public abstract class AbstractTest {
 
     protected void logout() {
         if (driver != null) {
-            Search search = new Search(driver);
+            Search search = new Search(webDriverUtil);
             search.logout();
         } else {
             log.error("Cannot logout because no driver");
         }
     }
 
-    protected void waitForAngularRequestsToFinish() {
-        new NgWebDriver((JavascriptExecutor) driver).waitForAngularRequestsToFinish();
-    }
-
-    protected void scrollIntoView(WebElement element) {
-        log.info("moving to {}", element);
-        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", element);
-        /*Actions actions = new Actions(driver);
-        actions.moveToElement(element);
-        actions.perform();*/
-        waitForAngularRequestsToFinish();
-    }
 }

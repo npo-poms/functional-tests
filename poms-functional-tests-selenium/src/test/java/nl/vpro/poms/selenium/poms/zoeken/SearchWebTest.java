@@ -44,7 +44,7 @@ public class SearchWebTest extends AbstractTest {
     public void test02Search1() {
 
         // Kies Nieuwe zoekopdracht
-        waitForAngularRequestsToFinish();
+        webDriverUtil.waitForAngularRequestsToFinish();
         driver.findElement(By.cssSelector("a[title='Nieuwe zoekopdracht']")).click();
 
         // Selecteer zoekscherm, selecteer de zichtbare
