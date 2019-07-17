@@ -5,7 +5,6 @@ import java.util.List;
 import javax.annotation.Nonnull;
 
 import org.junit.After;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.WebElement;
@@ -17,6 +16,7 @@ import nl.vpro.poms.selenium.util.WebDriverFactory;
 import nl.vpro.poms.selenium.util.types.AvType;
 import nl.vpro.poms.selenium.util.types.MediaType;
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 public class SearchTest extends AbstractTest {
@@ -115,6 +115,7 @@ public class SearchTest extends AbstractTest {
     }
 
     @Test
+    // TODO Fails, it seems that test supposes that RBX_BV_13005185 has the tags 'secret garden'.
     public void testSearchWithTags() {
         search.enterQuery("Dokter Pop");
         search.enterTags("secret garden");
@@ -133,7 +134,7 @@ public class SearchTest extends AbstractTest {
     public void testWithTitleSuggestion() {
         search.enterQuery("pluk");
         List<WebElement> suggestions = search.getSuggestions("pluk");
-        Assert.assertFalse(suggestions.isEmpty());
+        assertFalse(suggestions.isEmpty());
     }
 
     @Test
@@ -143,11 +144,12 @@ public class SearchTest extends AbstractTest {
         driver.navigate().refresh();
         assertTrue(search.isColumnSelectorChecked("MID"));
         search.addOrRemoveColumn("MID");
-        Assert.assertFalse(search.isColumnSelectorChecked("MID"));
+        assertFalse(search.isColumnSelectorChecked("MID"));
     }
 
 
     protected void assertFound(String searchText) {
+        webDriverUtil.getNgWait().waitForAngularRequestsToFinish();
         assertTrue("Items '" + searchText + "'not found", search.itemFound(searchText));
 
     }
