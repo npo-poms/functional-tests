@@ -25,7 +25,7 @@ public class CMSSelectorTest extends AbstractTest {
     public void SPOMSCMSSELECTOR1(){
         login().speciaalNPOGebruiker();
 
-        CMSMediaSelector cms = new CMSMediaSelector(driver);
+        CMSMediaSelector cms = new CMSMediaSelector(webDriverUtil);
         cms.openUrlCmsMediaSelector();
         cms.clickButtonSelect();
 
@@ -66,7 +66,7 @@ public class CMSSelectorTest extends AbstractTest {
     }
 
     private Search openCmsPopupAddSearch() {
-        CMSMediaSelector cms = new CMSMediaSelector(driver);
+        CMSMediaSelector cms = new CMSMediaSelector(webDriverUtil);
         cms.openUrlCmsMediaSelector();
         cms.clickButtonSelect();
         cms.switchToPomsWindows();

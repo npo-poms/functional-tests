@@ -4,11 +4,8 @@ package nl.vpro.poms.selenium.pages;
 import nl.vpro.poms.selenium.util.WebDriverUtil;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-
-import java.util.Set;
 
 import static nl.vpro.poms.selenium.poms.AbstractTest.CONFIG;
 import static org.assertj.core.api.Fail.fail;

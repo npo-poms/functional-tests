@@ -1,7 +1,11 @@
 package nl.vpro.poms.selenium.pages;
 
 import com.paulhammant.ngwebdriver.NgWebDriver;
-import org.openqa.selenium.*;
+import nl.vpro.poms.selenium.util.WebDriverUtil;
+import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 
 import java.time.Duration;
@@ -10,18 +14,8 @@ import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.Keys;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Actions;
-import com.paulhammant.ngwebdriver.NgWebDriver;
-
-import nl.vpro.poms.selenium.util.WebDriverUtil;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 

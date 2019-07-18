@@ -1,22 +1,18 @@
 package nl.vpro.poms.selenium.pages;
 
-import com.paulhammant.ngwebdriver.NgWebDriver;
 import nl.vpro.poms.selenium.util.WebDriverUtil;
-import org.openqa.selenium.*;
+import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.Select;
 
 import java.io.File;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.time.Duration;
-import java.util.function.Function;
-import nl.vpro.poms.selenium.util.WebDriverUtil;
 
-import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.assertj.core.api.Fail.fail;
 
 public class MediaItemPage extends AbstractPage {
@@ -102,7 +98,7 @@ public class MediaItemPage extends AbstractPage {
 
     public void moveToUitzendingen(){
         Actions actions = new Actions(driver);
-        actions.moveToElement(driver.findElement(By.xpath(""+xpath+""))).perform();
+        actions.moveToElement(driver.findElement(By.xpath(xpathUitzendingen))).perform();
     }
 
     public void moveToAfbeeldingen(){

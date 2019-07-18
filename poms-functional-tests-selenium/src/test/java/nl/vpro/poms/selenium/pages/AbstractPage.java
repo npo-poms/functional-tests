@@ -2,12 +2,10 @@ package nl.vpro.poms.selenium.pages;
 
 import com.paulhammant.ngwebdriver.NgWebDriver;
 import lombok.extern.slf4j.Slf4j;
-
+import nl.vpro.poms.selenium.util.WebDriverUtil;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
-
-import nl.vpro.poms.selenium.util.WebDriverUtil;
 import org.slf4j.Logger;
 
 @Slf4j
@@ -18,8 +16,6 @@ public abstract class AbstractPage {
 	WebDriverWait wait;
     final Logger log;
     final NgWebDriver ngWait;
-
-
 
 
     protected AbstractPage(WebDriverUtil util) {
