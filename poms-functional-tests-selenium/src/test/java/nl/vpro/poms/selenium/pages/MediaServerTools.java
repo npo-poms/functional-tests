@@ -1,10 +1,10 @@
 package nl.vpro.poms.selenium.pages;
 
-import org.openqa.selenium.WebDriver;
+import nl.vpro.poms.selenium.util.WebDriverUtil;
 
 public class MediaServerTools extends AbstractOverlayPage{
 
-    protected MediaServerTools(WebDriver driver) {super(driver);}
+    protected MediaServerTools(WebDriverUtil driver) {super(driver);}
 
 
 }
