@@ -1,12 +1,14 @@
 package nl.vpro.poms.selenium.pages;
 
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-
 import nl.vpro.poms.selenium.util.WebDriverUtil;
+import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import static nl.vpro.poms.selenium.poms.AbstractTest.CONFIG;
+import static org.assertj.core.api.Fail.fail;
 
 
 /**
@@ -17,12 +19,18 @@ public class CMSMediaSelector extends AbstractPage {
 
     String mainCMSWindow;
     String pomsWindow;
+    String UrlCmsMediaSelector = "https://poms-test.omroep.nl/CMSSelector/example/";
+    WebDriverWait wait;
 
 
     public CMSMediaSelector(WebDriverUtil driver) {
         super(driver);
+        this.wait = new WebDriverWait(webDriverUtil.getDriver(), 15, 250);
     }
 
+    public void openUrlCmsMediaSelector() {
+        driver.navigate().to(UrlCmsMediaSelector);
+    }
 
     public void clickButtonSelect() {
         webDriverUtil.waitAndClick(By.cssSelector("button#select"));
@@ -42,7 +50,7 @@ public class CMSMediaSelector extends AbstractPage {
         driver.getWindowHandles().forEach(windowHandle -> {
             driver.switchTo().window(windowHandle);
         });
-        webDriverUtil.getWait().until(ExpectedConditions.titleContains("POMS Media selector"));
+        wait.until(ExpectedConditions.titleContains("POMS Media selector"));
     }
 
     public void loginNPOGebruikerMediaSelector() {
@@ -62,6 +70,16 @@ public class CMSMediaSelector extends AbstractPage {
     }
 
     public String getResult() {
-        return webDriverUtil.waitAndGetText(By.cssSelector("input#value"));
+        webDriverUtil.waitForVisible(By.cssSelector("input#value"));
+        Object value = ((JavascriptExecutor) driver).executeScript("return document.querySelector('input#value').value");
+        String returnValue = "";
+        if (value instanceof String) {
+            returnValue = value.toString();
+        } else {
+            fail("Error in the javascript on the page");
+            System.out.println("Error in the javascript on the page");
+        }
+        return returnValue;
     }
+
 }

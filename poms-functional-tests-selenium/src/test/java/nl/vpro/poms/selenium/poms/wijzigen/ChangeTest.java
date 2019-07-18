@@ -1,12 +1,20 @@
 package nl.vpro.poms.selenium.poms.wijzigen;
 
+import nl.vpro.poms.selenium.pages.MediaItemPage;
+import nl.vpro.poms.selenium.pages.Search;
+import nl.vpro.poms.selenium.poms.AbstractTest;
+import nl.vpro.poms.selenium.util.WebDriverFactory;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import nl.vpro.poms.selenium.pages.Search;
-import nl.vpro.poms.selenium.poms.AbstractTest;
-import nl.vpro.poms.selenium.util.WebDriverFactory;
+import java.net.URISyntaxException;
+
+import static org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric;
+
+import java.net.URISyntaxException;
+
+import static org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric;
 
 public class ChangeTest extends AbstractTest {
 
@@ -22,32 +30,35 @@ public class ChangeTest extends AbstractTest {
 	public void afterwardsLogout() {
 		logout();
 	}
+	private static final String randomTitel = randomAlphanumeric(15);
+	private static final String randomDescription = randomAlphanumeric(35);
 
 	@Test
-	public void testWijzig() {
+	public void SPOMSEDITUPLOAD1() throws InterruptedException, URISyntaxException {
 		Search search = new Search(webDriverUtil);
 		search.selectOptionFromMenu("Omroepen", "VPRO");
 		search.selectOptionFromMenu("MediaType", "Clip");
-//		List<WebElement> tableRows = search.getTableRows();
-//		for (WebElement row: tableRows) {
-//			System.out.println("###" + row);
-//		}
-//		WebElement row = tableRows.get(0);
-//		Actions actions = new Actions(driver);
-//		actions.doubleClick(row);
-		search.clickRow(0);
-		webDriverUtil.waitForAngularRequestsToFinish();
-		search.scrollToAfbeeldingen();
+		search.clickOnColum("Sorteerdatum");
+		MediaItemPage item = search.clickRow(0);
+		item.moveToAfbeeldingen();
+		item.clickOnAfbeeldingToevoegen();
+		item.upLoadAfbeeldingMetNaam("owl.jpeg");
+		item.imageAddTitle(randomTitel);
+		item.imageAddDescription(randomDescription);
+		item.imageAddType("Afbeelding");
+		item.clickButtonMaakAan();
 	}
-
+	
 	@Test
 	public void testWissen() {
+		login().speciaalVf();
 		Search search = new Search(webDriverUtil);
 		search.selectOptionFromMenu("Omroepen", "VPRO");
 		search.selectOptionFromMenu("MediaType", "Clip");
 		search.clickWissen();
+		logout();
 	}
-
+	
 	@Test
 	public void testNietBewerken() {
 		Search search = new Search(webDriverUtil);

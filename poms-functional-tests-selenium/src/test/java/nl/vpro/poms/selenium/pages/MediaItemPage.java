@@ -1,14 +1,32 @@
 package nl.vpro.poms.selenium.pages;
 
-import org.openqa.selenium.*;
+import nl.vpro.poms.selenium.util.WebDriverUtil;
+import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 
-import nl.vpro.poms.selenium.util.WebDriverUtil;
+import java.io.File;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
 
 import static org.assertj.core.api.Fail.fail;
 
 public class MediaItemPage extends AbstractPage {
+    private static final String xpathViewerTitle = "//*[@class='viewer-title' and contains(text(), '%s')]";
+    private static final String xpathViewerSubTitle = "//*[@class='viewer-subtitle' and contains(text(), '%s')]";
+    private static final String xpathUitzendingen = "//*[@class='media-section-title'  and contains(text(), '%s')]";
+    private static final String xpathAfbeeldingen = "//*[@class='media-section-title'  and contains(text(), '%s')]";
+    private static final String buttonAfbeeldingToevoegen = "//button[contains(text(), 'Afbeelding toevoegen')]";
+    private static final String cssInputUploadAfbeelding = "input#inputFile";
+    private static final String cssImageTitle = "input#inputTitle";
+    private static final String cssImageDescription = "textarea#inputDescription";
+    private static final String xpathInputSelectImageType = "//*[contains(text(), 'Abeeldingstype')]/../descendant::input";
+    private static final String xpathImageTypeOption = "//*[contains(@class, 'option')]/descendant::*[contains(text(), '%s')]";
+    private static final String xpathButtonMaakAan = "//button[contains(text(), '%s')]";
 
     public MediaItemPage(WebDriverUtil driver) {
         super(driver);
@@ -78,11 +96,65 @@ public class MediaItemPage extends AbstractPage {
         actions.moveToElement(driver.findElement(By.xpath("//span[contains(text(), '" + date + "')]/../../../tr"))).doubleClick().perform();
     }
 
-    public void moveToElementXpath(String xpath) {
+    public void moveToUitzendingen(){
         Actions actions = new Actions(driver);
-        actions.moveToElement(driver.findElement(By.xpath(""+xpath+""))).perform();
+        actions.moveToElement(driver.findElement(By.xpath(xpathUitzendingen))).perform();
     }
 
+    public void moveToAfbeeldingen(){
+        Actions actions = new Actions(driver);
+        actions.moveToElement(driver.findElement(By.xpath(String.format(xpathAfbeeldingen, "Afbeeldingen"))));
+    }
+
+    public void clickOnAfbeeldingToevoegen(){
+        ngWait.waitForAngularRequestsToFinish();
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath(buttonAfbeeldingToevoegen)));
+        driver.findElement(By.xpath(buttonAfbeeldingToevoegen)).click();
+    }
+
+    public void upLoadAfbeeldingMetNaam(String naam) throws URISyntaxException {
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.cssSelector(cssInputUploadAfbeelding)));
+
+        WebElement inputUploadAfbeelding = driver.findElement(By.cssSelector(cssInputUploadAfbeelding));
+
+        URL url  = getClass().getClassLoader().getResource(naam);
+
+        URI uri = url.toURI();
+
+        File file = new File(uri);
+
+        String path = file.getAbsolutePath();
+
+        inputUploadAfbeelding.sendKeys(path);
+    }
+
+    public void imageAddTitle(String title){
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.cssSelector(cssImageTitle)));
+        WebElement imageTitle = driver.findElement(By.cssSelector(cssImageTitle));
+        imageTitle.sendKeys(title);
+    }
+
+    public void imageAddDescription(String description){
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.cssSelector(cssImageDescription)));
+        WebElement imageDescription = driver.findElement(By.cssSelector(cssImageDescription));
+        imageDescription.sendKeys(description);
+    }
+
+    public void imageAddType(String type){
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath(xpathInputSelectImageType)));
+        WebElement imageType = driver.findElement(By.xpath(xpathInputSelectImageType));
+        imageType.click();
+
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath(String.format(xpathImageTypeOption, type))));
+        WebElement option = driver.findElement(By.xpath(String.format(xpathImageTypeOption, type)));
+        option.click();
+    }
+
+    public void clickButtonMaakAan(){
+        wait.until(ExpectedConditions.elementToBeClickable(By.xpath(String.format(xpathButtonMaakAan, "Maak aan"))));
+        WebElement buttonMaakAan = driver.findElement(By.xpath(String.format(xpathButtonMaakAan, "Maak aan")));
+        buttonMaakAan.click();
+    }
 
     public void changeStartDate(String date) {
         webDriverUtil.waitAndSendkeys(By.name("start"), date);
@@ -118,12 +190,12 @@ public class MediaItemPage extends AbstractPage {
     }
 
 
-    public String getUitzendingGegevensKanaal(){
-        return driver.findElement(By.xpath("//td/descendant::*[@ng-switch-when='channel']")).getText();
+    public String getUitzendingGegevensEersteKanaal(){
+        return driver.findElement(By.xpath("(//td/descendant::*[@ng-switch-when='channel'])[1]")).getText();
     }
 
-    public String getUitzendingGegevensDatum(){
-        return driver.findElement(By.xpath("//td/descendant::*[@ng-switch-when='start']")).getText();
+    public String getUitzendingGegevensEersteDatum(){
+        return driver.findElement(By.xpath("(//td/descendant::*[@ng-switch-when='start'])[1]")).getText();
     }
 
     public String getUitzendingTitel(){
@@ -142,8 +214,22 @@ public class MediaItemPage extends AbstractPage {
         return webDriverUtil.waitAndGetText(By.cssSelector("h1[class='viewer-title']"));
     }
 
+    public void waitAndCheckMediaItemTitle(String title) {
+        webDriverUtil.waitForVisible(By.xpath(String.format(xpathViewerTitle, title)));
+    }
+
+    public void waitAndCheckMediaItemSubTitle(String title) {
+        webDriverUtil.waitForVisible(By.xpath(String.format(xpathViewerSubTitle, title)));
+    }
+
     public void refreshUntilUitzendingGegevensWithStartDate(String startDate) {
         webDriverUtil.refreshUntilVisible("//*[@title='bekijk alle uitzenddata' and contains(text(), '" +startDate+" (Nederland 1)')]");
+    }
+
+    public void moveToElement(By by) {
+        ngWait.waitForAngularRequestsToFinish();
+        WebElement element = driver.findElement(by);
+        ((JavascriptExecutor)driver).executeScript("arguments[0].scrollIntoView();", element);
     }
 
 }

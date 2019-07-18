@@ -1,41 +1,40 @@
 package nl.vpro.poms.selenium.poms;
 
 import io.github.bonigarcia.wdm.DriverManagerType;
-
-import java.util.*;
-import java.util.concurrent.TimeUnit;
-
-import javax.annotation.Nonnull;
-
-import org.junit.*;
-import org.junit.rules.Timeout;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
-import org.openqa.selenium.Dimension;
-import org.openqa.selenium.WebDriver;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import nl.vpro.api.client.utils.Config;
 import nl.vpro.poms.selenium.pages.PomsLogin;
 import nl.vpro.poms.selenium.pages.Search;
 import nl.vpro.poms.selenium.util.WebDriverFactory.Browser;
 import nl.vpro.poms.selenium.util.WebDriverUtil;
 import nl.vpro.rules.TestMDC;
+import org.junit.*;
+import org.junit.rules.Timeout;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
+import org.openqa.selenium.Dimension;
+import org.openqa.selenium.WebDriver;
+import org.slf4j.LoggerFactory;
+
+import javax.annotation.Nonnull;
+import java.util.*;
+import java.util.concurrent.TimeUnit;
+import java.util.logging.Logger;
 
 /**
  *
  */
 @RunWith(Parameterized.class)
 public abstract class AbstractTest {
-    static final Logger LOG = LoggerFactory.getLogger(AbstractTest.class);
-    protected Logger log = LoggerFactory.getLogger(getClass());
+    static final org.slf4j.Logger LOG = LoggerFactory.getLogger(AbstractTest.class);
+    protected org.slf4j.Logger log = LoggerFactory.getLogger(getClass());
 
 
     public static final Config CONFIG =
             new Config("npo-functional-tests.properties", "npo-browser-tests.properties");
 
     public static final String MID = "WO_VPRO_025057";
+
+//    private static final Logger log = Logger.getLogger(AbstractTest.class.getName() );
 
     @Rule
     public Timeout timeout = new Timeout(5, TimeUnit.MINUTES);

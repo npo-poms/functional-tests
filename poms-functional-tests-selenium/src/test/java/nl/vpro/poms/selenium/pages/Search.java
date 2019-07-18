@@ -1,5 +1,13 @@
 package nl.vpro.poms.selenium.pages;
 
+import com.paulhammant.ngwebdriver.NgWebDriver;
+import nl.vpro.poms.selenium.util.WebDriverUtil;
+import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
+
 import java.time.Duration;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
@@ -8,15 +16,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.Keys;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Actions;
-import com.paulhammant.ngwebdriver.NgWebDriver;
-
-import nl.vpro.poms.selenium.util.WebDriverUtil;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
@@ -193,6 +192,16 @@ public class Search extends AbstractPage {
         return "true".equals(columnState);
     }
 
+    public boolean checkIfColumnNameExcists(String columnName) {
+        boolean foundItem = false;
+        if(driver.findElements(By.cssSelector(String.format(columCss, columnName))).size() >= 1) {
+            foundItem = true;}
+        else{
+            foundItem = false;
+        }
+        return foundItem;
+    }
+
     public MediaItemPage clickRow(int index) {
         webDriverUtil.waitForVisible(tableRowsBy);
         List<WebElement> tableRows = driver.findElements(tableRowsBy);
@@ -209,18 +218,24 @@ public class Search extends AbstractPage {
     }
 
     // TODO: move to helper class
-    private void moveToElement(WebElement element) {
-        ((JavascriptExecutor) driver).executeScript(SCROLL_SCRIPT, element);
-        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView({block: 'center'});", element);
+    private void moveToElement(By by){
+        WebElement element = driver.findElement(by);
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView();", element);
+
+        //        Actions actions = new Actions(driver);
+        //        actions.moveToElement(element).perform();
+        //        ((JavascriptExecutor) driver).executeScript(SCROLL_SCRIPT, element);
+        //        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView({block: 'center'});", element);
     }
 
     // TODO: To be included?
     public void scrollToAfbeeldingen() {
         WebElement element = driver.findElement(imagesBy);
-        moveToElement(element);
+        moveToElement(imagesBy);
         Actions actions = new Actions(driver);
         actions.moveToElement(element).doubleClick().perform();
     }
+
     // TODO: To be included?
 //	public List<WebElement> getTableRows() {
 //		wait.until(ExpectedConditions.visibilityOfElementLocated(tableRowsBy));
@@ -311,7 +326,9 @@ public class Search extends AbstractPage {
     }
 
     public String getMidFromColum(int columNumber){
-        return webDriverUtil.waitAndGetText(By.cssSelector("tbody tr:nth-of-type("+columNumber+") [ng-switch-when='mid']"));
+        webDriverUtil.waitForVisible(By.cssSelector("tbody tr:nth-of-type("+columNumber+") [ng-switch-when='mid'] input"));
+        WebElement element = driver.findElement(By.cssSelector("tbody tr:nth-of-type("+columNumber+") [ng-switch-when='mid'] input"));
+        return element.getAttribute("value");
     }
 
 }
