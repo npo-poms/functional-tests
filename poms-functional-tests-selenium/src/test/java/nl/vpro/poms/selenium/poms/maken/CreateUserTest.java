@@ -1,17 +1,23 @@
 package nl.vpro.poms.selenium.poms.maken;
 
-import nl.vpro.poms.selenium.pages.*;
-import nl.vpro.poms.selenium.poms.AbstractTest;
-import nl.vpro.poms.selenium.util.DateFactory;
-import nl.vpro.poms.selenium.util.WebDriverFactory;
-import nl.vpro.poms.selenium.util.types.AvType;
-import nl.vpro.poms.selenium.util.types.MediaType;
+import javax.annotation.Nonnull;
+
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import javax.annotation.Nonnull;
+import nl.vpro.poms.selenium.pages.AddNewObjectOverlayPage;
+import nl.vpro.poms.selenium.pages.HomePage;
+import nl.vpro.poms.selenium.pages.MediaItemPage;
+import nl.vpro.poms.selenium.poms.AbstractTest;
+import nl.vpro.poms.selenium.util.DateFactory;
+import nl.vpro.poms.selenium.util.WebDriverFactory;
+import nl.vpro.poms.selenium.util.types.AvType;
+import nl.vpro.poms.selenium.util.types.MediaType;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 
 
 public class CreateUserTest extends AbstractTest {
@@ -37,11 +43,11 @@ public class CreateUserTest extends AbstractTest {
      */
     @Test
     public void testMaakAanDisabled() {
-        HomePage homepage = new HomePage(driver);
+        HomePage homepage = new HomePage(webDriverUtil);
         AddNewObjectOverlayPage overlay = homepage.clickNew();
         overlay.chooseMediaType(MediaType.CLIP);
 
-        Assert.assertFalse("Button 'Maak Aan' must be disabled", overlay.isEnabledMaakAan());
+        assertFalse("Button 'Maak Aan' must be disabled", overlay.isEnabledMaakAan());
         overlay.close();
     }
 
@@ -60,7 +66,7 @@ public class CreateUserTest extends AbstractTest {
      */
     @Test
     public void testMaakNieuweClip() {
-        HomePage homepage = new HomePage(driver);
+        HomePage homepage = new HomePage(webDriverUtil);
         homepage.clickNew()
                 .enterTitle("Clip" + DateFactory.getNow())
                 .chooseMediaType(MediaType.CLIP)
@@ -69,25 +75,25 @@ public class CreateUserTest extends AbstractTest {
                 .selectPublicationPeriod(DateFactory.getToday(), DateFactory.getToday())
                 .clickMaakAan();
 
-        MediaItemPage itemPage = new MediaItemPage(driver);
-        Assert.assertTrue(!itemPage.getMID().isEmpty());
-        Assert.assertTrue(itemPage.getStatus().equals("Voor publicatie"));
-        Assert.assertTrue(!itemPage.getURN().isEmpty());
+        MediaItemPage itemPage = new MediaItemPage(webDriverUtil);
+        assertFalse(itemPage.getMID().isEmpty());
+        assertEquals("Voor publicatie", itemPage.getStatus());
+        assertFalse(itemPage.getURN().isEmpty());
     }
 
     @Test
     public void testWijzigStandaardOmroep() {
-        Assert.fail("Bug gemeldt");
+        Assert.fail("Bug gemeld");
     }
 
     @Test
     public void testVoegTweeStandaardOmroepenToe() {
-        Assert.fail("Bug gemeldt");
+        Assert.fail("Bug gemeld");
     }
 
     @Test
     public void testPersistStandaardOmroep() {
-        Assert.fail("Bug gemeldt");
+        Assert.fail("Bug gemeld");
     }
 
 

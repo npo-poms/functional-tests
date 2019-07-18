@@ -1,11 +1,12 @@
 package nl.vpro.poms.selenium.pages;
 
-import nl.vpro.poms.selenium.util.types.AvType;
-import nl.vpro.poms.selenium.util.types.MediaType;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+
+import nl.vpro.poms.selenium.util.WebDriverUtil;
+import nl.vpro.poms.selenium.util.types.AvType;
+import nl.vpro.poms.selenium.util.types.MediaType;
 
 public class AddNewObjectOverlayPage extends AbstractOverlayPage {
 
@@ -25,7 +26,7 @@ public class AddNewObjectOverlayPage extends AbstractOverlayPage {
 
     private static final By maakAanButtonBy = By.xpath("//button[contains(text(),'Maak aan')]");
 
-    public AddNewObjectOverlayPage(WebDriver driver) {
+    public AddNewObjectOverlayPage(WebDriverUtil driver) {
         super(driver);
     }
 
@@ -34,18 +35,18 @@ public class AddNewObjectOverlayPage extends AbstractOverlayPage {
     }
 
     public AddNewObjectOverlayPage enterTitle(String title) {
-        waitUtil.waitAndSendkeys(titleInputBy, title);
+        webDriverUtil.waitAndSendkeys(titleInputBy, title);
         return this;
     }
 
     public AddNewObjectOverlayPage chooseMediaType(MediaType mediaType) {
-        waitUtil.waitAndClick(mediaTypeBy);
+        webDriverUtil.waitAndClick(mediaTypeBy);
         clickOption(mediaType.getType());
         return this;
     }
 
     public AddNewObjectOverlayPage chooseAvType(AvType avType) {
-        waitUtil.waitAndClick(avTypeBy);
+        webDriverUtil.waitAndClick(avTypeBy);
         clickOption(avType.getType());
         return this;
     }
@@ -57,13 +58,13 @@ public class AddNewObjectOverlayPage extends AbstractOverlayPage {
     }
 
     public AddNewObjectOverlayPage chooseGenre(String genre) {
-        waitUtil.waitAndClick(genreBy);
+        webDriverUtil.waitAndClick(genreBy);
         clickOption(genre);
         return this;
     }
 
     private void clickOption(String type) {
-        waitUtil.waitAndClick(By.xpath(String.format(typeOptionTemplate, type)));
+        webDriverUtil.waitAndClick(By.xpath(String.format(typeOptionTemplate, type)));
     }
 
     public boolean isEnabledMaakAan() {
@@ -71,7 +72,7 @@ public class AddNewObjectOverlayPage extends AbstractOverlayPage {
     }
 
     public void clickMaakAan() {
-        waitUtil.waitAndClick(maakAanButtonBy);
+        webDriverUtil.waitAndClick(maakAanButtonBy);
     }
 
     /*
@@ -80,16 +81,16 @@ public class AddNewObjectOverlayPage extends AbstractOverlayPage {
     @Deprecated
     public void clickHerlaad() {
         By herlaadButtonBy = By.xpath("//button[contains(text(), 'herlaad')]");
-        wait.until(ExpectedConditions.elementToBeClickable(herlaadButtonBy));
+        webDriverUtil.getWait().until(ExpectedConditions.elementToBeClickable(herlaadButtonBy));
         WebElement herlaadButton = driver.findElement(herlaadButtonBy);
         herlaadButton.click();
     }
 
     public AddNewObjectOverlayPage selectPublicationPeriod(String start, String end) {
-        waitUtil.waitAndClick(By.xpath("//span[contains(text(), 'Publicatiestart')]"));
+        webDriverUtil.waitAndClick(By.xpath("//span[contains(text(), 'Publicatiestart')]"));
 
-        waitUtil.waitAndSendkeys(By.cssSelector("[ng-model='media.publication.start']"), start);
-        waitUtil.waitAndSendkeys(By.cssSelector("[ng-model='media.publication.stop']"), end);
+        webDriverUtil.waitAndSendkeys(By.cssSelector("[ng-model='media.publication.start']"), start);
+        webDriverUtil.waitAndSendkeys(By.cssSelector("[ng-model='media.publication.stop']"), end);
         return this;
     }
 }

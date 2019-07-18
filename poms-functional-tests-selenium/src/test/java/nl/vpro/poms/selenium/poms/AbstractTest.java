@@ -1,7 +1,6 @@
 package nl.vpro.poms.selenium.poms;
 
 import io.github.bonigarcia.wdm.DriverManagerType;
-import lombok.extern.slf4j.Slf4j;
 
 import java.util.*;
 import java.util.concurrent.TimeUnit;
@@ -14,22 +13,25 @@ import org.junit.rules.Timeout;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.openqa.selenium.Dimension;
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
-import com.paulhammant.ngwebdriver.NgWebDriver;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import nl.vpro.api.client.utils.Config;
 import nl.vpro.poms.selenium.pages.PomsLogin;
 import nl.vpro.poms.selenium.pages.Search;
 import nl.vpro.poms.selenium.util.WebDriverFactory.Browser;
+import nl.vpro.poms.selenium.util.WebDriverUtil;
 import nl.vpro.rules.TestMDC;
 
 /**
  *
  */
 @RunWith(Parameterized.class)
-@Slf4j
 public abstract class AbstractTest {
+    static final Logger LOG = LoggerFactory.getLogger(AbstractTest.class);
+    protected Logger log = LoggerFactory.getLogger(getClass());
+
 
     public static final Config CONFIG =
             new Config("npo-functional-tests.properties", "npo-browser-tests.properties");
@@ -47,9 +49,11 @@ public abstract class AbstractTest {
     private final Browser browser;
 
     protected WebDriver driver;
+    protected WebDriverUtil webDriverUtil;
 
     protected static Map<Browser, WebDriver> staticDrivers = new HashMap<>();
 
+    protected static Map<Class, Boolean> loggedAboutSetupEach = new HashMap<>();
     protected boolean setupEach;
 
     @Parameterized.Parameters
@@ -68,8 +72,9 @@ public abstract class AbstractTest {
     protected AbstractTest(@Nonnull Browser browser) {
         this.browser = browser;
         this.setupEach = this.getClass().getAnnotation(FixMethodOrder.class) == null;
-        if (!this.setupEach) {
-            log.info("Running with fixed method order, so keeping the driver between the tests");
+        if (!this.setupEach && !loggedAboutSetupEach.getOrDefault(getClass(), false)) {
+            log.info("\nRunning" + getClass() + " with fixed method order, so keeping the driver between the tests");
+            loggedAboutSetupEach.put(getClass(), true);
         }
     }
 
@@ -80,14 +85,20 @@ public abstract class AbstractTest {
         } else {
             driver = staticDrivers.computeIfAbsent(browser, AbstractTest::createDriver);
         }
+        webDriverUtil  = new WebDriverUtil(driver, log);
     }
 
-    public static WebDriver createDriver(Browser browser) {
-        WebDriver driver = browser.asWebDriver();
-        // The dimension of the browser should be big enough, (headless browser seem to be small!), otherwise test will keep waiting forever
-        Dimension d = new Dimension(2000,1500);
-        driver.manage().window().setSize(d);
-        return driver;
+    private static WebDriver createDriver(Browser browser) {
+        try {
+            WebDriver driver = browser.asWebDriver();
+            // The dimension of the browser should be big enough, (headless browser seem to be small!), otherwise test will keep waiting forever
+            Dimension d = new Dimension(2000, 1500);
+            driver.manage().window().setSize(d);
+            return driver;
+        } catch (Exception e) {
+            LOG.error("Could not create driver for " + browser + ":" + e.getMessage(), e);
+            throw e;
+        }
     }
 
     @After
@@ -108,7 +119,7 @@ public abstract class AbstractTest {
     }
 
     protected PomsLogin login(String url) {
-        return new PomsLogin(url, driver);
+        return new PomsLogin(url, webDriverUtil);
     }
 
     protected PomsLogin login() {
@@ -116,11 +127,12 @@ public abstract class AbstractTest {
     }
 
     protected void logout() {
-        Search search = new Search(driver);
-        search.logout();
+        if (driver != null) {
+            Search search = new Search(webDriverUtil);
+            search.logout();
+        } else {
+            log.error("Cannot logout because no driver");
+        }
     }
 
-    protected void waitForAngularRequestsToFinish() {
-        new NgWebDriver((JavascriptExecutor) driver).waitForAngularRequestsToFinish();
-    }
 }

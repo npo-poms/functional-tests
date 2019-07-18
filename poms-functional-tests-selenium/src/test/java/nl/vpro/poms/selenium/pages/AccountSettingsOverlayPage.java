@@ -1,10 +1,15 @@
 package nl.vpro.poms.selenium.pages;
 
-import com.paulhammant.ngwebdriver.NgWebDriver;
-import org.openqa.selenium.*;
-
 import java.util.List;
 import java.util.stream.Collectors;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.WebElement;
+import com.paulhammant.ngwebdriver.NgWebDriver;
+
+import nl.vpro.poms.selenium.util.WebDriverUtil;
 
 public class AccountSettingsOverlayPage extends AbstractOverlayPage {
 
@@ -30,7 +35,7 @@ public class AccountSettingsOverlayPage extends AbstractOverlayPage {
     //	private static final String ownerButtonTemplate = "input[name='ownertype][value='%s']";
     private static final String ownerButtonTemplate = "input[value='%s']";
 
-    public AccountSettingsOverlayPage(WebDriver driver) {
+    public AccountSettingsOverlayPage(WebDriverUtil driver) {
         super(driver);
     }
 
@@ -66,7 +71,7 @@ public class AccountSettingsOverlayPage extends AbstractOverlayPage {
 
     private void clickStandaardOmroepDropdown() {
         NgWebDriver ngWebDriver = new NgWebDriver((JavascriptExecutor) driver);
-        waitUtil.waitAndClick(standaardOmroepDropdownBy);
+        webDriverUtil.waitAndClick(standaardOmroepDropdownBy);
         ngWebDriver.waitForAngularRequestsToFinish();
     }
 

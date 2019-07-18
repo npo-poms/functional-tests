@@ -31,7 +31,7 @@ public class GidsTest extends AbstractTest {
 
     @Test
     public void SPOMSGIDS1(){
-        Search search = new Search(driver);
+        Search search = new Search(webDriverUtil);
         search.clickWissen();
         //        Hier gebleven nog uitzoeken enterDates
         search.enterSorteerdatumDates(DateFactory.getToday(), "");
@@ -42,7 +42,7 @@ public class GidsTest extends AbstractTest {
 
     @Test
     public void SPOMSGIDS2() {
-        Search search = new Search(driver);
+        Search search = new Search(webDriverUtil);
         search.selectOptionFromMenu("Zenders", "Nederland 1");
         search.enterSorteerdatumDates(DateFactory.getToday(),DateFactory.getToday());
         search.clickZoeken();
@@ -51,7 +51,7 @@ public class GidsTest extends AbstractTest {
 
     @Test
     public void SPOMSGIDS3(){
-        Search search = new Search(driver);
+        Search search = new Search(webDriverUtil);
         search.selectOptionFromMenu("Zenders", "Nederland 1");
         search.removeSelectedOption("Nederland 1");
         setupSearchAndSort(search);
@@ -61,14 +61,14 @@ public class GidsTest extends AbstractTest {
 
     @Test
     public void SPOMSGIDS5(){
-        Search search = new Search(driver);
+        Search search = new Search(webDriverUtil);
         setupSearchAndSort(search);
         checkAndOpenMediaItem(search);
     }
 
     @Test
     public void SPOMSGIDS7(){
-        Search search = new Search(driver);
+        Search search = new Search(webDriverUtil);
         setupSearchAndSort(search);
         search.removeSelectedOption("Radio 1");
         search.selectOptionFromMenu("Zenders", "Nederland 3 & Zapp");

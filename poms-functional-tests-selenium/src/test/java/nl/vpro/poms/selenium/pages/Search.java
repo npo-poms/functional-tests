@@ -14,6 +14,15 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
+import com.paulhammant.ngwebdriver.NgWebDriver;
+
+import nl.vpro.poms.selenium.util.WebDriverUtil;
+
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 public class Search extends AbstractPage {
@@ -57,18 +66,18 @@ public class Search extends AbstractPage {
     private static final String SearchItemRow = "tr[class*='poms-table-row']:nth-of-type(%s) [class='column-title'] [title]";
     private static final String SCROLL_SCRIPT = "window.scrollBy(0,(-window.innerHeight + arguments[0].getBoundingClientRect().top + arguments[0].getBoundingClientRect().bottom) / 2);";
 
-    public Search(WebDriver driver) {
-        super(driver);
+    public Search(WebDriverUtil util) {
+        super(util);
     }
 
     public void clickNew() {
-        waitUtil.waitAndClick(newBy);
+        webDriverUtil.waitAndClick(newBy);
     }
 
     public void logout() {
-        waitUtil.waitAndClick(menuBy);
-        waitUtil.waitAndClick(logoutBy);
-        waitUtil.waitForTextToBePresent(loggedOutBy, "Logout successful");
+        webDriverUtil.waitAndClick(menuBy);
+        webDriverUtil.waitAndClick(logoutBy);
+        webDriverUtil.waitForTextToBePresent(loggedOutBy, "Logout successful");
     }
 
     public String getCurrentUser() {
@@ -77,29 +86,29 @@ public class Search extends AbstractPage {
 
     public void goToAccountInstellingen() {
         clickMenu();
-        waitUtil.waitAndClick(accountInstellingenBy);
+        webDriverUtil.waitAndClick(accountInstellingenBy);
     }
 
     private void clickMenu() {
-        waitUtil.waitAndClick(menuBy);
+        webDriverUtil.waitAndClick(menuBy);
     }
 
     public void enterQuery(String query) {
-        waitUtil.waitAndSendkeys(queryBy, query);
+        webDriverUtil.waitAndSendkeys(queryBy, query);
         clickZoeken();
     }
 
     public void clickZoeken() {
-        waitUtil.waitAndClick(zoekenBy);
+        webDriverUtil.waitAndClick(zoekenBy);
     }
 
     public boolean itemFound(String title) {
-        return waitUtil.isElementPresent(By.cssSelector(String.format(foundItemTemplate, title)));
+        return webDriverUtil.isElementPresent(By.cssSelector(String.format(foundItemTemplate, title)));
     }
 
     public String getItemListTitle(int itemNumber) {
-        waitUtil.waitForVisible(By.cssSelector(String.format(SearchItemRow, itemNumber+1)));
-        return driver.findElement(By.cssSelector(String.format(SearchItemRow, itemNumber+1))).getText();
+        webDriverUtil.waitForVisible(By.cssSelector(String.format(SearchItemRow, itemNumber)));
+        return driver.findElement(By.cssSelector(String.format(SearchItemRow, itemNumber))).getText();
     }
 
     public void clickOnTabWithTitle(By by, String title) {
@@ -112,21 +121,21 @@ public class Search extends AbstractPage {
     }
 
     public void closeTab() {
-        waitUtil.waitAndClick(closeTabBy);
+        webDriverUtil.waitAndClick(closeTabBy);
     }
 
     public void closeTabTitle(String title) {
-        waitUtil.waitForVisible(By.xpath(String.format(closeTabByName, title)));
-        waitUtil.waitAndClick(By.xpath(String.format(closeTabByName, title)));
+        webDriverUtil.waitForVisible(By.xpath(String.format(closeTabByName, title)));
+        webDriverUtil.waitAndClick(By.xpath(String.format(closeTabByName, title)));
     }
 
     public void selectOptionFromMenu(String menu, String option) {
         clickCriteriaMenu(menu);
-        waitUtil.waitAndClick(By.xpath(String.format(menuOptionTemplate, option)));
+        webDriverUtil.waitAndClick(By.xpath(String.format(menuOptionTemplate, option)));
     }
 
     public void clickCriteriaMenu(String menu) {
-        waitUtil.waitAndClick(By.cssSelector(String.format(criteriaMenuTemplate, menu)));
+        webDriverUtil.waitAndClick(By.cssSelector(String.format(criteriaMenuTemplate, menu)));
     }
 
     public void enterSorteerdatumDates(String start, String end) {
@@ -146,46 +155,46 @@ public class Search extends AbstractPage {
     }
 
     private void clickDatePersonMenu() {
-        waitUtil.waitAndClick(datePersonMenuBy);
+        webDriverUtil.waitAndClick(datePersonMenuBy);
     }
 
     private void enterDates(By by, String start, String end) {
         clickDatePersonMenu();
-        waitUtil.waitAndClick(by);
-        waitUtil.waitAndSendkeys(vanBy, start);
-        waitUtil.waitAndSendkeys(totEnMetBy, end);
+        webDriverUtil.waitAndClick(by);
+        webDriverUtil.waitAndSendkeys(vanBy, start);
+        webDriverUtil.waitAndSendkeys(totEnMetBy, end);
         zoekMetDatum();
     }
 
     private void zoekMetDatum() {
-        waitUtil.waitAndClick(zoekMetDatumBy);
+        webDriverUtil.waitAndClick(zoekMetDatumBy);
     }
 
     public void enterTags(String tag) {
-        waitUtil.waitAndClick(tagMenuBy);
-        waitUtil.waitAndSendkeys(tabInputBy, tag + Keys.ENTER);
+        webDriverUtil.waitAndClick(tagMenuBy);
+        webDriverUtil.waitAndSendkeys(tabInputBy, tag + Keys.ENTER);
     }
 
     public void removeSelectedOption(String option) {
-        waitUtil.waitAndClick(By.xpath(String.format(selectedOptionTemplate, option)));
+        webDriverUtil.waitAndClick(By.xpath(String.format(selectedOptionTemplate, option)));
     }
 
     public List<WebElement> getSuggestions(String key) {
-        waitUtil.waitAndClick(queryBy);
+        webDriverUtil.waitAndClick(queryBy);
 //        Sleeper.sleep(1000);
         return driver.findElements(By.xpath(String.format(dropdownSuggestionTemplate, key)));
     }
 
     public void addOrRemoveColumn(String column) {
-        waitUtil.waitAndClick(columnSelectBy);
-        waitUtil.waitAndClick(By.xpath(String.format(columnCheckboxTemplate, column)));
-        waitUtil.waitAndClick(columnSelectBy);
+        webDriverUtil.waitAndClick(columnSelectBy);
+        webDriverUtil.waitAndClick(By.xpath(String.format(columnCheckboxTemplate, column)));
+        webDriverUtil.waitAndClick(columnSelectBy);
     }
 
     public boolean isColumnSelectorChecked(String column) {
-        waitUtil.waitAndClick(columnSelectBy);
-        String columnState = waitUtil.getAtrributeFrom(By.xpath(String.format(columnCheckboxTemplate, column)), "checked");
-        waitUtil.waitAndClick(columnSelectBy);
+        webDriverUtil.waitAndClick(columnSelectBy);
+        String columnState = webDriverUtil.getAtrributeFrom(By.xpath(String.format(columnCheckboxTemplate, column)), "checked");
+        webDriverUtil.waitAndClick(columnSelectBy);
         return "true".equals(columnState);
     }
 
@@ -200,16 +209,16 @@ public class Search extends AbstractPage {
     }
 
     public MediaItemPage clickRow(int index) {
-        waitUtil.waitForVisible(tableRowsBy);
+        webDriverUtil.waitForVisible(tableRowsBy);
         List<WebElement> tableRows = driver.findElements(tableRowsBy);
         WebElement row = tableRows.get(index);
         Actions actions = new Actions(driver);
         actions.moveToElement(row).doubleClick().perform();
-        return new MediaItemPage(driver);
+        return new MediaItemPage(webDriverUtil);
     }
 
     public int countRows() {
-        waitUtil.waitForVisible(tableRowsBy);
+        webDriverUtil.waitForVisible(tableRowsBy);
         List<WebElement> tableRows = driver.findElements(tableRowsBy);
         return tableRows.size();
     }
@@ -241,21 +250,21 @@ public class Search extends AbstractPage {
 //	}
 
     public void clickWissen() {
-        waitUtil.waitAndClick(wissenBy);
+        webDriverUtil.waitAndClick(wissenBy);
     }
 
     public void clickAdminItem(String item) {
-        waitUtil.waitAndClick(adminBy);
-        waitUtil.waitAndClick(By.xpath(String.format(adminItemTemplate, item)));
+        webDriverUtil.waitAndClick(adminBy);
+        webDriverUtil.waitAndClick(By.xpath(String.format(adminItemTemplate, item)));
     }
 
     public String getSearchRowSorteerDatumKanaal() {
-        waitUtil.waitForVisible(By.cssSelector("tr td [ng-if*='sortDateScheduleEvent']"));
+        webDriverUtil.waitForVisible(By.cssSelector("tr td [ng-if*='sortDateScheduleEvent']"));
         return driver.findElement(By.cssSelector("tr td [ng-if*='sortDateScheduleEvent']")).getText();
     }
 
     public String getSearchRowSorteerDatumKanaal(String sorteerdatum) {
-        waitUtil.waitForVisible(By.xpath("(//tr/descendant::*[contains(text(),'" + sorteerdatum + "')]/descendant::*)[1]"));
+        webDriverUtil.waitForVisible(By.xpath("(//tr/descendant::*[contains(text(),'" + sorteerdatum + "')]/descendant::*)[1]"));
         return driver.findElement(By.xpath("(//tr/descendant::*[contains(text(),'" + sorteerdatum + "')]/descendant::*)[1]")).getText();
     }
 
@@ -281,11 +290,11 @@ public class Search extends AbstractPage {
     }
 
     public void clickOnColum(String columname) {
-        waitUtil.waitAndClick(By.cssSelector(String.format(columCss, columname)));
+        webDriverUtil.waitAndClick(By.cssSelector(String.format(columCss, columname)));
     }
 
     public void doubleClickOnColum(String columname) {
-        waitUtil.waitForVisible(By.cssSelector(String.format(columCss, columname)));
+        webDriverUtil.waitForVisible(By.cssSelector(String.format(columCss, columname)));
 
         Actions action = new Actions(driver);
         WebElement element = driver.findElement(By.cssSelector(String.format(columCss, columname)));
@@ -323,7 +332,7 @@ public class Search extends AbstractPage {
     }
 
     public String getMidFromColum(int columNumber){
-        waitUtil.waitForVisible(By.cssSelector("tbody tr:nth-of-type("+columNumber+") [ng-switch-when='mid'] input"));
+        webDriverUtil.waitForVisible(By.cssSelector("tbody tr:nth-of-type("+columNumber+") [ng-switch-when='mid'] input"));
         WebElement element = driver.findElement(By.cssSelector("tbody tr:nth-of-type("+columNumber+") [ng-switch-when='mid'] input"));
         return element.getAttribute("value");
     }

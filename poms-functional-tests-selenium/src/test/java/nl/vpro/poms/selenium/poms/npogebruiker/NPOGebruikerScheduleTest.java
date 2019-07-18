@@ -1,6 +1,10 @@
 package nl.vpro.poms.selenium.poms.npogebruiker;
 
 import nl.vpro.poms.selenium.pages.MediaItemPage;
+import javax.annotation.Nonnull;
+
+import org.junit.Test;
+
 import nl.vpro.poms.selenium.pages.Search;
 import nl.vpro.poms.selenium.poms.AbstractTest;
 import nl.vpro.poms.selenium.util.WebDriverFactory;
@@ -21,7 +25,7 @@ public class NPOGebruikerScheduleTest extends AbstractTest {
     public void SPOMSNPOS1() {
 //        Nog niet klaar verschil tussen handmatig en automatisch i.v.m. cookies!!!!
         login().speciaalNPOGebruiker();
-        Search search = new Search(driver);
+        Search search = new Search(webDriverUtil);
         search.selectOptionFromMenu("Zenders", "Nederland 2");
         search.clickZoeken();
         SoftAssertions softly = new SoftAssertions();

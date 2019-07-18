@@ -8,21 +8,25 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import nl.vpro.poms.selenium.util.WebDriverUtil;
+import org.slf4j.Logger;
 
 @Slf4j
 public abstract class AbstractPage {
 
+    final WebDriverUtil webDriverUtil;
     final WebDriver driver;
-    final WebDriverUtil waitUtil;
 	WebDriverWait wait;
-	final NgWebDriver ngWait;
+    final Logger log;
+    final NgWebDriver ngWait;
 
 
-    protected AbstractPage(WebDriver driver) {
-        this.driver = driver;
-        this.waitUtil = new WebDriverUtil(driver);
+
+
+    protected AbstractPage(WebDriverUtil util) {
+        this.webDriverUtil = util;
+        this.driver = util.getDriver();
+        this.log = util.getLog();
         this.ngWait = new NgWebDriver((JavascriptExecutor) driver);
         this.wait = new WebDriverWait(driver, 5);
     }
-
 }

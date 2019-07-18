@@ -16,6 +16,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class CMSSelectorTest extends AbstractTest {
 
+
     public CMSSelectorTest(@Nonnull WebDriverFactory.Browser browser) {
         super(browser);
     }
@@ -27,12 +28,14 @@ public class CMSSelectorTest extends AbstractTest {
         CMSMediaSelector cms = new CMSMediaSelector(driver);
         cms.openUrlCmsMediaSelector();
         cms.clickButtonSelect();
+
+//        Hier gebleven geeft error uitzoeken
         cms.switchToPomsWindows();
         //        cms.checkLoginTextBoxes();
         //        cms.checkIfNotDisplayedTables();
         //         cms.loginNPOGebruikerMediaSelector();
 
-        Search search = new Search(driver);
+        Search search = new Search(webDriverUtil);
         search.addOrRemoveColumn("MID");
         String MID = search.getMidFromColum(1);
         search.clickRow(0);
@@ -71,7 +74,7 @@ public class CMSSelectorTest extends AbstractTest {
         cms.checkIfNotDisplayedTables();
         cms.loginNPOGebruikerMediaSelector();
 
-        Search search = new Search(driver);
+        Search search = new Search(webDriverUtil);
         return search;
     }
 

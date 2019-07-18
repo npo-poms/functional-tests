@@ -12,27 +12,30 @@ import java.net.URISyntaxException;
 
 import static org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric;
 
+import java.net.URISyntaxException;
+
+import static org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric;
+
 public class ChangeTest extends AbstractTest {
 
 	public ChangeTest(WebDriverFactory.Browser browser) {
 		super(browser);
 	}
+
+	@Before
+	public void firstLogin() {
+		login().speciaalVf();
+	}
+	@After
+	public void afterwardsLogout() {
+		logout();
+	}
 	private static final String randomTitel = randomAlphanumeric(15);
 	private static final String randomDescription = randomAlphanumeric(35);
 
-	@Before
-	public void setup() {
-		login().speciaalVf();
-	}
-
-	@After
-	public void teardown() {
-		logout();
-	}
-
 	@Test
 	public void SPOMSEDITUPLOAD1() throws InterruptedException, URISyntaxException {
-		Search search = new Search(driver);
+		Search search = new Search(webDriverUtil);
 		search.selectOptionFromMenu("Omroepen", "VPRO");
 		search.selectOptionFromMenu("MediaType", "Clip");
 		search.clickOnColum("Sorteerdatum");
@@ -48,19 +51,20 @@ public class ChangeTest extends AbstractTest {
 	
 	@Test
 	public void testWissen() {
-		Search search = new Search(driver);
+		login().speciaalVf();
+		Search search = new Search(webDriverUtil);
 		search.selectOptionFromMenu("Omroepen", "VPRO");
 		search.selectOptionFromMenu("MediaType", "Clip");
 		search.clickWissen();
+		logout();
 	}
 	
 	@Test
 	public void testNietBewerken() {
-		Search search = new Search(driver);
+		Search search = new Search(webDriverUtil);
 		search.clickWissen();
 		search.selectOptionFromMenu("Omroepen", "NPO");
 		search.selectOptionFromMenu("Criteria", "Mag schrijven");
-
 	}
 
 

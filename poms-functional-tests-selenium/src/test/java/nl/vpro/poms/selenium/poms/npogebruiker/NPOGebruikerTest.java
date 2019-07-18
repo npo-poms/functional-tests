@@ -1,5 +1,11 @@
 package nl.vpro.poms.selenium.poms.npogebruiker;
 
+import org.assertj.core.api.SoftAssertions;
+import org.junit.Before;
+import org.junit.Test;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.ui.Wait;
+
 import nl.vpro.poms.selenium.pages.AccountSettingsOverlayPage;
 import nl.vpro.poms.selenium.pages.MediaItemPage;
 import nl.vpro.poms.selenium.pages.Search;
@@ -33,17 +39,17 @@ public class NPOGebruikerTest extends AbstractTest {
 
     @Test
     public void testNPOGebruiker() {
-        Search search = new Search(driver);
+        Search search = new Search(webDriverUtil);
         search.goToAccountInstellingen();
 
-        AccountSettingsOverlayPage overlayPage = new AccountSettingsOverlayPage(driver);
+        AccountSettingsOverlayPage overlayPage = new AccountSettingsOverlayPage(webDriverUtil);
 
         assertThat(overlayPage.getRoles()).contains("MEDIA_SCHEDULE", "MEDIA_USER", "MEDIA_MIS");
     }
 
     @Test
     public void checkCurrentUser() {
-        Search search = new Search(driver);
+        Search search = new Search(webDriverUtil);
         assertThat(search.getCurrentUser()).isEqualTo("NPO Test");
     }
 
@@ -69,7 +75,7 @@ public class NPOGebruikerTest extends AbstractTest {
     @Test
     public void testVervroegUitzending() {
         Search search = getSearch();
-        MediaItemPage media = new MediaItemPage(driver);
+        MediaItemPage media = new MediaItemPage(webDriverUtil);
         MediaItemPage itemPage = search.clickRow(1);
         String title = itemPage.getMediaItemTitle();
         System.out.println(title);
@@ -140,7 +146,7 @@ public class NPOGebruikerTest extends AbstractTest {
     }
 
     private Search getSearch() {
-        Search search = new Search(driver);
+        Search search = new Search(webDriverUtil);
         //        search.clickNew();
         search.selectOptionFromMenu("MediaType", MediaType.UITZENDING.getType());
         search.selectOptionFromMenu("Criteria", "Mag schrijven");

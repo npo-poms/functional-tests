@@ -8,7 +8,6 @@ import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Actions;
 
 import nl.vpro.api.client.utils.Config;
 import nl.vpro.poms.selenium.poms.AbstractTest;
@@ -45,35 +44,38 @@ public class PersonsWebTest extends AbstractTest {
      */
     @Test
     public void test01OpenObject() {
-
         driver.get(CONFIG.getProperties(Config.Prefix.poms).get("baseUrl") + "/#/edit/" + MID);
 
     }
     @Test
     public void test02AddPerson() {
-        waitForAngularRequestsToFinish();
+        webDriverUtil.waitForAngularRequestsToFinish();
 
+        String selector = "#media-general-WO_VPRO_025057 > div.media-section-general-left > poms-persons > div > button";
+        log.info("Opening persons of {}", selector);
+        WebElement element = driver.findElement(By.cssSelector(selector));
 
-        WebElement element = driver.findElement(By.cssSelector("#media-general-WO_VPRO_025057 > div.media-section-general-left > poms-persons > div > button"));
-        Actions actions = new Actions(driver);
-        actions.moveToElement(element);
-        actions.perform();
+        webDriverUtil.scrollIntoView(element);
+
+        log.info("Clicking {}", element);
 
         element.click();
         driver.findElement(By.cssSelector("#suggestions")).sendKeys(firstName + " " + lastName);
-        waitForAngularRequestsToFinish();
+        webDriverUtil.waitForAngularRequestsToFinish();
         driver.findElement(By.cssSelector("div.col-12.personfields  span.new")).click();
 
-        waitForAngularRequestsToFinish();
+        webDriverUtil.waitForAngularRequestsToFinish();
+
+        log.info("Checking contents");
 
         driver.findElement(By.id("givenName")).sendKeys(firstName);
         driver.findElement(By.id("familyName")).sendKeys(lastName);
         driver.findElement(By.id("role")).sendKeys("Redacteur");
-        waitForAngularRequestsToFinish();
+        webDriverUtil.waitForAngularRequestsToFinish();
 
         driver.findElement(By.cssSelector("#scroll-spy-top > div.modal.fade.modal-person.in > div > div > form > div.footer-container > div > button:nth-child(2)")).click();
 
-        waitForAngularRequestsToFinish();
+        webDriverUtil.waitForAngularRequestsToFinish();
 
 
         // TODO add Checks.
