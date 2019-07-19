@@ -41,13 +41,13 @@ public class AddNewObjectOverlayPage extends AbstractOverlayPage {
 
     public AddNewObjectOverlayPage chooseMediaType(MediaType mediaType) {
         webDriverUtil.waitAndClick(mediaTypeBy);
-        clickOption(mediaType.toString());
+        clickOption(mediaType.getDisplayName());
         return this;
     }
 
     public AddNewObjectOverlayPage chooseAvType(AVType avType) {
         webDriverUtil.waitAndClick(avTypeBy);
-        clickOption(avType.toString());
+        clickOption(avType.getDisplayName());
         return this;
     }
 

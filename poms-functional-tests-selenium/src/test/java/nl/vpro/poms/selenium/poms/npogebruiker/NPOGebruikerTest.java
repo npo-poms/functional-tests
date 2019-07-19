@@ -62,7 +62,7 @@ public class NPOGebruikerTest extends AbstractTest {
     public void testWijzigUitzendingInClip() {
         Search search = getSearch();
         String mediatype = search.clickRow(0)
-                .changeMediaType(MediaType.CLIP.toString())
+                .changeMediaType(MediaType.CLIP.getDisplayName())
                 .getMediaType();
         assertThat(mediatype).isEqualTo("Clip");
     }
@@ -143,10 +143,10 @@ public class NPOGebruikerTest extends AbstractTest {
     private Search getSearch() {
         Search search = new Search(webDriverUtil);
         //        search.clickNew();
-        search.selectOptionFromMenu("MediaType", MediaType.BROADCAST.toString());
+        search.selectOptionFromMenu("MediaType", MediaType.BROADCAST.getDisplayName());
         search.selectOptionFromMenu("Criteria", "Mag schrijven");
         //        search.selectOptionFromMenu("Criteria", "Beschikbaar op streaming platform");
-        search.selectOptionFromMenu("avType", AVType.VIDEO.toString());
+        search.selectOptionFromMenu("avType", AVType.VIDEO.getDisplayName());
         //search.selectOptionFromMenu("Zenders", "Nederland 1");
         return search;
     }

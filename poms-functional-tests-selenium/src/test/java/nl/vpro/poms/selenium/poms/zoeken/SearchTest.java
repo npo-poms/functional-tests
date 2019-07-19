@@ -54,7 +54,7 @@ public class SearchTest extends AbstractTest {
     @Test
     public void testSearchWithAvType() {
         search.enterQuery("klusjesmannen");
-        search.selectOptionFromMenu("avType", AVType.AUDIO.toString());
+        search.selectOptionFromMenu("avType", AVType.AUDIO.getDisplayName());
         search.clickZoeken();
         assertFound( "A je to! 40 jaar Buurman en Buurman");
     }
@@ -62,8 +62,8 @@ public class SearchTest extends AbstractTest {
     @Test
     public void testSearchWithClip() {
         search.enterQuery("klusjesmannen");
-        search.selectOptionFromMenu("avType", AVType.VIDEO.toString());
-        search.selectOptionFromMenu("MediaType", MediaType.CLIP.toString());
+        search.selectOptionFromMenu("avType", AVType.VIDEO.getDisplayName());
+        search.selectOptionFromMenu("MediaType", MediaType.CLIP.getDisplayName());
         search.clickZoeken();
         assertFound("Casa Jepie Makandra");
     }
