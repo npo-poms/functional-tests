@@ -48,12 +48,10 @@ public class ChangeTest extends AbstractTest {
 
 	@Test
 	public void testWissen() {
-		login().speciaalVf();
 		Search search = new Search(webDriverUtil);
 		search.selectOptionFromMenu("Omroepen", "VPRO");
 		search.selectOptionFromMenu("MediaType", "Clip");
 		search.clickWissen();
-		logout();
 	}
 
 	@Test
