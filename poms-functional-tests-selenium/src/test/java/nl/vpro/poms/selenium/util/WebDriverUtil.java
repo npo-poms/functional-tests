@@ -1,12 +1,14 @@
 package nl.vpro.poms.selenium.util;
 
-import com.paulhammant.ngwebdriver.NgWebDriver;
 import lombok.Getter;
+
+import java.util.function.Function;
+
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
-import java.util.function.Function;
+import com.paulhammant.ngwebdriver.NgWebDriver;
 
 @Getter
 public class WebDriverUtil {
@@ -38,6 +40,7 @@ public class WebDriverUtil {
     }
 
     public void waitAndSendkeys(By by, String text) {
+        ngWait.waitForAngularRequestsToFinish();
         wait.until(ExpectedConditions.visibilityOfElementLocated(by));
         driver.findElement(by).clear();
         driver.findElements(by)
