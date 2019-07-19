@@ -1,10 +1,8 @@
 package nl.vpro.poms.selenium.pages;
 
+import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 
-import javax.annotation.Nonnull;
-
-import org.junit.Assume;
 import org.openqa.selenium.By;
 
 import nl.vpro.api.client.utils.Config;
@@ -38,16 +36,15 @@ public class PomsLogin extends AbstractPage {
         webDriverUtil.getDriver().navigate().to(url);
     }
 
-    public void gotoLogin(@Nonnull String user, @Nonnull String passwd) {
+    public void gotoLogin(@NonNull String user, @NonNull  String passwd) {
         gotoPage();
         login(user, passwd);
         // TODO: known issue: login will not sent back to correct url
         gotoPage();
     }
 
-     public void login(@Nonnull String user, @Nonnull String passwd) {
+     public void login(@NonNull String user, @NonNull String passwd) {
 //    	log.info("Log in user {}", user);
-        Assume.assumeNotNull(user, passwd);
          webDriverUtil.waitAndSendkeys(usernameBy, user);
          webDriverUtil.waitAndSendkeys(passwdBy, passwd);
          webDriverUtil.waitAndClick(loginBy);
@@ -56,7 +53,6 @@ public class PomsLogin extends AbstractPage {
     public void VPROand3voor12() {
         String user =  CONFIG.getProperty("SpeciaalVfGebruiker.LOGIN");
         String password =  CONFIG.getProperty("SpeciaalVfGebruiker.PASSWORD");
-        Assume.assumeNotNull(user, password);
         gotoLogin(user, password);
     }
 
