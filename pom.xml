@@ -154,6 +154,11 @@
         <version>${poms.shared.version}</version>
       </dependency>
       <dependency>
+        <groupId>nl.vpro.media</groupId>
+        <artifactId>media-domain</artifactId>
+        <version>${poms.shared.version}</version>
+      </dependency>
+      <dependency>
         <groupId>nl.vpro.poms.api-clients</groupId>
         <artifactId>frontend-api-client</artifactId>
         <version>${api.client.version}</version>

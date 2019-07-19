@@ -3,15 +3,13 @@ package nl.vpro.poms.selenium.poms.CMSSelector;
 import javax.annotation.Nonnull;
 
 import org.junit.Test;
+import org.openqa.selenium.By;
 
 import nl.vpro.poms.selenium.pages.CMSMediaSelector;
-import nl.vpro.poms.selenium.pages.MediaItemPage;
 import nl.vpro.poms.selenium.pages.Search;
 import nl.vpro.poms.selenium.poms.AbstractTest;
 import nl.vpro.poms.selenium.util.WebDriverFactory;
-import org.junit.Test;
-import org.openqa.selenium.By;
-import javax.annotation.Nonnull;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class CMSSelectorTest extends AbstractTest {

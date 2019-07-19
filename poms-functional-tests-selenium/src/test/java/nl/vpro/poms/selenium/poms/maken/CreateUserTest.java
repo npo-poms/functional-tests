@@ -7,14 +7,14 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import nl.vpro.domain.media.AVType;
+import nl.vpro.domain.media.MediaType;
 import nl.vpro.poms.selenium.pages.AddNewObjectOverlayPage;
 import nl.vpro.poms.selenium.pages.HomePage;
 import nl.vpro.poms.selenium.pages.MediaItemPage;
 import nl.vpro.poms.selenium.poms.AbstractTest;
 import nl.vpro.poms.selenium.util.DateFactory;
 import nl.vpro.poms.selenium.util.WebDriverFactory;
-import nl.vpro.poms.selenium.util.types.AvType;
-import nl.vpro.poms.selenium.util.types.MediaType;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -70,7 +70,7 @@ public class CreateUserTest extends AbstractTest {
         homepage.clickNew()
                 .enterTitle("Clip" + DateFactory.getNow())
                 .chooseMediaType(MediaType.CLIP)
-                .chooseAvType(AvType.VIDEO)
+                .chooseAvType(AVType.VIDEO)
                 .chooseGenre("Jeugd")
                 .selectPublicationPeriod(DateFactory.getToday(), DateFactory.getToday())
                 .clickMaakAan();

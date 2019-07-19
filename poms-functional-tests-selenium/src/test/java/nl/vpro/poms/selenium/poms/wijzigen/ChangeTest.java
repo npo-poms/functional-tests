@@ -1,18 +1,15 @@
 package nl.vpro.poms.selenium.poms.wijzigen;
 
-import nl.vpro.poms.selenium.pages.MediaItemPage;
-import nl.vpro.poms.selenium.pages.Search;
-import nl.vpro.poms.selenium.poms.AbstractTest;
-import nl.vpro.poms.selenium.util.WebDriverFactory;
+import java.net.URISyntaxException;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.net.URISyntaxException;
-
-import static org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric;
-
-import java.net.URISyntaxException;
+import nl.vpro.poms.selenium.pages.MediaItemPage;
+import nl.vpro.poms.selenium.pages.Search;
+import nl.vpro.poms.selenium.poms.AbstractTest;
+import nl.vpro.poms.selenium.util.WebDriverFactory;
 
 import static org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric;
 
@@ -48,7 +45,7 @@ public class ChangeTest extends AbstractTest {
 		item.imageAddType("Afbeelding");
 		item.clickButtonMaakAan();
 	}
-	
+
 	@Test
 	public void testWissen() {
 		login().speciaalVf();
@@ -58,7 +55,7 @@ public class ChangeTest extends AbstractTest {
 		search.clickWissen();
 		logout();
 	}
-	
+
 	@Test
 	public void testNietBewerken() {
 		Search search = new Search(webDriverUtil);

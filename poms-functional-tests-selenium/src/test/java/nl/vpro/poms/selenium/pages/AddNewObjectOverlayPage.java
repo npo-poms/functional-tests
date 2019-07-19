@@ -4,9 +4,9 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
+import nl.vpro.domain.media.AVType;
+import nl.vpro.domain.media.MediaType;
 import nl.vpro.poms.selenium.util.WebDriverUtil;
-import nl.vpro.poms.selenium.util.types.AvType;
-import nl.vpro.poms.selenium.util.types.MediaType;
 
 public class AddNewObjectOverlayPage extends AbstractOverlayPage {
 
@@ -41,13 +41,13 @@ public class AddNewObjectOverlayPage extends AbstractOverlayPage {
 
     public AddNewObjectOverlayPage chooseMediaType(MediaType mediaType) {
         webDriverUtil.waitAndClick(mediaTypeBy);
-        clickOption(mediaType.getType());
+        clickOption(mediaType.toString());
         return this;
     }
 
-    public AddNewObjectOverlayPage chooseAvType(AvType avType) {
+    public AddNewObjectOverlayPage chooseAvType(AVType avType) {
         webDriverUtil.waitAndClick(avTypeBy);
-        clickOption(avType.getType());
+        clickOption(avType.toString());
         return this;
     }
 

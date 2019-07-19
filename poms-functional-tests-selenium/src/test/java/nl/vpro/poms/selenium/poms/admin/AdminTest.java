@@ -4,6 +4,8 @@ import javax.annotation.Nonnull;
 
 import org.junit.Test;
 
+import nl.vpro.domain.media.AVType;
+import nl.vpro.domain.media.MediaType;
 import nl.vpro.poms.selenium.pages.AddNewObjectOverlayPage;
 import nl.vpro.poms.selenium.pages.Login;
 import nl.vpro.poms.selenium.pages.OmroepenOverlayPage;
@@ -11,8 +13,6 @@ import nl.vpro.poms.selenium.pages.Search;
 import nl.vpro.poms.selenium.poms.AbstractTest;
 import nl.vpro.poms.selenium.util.DateFactory;
 import nl.vpro.poms.selenium.util.WebDriverFactory;
-import nl.vpro.poms.selenium.util.types.AvType;
-import nl.vpro.poms.selenium.util.types.MediaType;
 
 public class AdminTest extends AbstractTest {
 
@@ -31,7 +31,7 @@ public class AdminTest extends AbstractTest {
 		String title = "Test " + DateFactory.getNow();
 		addOverlay.enterTitle(title);
 		addOverlay.chooseMediaType(MediaType.CLIP);
-		addOverlay.chooseAvType(AvType.VIDEO);
+		addOverlay.chooseAvType(AVType.VIDEO);
 		addOverlay.chooseGenre("Jeugd");
 		addOverlay.clickMaakAan();
 
