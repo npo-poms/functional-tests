@@ -4,8 +4,6 @@ import org.assertj.core.api.SoftAssertions;
 import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.support.ui.Wait;
 
 import nl.vpro.domain.media.AVType;
 import nl.vpro.domain.media.MediaType;
@@ -24,8 +22,6 @@ public class NPOGebruikerTest extends AbstractTest {
         super(browser);
     }
 
-
-    private Wait<WebDriver> waitFluent;
 
     @Before
     public void setup() {
