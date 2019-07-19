@@ -1,13 +1,15 @@
 package nl.vpro.poms.selenium.poms.npogebruiker;
 
+import javax.annotation.Nonnull;
+
+import org.assertj.core.api.SoftAssertions;
+import org.junit.Ignore;
+import org.junit.Test;
+
 import nl.vpro.poms.selenium.pages.MediaItemPage;
 import nl.vpro.poms.selenium.pages.Search;
 import nl.vpro.poms.selenium.poms.AbstractTest;
 import nl.vpro.poms.selenium.util.WebDriverFactory;
-import org.assertj.core.api.SoftAssertions;
-import org.junit.Test;
-
-import javax.annotation.Nonnull;
 
 public class NPOGebruikerScheduleTest extends AbstractTest {
 
@@ -16,8 +18,9 @@ public class NPOGebruikerScheduleTest extends AbstractTest {
     }
 
     @Test
+    @Ignore("Nog niet klaar verschil tussen handmatig en automatisch i.v.m. cookies!!!!")
     public void SPOMSNPOS1() {
-//        Nog niet klaar verschil tussen handmatig en automatisch i.v.m. cookies!!!!
+
         login().speciaalNPOGebruiker();
         Search search = new Search(webDriverUtil);
         search.selectOptionFromMenu("Zenders", "Nederland 2");
