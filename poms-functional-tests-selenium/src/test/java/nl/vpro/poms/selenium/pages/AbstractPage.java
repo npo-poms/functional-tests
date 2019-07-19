@@ -1,14 +1,13 @@
 package nl.vpro.poms.selenium.pages;
 
-import com.paulhammant.ngwebdriver.NgWebDriver;
-import lombok.extern.slf4j.Slf4j;
-import nl.vpro.poms.selenium.util.WebDriverUtil;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
+import com.paulhammant.ngwebdriver.NgWebDriver;
 
-@Slf4j
+import nl.vpro.poms.selenium.util.WebDriverUtil;
+
 public abstract class AbstractPage {
 
     final WebDriverUtil webDriverUtil;
