@@ -9,12 +9,12 @@ import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.WebElement;
 
+import nl.vpro.domain.media.AVType;
+import nl.vpro.domain.media.MediaType;
 import nl.vpro.poms.selenium.pages.Search;
 import nl.vpro.poms.selenium.poms.AbstractTest;
 import nl.vpro.poms.selenium.util.DateFactory;
 import nl.vpro.poms.selenium.util.WebDriverFactory;
-import nl.vpro.poms.selenium.util.types.AvType;
-import nl.vpro.poms.selenium.util.types.MediaType;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -54,7 +54,7 @@ public class SearchTest extends AbstractTest {
     @Test
     public void testSearchWithAvType() {
         search.enterQuery("klusjesmannen");
-        search.selectOptionFromMenu("avType", AvType.AUDIO.getType());
+        search.selectOptionFromMenu("avType", AVType.AUDIO.toString());
         search.clickZoeken();
         assertFound( "A je to! 40 jaar Buurman en Buurman");
     }
@@ -62,8 +62,8 @@ public class SearchTest extends AbstractTest {
     @Test
     public void testSearchWithClip() {
         search.enterQuery("klusjesmannen");
-        search.selectOptionFromMenu("avType", AvType.VIDEO.getType());
-        search.selectOptionFromMenu("MediaType", MediaType.CLIP.getType());
+        search.selectOptionFromMenu("avType", AVType.VIDEO.toString());
+        search.selectOptionFromMenu("MediaType", MediaType.CLIP.toString());
         search.clickZoeken();
         assertFound("Casa Jepie Makandra");
     }

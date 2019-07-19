@@ -1,18 +1,19 @@
 package nl.vpro.poms.selenium.poms.npogebruiker;
 
-import nl.vpro.poms.selenium.pages.AccountSettingsOverlayPage;
-import nl.vpro.poms.selenium.pages.MediaItemPage;
-import nl.vpro.poms.selenium.pages.Search;
-import nl.vpro.poms.selenium.poms.AbstractTest;
-import nl.vpro.poms.selenium.util.WebDriverFactory;
-import nl.vpro.poms.selenium.util.types.AvType;
-import nl.vpro.poms.selenium.util.types.MediaType;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.Wait;
+
+import nl.vpro.domain.media.AVType;
+import nl.vpro.domain.media.MediaType;
+import nl.vpro.poms.selenium.pages.AccountSettingsOverlayPage;
+import nl.vpro.poms.selenium.pages.MediaItemPage;
+import nl.vpro.poms.selenium.pages.Search;
+import nl.vpro.poms.selenium.poms.AbstractTest;
+import nl.vpro.poms.selenium.util.WebDriverFactory;
 
 import static org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -61,7 +62,7 @@ public class NPOGebruikerTest extends AbstractTest {
     public void testWijzigUitzendingInClip() {
         Search search = getSearch();
         String mediatype = search.clickRow(0)
-                .changeMediaType(MediaType.CLIP.getType())
+                .changeMediaType(MediaType.CLIP.toString())
                 .getMediaType();
         assertThat(mediatype).isEqualTo("Clip");
     }
@@ -142,10 +143,10 @@ public class NPOGebruikerTest extends AbstractTest {
     private Search getSearch() {
         Search search = new Search(webDriverUtil);
         //        search.clickNew();
-        search.selectOptionFromMenu("MediaType", MediaType.UITZENDING.getType());
+        search.selectOptionFromMenu("MediaType", MediaType.BROADCAST.toString());
         search.selectOptionFromMenu("Criteria", "Mag schrijven");
         //        search.selectOptionFromMenu("Criteria", "Beschikbaar op streaming platform");
-        search.selectOptionFromMenu("avType", AvType.VIDEO.getType());
+        search.selectOptionFromMenu("avType", AVType.VIDEO.toString());
         //search.selectOptionFromMenu("Zenders", "Nederland 1");
         return search;
     }
