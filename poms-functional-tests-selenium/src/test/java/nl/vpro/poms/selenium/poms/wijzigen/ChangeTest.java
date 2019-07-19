@@ -6,6 +6,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import nl.vpro.domain.image.ImageType;
+import nl.vpro.domain.support.License;
 import nl.vpro.poms.selenium.pages.MediaItemPage;
 import nl.vpro.poms.selenium.pages.Search;
 import nl.vpro.poms.selenium.poms.AbstractTest;
@@ -42,8 +44,15 @@ public class ChangeTest extends AbstractTest {
 		item.upLoadAfbeeldingMetNaam("owl.jpeg");
 		item.imageAddTitle(randomTitel);
 		item.imageAddDescription(randomDescription);
-		item.imageAddType("Afbeelding");
+		item.imageAddType(ImageType.PICTURE);
+		item.imageLicentie(License.COPYRIGHTED); // doesn't work yet..
+
 		item.clickButtonMaakAan();
+
+		log.info("Ready creating an image");
+		// FAILING because test does not fill license information
+		// Shouldn't we add some actual tests here?
+
 	}
 
 	@Test

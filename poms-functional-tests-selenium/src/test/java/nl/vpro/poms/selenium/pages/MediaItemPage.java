@@ -12,6 +12,8 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 
+import nl.vpro.domain.image.ImageType;
+import nl.vpro.domain.support.License;
 import nl.vpro.poms.selenium.util.WebDriverUtil;
 
 import static org.assertj.core.api.Fail.fail;
@@ -26,7 +28,11 @@ public class MediaItemPage extends AbstractPage {
     private static final String cssImageTitle = "input#inputTitle";
     private static final String cssImageDescription = "textarea#inputDescription";
     private static final String xpathInputSelectImageType = "//*[contains(text(), 'Afbeeldingstype')]/../descendant::input";
+    private static final String xpathInputSelectLicense = "//*[contains(text(), 'Licentie')]/../descendant::input";
+
     private static final String xpathImageTypeOption = "//*[contains(@class, 'option')]/descendant::*[contains(text(), '%s')]";
+    private static final String xpathLicenseTypeOption = "//*[contains(@class, 'option')]/descendant::*[contains(text(), '%s')]";
+
     private static final String xpathButtonMaakAan = "//button[contains(text(), '%s')]";
 
     public MediaItemPage(WebDriverUtil driver) {
@@ -139,15 +145,26 @@ public class MediaItemPage extends AbstractPage {
         imageDescription.sendKeys(description);
     }
 
-    public void imageAddType(String type){
+    public void imageAddType(ImageType type){
         wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath(xpathInputSelectImageType)));
         WebElement imageType = driver.findElement(By.xpath(xpathInputSelectImageType));
         imageType.click();
 
-        wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath(String.format(xpathImageTypeOption, type))));
-        WebElement option = driver.findElement(By.xpath(String.format(xpathImageTypeOption, type)));
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath(String.format(xpathImageTypeOption, type.getDisplayName()))));
+        WebElement option = driver.findElement(By.xpath(String.format(xpathImageTypeOption, type.getDisplayName())));
         option.click();
     }
+
+    public void imageLicentie(License license) {
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath(xpathInputSelectLicense)));
+        WebElement licentieElement = driver.findElement(By.xpath(xpathInputSelectLicense));
+        licentieElement.click();
+
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath(String.format(xpathLicenseTypeOption, license.getDisplayName()))));
+        WebElement option = driver.findElement(By.xpath(String.format(xpathLicenseTypeOption, license.getDisplayName())));
+        option.click();
+    }
+
 
     public void clickButtonMaakAan(){
         wait.until(ExpectedConditions.elementToBeClickable(By.xpath(String.format(xpathButtonMaakAan, "Maak aan"))));
