@@ -1,6 +1,10 @@
 package nl.vpro.poms.selenium.pages;
 
-import nl.vpro.poms.selenium.util.WebDriverUtil;
+import java.io.File;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
@@ -8,10 +12,7 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 
-import java.io.File;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.net.URL;
+import nl.vpro.poms.selenium.util.WebDriverUtil;
 
 import static org.assertj.core.api.Fail.fail;
 
@@ -24,7 +25,7 @@ public class MediaItemPage extends AbstractPage {
     private static final String cssInputUploadAfbeelding = "input#inputFile";
     private static final String cssImageTitle = "input#inputTitle";
     private static final String cssImageDescription = "textarea#inputDescription";
-    private static final String xpathInputSelectImageType = "//*[contains(text(), 'Abeeldingstype')]/../descendant::input";
+    private static final String xpathInputSelectImageType = "//*[contains(text(), 'Afbeeldingstype')]/../descendant::input";
     private static final String xpathImageTypeOption = "//*[contains(@class, 'option')]/descendant::*[contains(text(), '%s')]";
     private static final String xpathButtonMaakAan = "//button[contains(text(), '%s')]";
 
@@ -97,13 +98,11 @@ public class MediaItemPage extends AbstractPage {
     }
 
     public void moveToUitzendingen(){
-        Actions actions = new Actions(driver);
-        actions.moveToElement(driver.findElement(By.xpath(xpathUitzendingen))).perform();
+        moveToElement(By.xpath(xpathUitzendingen));
     }
 
     public void moveToAfbeeldingen(){
-        Actions actions = new Actions(driver);
-        actions.moveToElement(driver.findElement(By.xpath(String.format(xpathAfbeeldingen, "Afbeeldingen"))));
+        moveToElement(By.xpath(String.format(xpathAfbeeldingen, "Afbeeldingen")));
     }
 
     public void clickOnAfbeeldingToevoegen(){
