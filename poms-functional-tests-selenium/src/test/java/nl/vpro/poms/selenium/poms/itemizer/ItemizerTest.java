@@ -1,18 +1,20 @@
 package nl.vpro.poms.selenium.poms.itemizer;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+import javax.annotation.Nonnull;
+
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+
 import nl.vpro.poms.selenium.pages.OmroepVideoDetailInfoPage;
 import nl.vpro.poms.selenium.pages.OmroepVideoPage;
 import nl.vpro.poms.selenium.pages.Search;
 import nl.vpro.poms.selenium.poms.AbstractTest;
 import nl.vpro.poms.selenium.util.WebDriverFactory;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-
-import javax.annotation.Nonnull;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -38,7 +40,7 @@ public class ItemizerTest extends AbstractTest {
 
     @Test
     public void itemizerTest() {
-        Search searchPage = new Search(driver);
+        Search searchPage = new Search(webDriverUtil);
         //Verify home page
         assertThat(searchPage.getCurrentUser()).contains("VF Specialisterren");
 
@@ -49,7 +51,7 @@ public class ItemizerTest extends AbstractTest {
         searchPage.clickRow(1);
 
         //add the first segment
-        OmroepVideoPage objVideoPage = new OmroepVideoPage(driver);
+        OmroepVideoPage objVideoPage = new OmroepVideoPage(webDriverUtil);
         Date date = new Date();
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
         String dateStr = dateFormat.format(date);

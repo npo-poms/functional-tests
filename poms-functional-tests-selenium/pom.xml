@@ -55,6 +55,10 @@
       <groupId>org.rauschig</groupId>
       <artifactId>jarchivelib</artifactId>
     </dependency>
+    <dependency>
+      <groupId>nl.vpro.media</groupId>
+      <artifactId>media-domain</artifactId>
+    </dependency>
   </dependencies>
 
 </project>

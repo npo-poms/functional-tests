@@ -1,34 +1,37 @@
 package nl.vpro.poms.selenium.util;
 
-import com.paulhammant.ngwebdriver.NgWebDriver;
-import org.openqa.selenium.*;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.FluentWait;
-import org.openqa.selenium.support.ui.Wait;
-import org.openqa.selenium.support.ui.WebDriverWait;
+import lombok.Getter;
 
-import java.time.Duration;
-import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
 
-import static java.util.concurrent.TimeUnit.SECONDS;
+import org.openqa.selenium.*;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+import org.slf4j.Logger;
+import com.paulhammant.ngwebdriver.NgWebDriver;
 
+@Getter
 public class WebDriverUtil {
 
-    private WebDriver driver;
-    private WebDriverWait wait;
-    private NgWebDriver ngWait;
+    private final WebDriver driver;
+    private final WebDriverWait wait;
+    private final NgWebDriver ngWait;
+    private final Logger log;
 
-    public WebDriverUtil(WebDriver driver) {
+
+    public WebDriverUtil(WebDriver driver, Logger logger) {
         this.driver = driver;
         this.wait = new WebDriverWait(driver, 15, 250);
         this.wait.ignoring(NoSuchElementException.class);
         this.ngWait = new NgWebDriver((JavascriptExecutor) driver);
+        this.log = logger;
     }
 
     public void waitAndClick(By by) {
         ngWait.waitForAngularRequestsToFinish();
-        wait.until(ExpectedConditions.elementToBeClickable(by));
+        WebElement element = driver.findElement(by);
+        scrollIntoView(element);
+        wait.until(ExpectedConditions.elementToBeClickable(element));
         driver.findElements(by)
                 .stream()
                 .filter(WebElement::isDisplayed)
@@ -37,6 +40,7 @@ public class WebDriverUtil {
     }
 
     public void waitAndSendkeys(By by, String text) {
+        ngWait.waitForAngularRequestsToFinish();
         wait.until(ExpectedConditions.visibilityOfElementLocated(by));
         driver.findElement(by).clear();
         driver.findElements(by)
@@ -94,5 +98,18 @@ public class WebDriverUtil {
                 return driver.findElement(By.xpath(elementxpath));
             }
         });
+    }
+
+    public void waitForAngularRequestsToFinish() {
+        ngWait.waitForAngularRequestsToFinish();
+    }
+
+    public void scrollIntoView(WebElement element) {
+        log.info("moving to {}", element);
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", element);
+        /*Actions actions = new Actions(driver);
+        actions.moveToElement(element);
+        actions.perform();*/
+        waitForAngularRequestsToFinish();
     }
 }

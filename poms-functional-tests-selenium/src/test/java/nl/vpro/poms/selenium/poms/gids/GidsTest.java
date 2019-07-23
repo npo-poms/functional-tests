@@ -1,16 +1,17 @@
-package nl.vpro.poms.selenium.poms.Gids;
+package nl.vpro.poms.selenium.poms.gids;
+
+import javax.annotation.Nonnull;
+
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.openqa.selenium.By;
 
 import nl.vpro.poms.selenium.pages.MediaItemPage;
 import nl.vpro.poms.selenium.pages.Search;
 import nl.vpro.poms.selenium.poms.AbstractTest;
 import nl.vpro.poms.selenium.util.DateFactory;
 import nl.vpro.poms.selenium.util.WebDriverFactory;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import org.openqa.selenium.By;
-
-import javax.annotation.Nonnull;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
@@ -30,7 +31,7 @@ public class GidsTest extends AbstractTest {
 
     @Test
     public void SPOMSGIDS1(){
-        Search search = new Search(driver);
+        Search search = new Search(webDriverUtil);
         search.clickWissen();
         //        Hier gebleven nog uitzoeken enterDates
         search.enterSorteerdatumDates(DateFactory.getToday(), "");
@@ -41,16 +42,16 @@ public class GidsTest extends AbstractTest {
 
     @Test
     public void SPOMSGIDS2() {
-        Search search = new Search(driver);
+        Search search = new Search(webDriverUtil);
         search.selectOptionFromMenu("Zenders", "Nederland 1");
         search.enterSorteerdatumDates(DateFactory.getToday(),DateFactory.getToday());
         search.clickZoeken();
         search.getMultibleRowsAndCheckTextContains(By.cssSelector("[ng-switch-when='sortDate']"), DateFactory.getToday());
     }
-    
+
     @Test
     public void SPOMSGIDS3(){
-        Search search = new Search(driver);
+        Search search = new Search(webDriverUtil);
         search.selectOptionFromMenu("Zenders", "Nederland 1");
         search.removeSelectedOption("Nederland 1");
         setupSearchAndSort(search);
@@ -60,14 +61,14 @@ public class GidsTest extends AbstractTest {
 
     @Test
     public void SPOMSGIDS5(){
-        Search search = new Search(driver);
+        Search search = new Search(webDriverUtil);
         setupSearchAndSort(search);
         checkAndOpenMediaItem(search);
     }
 
     @Test
     public void SPOMSGIDS7(){
-        Search search = new Search(driver);
+        Search search = new Search(webDriverUtil);
         setupSearchAndSort(search);
         search.removeSelectedOption("Radio 1");
         search.selectOptionFromMenu("Zenders", "Nederland 3 & Zapp");
@@ -87,7 +88,6 @@ public class GidsTest extends AbstractTest {
 
     private String checkAndOpenMediaItem(Search search) {
         String titleItem = search.getItemListTitle(1);
-        MediaItemPage media = new MediaItemPage(driver);
         MediaItemPage itemPage = search.clickRow(0);
         assertThat(itemPage.getMediaItemTitle()).isEqualTo(titleItem);
         return titleItem;

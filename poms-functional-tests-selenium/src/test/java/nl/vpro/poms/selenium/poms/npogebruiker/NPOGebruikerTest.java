@@ -1,17 +1,17 @@
 package nl.vpro.poms.selenium.poms.npogebruiker;
 
+import org.assertj.core.api.SoftAssertions;
+import org.junit.Before;
+import org.junit.Test;
+import org.openqa.selenium.By;
+
+import nl.vpro.domain.media.AVType;
+import nl.vpro.domain.media.MediaType;
 import nl.vpro.poms.selenium.pages.AccountSettingsOverlayPage;
 import nl.vpro.poms.selenium.pages.MediaItemPage;
 import nl.vpro.poms.selenium.pages.Search;
 import nl.vpro.poms.selenium.poms.AbstractTest;
 import nl.vpro.poms.selenium.util.WebDriverFactory;
-import nl.vpro.poms.selenium.util.types.AvType;
-import nl.vpro.poms.selenium.util.types.MediaType;
-import org.assertj.core.api.SoftAssertions;
-import org.junit.Before;
-import org.junit.Test;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.support.ui.Wait;
 
 import static org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -23,8 +23,6 @@ public class NPOGebruikerTest extends AbstractTest {
     }
 
 
-    private Wait<WebDriver> waitFluent;
-
     @Before
     public void setup() {
         login().speciaalNPOGebruiker();
@@ -32,17 +30,17 @@ public class NPOGebruikerTest extends AbstractTest {
 
     @Test
     public void testNPOGebruiker() {
-        Search search = new Search(driver);
+        Search search = new Search(webDriverUtil);
         search.goToAccountInstellingen();
 
-        AccountSettingsOverlayPage overlayPage = new AccountSettingsOverlayPage(driver);
+        AccountSettingsOverlayPage overlayPage = new AccountSettingsOverlayPage(webDriverUtil);
 
         assertThat(overlayPage.getRoles()).contains("MEDIA_SCHEDULE", "MEDIA_USER", "MEDIA_MIS");
     }
 
     @Test
     public void checkCurrentUser() {
-        Search search = new Search(driver);
+        Search search = new Search(webDriverUtil);
         assertThat(search.getCurrentUser()).isEqualTo("NPO Test");
     }
 
@@ -60,7 +58,7 @@ public class NPOGebruikerTest extends AbstractTest {
     public void testWijzigUitzendingInClip() {
         Search search = getSearch();
         String mediatype = search.clickRow(0)
-                .changeMediaType(MediaType.CLIP.getType())
+                .changeMediaType(MediaType.CLIP.getDisplayName())
                 .getMediaType();
         assertThat(mediatype).isEqualTo("Clip");
     }
@@ -68,7 +66,7 @@ public class NPOGebruikerTest extends AbstractTest {
     @Test
     public void testVervroegUitzending() {
         Search search = getSearch();
-        MediaItemPage media = new MediaItemPage(driver);
+        MediaItemPage media = new MediaItemPage(webDriverUtil);
         MediaItemPage itemPage = search.clickRow(1);
         String title = itemPage.getMediaItemTitle();
         System.out.println(title);
@@ -115,9 +113,9 @@ public class NPOGebruikerTest extends AbstractTest {
         softly.assertThat(itemPage.getSorteerDatumTijd()).isEqualTo(startDate);
         softly.assertThat(itemPage.getUitzendigData()).isEqualTo("" + startDate + " (Nederland 1)");
 
-        media.moveToElementXpath("//td/descendant::*[@ng-switch-when='channel']");
-        softly.assertThat(itemPage.getUitzendingGegevensKanaal()).isEqualTo("Nederland 1");
-        softly.assertThat(itemPage.getUitzendingGegevensDatum()).isEqualTo(startDate);
+        media.moveToElement(By.xpath("//td/descendant::*[@ng-switch-when='channel']"));
+        softly.assertThat(itemPage.getUitzendingGegevensEersteKanaal()).isEqualTo("Nederland 1");
+        softly.assertThat(itemPage.getUitzendingGegevensEersteDatum()).isEqualTo(startDate);
         softly.assertThat(itemPage.getUitzendingTitel()).isEqualTo(randomTitel);
         softly.assertThat(itemPage.getUitzendingOmschrijving()).isEqualTo(randomBeschrijving);
 
@@ -139,12 +137,12 @@ public class NPOGebruikerTest extends AbstractTest {
     }
 
     private Search getSearch() {
-        Search search = new Search(driver);
+        Search search = new Search(webDriverUtil);
         //        search.clickNew();
-        search.selectOptionFromMenu("MediaType", MediaType.UITZENDING.getType());
+        search.selectOptionFromMenu("MediaType", MediaType.BROADCAST.getDisplayName());
         search.selectOptionFromMenu("Criteria", "Mag schrijven");
         //        search.selectOptionFromMenu("Criteria", "Beschikbaar op streaming platform");
-        search.selectOptionFromMenu("avType", AvType.VIDEO.getType());
+        search.selectOptionFromMenu("avType", AVType.VIDEO.getDisplayName());
         //search.selectOptionFromMenu("Zenders", "Nederland 1");
         return search;
     }

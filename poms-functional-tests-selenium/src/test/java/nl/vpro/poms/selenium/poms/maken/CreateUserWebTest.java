@@ -48,7 +48,7 @@ public class CreateUserWebTest extends AbstractTest {
     public void createUser1() {
 
         // Kies Nieuw
-        waitForAngularRequestsToFinish();
+        webDriverUtil.waitForAngularRequestsToFinish();
         driver.findElement(By.linkText("NIEUW")).click();
 
         // Kies media type "Clip maar vul het formulier onvolledig in, er ontbreken nog verplichte(*) velden

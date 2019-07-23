@@ -1,11 +1,19 @@
 package nl.vpro.poms.selenium.poms.wijzigen;
 
-import nl.vpro.poms.selenium.pages.Search;
-import nl.vpro.poms.selenium.poms.AbstractTest;
-import nl.vpro.poms.selenium.util.WebDriverFactory;
+import java.net.URISyntaxException;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+
+import nl.vpro.domain.image.ImageType;
+import nl.vpro.domain.support.License;
+import nl.vpro.poms.selenium.pages.MediaItemPage;
+import nl.vpro.poms.selenium.pages.Search;
+import nl.vpro.poms.selenium.poms.AbstractTest;
+import nl.vpro.poms.selenium.util.WebDriverFactory;
+
+import static org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric;
 
 public class ChangeTest extends AbstractTest {
 
@@ -13,43 +21,54 @@ public class ChangeTest extends AbstractTest {
 		super(browser);
 	}
 
-	@Test
-	public void testWijzig() {
+	@Before
+	public void firstLogin() {
 		login().speciaalVf();
-		Search search = new Search(driver);
-		search.selectOptionFromMenu("Omroepen", "VPRO");
-		search.selectOptionFromMenu("MediaType", "Clip");
-//		List<WebElement> tableRows = search.getTableRows();
-//		for (WebElement row: tableRows) {
-//			System.out.println("###" + row);
-//		}
-//		WebElement row = tableRows.get(0);
-//		Actions actions = new Actions(driver);
-//		actions.doubleClick(row);
-		search.clickRow(0);
-		search.scrollToAfbeeldingen();
+	}
+	@After
+	public void afterwardsLogout() {
 		logout();
 	}
-	
+	private static final String randomTitel = randomAlphanumeric(15);
+	private static final String randomDescription = randomAlphanumeric(35);
+
+	@Test
+	public void SPOMSEDITUPLOAD1() throws InterruptedException, URISyntaxException {
+		Search search = new Search(webDriverUtil);
+		search.selectOptionFromMenu("Omroepen", "VPRO");
+		search.selectOptionFromMenu("MediaType", "Clip");
+		search.clickOnColum("Sorteerdatum");
+		MediaItemPage item = search.clickRow(0);
+		item.moveToAfbeeldingen();
+		item.clickOnAfbeeldingToevoegen();
+		item.upLoadAfbeeldingMetNaam("owl.jpeg");
+		item.imageAddTitle(randomTitel);
+		item.imageAddDescription(randomDescription);
+		item.imageAddType(ImageType.PICTURE);
+		item.imageLicentie(License.COPYRIGHTED); // doesn't work yet..
+
+		item.clickButtonMaakAan();
+
+		log.info("Ready creating an image");
+		// FAILING because test does not fill license information
+		// Shouldn't we add some actual tests here?
+
+	}
+
 	@Test
 	public void testWissen() {
-		login().speciaalVf();
-		Search search = new Search(driver);
+		Search search = new Search(webDriverUtil);
 		search.selectOptionFromMenu("Omroepen", "VPRO");
 		search.selectOptionFromMenu("MediaType", "Clip");
 		search.clickWissen();
-		logout();
 	}
-	
+
 	@Test
 	public void testNietBewerken() {
-		login().speciaalVf();
-		Search search = new Search(driver);
+		Search search = new Search(webDriverUtil);
 		search.clickWissen();
 		search.selectOptionFromMenu("Omroepen", "NPO");
 		search.selectOptionFromMenu("Criteria", "Mag schrijven");
-		
-		logout();
 	}
 
 
