@@ -9,8 +9,8 @@ import nl.vpro.api.client.pages.PageUpdateApiClient;
 import nl.vpro.api.client.utils.Config;
 import nl.vpro.domain.PersonInterface;
 import nl.vpro.domain.api.thesaurus.PersonResult;
-import nl.vpro.domain.media.gtaa.GTAANewPerson;
-import nl.vpro.domain.media.gtaa.GTAAPerson;
+import nl.vpro.domain.gtaa.GTAANewPerson;
+import nl.vpro.domain.gtaa.GTAAPerson;
 import nl.vpro.poms.AbstractApiTest;
 import nl.vpro.rules.DoAfterException;
 
