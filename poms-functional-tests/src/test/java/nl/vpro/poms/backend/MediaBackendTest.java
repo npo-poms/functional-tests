@@ -24,8 +24,7 @@ import static nl.vpro.domain.media.support.OwnerType.BROADCASTER;
 import static nl.vpro.domain.media.support.OwnerType.NPO;
 import static nl.vpro.testutils.Utils.waitUntil;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.hamcrest.Matchers.isEmptyOrNullString;
-import static org.hamcrest.Matchers.not;
+import static org.hamcrest.Matchers.*;
 import static org.junit.Assume.*;
 
 
@@ -54,14 +53,14 @@ public class MediaBackendTest extends AbstractApiMediaBackendTest {
     @Before
     public void setup() {
         log.info("Mailing errors to {}", backend.getErrors());
-        assumeThat(backend.getErrors(), not(isEmptyOrNullString()));
+        assumeThat(backend.getErrors(), not(is(emptyOrNullString())));
         assumeNoException(exception);
 
     }
 
 
 
-    static String newMid;
+    private static String newMid;
     @Test
     public void test01CreateObjectWithMembers() {
         ProgramUpdate clip = ProgramUpdate.create(
@@ -281,12 +280,12 @@ public class MediaBackendTest extends AbstractApiMediaBackendTest {
                         IntentionType.INFORM_INDEPTH))
                 .build();
         Intentions intentions2 = Intentions.builder()
-                .owner(NPO).values(Arrays.asList(
-                        IntentionType.ACTIVATING))
+                .owner(NPO)
+                .value(IntentionType.ACTIVATING)
                 .build();
 
         TargetGroups target1 = TargetGroups.builder()
-                .values(Arrays.asList(TargetGroupType.ADULTS))
+                .value(TargetGroupType.ADULTS)
                 .owner(OwnerType.BROADCASTER)
                 .build();
         TargetGroups target2 = TargetGroups.builder()
@@ -299,7 +298,7 @@ public class MediaBackendTest extends AbstractApiMediaBackendTest {
                 .description("City center").build();
 
         GeoLocations geoLocations1 = GeoLocations.builder()
-                .values(Arrays.asList(geoLocation))
+                .value(geoLocation)
                 .owner(OwnerType.NPO)
                 .build();
 

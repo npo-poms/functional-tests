@@ -21,11 +21,12 @@ import static org.junit.Assume.assumeNotNull;
 /**
  * @author Michiel Meeuwissen
  */
+@SuppressWarnings("FieldCanBeLocal")
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 @Slf4j
 public class ThesaurusPublisherTest extends AbstractApiTest {
 
-   PageUpdateApiClient pageUpdateApiClient = PageUpdateApiClient.configured(
+   private PageUpdateApiClient pageUpdateApiClient = PageUpdateApiClient.configured(
        CONFIG.env(),
        CONFIG.getProperties(Config.Prefix.npo_pageupdate_api)
    ).build();
@@ -66,7 +67,7 @@ public class ThesaurusPublisherTest extends AbstractApiTest {
     public void test100Arrived() {
         assumeNotNull(gtaaId);
         log.info("Getting person with id {}", gtaaId);
-        GTAAPerson item = (GTAAPerson) clients.getThesaurusRestService().itemStatus(gtaaId);
+        GTAAPerson item = (GTAAPerson) clients.getThesaurusRestService().conceptStatus(gtaaId);
         log.info("{}", item);
         assertThat(item).isNotNull();
         assertThat(item.getGivenName()).isEqualTo(givenName);
