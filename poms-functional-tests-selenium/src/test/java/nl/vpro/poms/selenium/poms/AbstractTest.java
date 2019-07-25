@@ -18,7 +18,6 @@ import org.slf4j.LoggerFactory;
 import javax.annotation.Nonnull;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
-import java.util.logging.Logger;
 
 /**
  *
@@ -88,7 +87,7 @@ public abstract class AbstractTest {
         try {
             WebDriver driver = browser.asWebDriver();
             // The dimension of the browser should be big enough, (headless browser seem to be small!), otherwise test will keep waiting forever
-            Dimension d = new Dimension(2000, 1500);
+            Dimension d = new Dimension(1200, 1000);
             driver.manage().window().setSize(d);
             return driver;
         } catch (Exception e) {

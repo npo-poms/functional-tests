@@ -1,10 +1,8 @@
 package nl.vpro.poms.selenium.pages;
 
-import java.io.File;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.net.URL;
-
+import nl.vpro.domain.image.ImageType;
+import nl.vpro.domain.support.License;
+import nl.vpro.poms.selenium.util.WebDriverUtil;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
@@ -12,9 +10,9 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 
-import nl.vpro.domain.image.ImageType;
-import nl.vpro.domain.support.License;
-import nl.vpro.poms.selenium.util.WebDriverUtil;
+import java.io.File;
+import java.net.URISyntaxException;
+import java.net.URL;
 
 import static org.assertj.core.api.Fail.fail;
 
@@ -123,10 +121,7 @@ public class MediaItemPage extends AbstractPage {
         WebElement inputUploadAfbeelding = driver.findElement(By.cssSelector(cssInputUploadAfbeelding));
 
         URL url  = getClass().getClassLoader().getResource(naam);
-
-        URI uri = url.toURI();
-
-        File file = new File(uri);
+        File file = new File(url.getFile());
 
         String path = file.getAbsolutePath();
 
