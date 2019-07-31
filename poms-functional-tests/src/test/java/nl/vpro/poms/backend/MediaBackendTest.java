@@ -1,20 +1,6 @@
 package nl.vpro.poms.backend;
 
 import lombok.extern.slf4j.Slf4j;
-
-import java.time.Duration;
-import java.util.Arrays;
-import java.util.Locale;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.function.Predicate;
-
-import javax.xml.bind.JAXB;
-
-import org.assertj.core.api.Assertions;
-import org.junit.*;
-import org.junit.runners.MethodSorters;
-
 import nl.vpro.api.client.media.ResponseError;
 import nl.vpro.domain.media.*;
 import nl.vpro.domain.media.support.OwnerType;
@@ -22,13 +8,23 @@ import nl.vpro.domain.media.update.*;
 import nl.vpro.poms.AbstractApiMediaBackendTest;
 import nl.vpro.rules.DoAfterException;
 import nl.vpro.util.Version;
+import org.assertj.core.api.Assertions;
+import org.junit.*;
+import org.junit.runners.MethodSorters;
+
+import javax.xml.bind.JAXB;
+import java.time.Duration;
+import java.util.Arrays;
+import java.util.Locale;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.function.Predicate;
 
 import static nl.vpro.domain.media.support.OwnerType.BROADCASTER;
 import static nl.vpro.domain.media.support.OwnerType.NPO;
 import static nl.vpro.testutils.Utils.waitUntil;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.hamcrest.Matchers.isEmptyOrNullString;
-import static org.hamcrest.Matchers.not;
+import static org.hamcrest.Matchers.*;
 import static org.junit.Assume.*;
 
 
@@ -57,14 +53,14 @@ public class MediaBackendTest extends AbstractApiMediaBackendTest {
     @Before
     public void setup() {
         log.info("Mailing errors to {}", backend.getErrors());
-        assumeThat(backend.getErrors(), not(isEmptyOrNullString()));
+        assumeThat(backend.getErrors(), not(is(emptyOrNullString())));
         assumeNoException(exception);
 
     }
 
 
 
-    static String newMid;
+    private static String newMid;
     @Test
     public void test01CreateObjectWithMembers() {
         ProgramUpdate clip = ProgramUpdate.create(
@@ -284,12 +280,12 @@ public class MediaBackendTest extends AbstractApiMediaBackendTest {
                         IntentionType.INFORM_INDEPTH))
                 .build();
         Intentions intentions2 = Intentions.builder()
-                .owner(NPO).values(Arrays.asList(
-                        IntentionType.ACTIVATING))
+                .owner(NPO)
+                .value(IntentionType.ACTIVATING)
                 .build();
 
         TargetGroups target1 = TargetGroups.builder()
-                .values(Arrays.asList(TargetGroupType.ADULTS))
+                .value(TargetGroupType.ADULTS)
                 .owner(OwnerType.BROADCASTER)
                 .build();
         TargetGroups target2 = TargetGroups.builder()
@@ -298,11 +294,11 @@ public class MediaBackendTest extends AbstractApiMediaBackendTest {
                 .build();
 
         GeoLocation geoLocation = GeoLocation.builder().name("Amsterdam")
-                .relationType(GeoRelationType.SUBJECT)
+                .role(GeoRoleType.SUBJECT)
                 .description("City center").build();
 
         GeoLocations geoLocations1 = GeoLocations.builder()
-                .values(Arrays.asList(geoLocation))
+                .value(geoLocation)
                 .owner(OwnerType.NPO)
                 .build();
 
