@@ -37,6 +37,7 @@ public class Config {
         npo_backend_api,
         parkpost,
         npo_pageupdate_api,
+        npo_publisher,
         poms,
         images;
 
