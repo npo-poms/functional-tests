@@ -18,6 +18,9 @@ import static org.junit.Assume.assumeNoException;
 import static org.junit.Assume.assumeThat;
 
 /**
+ * Tests if files can be uploaded, and be correctly handled.
+ *
+ *
  *
  * @author Michiel Meeuwissen
  */
@@ -60,11 +63,25 @@ public class MediaBackendTranscodeTest extends AbstractApiMediaBackendTest {
                 .fileName("used-by-integration-tests.m4v")
                 .build();
 
-
         String result = backend.transcode(request);
         log.info("{}: {}", newMid, result);
+
     }
 
+
+    @Test
+    @Ignore("Not yet implemented")
+    public void test02CreatePredictions() {
+        // TODO
+    }
+
+
+    @Test
+    @Ignore("Not yet implemented")
+    public void test03CheckForLocationsToArriveFromNEP() {
+        // TODO
+
+    }
 
 
 }
