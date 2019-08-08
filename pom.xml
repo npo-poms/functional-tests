@@ -115,7 +115,7 @@
       <dependency>
         <groupId>org.assertj</groupId>
         <artifactId>assertj-core</artifactId>
-        <version>3.12.2</version>
+        <version>3.13.2</version>
       </dependency>
       <dependency>
         <groupId>junit</groupId>
@@ -125,12 +125,12 @@
       <dependency>
         <groupId>org.slf4j</groupId>
         <artifactId>slf4j-log4j12</artifactId>
-        <version>1.7.25</version>
+        <version>1.7.27</version>
       </dependency>
        <dependency>
         <groupId>org.slf4j</groupId>
         <artifactId>slf4j-api</artifactId>
-        <version>1.7.25</version>
+        <version>1.7.27</version>
       </dependency>
       <dependency>
         <groupId>org.projectlombok</groupId>
@@ -146,7 +146,7 @@
       <dependency>
         <groupId>org.springframework</groupId>
         <artifactId>spring-core</artifactId>
-        <version>5.1.8.RELEASE</version>
+        <version>5.1.9.RELEASE</version>
       </dependency>
       <dependency>
         <groupId>nl.vpro.media</groupId>
@@ -216,7 +216,7 @@
       <dependency>
         <groupId>io.github.bonigarcia</groupId>
         <artifactId>webdrivermanager</artifactId>
-        <version>3.6.1</version>
+        <version>3.6.2</version>
       </dependency>
       <dependency>
         <groupId>com.google.code.gson</groupId>
