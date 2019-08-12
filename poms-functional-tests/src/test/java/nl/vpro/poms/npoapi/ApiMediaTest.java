@@ -8,6 +8,8 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
+import javax.ws.rs.BadRequestException;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -105,6 +107,23 @@ public class ApiMediaTest extends AbstractApiTest {
         MediaResult result = mediaUtil.listDescendants("RBX_S_NTR_553927",
             Order.DESC, input -> input.getMediaType() == MediaType.BROADCAST, 123);
         assertThat(result.getSize()).isEqualTo(123);
+
+    }
+
+    /**
+     * See NPA-488
+     */
+    @Test(expected = BadRequestException.class)
+    public void badRequestOnOffset() {
+        MediaResult result = clients.getMediaService().listDescendants("RBX_S_NTR_553927", null, null, Order.DESC.toString(),
+            -1L, 0);
+
+    }
+
+    @Test(expected = BadRequestException.class)
+    public void badRequestOnMax() {
+        MediaResult result = clients.getMediaService().listDescendants("RBX_S_NTR_553927", null, null, Order.DESC.toString(),
+            0L, 1_000_000);
 
     }
 
