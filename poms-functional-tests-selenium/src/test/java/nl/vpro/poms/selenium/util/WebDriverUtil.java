@@ -10,6 +10,10 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
 import com.paulhammant.ngwebdriver.NgWebDriver;
 
+import nl.vpro.poms.selenium.util.expectedconditions.PageLoaded;
+
+import static junit.framework.TestCase.fail;
+
 @Getter
 public class WebDriverUtil {
 
@@ -111,5 +115,22 @@ public class WebDriverUtil {
         actions.moveToElement(element);
         actions.perform();*/
         waitForAngularRequestsToFinish();
+    }
+
+    public void waitForTitle(String title) {
+        if (! getWait().until(new PageLoaded(title))) {
+            fail("results page " + title + " is not displayed");
+        }
+    }
+
+    public void switchToWindowWithTitle(String title) {
+
+        for (String windowHandleId : driver.getWindowHandles()) {
+            driver.switchTo().window(windowHandleId);
+            if (driver.getTitle().equals(title)) {
+                return;
+            }
+        }
+        throw new IllegalStateException("No window found with title " + title);
     }
 }
