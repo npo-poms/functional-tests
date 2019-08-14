@@ -1,26 +1,23 @@
 package nl.vpro.poms.selenium.npoapi.thesaurus;
 
-import lombok.extern.slf4j.Slf4j;
-
-import java.io.IOException;
-import java.io.StringReader;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.List;
-
-import javax.annotation.Nonnull;
-
-import org.junit.*;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.Select;
 import com.fasterxml.jackson.databind.JsonNode;
-
+import lombok.extern.slf4j.Slf4j;
 import nl.vpro.api.client.utils.Config;
 import nl.vpro.jackson2.Jackson2Mapper;
 import nl.vpro.poms.selenium.poms.AbstractTest;
 import nl.vpro.poms.selenium.util.WebDriverFactory;
 import nl.vpro.rules.DoAfterException;
+import org.junit.*;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.Select;
+
+import javax.annotation.Nonnull;
+import java.io.IOException;
+import java.io.StringReader;
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.List;
 
 import static junit.framework.TestCase.fail;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -84,8 +81,7 @@ public class ThesaurusPopupTest extends AbstractTest {
 
         webDriverUtil.waitForAngularRequestsToFinish();
         webDriverUtil.switchToWindowWithTitle(POPUP_TITLE);
-        Thread.sleep(1000L); // There should be  spinner to check for!
-
+        waitUntilSuggestionReady();
 
         long counter = driver.findElements(By.xpath("//ul/li"))
                 .stream()
@@ -144,7 +140,8 @@ public class ThesaurusPopupTest extends AbstractTest {
         driver.findElement(By.id("open")).click();
         webDriverUtil.waitForAngularRequestsToFinish();
         webDriverUtil.switchToWindowWithTitle(POPUP_TITLE);
-        Thread.sleep(1000L); // There should be  spinner to check for!
+
+        waitUntilSuggestionReady();
 
         List<WebElement> elements = driver.findElements(By.xpath("//ul/li"));
         Iterator<WebElement> i = elements.iterator();
@@ -168,7 +165,10 @@ public class ThesaurusPopupTest extends AbstractTest {
 
     }
 
-
+    private void waitUntilSuggestionReady() {
+        webDriverUtil.getWait().until(webDriver ->
+                ! webDriver.findElement(By.id("searchValue")).getAttribute("class").contains("waiting"));
+    }
 
 
 }
