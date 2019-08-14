@@ -18,6 +18,7 @@ import nl.vpro.domain.api.media.MediaSearchResult;
 import nl.vpro.domain.api.media.ProgramSearchResult;
 import nl.vpro.domain.media.DescendantRef;
 import nl.vpro.domain.media.MediaObject;
+import nl.vpro.domain.media.MediaObjects;
 import nl.vpro.domain.media.MediaType;
 import nl.vpro.poms.ApiSearchTestHelper;
 import nl.vpro.util.Version;
@@ -69,7 +70,7 @@ public class ApiMediaParameterizedSearchTest extends AbstractSearchTest<MediaFor
             for (SearchResultItem<?> item : sr.getItems()) {
                 MediaObject object = (MediaObject) item.getResult();
                 assertThat(object.getDescendantOf().stream().map(DescendantRef::getMidRef).collect(Collectors.toSet())).contains("POMS_S_VPRO_472240");
-                assertThat(object.getScheduleEvents().stream()
+                assertThat(MediaObjects.getScheduleEvents(object).stream()
                     .anyMatch(e -> e.getStartInstant().isAfter(Instant.ofEpochMilli(1369391170000L)) && e.getStartInstant().isBefore(Instant.ofEpochMilli(1503397570000L))))
                     .isTrue();
 

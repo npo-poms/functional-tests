@@ -295,7 +295,7 @@ public class MediaBackendTest extends AbstractApiMediaBackendTest {
 
         GeoLocation geoLocation = GeoLocation.builder().name("Amsterdam")
                 .role(GeoRoleType.SUBJECT)
-                .description("City center").build();
+                .scopeNote("City center").build();
 
         GeoLocations geoLocations1 = GeoLocations.builder()
                 .value(geoLocation)
