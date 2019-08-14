@@ -34,11 +34,8 @@ public class ChangeTest extends AbstractTest {
 
 	@Test
 	public void SPOMSEDITUPLOAD1() throws InterruptedException, URISyntaxException {
-		Search search = new Search(webDriverUtil);
-		search.selectOptionFromMenu("Omroepen", "VPRO");
-		search.selectOptionFromMenu("MediaType", "Clip");
-		search.clickOnColum("Sorteerdatum");
-		MediaItemPage item = search.clickRow(0);
+
+		MediaItemPage item = new Search(webDriverUtil).searchAndOpenClip();
 		item.moveToAfbeeldingen();
 		item.clickOnAfbeeldingToevoegen();
 		item.upLoadAfbeeldingMetNaam("owl.jpeg");

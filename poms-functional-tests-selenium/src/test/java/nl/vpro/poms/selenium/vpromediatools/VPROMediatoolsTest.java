@@ -1,4 +1,4 @@
-package nl.vpro.poms.selenium.poms.VPROMediatools;
+package nl.vpro.poms.selenium.vpromediatools;
 
 import javax.annotation.Nonnull;
 

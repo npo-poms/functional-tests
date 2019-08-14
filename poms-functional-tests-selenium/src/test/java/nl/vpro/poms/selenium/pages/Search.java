@@ -1,13 +1,5 @@
 package nl.vpro.poms.selenium.pages;
 
-import com.paulhammant.ngwebdriver.NgWebDriver;
-import nl.vpro.poms.selenium.util.WebDriverUtil;
-import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.Keys;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Actions;
-
 import java.time.Duration;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
@@ -16,6 +8,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
+import com.paulhammant.ngwebdriver.NgWebDriver;
+
+import nl.vpro.poms.selenium.util.WebDriverUtil;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
@@ -329,6 +330,16 @@ public class Search extends AbstractPage {
         webDriverUtil.waitForVisible(By.cssSelector("tbody tr:nth-of-type("+columNumber+") [ng-switch-when='mid'] input"));
         WebElement element = driver.findElement(By.cssSelector("tbody tr:nth-of-type("+columNumber+") [ng-switch-when='mid'] input"));
         return element.getAttribute("value");
+    }
+
+    public MediaItemPage searchAndOpenClip() {
+        Search search = new Search(webDriverUtil);
+		search.selectOptionFromMenu("Omroepen", "VPRO");
+		search.selectOptionFromMenu("MediaType", "Clip");
+		search.clickOnColum("Sorteerdatum");
+		MediaItemPage item = search.clickRow(0);
+        ngWait.waitForAngularRequestsToFinish();
+		return item;
     }
 
 }
