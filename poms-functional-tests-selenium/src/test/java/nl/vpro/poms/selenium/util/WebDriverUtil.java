@@ -140,4 +140,9 @@ public class WebDriverUtil {
             log.info(e.getMessage());
         }
     }
+
+    public void click(String id) {
+        driver.findElement(By.id(id)).click();
+
+    }
 }

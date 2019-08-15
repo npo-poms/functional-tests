@@ -16,6 +16,7 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.LoggerFactory;
 
 import javax.annotation.Nonnull;
@@ -51,6 +52,7 @@ public abstract class AbstractTest {
     private final Browser browser;
 
     protected WebDriver driver;
+    protected WebDriverWait wait;
     protected WebDriverUtil webDriverUtil;
 
     protected static Map<Browser, WebDriver> staticDrivers = new HashMap<>();
@@ -98,6 +100,7 @@ public abstract class AbstractTest {
             driver = staticDrivers.computeIfAbsent(browser, AbstractTest::createDriver);
         }
         webDriverUtil  = new WebDriverUtil(driver, log);
+        wait = webDriverUtil.getWait();
     }
 
     private static WebDriver createDriver(Browser browser) {

@@ -74,7 +74,7 @@ public class ThesaurusPopupTest extends AbstractTest {
 
         driver.findElement(By.id("givenName")).sendKeys("Jan Peter");
         driver.findElement(By.id("familyName")).sendKeys("Balkenende");
-        driver.findElement(By.id("open")).click();
+        webDriverUtil.click("open");
 
         webDriverUtil.waitForAngularRequestsToFinish();
         webDriverUtil.switchToWindowWithTitle(POPUP_TITLE);
@@ -100,10 +100,7 @@ public class ThesaurusPopupTest extends AbstractTest {
         webDriverUtil.waitForAngularRequestsToFinish();
         // There should no appear a 'select'
 
-        WebElement select = driver.findElement(By.id("submit"));
-        // and click it
-
-        select.click();
+        webDriverUtil.click("submit");
 
         // Now, the window should disappear
         webDriverUtil.waitForWindowToClose();
@@ -119,7 +116,7 @@ public class ThesaurusPopupTest extends AbstractTest {
         WebElement value = driver.findElement(By.id("value"));
         value.clear();
         value.sendKeys("Amsterdam");
-        driver.findElement(By.id("open")).click();
+        webDriverUtil.click("open");
         webDriverUtil.waitForAngularRequestsToFinish();
         webDriverUtil.switchToWindowWithTitle(POPUP_TITLE);
 
@@ -146,18 +143,13 @@ public class ThesaurusPopupTest extends AbstractTest {
         List<WebElement> e  =  search(conceptName);
         register = e.get(e.size() -1);
         register.click();
+        webDriverUtil.waitForAngularRequestsToFinish();
 
-        webDriverUtil.getDriver().findElement(By.id("note")).sendKeys("Made by Selenium test. Don't approve this");
-        webDriverUtil.getDriver().findElement(By.id("register")).click();
-        webDriverUtil.getWait().until(webDriver -> {
-                try {
-                    webDriver.findElement(By.id("spinner")).findElement(By.tagName("img"));
-                    return true;
-                } catch (NoSuchElementException nsee) {
-                    return false;
-                }
-        });
-        webDriverUtil.getDriver().findElement(By.id("submit")).click();
+        driver.findElement(By.id("note")).sendKeys("Made by Selenium test. Don't approve this");
+        webDriverUtil.click("register");
+        waitForRegistration();
+
+        webDriverUtil.click("submit");
         webDriverUtil.waitForWindowToClose();
         webDriverUtil.switchToWindowWithTitle(EXAMPLE_TITLE);
         JsonNode jsonNode = getJson();
@@ -168,13 +160,24 @@ public class ThesaurusPopupTest extends AbstractTest {
     }
 
     private List<WebElement> search(String value){
-        webDriverUtil.getDriver().findElement(By.id("searchValue")).sendKeys(value);
+        driver.findElement(By.id("searchValue")).sendKeys(value);
         waitUntilSuggestionReady();
         return driver.findElements(By.xpath("//ul/li"));
     }
     private void waitUntilSuggestionReady() {
-        webDriverUtil.getWait().until(webDriver ->
+        wait.until(webDriver ->
                 ! webDriver.findElement(By.id("searchValue")).getAttribute("class").contains("waiting"));
+    }
+    private void waitForRegistration() {
+        wait.until(webDriver -> {
+            try {
+                webDriver.findElement(By.id("spinner")).findElement(By.tagName("img"));
+                return true;
+            } catch (NoSuchElementException nsee) {
+                return false;
+            }
+        });
+        webDriverUtil.waitForAngularRequestsToFinish();
     }
     private void selectScheme(Scheme... scheme) {
         webDriverUtil.waitForAngularRequestsToFinish();
