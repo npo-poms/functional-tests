@@ -33,7 +33,7 @@ public class ChangeTest extends AbstractTest {
 	private static final String randomDescription = randomAlphanumeric(35);
 
 	@Test
-	public void SPOMSEDITUPLOAD1() throws InterruptedException, URISyntaxException {
+	public void SPOMSEDITUPLOAD1() throws URISyntaxException {
 
 		MediaItemPage item = new Search(webDriverUtil).searchAndOpenClip();
 		item.moveToAfbeeldingen();

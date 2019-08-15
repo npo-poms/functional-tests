@@ -27,6 +27,8 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assume.assumeNoException;
 import static org.junit.runners.MethodSorters.NAME_ASCENDING;
+import static org.openqa.selenium.By.id;
+import static org.openqa.selenium.By.tagName;
 
 /**
  *
@@ -72,8 +74,8 @@ public class ThesaurusPopupTest extends AbstractTest {
     public void test002FindJanPeter() {
         selectScheme(Scheme.person);
 
-        driver.findElement(By.id("givenName")).sendKeys("Jan Peter");
-        driver.findElement(By.id("familyName")).sendKeys("Balkenende");
+        driver.findElement(id("givenName")).sendKeys("Jan Peter");
+        driver.findElement(id("familyName")).sendKeys("Balkenende");
         webDriverUtil.click("open");
 
         webDriverUtil.waitForAngularRequestsToFinish();
@@ -111,11 +113,11 @@ public class ThesaurusPopupTest extends AbstractTest {
     }
 
     @Test
-    public void test004Geonames() throws IOException {
+    public void test004Geonames() {
         selectScheme(Scheme.geographicname);
-        WebElement value = driver.findElement(By.id("value"));
-        value.clear();
-        value.sendKeys("Amsterdam");
+        WebElement name = driver.findElement(id("name"));
+        name.clear();
+        name.sendKeys("Amsterdam");
         webDriverUtil.click("open");
         webDriverUtil.waitForAngularRequestsToFinish();
         webDriverUtil.switchToWindowWithTitle(POPUP_TITLE);
@@ -138,14 +140,19 @@ public class ThesaurusPopupTest extends AbstractTest {
         }
         assertThat(elements).hasSizeGreaterThan(3);
         assertThat(register).isNotNull();
+    }
+
+    @Test
+    public void test005RegisterGeonames() throws IOException {
         String conceptName = testMethod.getMethodName().replaceAll("[\\[\\]]", "_") + "-" + LocalDateTime.now().format(DateTimeFormatter.ofPattern("YYYYMMdd'T'HHmmss"));
 
         List<WebElement> e  =  search(conceptName);
-        register = e.get(e.size() -1);
+        WebElement register = e.get(e.size() -1);
         register.click();
         webDriverUtil.waitForAngularRequestsToFinish();
 
-        driver.findElement(By.id("note")).sendKeys("Made by Selenium test. Don't approve this");
+        driver.findElement(id("scopeNote")).clear();
+        driver.findElement(id("scopeNote")).sendKeys("Made by Selenium test. Don't approve this");
         webDriverUtil.click("register");
         waitForRegistration();
 
@@ -160,18 +167,20 @@ public class ThesaurusPopupTest extends AbstractTest {
     }
 
     private List<WebElement> search(String value){
-        driver.findElement(By.id("searchValue")).sendKeys(value);
+        WebElement searchValue = driver.findElement(id("searchValue"));
+        searchValue.clear();
+        searchValue.sendKeys(value);
         waitUntilSuggestionReady();
         return driver.findElements(By.xpath("//ul/li"));
     }
     private void waitUntilSuggestionReady() {
         wait.until(webDriver ->
-                ! webDriver.findElement(By.id("searchValue")).getAttribute("class").contains("waiting"));
+                ! webDriver.findElement(id("searchValue")).getAttribute("class").contains("waiting"));
     }
     private void waitForRegistration() {
         wait.until(webDriver -> {
             try {
-                webDriver.findElement(By.id("spinner")).findElement(By.tagName("img"));
+                webDriver.findElement(id("spinner")).findElement(tagName("img"));
                 return true;
             } catch (NoSuchElementException nsee) {
                 return false;
@@ -181,16 +190,17 @@ public class ThesaurusPopupTest extends AbstractTest {
     }
     private void selectScheme(Scheme... scheme) {
         webDriverUtil.waitForAngularRequestsToFinish();
-        WebElement schemes = driver.findElement(By.id("schemes"));
+        WebElement schemes = driver.findElement(id("schemes"));
         Select select = new Select(schemes);
         select.deselectAll();
         for (Scheme s : scheme) {
             select.selectByValue(s.name());
         }
+        webDriverUtil.waitForAngularRequestsToFinish();
     }
     private JsonNode getJson() throws IOException {
         webDriverUtil.waitForAngularRequestsToFinish();
-        WebElement jsonArea = driver.findElement(By.id("json"));
+        WebElement jsonArea = driver.findElement(id("json"));
         String json = jsonArea.getAttribute("value");
 
         return Jackson2Mapper.getLenientInstance().readTree(new StringReader(json));

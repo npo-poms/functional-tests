@@ -115,7 +115,7 @@ public class MediaItemPage extends AbstractPage {
         driver.findElement(By.xpath(buttonAfbeeldingToevoegen)).click();
     }
 
-    public void upLoadAfbeeldingMetNaam(String naam) throws URISyntaxException {
+    public void upLoadAfbeeldingMetNaam(String naam) {
         wait.until(ExpectedConditions.presenceOfElementLocated(By.cssSelector(cssInputUploadAfbeelding)));
 
         WebElement inputUploadAfbeelding = driver.findElement(By.cssSelector(cssInputUploadAfbeelding));

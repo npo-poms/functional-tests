@@ -35,7 +35,7 @@ public class WebDriverFactory {
             .newBuilder()
             .build(new CacheLoader<DriverManagerType, WebDriverManager>() {
                 @Override
-                public WebDriverManager load(@Nonnull DriverManagerType key) throws Exception {
+                public WebDriverManager load(@Nonnull DriverManagerType key) {
                     WebDriverManager instance = WebDriverManager.getInstance(key);
                     instance.setup();
                     return instance;
