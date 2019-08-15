@@ -159,6 +159,11 @@
         <version>${poms.shared.version}</version>
       </dependency>
       <dependency>
+        <groupId>nl.vpro.poms</groupId>
+        <artifactId>gtaa-domain</artifactId>
+        <version>${poms.shared.version}</version>
+      </dependency>
+      <dependency>
         <groupId>nl.vpro.poms.api-clients</groupId>
         <artifactId>frontend-api-client</artifactId>
         <version>${api.client.version}</version>
