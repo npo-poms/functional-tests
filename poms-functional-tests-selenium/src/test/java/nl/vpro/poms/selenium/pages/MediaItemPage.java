@@ -11,7 +11,6 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 
 import java.io.File;
-import java.net.URISyntaxException;
 import java.net.URL;
 
 import static org.assertj.core.api.Fail.fail;

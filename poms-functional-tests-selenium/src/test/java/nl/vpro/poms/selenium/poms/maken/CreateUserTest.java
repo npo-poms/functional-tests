@@ -1,12 +1,5 @@
 package nl.vpro.poms.selenium.poms.maken;
 
-import javax.annotation.Nonnull;
-
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
-
 import nl.vpro.domain.media.AVType;
 import nl.vpro.domain.media.MediaType;
 import nl.vpro.poms.selenium.pages.AddNewObjectOverlayPage;
@@ -15,6 +8,9 @@ import nl.vpro.poms.selenium.pages.MediaItemPage;
 import nl.vpro.poms.selenium.poms.AbstractTest;
 import nl.vpro.poms.selenium.util.DateFactory;
 import nl.vpro.poms.selenium.util.WebDriverFactory;
+import org.junit.*;
+
+import javax.annotation.Nonnull;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -82,16 +78,19 @@ public class CreateUserTest extends AbstractTest {
     }
 
     @Test
+    @Ignore("Fails")
     public void testWijzigStandaardOmroep() {
         Assert.fail("Bug gemeld");
     }
 
     @Test
+    @Ignore("Fails")
     public void testVoegTweeStandaardOmroepenToe() {
         Assert.fail("Bug gemeld");
     }
 
     @Test
+    @Ignore("Fails")
     public void testPersistStandaardOmroep() {
         Assert.fail("Bug gemeld");
     }

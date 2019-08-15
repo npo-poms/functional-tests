@@ -58,7 +58,7 @@ public abstract class AbstractTest {
     protected static Map<Browser, WebDriver> staticDrivers = new HashMap<>();
 
     protected static Map<Class, Boolean> loggedAboutSetupEach = new HashMap<>();
-    protected boolean setupEach;
+    protected boolean setupEach = true;
 
     @Rule
     public DoAfterException doAfterException = new DoAfterException((t) -> {
@@ -66,6 +66,7 @@ public abstract class AbstractTest {
             AbstractTest.exceptions.put(getClass(), t);
         }
     });
+
 
     protected  static final Map<Class, Throwable> exceptions = new ConcurrentHashMap<>();
 
@@ -120,8 +121,12 @@ public abstract class AbstractTest {
     public void tearDown() {
         if (setupEach) {
             if (driver != null) {
-                driver.close();
-                driver.quit();
+                if (exceptions.isEmpty() || WebDriverFactory.headless) {
+                    driver.close();
+                    driver.quit();
+                } else {
+                    LOG.warn("Not closing browser because of test failures {}", exceptions);
+                }
             }
         }
     }
