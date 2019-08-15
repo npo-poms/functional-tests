@@ -3,11 +3,13 @@ package nl.vpro.poms.selenium.npoapi.thesaurus;
 import com.fasterxml.jackson.databind.JsonNode;
 import lombok.extern.slf4j.Slf4j;
 import nl.vpro.api.client.utils.Config;
+import nl.vpro.domain.gtaa.Scheme;
 import nl.vpro.jackson2.Jackson2Mapper;
 import nl.vpro.poms.selenium.poms.AbstractTest;
 import nl.vpro.poms.selenium.util.WebDriverFactory;
-import nl.vpro.rules.DoAfterException;
-import org.junit.*;
+import org.junit.Before;
+import org.junit.FixMethodOrder;
+import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
@@ -33,21 +35,11 @@ public class ThesaurusPopupTest extends AbstractTest {
 
     private static final String EXAMPLE_TITLE = "POMS GTAA";
     private static final String POPUP_TITLE = "GTAA";
-    @Rule
-    public DoAfterException doAfterException = new DoAfterException((t) -> {
-        if (! (t instanceof AssumptionViolatedException)) {
-            ThesaurusPopupTest.exception = t;
-        }
-    });
-
-    private static Throwable exception = null;
 
     @Before
     public void setup() {
-        assumeNoException(exception);
+        assumeNoException(exceptions.get(ThesaurusPopupTest.class));
     }
-
-
 
     public ThesaurusPopupTest(@Nonnull WebDriverFactory.Browser browser) {
         super(browser);
@@ -75,8 +67,11 @@ public class ThesaurusPopupTest extends AbstractTest {
 
      */
     @Test
-    public void test002FindJanPeter() throws InterruptedException {
-        driver.findElement(By.id("value")).sendKeys("Jan Peter Balkenende");
+    public void test002FindJanPeter() {
+        selectScheme(Scheme.person);
+
+        driver.findElement(By.id("givenName")).sendKeys("Jan Peter");
+        driver.findElement(By.id("familyName")).sendKeys("Balkenende");
         driver.findElement(By.id("open")).click();
 
         webDriverUtil.waitForAngularRequestsToFinish();
@@ -129,11 +124,7 @@ public class ThesaurusPopupTest extends AbstractTest {
 
     @Test
     public void test004Geonames() throws InterruptedException {
-
-        WebElement schemes = driver.findElement(By.id("schemes"));
-        Select select = new Select(schemes);
-        select.deselectAll();
-        select.selectByValue("geographicname");
+        selectScheme(Scheme.geographicname);
         WebElement value = driver.findElement(By.id("value"));
         value.clear();
         value.sendKeys("Amsterdam");
@@ -168,6 +159,15 @@ public class ThesaurusPopupTest extends AbstractTest {
     private void waitUntilSuggestionReady() {
         webDriverUtil.getWait().until(webDriver ->
                 ! webDriver.findElement(By.id("searchValue")).getAttribute("class").contains("waiting"));
+    }
+    private void selectScheme(Scheme... scheme) {
+        webDriverUtil.waitForAngularRequestsToFinish();
+        WebElement schemes = driver.findElement(By.id("schemes"));
+        Select select = new Select(schemes);
+        select.deselectAll();
+        for (Scheme s : scheme) {
+            select.selectByValue(s.name());
+        }
     }
 
 

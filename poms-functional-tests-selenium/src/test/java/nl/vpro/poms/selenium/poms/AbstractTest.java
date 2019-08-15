@@ -4,8 +4,10 @@ import io.github.bonigarcia.wdm.DriverManagerType;
 import nl.vpro.api.client.utils.Config;
 import nl.vpro.poms.selenium.pages.PomsLogin;
 import nl.vpro.poms.selenium.pages.Search;
+import nl.vpro.poms.selenium.util.WebDriverFactory;
 import nl.vpro.poms.selenium.util.WebDriverFactory.Browser;
 import nl.vpro.poms.selenium.util.WebDriverUtil;
+import nl.vpro.rules.DoAfterException;
 import nl.vpro.rules.TestMDC;
 import org.junit.*;
 import org.junit.rules.Timeout;
@@ -17,6 +19,7 @@ import org.slf4j.LoggerFactory;
 
 import javax.annotation.Nonnull;
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -50,6 +53,16 @@ public abstract class AbstractTest {
 
     protected static Map<Class, Boolean> loggedAboutSetupEach = new HashMap<>();
     protected boolean setupEach;
+
+    @Rule
+    public DoAfterException doAfterException = new DoAfterException((t) -> {
+        if (! (t instanceof AssumptionViolatedException)) {
+            AbstractTest.exceptions.put(getClass(), t);
+        }
+    });
+
+    protected  static final Map<Class, Throwable> exceptions = new ConcurrentHashMap<>();
+
 
     @Parameterized.Parameters
     public static Collection<Object[]> data() {
@@ -108,8 +121,12 @@ public abstract class AbstractTest {
 
     @AfterClass
     public static void tearDownClass() {
-        for (WebDriver wd : staticDrivers.values()) {
-            wd.quit();
+        if (exceptions.isEmpty() || WebDriverFactory.headless) {
+            for (WebDriver wd : staticDrivers.values()) {
+                wd.quit();
+            }
+        } else {
+            LOG.warn("Not closing browser because of test failures {}", exceptions);
         }
     }
 

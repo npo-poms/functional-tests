@@ -1,37 +1,31 @@
 package nl.vpro.poms.selenium.util;
 
 
-import static nl.vpro.poms.selenium.util.Config.CONFIG;
-
-
+import com.google.common.cache.CacheBuilder;
+import com.google.common.cache.CacheLoader;
+import com.google.common.cache.LoadingCache;
 import io.github.bonigarcia.wdm.DriverManagerType;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import lombok.EqualsAndHashCode;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
-
-import javax.annotation.Nonnull;
-
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
-
-import com.google.common.cache.CacheBuilder;
-import com.google.common.cache.CacheLoader;
-import com.google.common.cache.LoadingCache;
-
-import nl.vpro.poms.selenium.poms.AbstractTest;
 import org.openqa.selenium.firefox.FirefoxProfile;
 
+import javax.annotation.Nonnull;
 import java.util.concurrent.ExecutionException;
+
+import static nl.vpro.poms.selenium.util.Config.CONFIG;
 
 
 @Slf4j
 public class WebDriverFactory {
 
-    private static boolean headless;
+    public static boolean headless;
 
     static {
         headless = Boolean.parseBoolean(CONFIG.getProperty("headless"));
