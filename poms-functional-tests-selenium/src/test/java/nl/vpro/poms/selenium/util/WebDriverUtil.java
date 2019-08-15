@@ -1,16 +1,14 @@
 package nl.vpro.poms.selenium.util;
 
+import com.paulhammant.ngwebdriver.NgWebDriver;
 import lombok.Getter;
-
-import java.util.function.Function;
-
+import nl.vpro.poms.selenium.util.expectedconditions.PageLoaded;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
-import com.paulhammant.ngwebdriver.NgWebDriver;
 
-import nl.vpro.poms.selenium.util.expectedconditions.PageLoaded;
+import java.util.function.Function;
 
 import static junit.framework.TestCase.fail;
 
@@ -132,5 +130,14 @@ public class WebDriverUtil {
             }
         }
         throw new IllegalStateException("No window found with title " + title);
+    }
+
+    public void waitForWindowToClose() {
+        try {
+            String url = driver.getCurrentUrl();
+            fail("getCurrentUrl should give exception since the window is closed. But it resulted " + url);
+        } catch(Exception e) {
+            log.info(e.getMessage());
+        }
     }
 }

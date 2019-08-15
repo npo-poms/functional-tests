@@ -11,17 +11,19 @@ import org.junit.Before;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 
 import javax.annotation.Nonnull;
 import java.io.IOException;
 import java.io.StringReader;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
-import static junit.framework.TestCase.fail;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assume.assumeNoException;
 import static org.junit.runners.MethodSorters.NAME_ASCENDING;
@@ -103,27 +105,16 @@ public class ThesaurusPopupTest extends AbstractTest {
 
         select.click();
 
-        // Now, the window should disspear
-        try {
-            String url = driver.getCurrentUrl();
-            fail("getCurrentUrl should give exception since the window is closed. But it resulted " + url);
-        } catch(Exception e) {
-            log.info(e.getMessage());
-        }
-
+        // Now, the window should disappear
+        webDriverUtil.waitForWindowToClose();
         webDriverUtil.switchToWindowWithTitle(EXAMPLE_TITLE);
-
-        webDriverUtil.waitForAngularRequestsToFinish();
-        WebElement jsonArea = driver.findElement(By.id("json"));
-        String json = jsonArea.getAttribute("value");
-
-        JsonNode jsonNode = Jackson2Mapper.getLenientInstance().readTree(new StringReader(json));
+        JsonNode jsonNode = getJson();
         assertThat(jsonNode.get("action").asText()).isEqualTo("selected");
 
     }
 
     @Test
-    public void test004Geonames() throws InterruptedException {
+    public void test004Geonames() throws IOException {
         selectScheme(Scheme.geographicname);
         WebElement value = driver.findElement(By.id("value"));
         value.clear();
@@ -148,14 +139,39 @@ public class ThesaurusPopupTest extends AbstractTest {
 
             }
         }
-
         assertThat(elements).hasSizeGreaterThan(3);
         assertThat(register).isNotNull();
+        String conceptName = testMethod.getMethodName().replaceAll("[\\[\\]]", "_") + "-" + LocalDateTime.now().format(DateTimeFormatter.ofPattern("YYYYMMdd'T'HHmmss"));
 
+        List<WebElement> e  =  search(conceptName);
+        register = e.get(e.size() -1);
+        register.click();
 
-
+        webDriverUtil.getDriver().findElement(By.id("note")).sendKeys("Made by Selenium test. Don't approve this");
+        webDriverUtil.getDriver().findElement(By.id("register")).click();
+        webDriverUtil.getWait().until(webDriver -> {
+                try {
+                    webDriver.findElement(By.id("spinner")).findElement(By.tagName("img"));
+                    return true;
+                } catch (NoSuchElementException nsee) {
+                    return false;
+                }
+        });
+        webDriverUtil.getDriver().findElement(By.id("submit")).click();
+        webDriverUtil.waitForWindowToClose();
+        webDriverUtil.switchToWindowWithTitle(EXAMPLE_TITLE);
+        JsonNode jsonNode = getJson();
+        assertThat(jsonNode.get("action").asText()).isEqualTo("selected");
+        assertThat(jsonNode.get("concept").get("status").asText()).isEqualTo("candidate");
+        assertThat(jsonNode.get("concept").get("name").asText()).isEqualTo(conceptName);
+        assertThat(jsonNode.get("concept").get("scopeNotes").get(0).asText()).isNotEmpty();
     }
 
+    private List<WebElement> search(String value){
+        webDriverUtil.getDriver().findElement(By.id("searchValue")).sendKeys(value);
+        waitUntilSuggestionReady();
+        return driver.findElements(By.xpath("//ul/li"));
+    }
     private void waitUntilSuggestionReady() {
         webDriverUtil.getWait().until(webDriver ->
                 ! webDriver.findElement(By.id("searchValue")).getAttribute("class").contains("waiting"));
@@ -168,6 +184,13 @@ public class ThesaurusPopupTest extends AbstractTest {
         for (Scheme s : scheme) {
             select.selectByValue(s.name());
         }
+    }
+    private JsonNode getJson() throws IOException {
+        webDriverUtil.waitForAngularRequestsToFinish();
+        WebElement jsonArea = driver.findElement(By.id("json"));
+        String json = jsonArea.getAttribute("value");
+
+        return Jackson2Mapper.getLenientInstance().readTree(new StringReader(json));
     }
 
 

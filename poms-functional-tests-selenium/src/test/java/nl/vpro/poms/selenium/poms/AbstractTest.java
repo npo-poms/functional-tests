@@ -10,6 +10,7 @@ import nl.vpro.poms.selenium.util.WebDriverUtil;
 import nl.vpro.rules.DoAfterException;
 import nl.vpro.rules.TestMDC;
 import org.junit.*;
+import org.junit.rules.TestName;
 import org.junit.rules.Timeout;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -43,6 +44,9 @@ public abstract class AbstractTest {
 
     @Rule
     public TestMDC testMDC = new TestMDC();
+
+    @Rule
+    public TestName testMethod = new TestName();
 
     private final Browser browser;
 
