@@ -14,7 +14,7 @@ public class PageLoaded implements ExpectedCondition<Boolean> {
     }
 
     @Override
-        public Boolean apply(WebDriver driver) {
+    public Boolean apply(WebDriver driver) {
         return driver.getTitle().equals(expectedTitle);
     }
 

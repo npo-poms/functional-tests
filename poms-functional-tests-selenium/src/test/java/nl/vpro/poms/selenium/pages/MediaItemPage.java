@@ -11,7 +11,6 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 
 import java.io.File;
-import java.net.URISyntaxException;
 import java.net.URL;
 
 import static org.assertj.core.api.Fail.fail;
@@ -115,7 +114,7 @@ public class MediaItemPage extends AbstractPage {
         driver.findElement(By.xpath(buttonAfbeeldingToevoegen)).click();
     }
 
-    public void upLoadAfbeeldingMetNaam(String naam) throws URISyntaxException {
+    public void upLoadAfbeeldingMetNaam(String naam) {
         wait.until(ExpectedConditions.presenceOfElementLocated(By.cssSelector(cssInputUploadAfbeelding)));
 
         WebElement inputUploadAfbeelding = driver.findElement(By.cssSelector(cssInputUploadAfbeelding));

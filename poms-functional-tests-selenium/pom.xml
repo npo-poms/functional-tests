@@ -59,6 +59,10 @@
       <groupId>nl.vpro.media</groupId>
       <artifactId>media-domain</artifactId>
     </dependency>
+    <dependency>
+      <groupId>nl.vpro.poms</groupId>
+      <artifactId>gtaa-domain</artifactId>
+    </dependency>
   </dependencies>
 
 </project>

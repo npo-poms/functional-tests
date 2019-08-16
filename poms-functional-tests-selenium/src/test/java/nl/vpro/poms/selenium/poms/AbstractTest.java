@@ -4,19 +4,24 @@ import io.github.bonigarcia.wdm.DriverManagerType;
 import nl.vpro.api.client.utils.Config;
 import nl.vpro.poms.selenium.pages.PomsLogin;
 import nl.vpro.poms.selenium.pages.Search;
+import nl.vpro.poms.selenium.util.WebDriverFactory;
 import nl.vpro.poms.selenium.util.WebDriverFactory.Browser;
 import nl.vpro.poms.selenium.util.WebDriverUtil;
+import nl.vpro.rules.DoAfterException;
 import nl.vpro.rules.TestMDC;
 import org.junit.*;
+import org.junit.rules.TestName;
 import org.junit.rules.Timeout;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.LoggerFactory;
 
 import javax.annotation.Nonnull;
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -41,15 +46,30 @@ public abstract class AbstractTest {
     @Rule
     public TestMDC testMDC = new TestMDC();
 
+    @Rule
+    public TestName testMethod = new TestName();
+
     private final Browser browser;
 
     protected WebDriver driver;
+    protected WebDriverWait wait;
     protected WebDriverUtil webDriverUtil;
 
     protected static Map<Browser, WebDriver> staticDrivers = new HashMap<>();
 
     protected static Map<Class, Boolean> loggedAboutSetupEach = new HashMap<>();
-    protected boolean setupEach;
+    protected boolean setupEach = true;
+
+    @Rule
+    public DoAfterException doAfterException = new DoAfterException((t) -> {
+        if (! (t instanceof AssumptionViolatedException)) {
+            AbstractTest.exceptions.put(getClass(), t);
+        }
+    });
+
+
+    protected  static final Map<Class, Throwable> exceptions = new ConcurrentHashMap<>();
+
 
     @Parameterized.Parameters
     public static Collection<Object[]> data() {
@@ -81,6 +101,7 @@ public abstract class AbstractTest {
             driver = staticDrivers.computeIfAbsent(browser, AbstractTest::createDriver);
         }
         webDriverUtil  = new WebDriverUtil(driver, log);
+        wait = webDriverUtil.getWait();
     }
 
     private static WebDriver createDriver(Browser browser) {
@@ -102,14 +123,26 @@ public abstract class AbstractTest {
             if (driver != null) {
                 driver.close();
                 driver.quit();
+                /* No use, the doAfterException is run _after_ tearDown.
+                if (exceptions.isEmpty() || WebDriverFactory.headless) {
+                    driver.close();
+                    driver.quit();
+                } else {
+                    LOG.warn("Not closing browser because of test failures {}", exceptions);
+                }
+                */
             }
         }
     }
 
     @AfterClass
     public static void tearDownClass() {
-        for (WebDriver wd : staticDrivers.values()) {
-            wd.quit();
+        if (exceptions.isEmpty() || WebDriverFactory.headless) {
+            for (WebDriver wd : staticDrivers.values()) {
+                wd.quit();
+            }
+        } else {
+            LOG.warn("Not closing browser because of test failures {}", exceptions);
         }
     }
 

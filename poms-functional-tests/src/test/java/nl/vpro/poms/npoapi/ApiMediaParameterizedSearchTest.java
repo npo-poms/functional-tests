@@ -1,16 +1,6 @@
 package nl.vpro.poms.npoapi;
 
 import lombok.extern.slf4j.Slf4j;
-
-import java.io.IOException;
-import java.time.Instant;
-import java.util.Collection;
-import java.util.stream.Collectors;
-
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
-
 import nl.vpro.domain.api.SearchResultItem;
 import nl.vpro.domain.api.TermFacetResultItem;
 import nl.vpro.domain.api.media.MediaForm;
@@ -22,6 +12,14 @@ import nl.vpro.domain.media.MediaObjects;
 import nl.vpro.domain.media.MediaType;
 import nl.vpro.poms.ApiSearchTestHelper;
 import nl.vpro.util.Version;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
+
+import java.io.IOException;
+import java.time.Instant;
+import java.util.Collection;
+import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assume.assumeTrue;
