@@ -40,6 +40,7 @@ public class ThesaurusPopupTest extends AbstractTest {
     private static final String EXAMPLE_TITLE = "POMS GTAA";
     private static final String POPUP_TITLE = "GTAA";
 
+    private static boolean loggedIn = false;
     @Before
     public void setup() {
         assumeNoException(exceptions.get(ThesaurusPopupTest.class));
@@ -49,20 +50,14 @@ public class ThesaurusPopupTest extends AbstractTest {
         super(browser);
     }
 
-    @Test
+    @Before
     public void test000login() {
-        String url = CONFIG.getProperties(Config.Prefix.npo_api).get("baseUrl") + "/thesaurus/example/";
-        login(url).gtaaBrowserTest();
-    }
-
-
-    /**
-     * Logs in to the thesaurus frontend.
-     */
-    @Test
-    public void test001Login() {
-        webDriverUtil.waitForTitle(EXAMPLE_TITLE);
-
+        if (! loggedIn) {
+            String url = CONFIG.getProperties(Config.Prefix.npo_api).get("baseUrl") + "/thesaurus/example/";
+            login(url).gtaaBrowserTest();
+            webDriverUtil.waitForTitle(EXAMPLE_TITLE);
+            loggedIn = true;
+        }
     }
 
     /**
@@ -164,6 +159,27 @@ public class ThesaurusPopupTest extends AbstractTest {
         assertThat(jsonNode.get("concept").get("status").asText()).isEqualTo("candidate");
         assertThat(jsonNode.get("concept").get("name").asText()).isEqualTo(conceptName);
         assertThat(jsonNode.get("concept").get("scopeNotes").get(0).asText()).isNotEmpty();
+    }
+
+    @Test
+    public void test006SearchById() throws IOException {
+        String uriOfAmsterdam = "http://data.beeldengeluid.nl/gtaa/31586";
+        webDriverUtil.click("reset");
+        driver.findElement(id("id")).sendKeys(uriOfAmsterdam);
+        webDriverUtil.click("open");
+        webDriverUtil.waitForAngularRequestsToFinish();
+        webDriverUtil.switchToWindowWithTitle(POPUP_TITLE);
+        waitUntilSuggestionReady();
+        // first suggestion should be it
+        WebElement webElement = driver.findElements(By.xpath("//ul/li")).get(0).findElement(tagName("a"));
+        assertThat(webElement.getAttribute("id")).isEqualTo(uriOfAmsterdam);
+        webElement.click();
+        webDriverUtil.click("submit");
+        webDriverUtil.waitForWindowToClose();
+        webDriverUtil.switchToWindowWithTitle(EXAMPLE_TITLE);
+        JsonNode jsonNode = getJson();
+        assertThat(jsonNode.get("action").asText()).isEqualTo("selected");
+        assertThat(jsonNode.get("concept").get("id").asText()).isEqualTo(uriOfAmsterdam);
     }
 
     private List<WebElement> search(String value){
