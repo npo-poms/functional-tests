@@ -2,6 +2,7 @@ package nl.vpro.poms.selenium.poms.wijzigen;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.openqa.selenium.By;
 
@@ -10,6 +11,7 @@ import nl.vpro.poms.selenium.pages.Search;
 import nl.vpro.poms.selenium.poms.AbstractTest;
 import nl.vpro.poms.selenium.util.WebDriverFactory;
 
+@Ignore("TODO")
 public class GeoLocationChangeTest extends AbstractTest {
 
 	public GeoLocationChangeTest(WebDriverFactory.Browser browser) {
