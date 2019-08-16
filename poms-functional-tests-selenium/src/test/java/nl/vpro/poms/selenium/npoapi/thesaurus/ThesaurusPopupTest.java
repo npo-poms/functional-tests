@@ -1,21 +1,7 @@
 package nl.vpro.poms.selenium.npoapi.thesaurus;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import lombok.extern.slf4j.Slf4j;
-import nl.vpro.api.client.utils.Config;
-import nl.vpro.domain.gtaa.Scheme;
-import nl.vpro.jackson2.Jackson2Mapper;
-import nl.vpro.poms.selenium.poms.AbstractTest;
-import nl.vpro.poms.selenium.util.WebDriverFactory;
-import org.junit.Before;
-import org.junit.FixMethodOrder;
-import org.junit.Test;
-import org.openqa.selenium.By;
-import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.Select;
 
-import javax.annotation.Nonnull;
 import java.io.IOException;
 import java.io.StringReader;
 import java.time.LocalDateTime;
@@ -23,6 +9,23 @@ import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
+
+import javax.annotation.Nonnull;
+
+import org.junit.Before;
+import org.junit.FixMethodOrder;
+import org.junit.Test;
+import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.Select;
+import com.fasterxml.jackson.databind.JsonNode;
+
+import nl.vpro.api.client.utils.Config;
+import nl.vpro.domain.gtaa.Scheme;
+import nl.vpro.jackson2.Jackson2Mapper;
+import nl.vpro.poms.selenium.poms.AbstractTest;
+import nl.vpro.poms.selenium.util.WebDriverFactory;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assume.assumeNoException;
@@ -92,7 +95,7 @@ public class ThesaurusPopupTest extends AbstractTest {
             .stream()
             .filter(s -> s.getText().contains("Jan Peter"))
             .findFirst()
-            .get();
+            .orElseThrow(() -> new IllegalStateException("Not found Jan Peter"));
         jan_peter.click();
         webDriverUtil.waitForAngularRequestsToFinish();
         // There should no appear a 'select'
