@@ -1,16 +1,18 @@
 package nl.vpro.poms.selenium.poms.wijzigen;
 
 import lombok.extern.slf4j.Slf4j;
-import nl.vpro.api.client.utils.Config;
-import nl.vpro.poms.selenium.poms.AbstractTest;
-import nl.vpro.poms.selenium.util.WebDriverFactory;
+
+import javax.annotation.Nonnull;
+
 import org.junit.FixMethodOrder;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
-import javax.annotation.Nonnull;
+import nl.vpro.api.client.utils.Config;
+import nl.vpro.poms.selenium.poms.AbstractTest;
+import nl.vpro.poms.selenium.util.WebDriverFactory;
 
 import static org.junit.runners.MethodSorters.NAME_ASCENDING;
 
@@ -29,6 +31,7 @@ public class PersonsWebTest extends AbstractTest {
 
     public PersonsWebTest(@Nonnull WebDriverFactory.Browser browser) {
         super(browser);
+
     }
 
     @Test

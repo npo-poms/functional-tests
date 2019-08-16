@@ -45,7 +45,7 @@ public class CreateUserWebTest extends AbstractTest {
      * Nog in te vullen: Genre should be in the footer of the page
      */
     @Test
-    public void createUser1() {
+    public void test01createUser1() {
 
         // Kies Nieuw
         webDriverUtil.waitForAngularRequestsToFinish();
@@ -91,7 +91,7 @@ public class CreateUserWebTest extends AbstractTest {
      * have a MID, URN, status should be 'Voor publicatie', the selected tab should be shaded.
      */
     @Test
-    public void createUser2() {
+    public void  test02createUser2() {
         //Select Jeugd from Genre type
         WebElement genre = driver.findElement(By.name("Genre *"));
         genre.click();
