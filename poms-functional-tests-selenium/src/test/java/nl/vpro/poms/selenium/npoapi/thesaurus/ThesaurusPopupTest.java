@@ -141,7 +141,28 @@ public class ThesaurusPopupTest extends AbstractTest {
     }
 
     @Test
-    public void test005RegisterGeonames() throws IOException {
+    public void test005SearchGeoLocationById() throws IOException {
+        String uriOfAmsterdam = "http://data.beeldengeluid.nl/gtaa/31586";
+        webDriverUtil.click("reset");
+        driver.findElement(id("id")).sendKeys(uriOfAmsterdam);
+        webDriverUtil.click("open");
+        webDriverUtil.waitForAngularRequestsToFinish();
+        webDriverUtil.switchToWindowWithTitle(POPUP_TITLE);
+        waitUntilSuggestionReady();
+        // first suggestion should be it
+        WebElement webElement = driver.findElements(By.xpath("//ul/li")).get(0).findElement(tagName("a"));
+        assertThat(webElement.getAttribute("id")).isEqualTo(uriOfAmsterdam);
+        webElement.click();
+        webDriverUtil.click("submit");
+        webDriverUtil.waitForWindowToClose();
+        webDriverUtil.switchToWindowWithTitle(EXAMPLE_TITLE);
+        JsonNode jsonNode = getJson();
+        assertThat(jsonNode.get("action").asText()).isEqualTo("selected");
+        assertThat(jsonNode.get("concept").get("id").asText()).isEqualTo(uriOfAmsterdam);
+    }
+
+    @Test
+    public void test006RegisterGeoLocation() throws IOException {
         String conceptName = testMethod.getMethodName().replaceAll("[\\[\\]]", "_") + "-" + LocalDateTime.now().format(DateTimeFormatter.ofPattern("YYYYMMdd'T'HHmmss"));
 
         List<WebElement> e  =  search(conceptName);
@@ -164,26 +185,7 @@ public class ThesaurusPopupTest extends AbstractTest {
         assertThat(jsonNode.get("concept").get("scopeNotes").get(0).asText()).isNotEmpty();
     }
 
-    @Test
-    public void test006SearchById() throws IOException {
-        String uriOfAmsterdam = "http://data.beeldengeluid.nl/gtaa/31586";
-        webDriverUtil.click("reset");
-        driver.findElement(id("id")).sendKeys(uriOfAmsterdam);
-        webDriverUtil.click("open");
-        webDriverUtil.waitForAngularRequestsToFinish();
-        webDriverUtil.switchToWindowWithTitle(POPUP_TITLE);
-        waitUntilSuggestionReady();
-        // first suggestion should be it
-        WebElement webElement = driver.findElements(By.xpath("//ul/li")).get(0).findElement(tagName("a"));
-        assertThat(webElement.getAttribute("id")).isEqualTo(uriOfAmsterdam);
-        webElement.click();
-        webDriverUtil.click("submit");
-        webDriverUtil.waitForWindowToClose();
-        webDriverUtil.switchToWindowWithTitle(EXAMPLE_TITLE);
-        JsonNode jsonNode = getJson();
-        assertThat(jsonNode.get("action").asText()).isEqualTo("selected");
-        assertThat(jsonNode.get("concept").get("id").asText()).isEqualTo(uriOfAmsterdam);
-    }
+
 
     private List<WebElement> search(String value){
         WebElement searchValue = driver.findElement(id("searchValue"));
