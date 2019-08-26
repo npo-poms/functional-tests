@@ -226,6 +226,4 @@ public class ThesaurusPopupTest extends AbstractTest {
 
         return Jackson2Mapper.getLenientInstance().readTree(new StringReader(json));
     }
-
-
 }
