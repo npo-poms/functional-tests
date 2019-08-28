@@ -1,6 +1,7 @@
 package nl.vpro.poms.selenium.poms.wijzigen;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import nl.vpro.api.client.utils.Config;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Ignore;
@@ -28,7 +29,8 @@ public class GeoLocationChangeTest extends AbstractTest {
 
 	@Before
 	public void firstLogin() {
-		login().speciaalVf();
+		login().speciaalVf(useKeyCloak);
+		login(CONFIG.getProperties(Config.Prefix.npo_api).get("baseUrl")).speciaalVf(false);
 	}
 	@After
 	public void afterwardsLogout() {

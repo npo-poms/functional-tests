@@ -29,7 +29,7 @@ public class ItemizerTest extends AbstractTest {
 
     @Before
     public void setup() {
-        login().speciaalVf();
+        login().speciaalVf(useKeyCloak);
     }
 
     @After

@@ -41,6 +41,7 @@ public abstract class AbstractTest {
 
     public static final String MID = "WO_VPRO_025057";
 
+    public static final boolean useKeyCloak = true;
 //    private static final Logger log = Logger.getLogger(AbstractTest.class.getName() );
 
     @Rule

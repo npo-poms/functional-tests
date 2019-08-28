@@ -12,6 +12,7 @@ import org.junit.Ignore;
 import org.junit.Test;
 
 import java.net.URISyntaxException;
+import java.util.Optional;
 
 import static org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric;
 
@@ -23,7 +24,7 @@ public class ChangeTest extends AbstractTest {
 
 	@Before
 	public void firstLogin() {
-		login().speciaalVf();
+		login().speciaalVf(useKeyCloak);
 	}
 	@After
 	public void afterwardsLogout() {

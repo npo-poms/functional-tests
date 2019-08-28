@@ -54,10 +54,10 @@ public class ThesaurusPopupTest extends AbstractTest {
     }
 
     @Before
-    public void test000login() {
+    public void test000LoginAndStartPage() {
         if (! loggedIn) {
-            String url = CONFIG.getProperties(Config.Prefix.npo_api).get("baseUrl") + "/thesaurus/example/";
-            login(url).gtaaBrowserTest();
+            String url = CONFIG.getProperties(Config.Prefix.npo_api).get("baseUrl") + "/thesaurus/example/secure";
+            login(url).gtaaBrowserTest(false);
             webDriverUtil.waitForTitle(EXAMPLE_TITLE);
             loggedIn = true;
         }
