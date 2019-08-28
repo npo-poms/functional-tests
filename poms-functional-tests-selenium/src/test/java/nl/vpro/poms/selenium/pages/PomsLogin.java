@@ -18,7 +18,7 @@ public class PomsLogin extends AbstractPage {
 
     private static final By passwdBy = By.id("password");
 
-    private static final By loginBy = By.cssSelector("input.btn-submit");
+    private static final By loginBy = By.cssSelector("input.btn-primary");
 
     private static final String URL = CONFIG.getProperties(Config.Prefix.poms).get("baseUrl");
 
