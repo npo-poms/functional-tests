@@ -1,17 +1,12 @@
 package nl.vpro.poms.selenium.npoapi.thesaurus;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import lombok.extern.slf4j.Slf4j;
-
-import java.io.IOException;
-import java.io.StringReader;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.List;
-
-import javax.annotation.Nonnull;
-
+import nl.vpro.api.client.utils.Config;
+import nl.vpro.domain.gtaa.Scheme;
+import nl.vpro.jackson2.Jackson2Mapper;
+import nl.vpro.poms.selenium.poms.AbstractTest;
+import nl.vpro.poms.selenium.util.WebDriverFactory;
 import org.junit.Before;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
@@ -19,13 +14,15 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
-import com.fasterxml.jackson.databind.JsonNode;
 
-import nl.vpro.api.client.utils.Config;
-import nl.vpro.domain.gtaa.Scheme;
-import nl.vpro.jackson2.Jackson2Mapper;
-import nl.vpro.poms.selenium.poms.AbstractTest;
-import nl.vpro.poms.selenium.util.WebDriverFactory;
+import javax.annotation.Nonnull;
+import java.io.IOException;
+import java.io.StringReader;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assume.assumeNoException;
@@ -44,18 +41,19 @@ public class ThesaurusPopupTest extends AbstractTest {
     private static final String POPUP_TITLE = "GTAA";
 
     private static boolean loggedIn = false;
-    @Before
-    public void setup() {
-        assumeNoException(exceptions.get(ThesaurusPopupTest.class));
-    }
 
     public ThesaurusPopupTest(@Nonnull WebDriverFactory.Browser browser) {
         super(browser);
     }
 
     @Before
+    public void setup() {
+        assumeNoException(exceptions.get(ThesaurusPopupTest.class));
+    }
+
+    @Before
     public void test000LoginAndStartPage() {
-        if (! loggedIn) {
+        if (!loggedIn) {
             String url = CONFIG.getProperties(Config.Prefix.npo_api).get("baseUrl") + "/thesaurus/example/secure";
             login(url).gtaaBrowserTest(false);
             webDriverUtil.waitForTitle(EXAMPLE_TITLE);
@@ -66,7 +64,6 @@ public class ThesaurusPopupTest extends AbstractTest {
     /**
      * Searches for a person with the Given name: Jan Peter and Family name Balkenende.
      * A list should appear with two values containing "Jan Peter"
-
      */
     @Test
     public void test002FindJanPeter() {
@@ -89,13 +86,13 @@ public class ThesaurusPopupTest extends AbstractTest {
     }
 
     @Test
-    public void test003SelectOne() throws  IOException {
+    public void test003SelectOne() throws IOException {
 
         WebElement jan_peter = driver.findElements(By.xpath("//ul/li"))
-            .stream()
-            .filter(s -> s.getText().contains("Jan Peter"))
-            .findFirst()
-            .orElseThrow(() -> new IllegalStateException("Not found Jan Peter"));
+                .stream()
+                .filter(s -> s.getText().contains("Jan Peter"))
+                .findFirst()
+                .orElseThrow(() -> new IllegalStateException("Not found Jan Peter"));
         jan_peter.click();
         webDriverUtil.waitForAngularRequestsToFinish();
         // There should no appear a 'select'
@@ -125,7 +122,7 @@ public class ThesaurusPopupTest extends AbstractTest {
         List<WebElement> elements = driver.findElements(By.xpath("//ul/li"));
         Iterator<WebElement> i = elements.iterator();
         WebElement register = null;
-        while(i.hasNext()) {
+        while (i.hasNext()) {
             WebElement e = i.next();
             String[] lines = e.getText().split("\n");
             log.info("{}", Arrays.asList(lines));
@@ -142,6 +139,7 @@ public class ThesaurusPopupTest extends AbstractTest {
 
     @Test
     public void test005SearchGeoLocationById() throws IOException {
+        webDriverUtil.switchToWindowWithTitle(EXAMPLE_TITLE);
         String uriOfAmsterdam = "http://data.beeldengeluid.nl/gtaa/31586";
         webDriverUtil.click("reset");
         driver.findElement(id("id")).sendKeys(uriOfAmsterdam);
@@ -163,10 +161,17 @@ public class ThesaurusPopupTest extends AbstractTest {
 
     @Test
     public void test006RegisterGeoLocation() throws IOException {
+        selectScheme(Scheme.geographicname);
+        WebElement name = driver.findElement(id("name"));
+        name.clear();
+        webDriverUtil.click("open");
+        webDriverUtil.waitForAngularRequestsToFinish();
+        webDriverUtil.switchToWindowWithTitle(POPUP_TITLE);
+
         String conceptName = testMethod.getMethodName().replaceAll("[\\[\\]]", "_") + "-" + LocalDateTime.now().format(DateTimeFormatter.ofPattern("YYYYMMdd'T'HHmmss"));
 
-        List<WebElement> e  =  search(conceptName);
-        WebElement register = e.get(e.size() -1);
+        search(conceptName);
+        WebElement register = driver.findElement(By.className("status-create"));
         register.click();
         webDriverUtil.waitForAngularRequestsToFinish();
 
@@ -185,19 +190,18 @@ public class ThesaurusPopupTest extends AbstractTest {
         assertThat(jsonNode.get("concept").get("scopeNotes").get(0).asText()).isNotEmpty();
     }
 
-
-
-    private List<WebElement> search(String value){
+    private void search(String value) {
         WebElement searchValue = driver.findElement(id("searchValue"));
         searchValue.clear();
         searchValue.sendKeys(value);
         waitUntilSuggestionReady();
-        return driver.findElements(By.xpath("//ul/li"));
     }
+
     private void waitUntilSuggestionReady() {
         wait.until(webDriver ->
-                ! webDriver.findElement(id("searchValue")).getAttribute("class").contains("waiting"));
+                !webDriver.findElement(id("searchValue")).getAttribute("class").contains("waiting"));
     }
+
     private void waitForRegistration() {
         wait.until(webDriver -> {
             try {
@@ -209,6 +213,7 @@ public class ThesaurusPopupTest extends AbstractTest {
         });
         webDriverUtil.waitForAngularRequestsToFinish();
     }
+
     private void selectScheme(Scheme... scheme) {
         webDriverUtil.waitForAngularRequestsToFinish();
         WebElement schemes = driver.findElement(id("schemes"));
@@ -219,6 +224,7 @@ public class ThesaurusPopupTest extends AbstractTest {
         }
         webDriverUtil.waitForAngularRequestsToFinish();
     }
+
     private JsonNode getJson() throws IOException {
         webDriverUtil.waitForAngularRequestsToFinish();
         WebElement jsonArea = driver.findElement(id("json"));
