@@ -32,6 +32,7 @@ public class PomsLogin extends AbstractPage {
         this.url = url == null ? POMS_URL : url;
 
     }
+    
     public void gotoPage() {
         webDriverUtil.getDriver().navigate().to(url);
     }
