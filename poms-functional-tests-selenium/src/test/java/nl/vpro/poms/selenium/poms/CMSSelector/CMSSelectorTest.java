@@ -4,6 +4,7 @@ import nl.vpro.poms.selenium.pages.CMSMediaSelector;
 import nl.vpro.poms.selenium.pages.Search;
 import nl.vpro.poms.selenium.poms.AbstractTest;
 import nl.vpro.poms.selenium.util.WebDriverFactory;
+import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.openqa.selenium.By;
@@ -19,10 +20,14 @@ public class CMSSelectorTest extends AbstractTest {
         super(browser);
     }
 
+    @Before
+    public void beforeLogin(){
+        login().speciaalNPOGebruiker();
+    }
+
     @Test
     @Ignore("Fails")
     public void SPOMSCMSSELECTOR1(){
-        login().speciaalNPOGebruiker();
 
         CMSMediaSelector cms = new CMSMediaSelector(webDriverUtil);
         cms.openUrlCmsMediaSelector();

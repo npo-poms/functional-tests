@@ -24,7 +24,7 @@ public class ChangeTest extends AbstractTest {
 
 	@Before
 	public void firstLogin() {
-		login().speciaalVf(useKeyCloak);
+		login().speciaalVf();
 	}
 	@After
 	public void afterwardsLogout() {

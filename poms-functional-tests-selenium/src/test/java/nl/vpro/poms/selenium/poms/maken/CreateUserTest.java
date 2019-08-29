@@ -24,7 +24,7 @@ public class CreateUserTest extends AbstractTest {
 
     @Before
     public void setup() {
-        login().speciaalVf(useKeyCloak);
+        login().speciaalVf();
     }
 
     @After

@@ -1,6 +1,7 @@
 package nl.vpro.poms.selenium.pages;
 
 
+import nl.vpro.api.client.utils.Config;
 import nl.vpro.poms.selenium.util.WebDriverUtil;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
@@ -19,7 +20,7 @@ public class CMSMediaSelector extends AbstractPage {
 
     String mainCMSWindow;
     String pomsWindow;
-    String UrlCmsMediaSelector = "https://poms-test.omroep.nl/CMSSelector/example/";
+    String UrlCmsMediaSelector = CONFIG.getProperties(Config.Prefix.poms).get("baseUrl") + "/CMSSelector/example/";
     WebDriverWait wait;
 
 

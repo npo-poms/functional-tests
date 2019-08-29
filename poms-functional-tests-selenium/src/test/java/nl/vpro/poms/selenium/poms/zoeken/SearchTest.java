@@ -27,7 +27,7 @@ public class SearchTest extends AbstractTest {
 
     @Before
     public void setup() {
-        login().speciaalVf(useKeyCloak);
+        login().speciaalVf();
         search = new Search(webDriverUtil);
     }
 

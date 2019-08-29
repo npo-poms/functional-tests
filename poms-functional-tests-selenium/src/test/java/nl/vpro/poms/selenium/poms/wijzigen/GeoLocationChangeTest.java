@@ -29,8 +29,8 @@ public class GeoLocationChangeTest extends AbstractTest {
 
 	@Before
 	public void firstLogin() {
-		login().speciaalVf(useKeyCloak);
-		login(CONFIG.getProperties(Config.Prefix.npo_api).get("baseUrl")).speciaalVf(false);
+		login().speciaalVf();
+		login(CONFIG.getProperties(Config.Prefix.npo_api).get("baseUrl")).speciaalVf();
 	}
 	@After
 	public void afterwardsLogout() {

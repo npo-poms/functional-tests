@@ -22,32 +22,25 @@ public class PomsLogin extends AbstractPage {
 
     private static final By loginBy = By.cssSelector("input.btn-primary");
 
-    private static final String URL = CONFIG.getProperties(Config.Prefix.poms).get("baseUrl");
-
-    private static final boolean useKeyCloak = true;
+    private static final String POMS_URL = CONFIG.getProperties(Config.Prefix.poms).get("baseUrl");
+    private static final String GTAA_URL = CONFIG.getProperties(Config.Prefix.npo_api).get("baseUrl")+ "/thesaurus/example/secure";
 
     private final String url;
 
     public PomsLogin(String url, WebDriverUtil util) {
         super(util);
-        this.url = url == null ? URL : url;
+        this.url = url == null ? POMS_URL : url;
 
     }
     public void gotoPage() {
-//        log.info("poms {}", URL);
-//
-//
         webDriverUtil.getDriver().navigate().to(url);
     }
 
-    public void gotoLogin(@NonNull String user, @NonNull  String passwd, boolean keyCloak) {
-        gotoPage();
-        if(keyCloak){
-            loginKeyCloak(user,passwd);
-        } else {
-            login(user, passwd);
-        }
-        // known issue: login will not sent back to correct url
+    public void gotoLogin(@NonNull String user, @NonNull  String passwd) {
+        webDriverUtil.getDriver().navigate().to(POMS_URL);
+        loginKeyCloak(user,passwd);
+        webDriverUtil.getDriver().navigate().to(GTAA_URL);
+        login(user, passwd);
         gotoPage();
     }
 
@@ -66,29 +59,29 @@ public class PomsLogin extends AbstractPage {
     public void VPROand3voor12() {
         String user =  CONFIG.getProperty("SpeciaalVfGebruiker.LOGIN");
         String password =  CONFIG.getProperty("SpeciaalVfGebruiker.PASSWORD");
-        gotoLogin(user, password, useKeyCloak);
+        gotoLogin(user, password);
     }
 
     public void speciaalNPOGebruiker() {
         String user = CONFIG.getProperty("MISGebruiker.LOGIN");
 		String password = CONFIG.getProperty("MISGebruiker.PASSWORD");
-		gotoLogin(user, password, useKeyCloak);
+		gotoLogin(user, password);
 	}
 	public void speciaalAdminGebruiker() {
 		String user = CONFIG.getProperty("AdminGebruiker.LOGIN");
 		String password = CONFIG.getProperty("AdminGebruiker.PASSWORD");
-		gotoLogin(user, password, useKeyCloak);
+		gotoLogin(user, password);
 	}
-	public void speciaalVf(boolean keyCloak) {
+	public void speciaalVf() {
         String user =  CONFIG.getProperty("SpeciaalVfGebruiker.LOGIN");
         String password =  CONFIG.getProperty("SpeciaalVfGebruiker.PASSWORD");
-        gotoLogin(user, password, keyCloak);
+        gotoLogin(user, password);
 	}
 
-    public void gtaaBrowserTest(boolean keyCloak) {
+    public void gtaaBrowserTest() {
         String user =  CONFIG.getProperty("SpeciaalVfGebruiker.LOGIN");
         String password =  CONFIG.getProperty("SpeciaalVfGebruiker.PASSWORD");
-        gotoLogin(user, password, keyCloak);
+        gotoLogin(user, password);
 
     }
 }
