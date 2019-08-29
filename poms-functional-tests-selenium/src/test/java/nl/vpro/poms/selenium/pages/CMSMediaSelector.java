@@ -34,6 +34,8 @@ public class CMSMediaSelector extends AbstractPage {
     }
 
     public void clickButtonSelect() {
+        WebDriverWait wait = new WebDriverWait(driver, 15, 250);
+        wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("button#select")));
         webDriverUtil.waitAndClick(By.cssSelector("button#select"));
     }
 

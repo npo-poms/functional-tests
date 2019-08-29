@@ -74,9 +74,9 @@ public class CMSSelectorTest extends AbstractTest {
         cms.openUrlCmsMediaSelector();
         cms.clickButtonSelect();
         cms.switchToPomsWindows();
-        cms.checkLoginTextBoxes();
-        cms.checkIfNotDisplayedTables();
-        cms.loginNPOGebruikerMediaSelector();
+//        cms.checkLoginTextBoxes();
+//        cms.checkIfNotDisplayedTables();
+//        cms.loginNPOGebruikerMediaSelector();
 
         Search search = new Search(webDriverUtil);
         return search;

@@ -125,16 +125,8 @@ public abstract class AbstractTest {
     public void tearDown() {
         if (setupEach) {
             if (driver != null) {
-                driver.close();
+                if (WebDriverFactory.headless) driver.close();
                 driver.quit();
-                /* No use, the doAfterException is run _after_ tearDown.
-                if (exceptions.isEmpty() || WebDriverFactory.headless) {
-                    driver.close();
-                    driver.quit();
-                } else {
-                    LOG.warn("Not closing browser because of test failures {}", exceptions);
-                }
-                */
             }
         }
     }

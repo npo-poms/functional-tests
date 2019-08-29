@@ -32,16 +32,17 @@ public class PomsLogin extends AbstractPage {
         this.url = url == null ? POMS_URL : url;
 
     }
-    
+
     public void gotoPage() {
         webDriverUtil.getDriver().navigate().to(url);
     }
 
     public void gotoLogin(@NonNull String user, @NonNull  String passwd) {
-        webDriverUtil.getDriver().navigate().to(POMS_URL);
-        loginKeyCloak(user,passwd);
+        //To download the popup.js we need to be loggedin in the Frontend API
         webDriverUtil.getDriver().navigate().to(GTAA_URL);
         login(user, passwd);
+        webDriverUtil.getDriver().navigate().to(POMS_URL);
+        loginKeyCloak(user, passwd);
         gotoPage();
     }
 

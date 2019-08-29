@@ -26,7 +26,7 @@ public class Search extends AbstractPage {
     private static final By newBy = By.cssSelector(".header-link-new");
     private static final By logoutBy = By.xpath("//a[text()='log uit']");
     private static final By accountInstellingenBy = By.xpath("//a[contains(text(),'account-instellingen')]");
-    private static final By loggedOutBy = By.cssSelector("div#msg > h2");
+    private static final By loggedOutBy = By.id("kc-page-title");
     private static final By menuBy = By.cssSelector(".header-account-buttons > .header-account-link:first-child > span");
     private static final By overlayFormBy = By.cssSelector("div.modal-backdrop");
     private static final By queryBy = By.cssSelector("input#query");
@@ -72,7 +72,7 @@ public class Search extends AbstractPage {
     public void logout() {
         webDriverUtil.waitAndClick(menuBy);
         webDriverUtil.waitAndClick(logoutBy);
-        webDriverUtil.waitForTextToBePresent(loggedOutBy, "Logout successful");
+        webDriverUtil.waitForTextToBePresent(loggedOutBy, "Log In");
     }
 
     public String getCurrentUser() {
