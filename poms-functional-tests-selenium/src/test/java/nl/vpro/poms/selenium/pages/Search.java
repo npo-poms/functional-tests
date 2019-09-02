@@ -17,6 +17,7 @@ import org.openqa.selenium.interactions.Actions;
 import com.paulhammant.ngwebdriver.NgWebDriver;
 
 import nl.vpro.poms.selenium.util.WebDriverUtil;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
@@ -130,6 +131,7 @@ public class Search extends AbstractPage {
     }
 
     public void clickCriteriaMenu(String menu) {
+        wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector(String.format(criteriaMenuTemplate, menu))));
         webDriverUtil.waitAndClick(By.cssSelector(String.format(criteriaMenuTemplate, menu)));
     }
 

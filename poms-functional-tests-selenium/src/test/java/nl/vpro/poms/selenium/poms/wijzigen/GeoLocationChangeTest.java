@@ -30,7 +30,6 @@ public class GeoLocationChangeTest extends AbstractTest {
 	@Before
 	public void firstLogin() {
 		login().speciaalVf();
-		login(CONFIG.getProperties(Config.Prefix.npo_api).get("baseUrl")).speciaalVf();
 	}
 	@After
 	public void afterwardsLogout() {
@@ -39,18 +38,10 @@ public class GeoLocationChangeTest extends AbstractTest {
 
 
 	@Test
-	public void clearGeoLocations()  {
+	public void addGeoLocations() {
 		MediaItemPage item = new Search(webDriverUtil).searchAndOpenClip();
 		String poms_title = driver.getTitle();
 		item.moveToElement(By.id("geolocations"));
-
-		//Remove eventual geolocations
-//		List<WebElement> removeButtons = driver.findElement(By.xpath("//poms-geolocations")).findElements(By.className("media-concept-remove"));
-//		for(WebElement button: removeButtons){
-//			button.click();
-//			webDriverUtil.waitForAngularRequestsToFinish();
-//		}
-//		assertThat(removeButtons.size()).isEqualTo(0);
 
 		WebElement addButton = driver.findElement(By.id("addGeoLocation"));
 		addButton.click();
@@ -58,13 +49,16 @@ public class GeoLocationChangeTest extends AbstractTest {
 		webDriverUtil.switchToWindowWithTitle(POPUP_TITLE);
 		waitUntilSuggestionReady();
 		// first suggestion should be it
-		WebElement webElement = driver.findElements(By.xpath("//ul/li")).get(0).findElement(tagName("a"));
-		webElement.click();
+		driver.findElement(By.id("searchValue")).sendKeys("Amsterdam");
+		webDriverUtil.waitForAngularRequestsToFinish();
+		wait.until(webDriver -> driver.findElement(By.xpath("//ul/li/a[contains(@class, 'status-approved')]")));
+		WebElement resultItem = driver.findElements(By.xpath("//ul/li/a[contains(@class, 'status-approved')]")).get(0);
+		resultItem.click();
 		webDriverUtil.click("submit");
 		webDriverUtil.waitForWindowToClose();
 		webDriverUtil.switchToWindowWithTitle(poms_title);
 
-		// Then check wether submitting works.
+		// Then check whether submitting works.
  		List<WebElement> newRemoveButtons = driver.findElement(By.xpath("//poms-geolocations")).findElements(By.className("media-concept-remove"));
 		assertThat(newRemoveButtons.size()).isEqualTo(1);
 

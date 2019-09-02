@@ -180,6 +180,7 @@ public class ThesaurusPopupTest extends AbstractTest {
         webDriverUtil.click("register");
         waitForRegistration();
 
+        wait.until(webdriver -> webdriver.findElement(By.id("submit")));
         webDriverUtil.click("submit");
         webDriverUtil.waitForWindowToClose();
         webDriverUtil.switchToWindowWithTitle(EXAMPLE_TITLE);
