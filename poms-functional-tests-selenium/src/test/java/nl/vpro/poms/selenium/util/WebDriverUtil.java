@@ -31,7 +31,7 @@ public class WebDriverUtil {
 
     public void waitAndClick(By by) {
         ngWait.waitForAngularRequestsToFinish();
-        WebElement element = driver.findElement(by);
+        WebElement element = wait.until(driver -> driver.findElement(by));
         scrollIntoView(element);
         wait.until(ExpectedConditions.elementToBeClickable(element));
         driver.findElements(by)

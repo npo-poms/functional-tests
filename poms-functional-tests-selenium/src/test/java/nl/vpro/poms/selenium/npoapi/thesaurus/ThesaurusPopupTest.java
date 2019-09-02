@@ -192,7 +192,7 @@ public class ThesaurusPopupTest extends AbstractTest {
     }
 
     private void search(String value) {
-        WebElement searchValue = driver.findElement(id("searchValue"));
+        WebElement searchValue = wait.until(driver -> driver.findElement(id("searchValue")));
         searchValue.clear();
         searchValue.sendKeys(value);
         waitUntilSuggestionReady();
