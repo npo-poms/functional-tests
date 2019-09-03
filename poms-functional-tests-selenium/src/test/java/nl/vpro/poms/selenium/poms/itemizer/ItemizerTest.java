@@ -3,7 +3,7 @@ package nl.vpro.poms.selenium.poms.itemizer;
 import nl.vpro.poms.selenium.pages.OmroepVideoDetailInfoPage;
 import nl.vpro.poms.selenium.pages.OmroepVideoPage;
 import nl.vpro.poms.selenium.pages.Search;
-import nl.vpro.poms.selenium.poms.AbstractTest;
+import nl.vpro.poms.selenium.poms.AbstractPomsTest;
 import nl.vpro.poms.selenium.util.WebDriverFactory;
 import org.junit.After;
 import org.junit.Before;
@@ -17,7 +17,7 @@ import java.util.Date;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class ItemizerTest extends AbstractTest {
+public class ItemizerTest extends AbstractPomsTest {
 
     private OmroepVideoDetailInfoPage objVideoInfoPage;
     private String firstSegmentName;

@@ -1,13 +1,16 @@
-package nl.vpro.poms.selenium.poms;
+package nl.vpro.poms.selenium;
 
 import io.github.bonigarcia.wdm.DriverManagerType;
-
-import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.TimeUnit;
-
-import javax.annotation.Nonnull;
-
+import nl.vpro.api.client.utils.Config;
+import nl.vpro.poms.selenium.pages.AbstractLogin;
+import nl.vpro.poms.selenium.pages.CasLogin;
+import nl.vpro.poms.selenium.pages.KeycloakLogin;
+import nl.vpro.poms.selenium.pages.Search;
+import nl.vpro.poms.selenium.util.WebDriverFactory;
+import nl.vpro.poms.selenium.util.WebDriverFactory.Browser;
+import nl.vpro.poms.selenium.util.WebDriverUtil;
+import nl.vpro.rules.DoAfterException;
+import nl.vpro.rules.TestMDC;
 import org.junit.*;
 import org.junit.rules.TestName;
 import org.junit.rules.Timeout;
@@ -18,14 +21,10 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.LoggerFactory;
 
-import nl.vpro.api.client.utils.Config;
-import nl.vpro.poms.selenium.pages.PomsLogin;
-import nl.vpro.poms.selenium.pages.Search;
-import nl.vpro.poms.selenium.util.WebDriverFactory;
-import nl.vpro.poms.selenium.util.WebDriverFactory.Browser;
-import nl.vpro.poms.selenium.util.WebDriverUtil;
-import nl.vpro.rules.DoAfterException;
-import nl.vpro.rules.TestMDC;
+import javax.annotation.Nonnull;
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.TimeUnit;
 
 /**
  *
@@ -143,13 +142,14 @@ public abstract class AbstractTest {
         }
     }
 
-    protected PomsLogin login(String url) {
-        return new PomsLogin(url, webDriverUtil);
+    protected KeycloakLogin keycloakLogin(String url) {
+        return new KeycloakLogin(url, webDriverUtil);
     }
 
-    protected PomsLogin login() {
-        return login(null);
+    protected CasLogin casLogin(String url) {
+        return new CasLogin(url, webDriverUtil);
     }
+    protected abstract AbstractLogin login();
 
     protected void logout() {
         if (driver != null) {

@@ -3,7 +3,7 @@ package nl.vpro.poms.selenium.poms.zoeken;
 import nl.vpro.domain.media.AVType;
 import nl.vpro.domain.media.MediaType;
 import nl.vpro.poms.selenium.pages.Search;
-import nl.vpro.poms.selenium.poms.AbstractTest;
+import nl.vpro.poms.selenium.poms.AbstractPomsTest;
 import nl.vpro.poms.selenium.util.DateFactory;
 import nl.vpro.poms.selenium.util.WebDriverFactory;
 import org.junit.After;
@@ -18,7 +18,7 @@ import java.util.List;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-public class SearchTest extends AbstractTest {
+public class SearchTest extends AbstractPomsTest {
 
     public SearchTest(@Nonnull WebDriverFactory.Browser browser) {
         super(browser);

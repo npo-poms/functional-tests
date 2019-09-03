@@ -1,7 +1,5 @@
 package nl.vpro.poms.selenium.poms.wijzigen;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import nl.vpro.api.client.utils.Config;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Ignore;
@@ -10,7 +8,7 @@ import org.openqa.selenium.By;
 
 import nl.vpro.poms.selenium.pages.MediaItemPage;
 import nl.vpro.poms.selenium.pages.Search;
-import nl.vpro.poms.selenium.poms.AbstractTest;
+import nl.vpro.poms.selenium.poms.AbstractPomsTest;
 import nl.vpro.poms.selenium.util.WebDriverFactory;
 import org.openqa.selenium.WebElement;
 
@@ -20,7 +18,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.openqa.selenium.By.*;
 
 @Ignore("TODO")
-public class GeoLocationChangeTest extends AbstractTest {
+public class GeoLocationChangeTest extends AbstractPomsTest {
 
 	public GeoLocationChangeTest(WebDriverFactory.Browser browser) {
 		super(browser);

@@ -2,7 +2,7 @@ package nl.vpro.poms.selenium.poms.CMSSelector;
 
 import nl.vpro.poms.selenium.pages.CMSMediaSelector;
 import nl.vpro.poms.selenium.pages.Search;
-import nl.vpro.poms.selenium.poms.AbstractTest;
+import nl.vpro.poms.selenium.poms.AbstractPomsTest;
 import nl.vpro.poms.selenium.util.WebDriverFactory;
 import org.junit.Before;
 import org.junit.Ignore;
@@ -13,7 +13,7 @@ import javax.annotation.Nonnull;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class CMSSelectorTest extends AbstractTest {
+public class CMSSelectorTest extends AbstractPomsTest {
 
 
     public CMSSelectorTest(@Nonnull WebDriverFactory.Browser browser) {

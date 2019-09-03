@@ -5,7 +5,7 @@ import nl.vpro.domain.media.MediaType;
 import nl.vpro.poms.selenium.pages.AddNewObjectOverlayPage;
 import nl.vpro.poms.selenium.pages.HomePage;
 import nl.vpro.poms.selenium.pages.MediaItemPage;
-import nl.vpro.poms.selenium.poms.AbstractTest;
+import nl.vpro.poms.selenium.poms.AbstractPomsTest;
 import nl.vpro.poms.selenium.util.DateFactory;
 import nl.vpro.poms.selenium.util.WebDriverFactory;
 import org.junit.*;
@@ -16,7 +16,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 
 
-public class CreateUserTest extends AbstractTest {
+public class CreateUserTest extends AbstractPomsTest {
 
     public CreateUserTest(@Nonnull WebDriverFactory.Browser browser) {
         super(browser);

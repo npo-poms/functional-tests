@@ -8,12 +8,12 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-import static nl.vpro.poms.selenium.poms.AbstractTest.CONFIG;
+import static nl.vpro.poms.selenium.poms.AbstractPomsTest.CONFIG;
 import static org.assertj.core.api.Fail.fail;
 
 
 /**
- * TODO: Doesn't work, should it nowt at least open the correct url?
+ * TODO: Doesn't work, should it not at least open the correct url?
  */
 
 public class CMSMediaSelector extends AbstractPage {
@@ -57,10 +57,10 @@ public class CMSMediaSelector extends AbstractPage {
     }
 
     public void loginNPOGebruikerMediaSelector() {
-        Login login = new Login(webDriverUtil);
+      /*  CasLogin login = new CasLogin(webDriverUtil);
         String user = CONFIG.getProperty("SpeciaalVfGebruiker.LOGIN");
         String password = CONFIG.getProperty("SpeciaalVfGebruiker.PASSWORD");
-        login.login(user, password);
+        login.login(user, password);*/
     }
 
     public void checkIfNotDisplayedTables() {

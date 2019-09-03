@@ -10,7 +10,7 @@ import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
-import nl.vpro.poms.selenium.poms.AbstractTest;
+import nl.vpro.poms.selenium.poms.AbstractPomsTest;
 import nl.vpro.poms.selenium.util.WebDriverFactory.Browser;
 
 import static org.junit.Assert.assertArrayEquals;
@@ -25,7 +25,7 @@ import static org.junit.runners.MethodSorters.NAME_ASCENDING;
  */
 @FixMethodOrder(NAME_ASCENDING)
 @Slf4j
-public class CreateUserWebTest extends AbstractTest {
+public class CreateUserWebTest extends AbstractPomsTest {
 
     public CreateUserWebTest(Browser browser) {
         super(browser);

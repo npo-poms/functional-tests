@@ -11,7 +11,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
 import nl.vpro.api.client.utils.Config;
-import nl.vpro.poms.selenium.poms.AbstractTest;
+import nl.vpro.poms.selenium.poms.AbstractPomsTest;
 import nl.vpro.poms.selenium.util.WebDriverFactory;
 
 import static org.junit.runners.MethodSorters.NAME_ASCENDING;
@@ -22,7 +22,7 @@ import static org.junit.runners.MethodSorters.NAME_ASCENDING;
 
 @Slf4j
 @FixMethodOrder(NAME_ASCENDING)
-public class PersonsWebTest extends AbstractTest {
+public class PersonsWebTest extends AbstractPomsTest {
 
 
 

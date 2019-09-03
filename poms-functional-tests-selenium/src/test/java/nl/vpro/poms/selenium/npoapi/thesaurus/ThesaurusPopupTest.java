@@ -5,7 +5,8 @@ import lombok.extern.slf4j.Slf4j;
 import nl.vpro.api.client.utils.Config;
 import nl.vpro.domain.gtaa.Scheme;
 import nl.vpro.jackson2.Jackson2Mapper;
-import nl.vpro.poms.selenium.poms.AbstractTest;
+import nl.vpro.poms.selenium.AbstractTest;
+import nl.vpro.poms.selenium.pages.AbstractLogin;
 import nl.vpro.poms.selenium.util.WebDriverFactory;
 import org.junit.Before;
 import org.junit.FixMethodOrder;
@@ -46,6 +47,13 @@ public class ThesaurusPopupTest extends AbstractTest {
         super(browser);
     }
 
+    @Override
+    protected AbstractLogin login() {
+        String url = CONFIG.getProperties(Config.Prefix.npo_api).get("baseUrl") + "/thesaurus/example/secure";
+
+        return casLogin(url);
+    }
+
     @Before
     public void setup() {
         assumeNoException(exceptions.get(ThesaurusPopupTest.class));
@@ -54,8 +62,7 @@ public class ThesaurusPopupTest extends AbstractTest {
     @Before
     public void test000LoginAndStartPage() {
         if (!loggedIn) {
-            String url = CONFIG.getProperties(Config.Prefix.npo_api).get("baseUrl") + "/thesaurus/example/secure";
-            login(url).gtaaBrowserTest();
+            login().gtaaBrowserTest();
             webDriverUtil.waitForTitle(EXAMPLE_TITLE);
             loggedIn = true;
         }

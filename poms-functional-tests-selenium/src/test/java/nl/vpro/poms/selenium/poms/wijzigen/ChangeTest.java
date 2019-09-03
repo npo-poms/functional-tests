@@ -4,7 +4,7 @@ import nl.vpro.domain.image.ImageType;
 import nl.vpro.domain.support.License;
 import nl.vpro.poms.selenium.pages.MediaItemPage;
 import nl.vpro.poms.selenium.pages.Search;
-import nl.vpro.poms.selenium.poms.AbstractTest;
+import nl.vpro.poms.selenium.poms.AbstractPomsTest;
 import nl.vpro.poms.selenium.util.WebDriverFactory;
 import org.junit.After;
 import org.junit.Before;
@@ -12,11 +12,10 @@ import org.junit.Ignore;
 import org.junit.Test;
 
 import java.net.URISyntaxException;
-import java.util.Optional;
 
 import static org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric;
 
-public class ChangeTest extends AbstractTest {
+public class ChangeTest extends AbstractPomsTest {
 
 	public ChangeTest(WebDriverFactory.Browser browser) {
 		super(browser);

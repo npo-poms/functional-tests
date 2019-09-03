@@ -5,7 +5,7 @@ import nl.vpro.domain.media.MediaType;
 import nl.vpro.poms.selenium.pages.AccountSettingsOverlayPage;
 import nl.vpro.poms.selenium.pages.MediaItemPage;
 import nl.vpro.poms.selenium.pages.Search;
-import nl.vpro.poms.selenium.poms.AbstractTest;
+import nl.vpro.poms.selenium.poms.AbstractPomsTest;
 import nl.vpro.poms.selenium.util.WebDriverFactory;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.Before;
@@ -16,7 +16,7 @@ import org.openqa.selenium.By;
 import static org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric;
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class NPOGebruikerTest extends AbstractTest {
+public class NPOGebruikerTest extends AbstractPomsTest {
 
     public NPOGebruikerTest(WebDriverFactory.Browser browser) {
         super(browser);

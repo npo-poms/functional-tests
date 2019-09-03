@@ -2,7 +2,7 @@ package nl.vpro.poms.selenium.poms.gids;
 
 import nl.vpro.poms.selenium.pages.MediaItemPage;
 import nl.vpro.poms.selenium.pages.Search;
-import nl.vpro.poms.selenium.poms.AbstractTest;
+import nl.vpro.poms.selenium.poms.AbstractPomsTest;
 import nl.vpro.poms.selenium.util.DateFactory;
 import nl.vpro.poms.selenium.util.WebDriverFactory;
 import org.junit.After;
@@ -15,7 +15,7 @@ import javax.annotation.Nonnull;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
-public class GidsTest extends AbstractTest {
+public class GidsTest extends AbstractPomsTest {
 
     public GidsTest(@Nonnull WebDriverFactory.Browser browser) {
         super(browser);

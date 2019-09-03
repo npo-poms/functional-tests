@@ -3,7 +3,7 @@ package nl.vpro.poms.selenium.poms.admin;
 import nl.vpro.domain.media.AVType;
 import nl.vpro.domain.media.MediaType;
 import nl.vpro.poms.selenium.pages.*;
-import nl.vpro.poms.selenium.poms.AbstractTest;
+import nl.vpro.poms.selenium.poms.AbstractPomsTest;
 import nl.vpro.poms.selenium.util.DateFactory;
 import nl.vpro.poms.selenium.util.WebDriverFactory;
 import org.junit.Ignore;
@@ -11,7 +11,7 @@ import org.junit.Test;
 
 import javax.annotation.Nonnull;
 
-public class AdminTest extends AbstractTest {
+public class AdminTest extends AbstractPomsTest {
 
 
 	public AdminTest(@Nonnull WebDriverFactory.Browser browser) {

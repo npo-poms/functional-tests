@@ -1,15 +1,12 @@
 package nl.vpro.poms.selenium.pages;
 
+import nl.vpro.poms.selenium.util.WebDriverUtil;
+import org.checkerframework.checker.nullness.qual.NonNull;
 import org.junit.Assume;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
-import nl.vpro.api.client.utils.Config;
-import nl.vpro.poms.selenium.util.WebDriverUtil;
-
-import static nl.vpro.poms.selenium.util.Config.CONFIG;
-
-public class Login extends AbstractPage {
+public class CasLogin extends AbstractLogin {
 
     private static final By usernameBy = By.id("username");
 
@@ -17,18 +14,12 @@ public class Login extends AbstractPage {
 
     private static final By loginBy = By.cssSelector("input.btn-submit");
 
-    private static final String URL = CONFIG.getProperties(Config.Prefix.poms).get("baseUrl");
 
-    public Login(WebDriverUtil driver) {
-        super(driver);
+    public CasLogin(@NonNull String url, @NonNull WebDriverUtil driver) {
+        super(url, driver);
     }
-    public void gotoPage() {
-//        log.info("poms {}", URL);
-        driver.navigate().to(URL);
-    }
-
+    @Override
     public void login(String user, String passwd) {
-//  log.info("Log in user {}", user);
         Assume.assumeNotNull(user, passwd);
         webDriverUtil.waitAndSendkeys(usernameBy, user);
         webDriverUtil.waitAndSendkeys(passwdBy, passwd);

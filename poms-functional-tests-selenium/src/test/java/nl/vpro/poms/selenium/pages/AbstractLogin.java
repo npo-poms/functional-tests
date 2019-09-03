@@ -1,0 +1,63 @@
+package nl.vpro.poms.selenium.pages;
+
+import lombok.NonNull;
+import lombok.extern.slf4j.Slf4j;
+import nl.vpro.poms.selenium.util.WebDriverUtil;
+
+import static nl.vpro.poms.selenium.poms.AbstractPomsTest.CONFIG;
+
+
+@Slf4j
+public abstract class AbstractLogin extends AbstractPage {
+
+
+    private final String url;
+
+    protected AbstractLogin(@NonNull String url, @NonNull WebDriverUtil util) {
+        super(util);
+        this.url = url;
+    }
+
+    public void gotoLogin(@NonNull String user, @NonNull  String passwd) {
+        webDriverUtil.getDriver().navigate().to(url);
+        login(user, passwd);
+        gotoPage();
+    }
+
+
+    public void gotoPage() {
+        webDriverUtil.getDriver().navigate().to(url);
+    }
+
+    abstract void login(@NonNull String user, @NonNull String passwd);
+
+
+    public void VPROand3voor12() {
+        String user =  CONFIG.getProperty("SpeciaalVfGebruiker.LOGIN");
+        String password =  CONFIG.getProperty("SpeciaalVfGebruiker.PASSWORD");
+        gotoLogin(user, password);
+    }
+
+    public void speciaalNPOGebruiker() {
+        String user = CONFIG.getProperty("MISGebruiker.LOGIN");
+		String password = CONFIG.getProperty("MISGebruiker.PASSWORD");
+		gotoLogin(user, password);
+	}
+	public void speciaalAdminGebruiker() {
+		String user = CONFIG.getProperty("AdminGebruiker.LOGIN");
+		String password = CONFIG.getProperty("AdminGebruiker.PASSWORD");
+		gotoLogin(user, password);
+	}
+	public void speciaalVf() {
+        String user =  CONFIG.getProperty("SpeciaalVfGebruiker.LOGIN");
+        String password =  CONFIG.getProperty("SpeciaalVfGebruiker.PASSWORD");
+        gotoLogin(user, password);
+	}
+
+    public void gtaaBrowserTest() {
+        String user =  CONFIG.getProperty("SpeciaalVfGebruiker.LOGIN");
+        String password =  CONFIG.getProperty("SpeciaalVfGebruiker.PASSWORD");
+        gotoLogin(user, password);
+
+    }
+}

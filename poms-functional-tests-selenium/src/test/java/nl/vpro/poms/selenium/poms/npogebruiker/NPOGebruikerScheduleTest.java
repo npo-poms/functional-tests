@@ -8,10 +8,10 @@ import org.junit.Test;
 
 import nl.vpro.poms.selenium.pages.MediaItemPage;
 import nl.vpro.poms.selenium.pages.Search;
-import nl.vpro.poms.selenium.poms.AbstractTest;
+import nl.vpro.poms.selenium.poms.AbstractPomsTest;
 import nl.vpro.poms.selenium.util.WebDriverFactory;
 
-public class NPOGebruikerScheduleTest extends AbstractTest {
+public class NPOGebruikerScheduleTest extends AbstractPomsTest {
 
     public NPOGebruikerScheduleTest(@Nonnull WebDriverFactory.Browser browser) {
         super(browser);
