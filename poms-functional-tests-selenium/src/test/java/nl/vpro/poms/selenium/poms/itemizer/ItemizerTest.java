@@ -1,8 +1,8 @@
 package nl.vpro.poms.selenium.poms.itemizer;
 
-import nl.vpro.poms.selenium.pages.OmroepVideoDetailInfoPage;
-import nl.vpro.poms.selenium.pages.OmroepVideoPage;
-import nl.vpro.poms.selenium.pages.Search;
+import nl.vpro.poms.selenium.poms.pages.OmroepVideoDetailInfoPage;
+import nl.vpro.poms.selenium.poms.pages.OmroepVideoPage;
+import nl.vpro.poms.selenium.poms.pages.Search;
 import nl.vpro.poms.selenium.poms.AbstractPomsTest;
 import nl.vpro.poms.selenium.util.WebDriverFactory;
 import org.junit.After;

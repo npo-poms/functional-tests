@@ -1,7 +1,7 @@
 package nl.vpro.poms.selenium.poms.CMSSelector;
 
-import nl.vpro.poms.selenium.pages.CMSMediaSelector;
-import nl.vpro.poms.selenium.pages.Search;
+import nl.vpro.poms.selenium.poms.pages.CMSMediaSelector;
+import nl.vpro.poms.selenium.poms.pages.Search;
 import nl.vpro.poms.selenium.poms.AbstractPomsTest;
 import nl.vpro.poms.selenium.util.WebDriverFactory;
 import org.junit.Before;

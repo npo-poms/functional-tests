@@ -1,7 +1,8 @@
-package nl.vpro.poms.selenium.pages;
+package nl.vpro.poms.selenium.poms.pages;
 
 import nl.vpro.domain.image.ImageType;
 import nl.vpro.domain.support.License;
+import nl.vpro.poms.selenium.pages.AbstractPage;
 import nl.vpro.poms.selenium.util.WebDriverUtil;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;

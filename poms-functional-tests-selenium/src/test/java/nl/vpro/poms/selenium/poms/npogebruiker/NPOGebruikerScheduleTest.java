@@ -6,8 +6,8 @@ import org.assertj.core.api.SoftAssertions;
 import org.junit.Ignore;
 import org.junit.Test;
 
-import nl.vpro.poms.selenium.pages.MediaItemPage;
-import nl.vpro.poms.selenium.pages.Search;
+import nl.vpro.poms.selenium.poms.pages.MediaItemPage;
+import nl.vpro.poms.selenium.poms.pages.Search;
 import nl.vpro.poms.selenium.poms.AbstractPomsTest;
 import nl.vpro.poms.selenium.util.WebDriverFactory;
 

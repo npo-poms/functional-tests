@@ -2,7 +2,7 @@ package nl.vpro.poms.selenium.poms.zoeken;
 
 import nl.vpro.domain.media.AVType;
 import nl.vpro.domain.media.MediaType;
-import nl.vpro.poms.selenium.pages.Search;
+import nl.vpro.poms.selenium.poms.pages.Search;
 import nl.vpro.poms.selenium.poms.AbstractPomsTest;
 import nl.vpro.poms.selenium.util.DateFactory;
 import nl.vpro.poms.selenium.util.WebDriverFactory;

@@ -1,13 +1,13 @@
-package nl.vpro.poms.selenium.pages;
+package nl.vpro.poms.selenium.poms.pages;
 
-import java.util.List;
-
+import nl.vpro.poms.selenium.pages.AbstractPage;
+import nl.vpro.poms.selenium.util.WebDriverUtil;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 
-import nl.vpro.poms.selenium.util.WebDriverUtil;
+import java.util.List;
 
 
 public class OmroepVideoPage extends AbstractPage {

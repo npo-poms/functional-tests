@@ -2,9 +2,9 @@ package nl.vpro.poms.selenium.poms.maken;
 
 import nl.vpro.domain.media.AVType;
 import nl.vpro.domain.media.MediaType;
-import nl.vpro.poms.selenium.pages.AddNewObjectOverlayPage;
-import nl.vpro.poms.selenium.pages.HomePage;
-import nl.vpro.poms.selenium.pages.MediaItemPage;
+import nl.vpro.poms.selenium.poms.pages.AddNewObjectOverlayPage;
+import nl.vpro.poms.selenium.poms.pages.HomePage;
+import nl.vpro.poms.selenium.poms.pages.MediaItemPage;
 import nl.vpro.poms.selenium.poms.AbstractPomsTest;
 import nl.vpro.poms.selenium.util.DateFactory;
 import nl.vpro.poms.selenium.util.WebDriverFactory;

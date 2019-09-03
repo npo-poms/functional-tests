@@ -1,4 +1,4 @@
-package nl.vpro.poms.selenium.pages;
+package nl.vpro.poms.selenium.poms.pages;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;

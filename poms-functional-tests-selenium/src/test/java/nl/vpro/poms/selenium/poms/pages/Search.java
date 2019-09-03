@@ -1,4 +1,14 @@
-package nl.vpro.poms.selenium.pages;
+package nl.vpro.poms.selenium.poms.pages;
+
+import com.paulhammant.ngwebdriver.NgWebDriver;
+import nl.vpro.poms.selenium.pages.AbstractPage;
+import nl.vpro.poms.selenium.util.WebDriverUtil;
+import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import java.time.Duration;
 import java.time.ZoneId;
@@ -8,16 +18,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.Keys;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Actions;
-import com.paulhammant.ngwebdriver.NgWebDriver;
-
-import nl.vpro.poms.selenium.util.WebDriverUtil;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 

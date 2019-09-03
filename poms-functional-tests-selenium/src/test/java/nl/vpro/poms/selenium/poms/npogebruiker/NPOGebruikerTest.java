@@ -2,9 +2,9 @@ package nl.vpro.poms.selenium.poms.npogebruiker;
 
 import nl.vpro.domain.media.AVType;
 import nl.vpro.domain.media.MediaType;
-import nl.vpro.poms.selenium.pages.AccountSettingsOverlayPage;
-import nl.vpro.poms.selenium.pages.MediaItemPage;
-import nl.vpro.poms.selenium.pages.Search;
+import nl.vpro.poms.selenium.poms.pages.AccountSettingsOverlayPage;
+import nl.vpro.poms.selenium.poms.pages.MediaItemPage;
+import nl.vpro.poms.selenium.poms.pages.Search;
 import nl.vpro.poms.selenium.poms.AbstractPomsTest;
 import nl.vpro.poms.selenium.util.WebDriverFactory;
 import org.assertj.core.api.SoftAssertions;

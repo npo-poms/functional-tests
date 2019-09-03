@@ -2,8 +2,8 @@ package nl.vpro.poms.selenium.poms.wijzigen;
 
 import nl.vpro.domain.image.ImageType;
 import nl.vpro.domain.support.License;
-import nl.vpro.poms.selenium.pages.MediaItemPage;
-import nl.vpro.poms.selenium.pages.Search;
+import nl.vpro.poms.selenium.poms.pages.MediaItemPage;
+import nl.vpro.poms.selenium.poms.pages.Search;
 import nl.vpro.poms.selenium.poms.AbstractPomsTest;
 import nl.vpro.poms.selenium.util.WebDriverFactory;
 import org.junit.After;

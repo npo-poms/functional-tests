@@ -10,11 +10,11 @@ import nl.vpro.poms.selenium.util.WebDriverUtil;
 
 public abstract class AbstractPage {
 
-    final WebDriverUtil webDriverUtil;
-    final WebDriver driver;
-	WebDriverWait wait;
-    final Logger log;
-    final NgWebDriver ngWait;
+    protected final WebDriverUtil webDriverUtil;
+    protected final WebDriver driver;
+	protected final WebDriverWait wait;
+    protected final Logger log;
+    protected final NgWebDriver ngWait;
 
 
     protected AbstractPage(WebDriverUtil util) {

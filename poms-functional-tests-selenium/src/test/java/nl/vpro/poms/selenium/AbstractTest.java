@@ -5,7 +5,7 @@ import nl.vpro.api.client.utils.Config;
 import nl.vpro.poms.selenium.pages.AbstractLogin;
 import nl.vpro.poms.selenium.pages.CasLogin;
 import nl.vpro.poms.selenium.pages.KeycloakLogin;
-import nl.vpro.poms.selenium.pages.Search;
+import nl.vpro.poms.selenium.poms.pages.Search;
 import nl.vpro.poms.selenium.util.WebDriverFactory;
 import nl.vpro.poms.selenium.util.WebDriverFactory.Browser;
 import nl.vpro.poms.selenium.util.WebDriverUtil;

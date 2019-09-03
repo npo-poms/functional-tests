@@ -1,15 +1,14 @@
-package nl.vpro.poms.selenium.pages;
+package nl.vpro.poms.selenium.poms.pages;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
+import com.paulhammant.ngwebdriver.NgWebDriver;
+import nl.vpro.poms.selenium.util.WebDriverUtil;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
-import com.paulhammant.ngwebdriver.NgWebDriver;
 
-import nl.vpro.poms.selenium.util.WebDriverUtil;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class AccountSettingsOverlayPage extends AbstractOverlayPage {
 

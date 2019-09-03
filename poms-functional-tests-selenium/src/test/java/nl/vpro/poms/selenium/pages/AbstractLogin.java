@@ -6,7 +6,11 @@ import nl.vpro.poms.selenium.util.WebDriverUtil;
 
 import static nl.vpro.poms.selenium.poms.AbstractPomsTest.CONFIG;
 
-
+/**
+ * We use single signon for most deployments in the POMS Eco system.
+ *
+ * Currently either CAS or KEYCLOAK (sharing the same log ins). We're moving to Keycloak.
+ */
 @Slf4j
 public abstract class AbstractLogin extends AbstractPage {
 

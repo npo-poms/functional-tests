@@ -2,8 +2,10 @@ package nl.vpro.poms.selenium.poms.admin;
 
 import nl.vpro.domain.media.AVType;
 import nl.vpro.domain.media.MediaType;
-import nl.vpro.poms.selenium.pages.*;
 import nl.vpro.poms.selenium.poms.AbstractPomsTest;
+import nl.vpro.poms.selenium.poms.pages.AddNewObjectOverlayPage;
+import nl.vpro.poms.selenium.poms.pages.OmroepenOverlayPage;
+import nl.vpro.poms.selenium.poms.pages.Search;
 import nl.vpro.poms.selenium.util.DateFactory;
 import nl.vpro.poms.selenium.util.WebDriverFactory;
 import org.junit.Ignore;

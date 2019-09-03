@@ -1,7 +1,8 @@
-package nl.vpro.poms.selenium.pages;
+package nl.vpro.poms.selenium.poms.pages;
 
 
 import nl.vpro.api.client.utils.Config;
+import nl.vpro.poms.selenium.pages.AbstractPage;
 import nl.vpro.poms.selenium.util.WebDriverUtil;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
