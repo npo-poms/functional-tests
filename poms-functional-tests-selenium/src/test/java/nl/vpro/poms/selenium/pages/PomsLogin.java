@@ -2,13 +2,9 @@ package nl.vpro.poms.selenium.pages;
 
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
-
-import org.openqa.selenium.By;
-
 import nl.vpro.api.client.utils.Config;
 import nl.vpro.poms.selenium.util.WebDriverUtil;
-
-import java.util.Optional;
+import org.openqa.selenium.By;
 
 import static nl.vpro.poms.selenium.poms.AbstractTest.CONFIG;
 
@@ -38,6 +34,7 @@ public class PomsLogin extends AbstractPage {
     }
 
     public void gotoLogin(@NonNull String user, @NonNull  String passwd) {
+        // TODO: This is  untrue
         //To download the popup.js we need to be loggedin in the Frontend API
         webDriverUtil.getDriver().navigate().to(GTAA_URL);
         login(user, passwd);
