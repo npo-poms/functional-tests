@@ -168,9 +168,8 @@ public class ThesaurusPopupTest extends AbstractTest {
 
     @Test
     public void test006RegisterGeoLocation() throws IOException {
+        webDriverUtil.click("reset");
         selectScheme(Scheme.geographicname);
-        WebElement name = driver.findElement(id("name"));
-        name.clear();
         webDriverUtil.click("open");
         webDriverUtil.waitForAngularRequestsToFinish();
         webDriverUtil.switchToWindowWithTitle(POPUP_TITLE);
@@ -196,6 +195,28 @@ public class ThesaurusPopupTest extends AbstractTest {
         assertThat(jsonNode.get("concept").get("status").asText()).isEqualTo("candidate");
         assertThat(jsonNode.get("concept").get("name").asText()).isEqualTo(conceptName);
         assertThat(jsonNode.get("concept").get("scopeNotes").get(0).asText()).isNotEmpty();
+    }
+
+    @Test
+    public void test007OpenModal() throws IOException {
+        selectScheme(Scheme.geographicname);
+        WebElement name = driver.findElement(id("name"));
+        name.clear();
+        name.sendKeys("Amsterdam");
+        webDriverUtil.click("openmodal");
+        webDriverUtil.waitForAngularRequestsToFinish();
+        driver.switchTo().frame("iframe");
+        webDriverUtil.waitForAngularRequestsToFinish();
+        waitUntilSuggestionReady();
+        WebElement webElement = driver.findElements(By.xpath("//ul/li")).get(0).findElement(tagName("a"));
+        assertThat(webElement.getAttribute("id")).startsWith("http://data");
+        webElement.click();
+        webDriverUtil.click("submit");
+        webDriverUtil.switchToWindowWithTitle(EXAMPLE_TITLE);
+        JsonNode jsonNode = getJson();
+        assertThat(jsonNode.get("action").asText()).isEqualTo("selected");
+        assertThat(jsonNode.get("concept").get("name").asText()).containsIgnoringCase("amsterdam");
+
     }
 
     private void search(String value) {
