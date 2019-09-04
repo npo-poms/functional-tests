@@ -211,10 +211,10 @@ public class ThesaurusPopupTest extends AbstractTest {
         webElement.click();
         webDriverUtil.click("submit");
         webDriverUtil.switchToWindowWithTitle(EXAMPLE_TITLE);
+        driver.switchTo().defaultContent();
         JsonNode jsonNode = getJson();
         assertThat(jsonNode.get("action").asText()).isEqualTo("selected");
         assertThat(jsonNode.get("concept").get("name").asText()).containsIgnoringCase("amsterdam");
-
     }
 
     private void search(String value) {
