@@ -63,13 +63,6 @@ public abstract class AbstractLogin extends AbstractPage {
     public void gtaaBrowserTest() {
         String user =  CONFIG.getProperty("SpeciaalVfGebruiker.LOGIN");
         String password =  CONFIG.getProperty("SpeciaalVfGebruiker.PASSWORD");
-        gotoLoginGtaa(user, password);
-
-    }
-
-    private void gotoLoginGtaa(String user, String password) {
-        webDriverUtil.getDriver().navigate().to(GTAA_URL);
-        login(user, password);
-        gotoPage();
+        gotoLogin(user, password);
     }
 }
