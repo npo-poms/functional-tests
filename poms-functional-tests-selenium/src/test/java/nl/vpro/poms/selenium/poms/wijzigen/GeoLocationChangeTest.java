@@ -17,7 +17,6 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.openqa.selenium.By.*;
 
-@Ignore("TODO")
 public class GeoLocationChangeTest extends AbstractPomsTest {
 
 	public GeoLocationChangeTest(WebDriverFactory.Browser browser) {

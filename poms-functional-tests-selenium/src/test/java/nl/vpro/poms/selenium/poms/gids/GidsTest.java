@@ -34,7 +34,7 @@ public class GidsTest extends AbstractPomsTest {
         Search search = new Search(webDriverUtil);
         search.clickWissen();
         //        Hier gebleven nog uitzoeken enterDates
-        search.enterSorteerdatumDates(DateFactory.getToday(), "");
+        search.enterSorteerdatumDates(DateFactory.getPastDay(), "");
         search.selectOptionFromMenu("Zenders", "Nederland 1");
         search.clickZoeken();
         search.getMultibleRowsAndCheckTextEquals(By.xpath("//tr/descendant::*[contains(@ng-if, 'sortDateScheduleEvent')]"), "(NED1)");

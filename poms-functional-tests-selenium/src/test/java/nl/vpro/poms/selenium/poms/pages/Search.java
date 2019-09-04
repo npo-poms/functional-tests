@@ -131,8 +131,10 @@ public class Search extends AbstractPage {
     }
 
     public void clickCriteriaMenu(String menu) {
-        wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector(String.format(criteriaMenuTemplate, menu))));
-        webDriverUtil.waitAndClick(By.cssSelector(String.format(criteriaMenuTemplate, menu)));
+        final By guiFilter = By.cssSelector(String.format(criteriaMenuTemplate, menu));
+        moveToElement(guiFilter);
+        wait.until(ExpectedConditions.elementToBeClickable(guiFilter));
+        webDriverUtil.waitAndClick(guiFilter);
     }
 
     public void enterSorteerdatumDates(String start, String end) {
