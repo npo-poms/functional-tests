@@ -21,9 +21,7 @@ import java.io.IOException;
 import java.io.StringReader;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assume.assumeNoException;
@@ -41,7 +39,7 @@ public class ThesaurusPopupTest extends AbstractTest {
     private static final String EXAMPLE_TITLE = "POMS GTAA";
     private static final String POPUP_TITLE = "GTAA";
 
-    private static boolean loggedIn = false;
+    private static Map<WebDriverFactory.Browser, Boolean> loggedIn = new HashMap<>();
 
     public ThesaurusPopupTest(@Nonnull WebDriverFactory.Browser browser) {
         super(browser);
@@ -61,10 +59,10 @@ public class ThesaurusPopupTest extends AbstractTest {
 
     @Before
     public void test000LoginAndStartPage() {
-        if (!loggedIn) {
+        if (!loggedIn.getOrDefault(browser, Boolean.FALSE)) {
             login().gtaaBrowserTest();
             webDriverUtil.waitForTitle(EXAMPLE_TITLE);
-            loggedIn = true;
+            loggedIn.put(browser, true);
         }
     }
 
