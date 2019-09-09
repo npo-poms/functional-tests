@@ -18,6 +18,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
@@ -199,9 +201,9 @@ public class Search extends AbstractPage {
 
     public boolean checkIfColumnNameExcists(String columnName) {
         boolean foundItem = false;
-        if(driver.findElements(By.cssSelector(String.format(columCss, columnName))).size() >= 1) {
-            foundItem = true;}
-        else{
+        if (driver.findElements(By.cssSelector(String.format(columCss, columnName))).size() >= 1) {
+            foundItem = true;
+        } else {
             foundItem = false;
         }
         return foundItem;
@@ -223,7 +225,7 @@ public class Search extends AbstractPage {
     }
 
     // TODO: move to helper class
-    private void moveToElement(By by){
+    private void moveToElement(By by) {
         WebElement element = driver.findElement(by);
         ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView();", element);
 
@@ -307,8 +309,8 @@ public class Search extends AbstractPage {
 
         List<String> elementText = new ArrayList<String>();
 
-        for(int i=0; i < listElementsBoardCastTime.size();i++){
-            if(listElementsBoardCastTime.get(i).isDisplayed()){
+        for (int i = 0; i < listElementsBoardCastTime.size(); i++) {
+            if (listElementsBoardCastTime.get(i).isDisplayed()) {
                 String getElementText = listElementsBoardCastTime.get(i).getText();
                 Matcher matcher = pattern.matcher(getElementText);
                 matcher.find();
@@ -321,7 +323,7 @@ public class Search extends AbstractPage {
             if (i + 1 < elementText.size()) {
 
                 ZonedDateTime varFirstDateTime = ZonedDateTime.parse(elementText.get(i), DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm").withZone(ZoneId.of("Europe/Amsterdam")));
-                ZonedDateTime varSecondDateTime = ZonedDateTime.parse(elementText.get(i+1), DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm").withZone(ZoneId.of("Europe/Amsterdam")));
+                ZonedDateTime varSecondDateTime = ZonedDateTime.parse(elementText.get(i + 1), DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm").withZone(ZoneId.of("Europe/Amsterdam")));
 
                 Long durationBetweenMinutes = Duration.between(varFirstDateTime, varSecondDateTime).toMinutes();
 
@@ -330,20 +332,20 @@ public class Search extends AbstractPage {
         }
     }
 
-    public String getMidFromColum(int columNumber){
-        webDriverUtil.waitForVisible(By.cssSelector("tbody tr:nth-of-type("+columNumber+") [ng-switch-when='mid'] input"));
-        WebElement element = driver.findElement(By.cssSelector("tbody tr:nth-of-type("+columNumber+") [ng-switch-when='mid'] input"));
+    public String getMidFromColum(int columNumber) {
+        webDriverUtil.waitForVisible(By.cssSelector("tbody tr:nth-of-type(" + columNumber + ") [ng-switch-when='mid'] input"));
+        WebElement element = driver.findElement(By.cssSelector("tbody tr:nth-of-type(" + columNumber + ") [ng-switch-when='mid'] input"));
         return element.getAttribute("value");
     }
 
     public MediaItemPage searchAndOpenClip() {
         Search search = new Search(webDriverUtil);
-		search.selectOptionFromMenu("Omroepen", "VPRO");
-		search.selectOptionFromMenu("MediaType", "Clip");
-		search.clickOnColum("Sorteerdatum");
-		MediaItemPage item = search.clickRow(0);
+        search.selectOptionFromMenu("Omroepen", "VPRO");
+        search.selectOptionFromMenu("MediaType", "Clip");
+        search.clickOnColum("Sorteerdatum");
+        MediaItemPage item = search.clickRow(0);
         ngWait.waitForAngularRequestsToFinish();
-		return item;
+        return item;
     }
 
 }

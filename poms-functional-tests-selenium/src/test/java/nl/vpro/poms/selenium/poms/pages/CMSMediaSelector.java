@@ -9,6 +9,8 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.util.Set;
+
 import static nl.vpro.poms.selenium.poms.AbstractPomsTest.CONFIG;
 import static org.assertj.core.api.Fail.fail;
 
@@ -18,12 +20,8 @@ import static org.assertj.core.api.Fail.fail;
  */
 
 public class CMSMediaSelector extends AbstractPage {
-
-    String mainCMSWindow;
-    String pomsWindow;
     String UrlCmsMediaSelector = CONFIG.getProperties(Config.Prefix.poms).get("baseUrl") + "/CMSSelector/example/";
     WebDriverWait wait;
-
 
     public CMSMediaSelector(WebDriverUtil driver) {
         super(driver);
@@ -41,36 +39,13 @@ public class CMSMediaSelector extends AbstractPage {
     }
 
     public void switchToPomsWindows() {
-        mainCMSWindow = driver.getWindowHandle();
-
-        driver.getWindowHandles().forEach(windowHandle -> {
-            driver.switchTo().window(windowHandle);
-        });
+        webDriverUtil.switchToWindowWithTitle("POMS");
         webDriverUtil.getWait().until(ExpectedConditions.titleContains("POMS"));
     }
 
     public void switchToCMSWindow() {
-        pomsWindow = driver.getWindowHandle();
-        driver.getWindowHandles().forEach(windowHandle -> {
-            driver.switchTo().window(windowHandle);
-        });
+        webDriverUtil.switchToWindowWithTitle("POMS Media selector");
         wait.until(ExpectedConditions.titleContains("POMS Media selector"));
-    }
-
-    public void loginNPOGebruikerMediaSelector() {
-      /*  CasLogin login = new CasLogin(webDriverUtil);
-        String user = CONFIG.getProperty("SpeciaalVfGebruiker.LOGIN");
-        String password = CONFIG.getProperty("SpeciaalVfGebruiker.PASSWORD");
-        login.login(user, password);*/
-    }
-
-    public void checkIfNotDisplayedTables() {
-        webDriverUtil.waitForInvisible(By.cssSelector("tr"));
-    }
-
-    public void checkLoginTextBoxes() {
-        webDriverUtil.waitForVisible(By.id("username"));
-        webDriverUtil.waitForVisible(By.id("password"));
     }
 
     public String getResult() {

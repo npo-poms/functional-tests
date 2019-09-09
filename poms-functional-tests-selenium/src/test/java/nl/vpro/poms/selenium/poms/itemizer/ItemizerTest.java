@@ -38,7 +38,7 @@ public class ItemizerTest extends AbstractPomsTest {
     }
 
     @Test
-    @Ignore("Fails")
+    @Ignore("Fails clips are 0 seconds on dev environment, cannot develop test")
     public void itemizerTest() {
         Search searchPage = new Search(webDriverUtil);
         //Verify home page

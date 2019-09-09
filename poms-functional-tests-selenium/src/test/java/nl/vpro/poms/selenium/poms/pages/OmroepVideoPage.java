@@ -30,7 +30,7 @@ public class OmroepVideoPage extends AbstractPage {
     private By allTypes = By.xpath("(//table//tr)//td[6]//span");
     private By videoPlayer = By.xpath("//div[@aria-label='Video Player'][1]");
 
-    private By addSegment = By.xpath("//button[normalize-space(text())='Segment toevoegen']");
+    private By addSegment = By.xpath("//button[normalize-space(text())='Segment toevoegen met speler']");
 
     private By titleSegment = By.xpath("//input[@name='inputTitle']");
 
