@@ -1,22 +1,23 @@
 package nl.vpro.poms.selenium.poms.wijzigen;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Ignore;
-import org.junit.Test;
-import org.openqa.selenium.By;
-
+import nl.vpro.poms.selenium.poms.AbstractPomsTest;
 import nl.vpro.poms.selenium.poms.pages.MediaItemPage;
 import nl.vpro.poms.selenium.poms.pages.Search;
-import nl.vpro.poms.selenium.poms.AbstractPomsTest;
 import nl.vpro.poms.selenium.util.WebDriverFactory;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.FixMethodOrder;
+import org.junit.Test;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.openqa.selenium.By.*;
+import static org.junit.runners.MethodSorters.NAME_ASCENDING;
+import static org.openqa.selenium.By.id;
 
+@FixMethodOrder(NAME_ASCENDING)
 public class GeoLocationChangeTest extends AbstractPomsTest {
 
 	public GeoLocationChangeTest(WebDriverFactory.Browser browser) {
@@ -35,7 +36,7 @@ public class GeoLocationChangeTest extends AbstractPomsTest {
 
 
 	@Test
-	public void addGeoLocations() {
+	public void test01addGeoLocations() {
 		MediaItemPage item = new Search(webDriverUtil).searchAndOpenClip();
 		String poms_title = driver.getTitle();
 		item.moveToElement(By.id("geolocations"));
@@ -43,7 +44,7 @@ public class GeoLocationChangeTest extends AbstractPomsTest {
 		WebElement addButton = driver.findElement(By.id("addGeoLocation"));
 		addButton.click();
 		webDriverUtil.waitForAngularRequestsToFinish();
-		webDriverUtil.switchToWindowWithTitle(POPUP_TITLE);
+		driver.switchTo().frame("modal_iframe");
 		waitUntilSuggestionReady();
 		// first suggestion should be it
 		driver.findElement(By.id("searchValue")).sendKeys("Amsterdam");
@@ -52,9 +53,8 @@ public class GeoLocationChangeTest extends AbstractPomsTest {
 		WebElement resultItem = driver.findElements(By.xpath("//ul/li/a[contains(@class, 'status-approved')]")).get(0);
 		resultItem.click();
 		webDriverUtil.click("submit");
-		webDriverUtil.waitForWindowToClose();
-		webDriverUtil.switchToWindowWithTitle(poms_title);
-
+		driver.switchTo().defaultContent();
+		webDriverUtil.waitForAngularRequestsToFinish();
 		// Then check whether submitting works.
  		List<WebElement> newRemoveButtons = driver.findElement(By.xpath("//poms-geolocations")).findElements(By.className("media-concept-remove"));
  		//This test is flaky, some records will not start with 0 geolocations.
