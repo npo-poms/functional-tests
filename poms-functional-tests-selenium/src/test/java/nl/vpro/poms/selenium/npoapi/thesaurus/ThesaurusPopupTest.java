@@ -217,6 +217,29 @@ public class ThesaurusPopupTest extends AbstractTest {
         assertThat(jsonNode.get("concept").get("name").asText()).containsIgnoringCase("amsterdam");
     }
 
+    @Test
+    public void test008MultipleSchemes() throws IOException {
+        selectScheme(Scheme.geographicname, Scheme.person);
+        WebElement name = driver.findElement(id("name"));
+        name.clear();
+        name.sendKeys("Amsterdam");
+        webDriverUtil.click("openmodal");
+        webDriverUtil.waitForAngularRequestsToFinish();
+        driver.switchTo().frame("iframe");
+        webDriverUtil.waitForAngularRequestsToFinish();
+        waitUntilSuggestionReady();
+        WebElement webElement = driver.findElements(By.xpath("//ul/li")).get(0).findElement(tagName("a"));
+        assertThat(webElement.getAttribute("id")).startsWith("http://data");
+        webElement.click();
+        webDriverUtil.click("submit");
+        webDriverUtil.switchToWindowWithTitle(EXAMPLE_TITLE);
+        driver.switchTo().defaultContent();
+        JsonNode jsonNode = getJson();
+        assertThat(jsonNode.get("action").asText()).isEqualTo("selected");
+        assertThat(jsonNode.get("concept").get("name").asText()).containsIgnoringCase("amsterdam");
+    }
+
+
     private void search(String value) {
         WebElement searchValue = wait.until(driver -> driver.findElement(id("searchValue")));
         searchValue.clear();
