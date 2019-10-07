@@ -14,6 +14,7 @@ import javax.ws.rs.NotFoundException;
 
 import org.junit.*;
 import org.junit.runners.MethodSorters;
+import com.fasterxml.jackson.core.JsonProcessingException;
 
 import nl.vpro.api.client.pages.PageUpdateApiClient;
 import nl.vpro.api.client.utils.PageUpdateApiUtil;
@@ -28,12 +29,12 @@ import nl.vpro.domain.media.MediaObject;
 import nl.vpro.domain.media.update.MediaUpdate;
 import nl.vpro.domain.page.*;
 import nl.vpro.domain.page.update.*;
+import nl.vpro.jackson2.Jackson2Mapper;
 import nl.vpro.poms.AbstractApiMediaBackendTest;
 import nl.vpro.rules.DoAfterException;
 import nl.vpro.testutils.Utils;
 import nl.vpro.testutils.Utils.Check;
 import nl.vpro.util.Version;
-
 
 import static io.restassured.RestAssured.given;
 import static nl.vpro.api.client.utils.Config.Prefix.npo_pageupdate_api;
@@ -91,9 +92,11 @@ public class PagesPublisherTest extends AbstractApiMediaBackendTest {
     @Test
     public void test001CreateOrUpdatePage() throws UnsupportedEncodingException {
 
-        urlToday = "http://test.poms.nl/" + URLEncoder.encode(testMethod.getMethodName() + LocalDate.now(), "UTF-8");
-        urlYesterday = "http://test.poms.nl/" + URLEncoder.encode(testMethod.getMethodName() + LocalDate.now().minusDays(1), "UTF-8");
-        urlTomorrow = "http://test.poms.nl/" + URLEncoder.encode(testMethod.getMethodName() + LocalDate.now().plusDays(1), "UTF-8");
+        LocalDate today = LocalDate.now();
+
+        urlToday = "http://test.poms.nl/" + URLEncoder.encode(testMethod.getMethodName() + today, "UTF-8");
+        urlYesterday = "http://test.poms.nl/" + URLEncoder.encode(testMethod.getMethodName() + today.minusDays(1), "UTF-8");
+        urlTomorrow = "http://test.poms.nl/" + URLEncoder.encode(testMethod.getMethodName() + today.plusDays(1), "UTF-8");
 
 
         PortalUpdate portal = new PortalUpdate("WETENSCHAP24", "http://test.poms.nl");
@@ -303,6 +306,7 @@ public class PagesPublisherTest extends AbstractApiMediaBackendTest {
                 }
             }
         );
+        log.info("Received from api {}", fromApi);
     }
 
     @Test
@@ -348,7 +352,7 @@ public class PagesPublisherTest extends AbstractApiMediaBackendTest {
     }
 
     @Test
-    public void test301ArrivedInAPI() {
+    public void test301ArrivedInAPI() throws JsonProcessingException {
         assumeThat(util.getPageUpdateApiClient().getVersionNumber(),  greaterThanOrEqualTo(Version.of(5, 5)));
         assumeTrue(createdCrids.size() > 0);
         assumeTrue(pageUtil.getClients().isAvailable());
@@ -356,6 +360,8 @@ public class PagesPublisherTest extends AbstractApiMediaBackendTest {
         PageForm form = PageForm.builder()
             .tags(TAG)
             .build();
+
+        log.info("{}", Jackson2Mapper.getPrettyInstance().writeValueAsString(form));
 
         PageSearchResult searchResultItems = Utils.waitUntil(
             ACCEPTABLE_PAGE_PUBLISHED_DURATION,
@@ -367,6 +373,7 @@ public class PagesPublisherTest extends AbstractApiMediaBackendTest {
         List<String> foundUrls= new ArrayList<>();
 
 
+        assertThat(searchResultItems.getSize()).isEqualTo(10);
         for (SearchResultItem<? extends Page> item : searchResultItems) {
             log.info("Found {} with crids: {}", item, item.getResult().getCrids());
             foundCrids.addAll(item.getResult().getCrids());
@@ -430,7 +437,7 @@ public class PagesPublisherTest extends AbstractApiMediaBackendTest {
 
 
         for (SearchResultItem<? extends Page> item : searchResultItems) {
-            log.info("Found {} with crids: ", item, item.getResult().getCrids());
+            log.info("Found {} with crids: {}", item, item.getResult().getCrids());
             foundCrids.addAll(item.getResult().getCrids());
             foundUrls.add(item.getResult().getUrl());
         }
@@ -576,6 +583,28 @@ public class PagesPublisherTest extends AbstractApiMediaBackendTest {
 
     }
 
+    @Test
+    @Ignore
+    public void getContent() throws JsonProcessingException {
+         PageForm form = PageForm.builder()
+            .tags(TAG)
+            .build();
+
+        PageSearchResult searchResultItems = pageUtil.find(form, null, 0L, 240);
+        log.info("{}\n{}", Jackson2Mapper.getPrettyInstance().writeValueAsString(form), searchResultItems);
+        List<Crid> foundCrids = new ArrayList<>();
+        List<String> foundUrls= new ArrayList<>();
+
+
+        assertThat(searchResultItems.getSize()).isEqualTo(10);
+        for (SearchResultItem<? extends Page> item : searchResultItems) {
+            log.info("Found {} with crids: {}", item, item.getResult().getCrids());
+            foundCrids.addAll(item.getResult().getCrids());
+            foundUrls.add(item.getResult().getUrl());
+        }
+        log.info("Found crids: {}" , foundCrids);
+
+    }
 
     protected void testConsistency(String url, Set<String> checked, boolean cleanup) {
         if (checked.contains(url)) {
