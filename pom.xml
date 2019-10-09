@@ -16,9 +16,9 @@
   </modules>
 
   <properties>
-    <api.client.version>5.11.0</api.client.version>
-    <poms.shared.version>5.11.0</poms.shared.version>
-    <vpro.shared.version>2.8.1</vpro.shared.version>
+    <api.client.version>5.12-SNAPSHOT</api.client.version>
+    <poms.shared.version>5.12-SNAPSHOT</poms.shared.version>
+    <vpro.shared.version>2.9-SNAPSHOT</vpro.shared.version>
     <selenium.version>3.141.59</selenium.version>
   </properties>
 
