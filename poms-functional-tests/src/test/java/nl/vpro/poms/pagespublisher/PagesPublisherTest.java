@@ -111,11 +111,18 @@ public class PagesPublisherTest extends AbstractApiMediaBackendTest {
             PageUpdateBuilder.article(urlToday)
                 .broadcasters("VPRO")
                 .title(title)
-                .embeds(EmbedUpdate.builder()
-                    .midRef(MID)
-                    .title("leuke embed")
-                    .description("embed in " + title)
-                    .build())
+                .embeds(
+                    EmbedUpdate.builder()
+                        .midRef(MID)
+                        .title("leuke embed")
+                        .description("embed in " + title)
+                        .build(),
+                    EmbedUpdate.builder()
+                        .midRef(ANOTHER_MID)
+                        .title("nog een leuke embed")
+                        .description("another embed in " + title)
+                        .build()
+                    )
                 .portal(portal)
                 .links(
                     LinkUpdate.topStory(topStoryUrl, "mooie story over sterrenhopen"),
@@ -201,11 +208,15 @@ public class PagesPublisherTest extends AbstractApiMediaBackendTest {
         );
 
         assertThat(page.getTitle()).isEqualTo(article.getTitle());
-        assertThat(page.getEmbeds()).hasSize(1);
+        assertThat(page.getEmbeds()).hasSize(2);
         assertThat(page.getEmbeds().get(0).getMedia()).isNotNull();
         assertThat(page.getEmbeds().get(0).getMedia().getMainTitle()).isEqualTo("testclip michiel");
         assertThat(page.getEmbeds().get(0).getTitle()).isEqualTo("leuke embed");
         assertThat(page.getEmbeds().get(0).getDescription()).isEqualTo("embed in " + article.getTitle());
+        assertThat(page.getEmbeds().get(1).getMedia()).isNotNull();
+        assertThat(page.getEmbeds().get(1).getMedia().getMid()).isEqualTo(ANOTHER_MID);
+        assertThat(page.getEmbeds().get(1).getTitle()).isEqualTo("nog een leuke embed");
+        assertThat(page.getEmbeds().get(1).getDescription()).isEqualTo("another embed in " + article.getTitle());
         assertThat(page.getLinks()).hasSize(3);
         assertThat(page.getLinks().get(0).getType()).isEqualTo(LinkType.TOP_STORY);
 
