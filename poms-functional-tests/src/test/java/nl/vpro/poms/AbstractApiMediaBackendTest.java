@@ -6,21 +6,21 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.time.Duration;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.rules.Timeout;
 
+import nl.vpro.api.client.media.MediaRestClient;
 import nl.vpro.api.client.utils.Config;
+import nl.vpro.domain.Embargo;
 import nl.vpro.domain.image.ImageType;
 import nl.vpro.domain.media.*;
 import nl.vpro.domain.media.support.Image;
 import nl.vpro.domain.media.support.OwnerType;
 import nl.vpro.domain.media.update.*;
 import nl.vpro.domain.support.License;
-import nl.vpro.api.client.media.MediaRestClient;
 import nl.vpro.rules.TestMDC;
 import nl.vpro.util.IntegerVersion;
 import nl.vpro.util.Version;
@@ -164,7 +164,7 @@ public abstract class AbstractApiMediaBackendTest extends AbstractApiTest {
                         .format(AVFileFormat.M4V)
                         .build());
                     backend.set(mediaUpdate);
-                } else if (mediaUpdate.getLocations().stream().filter(l -> ! l.isUnderEmbargo()).collect(Collectors.toList()).isEmpty()){
+                } else if (mediaUpdate.getLocations().stream().allMatch(Embargo::isUnderEmbargo)) {
                     log.info("All locations of {} are under embargo. This is incorrect. Publishing them all.", mediaUpdate);
                     for (LocationUpdate l : mediaUpdate.getLocations()) {
                         l.setPublishStartInstant(null);
