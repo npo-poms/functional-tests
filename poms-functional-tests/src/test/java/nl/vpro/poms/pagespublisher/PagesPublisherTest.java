@@ -356,6 +356,7 @@ public class PagesPublisherTest extends AbstractApiMediaBackendTest {
             p -> p != null && p.getEmbeds().size() == 1
         );
 
+        assertThat(page.getEmbeds()).hasSize(1);
         assertThat(page.getEmbeds().get(0).getMedia().getMid()).isEqualTo(ANOTHER_MID);
 
     }
