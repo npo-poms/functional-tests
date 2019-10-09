@@ -336,6 +336,7 @@ public class PagesPublisherTest extends AbstractApiMediaBackendTest {
     @Test
     public void test210RemoveAnEmbed() {
         assumeNotNull(article);
+        article.setEmbeds(new ArrayList<>(article.getEmbeds())); // make the damn list modifiable.
         article.getEmbeds().remove(0);
         Result<Void> result = util.save(article);
         log.info("{}", result);
