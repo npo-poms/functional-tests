@@ -51,7 +51,7 @@ public class PagesPublisherTest extends AbstractApiMediaBackendTest {
 
 
     private static final Duration ACCEPTABLE_DURATION = Duration.ofMinutes(3);
-    private static final Duration ACCEPTABLE_PAGE_PUBLISHED_DURATION = Duration.ofMinutes(10);
+    private static final Duration ACCEPTABLE_PAGE_PUBLISHED_DURATION = Duration.ofMinutes(15);
     private static final Duration ACCEPTABLE_MEDIA_PUBLISHED_DURATION = Duration.ofMinutes(15);
 
     static PageUpdateApiUtil util = new PageUpdateApiUtil(
@@ -241,7 +241,7 @@ public class PagesPublisherTest extends AbstractApiMediaBackendTest {
     }
 
     @Test
-    public void test200UpdateExisting() {
+    public void test200UpdateExistingArticle() {
         assumeNotNull(article);
         log.info("Updating {} tot title {}", article.getUrl(), title);
         article.setTitle(title);
@@ -331,6 +331,34 @@ public class PagesPublisherTest extends AbstractApiMediaBackendTest {
 
         assertThat(page.getEmbeds().get(0).getMedia().getMainDescription()).isEqualTo(embeddedDescription);
     }
+
+
+    @Test
+    public void test210RemoveAnEmbed() {
+        assumeNotNull(article);
+        article.getEmbeds().remove(0);
+        Result<Void> result = util.save(article);
+        log.info("{}", result);
+        assertThat(result.getStatus()).withFailMessage("" + result).isEqualTo(Result.Status.SUCCESS);
+        assertThat(result.getErrors()).isNull();
+        log.info("{} -> {}", article, result);
+
+    }
+
+    @Test
+    public void test211CheckRemoveAnEmbed() {
+        assumeNotNull(article);
+        Page page = Utils.waitUntil(ACCEPTABLE_PAGE_PUBLISHED_DURATION,
+            article.getUrl() + " has only one embed",
+            () ->
+                pageUtil.load(article.getUrl())[0],
+            p -> p != null && p.getEmbeds().size() == 1
+        );
+
+        assertThat(page.getEmbeds().get(0).getMedia().getMid()).isEqualTo(ANOTHER_MID);
+
+    }
+
 
     private static final String TAG = "test_created_with_crid";
     private static final String CRID_PREFIX = "crid://crids.functional.tests/";
