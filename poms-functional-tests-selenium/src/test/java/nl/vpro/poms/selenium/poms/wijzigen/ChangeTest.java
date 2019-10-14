@@ -1,17 +1,18 @@
 package nl.vpro.poms.selenium.poms.wijzigen;
 
-import nl.vpro.domain.image.ImageType;
-import nl.vpro.domain.support.License;
-import nl.vpro.poms.selenium.poms.pages.MediaItemPage;
-import nl.vpro.poms.selenium.poms.pages.Search;
-import nl.vpro.poms.selenium.poms.AbstractPomsTest;
-import nl.vpro.poms.selenium.util.WebDriverFactory;
+import java.net.URISyntaxException;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 
-import java.net.URISyntaxException;
+import nl.vpro.domain.image.ImageType;
+import nl.vpro.domain.support.License;
+import nl.vpro.poms.selenium.poms.AbstractPomsTest;
+import nl.vpro.poms.selenium.poms.pages.MediaItemPage;
+import nl.vpro.poms.selenium.poms.pages.Search;
+import nl.vpro.poms.selenium.util.WebDriverFactory;
 
 import static org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric;
 
@@ -52,6 +53,9 @@ public class ChangeTest extends AbstractPomsTest {
 		// Shouldn't we add some actual tests here?
 
 	}
+
+
+	// TODO, we should also test uploading images by URL, like an url from flickr or pixabay
 
 	@Test
 	public void testWissen() {
