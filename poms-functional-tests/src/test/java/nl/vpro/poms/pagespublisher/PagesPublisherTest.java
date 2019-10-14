@@ -4,25 +4,22 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-import java.time.Duration;
-import java.time.Instant;
-import java.time.LocalDate;
+import java.time.*;
 import java.util.*;
 import java.util.stream.Collectors;
 
 import javax.ws.rs.NotFoundException;
 
+import org.hamcrest.Matchers;
 import org.junit.*;
 import org.junit.runners.MethodSorters;
+
 import com.fasterxml.jackson.core.JsonProcessingException;
 
 import nl.vpro.api.client.pages.PageUpdateApiClient;
-import nl.vpro.api.client.utils.PageUpdateApiUtil;
-import nl.vpro.api.client.utils.PageUpdateRateLimiter;
 import nl.vpro.api.client.utils.Result;
-import nl.vpro.domain.api.IdList;
-import nl.vpro.domain.api.MultipleEntry;
-import nl.vpro.domain.api.SearchResultItem;
+import nl.vpro.api.client.utils.*;
+import nl.vpro.domain.api.*;
 import nl.vpro.domain.api.page.PageForm;
 import nl.vpro.domain.api.page.PageSearchResult;
 import nl.vpro.domain.media.MediaObject;
@@ -265,6 +262,12 @@ public class PagesPublisherTest extends AbstractApiMediaBackendTest {
         );
 
         MediaObject embedded = util.getMedia(MID).orElseThrow(() -> new NotFoundException(MID));
+
+        assertThat(page.getEmbeds()).hasSize(1);
+
+        assumeThat("media " + MID + " seems to be phantom",
+                page.getEmbeds().get(0).getMedia(), Matchers.notNullValue());
+
         assertThat(page.getEmbeds().get(0).getMedia().getMid()).isEqualTo(MID);
         assertThat(page.getEmbeds().get(0).getMedia().getMainTitle()).isEqualTo(embedded.getMainTitle());
     }
@@ -322,6 +325,8 @@ public class PagesPublisherTest extends AbstractApiMediaBackendTest {
 
     @Test
     public void test205ArrivedInPagesApi() {
+        assumeTrue(pageUtil.getClients().isAvailable());
+
         Page page = Utils.waitUntil(ACCEPTABLE_PAGE_PUBLISHED_DURATION,
             article.getUrl() + " has embedded " + MID + " with description " + embeddedDescription,
             () ->
@@ -504,7 +509,6 @@ public class PagesPublisherTest extends AbstractApiMediaBackendTest {
         assumeThat(util.getPageUpdateApiClient().getVersionNumber(),  greaterThanOrEqualTo(Version.of(5, 5)));
         String cridToDelete = createdCrids.get(0).getValue();
         assumeTrue(pageUtil.getClients().isAvailable());
-
 
         Utils.waitUntil(ACCEPTABLE_PAGE_PUBLISHED_DURATION,
             () -> "Has no page with crid " + cridToDelete,
