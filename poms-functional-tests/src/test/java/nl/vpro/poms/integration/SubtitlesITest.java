@@ -5,8 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import java.io.IOException;
 import java.time.Duration;
 import java.time.Instant;
-import java.util.Arrays;
-import java.util.Locale;
+import java.util.*;
 
 import javax.ws.rs.core.Response;
 
@@ -21,9 +20,7 @@ import nl.vpro.api.client.utils.MediaRestClientUtils;
 import nl.vpro.domain.media.AvailableSubtitles;
 import nl.vpro.domain.media.MediaObject;
 import nl.vpro.domain.media.update.ProgramUpdate;
-import nl.vpro.domain.subtitles.StandaloneCue;
-import nl.vpro.domain.subtitles.Subtitles;
-import nl.vpro.domain.subtitles.SubtitlesUtil;
+import nl.vpro.domain.subtitles.*;
 import nl.vpro.poms.AbstractApiMediaBackendTest;
 import nl.vpro.util.Version;
 
@@ -47,8 +44,8 @@ public class SubtitlesITest extends AbstractApiMediaBackendTest {
 
     private static final Duration ACCEPTABLE_DURATION_FRONTEND = Duration.ofMinutes(15);
 
-    public static final AvailableSubtitles JAPANESE_TRANSLATION = new AvailableSubtitles(JAPANESE, TRANSLATION);
-    public static final AvailableSubtitles CHINESE_TRANSLATION= new AvailableSubtitles(CHINESE, TRANSLATION);
+    public static final AvailableSubtitles JAPANESE_TRANSLATION = AvailableSubtitles.published(JAPANESE, TRANSLATION);
+    public static final AvailableSubtitles CHINESE_TRANSLATION = AvailableSubtitles.published(CHINESE, TRANSLATION);
 
 
     @Before
@@ -102,7 +99,10 @@ public class SubtitlesITest extends AbstractApiMediaBackendTest {
             MID_WITH_LOCATIONS + " has " + JAPANESE_TRANSLATION + " and " + CHINESE_TRANSLATION,
             () -> {
                 MediaObject mo = backend.getFull(MID_WITH_LOCATIONS);
-                return mo.getAvailableSubtitles().containsAll(Arrays.asList(JAPANESE_TRANSLATION, CHINESE_TRANSLATION));
+                List<AvailableSubtitles> availableSubtitles = mo.getAvailableSubtitles();
+                availableSubtitles.removeIf(a -> SubtitlesWorkflow.DELETEDS.contains(a.getWorkflow()));
+                log.info("{}", availableSubtitles);
+                return availableSubtitles.containsAll(Arrays.asList(JAPANESE_TRANSLATION, CHINESE_TRANSLATION));
             });
         arrivedInBackend = true;
 
