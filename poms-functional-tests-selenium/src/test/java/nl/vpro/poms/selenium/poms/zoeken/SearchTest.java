@@ -31,6 +31,7 @@ public class SearchTest extends AbstractPomsTest {
         search = new Search(webDriverUtil);
     }
 
+    @Override
     @After
     public void logout() {
         super.logout();

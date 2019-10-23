@@ -27,6 +27,7 @@ public class CreateUserTest extends AbstractPomsTest {
         login().speciaalVf();
     }
 
+    @Override
     @After
     public void logout() {
         super.logout();

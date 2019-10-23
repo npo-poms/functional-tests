@@ -1,39 +1,43 @@
 package nl.vpro.poms.selenium.poms.pages;
 
 
-import nl.vpro.api.client.utils.Config;
-import nl.vpro.poms.selenium.pages.AbstractPage;
-import nl.vpro.poms.selenium.util.WebDriverUtil;
+import lombok.extern.slf4j.Slf4j;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-import java.util.Set;
+import nl.vpro.api.client.utils.Config;
+import nl.vpro.poms.selenium.pages.AbstractPage;
+import nl.vpro.poms.selenium.util.WebDriverUtil;
 
+import static java.time.Duration.ofMillis;
+import static java.time.Duration.ofSeconds;
 import static nl.vpro.poms.selenium.poms.AbstractPomsTest.CONFIG;
 import static org.assertj.core.api.Fail.fail;
 
 
 /**
- * TODO: Doesn't work, should it not at least open the correct url?
  */
 
+@Slf4j
 public class CMSMediaSelector extends AbstractPage {
-    String UrlCmsMediaSelector = CONFIG.getProperties(Config.Prefix.poms).get("baseUrl") + "/CMSSelector/example/";
+    final String url = CONFIG.getProperties(Config.Prefix.poms).get("baseUrl") + "/CMSSelector/example/";
     WebDriverWait wait;
 
     public CMSMediaSelector(WebDriverUtil driver) {
         super(driver);
-        this.wait = new WebDriverWait(webDriverUtil.getDriver(), 15, 250);
+        this.wait = new WebDriverWait(webDriverUtil.getDriver(),
+            ofSeconds(15), ofMillis(250));
     }
 
     public void openUrlCmsMediaSelector() {
-        driver.navigate().to(UrlCmsMediaSelector);
+        driver.navigate().to(url);
     }
 
     public void clickButtonSelect() {
-        WebDriverWait wait = new WebDriverWait(driver, 15, 250);
+        WebDriverWait wait = new WebDriverWait(driver, ofSeconds(15), ofMillis(25));
         wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("button#select")));
         webDriverUtil.waitAndClick(By.cssSelector("button#select"));
     }
@@ -56,7 +60,7 @@ public class CMSMediaSelector extends AbstractPage {
             returnValue = value.toString();
         } else {
             fail("Error in the javascript on the page");
-            System.out.println("Error in the javascript on the page");
+            log.error("Error in the javascript on the page");
         }
         return returnValue;
     }

@@ -1,35 +1,36 @@
 package nl.vpro.poms.selenium.poms.CMSSelector;
 
-import nl.vpro.poms.selenium.poms.pages.CMSMediaSelector;
-import nl.vpro.poms.selenium.poms.pages.MediaItemPage;
-import nl.vpro.poms.selenium.poms.pages.Search;
-import nl.vpro.poms.selenium.poms.AbstractPomsTest;
-import nl.vpro.poms.selenium.util.WebDriverFactory;
+import org.checkerframework.checker.nullness.qual.NonNull;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.openqa.selenium.By;
 
-import javax.annotation.Nonnull;
+import nl.vpro.poms.selenium.poms.AbstractPomsTest;
+import nl.vpro.poms.selenium.poms.pages.CMSMediaSelector;
+import nl.vpro.poms.selenium.poms.pages.Search;
+import nl.vpro.poms.selenium.util.WebDriverFactory;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class CMSSelectorTest extends AbstractPomsTest {
 
+    private CMSMediaSelector cms;
 
-    public CMSSelectorTest(@Nonnull WebDriverFactory.Browser browser) {
+    public CMSSelectorTest(WebDriverFactory.@NonNull Browser browser) {
         super(browser);
     }
 
+
     @Before
     public void beforeLogin() {
+        cms = new CMSMediaSelector(webDriverUtil);
+        // TODO, it is silly to login on poms first. It should work to login in the popup.
         login().speciaalNPOGebruiker();
     }
 
     @Test
     public void SPOMSCMSSELECTOR1() {
 
-        CMSMediaSelector cms = new CMSMediaSelector(webDriverUtil);
         cms.openUrlCmsMediaSelector();
         cms.clickButtonSelect();
         cms.switchToPomsWindows();
@@ -64,7 +65,6 @@ public class CMSSelectorTest extends AbstractPomsTest {
     }
 
     private Search openCmsPopupAddSearch() {
-        CMSMediaSelector cms = new CMSMediaSelector(webDriverUtil);
         cms.openUrlCmsMediaSelector();
         cms.clickButtonSelect();
         cms.switchToPomsWindows();

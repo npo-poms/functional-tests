@@ -72,6 +72,7 @@
       <artifactId>vpro-shared-client-resteasy</artifactId>
     </dependency>
     <dependency>
+      <!-- spring has good PathMatchingResourcePatternResolver -->
       <groupId>org.springframework</groupId>
       <artifactId>spring-core</artifactId>
     </dependency>
