@@ -4,13 +4,10 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 import java.time.Duration;
 import java.util.Objects;
 
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Rule;
+import org.junit.*;
 import org.junit.rules.Timeout;
 
 import nl.vpro.api.client.media.MediaRestClient;
@@ -71,9 +68,9 @@ public abstract class AbstractApiMediaBackendTest extends AbstractApiTest {
         log.info("Using {} ({} -> {})", backend, backendVersion, backendVersionNumber);
     }
 
-    public Image createImage() {
+    public Image createImage() throws UnsupportedEncodingException {
         Image image = new Image(OwnerType.BROADCASTER, ImageType.PICTURE, title);
-        image.setImageUri("https://placeholdit.imgix.net/~text?txt=" + URLEncoder.encode(title, StandardCharsets.UTF_8) + "&w=150&h=150");
+        image.setImageUri("https://placeholdit.imgix.net/~text?txt=" + URLEncoder.encode(title, "UTF-8") + "&w=150&h=150");
         image.setLicense(License.CC_BY);
         image.setSourceName("placeholdit");
         image.setCredits(getClass().getName());
