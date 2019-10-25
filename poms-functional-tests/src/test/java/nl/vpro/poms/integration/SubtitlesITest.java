@@ -212,14 +212,16 @@ public class SubtitlesITest extends AbstractApiMediaBackendTest {
             MID_WITH_LOCATIONS + " has no " + JAPANESE_TRANSLATION ,
             () -> {
                 MediaObject mo = backend.getFull(MID_WITH_LOCATIONS);
-                return ! mo.getAvailableSubtitles().contains(JAPANESE_TRANSLATION);
+                Optional<AvailableSubtitles> ja = mo.getAvailableSubtitles().stream().filter(a -> a.equals(JAPANESE_TRANSLATION)).findFirst();
+                return ja.isPresent() && ja.get().getWorkflow() == SubtitlesWorkflow.DELETED;
             });
 
         waitUntil(ACCEPTABLE_DURATION_BACKEND,
             MID_WITH_LOCATIONS + " has no " + CHINESE_TRANSLATION ,
             () -> {
                 MediaObject mo = backend.getFull(MID_WITH_LOCATIONS);
-                return ! mo.getAvailableSubtitles().contains(CHINESE_TRANSLATION);
+                Optional<AvailableSubtitles> zh = mo.getAvailableSubtitles().stream().filter(a -> a.equals(CHINESE_TRANSLATION)).findFirst();
+                return zh.isPresent() && zh.get().getWorkflow() == SubtitlesWorkflow.DELETED;
             });
 
 

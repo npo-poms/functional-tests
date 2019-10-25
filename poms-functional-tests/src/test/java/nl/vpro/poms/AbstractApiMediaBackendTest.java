@@ -1,5 +1,6 @@
 package nl.vpro.poms;
 
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.UnsupportedEncodingException;
@@ -68,7 +69,8 @@ public abstract class AbstractApiMediaBackendTest extends AbstractApiTest {
         log.info("Using {} ({} -> {})", backend, backendVersion, backendVersionNumber);
     }
 
-    public Image createImage() throws UnsupportedEncodingException {
+    @SneakyThrows
+    public Image createImage() {
         Image image = new Image(OwnerType.BROADCASTER, ImageType.PICTURE, title);
         image.setImageUri("https://placeholdit.imgix.net/~text?txt=" + URLEncoder.encode(title, "UTF-8") + "&w=150&h=150");
         image.setLicense(License.CC_BY);
