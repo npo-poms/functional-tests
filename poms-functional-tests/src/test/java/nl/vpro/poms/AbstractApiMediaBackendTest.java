@@ -72,9 +72,9 @@ public abstract class AbstractApiMediaBackendTest extends AbstractApiTest {
     @SneakyThrows
     public Image createImage() {
         Image image = new Image(OwnerType.BROADCASTER, ImageType.PICTURE, title);
-        image.setImageUri("https://via.placeholder.com//150?text=" + URLEncoder.encode(title, "UTF-8"));
+        image.setImageUri("https://via.placeholder.com/150?text=" + URLEncoder.encode(title, "UTF-8"));
         image.setLicense(License.CC_BY);
-        image.setSourceName("placeholdit");
+        image.setSourceName("placeholder.com");
         image.setSource("https://via.placeholder.com/");
         image.setCredits(getClass().getName());
         return image;
