@@ -1,17 +1,15 @@
 package nl.vpro.poms.selenium.poms.gids;
 
-import nl.vpro.poms.selenium.poms.pages.MediaItemPage;
-import nl.vpro.poms.selenium.poms.pages.Search;
-import nl.vpro.poms.selenium.poms.AbstractPomsTest;
-import nl.vpro.poms.selenium.util.DateFactory;
-import nl.vpro.poms.selenium.util.WebDriverFactory;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Ignore;
-import org.junit.Test;
+import javax.annotation.Nonnull;
+
+import org.junit.jupiter.api.*;
 import org.openqa.selenium.By;
 
-import javax.annotation.Nonnull;
+import nl.vpro.poms.selenium.poms.AbstractPomsTest;
+import nl.vpro.poms.selenium.poms.pages.MediaItemPage;
+import nl.vpro.poms.selenium.poms.pages.Search;
+import nl.vpro.poms.selenium.util.DateFactory;
+import nl.vpro.poms.selenium.util.WebDriverFactory;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
@@ -24,7 +22,7 @@ public class GidsTest extends AbstractPomsTest {
     // Variables
     private static final String sorteerDatumKanaal = "//tr/descendant::*[contains(@ng-if, 'sortDateScheduleEvent')]";
 
-    @Before
+    @BeforeEach
     public void setup() {
         login().speciaalNPOGebruiker();
     }
@@ -105,7 +103,7 @@ public class GidsTest extends AbstractPomsTest {
     }
 
 
-    @After
+    @AfterEach
     public void logOut(){
         logout();
     }

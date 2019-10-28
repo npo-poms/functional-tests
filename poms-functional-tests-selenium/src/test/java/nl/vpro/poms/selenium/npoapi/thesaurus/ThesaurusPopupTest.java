@@ -1,39 +1,41 @@
 package nl.vpro.poms.selenium.npoapi.thesaurus;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import lombok.extern.slf4j.Slf4j;
-import nl.vpro.api.client.utils.Config;
-import nl.vpro.domain.gtaa.Scheme;
-import nl.vpro.jackson2.Jackson2Mapper;
-import nl.vpro.poms.selenium.AbstractTest;
-import nl.vpro.poms.selenium.pages.AbstractLogin;
-import nl.vpro.poms.selenium.util.WebDriverFactory;
-import org.junit.Before;
-import org.junit.FixMethodOrder;
-import org.junit.Test;
-import org.openqa.selenium.By;
-import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.Select;
 
-import javax.annotation.Nonnull;
 import java.io.IOException;
 import java.io.StringReader;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
+import javax.annotation.Nonnull;
+
+import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.*;
+import org.openqa.selenium.support.ui.Select;
+
+import com.fasterxml.jackson.databind.JsonNode;
+
+import nl.vpro.api.client.utils.Config;
+import nl.vpro.domain.gtaa.Scheme;
+import nl.vpro.jackson2.Jackson2Mapper;
+import nl.vpro.poms.selenium.AbstractTest;
+import nl.vpro.poms.selenium.pages.AbstractLogin;
+import nl.vpro.poms.selenium.util.WebDriverFactory;
+import nl.vpro.test.jupiter.AbortOnException;
+
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assume.assumeNoException;
-import static org.junit.runners.MethodSorters.NAME_ASCENDING;
 import static org.openqa.selenium.By.id;
 import static org.openqa.selenium.By.tagName;
 
 /**
  *
  */
-@FixMethodOrder(NAME_ASCENDING)
+@TestMethodOrder(MethodOrderer.Alphanumeric.class)
 @Slf4j
+@ExtendWith(AbortOnException.class)
 public class ThesaurusPopupTest extends AbstractTest {
 
     private static final String EXAMPLE_TITLE = "POMS GTAA";
@@ -52,12 +54,8 @@ public class ThesaurusPopupTest extends AbstractTest {
         return casLogin(url);
     }
 
-    @Before
-    public void setup() {
-        assumeNoException(exceptions.get(ThesaurusPopupTest.class));
-    }
 
-    @Before
+    @BeforeEach
     public void test000LoginAndStartPage() {
         if (!loggedIn.getOrDefault(browser, Boolean.FALSE)) {
             login().gtaaBrowserTest();
@@ -165,14 +163,14 @@ public class ThesaurusPopupTest extends AbstractTest {
     }
 
     @Test
-    public void test006RegisterGeoLocation() throws IOException {
+    public void test006RegisterGeoLocation(TestInfo testInfo) throws IOException {
         webDriverUtil.click("reset");
         selectScheme(Scheme.geographicname);
         webDriverUtil.click("open");
         webDriverUtil.waitForAngularRequestsToFinish();
         webDriverUtil.switchToWindowWithTitle(POPUP_TITLE);
 
-        String conceptName = testMethod.getMethodName().replaceAll("[\\[\\]]", "_") + "-" + LocalDateTime.now().format(DateTimeFormatter.ofPattern("YYYYMMdd'T'HHmmss"));
+        String conceptName = testInfo.getDisplayName().replaceAll("[\\[\\]]", "_") + "-" + LocalDateTime.now().format(DateTimeFormatter.ofPattern("YYYYMMdd'T'HHmmss"));
 
         search(conceptName);
         WebElement register = driver.findElement(By.className("status-create"));

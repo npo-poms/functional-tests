@@ -1,23 +1,20 @@
 package nl.vpro.poms.selenium.poms.wijzigen;
 
+import java.util.List;
+
+import org.junit.jupiter.api.*;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+
 import nl.vpro.poms.selenium.poms.AbstractPomsTest;
 import nl.vpro.poms.selenium.poms.pages.MediaItemPage;
 import nl.vpro.poms.selenium.poms.pages.Search;
 import nl.vpro.poms.selenium.util.WebDriverFactory;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.FixMethodOrder;
-import org.junit.Test;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
-
-import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.runners.MethodSorters.NAME_ASCENDING;
 import static org.openqa.selenium.By.id;
 
-@FixMethodOrder(NAME_ASCENDING)
+@TestMethodOrder(MethodOrderer.Alphanumeric.class)
 public class GeoLocationChangeTest extends AbstractPomsTest {
 
 	public GeoLocationChangeTest(WebDriverFactory.Browser browser) {
@@ -25,11 +22,11 @@ public class GeoLocationChangeTest extends AbstractPomsTest {
 	}
 	private static final String POPUP_TITLE = "GTAA";
 
-	@Before
+	@BeforeEach
 	public void firstLogin() {
 		login().speciaalVf();
 	}
-	@After
+	@AfterEach
 	public void afterwardsLogout() {
 		logout();
 	}

@@ -4,26 +4,23 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
 import java.time.Duration;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import javax.xml.bind.JAXB;
 
-import org.junit.*;
-import org.junit.runners.MethodSorters;
+import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 import nl.vpro.domain.media.update.LocationUpdate;
 import nl.vpro.domain.media.update.ProgramUpdate;
 import nl.vpro.domain.media.update.collections.XmlCollection;
 import nl.vpro.logging.LoggerOutputStream;
 import nl.vpro.poms.AbstractApiMediaBackendTest;
-import nl.vpro.rules.DoAfterException;
+import nl.vpro.test.jupiter.AbortOnException;
 
 import static nl.vpro.testutils.Utils.waitUntil;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assume.assumeNoException;
 
 
 /*
@@ -38,28 +35,19 @@ import static org.junit.Assume.assumeNoException;
  *
  * @author Michiel Meeuwissen
  */
-@FixMethodOrder(MethodSorters.NAME_ASCENDING)
+@TestMethodOrder(MethodOrderer.Alphanumeric.class)
 @Slf4j
-public class MediaBackendLocationsTest extends AbstractApiMediaBackendTest {
+@ExtendWith(AbortOnException.class)
+class MediaBackendLocationsTest extends AbstractApiMediaBackendTest {
 
     private static final Duration ACCEPTABLE_DURATION = Duration.ofMinutes(3);
     private static final List<String> titles = new ArrayList<>();
 
-    @Rule
-    public DoAfterException doAfterException = new DoAfterException((t) -> {
-        if (! (t instanceof AssumptionViolatedException)) {
-            MediaBackendLocationsTest.exception = t;
-        }
-    });
 
     private static Throwable exception = null;
 
     private static String firstTitle;
 
-    @Before
-    public void setup() {
-        assumeNoException(exception);
-    }
 
 /*
 
@@ -78,7 +66,7 @@ public class MediaBackendLocationsTest extends AbstractApiMediaBackendTest {
 
 
     @Test
-    public void test01addLocation() {
+    void test01addLocation() {
         titles.add(title);
         firstTitle = title;
         LocationUpdate update = LocationUpdate.builder()
@@ -89,7 +77,7 @@ public class MediaBackendLocationsTest extends AbstractApiMediaBackendTest {
 
 
     @Test
-    public void test10checkArrived() {
+    void test10checkArrived() {
         List<String> currentLocations = new ArrayList<>();
         waitUntil(ACCEPTABLE_DURATION,
             MID + " in backend with location " + titles,
@@ -104,7 +92,7 @@ public class MediaBackendLocationsTest extends AbstractApiMediaBackendTest {
     }
 
     @Test
-    public void test11checkArrivedViaGetLocations() {
+    void test11checkArrivedViaGetLocations() {
         List<String> currentLocations = new ArrayList<>();
         waitUntil(ACCEPTABLE_DURATION,
             MID + " in backend with location " + titles,
@@ -119,7 +107,7 @@ public class MediaBackendLocationsTest extends AbstractApiMediaBackendTest {
     }
 
     @Test
-    public void test12updateLocation() throws IOException {
+    void test12updateLocation() throws IOException {
         String firstLocation = programUrl(firstTitle);
         LocationUpdate update = backend.getBackendRestService()
             .getLocations(null, MID, true, null).stream()
@@ -138,7 +126,7 @@ public class MediaBackendLocationsTest extends AbstractApiMediaBackendTest {
 
 
     @Test
-    public void test20addLocationToObject() {
+    void test20addLocationToObject() {
         titles.add(title);
         LocationUpdate location = LocationUpdate
             .builder()
@@ -153,7 +141,7 @@ public class MediaBackendLocationsTest extends AbstractApiMediaBackendTest {
 
 
     @Test
-    public void test21addLocationToObjectCheck() {
+    void test21addLocationToObjectCheck() {
         List<String> currentLocations = new ArrayList<>();
         waitUntil(ACCEPTABLE_DURATION,
             MID + " in backend with location " + titles,
@@ -168,23 +156,25 @@ public class MediaBackendLocationsTest extends AbstractApiMediaBackendTest {
     }
 
 
-    @Test(expected = Exception.class)
-    public void test40addInvalidLocationToObject() throws Exception {
-        backend.doValidated(() -> {
-            LocationUpdate location = LocationUpdate
-                .builder()
-                .programUrl("http:ongeldigeurl")
-                .build();
+    @Test
+    void test40addInvalidLocationToObject() {
+        Assertions.assertThrows(Exception.class, () -> {
+            backend.doValidated(() -> {
+                LocationUpdate location = LocationUpdate
+                    .builder()
+                    .programUrl("http:ongeldigeurl")
+                    .build();
 
-            ProgramUpdate update = backend.get(MID);
-            update.getLocations().add(location);
-            backend.set(update);
+                ProgramUpdate update = backend.get(MID);
+                update.getLocations().add(location);
+                backend.set(update);
+            });
         });
     }
 
 
     @Test
-    public void test98Cleanup() {
+    void test98Cleanup() {
         backend.getBrowserCache().clear();
         ProgramUpdate update = backend.get(MID);
         log.info("Removing locations " + update.getLocations());
@@ -194,7 +184,7 @@ public class MediaBackendLocationsTest extends AbstractApiMediaBackendTest {
 
 
     @Test
-    public void test99CleanupCheck() {
+    void test99CleanupCheck() {
         final ProgramUpdate[] update = new ProgramUpdate[1];
         waitUntil(ACCEPTABLE_DURATION,
             MID + " has no locations any more",

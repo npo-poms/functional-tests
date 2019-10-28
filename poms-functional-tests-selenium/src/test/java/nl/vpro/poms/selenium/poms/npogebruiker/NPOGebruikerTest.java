@@ -1,17 +1,14 @@
 package nl.vpro.poms.selenium.poms.npogebruiker;
 
+import org.assertj.core.api.SoftAssertions;
+import org.junit.jupiter.api.*;
+import org.openqa.selenium.By;
+
 import nl.vpro.domain.media.AVType;
 import nl.vpro.domain.media.MediaType;
-import nl.vpro.poms.selenium.poms.pages.AccountSettingsOverlayPage;
-import nl.vpro.poms.selenium.poms.pages.MediaItemPage;
-import nl.vpro.poms.selenium.poms.pages.Search;
 import nl.vpro.poms.selenium.poms.AbstractPomsTest;
+import nl.vpro.poms.selenium.poms.pages.*;
 import nl.vpro.poms.selenium.util.WebDriverFactory;
-import org.assertj.core.api.SoftAssertions;
-import org.junit.Before;
-import org.junit.Ignore;
-import org.junit.Test;
-import org.openqa.selenium.By;
 
 import static org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -23,13 +20,13 @@ public class NPOGebruikerTest extends AbstractPomsTest {
     }
 
 
-    @Before
+    @BeforeEach
     public void setup() {
         login().speciaalNPOGebruiker();
     }
 
     @Test
-    @Ignore("FAILS on DEV")
+    @Disabled("FAILS on DEV")
     public void testNPOGebruiker() {
         Search search = new Search(webDriverUtil);
         search.goToAccountInstellingen();
@@ -40,7 +37,7 @@ public class NPOGebruikerTest extends AbstractPomsTest {
     }
 
     @Test
-    @Ignore("FAILS on DEV")
+    @Disabled("FAILS on DEV")
     public void checkCurrentUser() {
         Search search = new Search(webDriverUtil);
         assertThat(search.getCurrentUser()).isEqualTo("NPO Test");
@@ -66,7 +63,7 @@ public class NPOGebruikerTest extends AbstractPomsTest {
     }
 
     @Test
-    @Ignore("FAILS on DEV")
+    @Disabled("FAILS on DEV")
     public void testVervroegUitzending() {
         Search search = getSearch();
         MediaItemPage media = new MediaItemPage(webDriverUtil);

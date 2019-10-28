@@ -3,7 +3,11 @@ package nl.vpro.poms.backend;
 import lombok.extern.slf4j.Slf4j;
 
 import org.junit.*;
+import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.runners.MethodSorters;
+
+import com.sun.tools.javac.util.Abort;
 
 import nl.vpro.domain.media.Encryption;
 import nl.vpro.domain.media.MediaBuilder;
@@ -11,6 +15,7 @@ import nl.vpro.domain.media.update.ProgramUpdate;
 import nl.vpro.domain.media.update.TranscodeRequest;
 import nl.vpro.poms.AbstractApiMediaBackendTest;
 import nl.vpro.rules.DoAfterException;
+import nl.vpro.test.jupiter.AbortOnException;
 import nl.vpro.util.Version;
 
 import static org.hamcrest.Matchers.greaterThanOrEqualTo;
@@ -24,30 +29,14 @@ import static org.junit.Assume.assumeThat;
  *
  * @author Michiel Meeuwissen
  */
-@FixMethodOrder(MethodSorters.NAME_ASCENDING)
+@TestMethodOrder(MethodOrderer.Alphanumeric.class)
 @Slf4j
-public class MediaBackendTranscodeTest extends AbstractApiMediaBackendTest {
-
-
-    @Rule
-    public DoAfterException doAfterException = new DoAfterException((t) -> {
-        if (! (t instanceof AssumptionViolatedException)) {
-            MediaBackendTranscodeTest.exception = t;
-        }
-    });
-
-    private static Throwable exception = null;
-
-
-    @Before
-    public void setup() {
-        assumeNoException(exception);
-    }
-
+@ExtendWith(AbortOnException.class)
+class MediaBackendTranscodeTest extends AbstractApiMediaBackendTest {
 
 
     @Test
-    public void test01Transcode() {
+    void test01Transcode() {
         assumeThat(backendVersionNumber,  greaterThanOrEqualTo(Version.of(5, 6)));
 
         String newMid = backend.set(ProgramUpdate.create(MediaBuilder.clip()
@@ -70,15 +59,15 @@ public class MediaBackendTranscodeTest extends AbstractApiMediaBackendTest {
 
 
     @Test
-    @Ignore("Not yet implemented")
-    public void test02CreatePredictions() {
+    @Disabled("Not yet implemented")
+    void test02CreatePredictions() {
         // TODO
     }
 
 
     @Test
-    @Ignore("Not yet implemented")
-    public void test03CheckForLocationsToArriveFromNEP() {
+    @Disabled("Not yet implemented")
+    void test03CheckForLocationsToArriveFromNEP() {
         // TODO
 
     }

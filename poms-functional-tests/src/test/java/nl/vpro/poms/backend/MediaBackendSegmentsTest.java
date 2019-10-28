@@ -8,11 +8,7 @@ import java.util.Iterator;
 
 import javax.xml.bind.JAXB;
 
-import org.junit.Before;
-import org.junit.FixMethodOrder;
-import org.junit.Ignore;
-import org.junit.Test;
-import org.junit.runners.MethodSorters;
+import org.junit.jupiter.api.*;
 
 import nl.vpro.domain.media.*;
 import nl.vpro.domain.media.update.ProgramUpdate;
@@ -21,7 +17,7 @@ import nl.vpro.poms.AbstractApiMediaBackendTest;
 
 import static nl.vpro.testutils.Utils.waitUntil;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assume.assumeNotNull;
+import static org.assertj.core.api.Assumptions.assumeThat;
 
 
 
@@ -33,9 +29,9 @@ import static org.junit.Assume.assumeNotNull;
 /**
  * @author Michiel Meeuwissen
  */
-@FixMethodOrder(MethodSorters.NAME_ASCENDING)
+@TestMethodOrder(MethodOrderer.Alphanumeric.class)
 @Slf4j
-public class MediaBackendSegmentsTest extends AbstractApiMediaBackendTest {
+class MediaBackendSegmentsTest extends AbstractApiMediaBackendTest {
 
     private static final Duration ACCEPTABLE_DURATION = Duration.ofMinutes(3);
 
@@ -46,13 +42,13 @@ public class MediaBackendSegmentsTest extends AbstractApiMediaBackendTest {
     private static String programMid;
 
 
-    @Before
-    public void setup() {
+    @BeforeEach
+    void setup() {
 
     }
 
     @Test
-    public void test01createSegment() {
+    void test01createSegment() {
         segmentTitle = title;
         SegmentUpdate update = SegmentUpdate.create(
             MediaBuilder.segment()
@@ -69,8 +65,8 @@ public class MediaBackendSegmentsTest extends AbstractApiMediaBackendTest {
     }
 
     @Test
-    public void test02WaitFor() {
-        assumeNotNull(segmentMid);
+    void test02WaitFor() {
+        assumeThat(segmentMid).isNotNull();
         waitUntil(ACCEPTABLE_DURATION,
             segmentMid + " in backend",
             () -> {
@@ -84,8 +80,8 @@ public class MediaBackendSegmentsTest extends AbstractApiMediaBackendTest {
      * TODO: this actually checks the frontend. This is therefor not a pure backend test
      */
     @Test
-    public void test03WaitForInFrontend() {
-        assumeNotNull(segmentMid);
+    void test03WaitForInFrontend() {
+        assumeThat(segmentMid).isNotNull();
         Segment[] segments = new Segment[1];
         waitUntil(ACCEPTABLE_DURATION_FRONTEND,
             segmentMid + " in frontend and has title " + segmentTitle,
@@ -111,7 +107,7 @@ public class MediaBackendSegmentsTest extends AbstractApiMediaBackendTest {
 
 
     @Test
-    public void test04CreateProgramWithSegment() {
+    void test04CreateProgramWithSegment() {
 
         Segment segment =
             MediaBuilder.segment()
@@ -135,8 +131,8 @@ public class MediaBackendSegmentsTest extends AbstractApiMediaBackendTest {
     }
 
     @Test
-    public void test05WaitFor() {
-        assumeNotNull(programMid);
+    void test05WaitFor() {
+        assumeThat(programMid).isNotNull();
         waitUntil(ACCEPTABLE_DURATION,
             programMid + " in backend",
             () -> {
@@ -146,8 +142,8 @@ public class MediaBackendSegmentsTest extends AbstractApiMediaBackendTest {
     }
 
     @Test
-    public void test06CheckResult() {
-        assumeNotNull(programMid);
+    void test06CheckResult() {
+        assumeThat(programMid).isNotNull();
         ProgramUpdate up = backend.get(programMid);
         assertThat(up).isNotNull();
         assertThat(up.getMid()).isEqualTo(programMid);
@@ -157,8 +153,8 @@ public class MediaBackendSegmentsTest extends AbstractApiMediaBackendTest {
 
 
     @Test
-    public void test07UpdateSegmentDirectly() {
-        assumeNotNull(segmentMid);
+    void test07UpdateSegmentDirectly() {
+        assumeThat(segmentMid).isNotNull();
 
         SegmentUpdate up = backend.get(segmentMid);
         assertThat(up.getMidRef()).isEqualTo(MID);
@@ -169,8 +165,8 @@ public class MediaBackendSegmentsTest extends AbstractApiMediaBackendTest {
     }
 
     @Test
-    public void test08WaitFor() {
-        assumeNotNull(segmentMid);
+    void test08WaitFor() {
+        assumeThat(segmentMid).isNotNull();
         waitUntil(ACCEPTABLE_DURATION,
             segmentMid + " has title " + updatedSegmentTitle,
             () -> {
@@ -180,8 +176,8 @@ public class MediaBackendSegmentsTest extends AbstractApiMediaBackendTest {
     }
 
     @Test
-    public void test09UpdateSegmentViaProgram() {
-        assumeNotNull(segmentMid);
+    void test09UpdateSegmentViaProgram() {
+        assumeThat(segmentMid).isNotNull();
         ProgramUpdate programUpdate = backend.get(MID);
 
         SegmentUpdate segmentUpdate = programUpdate.getSegments()
@@ -197,8 +193,8 @@ public class MediaBackendSegmentsTest extends AbstractApiMediaBackendTest {
 
 
     @Test
-    public void test10WaitFor() {
-        assumeNotNull(segmentMid);
+    void test10WaitFor() {
+        assumeThat(segmentMid).isNotNull();
         waitUntil(ACCEPTABLE_DURATION,
             segmentMid + " has title " + updatedSegmentTitle,
             () -> {
@@ -209,9 +205,9 @@ public class MediaBackendSegmentsTest extends AbstractApiMediaBackendTest {
 
 
     @Test
-    public void test99Cleanup() {
+    void test99Cleanup() {
         Program program = backend.getFullProgram(MID);
-        assumeNotNull(program);
+        assumeThat(program).isNotNull();
         log.info("Found {} with {} segments", program, program.getSegments().size());
         Iterator<Segment> segments = program.getSegments().iterator();
         int count = 0;
@@ -228,8 +224,8 @@ public class MediaBackendSegmentsTest extends AbstractApiMediaBackendTest {
 
 
     @Test
-    @Ignore
-    public void testSegment() {
+    @Disabled
+    void testSegment() {
         Segment segment = (Segment) clients.getMediaService().load("POMS_VPRO_1460016", null, null);
         assertThat(segment.getMidRef()).isNotNull();
     }

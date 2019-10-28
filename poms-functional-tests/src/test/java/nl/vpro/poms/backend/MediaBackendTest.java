@@ -7,9 +7,12 @@ import nl.vpro.domain.media.support.OwnerType;
 import nl.vpro.domain.media.update.*;
 import nl.vpro.poms.AbstractApiMediaBackendTest;
 import nl.vpro.rules.DoAfterException;
+import nl.vpro.test.jupiter.AbortOnException;
 import nl.vpro.util.Version;
 import org.assertj.core.api.Assertions;
 import org.junit.*;
+import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.runners.MethodSorters;
 
 import javax.xml.bind.JAXB;
@@ -35,26 +38,17 @@ import static org.junit.Assume.*;
 /***
  * @author Michiel Meeuwissen
  */
-@FixMethodOrder(MethodSorters.NAME_ASCENDING)
+@TestMethodOrder(MethodOrderer.Alphanumeric.class)
 @Slf4j
-public class MediaBackendTest extends AbstractApiMediaBackendTest {
+@ExtendWith(AbortOnException.class)
+class MediaBackendTest extends AbstractApiMediaBackendTest {
 
     private static final Duration ACCEPTABLE_DURATION = Duration.ofMinutes(3);
 
-    @Rule
-    public DoAfterException doAfterException = new DoAfterException((t) -> {
-        if (! (t instanceof AssumptionViolatedException)) {
-            MediaBackendTest.exception = t;
-        }
-    });
-
-    private static Throwable exception = null;
-
-    @Before
+    @BeforeEach
     public void setup() {
         log.info("Mailing errors to {}", backend.getErrors());
         assumeThat(backend.getErrors(), not(is(emptyOrNullString())));
-        assumeNoException(exception);
 
     }
 

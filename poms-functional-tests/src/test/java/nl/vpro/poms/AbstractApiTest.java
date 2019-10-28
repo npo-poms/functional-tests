@@ -8,23 +8,20 @@ import java.util.concurrent.TimeUnit;
 import javax.ws.rs.core.MediaType;
 
 import org.junit.After;
-import org.junit.Before;
 import org.junit.Rule;
+import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.rules.TestName;
-import org.junit.rules.Timeout;
 
 import nl.vpro.api.client.frontend.NpoApiClients;
-import nl.vpro.api.client.utils.Config;
-import nl.vpro.api.client.utils.NpoApiImageUtil;
-import nl.vpro.api.client.utils.NpoApiMediaUtil;
-import nl.vpro.api.client.utils.NpoApiPageUtil;
+import nl.vpro.api.client.utils.*;
 import nl.vpro.domain.api.media.Compatibility;
 import nl.vpro.domain.classification.CachedURLClassificationServiceImpl;
 import nl.vpro.domain.classification.ClassificationServiceLocator;
 import nl.vpro.domain.media.Schedule;
 import nl.vpro.rules.AllowNotImplemented;
 import nl.vpro.rules.AllowUnavailable;
-import nl.vpro.rules.TestMDC;
 import nl.vpro.testutils.AbstractTest;
 import nl.vpro.testutils.Utils;
 import nl.vpro.util.IntegerVersion;
@@ -34,6 +31,8 @@ import nl.vpro.util.Version;
  * @author Michiel Meeuwissen
  * @since 1.0
  */
+@ExtendWith({AllowUnavailable.class, AllowNotImplemented.class})
+@Timeout(value = 30, unit = TimeUnit.MINUTES)
 public abstract class AbstractApiTest extends AbstractTest  {
 
 
@@ -43,38 +42,23 @@ public abstract class AbstractApiTest extends AbstractTest  {
     public static final Config CONFIG = new Config("npo-functional-tests.properties");
 
 
-    @Rule
-    public AllowUnavailable unavailable = new AllowUnavailable();
-
-    @Rule
-    public AllowNotImplemented notImplemented = new AllowNotImplemented();
-
-    protected static final String NOW = ZonedDateTime.now(Schedule.ZONE_ID).toOffsetDateTime().toString();
-
-    @Rule
-    public TestName testMethod = new TestName();
-
-    @Rule
-    public TestMDC testMDC = new TestMDC();
-
-    @Rule
-    public Timeout timeout = new Timeout(30, TimeUnit.MINUTES);
+    private static final String NOW = ZonedDateTime.now(Schedule.ZONE_ID).toOffsetDateTime().toString();
 
 
     protected String title;
 
 
-    @Before
-    public void setupTitle() {
+    @BeforeEach
+    public void setupTitle(TestInfo testInfo) {
         Utils.CLEAR_CACHES.set(this::clearCaches);
-        title = testMDC.getTestNumber() + ":" + NOW + " " + testMethod.getMethodName() + " Caf\u00E9 \u6C49"; // testing encoding too!
+        title = ExtensionContext.Store.testMDC.getTestNumber() + ":" + NOW + " " + testMethod.getMethodName() + " Caf\u00E9 \u6C49"; // testing encoding too!
 
-        log.info("Running {} with title {}", testMethod.getMethodName(), title);
+        log.info("Running {} with title {}", testInfo.getTestMethod(), title);
         if (!Objects.equals(log, LOG)) {
             LOG = log;
         }
     }
-    @After
+    @AfterEach
     public void cleanClient() {
         clients.setProfile(null);
         clients.setProperties("");
@@ -104,7 +88,7 @@ public abstract class AbstractApiTest extends AbstractTest  {
 
 
 
-    protected static final String apiVersion = clients.getVersion();
+    private static final String apiVersion = clients.getVersion();
 
 
     protected static IntegerVersion apiVersionNumber;

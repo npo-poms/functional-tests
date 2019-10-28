@@ -5,7 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import java.io.IOException;
 import java.util.Collection;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 
@@ -17,10 +17,11 @@ import nl.vpro.poms.ApiSearchTestHelper;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assume.assumeTrue;
+import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
 @RunWith(Parameterized.class)
 @Slf4j
-public class ApiSubtitlesParameterizedSearchTest extends AbstractSearchTest<SubtitlesForm, SubtitlesSearchResult> {
+class ApiSubtitlesParameterizedSearchTest extends AbstractSearchTest<SubtitlesForm, SubtitlesSearchResult> {
 
 
     {
@@ -33,17 +34,17 @@ public class ApiSubtitlesParameterizedSearchTest extends AbstractSearchTest<Subt
             assertThat(sr.getItems()).hasSize(10);
         });
     }
-    public ApiSubtitlesParameterizedSearchTest(String name, SubtitlesForm form, javax.ws.rs.core.MediaType mediaType) {
+    ApiSubtitlesParameterizedSearchTest(String name, SubtitlesForm form, javax.ws.rs.core.MediaType mediaType) {
         super(name, form, null, mediaType);
     }
 
     @Parameterized.Parameters
-    public static Collection<Object[]> getForms() throws IOException {
+    static Collection<Object[]> getForms() throws IOException {
         return ApiSearchTestHelper.getForms("/examples/subtitles/", SubtitlesForm.class);
     }
 
     @Test
-    public void search() throws Exception {
+    void search() throws Exception {
         log.info(DASHES.substring(0, 30 - "search".length()) + name);
         SubtitlesSearchResult searchResultItems = clients.getSubtitlesRestService().search(form, 0L, 10);
         assumeTrue(tester.apply(searchResultItems));

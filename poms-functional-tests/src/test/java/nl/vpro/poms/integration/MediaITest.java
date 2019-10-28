@@ -8,14 +8,9 @@ import java.util.Objects;
 
 import javax.xml.bind.JAXB;
 
-import org.junit.FixMethodOrder;
-import org.junit.Test;
-import org.junit.runners.MethodSorters;
+import org.junit.jupiter.api.*;
 
-import nl.vpro.domain.media.Location;
-import nl.vpro.domain.media.MediaTestDataBuilder;
-import nl.vpro.domain.media.Program;
-import nl.vpro.domain.media.Segment;
+import nl.vpro.domain.media.*;
 import nl.vpro.domain.media.support.Image;
 import nl.vpro.domain.media.support.Workflow;
 import nl.vpro.domain.media.update.GroupUpdate;
@@ -25,7 +20,7 @@ import nl.vpro.poms.AbstractApiMediaBackendTest;
 
 import static nl.vpro.testutils.Utils.waitUntil;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assume.assumeNotNull;
+import static org.assertj.core.api.Assumptions.assumeThat;
 
 /**
  * Create and change items via the backend api, and check them in frontend api.
@@ -37,17 +32,17 @@ import static org.junit.Assume.assumeNotNull;
  *
  * @author Michiel Meeuwissen
  */
-@FixMethodOrder(MethodSorters.NAME_ASCENDING)
+@TestMethodOrder(MethodOrderer.Alphanumeric.class)
 @Slf4j
-public class MediaITest extends AbstractApiMediaBackendTest {
+class MediaITest extends AbstractApiMediaBackendTest {
 
-    static String groupMid;
-    static String clipMid;
-    static String clipTitle;
-    static String clipDescription;
+    private static String groupMid;
+    private static String clipMid;
+    private static String clipTitle;
+    private static String clipDescription;
 
     @Test
-    public void test001CreateMedia() {
+    void test001CreateMedia() {
         clipTitle = title;
         Image expiredImage = createImage();
         expiredImage.setTitle("OFFLINE " + title);
@@ -132,8 +127,8 @@ public class MediaITest extends AbstractApiMediaBackendTest {
     }
 
     @Test
-    public void test002CheckFrontendApi() {
-        assumeNotNull(clipMid);
+    void test002CheckFrontendApi() {
+        assumeThat(clipMid).isNotNull();
         Program clip = waitUntil(Duration.ofMinutes(10),
             clipMid + " is a memberof " + groupMid,
             () -> mediaUtil.findByMid(clipMid),
@@ -151,8 +146,8 @@ public class MediaITest extends AbstractApiMediaBackendTest {
     }
 
     @Test
-    public void test003UpdateTitle() {
-        assumeNotNull(clipMid);
+    void test003UpdateTitle() {
+        assumeThat(clipMid).isNotNull();
         ProgramUpdate mediaUpdate = backend.get(clipMid);
         clipTitle = title;
         mediaUpdate.setMainTitle(clipTitle);
@@ -160,8 +155,8 @@ public class MediaITest extends AbstractApiMediaBackendTest {
     }
 
     @Test
-    public void test004CheckFrontendApi() {
-        assumeNotNull(clipMid);
+    void test004CheckFrontendApi() {
+        assumeThat(clipMid).isNotNull();
         Program clip = waitUntil(Duration.ofMinutes(10),
             clipMid + " has title " + clipTitle,
             () -> mediaUtil.findByMid(clipMid),
@@ -173,18 +168,18 @@ public class MediaITest extends AbstractApiMediaBackendTest {
 
 
     @Test
-    public void test005UpdateDescription() {
-        assumeNotNull(clipMid);
+    void test005UpdateDescription() {
+        assumeThat(clipMid).isNotNull();
         ProgramUpdate mediaUpdate = backend.get(clipMid);
         clipDescription = title;
-        assumeNotNull(mediaUpdate);
+        assumeThat(mediaUpdate).isNotNull();
         mediaUpdate.setMainDescription(clipDescription);
         backend.set(mediaUpdate);
     }
 
     @Test
-    public void test006CheckFrontendApi() {
-        assumeNotNull(clipMid);
+    void test006CheckFrontendApi() {
+        assumeThat(clipMid).isNotNull();
         Program clip = waitUntil(Duration.ofMinutes(10),
             clipMid + " has description " + clipDescription,
             () -> mediaUtil.findByMid(clipMid),
@@ -197,8 +192,8 @@ public class MediaITest extends AbstractApiMediaBackendTest {
 
 
     @Test
-    public void test007WaitForImageRevocation() {
-        assumeNotNull(clipMid);
+    void test007WaitForImageRevocation() {
+        assumeThat(clipMid).isNotNull();
         Program clip = waitUntil(Duration.ofMinutes(20),
             clipMid + " has no images any more",
             () -> mediaUtil.findByMid(clipMid),
@@ -208,8 +203,8 @@ public class MediaITest extends AbstractApiMediaBackendTest {
     }
 
     @Test
-    public void test008WaitForSegmentRevocation() {
-        assumeNotNull(clipMid);
+    void test008WaitForSegmentRevocation() {
+        assumeThat(clipMid).isNotNull();
         Program clip = waitUntil(Duration.ofMinutes(20),
             clipMid + " has no segments any more",
             () -> mediaUtil.findByMid(clipMid),
@@ -219,8 +214,8 @@ public class MediaITest extends AbstractApiMediaBackendTest {
     }
 
     @Test
-    public void test009WaitForLocationsRevocation() {
-        assumeNotNull(clipMid);
+    void test009WaitForLocationsRevocation() {
+        assumeThat(clipMid).isNotNull();
         Program clip = waitUntil(Duration.ofMinutes(20),
             clipMid + " has no locations any more",
             () -> mediaUtil.findByMid(clipMid),
@@ -230,14 +225,15 @@ public class MediaITest extends AbstractApiMediaBackendTest {
     }
 
     @Test
-    public void test100Delete() {
-        assumeNotNull(clipMid);
+    void test100Delete() {
+        assumeThat(clipMid).isNotNull();
+
         backend.delete(clipMid);
     }
 
     @Test
-    public void test101CheckFrontendApi() {
-        assumeNotNull(clipMid);
+    void test101CheckFrontendApi() {
+        assumeThat(clipMid).isNotNull();
         waitUntil(Duration.ofMinutes(10),
             () -> clipMid + " disappeared",
             () -> mediaUtil.findByMid(clipMid) == null

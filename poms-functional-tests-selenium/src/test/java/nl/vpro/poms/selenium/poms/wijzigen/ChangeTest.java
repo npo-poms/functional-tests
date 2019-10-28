@@ -2,10 +2,8 @@ package nl.vpro.poms.selenium.poms.wijzigen;
 
 import java.net.URISyntaxException;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.*;
+import org.junit.jupiter.params.ParameterizedTest;
 
 import nl.vpro.domain.image.ImageType;
 import nl.vpro.domain.support.License;
@@ -22,20 +20,20 @@ public class ChangeTest extends AbstractPomsTest {
 		super(browser);
 	}
 
-	@Before
+	@BeforeEach
 	public void firstLogin() {
 		login().speciaalVf();
 	}
-	@After
+	@AfterEach
 	public void afterwardsLogout() {
 		logout();
 	}
 	private static final String randomTitel = randomAlphanumeric(15);
 	private static final String randomDescription = randomAlphanumeric(35);
 
-	@Test
-	@Ignore("FAILS on DEV")
-	public void SPOMSEDITUPLOAD1() throws URISyntaxException {
+	@ParameterizedTest
+	@Disabled("FAILS on DEV")
+	public void SPOMSEDITUPLOAD1(WebDriverFactory.Browser browser) throws URISyntaxException {
 
 		MediaItemPage item = new Search(webDriverUtil).searchAndOpenClip();
 		item.moveToAfbeeldingen();

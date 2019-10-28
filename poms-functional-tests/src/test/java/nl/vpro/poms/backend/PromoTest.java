@@ -7,25 +7,17 @@ import lombok.extern.slf4j.Slf4j;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.nio.charset.Charset;
-import java.time.Duration;
-import java.time.Instant;
-import java.time.LocalDate;
+import java.time.*;
 import java.util.Arrays;
 import java.util.SortedSet;
 
 import javax.xml.bind.JAXB;
 
 import org.hamcrest.core.AnyOf;
-import org.junit.Before;
-import org.junit.FixMethodOrder;
-import org.junit.Test;
-import org.junit.runners.MethodSorters;
+import org.junit.jupiter.api.*;
 
 import nl.vpro.domain.media.*;
-import nl.vpro.domain.media.update.LocationUpdate;
-import nl.vpro.domain.media.update.MediaUpdateList;
-import nl.vpro.domain.media.update.MemberUpdate;
-import nl.vpro.domain.media.update.RelationUpdate;
+import nl.vpro.domain.media.update.*;
 import nl.vpro.domain.user.Broadcaster;
 import nl.vpro.parkpost.ProductCode;
 import nl.vpro.parkpost.promo.bind.File;
@@ -38,7 +30,7 @@ import static nl.vpro.api.client.utils.Config.Prefix.parkpost;
 import static nl.vpro.testutils.Utils.waitUntilNotNull;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.CoreMatchers.equalTo;
-import static org.junit.Assume.assumeTrue;
+import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
 
 /*
@@ -46,9 +38,9 @@ import static org.junit.Assume.assumeTrue;
  * 5.9-SNAPSHOT @ dev : allemaal ok
  */
 
-@FixMethodOrder(MethodSorters.NAME_ASCENDING)
+@TestMethodOrder(MethodOrderer.Alphanumeric.class)
 @Slf4j
-public class PromoTest extends AbstractApiMediaBackendTest {
+class PromoTest extends AbstractApiMediaBackendTest {
 
     private static final LocalDate today = LocalDate.now(Schedule.ZONE_ID);
     private static final String PRODUCTCODE = "1P0203MO_JOCHEMMY_" + today.toString().replace('-','_');
@@ -127,8 +119,8 @@ public class PromoTest extends AbstractApiMediaBackendTest {
         "    <PlacingWindowEnd>2018-07-15T06:00:00+02:00</PlacingWindowEnd>\n" +
         "</NPO_gfxwrp>\n";
 
-    @Before
-    public void setUp() {
+    @BeforeEach
+    void setUp() {
         RestAssured.useRelaxedHTTPSValidation();
         RestAssured.urlEncodingEnabled = false;
         log.info("Testing with " + PARKPOST);
@@ -137,7 +129,7 @@ public class PromoTest extends AbstractApiMediaBackendTest {
 
 
     @Test
-    public void test001() {
+    void test001() {
         promoEvent = todaysPromoEvent();
         promoEvent.setFiles(Arrays.asList(
             File.builder().fileName("http://adaptive.npostreaming.nl/u/npo/promo/3P1101MO_DODENLIE/3P1101MO_DODENLIE.ismv").build(),
@@ -156,7 +148,7 @@ public class PromoTest extends AbstractApiMediaBackendTest {
 
 
     @Test
-    public void test002arrived() {
+    void test002arrived() {
         //promotionTitle = "1:2018-11-26T11:48:37.341+01:00 test001 Café 汉";
         MemberUpdate update = testArrived(2);
         log.info("TODO the following looks wrong:");
@@ -167,7 +159,7 @@ public class PromoTest extends AbstractApiMediaBackendTest {
 
 
     @Test
-    public void test003RepostWithoutFiles() {
+    void test003RepostWithoutFiles() {
         assumeTrue(promoEvent != null);
         promoEvent.setFiles(null);
         String resultString = send(promoEvent);
@@ -178,13 +170,13 @@ public class PromoTest extends AbstractApiMediaBackendTest {
     }
 
     @Test
-    public void test004arrived() {
+    void test004arrived() {
         // FAILS MSE-4091
         testArrived(2);
     }
 
 
-    protected MemberUpdate testArrived(int expectedLocations) {
+    MemberUpdate testArrived(int expectedLocations) {
         assumeTrue(promotionTitle != null);
         MemberUpdate update = waitUntilNotNull(Duration.ofMinutes(5),
             () -> {
@@ -215,7 +207,7 @@ public class PromoTest extends AbstractApiMediaBackendTest {
     }
 
     @Test
-    public void test999cleanup() {
+    void test999cleanup() {
         MediaUpdateList<MemberUpdate> promos = backend.getGroupMembers(PROMOTED_MID);
         int count = 0;
         for(MemberUpdate mu :promos) {
@@ -230,7 +222,7 @@ public class PromoTest extends AbstractApiMediaBackendTest {
         }
         log.info("Deleted {} promos for {}", count, PROMOTED_MID);
     }
-    protected PromoEvent todaysPromoEvent() {
+    PromoEvent todaysPromoEvent() {
         PromoEvent promoEvent = new PromoEvent();
         promotionTitle = title;
         promoEvent.setProductCode(PRODUCTCODE);
@@ -241,13 +233,13 @@ public class PromoTest extends AbstractApiMediaBackendTest {
         return promoEvent;
     }
 
-    protected String send(Object object) {
+    String send(Object object) {
         StringWriter writer = new StringWriter();
         JAXB.marshal(object, writer);
         return send(writer.toString());
     }
 
-    protected String send(String xml) {
+    String send(String xml) {
         log.info("Sending {}", xml);
         String resultString =
             given()

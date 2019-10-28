@@ -12,6 +12,8 @@ import javax.ws.rs.NotFoundException;
 
 import org.hamcrest.Matchers;
 import org.junit.*;
+import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.runners.MethodSorters;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -29,6 +31,7 @@ import nl.vpro.domain.page.update.*;
 import nl.vpro.jackson2.Jackson2Mapper;
 import nl.vpro.poms.AbstractApiMediaBackendTest;
 import nl.vpro.rules.DoAfterException;
+import nl.vpro.test.jupiter.AbortOnException;
 import nl.vpro.testutils.Utils;
 import nl.vpro.testutils.Utils.Check;
 import nl.vpro.util.Version;
@@ -42,16 +45,17 @@ import static org.junit.Assume.*;
 /**
  * @author Michiel Meeuwissen
  */
-@FixMethodOrder(MethodSorters.NAME_ASCENDING)
+@TestMethodOrder(MethodOrderer.Alphanumeric.class)
 @Slf4j
-public class PagesPublisherTest extends AbstractApiMediaBackendTest {
+@ExtendWith(AbortOnException.class)
+class PagesPublisherTest extends AbstractApiMediaBackendTest {
 
 
     private static final Duration ACCEPTABLE_DURATION = Duration.ofMinutes(3);
     private static final Duration ACCEPTABLE_PAGE_PUBLISHED_DURATION = Duration.ofMinutes(15);
     private static final Duration ACCEPTABLE_MEDIA_PUBLISHED_DURATION = Duration.ofMinutes(15);
 
-    static PageUpdateApiUtil util = new PageUpdateApiUtil(
+    private static PageUpdateApiUtil util = new PageUpdateApiUtil(
         PageUpdateApiClient.configured(
             CONFIG.env(),
             CONFIG.getProperties(npo_pageupdate_api)
@@ -63,25 +67,17 @@ public class PagesPublisherTest extends AbstractApiMediaBackendTest {
         log.info("Using {}", util);
     }
 
-    static final String topStoryUrl = "http://test.poms.nl/test001CreateOrUpdatePageTopStory";
-    static PageUpdate article;
+    private static final String topStoryUrl = "http://test.poms.nl/test001CreateOrUpdatePageTopStory";
+    private static PageUpdate article;
 
-    static String urlToday;
-    static String urlYesterday;
-    static String urlTomorrow;
+    private static String urlToday;
+    private static String urlYesterday;
+    private static String urlTomorrow;
 
 
-    @Rule
-    public DoAfterException doAfterException = new DoAfterException((t) ->
-        PagesPublisherTest.exception = t
-    );
 
-    private static Throwable exception = null;
-
-    @Before
+    @BeforeEach
     public void setup() {
-        assumeNoException(exception);
-
         log.info("Testing with version {}", util.getPageUpdateApiClient().getVersionNumber());
     }
 
@@ -651,7 +647,7 @@ public class PagesPublisherTest extends AbstractApiMediaBackendTest {
 
     }
 
-    protected void testConsistency(String url, Set<String> checked, boolean cleanup) {
+    private void testConsistency(String url, Set<String> checked, boolean cleanup) {
         if (checked.contains(url)) {
             return;
         }
