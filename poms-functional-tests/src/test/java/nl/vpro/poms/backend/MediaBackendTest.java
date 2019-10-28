@@ -1,27 +1,24 @@
 package nl.vpro.poms.backend;
 
 import lombok.extern.slf4j.Slf4j;
-import nl.vpro.api.client.media.ResponseError;
-import nl.vpro.domain.media.*;
-import nl.vpro.domain.media.support.OwnerType;
-import nl.vpro.domain.media.update.*;
-import nl.vpro.poms.AbstractApiMediaBackendTest;
-import nl.vpro.rules.DoAfterException;
-import nl.vpro.util.Version;
+
+import java.time.Duration;
+import java.util.*;
+import java.util.function.Predicate;
+
+import javax.xml.bind.JAXB;
+
 import org.assertj.core.api.Assertions;
 import org.junit.*;
 import org.junit.runners.MethodSorters;
 
-import javax.xml.bind.JAXB;
-import java.time.Duration;
-import java.util.Arrays;
-import java.util.Locale;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.function.Predicate;
+import nl.vpro.api.client.media.ResponseError;
+import nl.vpro.domain.media.*;
+import nl.vpro.domain.media.update.*;
+import nl.vpro.poms.AbstractApiMediaBackendTest;
+import nl.vpro.rules.DoAfterException;
+import nl.vpro.util.Version;
 
-import static nl.vpro.domain.media.support.OwnerType.BROADCASTER;
-import static nl.vpro.domain.media.support.OwnerType.NPO;
 import static nl.vpro.testutils.Utils.waitUntil;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.*;
@@ -265,71 +262,5 @@ public class MediaBackendTest extends AbstractApiMediaBackendTest {
         Assertions.assertThat((Object) backend.get(againMidWithCrid)).isNull();
     }
 
-    /**
-     * At the moment we only save Intentions and TargetGroups for the
-     * same owner that is sending the data.
-     * An owner is not able to change data from a different one.
-     */
-    @Test
-    public void test09CreateObjectWithIntentionsAndTargetGroups() {
-        //Given a new Media with intentions and targetgroups from multiple owners
-        //And a clientApi configured with a specific owner
-        Intentions intentions1 = Intentions.builder()
-                .owner(BROADCASTER).values(Arrays.asList(
-                        IntentionType.ENTERTAINMENT_INFORMATIVE,
-                        IntentionType.INFORM_INDEPTH))
-                .build();
-        Intentions intentions2 = Intentions.builder()
-                .owner(NPO)
-                .value(IntentionType.ACTIVATING)
-                .build();
-
-        TargetGroups target1 = TargetGroups.builder()
-                .value(TargetGroupType.ADULTS)
-                .owner(OwnerType.BROADCASTER)
-                .build();
-        TargetGroups target2 = TargetGroups.builder()
-                .values(Arrays.asList(TargetGroupType.KIDS_6, TargetGroupType.KIDS_12))
-                .owner(OwnerType.NPO)
-                .build();
-
-        GeoLocation geoLocation = GeoLocation.builder().name("Amsterdam")
-                .role(GeoRoleType.SUBJECT)
-                .scopeNote("City center").build();
-
-        GeoLocations geoLocations1 = GeoLocations.builder()
-                .value(geoLocation)
-                .owner(OwnerType.NPO)
-                .build();
-
-        backend.setValidateInput(false);
-        ProgramUpdate clip = ProgramUpdate.create(
-                MediaBuilder.clip()
-                        .ageRating(AgeRating.ALL)
-                        .mainTitle(title)
-                        .broadcasters("VPRO")
-                        .intentions(intentions1, intentions2)
-                        .targetGroups(target1, target2)
-                        .build()
-        );
-        backend.setOwner(OwnerType.BROADCASTER);
-
-        //When we save the media
-        String mid = backend.set(clip);
-        log.info("Found mid {}", mid);
-
-        //We expect to find only the intentions and targets related to the
-        //owner that established the connection.
-        ProgramUpdate created = waitUntil(ACCEPTABLE_DURATION,
-                mid + " exists",
-                () -> backend.get(mid),
-                Objects::nonNull);
-        assertThat(created.getIntentions()).contains(intentions1.getValues().get(0).getValue());
-        assertThat(created.getIntentions()).contains(intentions1.getValues().get(1).getValue());
-        assertThat(created.getIntentions()).doesNotContain(intentions2.getValues().get(0).getValue());
-        assertThat(created.getTargetGroups()).contains(target1.getValues().get(0).getValue());
-        assertThat(created.getTargetGroups()).doesNotContain(target2.getValues().get(0).getValue());
-
-    }
 
 }
