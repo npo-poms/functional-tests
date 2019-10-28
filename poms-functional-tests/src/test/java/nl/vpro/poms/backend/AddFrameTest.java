@@ -4,13 +4,10 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.io.UnsupportedEncodingException;
 import java.time.Duration;
-import java.util.stream.Collectors;
 
 import javax.ws.rs.core.Response;
 
-import org.junit.BeforeClass;
-import org.junit.FixMethodOrder;
-import org.junit.Test;
+import org.junit.*;
 import org.junit.runners.MethodSorters;
 
 import nl.vpro.domain.image.ImageType;
@@ -49,7 +46,7 @@ public class AddFrameTest extends AbstractApiMediaBackendTest {
 
 
     @Test
-    public void test01() throws UnsupportedEncodingException {
+    public void test01AddFrame() throws UnsupportedEncodingException {
 
         Program fullProgram = backend.getFullProgram(MID);
         if (fullProgram.getImage(ImageType.PICTURE) == null) {
@@ -64,10 +61,14 @@ public class AddFrameTest extends AbstractApiMediaBackendTest {
             log.info("Response: {}", response);
         }
 
+    }
+
+    @Test
+    public void test02CheckArrived() {
         final ProgramUpdate[] update = new ProgramUpdate[1];
 
         waitUntil(ACCEPTABLE_DURATION,
-            MID + " has image STILL with offset " + offset,
+            MID + " has image STILL with offset " + offset + " and size != " + originalSizeOfImage,
             () -> {
                 update[0] = backend_authority.get(MID);
                 return update[0] != null &&
@@ -86,7 +87,7 @@ public class AddFrameTest extends AbstractApiMediaBackendTest {
 
 
     @Test
-    public void test01Overwrite() {
+    public void test10Overwrite() {
         try (Response response = backend.getFrameCreatorRestService().createFrame(MID, offset, null, null, getClass().getResourceAsStream("/VPRO1970's.png"))) {
             log.info("{}", response);
         }
@@ -132,9 +133,7 @@ public class AddFrameTest extends AbstractApiMediaBackendTest {
                     return
                         p.getImages()
                             .stream()
-                            .filter(iu -> iu != null && iu.getOwner() == OwnerType.AUTHORITY && iu.getType() == ImageType.STILL)
-                            .collect(Collectors.toList()).size() == 0;
-
+                            .noneMatch(iu -> iu != null && iu.getOwner() == OwnerType.AUTHORITY && iu.getType() == ImageType.STILL);
                 } catch (Exception e) {
                     log.error(e.getMessage(), e);
                     return false;
