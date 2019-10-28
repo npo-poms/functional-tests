@@ -13,6 +13,7 @@ import org.junit.runners.MethodSorters;
 import nl.vpro.domain.image.ImageType;
 import nl.vpro.domain.media.Program;
 import nl.vpro.domain.media.support.OwnerType;
+import nl.vpro.domain.media.update.ImageUpdate;
 import nl.vpro.domain.media.update.ProgramUpdate;
 import nl.vpro.poms.AbstractApiMediaBackendTest;
 
@@ -36,8 +37,9 @@ public class AddFrameTest extends AbstractApiMediaBackendTest {
 
     private static final Duration offset = Duration.ofMinutes(10).plus(Duration.ofMinutes((int) (20f * Math.random())));
 
-    //private static long jpegSizeOfImage = 13991L;
-    private static long originalSizeOfImage = 2621;
+    private static long originalSizeOfImage = 2621; // This is the size of an image we upload in test03
+
+    private static String createImageUri;
 
     @BeforeClass
     public static void init() {
@@ -71,16 +73,30 @@ public class AddFrameTest extends AbstractApiMediaBackendTest {
             MID + " has image STILL with offset " + offset + " and size != " + originalSizeOfImage,
             () -> {
                 update[0] = backend_authority.get(MID);
-                return update[0] != null &&
+                if (update[0] == null) {
+                    return false;
+                }
+                ImageUpdate foundImage =
                     update[0].getImages()
                         .stream()
-                        .anyMatch(iu ->
+                        .filter(iu ->
                             iu != null &&
                                 iu.getOffset() != null &&
                                 iu.getOffset().equals(offset) &&
-                                iu.getType() == ImageType.STILL &&
-                                imageUtil.getSize(iu).orElse(-1L) != originalSizeOfImage
-                        );
+                                iu.getType() == ImageType.STILL
+                        ).findFirst().orElse(null);
+                if (foundImage == null) {
+                    log.info("No STILL found yet at {}", offset);
+                    return false;
+                }
+
+                long foundSize = imageUtil.getSize(foundImage).orElse(-1L);
+                if (foundSize == originalSizeOfImage) {
+                    log.info("Found {} but the size is the original size, so this may be from test10", foundImage);
+                    return false;
+                }
+                createImageUri = foundImage.getImageUri();
+                return true;
             });
     }
 
@@ -95,16 +111,33 @@ public class AddFrameTest extends AbstractApiMediaBackendTest {
             MID + " has STILL image with offset " + offset + " and size " + originalSizeOfImage,
             () -> {
                 ProgramUpdate p  = backend_authority.get(MID);
-                return p != null &&
-                    p.getImages()
+                if (p == null) {
+                    throw new IllegalStateException();
+                }
+
+                ImageUpdate foundImage = p.getImages()
                         .stream()
-                        .anyMatch(iu ->
+                        .filter(iu ->
                             iu != null &&
                                 iu.getOffset() != null &&
                                 iu.getOffset().equals(offset) &&
-                                iu.getType() == ImageType.STILL
-                                // && imageUtil.getSize(iu).orElse(-1L)  == originalSizeOfImage
-                        );
+                                iu.getType() == ImageType.STILL)
+                        .findFirst().orElse(null)
+                    ;
+
+                if (foundImage == null) {
+                    throw new IllegalStateException();
+                }
+                String uri = foundImage.getImageUri();
+                if (uri.equals(createImageUri)) {
+                    return false;
+                }
+                long newSize = imageUtil.getSize(foundImage).orElse(-1L);
+                if (newSize == originalSizeOfImage || newSize == -1L) {
+                    return true;
+                }
+                return false;
+
             });
     }
 
