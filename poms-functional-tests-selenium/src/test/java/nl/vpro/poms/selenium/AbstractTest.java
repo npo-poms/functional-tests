@@ -1,35 +1,27 @@
 package nl.vpro.poms.selenium;
 
 import io.github.bonigarcia.wdm.DriverManagerType;
-import nl.vpro.api.client.utils.Config;
-import nl.vpro.poms.selenium.pages.AbstractLogin;
-import nl.vpro.poms.selenium.pages.CasLogin;
-import nl.vpro.poms.selenium.pages.KeycloakLogin;
-import nl.vpro.poms.selenium.poms.pages.Search;
-import nl.vpro.poms.selenium.util.WebDriverFactory;
-import nl.vpro.poms.selenium.util.WebDriverFactory.Browser;
-import nl.vpro.poms.selenium.util.WebDriverUtil;
-import nl.vpro.rules.DoAfterException;
-import nl.vpro.rules.TestMDC;
-import nl.vpro.test.jupiter.AbortOnException;
 
-import org.junit.*;
+import java.util.*;
+import java.util.concurrent.TimeUnit;
+
+import javax.annotation.Nonnull;
+
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.junit.jupiter.params.provider.MethodSource;
-import org.junit.rules.TestName;
-import org.junit.rules.Timeout;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.LoggerFactory;
 
-import javax.annotation.Nonnull;
-import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.TimeUnit;
+import nl.vpro.api.client.utils.Config;
+import nl.vpro.poms.selenium.pages.*;
+import nl.vpro.poms.selenium.poms.pages.Search;
+import nl.vpro.poms.selenium.util.WebDriverFactory;
+import nl.vpro.poms.selenium.util.WebDriverFactory.Browser;
+import nl.vpro.poms.selenium.util.WebDriverUtil;
+import nl.vpro.rules.TestMDC;
+import nl.vpro.test.jupiter.AbortOnException;
 
 /**
  *
@@ -59,16 +51,14 @@ public abstract class AbstractTest {
     protected boolean setupEach = true;
 
 
-    @Parameterized.Parameters
-    @MethodSource
-    public static Collection<Object[]> data() {
-        List<Object[]> result = new ArrayList<>();
+    public static Collection<Browser> browsers() {
+        List<Browser> result = new ArrayList<>();
         List<String> browsers = Arrays.asList(CONFIG.getProperty("browsers").split("\\s*,\\s*"));
         if (browsers.contains("chrome")) {
-            result.add(new Object[]{new Browser(DriverManagerType.CHROME, "2.41")}); // 2.41 corresponds with the chrome on jenkins.
+            result.add(new Browser(DriverManagerType.CHROME, "2.41")); // 2.41 corresponds with the chrome on jenkins.
         }
         if (browsers.contains("firefox")) {
-            result.add(new Object[]{new Browser(DriverManagerType.FIREFOX, null)});
+            result.add(new Browser(DriverManagerType.FIREFOX, null));
         }
         return result;
     }
@@ -121,7 +111,7 @@ public abstract class AbstractTest {
     }
 
     @AfterAll
-    public static void tearDownClass() {
+    public static void tearDownClass(List<Exception> exceptions) {
         if (exceptions.isEmpty() || WebDriverFactory.headless) {
             for (WebDriver wd : staticDrivers.values()) {
                 wd.quit();

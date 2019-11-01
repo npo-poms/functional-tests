@@ -25,7 +25,7 @@ public class ItemizerTest extends AbstractPomsTest {
     }
 
     @BeforeEach
-    public void setup() {
+    public void setup(WebDriverFactory.Browser browser) {
         login().speciaalVf();
     }
 
