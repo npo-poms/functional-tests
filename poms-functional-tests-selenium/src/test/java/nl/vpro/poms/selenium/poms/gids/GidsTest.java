@@ -1,17 +1,15 @@
 package nl.vpro.poms.selenium.poms.gids;
 
-import nl.vpro.poms.selenium.poms.pages.MediaItemPage;
-import nl.vpro.poms.selenium.poms.pages.Search;
-import nl.vpro.poms.selenium.poms.AbstractPomsTest;
-import nl.vpro.poms.selenium.util.DateFactory;
-import nl.vpro.poms.selenium.util.WebDriverFactory;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Ignore;
-import org.junit.Test;
+import javax.annotation.Nonnull;
+
+import org.junit.*;
 import org.openqa.selenium.By;
 
-import javax.annotation.Nonnull;
+import nl.vpro.poms.selenium.poms.AbstractPomsTest;
+import nl.vpro.poms.selenium.poms.pages.MediaItemPage;
+import nl.vpro.poms.selenium.poms.pages.Search;
+import nl.vpro.poms.selenium.util.DateFactory;
+import nl.vpro.poms.selenium.util.WebDriverFactory;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
