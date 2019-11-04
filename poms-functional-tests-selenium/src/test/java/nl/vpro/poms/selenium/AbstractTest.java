@@ -12,6 +12,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import nl.vpro.api.client.utils.Config;
@@ -29,16 +30,14 @@ import nl.vpro.test.jupiter.AbortOnException;
 @Timeout(value = 5, unit = TimeUnit.MINUTES)
 @ExtendWith({TestMDC.class, AbortOnException.class})
 public abstract class AbstractTest {
-    static final org.slf4j.Logger LOG = LoggerFactory.getLogger(AbstractTest.class);
-    protected org.slf4j.Logger log = LoggerFactory.getLogger(getClass());
+    static final Logger LOG = LoggerFactory.getLogger(AbstractTest.class);
+    protected Logger log = LoggerFactory.getLogger(getClass());
 
 
     public static final Config CONFIG =
             new Config("npo-functional-tests.properties", "npo-browser-tests.properties");
 
     public static final String MID = "WO_VPRO_025057";
-
-
 
     protected final Browser browser;
 
