@@ -1,14 +1,17 @@
 package nl.vpro.poms.selenium.util;
 
-import com.paulhammant.ngwebdriver.NgWebDriver;
 import lombok.Getter;
-import nl.vpro.poms.selenium.util.expectedconditions.PageLoaded;
+
+import java.util.function.Function;
+
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
 
-import java.util.function.Function;
+import com.paulhammant.ngwebdriver.NgWebDriver;
+
+import nl.vpro.poms.selenium.util.expectedconditions.PageLoaded;
 
 import static junit.framework.TestCase.fail;
 
@@ -16,6 +19,11 @@ import static junit.framework.TestCase.fail;
 public class WebDriverUtil {
 
     private final WebDriver driver;
+
+    public WebDriverWait w() {
+        return wait;
+    }
+
     private final WebDriverWait wait;
     private final NgWebDriver ngWait;
     private final Logger log;
@@ -116,7 +124,7 @@ public class WebDriverUtil {
     }
 
     public void waitForTitle(String title) {
-        if (! getWait().until(new PageLoaded(title))) {
+        if (! w().until(new PageLoaded(title))) {
             fail("results page " + title + " is not displayed");
         }
     }

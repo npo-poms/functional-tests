@@ -6,14 +6,14 @@ import java.io.UnsupportedEncodingException;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.*;
-import java.util.function.*;
+import java.util.function.Function;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import javax.xml.bind.JAXB;
 
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.opentest4j.TestAbortedException;
 
 import nl.vpro.api.client.media.ResponseError;
 import nl.vpro.domain.image.ImageType;
@@ -21,7 +21,7 @@ import nl.vpro.domain.media.update.ImageUpdate;
 import nl.vpro.domain.media.update.ProgramUpdate;
 import nl.vpro.logging.LoggerOutputStream;
 import nl.vpro.poms.AbstractApiMediaBackendTest;
-import nl.vpro.rules.DoAfterException;
+import nl.vpro.test.jupiter.AbortOnException;
 import nl.vpro.util.Version;
 
 import static nl.vpro.testutils.Utils.waitUntil;
@@ -46,28 +46,11 @@ import static org.junit.jupiter.api.Assumptions.assumeTrue;
  */
 @TestMethodOrder(MethodOrderer.Alphanumeric.class)
 @Slf4j
-@ExtendWith(DoAfterException.class)
-class MediaBackendImagesTest extends AbstractApiMediaBackendTest implements DoAfterException.WithJob {
+@ExtendWith(AbortOnException.class)
+class MediaBackendImagesTest extends AbstractApiMediaBackendTest {
 
     private static final Duration ACCEPTABLE_DURATION = Duration.ofMinutes(3);
     private static final List<String> titles = new ArrayList<>();
-
-    @Override
-    public Consumer<Throwable> getJob() {
-        return (t) -> {
-            if (! (t instanceof TestAbortedException)) {
-                MediaBackendImagesTest.exception = t;
-            }
-        };
-    }
-
-
-    private static Throwable exception = null;
-
-    @BeforeEach
-    void setup() {
-        assumeThat(exception).isNull();
-    }
 
 
     @Test
@@ -357,19 +340,18 @@ class MediaBackendImagesTest extends AbstractApiMediaBackendTest implements DoAf
     }
 
     void checkArrived() {
-        if (exception == null) {
-            final List<String> currentTitles = new ArrayList<>();
-            waitUntil(ACCEPTABLE_DURATION,
-                MID + " in backend with images " + titles,
-                () -> {
+        final List<String> currentTitles = new ArrayList<>();
+        waitUntil(ACCEPTABLE_DURATION,
+            MID + " in backend with images " + titles,
+            () -> {
                 ProgramUpdate update = backend.get(MID);
                 currentTitles.clear();
                 currentTitles.addAll(update.getImages().stream().map(ImageUpdate::getTitle).collect(Collectors.toList()));
                 return currentTitles.containsAll(titles);
             });
 
-            assertThat(currentTitles).containsAll(titles);
-        }
+        assertThat(currentTitles).containsAll(titles);
+
     }
 
 

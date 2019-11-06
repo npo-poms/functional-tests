@@ -7,12 +7,8 @@ import java.util.concurrent.TimeUnit;
 
 import javax.ws.rs.core.MediaType;
 
-import org.junit.After;
-import org.junit.Rule;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.junit.jupiter.api.extension.ExtensionContext;
-import org.junit.rules.TestName;
 
 import nl.vpro.api.client.frontend.NpoApiClients;
 import nl.vpro.api.client.utils.*;
@@ -20,8 +16,7 @@ import nl.vpro.domain.api.media.Compatibility;
 import nl.vpro.domain.classification.CachedURLClassificationServiceImpl;
 import nl.vpro.domain.classification.ClassificationServiceLocator;
 import nl.vpro.domain.media.Schedule;
-import nl.vpro.rules.AllowNotImplemented;
-import nl.vpro.rules.AllowUnavailable;
+import nl.vpro.junit.extensions.*;
 import nl.vpro.testutils.AbstractTest;
 import nl.vpro.testutils.Utils;
 import nl.vpro.util.IntegerVersion;
@@ -51,7 +46,7 @@ public abstract class AbstractApiTest extends AbstractTest  {
     @BeforeEach
     public void setupTitle(TestInfo testInfo) {
         Utils.CLEAR_CACHES.set(this::clearCaches);
-        title = ExtensionContext.Store.testMDC.getTestNumber() + ":" + NOW + " " + testMethod.getMethodName() + " Caf\u00E9 \u6C49"; // testing encoding too!
+        title = TestMDC.getTestNumber() + ":" + NOW + " " + testInfo.getDisplayName() + " Caf\u00E9 \u6C49"; // testing encoding too!
 
         log.info("Running {} with title {}", testInfo.getTestMethod(), title);
         if (!Objects.equals(log, LOG)) {

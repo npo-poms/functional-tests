@@ -20,7 +20,7 @@ import nl.vpro.domain.media.support.Image;
 import nl.vpro.domain.media.support.OwnerType;
 import nl.vpro.domain.media.update.*;
 import nl.vpro.domain.support.License;
-import nl.vpro.rules.TestMDC;
+import nl.vpro.junit.extensions.TestMDC;
 import nl.vpro.util.IntegerVersion;
 import nl.vpro.util.Version;
 
@@ -185,10 +185,10 @@ public abstract class AbstractApiMediaBackendTest extends AbstractApiTest {
     }
 
     protected ImageUpdate.Builder randomImage(String title) throws UnsupportedEncodingException {
-        return randomImage(testMDC, title).credits(getClass().getName());
+        return _randomImage(title).credits(getClass().getName());
     }
 
-    private static ImageUpdate.Builder randomImage(TestMDC testMDC, String title) throws UnsupportedEncodingException {
+    private static ImageUpdate.Builder _randomImage(String title) throws UnsupportedEncodingException {
         /*return ImageUpdate.builder()
             .type(ImageType.PICTURE)
             .title(title)
@@ -211,7 +211,7 @@ public abstract class AbstractApiMediaBackendTest extends AbstractApiTest {
         ImageUpdate.Builder builder = ImageUpdate.builder()
             .type(ImageType.PICTURE)
             .title(title)
-            .imageUrl("https://images.poms.omroep.nl/image/s" + (testMDC.getTestNumber() + 10) + "/7617.jpg?" + URLEncoder.encode(title, "UTF-8"))
+            .imageUrl("https://images.poms.omroep.nl/image/s" + (TestMDC.getTestNumber() + 10) + "/7617.jpg?" + URLEncoder.encode(title, "UTF-8"))
             .license(License.CC_BY)
             .sourceName("vpro")
             .source("https://www.vpro.nl/");

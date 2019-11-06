@@ -11,10 +11,9 @@ import java.util.stream.Collectors;
 import javax.ws.rs.NotFoundException;
 
 import org.hamcrest.Matchers;
-import org.junit.*;
+import org.junit.Ignore;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.junit.runners.MethodSorters;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 
@@ -30,7 +29,6 @@ import nl.vpro.domain.page.*;
 import nl.vpro.domain.page.update.*;
 import nl.vpro.jackson2.Jackson2Mapper;
 import nl.vpro.poms.AbstractApiMediaBackendTest;
-import nl.vpro.rules.DoAfterException;
 import nl.vpro.test.jupiter.AbortOnException;
 import nl.vpro.testutils.Utils;
 import nl.vpro.testutils.Utils.Check;
@@ -83,20 +81,21 @@ class PagesPublisherTest extends AbstractApiMediaBackendTest {
 
 
     @Test
-    public void test001CreateOrUpdatePage() throws UnsupportedEncodingException {
+    public void test001CreateOrUpdatePage(TestInfo testInfo) throws UnsupportedEncodingException {
 
+        String methodName = testInfo.getTestMethod().get().getName();
         LocalDate today = LocalDate.now();
 
-        urlToday = "http://test.poms.nl/" + URLEncoder.encode(testMethod.getMethodName() + today, "UTF-8");
-        urlYesterday = "http://test.poms.nl/" + URLEncoder.encode(testMethod.getMethodName() + today.minusDays(1), "UTF-8");
-        urlTomorrow = "http://test.poms.nl/" + URLEncoder.encode(testMethod.getMethodName() + today.plusDays(1), "UTF-8");
+        urlToday = "http://test.poms.nl/" + URLEncoder.encode(methodName + today, "UTF-8");
+        urlYesterday = "http://test.poms.nl/" + URLEncoder.encode(methodName + today.minusDays(1), "UTF-8");
+        urlTomorrow = "http://test.poms.nl/" + URLEncoder.encode(methodName + today.plusDays(1), "UTF-8");
 
 
         PortalUpdate portal = new PortalUpdate("WETENSCHAP24", "http://test.poms.nl");
         portal.setSection(
             Section.builder()
-                .path("/" + testMethod.getMethodName())
-                .displayName("Display name " + testMethod.getMethodName())
+                .path("/" + methodName)
+                .displayName("Display name " + methodName)
                 .build()
         );
 
@@ -370,8 +369,8 @@ class PagesPublisherTest extends AbstractApiMediaBackendTest {
     private static final List<String> modifiedUrls = new ArrayList<>();
 
     @Test
-    public void test300CreateSomeWithCrid() throws UnsupportedEncodingException {
-        String url = "http://test.poms.nl/\u00E9\u00E9n/" + URLEncoder.encode(testMethod.getMethodName() + LocalDate.now(), "UTF-8");
+    public void test300CreateSomeWithCrid(TestInfo testInfo) throws UnsupportedEncodingException {
+        String url = "http://test.poms.nl/\u00E9\u00E9n/" + URLEncoder.encode(testInfo.getTestMethod().get().getName() + LocalDate.now(), "UTF-8");
 
         for (int i = 0; i < 10; i++) {
             createdCrids.add(new Crid(CRID_PREFIX + i));
@@ -427,13 +426,13 @@ class PagesPublisherTest extends AbstractApiMediaBackendTest {
 
 
     @Test
-    public void test302UpdateUrls() throws UnsupportedEncodingException {
+    public void test302UpdateUrls(TestInfo testInfo) throws UnsupportedEncodingException {
         //createdCrids.add(new Crid("crid://crids.functional.tests/3"));
         assumeThat(util.getPageUpdateApiClient().getVersionNumber(),  greaterThanOrEqualTo(Version.of(5, 5)));
         assumeTrue(createdCrids.size() > 0);
         assumeTrue(createdUrls.size() > 0);
 
-        String url = "http://test.poms.nl/\u00E9\u00E9n/" + URLEncoder.encode(testMethod.getMethodName() + LocalDate.now(), "UTF-8");
+        String url = "http://test.poms.nl/\u00E9\u00E9n/" + URLEncoder.encode(testInfo.getTestMethod().get().getName() + LocalDate.now(), "UTF-8");
 
         int i = 0;
         for (Crid crid: createdCrids) {

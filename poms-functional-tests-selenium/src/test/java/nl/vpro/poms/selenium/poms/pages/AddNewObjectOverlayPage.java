@@ -81,7 +81,7 @@ public class AddNewObjectOverlayPage extends AbstractOverlayPage {
     @Deprecated
     public void clickHerlaad() {
         By herlaadButtonBy = By.xpath("//button[contains(text(), 'herlaad')]");
-        webDriverUtil.getWait().until(ExpectedConditions.elementToBeClickable(herlaadButtonBy));
+        webDriverUtil.w().until(ExpectedConditions.elementToBeClickable(herlaadButtonBy));
         WebElement herlaadButton = driver.findElement(herlaadButtonBy);
         herlaadButton.click();
     }

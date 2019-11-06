@@ -1,25 +1,27 @@
 package nl.vpro.rules;
 
 
-import java.lang.reflect.Method;
-
-import org.junit.jupiter.api.extension.*;
-import org.opentest4j.TestAbortedException;
+import org.junit.AssumptionViolatedException;
+import org.junit.rules.TestRule;
+import org.junit.runner.Description;
+import org.junit.runners.model.Statement;
 
 /**
  * @author Michiel Meeuwissen
  */
-public class AllowUnavailable implements InvocationInterceptor {
+public class AllowUnavailable implements TestRule {
     @Override
-    public void interceptTestMethod(
-        Invocation<Void> invocation,
-        ReflectiveInvocationContext<Method> invocationContext,
-        ExtensionContext extensionContext) throws Throwable {
-        try {
-            invocation.proceed();
-        } catch (javax.ws.rs.ServiceUnavailableException | java.net.ConnectException se) {
-            throw new TestAbortedException(invocationContext.toString() + ":" + se.getMessage() + " " + se.getMessage());
-        }
-     }
+    public Statement apply(Statement base, Description description) {
+        return new Statement() {
+            @Override
+            public void evaluate() throws Throwable {
+                try {
+                    base.evaluate();
+                } catch (javax.ws.rs.ServiceUnavailableException | java.net.ConnectException se) {
+                    throw new AssumptionViolatedException(description.toString() + ":" + se.getMessage() + " " + se.getMessage());
+                }
+            }
+        };
 
+    }
 }

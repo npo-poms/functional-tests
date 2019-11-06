@@ -28,7 +28,7 @@ public class OmroepenOverlayPage extends AbstractOverlayPage {
 	public void addOmroep(String omroep) {
 		NgWebDriver ngWebDr = new NgWebDriver((JavascriptExecutor) driver);
 		WebElement addOmroepButton = driver.findElement(addOmroepBy);
-		webDriverUtil.getWait().until(ExpectedConditions.elementToBeClickable(addOmroepBy));
+		webDriverUtil.w().until(ExpectedConditions.elementToBeClickable(addOmroepBy));
 		ngWebDr.waitForAngularRequestsToFinish();
 		addOmroepButton.click();
 		enterText(idBy, omroep);
@@ -46,7 +46,7 @@ public class OmroepenOverlayPage extends AbstractOverlayPage {
 	}
 
 	private void enterText(By by, String text) {
-		webDriverUtil.getWait().until(ExpectedConditions.elementToBeClickable(by));
+		webDriverUtil.w().until(ExpectedConditions.elementToBeClickable(by));
 		WebElement element = driver.findElement(by);
 		element.sendKeys(text);
 	}

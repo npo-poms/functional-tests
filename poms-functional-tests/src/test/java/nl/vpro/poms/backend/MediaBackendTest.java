@@ -1,34 +1,30 @@
 package nl.vpro.poms.backend;
 
 import lombok.extern.slf4j.Slf4j;
+
+import java.time.Duration;
+import java.util.*;
+import java.util.function.Predicate;
+
+import javax.xml.bind.JAXB;
+
+import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.extension.ExtendWith;
+
 import nl.vpro.api.client.media.ResponseError;
 import nl.vpro.domain.media.*;
 import nl.vpro.domain.media.support.OwnerType;
 import nl.vpro.domain.media.update.*;
 import nl.vpro.poms.AbstractApiMediaBackendTest;
-import nl.vpro.rules.DoAfterException;
 import nl.vpro.test.jupiter.AbortOnException;
 import nl.vpro.util.Version;
-import org.assertj.core.api.Assertions;
-import org.junit.*;
-import org.junit.jupiter.api.*;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.junit.runners.MethodSorters;
-
-import javax.xml.bind.JAXB;
-import java.time.Duration;
-import java.util.Arrays;
-import java.util.Locale;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.function.Predicate;
 
 import static nl.vpro.domain.media.support.OwnerType.BROADCASTER;
 import static nl.vpro.domain.media.support.OwnerType.NPO;
 import static nl.vpro.testutils.Utils.waitUntil;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.hamcrest.Matchers.*;
-import static org.junit.Assume.*;
+import static org.assertj.core.api.Assumptions.assumeThat;
 
 
 /*
@@ -48,7 +44,7 @@ class MediaBackendTest extends AbstractApiMediaBackendTest {
     @BeforeEach
     public void setup() {
         log.info("Mailing errors to {}", backend.getErrors());
-        assumeThat(backend.getErrors(), not(is(emptyOrNullString())));
+        assumeThat(backend.getErrors()).isNotEmpty();
 
     }
 
@@ -99,7 +95,7 @@ class MediaBackendTest extends AbstractApiMediaBackendTest {
 
     @Test
     public void test02CheckArrived() {
-        assumeNotNull(newMid);
+        assumeThat(newMid).isNotNull();
 
         ProgramUpdate u = waitUntil(
             ACCEPTABLE_DURATION,
@@ -250,7 +246,9 @@ class MediaBackendTest extends AbstractApiMediaBackendTest {
 
     @Test
     public void test08checkObjectsWithCrids() {
-        assumeNotNull(midWithCrid, againMidWithCrid, againMidWithStolenCrid);
+        assumeThat(midWithCrid).isNotNull();
+        assumeThat(againMidWithCrid).isNotNull();
+        assumeThat(againMidWithStolenCrid).isNotNull();
         waitUntil(ACCEPTABLE_DURATION,
             CRID + " exists ",
             () -> backend.get(midWithCrid),

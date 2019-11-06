@@ -30,13 +30,7 @@ public abstract class AbstractSearchTest<T, S> extends AbstractApiTest {
     private static Set<String> AVAILABLE = new HashSet<>();
     private Map<Pattern, Supplier<Boolean>> ASSUMERS =  new HashMap<>();
 
-
-    String name;
-    T form;
-    String profile;
     Function<S, Boolean> tester;
-    private MediaType accept;
-
 
     void  addTester(IntegerVersion minVersion, String pattern, Consumer<S> consumer) {
         if (minVersion == null || apiVersionNumber.isNotBefore(minVersion)) {
@@ -69,11 +63,11 @@ public abstract class AbstractSearchTest<T, S> extends AbstractApiTest {
     }
 
     @BeforeEach
-    public void setUp() {
+    public void setUp(TestInfo testInfo) {
+        String name = testInfo.getTestMethod().get().getName();
         for (Map.Entry<Pattern, Supplier<Boolean>> e : ASSUMERS.entrySet()) {
             if (e.getKey().matcher(name).matches()) {
                 assumeTrue(e.getValue().get(), "Skipping in " + this + " because of " + e);
-
             }
         }
 
@@ -105,6 +99,10 @@ public abstract class AbstractSearchTest<T, S> extends AbstractApiTest {
             return bool;
 
         };
+
+    }
+
+    protected void setupClient(MediaType accept) {
         clients.setAccept(accept);
         clients.setContentType(accept);
     }
@@ -119,14 +117,6 @@ public abstract class AbstractSearchTest<T, S> extends AbstractApiTest {
             .map((e) -> e.getKey() + " was used " + e.getValue().intValue() + " times")
             .forEach(log::info);
 
-    }
-
-
-    AbstractSearchTest(String name, T form, String profile, MediaType mediaType) {
-        this.name = name;
-        this.form = form;
-        this.profile = profile;
-        this.accept = mediaType;
     }
 
 

@@ -9,10 +9,10 @@ import java.time.Instant;
 import java.util.Collection;
 import java.util.stream.Collectors;
 
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.TestInfo;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
-import org.junit.runners.Parameterized;
 
 import nl.vpro.domain.api.SearchResultItem;
 import nl.vpro.domain.api.TermFacetResultItem;
@@ -22,7 +22,6 @@ import nl.vpro.poms.ApiSearchTestHelper;
 import nl.vpro.util.Version;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assume.assumeTrue;
 import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
 
@@ -66,7 +65,7 @@ class ApiMediaParameterizedSearchTest extends AbstractSearchTest<MediaForm, Medi
 
         });
         addTester("search-schedule-events.json/null/(xml|json)", sr -> {
-            String testName = ApiMediaParameterizedSearchTest.this.testMethod.getMethodName();
+            String testName = testInfo.getTestMethod().get().getName();
             if (testName.startsWith("search[")
             //Config.env() != Env.DEV // SADLY on DEV 2doc events are not coming in.
                 ) {
@@ -83,7 +82,7 @@ class ApiMediaParameterizedSearchTest extends AbstractSearchTest<MediaForm, Medi
         });
 
         addTester(Version.of(5, 5),"facet-title-az.json/null/(xml|json)", sr -> {
-            String testName = ApiMediaParameterizedSearchTest.this.testMethod.getMethodName();
+            String testName = testInfo.getTestMethod().get().getName();
             if (testName.startsWith("searchMembers")) {
                 // POMS_S_VPRO_417550 has no members a*
             } else {
@@ -105,7 +104,7 @@ class ApiMediaParameterizedSearchTest extends AbstractSearchTest<MediaForm, Medi
         });
 
           addTester(Version.of(5, 4, 2),"visualsegments.json/null/(xml|json)", sr -> {
-              String testName = ApiMediaParameterizedSearchTest.this.testMethod.getMethodName();
+              String testName = testInfo.getTestMethod().get().getName();
               if (testName.startsWith("search[")) {
                   assertThat(sr.getSize()).isGreaterThan(0);
               }
@@ -121,8 +120,7 @@ class ApiMediaParameterizedSearchTest extends AbstractSearchTest<MediaForm, Medi
 
     }
 
-    ApiMediaParameterizedSearchTest(String name, MediaForm form, String profile, javax.ws.rs.core.MediaType mediaType) {
-        super(name, form, profile, mediaType);
+    ApiMediaParameterizedSearchTest() {
     }
 
     static Collection<Object[]> getForms() throws IOException {
@@ -138,8 +136,8 @@ class ApiMediaParameterizedSearchTest extends AbstractSearchTest<MediaForm, Medi
     }
 
 
-    @Test
-    void searchMembers() throws Exception {
+    @ParameterizedTest
+    void searchMembers(String name, MediaForm form, String profile) throws Exception {
         log.info(DASHES.substring(0, 30 - "searchMembers".length()) + name);
         MediaSearchResult searchResultItems = clients.getMediaService().findMembers(form, "POMS_S_VPRO_417550", profile, null, 0L, 10);
         assumeTrue(tester.apply(searchResultItems));
@@ -147,8 +145,8 @@ class ApiMediaParameterizedSearchTest extends AbstractSearchTest<MediaForm, Medi
     }
 
 
-    @Test
-    void searchEpisodes() throws Exception {
+    @ParameterizedTest
+    void searchEpisodes(String name, MediaForm form, String profile) throws Exception {
         log.info(DASHES.substring(0, 30 - "searchEpisodes".length()) + name);
         ProgramSearchResult searchResultItems = clients.getMediaService().findEpisodes(form, "AVRO_1656037", profile, null, 0L, 10);
         test(name + ".episodes.json", searchResultItems);

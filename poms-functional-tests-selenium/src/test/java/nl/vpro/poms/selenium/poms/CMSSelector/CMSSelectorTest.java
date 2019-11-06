@@ -1,8 +1,8 @@
 package nl.vpro.poms.selenium.poms.CMSSelector;
 
 import org.checkerframework.checker.nullness.qual.NonNull;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.Before;
+import org.junit.Test;
 import org.openqa.selenium.By;
 
 import nl.vpro.poms.selenium.poms.AbstractPomsTest;
@@ -21,7 +21,7 @@ public class CMSSelectorTest extends AbstractPomsTest {
     }
 
 
-    @BeforeEach
+    @Before
     public void beforeLogin() {
         cms = new CMSMediaSelector(webDriverUtil);
         // TODO, it is silly to login on poms first. It should work to login in the popup.

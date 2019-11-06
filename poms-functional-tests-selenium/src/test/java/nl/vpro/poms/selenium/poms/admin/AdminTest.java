@@ -2,8 +2,8 @@ package nl.vpro.poms.selenium.poms.admin;
 
 import javax.annotation.Nonnull;
 
-import org.junit.jupiter.api.Disabled;
-import org.junit.jupiter.api.Test;
+import org.junit.Ignore;
+import org.junit.Test;
 
 import nl.vpro.domain.media.AVType;
 import nl.vpro.domain.media.MediaType;
@@ -20,7 +20,7 @@ public class AdminTest extends AbstractPomsTest {
 	}
 
 	@Test
-	@Disabled("Fails")
+	@Ignore("Fails")
 	public void testAdmin() {
 		loginSpeciaalAdminGebruiker();
 

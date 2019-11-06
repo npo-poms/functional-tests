@@ -19,8 +19,8 @@ import nl.vpro.domain.media.exceptions.ModificationException;
 import nl.vpro.domain.media.search.*;
 import nl.vpro.domain.media.update.ProgramUpdate;
 import nl.vpro.domain.media.update.SegmentUpdate;
-import nl.vpro.rules.AllowUnavailable;
-import nl.vpro.rules.TestMDC;
+import nl.vpro.junit.extensions.AllowUnavailable;
+import nl.vpro.junit.extensions.TestMDC;
 
 import static io.restassured.RestAssured.given;
 import static nl.vpro.api.client.utils.Config.Prefix.npo_backend_api;

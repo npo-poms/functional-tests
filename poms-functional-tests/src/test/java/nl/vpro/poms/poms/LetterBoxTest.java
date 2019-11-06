@@ -10,9 +10,9 @@ import org.junit.jupiter.api.extension.ExtendWith;
 
 import nl.vpro.domain.media.Platform;
 import nl.vpro.domain.media.update.PredictionUpdate;
+import nl.vpro.junit.extensions.AllowUnavailable;
+import nl.vpro.junit.extensions.TestMDC;
 import nl.vpro.poms.AbstractApiMediaBackendTest;
-import nl.vpro.rules.AllowUnavailable;
-import nl.vpro.rules.TestMDC;
 
 import static io.restassured.RestAssured.given;
 import static nl.vpro.api.client.utils.Config.Prefix.poms;

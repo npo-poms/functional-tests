@@ -2,25 +2,18 @@ package nl.vpro.poms.backend;
 
 import lombok.extern.slf4j.Slf4j;
 
-import org.junit.*;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.junit.runners.MethodSorters;
-
-import com.sun.tools.javac.util.Abort;
 
 import nl.vpro.domain.media.Encryption;
 import nl.vpro.domain.media.MediaBuilder;
 import nl.vpro.domain.media.update.ProgramUpdate;
 import nl.vpro.domain.media.update.TranscodeRequest;
 import nl.vpro.poms.AbstractApiMediaBackendTest;
-import nl.vpro.rules.DoAfterException;
 import nl.vpro.test.jupiter.AbortOnException;
 import nl.vpro.util.Version;
 
-import static org.hamcrest.Matchers.greaterThanOrEqualTo;
-import static org.junit.Assume.assumeNoException;
-import static org.junit.Assume.assumeThat;
+import static org.assertj.core.api.Assumptions.assumeThat;
 
 /**
  * Tests if files can be uploaded, and be correctly handled.
@@ -37,7 +30,7 @@ class MediaBackendTranscodeTest extends AbstractApiMediaBackendTest {
 
     @Test
     void test01Transcode() {
-        assumeThat(backendVersionNumber,  greaterThanOrEqualTo(Version.of(5, 6)));
+        assumeThat(backendVersionNumber).isGreaterThanOrEqualTo((Version.of(5, 6)));
 
         String newMid = backend.set(ProgramUpdate.create(MediaBuilder.clip()
             .mainTitle(title)

@@ -6,10 +6,9 @@ import java.io.IOException;
 import java.util.Collection;
 
 import javax.ws.rs.ServerErrorException;
-import javax.ws.rs.core.MediaType;
 
-import org.junit.AssumptionViolatedException;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.opentest4j.TestAbortedException;
@@ -21,7 +20,6 @@ import nl.vpro.domain.api.media.ScheduleSearchResult;
 import nl.vpro.poms.ApiSearchTestHelper;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assume.assumeTrue;
 import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
 @RunWith(Parameterized.class)
@@ -39,18 +37,17 @@ class ApiScheduleSearchTest extends AbstractSearchTest<ScheduleForm, ScheduleSea
         });
     }
 
-    ApiScheduleSearchTest(String name, ScheduleForm form, String profile, MediaType mediaType) {
-        super(name, form, profile, mediaType);
+    ApiScheduleSearchTest() {
     }
 
 
-    @Parameterized.Parameters
     static Collection<Object[]> getForms() throws IOException {
         return ApiSearchTestHelper.getForms("/examples/schedule/", ScheduleForm.class, null, "vpro", "woord");
     }
 
-    @Test
-    void search() throws Exception {
+    @ParameterizedTest
+    @MethodSource("getForms")
+    public void search(String name, ScheduleForm form, String profile) throws Exception {
         log.info(DASHES.substring(0, 30 - "search".length()) + name);
         ScheduleSearchResult searchResultItems;
         try {

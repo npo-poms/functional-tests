@@ -10,8 +10,8 @@ import javax.ws.rs.core.MediaType;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
 
 import nl.vpro.domain.api.Error;
 import nl.vpro.domain.api.*;
@@ -23,8 +23,6 @@ import nl.vpro.poms.AbstractApiTest;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assumptions.assumeThat;
-import static org.hamcrest.Matchers.greaterThan;
-import static org.junit.Assume.*;
 import static org.junit.jupiter.api.Assumptions.assumeFalse;
 import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
@@ -52,8 +50,7 @@ class ApiMediaLoadTest extends AbstractApiTest {
     }
 
 
-    @Parameterized.Parameters
-    static Collection<Object[]> getParameters() {
+    public static Collection<Object[]> getParameters() {
         List<Object[]> result = new ArrayList<>();
         for (MediaType mediaType : Arrays.asList(MediaType.APPLICATION_JSON_TYPE, MediaType.APPLICATION_XML_TYPE)) {
             for (String profile : Arrays.asList(null, "vpro")) {
@@ -77,9 +74,16 @@ class ApiMediaLoadTest extends AbstractApiTest {
         return result;
     }
 
-    @Test
-    void load() {
-        assumeThat(mids.size()).isGreaterThan(0));
+    @MethodSource("getParameters")
+    @interface Params {
+
+    }
+
+    @ParameterizedTest
+    @Params
+    void load(Profile profile, List<String> mids, MediaType mediaType, String properties) {
+
+        assumeThat(mids.size()).isGreaterThan(0);
         MediaObject o = clients.getMediaService().load(mids.get(0), null, null);
         assertThat(o.getMid()).isEqualTo(mids.get(0));
         assertThat(o.getMainTitle()).isNotEmpty(); // NPA-362
@@ -90,7 +94,8 @@ class ApiMediaLoadTest extends AbstractApiTest {
         }
     }
 
-    @Test
+    @ParameterizedTest
+    @Params
     void loadOutsideProfile() {
         assumeThat(profileName).isNotNull();
         assumeFalse(profileName.equals("eo"));

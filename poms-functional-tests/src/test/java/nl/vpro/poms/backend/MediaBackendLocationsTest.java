@@ -44,8 +44,6 @@ class MediaBackendLocationsTest extends AbstractApiMediaBackendTest {
     private static final List<String> titles = new ArrayList<>();
 
 
-    private static Throwable exception = null;
-
     private static String firstTitle;
 
 
