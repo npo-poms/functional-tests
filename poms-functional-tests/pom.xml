@@ -93,6 +93,11 @@
       <artifactId>junit-jupiter-api</artifactId>
       <scope>test</scope>
     </dependency>
+    <dependency>
+      <groupId>nl.vpro.shared</groupId>
+      <artifactId>vpro-shared-logging</artifactId>
+      <scope>test</scope>
+    </dependency>
 
   </dependencies>
 </project>

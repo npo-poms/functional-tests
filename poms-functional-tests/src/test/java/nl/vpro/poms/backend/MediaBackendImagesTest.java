@@ -273,7 +273,7 @@ class MediaBackendImagesTest extends AbstractApiMediaBackendTest {
 
 
     @Test
-    void test31addInvalidImage() throws UnsupportedEncodingException {
+    void test31addInvalidImage() {
         Assertions.assertThrows(ResponseError.class, () -> {
             assumeThat(backendVersionNumber).isGreaterThanOrEqualTo(Version.of(5, 8));
             titles.add(title);
