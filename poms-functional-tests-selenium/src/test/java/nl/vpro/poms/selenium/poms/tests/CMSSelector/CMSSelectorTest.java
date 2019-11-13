@@ -1,11 +1,11 @@
-package nl.vpro.poms.selenium.poms.CMSSelector;
+package nl.vpro.poms.selenium.poms.tests.CMSSelector;
 
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.By;
 
-import nl.vpro.poms.selenium.poms.AbstractPomsTest;
+import nl.vpro.poms.selenium.poms.tests.AbstractPomsTest;
 import nl.vpro.poms.selenium.poms.pages.CMSMediaSelector;
 import nl.vpro.poms.selenium.poms.pages.Search;
 import nl.vpro.poms.selenium.util.WebDriverFactory;

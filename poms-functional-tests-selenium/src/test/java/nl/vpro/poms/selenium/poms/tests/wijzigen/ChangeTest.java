@@ -1,13 +1,13 @@
-package nl.vpro.poms.selenium.poms.wijzigen;
+package nl.vpro.poms.selenium.poms.tests.wijzigen;
 
 import java.net.URISyntaxException;
 
-import org.junit.jupiter.api.*;
-import org.junit.jupiter.params.ParameterizedTest;
+
+import org.junit.*;
 
 import nl.vpro.domain.image.ImageType;
 import nl.vpro.domain.support.License;
-import nl.vpro.poms.selenium.poms.AbstractPomsTest;
+import nl.vpro.poms.selenium.poms.tests.AbstractPomsTest;
 import nl.vpro.poms.selenium.poms.pages.MediaItemPage;
 import nl.vpro.poms.selenium.poms.pages.Search;
 import nl.vpro.poms.selenium.util.WebDriverFactory;
@@ -20,20 +20,20 @@ public class ChangeTest extends AbstractPomsTest {
 		super(browser);
 	}
 
-	@BeforeEach
+	@Before
 	public void firstLogin() {
 		login().speciaalVf();
 	}
-	@AfterEach
+	@After
 	public void afterwardsLogout() {
 		logout();
 	}
 	private static final String randomTitel = randomAlphanumeric(15);
 	private static final String randomDescription = randomAlphanumeric(35);
 
-	@ParameterizedTest
-	@Disabled("FAILS on DEV")
-	public void SPOMSEDITUPLOAD1(WebDriverFactory.Browser browser) throws URISyntaxException {
+	@Test
+	@Ignore("FAILS on DEV")
+	public void SPOMSEDITUPLOAD1() throws URISyntaxException {
 
 		MediaItemPage item = new Search(webDriverUtil).searchAndOpenClip();
 		item.moveToAfbeeldingen();

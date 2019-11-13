@@ -1,12 +1,13 @@
-package nl.vpro.poms.selenium.poms.maken;
+package nl.vpro.poms.selenium.poms.tests.maken;
 
 import javax.annotation.Nonnull;
 
-import org.junit.jupiter.api.*;
+import org.junit.*;
+import org.junit.jupiter.api.Assertions;
 
 import nl.vpro.domain.media.AVType;
 import nl.vpro.domain.media.MediaType;
-import nl.vpro.poms.selenium.poms.AbstractPomsTest;
+import nl.vpro.poms.selenium.poms.tests.AbstractPomsTest;
 import nl.vpro.poms.selenium.poms.pages.*;
 import nl.vpro.poms.selenium.util.DateFactory;
 import nl.vpro.poms.selenium.util.WebDriverFactory;
@@ -21,13 +22,13 @@ public class CreateUserTest extends AbstractPomsTest {
         super(browser);
     }
 
-    @BeforeEach
+    @Before
     public void setup() {
         login().speciaalVf();
     }
 
     @Override
-    @AfterEach
+    @After
     public void logout() {
         super.logout();
     }
@@ -78,19 +79,19 @@ public class CreateUserTest extends AbstractPomsTest {
     }
 
     @Test
-    @Disabled("Fails")
+    @Ignore("Fails")
     public void testWijzigStandaardOmroep() {
         Assertions.fail("Bug gemeld");
     }
 
     @Test
-    @Disabled("Fails")
+    @Ignore("Fails")
     public void testVoegTweeStandaardOmroepenToe() {
         Assertions.fail("Bug gemeld");
     }
 
     @Test
-    @Disabled("Fails")
+    @Ignore("Fails")
     public void testPersistStandaardOmroep() {
         Assertions.fail("Bug gemeld");
     }

@@ -1,15 +1,17 @@
-package nl.vpro.poms.selenium.poms.maken;
+package nl.vpro.poms.selenium.poms.tests.maken;
 
 
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.stream.Collectors;
 
-import org.junit.jupiter.api.*;
+import org.junit.FixMethodOrder;
+import org.junit.Test;
+import org.junit.runners.MethodSorters;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
-import nl.vpro.poms.selenium.poms.AbstractPomsTest;
+import nl.vpro.poms.selenium.poms.tests.AbstractPomsTest;
 import nl.vpro.poms.selenium.util.WebDriverFactory.Browser;
 
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
@@ -21,7 +23,7 @@ import static org.junit.jupiter.api.Assertions.assertArrayEquals;
  *
  * @author e.kuijt@vpro.nl
  */
-@TestMethodOrder(MethodOrderer.Alphanumeric.class)
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 @Slf4j
 public class CreateUserWebTest extends AbstractPomsTest {
 

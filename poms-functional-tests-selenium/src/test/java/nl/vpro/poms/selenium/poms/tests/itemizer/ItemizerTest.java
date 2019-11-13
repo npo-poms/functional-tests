@@ -1,4 +1,4 @@
-package nl.vpro.poms.selenium.poms.itemizer;
+package nl.vpro.poms.selenium.poms.tests.itemizer;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -6,9 +6,9 @@ import java.util.Date;
 
 import javax.annotation.Nonnull;
 
-import org.junit.jupiter.api.*;
+import org.junit.*;
 
-import nl.vpro.poms.selenium.poms.AbstractPomsTest;
+import nl.vpro.poms.selenium.poms.tests.AbstractPomsTest;
 import nl.vpro.poms.selenium.poms.pages.*;
 import nl.vpro.poms.selenium.util.WebDriverFactory;
 
@@ -24,18 +24,18 @@ public class ItemizerTest extends AbstractPomsTest {
         super(browser);
     }
 
-    @BeforeEach
-    public void setup(WebDriverFactory.Browser browser) {
+    @Before
+    public void setup() {
         login().speciaalVf();
     }
 
-    @AfterEach
+    @After
     public void teardown() {
         super.logout();
     }
 
     @Test
-    @Disabled("Fails clips are 0 seconds on dev environment, cannot develop test")
+    @Ignore("Fails clips are 0 seconds on dev environment, cannot develop test")
     public void itemizerTest() {
         Search searchPage = new Search(webDriverUtil);
         //Verify home page

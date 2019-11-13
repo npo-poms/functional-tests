@@ -1,9 +1,9 @@
-package nl.vpro.poms.selenium.poms.zoeken;
+package nl.vpro.poms.selenium.poms.tests.zoeken;
 
 import nl.vpro.domain.media.AVType;
 import nl.vpro.domain.media.MediaType;
 import nl.vpro.poms.selenium.poms.pages.Search;
-import nl.vpro.poms.selenium.poms.AbstractPomsTest;
+import nl.vpro.poms.selenium.poms.tests.AbstractPomsTest;
 import nl.vpro.poms.selenium.util.DateFactory;
 import nl.vpro.poms.selenium.util.WebDriverFactory;
 import org.junit.After;

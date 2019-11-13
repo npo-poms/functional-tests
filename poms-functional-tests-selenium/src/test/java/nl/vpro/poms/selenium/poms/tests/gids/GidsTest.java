@@ -1,13 +1,13 @@
-package nl.vpro.poms.selenium.poms.gids;
+package nl.vpro.poms.selenium.poms.tests.gids;
 
 import javax.annotation.Nonnull;
 
- 
+
 import org.junit.*;
- 
+
 import org.openqa.selenium.By;
 
-import nl.vpro.poms.selenium.poms.AbstractPomsTest;
+import nl.vpro.poms.selenium.poms.tests.AbstractPomsTest;
 import nl.vpro.poms.selenium.poms.pages.MediaItemPage;
 import nl.vpro.poms.selenium.poms.pages.Search;
 import nl.vpro.poms.selenium.util.DateFactory;
@@ -24,7 +24,7 @@ public class GidsTest extends AbstractPomsTest {
     // Variables
     private static final String sorteerDatumKanaal = "//tr/descendant::*[contains(@ng-if, 'sortDateScheduleEvent')]";
 
-    @BeforeEach
+    @Before
     public void setup() {
         login().speciaalNPOGebruiker();
     }
@@ -105,7 +105,7 @@ public class GidsTest extends AbstractPomsTest {
     }
 
 
-    @AfterEach
+    @After
     public void logOut(){
         logout();
     }

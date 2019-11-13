@@ -4,7 +4,7 @@ import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import nl.vpro.poms.selenium.util.WebDriverUtil;
 
-import static nl.vpro.poms.selenium.poms.AbstractPomsTest.CONFIG;
+import static nl.vpro.poms.selenium.poms.tests.AbstractPomsTest.CONFIG;
 
 /**
  * We use single signon for most deployments in the POMS Eco system.

@@ -1,15 +1,16 @@
-package nl.vpro.poms.selenium.poms.wijzigen;
+package nl.vpro.poms.selenium.poms.tests.wijzigen;
 
 import lombok.extern.slf4j.Slf4j;
 
 import javax.annotation.Nonnull;
 
-import org.junit.jupiter.api.*;
+import org.junit.*;
+import org.junit.runners.MethodSorters;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
 import nl.vpro.api.client.utils.Config;
-import nl.vpro.poms.selenium.poms.AbstractPomsTest;
+import nl.vpro.poms.selenium.poms.tests.AbstractPomsTest;
 import nl.vpro.poms.selenium.util.WebDriverFactory;
 
 /**
@@ -17,7 +18,7 @@ import nl.vpro.poms.selenium.util.WebDriverFactory;
  */
 
 @Slf4j
-@TestMethodOrder(MethodOrderer.Alphanumeric.class)
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class PersonsWebTest extends AbstractPomsTest {
 
 
@@ -46,7 +47,7 @@ public class PersonsWebTest extends AbstractPomsTest {
 
     }
     @Test
-    @Disabled("Fails")
+    @Ignore("Fails")
     public void test02AddPerson() {
         webDriverUtil.waitForAngularRequestsToFinish();
 

@@ -1,4 +1,4 @@
-package nl.vpro.poms.selenium.poms.admin;
+package nl.vpro.poms.selenium.poms.tests.admin;
 
 import javax.annotation.Nonnull;
 
@@ -7,7 +7,7 @@ import org.junit.Test;
 
 import nl.vpro.domain.media.AVType;
 import nl.vpro.domain.media.MediaType;
-import nl.vpro.poms.selenium.poms.AbstractPomsTest;
+import nl.vpro.poms.selenium.poms.tests.AbstractPomsTest;
 import nl.vpro.poms.selenium.poms.pages.*;
 import nl.vpro.poms.selenium.util.DateFactory;
 import nl.vpro.poms.selenium.util.WebDriverFactory;

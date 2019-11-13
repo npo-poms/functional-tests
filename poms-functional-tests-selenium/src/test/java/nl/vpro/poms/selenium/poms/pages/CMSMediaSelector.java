@@ -14,7 +14,7 @@ import nl.vpro.poms.selenium.util.WebDriverUtil;
 
 import static java.time.Duration.ofMillis;
 import static java.time.Duration.ofSeconds;
-import static nl.vpro.poms.selenium.poms.AbstractPomsTest.CONFIG;
+import static nl.vpro.poms.selenium.poms.tests.AbstractPomsTest.CONFIG;
 import static org.assertj.core.api.Fail.fail;
 
 
