@@ -88,6 +88,7 @@
       <groupId>javax.servlet</groupId>
       <artifactId>javax.servlet-api</artifactId>
     </dependency>
+
     <dependency>
       <groupId>org.junit.jupiter</groupId>
       <artifactId>junit-jupiter-api</artifactId>
@@ -98,6 +99,8 @@
       <artifactId>vpro-shared-logging</artifactId>
       <scope>test</scope>
     </dependency>
-
+ 
   </dependencies>
+
+
 </project>

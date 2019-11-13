@@ -190,6 +190,9 @@ class MediaITest extends AbstractApiMediaBackendTest {
         assertThat(clip.getWorkflow()).isEqualTo(Workflow.PUBLISHED);
     }
 
+    /**
+     * All images where not published to begin with or will expire in 10 minutes
+     */
 
     @Test
     void test007WaitForImageRevocation() {
@@ -202,6 +205,10 @@ class MediaITest extends AbstractApiMediaBackendTest {
         assertThat(clip.getImages()).isEmpty();
     }
 
+
+    /**
+     * All segments where not published to begin with or will expire in 10 minutes
+     */
     @Test
     void test008WaitForSegmentRevocation() {
         assumeThat(clipMid).isNotNull();
@@ -213,6 +220,10 @@ class MediaITest extends AbstractApiMediaBackendTest {
         assertThat(clip.getSegments()).isEmpty();
     }
 
+
+    /**
+     * All locations where not published to begin with or will expire in 10 minutes
+     */
     @Test
     void test009WaitForLocationsRevocation() {
         assumeThat(clipMid).isNotNull();

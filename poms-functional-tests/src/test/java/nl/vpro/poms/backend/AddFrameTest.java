@@ -4,15 +4,16 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.io.UnsupportedEncodingException;
 import java.time.Duration;
-import java.util.stream.Collectors;
 
 import javax.ws.rs.core.Response;
+
 
 import org.junit.jupiter.api.*;
 
 import nl.vpro.domain.image.ImageType;
 import nl.vpro.domain.media.Program;
 import nl.vpro.domain.media.support.OwnerType;
+import nl.vpro.domain.media.update.ImageUpdate;
 import nl.vpro.domain.media.update.ProgramUpdate;
 import nl.vpro.poms.AbstractApiMediaBackendTest;
 
@@ -35,8 +36,9 @@ class AddFrameTest extends AbstractApiMediaBackendTest {
 
     private static final Duration offset = Duration.ofMinutes(10).plus(Duration.ofMinutes((int) (20f * Math.random())));
 
-    //private static long jpegSizeOfImage = 13991L;
-    private static long originalSizeOfImage = 2621;
+    private static long originalSizeOfImage = 2621; // This is the size of an image we upload in test03
+
+    private static String createImageUri;
 
     @BeforeAll
     static void init() {
@@ -45,7 +47,8 @@ class AddFrameTest extends AbstractApiMediaBackendTest {
 
 
     @Test
-    void test01() throws UnsupportedEncodingException {
+    public void test01AddFrame() throws UnsupportedEncodingException {
+ 
 
         Program fullProgram = backend.getFullProgram(MID);
         if (fullProgram.getImage(ImageType.PICTURE) == null) {
@@ -60,29 +63,49 @@ class AddFrameTest extends AbstractApiMediaBackendTest {
             log.info("Response: {}", response);
         }
 
+    }
+
+    @Test
+    public void test02CheckArrived() {
         final ProgramUpdate[] update = new ProgramUpdate[1];
 
         waitUntil(ACCEPTABLE_DURATION,
-            MID + " has image STILL with offset " + offset,
+            MID + " has image STILL with offset " + offset + " and size != " + originalSizeOfImage,
             () -> {
                 update[0] = backend_authority.get(MID);
-                return update[0] != null &&
+                if (update[0] == null) {
+                    return false;
+                }
+                ImageUpdate foundImage =
                     update[0].getImages()
                         .stream()
-                        .anyMatch(iu ->
+                        .filter(iu ->
                             iu != null &&
                                 iu.getOffset() != null &&
                                 iu.getOffset().equals(offset) &&
-                                iu.getType() == ImageType.STILL &&
-                                imageUtil.getSize(iu).orElse(-1L) != originalSizeOfImage
-                        );
+                                iu.getType() == ImageType.STILL
+                        ).findFirst().orElse(null);
+                if (foundImage == null) {
+                    log.info("No STILL found yet at {}", offset);
+                    return false;
+                }
+
+                long foundSize = imageUtil.getSize(foundImage).orElse(-1L);
+                if (foundSize == originalSizeOfImage) {
+                    log.info("Found {} but the size is the original size, so this may be from test10", foundImage);
+                    return false;
+                }
+                createImageUri = foundImage.getImageUri();
+                return true;
             });
     }
 
 
 
     @Test
-    void test01Overwrite() {
+
+    public void test10Overwrite() {
+ 
         try (Response response = backend.getFrameCreatorRestService().createFrame(MID, offset, null, null, getClass().getResourceAsStream("/VPRO1970's.png"))) {
             log.info("{}", response);
         }
@@ -90,22 +113,39 @@ class AddFrameTest extends AbstractApiMediaBackendTest {
             MID + " has STILL image with offset " + offset + " and size " + originalSizeOfImage,
             () -> {
                 ProgramUpdate p  = backend_authority.get(MID);
-                return p != null &&
-                    p.getImages()
+                if (p == null) {
+                    throw new IllegalStateException();
+                }
+
+                ImageUpdate foundImage = p.getImages()
                         .stream()
-                        .anyMatch(iu ->
+                        .filter(iu ->
                             iu != null &&
                                 iu.getOffset() != null &&
                                 iu.getOffset().equals(offset) &&
-                                iu.getType() == ImageType.STILL
-                                // && imageUtil.getSize(iu).orElse(-1L)  == originalSizeOfImage
-                        );
+                                iu.getType() == ImageType.STILL)
+                        .findFirst().orElse(null)
+                    ;
+
+                if (foundImage == null) {
+                    throw new IllegalStateException();
+                }
+                String uri = foundImage.getImageUri();
+                if (uri.equals(createImageUri)) {
+                    return false;
+                }
+                long newSize = imageUtil.getSize(foundImage).orElse(-1L);
+                if (newSize == originalSizeOfImage || newSize == -1L) {
+                    return true;
+                }
+                return false;
+
             });
     }
 
 
     @Test
-    void test98Cleanup() {
+    public void test98Cleanup() {
         ProgramUpdate update = backend_authority.get(MID);
         Assumptions.assumeTrue(update != null);
         log.info("Removing images " + update.getImages());
@@ -116,7 +156,7 @@ class AddFrameTest extends AbstractApiMediaBackendTest {
 
 
     @Test
-    void test99CheckCleanup() {
+    public void test99CheckCleanup() {
          waitUntil(ACCEPTABLE_DURATION,
             MID + " has no stills",
             () -> {
@@ -128,9 +168,7 @@ class AddFrameTest extends AbstractApiMediaBackendTest {
                     return
                         p.getImages()
                             .stream()
-                            .filter(iu -> iu != null && iu.getOwner() == OwnerType.AUTHORITY && iu.getType() == ImageType.STILL)
-                            .collect(Collectors.toList()).size() == 0;
-
+                            .noneMatch(iu -> iu != null && iu.getOwner() == OwnerType.AUTHORITY && iu.getType() == ImageType.STILL);
                 } catch (Exception e) {
                     log.error(e.getMessage(), e);
                     return false;

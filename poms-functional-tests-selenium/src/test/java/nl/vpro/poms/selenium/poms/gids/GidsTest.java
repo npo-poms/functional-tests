@@ -2,7 +2,9 @@ package nl.vpro.poms.selenium.poms.gids;
 
 import javax.annotation.Nonnull;
 
-import org.junit.jupiter.api.*;
+ 
+import org.junit.*;
+ 
 import org.openqa.selenium.By;
 
 import nl.vpro.poms.selenium.poms.AbstractPomsTest;

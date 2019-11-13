@@ -2,7 +2,9 @@ package nl.vpro.poms.selenium.poms.wijzigen;
 
 import java.util.List;
 
-import org.junit.jupiter.api.*;
+ 
+import org.junit.*;
+ 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
@@ -35,7 +37,6 @@ public class GeoLocationChangeTest extends AbstractPomsTest {
 	@Test
 	public void test01addGeoLocations() {
 		MediaItemPage item = new Search(webDriverUtil).searchAndOpenClip();
-		String poms_title = driver.getTitle();
 		item.moveToElement(By.id("geolocations"));
 
 		WebElement addButton = driver.findElement(By.id("addGeoLocation"));
