@@ -44,7 +44,7 @@ public class CMSMediaSelector extends AbstractPage {
 
     public void switchToPomsWindows() {
         webDriverUtil.switchToWindowWithTitle("POMS");
-        webDriverUtil.getWait().until(ExpectedConditions.titleContains("POMS"));
+        webDriverUtil.w().until(ExpectedConditions.titleContains("POMS"));
     }
 
     public void switchToCMSWindow() {

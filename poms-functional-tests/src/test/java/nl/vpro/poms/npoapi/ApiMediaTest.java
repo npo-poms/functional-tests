@@ -3,57 +3,52 @@ package nl.vpro.poms.npoapi;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
 
 import javax.ws.rs.BadRequestException;
 
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.NullSource;
+import org.junit.jupiter.params.provider.ValueSource;
 
 import nl.vpro.domain.api.Error;
 import nl.vpro.domain.api.Order;
-import nl.vpro.domain.api.media.MediaFormBuilder;
-import nl.vpro.domain.api.media.MediaResult;
-import nl.vpro.domain.api.media.MediaSearchResult;
+import nl.vpro.domain.api.media.*;
 import nl.vpro.domain.media.MediaObject;
 import nl.vpro.domain.media.MediaType;
 import nl.vpro.poms.AbstractApiTest;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-@RunWith(Parameterized.class)
 @Slf4j
-public class ApiMediaTest extends AbstractApiTest {
+class ApiMediaTest extends AbstractApiTest {
 
-    public ApiMediaTest(String properties) {
+    ApiMediaTest(String properties) {
         clients.setProperties(properties);
 
     }
+    @ValueSource(strings = {"none", "all"})
+    @NullSource
+    @interface Properties {
 
-    @Parameterized.Parameters
-    public static Collection<Object[]> getParameters() {
-        List<Object[]> result = new ArrayList<>();
-        for (String properties : Arrays.asList(null, "none", "all")) {
-            result.add(new Object[] {properties});
-        }
-        return result;
     }
 
-
-    @Test
-    public void members() throws Exception {
+    @ParameterizedTest
+    @Properties
+    public void members(String properties) throws Exception {
+        clients.setProperties(properties);
         MediaObject o = mediaUtil.loadOrNull("POMS_S_NCRV_096754");
         assertThat(o).isNotNull();
         MediaResult result = mediaUtil.listMembers(o.getMid(), Order.ASC, (m) -> true, 100);
         assertThat(result.getSize()).isGreaterThan(10);
     }
 
-    @Test
-    public void zeroMembers() throws Exception {
+    @ParameterizedTest
+    @Properties
+    public void zeroMembers(String properties) throws Exception {
+        clients.setProperties(properties);
         MediaObject o = mediaUtil.loadOrNull("POMS_S_NCRV_096754");
         assertThat(o).isNotNull();
         MediaResult result = clients.getMediaService().listMembers(o.getMid(),  null, null, "ASC", 0L, 0);
@@ -62,48 +57,59 @@ public class ApiMediaTest extends AbstractApiTest {
 
     }
 
-    @Test
-    public void findMembers() {
+    @ParameterizedTest
+    @Properties
+    public void findMembers(String properties) {
+        clients.setProperties(properties);
         MediaSearchResult result = clients.getMediaService().findMembers(MediaFormBuilder.emptyForm(), "POMS_S_VPRO_407881", null, null, 0L, 100);
         assertThat(result.getSize()).isGreaterThan(1);
 
     }
 
-    @Test(expected = javax.ws.rs.NotFoundException.class)
-    public void test404() {
-        clients.getMediaService().load("BESTAATNIET", null, null);
+    @Test
+    void test404() {
+        Assertions.assertThrows(javax.ws.rs.NotFoundException.class, () -> {
+            clients.getMediaService().load("BESTAATNIET", null, null);
+        });
     }
-    @Test(expected = javax.ws.rs.NotFoundException.class)
-    public void test404WithSlash() {
-        try {
-            clients.getMediaService().load("BESTAAT/NIET", null, null);
-        } catch (javax.ws.rs.NotFoundException nfe) {
-            log.info("{}", nfe.getResponse(), nfe);
-            Error error = (Error) nfe.getResponse().getEntity();
-            // TODO Fails@ NPO
-            //assertThat(error.getMessage()).contains("BESTAAT/NIET");
-            throw nfe;
-        }
+    @Test
+    void test404WithSlash() {
+        Assertions.assertThrows(javax.ws.rs.NotFoundException.class, () -> {
+
+            try {
+                clients.getMediaService().load("BESTAAT/NIET", null, null);
+            } catch (javax.ws.rs.NotFoundException nfe) {
+                log.info("{}", nfe.getResponse(), nfe);
+                Error error = (Error) nfe.getResponse().getEntity();
+                // TODO Fails@ NPO
+                //assertThat(error.getMessage()).contains("BESTAAT/NIET");
+                throw nfe;
+            }
+        });
     }
 
-    @Test(expected = javax.ws.rs.NotFoundException.class)
-    public void test404Youtube() {
-        // FAILS on DEV
-        clients.getMediaService()
-            .load(
-                "https://www.youtube.com/watch?v=1XiY_mhzd3Q",
-                null, null);
+    @Test
+    void test404Youtube() {
+        assertThatThrownBy(() -> {
+            // FAILS on DEV
+            clients.getMediaService()
+                .load(
+                    "https://www.youtube.com/watch?v=1XiY_mhzd3Q",
+                    null, null);
+        }).isInstanceOf(javax.ws.rs.NotFoundException.class);
     }
 
 
 
     @Test
-    public void test404LoadOrNull() throws IOException {
+    void test404LoadOrNull() throws IOException {
         assertThat((MediaObject) mediaUtil.loadOrNull("https://www.youtube.com/watch?v=1XiY_mhzd3Q")).isNull();
     }
 
-    @Test
-    public void descendants() {
+    @ParameterizedTest
+    @Properties
+    void descendants(String properties) {
+        clients.setProperties(properties);
         MediaResult result = mediaUtil.listDescendants("RBX_S_NTR_553927",
             Order.DESC, input -> input.getMediaType() == MediaType.BROADCAST, 123);
         assertThat(result.getSize()).isEqualTo(123);
@@ -113,22 +119,28 @@ public class ApiMediaTest extends AbstractApiTest {
     /**
      * See NPA-488
      */
-    @Test(expected = BadRequestException.class)
-    public void badRequestOnOffset() {
-        MediaResult result = clients.getMediaService().listDescendants("RBX_S_NTR_553927", null, null, Order.DESC.toString(),
-            -1L, 0);
-
-    }
-
-    @Test(expected = BadRequestException.class)
-    public void badRequestOnMax() {
-        MediaResult result = clients.getMediaService().listDescendants("RBX_S_NTR_553927", null, null, Order.DESC.toString(),
-            0L, 1_000_000);
+    @Test
+    void badRequestOnOffset() {
+        Assertions.assertThrows(BadRequestException.class, () -> {
+            MediaResult result = clients.getMediaService().listDescendants("RBX_S_NTR_553927", null, null, Order.DESC.toString(),
+                -1L, 0);
+        });
 
     }
 
     @Test
-    public void related() {
+    void badRequestOnMax() {
+        Assertions.assertThrows(BadRequestException.class, () -> {
+
+            MediaResult result = clients.getMediaService().listDescendants("RBX_S_NTR_553927", null, null, Order.DESC.toString(),
+                0L, 1_000_000);
+        });
+
+    }
+
+    @ParameterizedTest
+    @Properties
+    void related(String properties) {
         String mid = "RBX_S_NTR_553927";
         MediaResult result = mediaUtil.getClients()
             .getMediaService()

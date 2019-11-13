@@ -9,10 +9,8 @@ import java.util.*;
 
 import javax.ws.rs.core.Response;
 
-import org.junit.Before;
-import org.junit.FixMethodOrder;
-import org.junit.Test;
-import org.junit.runners.MethodSorters;
+import org.junit.jupiter.api.*;
+
 import com.google.common.collect.Iterators;
 import com.google.common.collect.PeekingIterator;
 
@@ -30,26 +28,26 @@ import static java.util.Locale.JAPANESE;
 import static nl.vpro.domain.subtitles.SubtitlesType.TRANSLATION;
 import static nl.vpro.testutils.Utils.waitUntil;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.hamcrest.Matchers.*;
-import static org.junit.Assume.*;
+import static org.assertj.core.api.Assumptions.assumeThat;
+import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
 /**
  * @author Michiel Meeuwissen
  */
-@FixMethodOrder(MethodSorters.NAME_ASCENDING)
+@TestMethodOrder(MethodOrderer.Alphanumeric.class)
 @Slf4j
-public class SubtitlesITest extends AbstractApiMediaBackendTest {
+class SubtitlesITest extends AbstractApiMediaBackendTest {
 
     private static final Duration ACCEPTABLE_DURATION_BACKEND = Duration.ofMinutes(2);
 
     private static final Duration ACCEPTABLE_DURATION_FRONTEND = Duration.ofMinutes(15);
 
-    public static final AvailableSubtitles JAPANESE_TRANSLATION = AvailableSubtitles.published(JAPANESE, TRANSLATION);
-    public static final AvailableSubtitles CHINESE_TRANSLATION = AvailableSubtitles.published(CHINESE, TRANSLATION);
+    private static final AvailableSubtitles JAPANESE_TRANSLATION = AvailableSubtitles.published(JAPANESE, TRANSLATION);
+    private static final AvailableSubtitles CHINESE_TRANSLATION = AvailableSubtitles.published(CHINESE, TRANSLATION);
 
 
-    @Before
-    public void setup() {
+    @BeforeEach
+    void setup() {
 
     }
 
@@ -58,9 +56,9 @@ public class SubtitlesITest extends AbstractApiMediaBackendTest {
     private static boolean arrivedInBackend = false;
 
     @Test
-    public void test01addSubtitles() {
-        assumeThat(backendVersionNumber, greaterThanOrEqualTo(Version.of(5, 1)));
-        assumeThat(backend.getFullProgram(MID_WITH_LOCATIONS).getLocations(), not(empty()));
+    void test01addSubtitles() {
+        assumeThat(backendVersionNumber).isGreaterThanOrEqualTo(Version.of(5, 1));
+        assumeThat(backend.getFullProgram(MID_WITH_LOCATIONS).getLocations()).isNotEmpty();
 
         firstTitle = title;
 
@@ -91,8 +89,8 @@ public class SubtitlesITest extends AbstractApiMediaBackendTest {
 
 
     @Test
-    public void test02checkArrivedInBackend() {
-        assumeThat(backendVersionNumber, greaterThanOrEqualTo(Version.of(5, 3)));
+    void test02checkArrivedInBackend() {
+        assumeThat(backendVersionNumber).isGreaterThanOrEqualTo(Version.of(5, 3));
 
 
         waitUntil(ACCEPTABLE_DURATION_BACKEND,
@@ -109,14 +107,14 @@ public class SubtitlesITest extends AbstractApiMediaBackendTest {
     }
 
     @Test
-    public void test03WaitForCuesAvailableInFrontend() {
+    void test03WaitForCuesAvailableInFrontend() {
         waitForCuesAvailableInFrontend(JAPANESE, CHINESE);
     }
 
 
     @Test
-    public void test04WaitForInMediaFrontend() {
-        assumeNotNull(firstTitle);
+    void test04WaitForInMediaFrontend() {
+        assumeThat(firstTitle).isNotNull();
         assumeTrue(arrivedInBackend);
 
         waitUntil(ACCEPTABLE_DURATION_FRONTEND,
@@ -126,7 +124,7 @@ public class SubtitlesITest extends AbstractApiMediaBackendTest {
     }
 
     @Test
-    public void test05RevokeLocations() {
+    void test05RevokeLocations() {
         Instant now = Instant.now();
         ProgramUpdate o = backend.get(MID_WITH_LOCATIONS);
         o.getLocations().forEach(l -> l.setPublishStopInstant(now));
@@ -134,8 +132,8 @@ public class SubtitlesITest extends AbstractApiMediaBackendTest {
     }
 
     @Test
-    public void test06WaitForCuesDisappearedInFrontend() {
-        assumeNotNull(firstTitle);
+    void test06WaitForCuesDisappearedInFrontend() {
+        assumeThat(firstTitle).isNotNull();
         assumeTrue(arrivedInBackend);
 
 
@@ -152,7 +150,7 @@ public class SubtitlesITest extends AbstractApiMediaBackendTest {
     }
 
     @Test
-    public void test07PublishLocations() {
+    void test07PublishLocations() {
         assumeTrue(arrivedInBackend);
 
         ProgramUpdate o = backend.get(MID_WITH_LOCATIONS);
@@ -161,12 +159,12 @@ public class SubtitlesITest extends AbstractApiMediaBackendTest {
     }
 
     @Test
-    public void test08WaitForCuesAvailableInFrontend() {
+    void test08WaitForCuesAvailableInFrontend() {
         waitForCuesAvailableInFrontend(JAPANESE, CHINESE);
     }
 
      @Test
-    public void test09DeleteJapanese() {
+     void test09DeleteJapanese() {
          try(Response response = backend.getBackendRestService()
              .deleteSubtitles(MID_WITH_LOCATIONS, JAPANESE, TRANSLATION, true, null)) {
              log.info("{}", response);
@@ -174,9 +172,9 @@ public class SubtitlesITest extends AbstractApiMediaBackendTest {
     }
 
     @Test
-    public void test10checkDeleteFrontend() {
-        assumeNotNull(firstTitle);
-        assumeThat(backendVersionNumber, greaterThanOrEqualTo(Version.of(5, 3)));
+    void test10checkDeleteFrontend() {
+        assumeThat(firstTitle).isNotNull();
+        assumeThat(backendVersionNumber).isGreaterThanOrEqualTo(Version.of(5, 3));
 
         waitUntil(ACCEPTABLE_DURATION_FRONTEND,
             MID_WITH_LOCATIONS + " has no " + JAPANESE_TRANSLATION,
@@ -193,7 +191,7 @@ public class SubtitlesITest extends AbstractApiMediaBackendTest {
     }
 
     @Test
-    public void test90Cleanup() {
+    void test90Cleanup() {
         try(Response response = backend.getBackendRestService()
             .deleteSubtitles(MID_WITH_LOCATIONS, JAPANESE, TRANSLATION, true, null)) {
             log.info("{}", response);
@@ -205,8 +203,8 @@ public class SubtitlesITest extends AbstractApiMediaBackendTest {
     }
 
     @Test
-    public void test91checkCleanup() {
-        assumeThat(backendVersionNumber, greaterThanOrEqualTo(Version.of(5, 3)));
+    void test91checkCleanup() {
+        assumeThat(backendVersionNumber).isGreaterThanOrEqualTo(Version.of(5, 3));
 
         waitUntil(ACCEPTABLE_DURATION_BACKEND,
             MID_WITH_LOCATIONS + " has no " + JAPANESE_TRANSLATION ,
@@ -228,9 +226,9 @@ public class SubtitlesITest extends AbstractApiMediaBackendTest {
     }
 
     @Test
-    public void test92checkCleanupFrontend() {
-        assumeNotNull(firstTitle);
-        assumeThat(backendVersionNumber, greaterThanOrEqualTo(Version.of(5, 3)));
+    void test92checkCleanupFrontend() {
+        assumeThat(firstTitle).isNotNull();
+        assumeThat(backendVersionNumber).isGreaterThanOrEqualTo(Version.of(5, 3));
         waitUntil(ACCEPTABLE_DURATION_FRONTEND,
             MID_WITH_LOCATIONS + " has no " + JAPANESE_TRANSLATION,
             () -> ! mediaUtil.findByMid(MID_WITH_LOCATIONS).getAvailableSubtitles().contains(JAPANESE_TRANSLATION));
@@ -246,8 +244,8 @@ public class SubtitlesITest extends AbstractApiMediaBackendTest {
     }
 
 
-     protected void waitForCuesAvailableInFrontend(Locale... locales) {
-         assumeNotNull(firstTitle);
+     void waitForCuesAvailableInFrontend(Locale... locales) {
+         assumeThat(firstTitle).isNotNull();
          assumeTrue(arrivedInBackend);
          for(Locale locale : locales) {
              PeekingIterator<StandaloneCue> cueIterator = waitUntil(ACCEPTABLE_DURATION_FRONTEND,

@@ -6,12 +6,12 @@ import java.io.IOException;
 import java.util.Collection;
 
 import javax.ws.rs.ServerErrorException;
-import javax.ws.rs.core.MediaType;
 
-import org.junit.AssumptionViolatedException;
-import org.junit.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
+import org.opentest4j.TestAbortedException;
 
 import nl.vpro.domain.api.ApiScheduleEvent;
 import nl.vpro.domain.api.SearchResultItem;
@@ -20,11 +20,11 @@ import nl.vpro.domain.api.media.ScheduleSearchResult;
 import nl.vpro.poms.ApiSearchTestHelper;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assume.assumeTrue;
+import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
 @RunWith(Parameterized.class)
 @Slf4j
-public class ApiScheduleSearchTest extends AbstractSearchTest<ScheduleForm, ScheduleSearchResult> {
+class ApiScheduleSearchTest extends AbstractSearchTest<ScheduleForm, ScheduleSearchResult> {
 
     {
         addTester("rerun.json/null/(xml|json)", sr ->
@@ -37,18 +37,17 @@ public class ApiScheduleSearchTest extends AbstractSearchTest<ScheduleForm, Sche
         });
     }
 
-    public ApiScheduleSearchTest(String name, ScheduleForm form, String profile, MediaType mediaType) {
-        super(name, form, profile, mediaType);
+    ApiScheduleSearchTest() {
     }
 
 
-    @Parameterized.Parameters
-    public static Collection<Object[]> getForms() throws IOException {
+    static Collection<Object[]> getForms() throws IOException {
         return ApiSearchTestHelper.getForms("/examples/schedule/", ScheduleForm.class, null, "vpro", "woord");
     }
 
-    @Test
-    public void search() throws Exception {
+    @ParameterizedTest
+    @MethodSource("getForms")
+    public void search(String name, ScheduleForm form, String profile) throws Exception {
         log.info(DASHES.substring(0, 30 - "search".length()) + name);
         ScheduleSearchResult searchResultItems;
         try {
@@ -56,7 +55,7 @@ public class ApiScheduleSearchTest extends AbstractSearchTest<ScheduleForm, Sche
             assumeTrue(tester.apply(searchResultItems));
         } catch (ServerErrorException rs) {
             if (rs.getResponse().getStatus() == 501) {
-                throw new AssumptionViolatedException(name + " seems to be not implemented yet");
+                throw new TestAbortedException(name + " seems to be not implemented yet");
             } else {
                 throw rs;
             }

@@ -4,9 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import javax.annotation.Nonnull;
 
-import org.junit.FixMethodOrder;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.*;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
@@ -14,14 +12,12 @@ import nl.vpro.api.client.utils.Config;
 import nl.vpro.poms.selenium.poms.AbstractPomsTest;
 import nl.vpro.poms.selenium.util.WebDriverFactory;
 
-import static org.junit.runners.MethodSorters.NAME_ASCENDING;
-
 /**
  * @author Michiel Meeuwissen
  */
 
 @Slf4j
-@FixMethodOrder(NAME_ASCENDING)
+@TestMethodOrder(MethodOrderer.Alphanumeric.class)
 public class PersonsWebTest extends AbstractPomsTest {
 
 
@@ -50,7 +46,7 @@ public class PersonsWebTest extends AbstractPomsTest {
 
     }
     @Test
-    @Ignore("Fails")
+    @Disabled("Fails")
     public void test02AddPerson() {
         webDriverUtil.waitForAngularRequestsToFinish();
 

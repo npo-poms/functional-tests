@@ -9,8 +9,9 @@ import java.time.Instant;
 import java.util.Locale;
 
 import org.apache.commons.io.IOUtils;
-import org.junit.*;
-import org.junit.runners.MethodSorters;
+import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.extension.ExtendWith;
+
 import com.google.common.collect.Iterators;
 import com.google.common.collect.PeekingIterator;
 
@@ -20,7 +21,7 @@ import nl.vpro.domain.media.MediaTestDataBuilder;
 import nl.vpro.domain.media.update.ProgramUpdate;
 import nl.vpro.domain.subtitles.*;
 import nl.vpro.poms.AbstractApiMediaBackendTest;
-import nl.vpro.rules.DoAfterException;
+import nl.vpro.test.jupiter.AbortOnException;
 import nl.vpro.util.Version;
 
 import static io.restassured.RestAssured.given;
@@ -28,8 +29,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 import static nl.vpro.api.client.utils.Config.Prefix.npo_backend_api;
 import static nl.vpro.testutils.Utils.waitUntil;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.hamcrest.number.OrderingComparison.greaterThanOrEqualTo;
-import static org.junit.Assume.*;
+import static org.assertj.core.api.Assumptions.assumeThat;
 
 
 /*
@@ -39,34 +39,21 @@ import static org.junit.Assume.*;
 /**
  * @author Michiel Meeuwissen
  */
-@FixMethodOrder(MethodSorters.NAME_ASCENDING)
+@TestMethodOrder(MethodOrderer.Alphanumeric.class)
 @Slf4j
-public class MediaBackendSubtitlesTest extends AbstractApiMediaBackendTest {
+@ExtendWith(AbortOnException.class)
+class MediaBackendSubtitlesTest extends AbstractApiMediaBackendTest {
 
     private static final Duration ACCEPTABLE_DURATION = Duration.ofMinutes(3);
-
-    @Rule
-    public DoAfterException doAfterException = new DoAfterException((t) -> {
-        if (! (t instanceof AssumptionViolatedException)) {
-            MediaBackendSubtitlesTest.exception = t;
-        }
-    });
-
-    private static Throwable exception = null;
 
     private static String firstTitle;
     private static String updatedFirstTitle;
     private static Instant creationDate;
 
 
-    @Before
-    public void setup() {
-        assumeNoException(exception);
-    }
-
     @Test
     public void test01addSubtitles() {
-        assumeThat(backendVersionNumber, greaterThanOrEqualTo(Version.of(5, 1)));
+        assumeThat(backendVersionNumber).isGreaterThanOrEqualTo(Version.of(5, 1));
 
         firstTitle = title;
         Subtitles subtitles = Subtitles.webvttTranslation(MID, Duration.ofMinutes(2), Locale.CHINESE,
@@ -93,7 +80,7 @@ public class MediaBackendSubtitlesTest extends AbstractApiMediaBackendTest {
 
     @Test
     public void test02CheckArrived() {
-        assumeNotNull(firstTitle);
+        assumeThat(firstTitle).isNotNull();
         final Subtitles[] found = new Subtitles[1];
         PeekingIterator<StandaloneCue> iterator = waitUntil(ACCEPTABLE_DURATION,
             MID + "/" + Locale.CHINESE + "[0]=" + firstTitle,
@@ -113,7 +100,7 @@ public class MediaBackendSubtitlesTest extends AbstractApiMediaBackendTest {
 
     @Test
     public void test03updateSubtitles() throws InterruptedException {
-        assumeThat(backendVersionNumber, greaterThanOrEqualTo(Version.of(5, 11)));
+        assumeThat(backendVersionNumber).isGreaterThanOrEqualTo(Version.of(5, 11));
         Thread.sleep(2L);
         updatedFirstTitle = title;
         Subtitles subtitles = Subtitles.webvttTranslation(MID, Duration.ofMinutes(2), Locale.CHINESE,
@@ -138,7 +125,7 @@ public class MediaBackendSubtitlesTest extends AbstractApiMediaBackendTest {
 
     @Test
     public void test04CheckArrived() {
-        assumeNotNull(updatedFirstTitle);
+        assumeThat(updatedFirstTitle).isNotNull();
 
         final Subtitles[] found = new Subtitles[1];
         PeekingIterator<StandaloneCue> iterator = waitUntil(ACCEPTABLE_DURATION,
@@ -201,7 +188,7 @@ public class MediaBackendSubtitlesTest extends AbstractApiMediaBackendTest {
     private static String newMid;
 
     @Test
-    @Ignore("Known to fail MSE-3836")
+    @Disabled("Known to fail MSE-3836")
     public void test08CreateSubtitlesForNewClip() {
 
         ProgramUpdate clip = ProgramUpdate.create(MediaTestDataBuilder.clip()
@@ -231,7 +218,7 @@ public class MediaBackendSubtitlesTest extends AbstractApiMediaBackendTest {
 
     @Test
     public void test09CreateSubtitlesForNewClipCheckArrived() {
-        assumeNotNull(newMid);
+        assumeThat(newMid).isNotNull();
 
         PeekingIterator<StandaloneCue> iterator = waitUntil(ACCEPTABLE_DURATION,
             newMid + "/ar has cues",

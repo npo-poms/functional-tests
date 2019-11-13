@@ -1,19 +1,16 @@
 package nl.vpro.poms.selenium.poms.itemizer;
 
-import nl.vpro.poms.selenium.poms.pages.OmroepVideoDetailInfoPage;
-import nl.vpro.poms.selenium.poms.pages.OmroepVideoPage;
-import nl.vpro.poms.selenium.poms.pages.Search;
-import nl.vpro.poms.selenium.poms.AbstractPomsTest;
-import nl.vpro.poms.selenium.util.WebDriverFactory;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Ignore;
-import org.junit.Test;
-
-import javax.annotation.Nonnull;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
+import javax.annotation.Nonnull;
+
+import org.junit.jupiter.api.*;
+
+import nl.vpro.poms.selenium.poms.AbstractPomsTest;
+import nl.vpro.poms.selenium.poms.pages.*;
+import nl.vpro.poms.selenium.util.WebDriverFactory;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -27,18 +24,18 @@ public class ItemizerTest extends AbstractPomsTest {
         super(browser);
     }
 
-    @Before
-    public void setup() {
+    @BeforeEach
+    public void setup(WebDriverFactory.Browser browser) {
         login().speciaalVf();
     }
 
-    @After
+    @AfterEach
     public void teardown() {
         super.logout();
     }
 
     @Test
-    @Ignore("Fails clips are 0 seconds on dev environment, cannot develop test")
+    @Disabled("Fails clips are 0 seconds on dev environment, cannot develop test")
     public void itemizerTest() {
         Search searchPage = new Search(webDriverUtil);
         //Verify home page

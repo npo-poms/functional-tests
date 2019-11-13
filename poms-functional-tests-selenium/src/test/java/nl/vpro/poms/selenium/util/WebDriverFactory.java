@@ -1,23 +1,24 @@
 package nl.vpro.poms.selenium.util;
 
 
-import com.google.common.cache.CacheBuilder;
-import com.google.common.cache.CacheLoader;
-import com.google.common.cache.LoadingCache;
 import io.github.bonigarcia.wdm.DriverManagerType;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import lombok.EqualsAndHashCode;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
+
+import java.util.concurrent.ExecutionException;
+
+import javax.annotation.Nonnull;
+
+import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.firefox.FirefoxOptions;
-import org.openqa.selenium.firefox.FirefoxProfile;
+import org.openqa.selenium.firefox.*;
+import org.slf4j.Logger;
 
-import javax.annotation.Nonnull;
-import java.util.concurrent.ExecutionException;
+import com.google.common.cache.*;
 
 import static nl.vpro.poms.selenium.util.Config.CONFIG;
 
@@ -52,6 +53,7 @@ public class WebDriverFactory {
     public static class Browser {
         final DriverManagerType type;
         final String version;
+        WebDriver driver;
 
         public Browser(DriverManagerType type, String version) {
             this.type = type;
@@ -59,7 +61,7 @@ public class WebDriverFactory {
         }
 
         @SneakyThrows
-        public WebDriver asWebDriver() {
+        public  WebDriver asWebDriver() {
             try {
                 CACHE.get(type);
                 switch (type) {
@@ -83,9 +85,27 @@ public class WebDriverFactory {
                         throw new UnsupportedOperationException();
                 }
             } catch (ExecutionException e) {
-                e.printStackTrace();
+                log.error(e.getMessage(), e);
             }
             return null;
+        }
+        public WebDriver getDriver() {
+            if (driver == null) {
+                try {
+                    driver = asWebDriver();
+                    // The dimension of the browser should be big enough, (headless browser seem to be small!), otherwise test will keep waiting forever
+                    Dimension d = new Dimension(1200, 1000);
+                    driver.manage().window().setSize(d);
+                } catch (Exception e) {
+                    log.error("Could not create driver for " + this + ":" + e.getMessage(), e);
+                    throw e;
+                }
+            }
+            return driver;
+        }
+
+        public WebDriverUtil getUtil(Logger log) {
+            return new WebDriverUtil(getDriver(), log);
         }
     }
 }

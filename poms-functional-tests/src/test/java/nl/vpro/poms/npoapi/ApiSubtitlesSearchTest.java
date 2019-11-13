@@ -1,23 +1,19 @@
 package nl.vpro.poms.npoapi;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import nl.vpro.domain.api.SearchResultItem;
-import nl.vpro.domain.api.SimpleMatchType;
-import nl.vpro.domain.api.SimpleTextMatcher;
-import nl.vpro.domain.api.subtitles.SubtitlesForm;
-import nl.vpro.domain.api.subtitles.SubtitlesSearch;
-import nl.vpro.domain.api.subtitles.SubtitlesSearchResult;
+import nl.vpro.domain.api.*;
+import nl.vpro.domain.api.subtitles.*;
 import nl.vpro.domain.subtitles.StandaloneCue;
 import nl.vpro.poms.AbstractApiTest;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class ApiSubtitlesSearchTest extends AbstractApiTest {
+class ApiSubtitlesSearchTest extends AbstractApiTest {
 
 
     @Test
-    public void search()  {
+    void search()  {
         SubtitlesForm form = SubtitlesForm.builder()
             .searches(SubtitlesSearch.builder()
                 .text(SimpleTextMatcher.must("balkenende", SimpleMatchType.TEXT))

@@ -2,8 +2,9 @@ package nl.vpro.poms.pagespublisher;
 
 import lombok.extern.slf4j.Slf4j;
 
-import org.junit.*;
-import org.junit.runners.MethodSorters;
+import org.assertj.core.api.Assumptions;
+import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 import nl.vpro.api.client.pages.PageUpdateApiClient;
 import nl.vpro.api.client.utils.Config;
@@ -12,19 +13,18 @@ import nl.vpro.domain.api.thesaurus.PersonResult;
 import nl.vpro.domain.gtaa.GTAANewPerson;
 import nl.vpro.domain.gtaa.GTAAPerson;
 import nl.vpro.poms.AbstractApiTest;
-import nl.vpro.rules.DoAfterException;
+import nl.vpro.test.jupiter.AbortOnException;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assume.assumeNoException;
-import static org.junit.Assume.assumeNotNull;
 
 /**
  * @author Michiel Meeuwissen
  */
 @SuppressWarnings("FieldCanBeLocal")
-@FixMethodOrder(MethodSorters.NAME_ASCENDING)
+@TestMethodOrder(MethodOrderer.Alphanumeric.class)
 @Slf4j
-public class ThesaurusPublisherTest extends AbstractApiTest {
+@ExtendWith(AbortOnException.class)
+class ThesaurusPublisherTest extends AbstractApiTest {
 
    private PageUpdateApiClient pageUpdateApiClient = PageUpdateApiClient.configured(
        CONFIG.env(),
@@ -32,23 +32,13 @@ public class ThesaurusPublisherTest extends AbstractApiTest {
    ).build();
 
 
-    @Rule
-    public DoAfterException doAfterException = new DoAfterException((t) -> ThesaurusPublisherTest.exception = t);
-
-    private static Throwable exception = null;
-
-    @Before
-    public void setup() {
-        assumeNoException(exception);
-    }
-
     private static String givenName;
     private static String familyName = "Puk";
     private static String gtaaId;
 
 
     @Test
-    public void test001CreatePerson() {
+    void test001CreatePerson() {
         givenName = "Pietje2" + System.currentTimeMillis();
         log.info("Creating {} {}", givenName, familyName);
         GTAAPerson created = pageUpdateApiClient.getThesaurusUpdateRestService().submit(null,
@@ -64,8 +54,8 @@ public class ThesaurusPublisherTest extends AbstractApiTest {
     }
 
     @Test
-    public void test100Arrived() {
-        assumeNotNull(gtaaId);
+    void test100Arrived() {
+        Assumptions.assumeThat(gtaaId).isNotNull();
         log.info("Getting person with id {}", gtaaId);
         GTAAPerson item = (GTAAPerson) clients.getThesaurusRestService().conceptStatus(gtaaId);
         log.info("{}", item);
@@ -77,10 +67,10 @@ public class ThesaurusPublisherTest extends AbstractApiTest {
     }
 
     //Test fails if there is no '.' added after givenName.
-    @Ignore
+    @Disabled
     @Test
-    public void test101ArrivedAndFindable() {
-        assumeNotNull(gtaaId);
+    void test101ArrivedAndFindable() {
+        Assumptions.assumeThat(gtaaId).isNotNull();
         PersonResult persons = clients.getThesaurusRestService().findPersons(givenName, 100);
         assertThat(persons.getSize()).isGreaterThan(0);
         for (PersonInterface p : persons) {

@@ -30,7 +30,7 @@ import static nl.vpro.poms.AbstractApiTest.CONFIG;
  * @author Michiel Meeuwissen
  */
 @Slf4j
-public class SchemaTest {
+class SchemaTest {
 
 
 

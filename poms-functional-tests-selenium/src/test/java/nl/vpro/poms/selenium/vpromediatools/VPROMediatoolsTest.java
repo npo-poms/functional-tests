@@ -1,28 +1,27 @@
 package nl.vpro.poms.selenium.vpromediatools;
 
-import nl.vpro.poms.selenium.AbstractTest;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.params.ParameterizedTest;
+
+import nl.vpro.poms.selenium.AbstractTest5;
 import nl.vpro.poms.selenium.pages.AbstractLogin;
 import nl.vpro.poms.selenium.util.WebDriverFactory;
-import org.junit.Ignore;
-import org.junit.Test;
 
-import javax.annotation.Nonnull;
+public class VPROMediatoolsTest extends AbstractTest5 {
 
-public class VPROMediatoolsTest extends AbstractTest {
-
-    public VPROMediatoolsTest(@Nonnull WebDriverFactory.Browser browser) {
-        super(browser);
+    public VPROMediatoolsTest() {
     }
 
     @Override
-    protected AbstractLogin login() {
+    protected AbstractLogin login(WebDriverFactory.Browser browser) {
         // TODO
         return null;
 
     }
 
-    @Test
-    @Ignore("Not yet implemented")
+    @ParameterizedTest
+    @AbstractTest5.Browsers
+    @Disabled("Not yet implemented")
     public void SPOMSVPROTOOLS1(){
 
     }

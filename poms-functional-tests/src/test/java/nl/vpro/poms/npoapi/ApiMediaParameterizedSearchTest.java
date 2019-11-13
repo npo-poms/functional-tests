@@ -1,35 +1,41 @@
 package nl.vpro.poms.npoapi;
 
 import lombok.extern.slf4j.Slf4j;
-import nl.vpro.domain.api.SearchResultItem;
-import nl.vpro.domain.api.TermFacetResultItem;
-import nl.vpro.domain.api.media.MediaForm;
-import nl.vpro.domain.api.media.MediaSearchResult;
-import nl.vpro.domain.api.media.ProgramSearchResult;
-import nl.vpro.domain.media.DescendantRef;
-import nl.vpro.domain.media.MediaObject;
-import nl.vpro.domain.media.MediaObjects;
-import nl.vpro.domain.media.MediaType;
-import nl.vpro.poms.ApiSearchTestHelper;
-import nl.vpro.util.Version;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
 
 import java.io.IOException;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 import java.time.Instant;
 import java.util.Collection;
 import java.util.stream.Collectors;
 
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.TestInfo;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
+
+import nl.vpro.domain.api.SearchResultItem;
+import nl.vpro.domain.api.TermFacetResultItem;
+import nl.vpro.domain.api.media.*;
+import nl.vpro.domain.media.*;
+import nl.vpro.poms.ApiSearchTestHelper;
+import nl.vpro.util.Version;
+
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assume.assumeTrue;
+import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
-@RunWith(Parameterized.class)
+
 @Slf4j
-public class ApiMediaParameterizedSearchTest extends AbstractSearchTest<MediaForm, MediaSearchResult> {
+class ApiMediaParameterizedSearchTest extends AbstractSearchTest<MediaForm, MediaSearchResult> {
 
+    @Retention(RetentionPolicy.RUNTIME)
+    @ParameterizedTest(name = "Elaborate name listing all {arguments}")
+    @MethodSource("getForms")
+    private @interface Params {
 
-    {
+    }
+    @BeforeEach
+    void setup(TestInfo testInfo) {
         addTester("clips.json/null/(xml|json)", sr -> {
             for (SearchResultItem<? extends MediaObject> m : sr.getItems()) {
                 assertThat(m.getResult().getMediaType()).isEqualTo(MediaType.CLIP);
@@ -59,7 +65,7 @@ public class ApiMediaParameterizedSearchTest extends AbstractSearchTest<MediaFor
 
         });
         addTester("search-schedule-events.json/null/(xml|json)", sr -> {
-            String testName = ApiMediaParameterizedSearchTest.this.testMethod.getMethodName();
+            String testName = testInfo.getTestMethod().get().getName();
             if (testName.startsWith("search[")
             //Config.env() != Env.DEV // SADLY on DEV 2doc events are not coming in.
                 ) {
@@ -76,7 +82,7 @@ public class ApiMediaParameterizedSearchTest extends AbstractSearchTest<MediaFor
         });
 
         addTester(Version.of(5, 5),"facet-title-az.json/null/(xml|json)", sr -> {
-            String testName = ApiMediaParameterizedSearchTest.this.testMethod.getMethodName();
+            String testName = testInfo.getTestMethod().get().getName();
             if (testName.startsWith("searchMembers")) {
                 // POMS_S_VPRO_417550 has no members a*
             } else {
@@ -98,7 +104,7 @@ public class ApiMediaParameterizedSearchTest extends AbstractSearchTest<MediaFor
         });
 
           addTester(Version.of(5, 4, 2),"visualsegments.json/null/(xml|json)", sr -> {
-              String testName = ApiMediaParameterizedSearchTest.this.testMethod.getMethodName();
+              String testName = testInfo.getTestMethod().get().getName();
               if (testName.startsWith("search[")) {
                   assertThat(sr.getSize()).isGreaterThan(0);
               }
@@ -114,17 +120,15 @@ public class ApiMediaParameterizedSearchTest extends AbstractSearchTest<MediaFor
 
     }
 
-    public ApiMediaParameterizedSearchTest(String name, MediaForm form, String profile, javax.ws.rs.core.MediaType mediaType) {
-        super(name, form, profile, mediaType);
+    ApiMediaParameterizedSearchTest() {
     }
 
-    @Parameterized.Parameters
-    public static Collection<Object[]> getForms() throws IOException {
+    static Collection<Object[]> getForms() throws IOException {
         return ApiSearchTestHelper.getForms("/examples/media/", MediaForm.class, null, "vpro");
     }
 
-    @Test
-    public void search() throws Exception {
+    @Params
+    void search(String name, MediaForm form, String profile, javax.ws.rs.core.MediaType mediaType) throws Exception {
         log.info(DASHES.substring(0, 30 - "search".length()) + name);
         MediaSearchResult searchResultItems = clients.getMediaService().find(form, profile, null, 0L, 10);
         assumeTrue(tester.apply(searchResultItems));
@@ -132,8 +136,8 @@ public class ApiMediaParameterizedSearchTest extends AbstractSearchTest<MediaFor
     }
 
 
-    @Test
-    public void searchMembers() throws Exception {
+    @ParameterizedTest
+    void searchMembers(String name, MediaForm form, String profile) throws Exception {
         log.info(DASHES.substring(0, 30 - "searchMembers".length()) + name);
         MediaSearchResult searchResultItems = clients.getMediaService().findMembers(form, "POMS_S_VPRO_417550", profile, null, 0L, 10);
         assumeTrue(tester.apply(searchResultItems));
@@ -141,8 +145,8 @@ public class ApiMediaParameterizedSearchTest extends AbstractSearchTest<MediaFor
     }
 
 
-    @Test
-    public void searchEpisodes() throws Exception {
+    @ParameterizedTest
+    void searchEpisodes(String name, MediaForm form, String profile) throws Exception {
         log.info(DASHES.substring(0, 30 - "searchEpisodes".length()) + name);
         ProgramSearchResult searchResultItems = clients.getMediaService().findEpisodes(form, "AVRO_1656037", profile, null, 0L, 10);
         test(name + ".episodes.json", searchResultItems);

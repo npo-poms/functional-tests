@@ -5,16 +5,14 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.util.stream.Collectors;
 
-import org.junit.FixMethodOrder;
-import org.junit.Test;
+import org.junit.jupiter.api.*;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
 import nl.vpro.poms.selenium.poms.AbstractPomsTest;
 import nl.vpro.poms.selenium.util.WebDriverFactory.Browser;
 
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.runners.MethodSorters.NAME_ASCENDING;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 
 
 /**
@@ -23,7 +21,7 @@ import static org.junit.runners.MethodSorters.NAME_ASCENDING;
  *
  * @author e.kuijt@vpro.nl
  */
-@FixMethodOrder(NAME_ASCENDING)
+@TestMethodOrder(MethodOrderer.Alphanumeric.class)
 @Slf4j
 public class CreateUserWebTest extends AbstractPomsTest {
 

@@ -5,7 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import nl.vpro.domain.api.IdList;
 import nl.vpro.domain.api.MultipleEntry;
@@ -17,14 +17,14 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 
 @Slf4j
-public class ApiPageTest extends AbstractApiTest {
+class ApiPageTest extends AbstractApiTest {
 
-    static final String topStoryUrl = "http://test.poms.nl/test001CreateOrUpdatePageTopStory";
+    private static final String topStoryUrl = "http://test.poms.nl/test001CreateOrUpdatePageTopStory";
 
 
 
     @Test
-    public void load() {
+    void load() {
 
         MultipleEntry<Page> multipleEntry = clients.getPageService().loadMultiple(topStoryUrl, null, null).getItems().get(0);
 

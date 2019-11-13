@@ -15,7 +15,7 @@ import static org.assertj.core.api.Assertions.assertThat;
  * @author Michiel Meeuwissen
   */
 @Slf4j
-public class ClassificationTest {
+class ClassificationTest {
 
 
     @Test

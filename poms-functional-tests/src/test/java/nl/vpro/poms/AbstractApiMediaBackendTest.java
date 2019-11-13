@@ -7,9 +7,9 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.time.Duration;
 import java.util.Objects;
+import java.util.concurrent.TimeUnit;
 
-import org.junit.*;
-import org.junit.rules.Timeout;
+import org.junit.jupiter.api.*;
 
 import nl.vpro.api.client.media.MediaRestClient;
 import nl.vpro.api.client.utils.Config;
@@ -20,7 +20,7 @@ import nl.vpro.domain.media.support.Image;
 import nl.vpro.domain.media.support.OwnerType;
 import nl.vpro.domain.media.update.*;
 import nl.vpro.domain.support.License;
-import nl.vpro.rules.TestMDC;
+import nl.vpro.junit.extensions.TestMDC;
 import nl.vpro.util.IntegerVersion;
 import nl.vpro.util.Version;
 
@@ -31,9 +31,10 @@ import static nl.vpro.domain.media.MediaBuilder.program;
  * @since 1.0
  */
 @Slf4j
+@Timeout(value = 15, unit = TimeUnit.MINUTES)
 public abstract class AbstractApiMediaBackendTest extends AbstractApiTest {
 
-    public static final String    MID                = "WO_VPRO_025057";
+    protected static final String    MID                = "WO_VPRO_025057";
     protected static final String MID_WITH_LOCATIONS = "WO_VPRO_025700";
     protected static final String ANOTHER_MID        = "WO_VPRO_4911154";
 
@@ -55,7 +56,7 @@ public abstract class AbstractApiMediaBackendTest extends AbstractApiTest {
             .owner(OwnerType.AUTHORITY)
             //.version("5.7")
             .build();
-    protected static final String backendVersion = backend.getVersion();
+    private static final String backendVersion = backend.getVersion();
     protected static IntegerVersion backendVersionNumber;
 
 
@@ -70,7 +71,7 @@ public abstract class AbstractApiMediaBackendTest extends AbstractApiTest {
     }
 
     @SneakyThrows
-    public Image createImage() {
+    protected Image createImage() {
         Image image = new Image(OwnerType.BROADCASTER, ImageType.PICTURE, title);
         image.setImageUri("https://via.placeholder.com/150?text=" + URLEncoder.encode(title, "UTF-8"));
         image.setLicense(License.CC_BY);
@@ -81,7 +82,7 @@ public abstract class AbstractApiMediaBackendTest extends AbstractApiTest {
 
     }
 
-    public Segment createSegment() {
+    protected Segment createSegment() {
         return
             MediaBuilder.segment()
                 .mainTitle(title)
@@ -91,7 +92,7 @@ public abstract class AbstractApiMediaBackendTest extends AbstractApiTest {
                 .build();
     }
 
-    public Location createLocation(int count) {
+    protected Location createLocation(int count) {
         return
             Location.builder()
                 .avAttributes(AVAttributes.builder().avFileFormat(AVFileFormat.H264).build())
@@ -101,19 +102,14 @@ public abstract class AbstractApiMediaBackendTest extends AbstractApiTest {
 
     }
 
-
-    @Rule
-    public Timeout globalTimeout = Timeout.millis(Duration.ofMinutes(15).toMillis());
-
-
-    @Before
+    @BeforeEach
     public void abstractSetUp() {
         backend.setValidateInput(true);
         backend.setStealCrids(AssemblageConfig.Steal.IF_DELETED);
         backend.setLookupCrids(true);
     }
 
-    @BeforeClass
+    @BeforeAll
     public static void checkMids() {
         try {
             {
@@ -190,10 +186,10 @@ public abstract class AbstractApiMediaBackendTest extends AbstractApiTest {
     }
 
     protected ImageUpdate.Builder randomImage(String title) throws UnsupportedEncodingException {
-        return randomImage(testMDC, title).credits(getClass().getName());
+        return _randomImage(title).credits(getClass().getName());
     }
 
-    protected static ImageUpdate.Builder randomImage(TestMDC testMDC, String title) throws UnsupportedEncodingException {
+    private static ImageUpdate.Builder _randomImage(String title) throws UnsupportedEncodingException {
         /*return ImageUpdate.builder()
             .type(ImageType.PICTURE)
             .title(title)
@@ -216,7 +212,7 @@ public abstract class AbstractApiMediaBackendTest extends AbstractApiTest {
         ImageUpdate.Builder builder = ImageUpdate.builder()
             .type(ImageType.PICTURE)
             .title(title)
-            .imageUrl("https://images.poms.omroep.nl/image/s" + (testMDC.getTestNumber() + 10) + "/7617.jpg?" + URLEncoder.encode(title, "UTF-8"))
+            .imageUrl("https://images.poms.omroep.nl/image/s" + (TestMDC.getTestNumber() + 10) + "/7617.jpg?" + URLEncoder.encode(title, "UTF-8"))
             .license(License.CC_BY)
             .sourceName("vpro")
             .source("https://www.vpro.nl/");

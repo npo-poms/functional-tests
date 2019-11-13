@@ -7,9 +7,8 @@ import java.util.stream.Collectors;
 
 import javax.ws.rs.core.Response;
 
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
 
 import nl.vpro.domain.api.media.RedirectEntry;
 import nl.vpro.domain.api.media.RedirectList;
@@ -22,20 +21,12 @@ import static org.assertj.core.api.Assertions.assertThat;
  * @author Michiel Meeuwissen
  * @since 1.0
  */
-@RunWith(Parameterized.class)
 @Slf4j
-public class ApiMediaRedirectsTest extends AbstractApiTest {
+class ApiMediaRedirectsTest extends AbstractApiTest {
 
 
-    private final RedirectEntry entry;
 
-    public ApiMediaRedirectsTest(RedirectEntry entry) {
-        this.entry = entry;
-    }
-
-
-    @Parameterized.Parameters
-    public static Collection<Object[]> getDirects() {
+    static Collection<Object[]> getRedirects() {
         Response response = clients.getMediaService().redirects(null);
         try {
             assertThat(response.getStatus()).isEqualTo(200);
@@ -47,9 +38,9 @@ public class ApiMediaRedirectsTest extends AbstractApiTest {
         }
     }
 
-
-    @Test
-    public void testRedirect() {
+    @ParameterizedTest
+    @MethodSource("getRedirects")
+    void testRedirect(RedirectEntry entry) {
         try {
             assertThat(clients.getMediaService().load(entry.getFrom(), null, null).getMid()).isEqualTo(entry.getTo());
         } catch (javax.ws.rs.NotFoundException nfe) {

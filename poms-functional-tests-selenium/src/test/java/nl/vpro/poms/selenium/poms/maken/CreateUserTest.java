@@ -1,19 +1,18 @@
 package nl.vpro.poms.selenium.poms.maken;
 
-import nl.vpro.domain.media.AVType;
-import nl.vpro.domain.media.MediaType;
-import nl.vpro.poms.selenium.poms.pages.AddNewObjectOverlayPage;
-import nl.vpro.poms.selenium.poms.pages.HomePage;
-import nl.vpro.poms.selenium.poms.pages.MediaItemPage;
-import nl.vpro.poms.selenium.poms.AbstractPomsTest;
-import nl.vpro.poms.selenium.util.DateFactory;
-import nl.vpro.poms.selenium.util.WebDriverFactory;
-import org.junit.*;
-
 import javax.annotation.Nonnull;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
+import org.junit.jupiter.api.*;
+
+import nl.vpro.domain.media.AVType;
+import nl.vpro.domain.media.MediaType;
+import nl.vpro.poms.selenium.poms.AbstractPomsTest;
+import nl.vpro.poms.selenium.poms.pages.*;
+import nl.vpro.poms.selenium.util.DateFactory;
+import nl.vpro.poms.selenium.util.WebDriverFactory;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 
 public class CreateUserTest extends AbstractPomsTest {
@@ -22,13 +21,13 @@ public class CreateUserTest extends AbstractPomsTest {
         super(browser);
     }
 
-    @Before
+    @BeforeEach
     public void setup() {
         login().speciaalVf();
     }
 
     @Override
-    @After
+    @AfterEach
     public void logout() {
         super.logout();
     }
@@ -44,7 +43,7 @@ public class CreateUserTest extends AbstractPomsTest {
         AddNewObjectOverlayPage overlay = homepage.clickNew();
         overlay.chooseMediaType(MediaType.CLIP);
 
-        assertFalse("Button 'Maak Aan' must be disabled", overlay.isEnabledMaakAan());
+        assertFalse(overlay.isEnabledMaakAan(), "Button 'Maak Aan' must be disabled");
         overlay.close();
     }
 
@@ -79,21 +78,21 @@ public class CreateUserTest extends AbstractPomsTest {
     }
 
     @Test
-    @Ignore("Fails")
+    @Disabled("Fails")
     public void testWijzigStandaardOmroep() {
-        Assert.fail("Bug gemeld");
+        Assertions.fail("Bug gemeld");
     }
 
     @Test
-    @Ignore("Fails")
+    @Disabled("Fails")
     public void testVoegTweeStandaardOmroepenToe() {
-        Assert.fail("Bug gemeld");
+        Assertions.fail("Bug gemeld");
     }
 
     @Test
-    @Ignore("Fails")
+    @Disabled("Fails")
     public void testPersistStandaardOmroep() {
-        Assert.fail("Bug gemeld");
+        Assertions.fail("Bug gemeld");
     }
 
 
