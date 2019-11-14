@@ -38,3 +38,7 @@ git clone --recurse-submodules https://github.com/npo-poms/functional-tests.git
 We use [lombok](https://projectlombok.org) to avoid boiler plate code. 
 The maven build is aware of this but your IDE may need help. 
 E.g. for intellij: https://plugins.jetbrains.com/plugin/6317-lombok-plugin
+
+
+## JUNIT 5
+We upgraded to junit 5 for the API functional tests. I tried to do the selenium tests too, but that would be quite cumbersome. We'll wait for a solution for [junit5 #878](https://github.com/junit-team/junit5/issues/878), which would make it better. Unless plans changes and we're not going to do it this way at all any more.

@@ -8,9 +8,9 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
-import org.junit.jupiter.api.*;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.junit.jupiter.params.ParameterizedTest;
+import javax.annotation.Nonnull;
+
+import org.junit.*;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.Select;
@@ -20,47 +20,49 @@ import com.fasterxml.jackson.databind.JsonNode;
 import nl.vpro.api.client.utils.Config;
 import nl.vpro.domain.gtaa.Scheme;
 import nl.vpro.jackson2.Jackson2Mapper;
-import nl.vpro.poms.selenium.AbstractTest5;
+import nl.vpro.poms.selenium.AbstractTest;
 import nl.vpro.poms.selenium.pages.AbstractLogin;
-import nl.vpro.poms.selenium.util.WebDriverFactory.Browser;
-import nl.vpro.poms.selenium.util.WebDriverUtil;
-import nl.vpro.test.jupiter.AbortOnException;
+import nl.vpro.poms.selenium.util.WebDriverFactory;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.Assume.assumeNoException;
+import static org.junit.runners.MethodSorters.NAME_ASCENDING;
 import static org.openqa.selenium.By.id;
 import static org.openqa.selenium.By.tagName;
 
 /**
  *
  */
-@TestMethodOrder(MethodOrderer.Alphanumeric.class)
+@FixMethodOrder(NAME_ASCENDING)
 @Slf4j
-@ExtendWith({AbortOnException.class})
-public class ThesaurusPopupTest extends AbstractTest5 {
+public class ThesaurusPopupTest extends AbstractTest {
 
     private static final String EXAMPLE_TITLE = "POMS GTAA";
     private static final String POPUP_TITLE = "GTAA";
 
-    private static Map<Browser, Boolean> loggedIn = new HashMap<>();
+    private static Map<WebDriverFactory.Browser, Boolean> loggedIn = new HashMap<>();
 
-    public ThesaurusPopupTest() {
-
+    public ThesaurusPopupTest(@Nonnull WebDriverFactory.Browser browser) {
+        super(browser);
     }
 
     @Override
-    protected AbstractLogin login(Browser browser) {
-        String url = CONFIG.getProperties(Config.Prefix.npo_api).get("baseUrl") + "/thesaurus/example/secure";
-
-        return casLogin(url, browser);
+    protected AbstractLogin login() {
+        String url = CONFIG.getProperties(Config.Prefix.npo_api)
+            .get("baseUrl") + "/thesaurus/example/secure";
+        return casLogin(url);
     }
 
+    @Before
+    public void setup() {
+        assumeNoException(exceptions.get(ThesaurusPopupTest.class));
+    }
 
-    @ParameterizedTest
-    @Browsers
-    public void test000LoginAndStartPage(Browser browser) {
+    @Before
+    public void test000LoginAndStartPage() {
         if (!loggedIn.getOrDefault(browser, Boolean.FALSE)) {
-            login(browser).gtaaBrowserTest();
-            browser.getUtil(log).waitForTitle(EXAMPLE_TITLE);
+            login().gtaaBrowserTest();
+            webDriverUtil.waitForTitle(EXAMPLE_TITLE);
             loggedIn.put(browser, true);
         }
     }
@@ -69,12 +71,9 @@ public class ThesaurusPopupTest extends AbstractTest5 {
      * Searches for a person with the Given name: Jan Peter and Family name Balkenende.
      * A list should appear with two values containing "Jan Peter"
      */
-    @ParameterizedTest
-    @Browsers
-    public void test002FindJanPeter(Browser browser) {
-        WebDriver driver = browser.getDriver();
-        WebDriverUtil webDriverUtil = browser.getUtil(log);
-        selectScheme(browser, Scheme.person);
+    @Test
+    public void test002FindJanPeter() {
+        selectScheme(Scheme.person);
 
         driver.findElement(id("givenName")).sendKeys("Jan Peter");
         driver.findElement(id("familyName")).sendKeys("Balkenende");
@@ -82,7 +81,7 @@ public class ThesaurusPopupTest extends AbstractTest5 {
 
         webDriverUtil.waitForAngularRequestsToFinish();
         webDriverUtil.switchToWindowWithTitle(POPUP_TITLE);
-        waitUntilSuggestionReady(browser);
+        waitUntilSuggestionReady();
 
         long counter = driver.findElements(By.xpath("//ul/li"))
                 .stream()
@@ -92,11 +91,8 @@ public class ThesaurusPopupTest extends AbstractTest5 {
         assertThat(counter).isGreaterThanOrEqualTo(2);
     }
 
-    @ParameterizedTest
-    @Browsers
-    public void test003SelectOne(Browser browser) throws IOException {
-        WebDriver driver = browser.getDriver();
-        WebDriverUtil webDriverUtil = browser.getUtil(log);
+    @Test
+    public void test003SelectOne() throws IOException {
 
         WebElement jan_peter = driver.findElements(By.xpath("//ul/li"))
                 .stream()
@@ -112,18 +108,14 @@ public class ThesaurusPopupTest extends AbstractTest5 {
         // Now, the window should disappear
         webDriverUtil.waitForWindowToClose();
         webDriverUtil.switchToWindowWithTitle(EXAMPLE_TITLE);
-        JsonNode jsonNode = getJson(browser);
+        JsonNode jsonNode = getJson();
         assertThat(jsonNode.get("action").asText()).isEqualTo("selected");
 
     }
 
-    @ParameterizedTest
-    @Drivers
-    public void test004Geonames(Browser browser) {
-        WebDriver driver = browser.getDriver();
-        WebDriverUtil webDriverUtil = browser.getUtil(log);
-
-        selectScheme(browser, Scheme.geographicname);
+    @Test
+    public void test004Geonames() {
+        selectScheme(Scheme.geographicname);
         WebElement name = driver.findElement(id("name"));
         name.clear();
         name.sendKeys("Amsterdam");
@@ -131,7 +123,7 @@ public class ThesaurusPopupTest extends AbstractTest5 {
         webDriverUtil.waitForAngularRequestsToFinish();
         webDriverUtil.switchToWindowWithTitle(POPUP_TITLE);
 
-        waitUntilSuggestionReady(browser);
+        waitUntilSuggestionReady();
 
         List<WebElement> elements = driver.findElements(By.xpath("//ul/li"));
         Iterator<WebElement> i = elements.iterator();
@@ -151,11 +143,8 @@ public class ThesaurusPopupTest extends AbstractTest5 {
         assertThat(register).isNotNull();
     }
 
-    @ParameterizedTest
-    @Browsers
-    public void test005SearchGeoLocationById(Browser browser) throws IOException {
-        WebDriverUtil webDriverUtil = browser.getUtil(log);
-        WebDriver driver = browser.getDriver();
+    @Test
+    public void test005SearchGeoLocationById() throws IOException {
         webDriverUtil.switchToWindowWithTitle(EXAMPLE_TITLE);
         String uriOfAmsterdam = "http://data.beeldengeluid.nl/gtaa/31586";
         webDriverUtil.click("reset");
@@ -163,7 +152,7 @@ public class ThesaurusPopupTest extends AbstractTest5 {
         webDriverUtil.click("open");
         webDriverUtil.waitForAngularRequestsToFinish();
         webDriverUtil.switchToWindowWithTitle(POPUP_TITLE);
-        waitUntilSuggestionReady(browser);
+        waitUntilSuggestionReady();
         // first suggestion should be it
         WebElement webElement = driver.findElements(By.xpath("//ul/li")).get(0).findElement(tagName("a"));
         assertThat(webElement.getAttribute("id")).isEqualTo(uriOfAmsterdam);
@@ -171,26 +160,22 @@ public class ThesaurusPopupTest extends AbstractTest5 {
         webDriverUtil.click("submit");
         webDriverUtil.waitForWindowToClose();
         webDriverUtil.switchToWindowWithTitle(EXAMPLE_TITLE);
-        JsonNode jsonNode = getJson(browser);
+        JsonNode jsonNode = getJson();
         assertThat(jsonNode.get("action").asText()).isEqualTo("selected");
         assertThat(jsonNode.get("concept").get("id").asText()).isEqualTo(uriOfAmsterdam);
     }
 
-    @ParameterizedTest
-    @Browsers
-    public void test006RegisterGeoLocation(TestInfo testInfo, Browser browser) throws IOException {
-        WebDriverUtil webDriverUtil = browser.getUtil(log);
-        WebDriver driver = browser.getDriver();
-
+    @Test
+    public void test006RegisterGeoLocation() throws IOException {
         webDriverUtil.click("reset");
-        selectScheme(browser, Scheme.geographicname);
+        selectScheme(Scheme.geographicname);
         webDriverUtil.click("open");
         webDriverUtil.waitForAngularRequestsToFinish();
         webDriverUtil.switchToWindowWithTitle(POPUP_TITLE);
 
-        String conceptName = testInfo.getDisplayName().replaceAll("[\\[\\]]", "_") + "-" + LocalDateTime.now().format(DateTimeFormatter.ofPattern("YYYYMMdd'T'HHmmss"));
+        String conceptName = testMethod.getMethodName().replaceAll("[\\[\\]]", "_") + "-" + LocalDateTime.now().format(DateTimeFormatter.ofPattern("YYYYMMdd'T'HHmmss"));
 
-        search(browser, conceptName);
+        search(conceptName);
         WebElement register = driver.findElement(By.className("status-create"));
         register.click();
         webDriverUtil.waitForAngularRequestsToFinish();
@@ -198,26 +183,22 @@ public class ThesaurusPopupTest extends AbstractTest5 {
         driver.findElement(id("scopeNote")).clear();
         driver.findElement(id("scopeNote")).sendKeys("Made by Selenium test. Don't approve this");
         webDriverUtil.click("register");
-        waitForRegistration(browser);
+        waitForRegistration();
 
-        webDriverUtil.w().until(webdriver -> webdriver.findElement(By.id("submit")));
+        wait.until(webdriver -> webdriver.findElement(By.id("submit")));
         webDriverUtil.click("submit");
         webDriverUtil.waitForWindowToClose();
         webDriverUtil.switchToWindowWithTitle(EXAMPLE_TITLE);
-        JsonNode jsonNode = getJson(browser);
+        JsonNode jsonNode = getJson();
         assertThat(jsonNode.get("action").asText()).isEqualTo("selected");
         assertThat(jsonNode.get("concept").get("status").asText()).isEqualTo("candidate");
         assertThat(jsonNode.get("concept").get("name").asText()).isEqualTo(conceptName);
         assertThat(jsonNode.get("concept").get("scopeNotes").get(0).asText()).isNotEmpty();
     }
 
-    @ParameterizedTest
-    @Browsers
-    public void test007OpenModal(Browser browser) throws IOException {
-        WebDriver driver = browser.getDriver();
-        WebDriverUtil webDriverUtil = browser.getUtil(log);
-
-        selectScheme(browser, Scheme.geographicname);
+    @Test
+    public void test007OpenModal() throws IOException {
+        selectScheme(Scheme.geographicname);
         WebElement name = driver.findElement(id("name"));
         name.clear();
         name.sendKeys("Amsterdam");
@@ -225,25 +206,21 @@ public class ThesaurusPopupTest extends AbstractTest5 {
         webDriverUtil.waitForAngularRequestsToFinish();
         driver.switchTo().frame("iframe");
         webDriverUtil.waitForAngularRequestsToFinish();
-        waitUntilSuggestionReady(browser);
+        waitUntilSuggestionReady();
         WebElement webElement = driver.findElements(By.xpath("//ul/li")).get(0).findElement(tagName("a"));
         assertThat(webElement.getAttribute("id")).startsWith("http://data");
         webElement.click();
         webDriverUtil.click("submit");
         webDriverUtil.switchToWindowWithTitle(EXAMPLE_TITLE);
         driver.switchTo().defaultContent();
-        JsonNode jsonNode = getJson(browser);
+        JsonNode jsonNode = getJson();
         assertThat(jsonNode.get("action").asText()).isEqualTo("selected");
         assertThat(jsonNode.get("concept").get("name").asText()).containsIgnoringCase("amsterdam");
     }
 
-    @ParameterizedTest
-    @Browsers
-    public void test008MultipleSchemes(Browser browser) throws IOException {
-        WebDriver driver = browser.getDriver();
-        WebDriverUtil webDriverUtil = browser.getUtil(log);
-
-        selectScheme(browser, Scheme.geographicname, Scheme.person);
+    @Test
+    public void test008MultipleSchemes() throws IOException {
+        selectScheme(Scheme.geographicname, Scheme.person);
         WebElement name = driver.findElement(id("name"));
         name.clear();
         name.sendKeys("Amsterdam");
@@ -251,33 +228,33 @@ public class ThesaurusPopupTest extends AbstractTest5 {
         webDriverUtil.waitForAngularRequestsToFinish();
         driver.switchTo().frame("iframe");
         webDriverUtil.waitForAngularRequestsToFinish();
-        waitUntilSuggestionReady(browser);
+        waitUntilSuggestionReady();
         WebElement webElement = driver.findElements(By.xpath("//ul/li")).get(0).findElement(tagName("a"));
         assertThat(webElement.getAttribute("id")).startsWith("http://data");
         webElement.click();
         webDriverUtil.click("submit");
         webDriverUtil.switchToWindowWithTitle(EXAMPLE_TITLE);
         driver.switchTo().defaultContent();
-        JsonNode jsonNode = getJson(browser);
+        JsonNode jsonNode = getJson();
         assertThat(jsonNode.get("action").asText()).isEqualTo("selected");
         assertThat(jsonNode.get("concept").get("name").asText()).containsIgnoringCase("amsterdam");
     }
 
 
-    private void search(Browser browser, String value) {
-        WebElement searchValue = browser.getUtil(log).w().until(driver -> driver.findElement(id("searchValue")));
+    private void search(String value) {
+        WebElement searchValue = wait.until(driver -> driver.findElement(id("searchValue")));
         searchValue.clear();
         searchValue.sendKeys(value);
-        waitUntilSuggestionReady(browser);
+        waitUntilSuggestionReady();
     }
 
-    private void waitUntilSuggestionReady(Browser browser) {
-        browser.getUtil(log).w().until(webDriver ->
-            !webDriver.findElement(id("searchValue")).getAttribute("class").contains("waiting"));
+    private void waitUntilSuggestionReady() {
+        wait.until(webDriver ->
+                !webDriver.findElement(id("searchValue")).getAttribute("class").contains("waiting"));
     }
 
-    private void waitForRegistration(Browser browser) {
-        browser.getUtil(log).w().until(webDriver -> {
+    private void waitForRegistration() {
+        wait.until(webDriver -> {
             try {
                 webDriver.findElement(id("spinner")).findElement(tagName("img"));
                 return true;
@@ -285,13 +262,12 @@ public class ThesaurusPopupTest extends AbstractTest5 {
                 return false;
             }
         });
-        browser.getUtil(log).waitForAngularRequestsToFinish();
+        webDriverUtil.waitForAngularRequestsToFinish();
     }
 
-    private void selectScheme(Browser browser, Scheme... scheme) {
-        WebDriverUtil webDriverUtil = browser.getUtil(log);
+    private void selectScheme(Scheme... scheme) {
         webDriverUtil.waitForAngularRequestsToFinish();
-        WebElement schemes = browser.getDriver().findElement(id("schemes"));
+        WebElement schemes = driver.findElement(id("schemes"));
         Select select = new Select(schemes);
         select.deselectAll();
         for (Scheme s : scheme) {
@@ -300,9 +276,7 @@ public class ThesaurusPopupTest extends AbstractTest5 {
         webDriverUtil.waitForAngularRequestsToFinish();
     }
 
-    private JsonNode getJson(Browser browser) throws IOException {
-        WebDriverUtil webDriverUtil = browser.getUtil(log);
-        WebDriver driver = browser.getDriver();
+    private JsonNode getJson() throws IOException {
         webDriverUtil.waitForAngularRequestsToFinish();
         WebElement jsonArea = driver.findElement(id("json"));
         String json = jsonArea.getAttribute("value");
