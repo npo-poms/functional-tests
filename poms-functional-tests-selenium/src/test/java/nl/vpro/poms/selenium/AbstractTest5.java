@@ -22,11 +22,11 @@ import nl.vpro.poms.selenium.util.WebDriverFactory.Browser;
 import nl.vpro.test.jupiter.AbortOnException;
 
 /**
- * This is an effort to make a new base class for the selenium tests but based on juni 5.
+ * This is an effort to make a new base class for the selenium tests but based on junit 5.
  *
  * This is undoable: See https://github.com/junit-team/junit5/issues/878)
  *
- * You cannot  in the mean parametize a class any more. You can give every single test a browser argument, and create the utilities on the fly, but this is hardly nicer.
+ * You cannot  in the mean time parameterize a class any more. You can give every single test a browser argument, and create the utilities on the fly, but this is hardly nicer.
  *
  * Since browser testing is typically done for several different browsers, and every test should be done on every browser,the way to go is simply class parameterization. We'll simply away a fix for #878, which will be 'soon'.
  *
