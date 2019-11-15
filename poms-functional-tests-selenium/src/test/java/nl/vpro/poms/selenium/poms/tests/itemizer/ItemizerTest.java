@@ -1,19 +1,16 @@
-package nl.vpro.poms.selenium.poms.itemizer;
+package nl.vpro.poms.selenium.poms.tests.itemizer;
 
-import nl.vpro.poms.selenium.poms.pages.OmroepVideoDetailInfoPage;
-import nl.vpro.poms.selenium.poms.pages.OmroepVideoPage;
-import nl.vpro.poms.selenium.poms.pages.Search;
-import nl.vpro.poms.selenium.poms.AbstractPomsTest;
-import nl.vpro.poms.selenium.util.WebDriverFactory;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Ignore;
-import org.junit.Test;
-
-import javax.annotation.Nonnull;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
+import javax.annotation.Nonnull;
+
+import org.junit.*;
+
+import nl.vpro.poms.selenium.poms.tests.AbstractPomsTest;
+import nl.vpro.poms.selenium.poms.pages.*;
+import nl.vpro.poms.selenium.util.WebDriverFactory;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

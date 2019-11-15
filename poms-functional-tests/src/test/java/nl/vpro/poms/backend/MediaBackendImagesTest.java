@@ -5,31 +5,29 @@ import lombok.extern.slf4j.Slf4j;
 import java.io.UnsupportedEncodingException;
 import java.time.Duration;
 import java.time.Instant;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import javax.xml.bind.JAXB;
 
-import nl.vpro.api.client.media.ResponseError;
-import org.junit.*;
-import org.junit.runners.MethodSorters;
+import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.extension.ExtendWith;
 
+import nl.vpro.api.client.media.ResponseError;
 import nl.vpro.domain.image.ImageType;
 import nl.vpro.domain.media.update.ImageUpdate;
 import nl.vpro.domain.media.update.ProgramUpdate;
 import nl.vpro.logging.LoggerOutputStream;
 import nl.vpro.poms.AbstractApiMediaBackendTest;
-import nl.vpro.rules.DoAfterException;
+import nl.vpro.test.jupiter.AbortOnException;
 import nl.vpro.util.Version;
 
 import static nl.vpro.testutils.Utils.waitUntil;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.hamcrest.Matchers.greaterThanOrEqualTo;
-import static org.junit.Assume.*;
+import static org.assertj.core.api.Assumptions.assumeThat;
+import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
 
 /*
@@ -46,30 +44,17 @@ import static org.junit.Assume.*;
  *
  * @author Michiel Meeuwissen
  */
-@FixMethodOrder(MethodSorters.NAME_ASCENDING)
+@TestMethodOrder(MethodOrderer.Alphanumeric.class)
 @Slf4j
-public class MediaBackendImagesTest extends AbstractApiMediaBackendTest {
+@ExtendWith(AbortOnException.class)
+class MediaBackendImagesTest extends AbstractApiMediaBackendTest {
 
     private static final Duration ACCEPTABLE_DURATION = Duration.ofMinutes(3);
     private static final List<String> titles = new ArrayList<>();
 
-    @Rule
-    public DoAfterException doAfterException = new DoAfterException((t) -> {
-        if (! (t instanceof AssumptionViolatedException)) {
-            MediaBackendImagesTest.exception = t;
-        }
-    });
-
-    private static Throwable exception = null;
-
-    @Before
-    public void setup() {
-        assumeNoException(exception);
-    }
-
 
     @Test
-    public void test00setup() {
+    void test00setup() {
         cleanup();
         cleanupCheck();
     }
@@ -77,8 +62,8 @@ public class MediaBackendImagesTest extends AbstractApiMediaBackendTest {
 
 
     @Test
-    public void test01addRedirectingImage() throws UnsupportedEncodingException {
-        assumeThat(backendVersionNumber, greaterThanOrEqualTo(Version.of(5)));
+    void test01addRedirectingImage() throws UnsupportedEncodingException {
+        assumeThat(backendVersionNumber).isGreaterThanOrEqualTo(Version.of(5));
         titles.add(title);
         ImageUpdate update = randomImage(title)
             .type(ImageType.LOGO) // different types make the image unique without id.
@@ -91,7 +76,7 @@ public class MediaBackendImagesTest extends AbstractApiMediaBackendTest {
 
 
     @Test
-    public void test02addImage() throws UnsupportedEncodingException {
+    void test02addImage() throws UnsupportedEncodingException {
         titles.add(title);
 
         ImageUpdate update = randomImage(title)
@@ -101,13 +86,13 @@ public class MediaBackendImagesTest extends AbstractApiMediaBackendTest {
     }
 
     @Test
-    public void test10checkArrived() {
+    void test10checkArrived() {
         checkArrived();
     }
 
 
     @Test
-    public void test11addImageToObject() throws UnsupportedEncodingException {
+    void test11addImageToObject() throws UnsupportedEncodingException {
         titles.add(title);
         ImageUpdate imageUpdate  = randomImage(title)
             .type(ImageType.ICON)
@@ -121,7 +106,7 @@ public class MediaBackendImagesTest extends AbstractApiMediaBackendTest {
 
 
     @Test
-    public void test12checkArrived() {
+    void test12checkArrived() {
         // Test 11 happens via object (not via addImage), so goes via broadcaster cues.
         // If 13 is executed before 11 fully handled, 13 will fail.
         // therefor we added this intermediate check.
@@ -132,7 +117,7 @@ public class MediaBackendImagesTest extends AbstractApiMediaBackendTest {
     private static String tineyeImageTitle;
 
     @Test
-    public void test13addWikimediaImage() {
+    void test13addWikimediaImage() {
         titles.add(title);
         wikiImageTitle = title;
 
@@ -150,7 +135,7 @@ public class MediaBackendImagesTest extends AbstractApiMediaBackendTest {
 
     @Test
     //@Ignore
-    public void test14addTineyeImage() {
+    void test14addTineyeImage() {
         titles.add(title);
         tineyeImageTitle = title;
 
@@ -166,7 +151,7 @@ public class MediaBackendImagesTest extends AbstractApiMediaBackendTest {
 
 
     @Test
-    public void test20checkArrived() {
+    void test20checkArrived() {
         checkArrived();
         assumeTrue(wikiImageTitle != null);
         ProgramUpdate update = backend.get(MID);
@@ -178,7 +163,7 @@ public class MediaBackendImagesTest extends AbstractApiMediaBackendTest {
 
 
     @Test
-    public void test21updateImageInObject() throws Exception {
+    void test21updateImageInObject() throws Exception {
         final ProgramUpdate[] update = new ProgramUpdate[1];
         update[0] = backend.get(MID);
         Instant yesterday = Instant.now().minus(Duration.ofDays(1));
@@ -210,7 +195,7 @@ public class MediaBackendImagesTest extends AbstractApiMediaBackendTest {
     }
 
     @Test
-    public void test22updateImageInObjectButCleanUrn() throws Exception {
+    void test22updateImageInObjectButCleanUrn() throws Exception {
         final ProgramUpdate[] update = new ProgramUpdate[1];
         update[0] = backend.get(MID);
 
@@ -249,7 +234,7 @@ public class MediaBackendImagesTest extends AbstractApiMediaBackendTest {
 
 
     @Test
-    public void test30copyImageToOtherObject() {
+    void test30copyImageToOtherObject() {
         final ProgramUpdate[] updates = new ProgramUpdate[2];
         updates[0] = backend.get(MID);
 
@@ -287,34 +272,37 @@ public class MediaBackendImagesTest extends AbstractApiMediaBackendTest {
     }
 
 
-    @Test(expected = ResponseError.class)
-    public void test31addInvalidImage() throws UnsupportedEncodingException {
-        assumeThat(backendVersionNumber, greaterThanOrEqualTo(Version.of(5, 8)));
-        titles.add(title);
-        ImageUpdate update = randomImage(title)
-            .type(ImageType.LOGO) // different types make the image unique without id.
-            .source("bla") // invalid!
-            .imageUrl("https://goo.gl/fKL1rj") // redirects
-            .build();
+    @Test
+    void test31addInvalidImage() {
+        Assertions.assertThrows(ResponseError.class, () -> {
+            assumeThat(backendVersionNumber).isGreaterThanOrEqualTo(Version.of(5, 8));
+            titles.add(title);
+            ImageUpdate update = randomImage(title)
+                .type(ImageType.LOGO) // different types make the image unique without id.
+                .source("bla") // invalid!
+                .imageUrl("https://goo.gl/fKL1rj") // redirects
+                .build();
 
-        backend.addImage(update, MID);
+            backend.addImage(update, MID);
+        });
     }
 
 
     @Test
-    public void test98Cleanup() {
+    void test98Cleanup() {
         cleanup();
     }
 
 
     @Test
-    public void test99CleanupCheck() {
+    void test99CleanupCheck() {
         cleanupCheck();
     }
 
 
 
-    protected void cleanup() {
+
+    void cleanup() {
         backend.getBrowserCache().clear();
 
         ProgramUpdate update;
@@ -332,7 +320,7 @@ public class MediaBackendImagesTest extends AbstractApiMediaBackendTest {
     }
 
 
-    protected void cleanupCheck() {
+    void cleanupCheck() {
         final ProgramUpdate[] update = new ProgramUpdate[1];
         waitUntil(ACCEPTABLE_DURATION,
             MID + " has no images any more",
@@ -351,20 +339,19 @@ public class MediaBackendImagesTest extends AbstractApiMediaBackendTest {
         assertThat(update[0].getImages()).isEmpty();
     }
 
-    protected void checkArrived() {
-        if (exception == null) {
-            final List<String> currentTitles = new ArrayList<>();
-            waitUntil(ACCEPTABLE_DURATION,
-                MID + " in backend with images " + titles,
-                () -> {
+    void checkArrived() {
+        final List<String> currentTitles = new ArrayList<>();
+        waitUntil(ACCEPTABLE_DURATION,
+            MID + " in backend with images " + titles,
+            () -> {
                 ProgramUpdate update = backend.get(MID);
                 currentTitles.clear();
                 currentTitles.addAll(update.getImages().stream().map(ImageUpdate::getTitle).collect(Collectors.toList()));
                 return currentTitles.containsAll(titles);
             });
 
-            assertThat(currentTitles).containsAll(titles);
-        }
+        assertThat(currentTitles).containsAll(titles);
+
     }
 
 

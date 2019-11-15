@@ -18,7 +18,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 /**
  * @author Michiel Meeuwissen
  */
-public class BroadcasterListTest {
+class BroadcasterListTest {
 
     @Rule
     public TestMDC testMDC = new TestMDC();

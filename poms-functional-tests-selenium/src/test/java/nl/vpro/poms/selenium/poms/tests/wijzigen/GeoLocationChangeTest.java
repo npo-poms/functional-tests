@@ -1,23 +1,22 @@
-package nl.vpro.poms.selenium.poms.wijzigen;
-
-import nl.vpro.poms.selenium.poms.AbstractPomsTest;
-import nl.vpro.poms.selenium.poms.pages.MediaItemPage;
-import nl.vpro.poms.selenium.poms.pages.Search;
-import nl.vpro.poms.selenium.util.WebDriverFactory;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.FixMethodOrder;
-import org.junit.Test;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
+package nl.vpro.poms.selenium.poms.tests.wijzigen;
 
 import java.util.List;
 
+import org.junit.*;
+
+import org.junit.runners.MethodSorters;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+
+import nl.vpro.poms.selenium.poms.tests.AbstractPomsTest;
+import nl.vpro.poms.selenium.poms.pages.MediaItemPage;
+import nl.vpro.poms.selenium.poms.pages.Search;
+import nl.vpro.poms.selenium.util.WebDriverFactory;
+
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.runners.MethodSorters.NAME_ASCENDING;
 import static org.openqa.selenium.By.id;
 
-@FixMethodOrder(NAME_ASCENDING)
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class GeoLocationChangeTest extends AbstractPomsTest {
 
 	public GeoLocationChangeTest(WebDriverFactory.Browser browser) {
@@ -38,7 +37,6 @@ public class GeoLocationChangeTest extends AbstractPomsTest {
 	@Test
 	public void test01addGeoLocations() {
 		MediaItemPage item = new Search(webDriverUtil).searchAndOpenClip();
-		String poms_title = driver.getTitle();
 		item.moveToElement(By.id("geolocations"));
 
 		WebElement addButton = driver.findElement(By.id("addGeoLocation"));

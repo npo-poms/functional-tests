@@ -1,4 +1,4 @@
-package nl.vpro.poms.selenium.poms;
+package nl.vpro.poms.selenium.poms.tests;
 
 import nl.vpro.api.client.utils.Config;
 import nl.vpro.poms.selenium.AbstractTest;

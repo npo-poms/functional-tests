@@ -4,22 +4,17 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.time.Duration;
-import java.time.Instant;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.time.*;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import org.apache.commons.io.IOUtils;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-import nl.vpro.domain.api.Deletes;
-import nl.vpro.domain.api.MediaChange;
-import nl.vpro.domain.api.Order;
+import nl.vpro.domain.api.*;
 import nl.vpro.domain.media.Schedule;
 import nl.vpro.jackson2.JsonArrayIterator;
 import nl.vpro.poms.AbstractApiTest;
@@ -27,10 +22,11 @@ import nl.vpro.util.Version;
 
 import static nl.vpro.api.client.utils.MediaRestClientUtils.sinceString;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assume.assumeTrue;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
 @Slf4j
-public class ApiMediaChangesTest extends AbstractApiTest {
+class ApiMediaChangesTest extends AbstractApiTest {
 
 
     private Instant FROM = Instant.now().minus(Duration.ofDays(14));
@@ -40,8 +36,8 @@ public class ApiMediaChangesTest extends AbstractApiTest {
     int couchdbSince;
 
 
-    @Before
-    public void setup() {
+    @BeforeEach
+    void setup() {
         switch(CONFIG.env()) {
             case DEV:
                 couchdbSince = 25387000;
@@ -76,9 +72,11 @@ public class ApiMediaChangesTest extends AbstractApiTest {
         testChanges("vpro-predictions", FROM, CHANGES_MAX);
     }
 
-    @Test(expected = javax.ws.rs.NotFoundException.class)
-    public void testChangesMissingProfile() throws IOException {
-        testChanges("bestaatniet", FROM, CHANGES_MAX);
+    @Test
+    public void testChangesMissingProfile() {
+        assertThrows(javax.ws.rs.NotFoundException.class, () -> {
+            testChanges("bestaatniet", FROM, CHANGES_MAX);
+        });
     }
 
     @Test
@@ -92,9 +90,11 @@ public class ApiMediaChangesTest extends AbstractApiTest {
     }
 
 
-    @Test(expected = javax.ws.rs.NotFoundException.class)
-    public void testChangesOldMissingProfile() throws IOException {
-        testChangesWithOld("bestaatniet", CHANGES_MAX);
+    @Test
+    public void testChangesOldMissingProfile() {
+        assertThrows(javax.ws.rs.NotFoundException.class, () -> {
+            testChangesWithOld("bestaatniet", CHANGES_MAX);
+        });
     }
 
 

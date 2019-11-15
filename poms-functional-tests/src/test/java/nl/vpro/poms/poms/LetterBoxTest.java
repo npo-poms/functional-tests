@@ -5,17 +5,14 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
 
-import org.junit.Before;
-import org.junit.FixMethodOrder;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.runners.MethodSorters;
+import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 import nl.vpro.domain.media.Platform;
 import nl.vpro.domain.media.update.PredictionUpdate;
+import nl.vpro.junit.extensions.AllowUnavailable;
+import nl.vpro.junit.extensions.TestMDC;
 import nl.vpro.poms.AbstractApiMediaBackendTest;
-import nl.vpro.rules.AllowUnavailable;
-import nl.vpro.rules.TestMDC;
 
 import static io.restassured.RestAssured.given;
 import static nl.vpro.api.client.utils.Config.Prefix.poms;
@@ -26,31 +23,26 @@ import static org.assertj.core.api.Assertions.assertThat;
  * There
  * @author Michiel Meeuwissen
  */
-@FixMethodOrder(MethodSorters.NAME_ASCENDING)
+@TestMethodOrder(MethodOrderer.Alphanumeric.class)
 @Slf4j
-public class LetterBoxTest extends AbstractApiMediaBackendTest {
-
-    @Rule
-    public AllowUnavailable allowUnavailable = new AllowUnavailable();
-
-    @Rule
-    public TestMDC testMDC = new TestMDC();
+@ExtendWith({AllowUnavailable.class, TestMDC.class})
+class LetterBoxTest extends AbstractApiMediaBackendTest {
 
     private static final String IMPORT_URL = CONFIG.url(poms, "import/");
     private static final String USERNAME = CONFIG.configOption(poms, "lettercase-user").orElse("vpro-cms");
     private static final String PASSWORD = CONFIG.requiredOption(poms, "lettercase-password");
 
-    @Before
-    public void setUp() {
+    @BeforeEach
+    void setUp() {
         RestAssured.useRelaxedHTTPSValidation();
         RestAssured.urlEncodingEnabled = false;
     }
 
-    static String nepEndpoint = null;
+    private static String nepEndpoint = null;
 
 
     @Test
-    public void test01GetList() {
+    void test01GetList() {
         String s =
             given()
                 .auth().basic(USERNAME, PASSWORD)
@@ -76,7 +68,7 @@ public class LetterBoxTest extends AbstractApiMediaBackendTest {
 
 
     @Test
-    public void test02PostToNEP() throws IOException {
+    void test02PostToNEP() throws IOException {
         given()
             .auth().basic(USERNAME, PASSWORD)
             .log().ifValidationFails()

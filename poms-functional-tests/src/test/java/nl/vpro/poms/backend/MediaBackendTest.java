@@ -9,20 +9,23 @@ import java.util.function.Predicate;
 import javax.xml.bind.JAXB;
 
 import org.assertj.core.api.Assertions;
-import org.junit.*;
-import org.junit.runners.MethodSorters;
+
+import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 import nl.vpro.api.client.media.ResponseError;
 import nl.vpro.domain.media.*;
 import nl.vpro.domain.media.update.*;
 import nl.vpro.poms.AbstractApiMediaBackendTest;
-import nl.vpro.rules.DoAfterException;
+import nl.vpro.test.jupiter.AbortOnException;
 import nl.vpro.util.Version;
 
+import static nl.vpro.domain.media.support.OwnerType.BROADCASTER;
+import static nl.vpro.domain.media.support.OwnerType.NPO;
+  
 import static nl.vpro.testutils.Utils.waitUntil;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.hamcrest.Matchers.*;
-import static org.junit.Assume.*;
+import static org.assertj.core.api.Assumptions.assumeThat;
 
 
 /*
@@ -32,26 +35,17 @@ import static org.junit.Assume.*;
 /***
  * @author Michiel Meeuwissen
  */
-@FixMethodOrder(MethodSorters.NAME_ASCENDING)
+@TestMethodOrder(MethodOrderer.Alphanumeric.class)
 @Slf4j
-public class MediaBackendTest extends AbstractApiMediaBackendTest {
+@ExtendWith(AbortOnException.class)
+class MediaBackendTest extends AbstractApiMediaBackendTest {
 
     private static final Duration ACCEPTABLE_DURATION = Duration.ofMinutes(3);
 
-    @Rule
-    public DoAfterException doAfterException = new DoAfterException((t) -> {
-        if (! (t instanceof AssumptionViolatedException)) {
-            MediaBackendTest.exception = t;
-        }
-    });
-
-    private static Throwable exception = null;
-
-    @Before
+    @BeforeEach
     public void setup() {
         log.info("Mailing errors to {}", backend.getErrors());
-        assumeThat(backend.getErrors(), not(is(emptyOrNullString())));
-        assumeNoException(exception);
+        assumeThat(backend.getErrors()).isNotEmpty();
 
     }
 
@@ -102,7 +96,7 @@ public class MediaBackendTest extends AbstractApiMediaBackendTest {
 
     @Test
     public void test02CheckArrived() {
-        assumeNotNull(newMid);
+        assumeThat(newMid).isNotNull();
 
         ProgramUpdate u = waitUntil(
             ACCEPTABLE_DURATION,
@@ -253,7 +247,9 @@ public class MediaBackendTest extends AbstractApiMediaBackendTest {
 
     @Test
     public void test08checkObjectsWithCrids() {
-        assumeNotNull(midWithCrid, againMidWithCrid, againMidWithStolenCrid);
+        assumeThat(midWithCrid).isNotNull();
+        assumeThat(againMidWithCrid).isNotNull();
+        assumeThat(againMidWithStolenCrid).isNotNull();
         waitUntil(ACCEPTABLE_DURATION,
             CRID + " exists ",
             () -> backend.get(midWithCrid),

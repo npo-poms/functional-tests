@@ -1,16 +1,13 @@
 package nl.vpro.poms.selenium;
 
 import io.github.bonigarcia.wdm.DriverManagerType;
-import nl.vpro.api.client.utils.Config;
-import nl.vpro.poms.selenium.pages.AbstractLogin;
-import nl.vpro.poms.selenium.pages.CasLogin;
-import nl.vpro.poms.selenium.pages.KeycloakLogin;
-import nl.vpro.poms.selenium.poms.pages.Search;
-import nl.vpro.poms.selenium.util.WebDriverFactory;
-import nl.vpro.poms.selenium.util.WebDriverFactory.Browser;
-import nl.vpro.poms.selenium.util.WebDriverUtil;
-import nl.vpro.rules.DoAfterException;
-import nl.vpro.rules.TestMDC;
+
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.TimeUnit;
+
+import javax.annotation.Nonnull;
+
 import org.junit.*;
 import org.junit.rules.TestName;
 import org.junit.rules.Timeout;
@@ -21,10 +18,14 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.LoggerFactory;
 
-import javax.annotation.Nonnull;
-import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.TimeUnit;
+import nl.vpro.api.client.utils.Config;
+import nl.vpro.poms.selenium.pages.*;
+import nl.vpro.poms.selenium.poms.pages.Search;
+import nl.vpro.poms.selenium.util.WebDriverFactory;
+import nl.vpro.poms.selenium.util.WebDriverFactory.Browser;
+import nl.vpro.poms.selenium.util.WebDriverUtil;
+import nl.vpro.rules.DoAfterException;
+import nl.vpro.rules.TestMDC;
 
 /**
  *
@@ -101,7 +102,7 @@ public abstract class AbstractTest {
             driver = staticDrivers.computeIfAbsent(browser, AbstractTest::createDriver);
         }
         webDriverUtil  = new WebDriverUtil(driver, log);
-        wait = webDriverUtil.getWait();
+        wait = webDriverUtil.w();
     }
 
     private static WebDriver createDriver(Browser browser) {

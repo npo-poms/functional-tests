@@ -1,4 +1,4 @@
-package nl.vpro.poms.selenium.poms.npogebruiker;
+package nl.vpro.poms.selenium.poms.tests.npogebruiker;
 
 import javax.annotation.Nonnull;
 
@@ -6,9 +6,9 @@ import org.assertj.core.api.SoftAssertions;
 import org.junit.Ignore;
 import org.junit.Test;
 
+import nl.vpro.poms.selenium.poms.tests.AbstractPomsTest;
 import nl.vpro.poms.selenium.poms.pages.MediaItemPage;
 import nl.vpro.poms.selenium.poms.pages.Search;
-import nl.vpro.poms.selenium.poms.AbstractPomsTest;
 import nl.vpro.poms.selenium.util.WebDriverFactory;
 
 public class NPOGebruikerScheduleTest extends AbstractPomsTest {

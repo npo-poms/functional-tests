@@ -11,26 +11,23 @@ import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
 
-import org.junit.*;
-import org.junit.runners.MethodSorters;
+import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 import nl.vpro.domain.media.*;
 import nl.vpro.domain.media.exceptions.ModificationException;
-import nl.vpro.domain.media.search.InstantRange;
-import nl.vpro.domain.media.search.MediaForm;
-import nl.vpro.domain.media.search.MediaPager;
-import nl.vpro.domain.media.search.TitleForm;
+import nl.vpro.domain.media.search.*;
 import nl.vpro.domain.media.update.ProgramUpdate;
 import nl.vpro.domain.media.update.SegmentUpdate;
-import nl.vpro.rules.AllowUnavailable;
-import nl.vpro.rules.TestMDC;
+import nl.vpro.junit.extensions.AllowUnavailable;
+import nl.vpro.junit.extensions.TestMDC;
 
 import static io.restassured.RestAssured.given;
 import static nl.vpro.api.client.utils.Config.Prefix.npo_backend_api;
 import static nl.vpro.domain.Xmlns.NAMESPACE_CONTEXT;
 import static nl.vpro.poms.AbstractApiTest.CONFIG;
+import static org.assertj.core.api.Assumptions.assumeThat;
 import static org.hamcrest.Matchers.*;
-import static org.junit.Assume.assumeNotNull;
 
 
 
@@ -45,15 +42,12 @@ import static org.junit.Assume.assumeNotNull;
  * @author Daan Debie
  * @author Michiel Meeuwissen
  */
-@FixMethodOrder(MethodSorters.NAME_ASCENDING)
+@TestMethodOrder(MethodOrderer.Alphanumeric.class)
 @Slf4j
+@ExtendWith({AllowUnavailable.class, TestMDC.class})
 public class MediaTest {
 
-    @Rule
-    public AllowUnavailable allowUnavailable = new AllowUnavailable();
 
-    @Rule
-    public TestMDC testMDC = new TestMDC();
 
     private static final String MEDIA_URL = CONFIG.url(npo_backend_api, "media/media");
     private static final String FIND_URL = CONFIG.url(npo_backend_api, "media/find");
@@ -66,13 +60,13 @@ public class MediaTest {
     private static String cridIdFromSuffix;
     private static String clipMid;
 
-    @BeforeClass
+    @BeforeAll
     public static void setUpShared() {
         dynamicSuffix = LocalDateTime.now().toString();
         cridIdFromSuffix = dynamicSuffix.replaceAll("\\D", "");
     }
 
-    @Before
+    @BeforeEach
     public void setUp() {
         RestAssured.useRelaxedHTTPSValidation();
         RestAssured.urlEncodingEnabled = false;
@@ -146,7 +140,7 @@ public class MediaTest {
 
     @Test
     public void test05RetrieveClip() {
-        assumeNotNull(clipMid);
+        assumeThat(clipMid).isNotNull();
         given()
             .auth().basic(USERNAME, PASSWORD)
             .contentType("application/xml")

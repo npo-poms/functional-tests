@@ -1,20 +1,19 @@
-package nl.vpro.poms.selenium.poms.maken;
+package nl.vpro.poms.selenium.poms.tests.maken;
 
 import javax.annotation.Nonnull;
 
 import org.junit.*;
+import org.junit.jupiter.api.Assertions;
 
 import nl.vpro.domain.media.AVType;
 import nl.vpro.domain.media.MediaType;
-import nl.vpro.poms.selenium.poms.AbstractPomsTest;
-import nl.vpro.poms.selenium.poms.pages.AddNewObjectOverlayPage;
-import nl.vpro.poms.selenium.poms.pages.HomePage;
-import nl.vpro.poms.selenium.poms.pages.MediaItemPage;
+import nl.vpro.poms.selenium.poms.tests.AbstractPomsTest;
+import nl.vpro.poms.selenium.poms.pages.*;
 import nl.vpro.poms.selenium.util.DateFactory;
 import nl.vpro.poms.selenium.util.WebDriverFactory;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 
 /**
@@ -48,7 +47,7 @@ public class CreateUserTest extends AbstractPomsTest {
         AddNewObjectOverlayPage overlay = homepage.clickNew();
         overlay.chooseMediaType(MediaType.CLIP);
 
-        assertFalse("Button 'Maak Aan' must be disabled", overlay.isEnabledMaakAan());
+        assertFalse(overlay.isEnabledMaakAan(), "Button 'Maak Aan' must be disabled");
         overlay.close();
     }
 
@@ -85,13 +84,13 @@ public class CreateUserTest extends AbstractPomsTest {
     @Test
     @Ignore("Fails")
     public void testWijzigStandaardOmroep() {
-        Assert.fail("Bug gemeld");
+        Assertions.fail("Bug gemeld");
     }
 
     @Test
     @Ignore("Fails")
     public void testVoegTweeStandaardOmroepenToe() {
-        Assert.fail("Bug gemeld");
+        Assertions.fail("Bug gemeld");
     }
 
     @Test

@@ -1,25 +1,20 @@
 package nl.vpro.poms.selenium.poms.pages;
 
-import com.paulhammant.ngwebdriver.NgWebDriver;
-import nl.vpro.poms.selenium.pages.AbstractPage;
-import nl.vpro.poms.selenium.util.WebDriverUtil;
-import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.Keys;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Actions;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-
-import java.time.Duration;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
+import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
+
+import org.openqa.selenium.*;
+import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+
+import com.paulhammant.ngwebdriver.NgWebDriver;
+
+import nl.vpro.poms.selenium.pages.AbstractPage;
+import nl.vpro.poms.selenium.util.WebDriverUtil;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
@@ -75,7 +70,7 @@ public class Search extends AbstractPage {
     public void logout() {
         webDriverUtil.waitAndClick(menuBy);
         webDriverUtil.waitAndClick(logoutBy);
-        webDriverUtil.waitForTextToBePresent(loggedOutBy, "Log In");
+        //webDriverUtil.waitForTextToBePresent(loggedOutBy, "Log in");
     }
 
     public String getCurrentUser() {

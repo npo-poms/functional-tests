@@ -8,14 +8,13 @@ import java.util.stream.Collectors;
 import javax.ws.rs.NotFoundException;
 import javax.ws.rs.core.MediaType;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
 
 import nl.vpro.domain.api.Error;
-import nl.vpro.domain.api.IdList;
-import nl.vpro.domain.api.MultipleMediaResult;
+import nl.vpro.domain.api.*;
 import nl.vpro.domain.api.media.MediaForm;
 import nl.vpro.domain.api.media.RedirectList;
 import nl.vpro.domain.api.profile.Profile;
@@ -23,18 +22,18 @@ import nl.vpro.domain.media.MediaObject;
 import nl.vpro.poms.AbstractApiTest;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.hamcrest.Matchers.greaterThan;
-import static org.junit.Assume.*;
+import static org.assertj.core.api.Assumptions.assumeThat;
+import static org.junit.jupiter.api.Assumptions.assumeFalse;
+import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
-@RunWith(Parameterized.class)
 @Slf4j
-public class ApiMediaLoadTest extends AbstractApiTest {
+class ApiMediaLoadTest extends AbstractApiTest {
 
     private final String profileName;
     private Profile profile;
     private final List<String> mids;
 
-    public ApiMediaLoadTest(String profileName, List<String> mids, MediaType mediaType, String properties) {
+    ApiMediaLoadTest(String profileName, List<String> mids, MediaType mediaType, String properties) {
         this.profileName = profileName;
         this.mids = mids;
         clients.setAccept(mediaType);
@@ -42,8 +41,8 @@ public class ApiMediaLoadTest extends AbstractApiTest {
 
     }
 
-    @Before
-    public void setup() {
+    @BeforeEach
+    void setup() {
         clients.setProfile(profileName);
         if (profileName != null) {
             profile = clients.getProfileService().load(profileName, null);
@@ -51,7 +50,6 @@ public class ApiMediaLoadTest extends AbstractApiTest {
     }
 
 
-    @Parameterized.Parameters
     public static Collection<Object[]> getParameters() {
         List<Object[]> result = new ArrayList<>();
         for (MediaType mediaType : Arrays.asList(MediaType.APPLICATION_JSON_TYPE, MediaType.APPLICATION_XML_TYPE)) {
@@ -76,9 +74,16 @@ public class ApiMediaLoadTest extends AbstractApiTest {
         return result;
     }
 
-    @Test
-    public void load() {
-        assumeThat(mids.size(), greaterThan(0));
+    @MethodSource("getParameters")
+    @interface Params {
+
+    }
+
+    @ParameterizedTest
+    @Params
+    void load(Profile profile, List<String> mids, MediaType mediaType, String properties) {
+
+        assumeThat(mids.size()).isGreaterThan(0);
         MediaObject o = clients.getMediaService().load(mids.get(0), null, null);
         assertThat(o.getMid()).isEqualTo(mids.get(0));
         assertThat(o.getMainTitle()).isNotEmpty(); // NPA-362
@@ -89,9 +94,10 @@ public class ApiMediaLoadTest extends AbstractApiTest {
         }
     }
 
-    @Test
-    public void loadOutsideProfile() {
-        assumeNotNull(profileName);
+    @ParameterizedTest
+    @Params
+    void loadOutsideProfile() {
+        assumeThat(profileName).isNotNull();
         assumeFalse(profileName.equals("eo"));
 
         assumeTrue(mids.size() > 0);
@@ -110,7 +116,7 @@ public class ApiMediaLoadTest extends AbstractApiTest {
     }
 
     @Test
-    public void loadMultiple() {
+    void loadMultiple() {
         clients.setProfile(null);
         RedirectList redirects = mediaUtil.redirects();
         MultipleMediaResult o = clients.getMediaService().loadMultiple(

@@ -1,17 +1,14 @@
-package nl.vpro.poms.selenium.poms.npogebruiker;
+package nl.vpro.poms.selenium.poms.tests.npogebruiker;
+
+import org.assertj.core.api.SoftAssertions;
+import org.junit.*;
+import org.openqa.selenium.By;
 
 import nl.vpro.domain.media.AVType;
 import nl.vpro.domain.media.MediaType;
-import nl.vpro.poms.selenium.poms.pages.AccountSettingsOverlayPage;
-import nl.vpro.poms.selenium.poms.pages.MediaItemPage;
-import nl.vpro.poms.selenium.poms.pages.Search;
-import nl.vpro.poms.selenium.poms.AbstractPomsTest;
+import nl.vpro.poms.selenium.poms.tests.AbstractPomsTest;
+import nl.vpro.poms.selenium.poms.pages.*;
 import nl.vpro.poms.selenium.util.WebDriverFactory;
-import org.assertj.core.api.SoftAssertions;
-import org.junit.Before;
-import org.junit.Ignore;
-import org.junit.Test;
-import org.openqa.selenium.By;
 
 import static org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric;
 import static org.assertj.core.api.Assertions.assertThat;

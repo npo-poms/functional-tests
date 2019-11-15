@@ -1,27 +1,28 @@
 package nl.vpro.poms.selenium.npoapi.thesaurus;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import lombok.extern.slf4j.Slf4j;
+
+import java.io.IOException;
+import java.io.StringReader;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
+
+import javax.annotation.Nonnull;
+
+import org.junit.*;
+import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.*;
+import org.openqa.selenium.support.ui.Select;
+
+import com.fasterxml.jackson.databind.JsonNode;
+
 import nl.vpro.api.client.utils.Config;
 import nl.vpro.domain.gtaa.Scheme;
 import nl.vpro.jackson2.Jackson2Mapper;
 import nl.vpro.poms.selenium.AbstractTest;
 import nl.vpro.poms.selenium.pages.AbstractLogin;
 import nl.vpro.poms.selenium.util.WebDriverFactory;
-import org.junit.Before;
-import org.junit.FixMethodOrder;
-import org.junit.Test;
-import org.openqa.selenium.By;
-import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.Select;
-
-import javax.annotation.Nonnull;
-import java.io.IOException;
-import java.io.StringReader;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assume.assumeNoException;
@@ -47,8 +48,8 @@ public class ThesaurusPopupTest extends AbstractTest {
 
     @Override
     protected AbstractLogin login() {
-        String url = CONFIG.getProperties(Config.Prefix.npo_api).get("baseUrl") + "/thesaurus/example/secure";
-
+        String url = CONFIG.getProperties(Config.Prefix.npo_api)
+            .get("baseUrl") + "/thesaurus/example/secure";
         return casLogin(url);
     }
 

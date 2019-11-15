@@ -1,15 +1,13 @@
-package nl.vpro.poms.selenium.poms.wijzigen;
+package nl.vpro.poms.selenium.poms.tests.wijzigen;
 
 import java.net.URISyntaxException;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Ignore;
-import org.junit.Test;
+
+import org.junit.*;
 
 import nl.vpro.domain.image.ImageType;
 import nl.vpro.domain.support.License;
-import nl.vpro.poms.selenium.poms.AbstractPomsTest;
+import nl.vpro.poms.selenium.poms.tests.AbstractPomsTest;
 import nl.vpro.poms.selenium.poms.pages.MediaItemPage;
 import nl.vpro.poms.selenium.poms.pages.Search;
 import nl.vpro.poms.selenium.util.WebDriverFactory;
