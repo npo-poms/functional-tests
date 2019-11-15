@@ -1,21 +1,25 @@
 package nl.vpro.poms.selenium.poms.maken;
 
+import javax.annotation.Nonnull;
+
+import org.junit.*;
+
 import nl.vpro.domain.media.AVType;
 import nl.vpro.domain.media.MediaType;
+import nl.vpro.poms.selenium.poms.AbstractPomsTest;
 import nl.vpro.poms.selenium.poms.pages.AddNewObjectOverlayPage;
 import nl.vpro.poms.selenium.poms.pages.HomePage;
 import nl.vpro.poms.selenium.poms.pages.MediaItemPage;
-import nl.vpro.poms.selenium.poms.AbstractPomsTest;
 import nl.vpro.poms.selenium.util.DateFactory;
 import nl.vpro.poms.selenium.util.WebDriverFactory;
-import org.junit.*;
-
-import javax.annotation.Nonnull;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 
 
+/**
+ * TODO: This class does not create users, so why is it named like that...
+ */
 public class CreateUserTest extends AbstractPomsTest {
 
     public CreateUserTest(@Nonnull WebDriverFactory.Browser browser) {
