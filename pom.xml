@@ -12,7 +12,7 @@
   <modules>
     <module>poms-functional-tests-shared</module>
     <module>poms-functional-tests-selenium</module>
-    <module>poms-functional-tests</module>
+    <module>poms-functional-tests-apis</module>
   </modules>
 
   <properties>

@@ -9,7 +9,7 @@
     <artifactId>poms-functional-tests-parent</artifactId>
     <version>1.0-SNAPSHOT</version>
   </parent>
-  <artifactId>poms-functional-tests</artifactId>
+  <artifactId>poms-functional-tests-apis</artifactId>
 
   <description>
     We verzamelen hierin tests die met werkelijke deployments communiceren en kijken of alles nog werkt.
@@ -99,7 +99,7 @@
       <artifactId>vpro-shared-logging</artifactId>
       <scope>test</scope>
     </dependency>
- 
+
   </dependencies>
 
 
