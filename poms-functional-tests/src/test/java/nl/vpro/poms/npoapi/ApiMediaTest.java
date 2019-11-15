@@ -3,6 +3,8 @@ package nl.vpro.poms.npoapi;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 
 import javax.ws.rs.BadRequestException;
 
@@ -23,15 +25,15 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @Slf4j
-class ApiMediaTest extends AbstractApiTest {
+public class ApiMediaTest extends AbstractApiTest {
 
-    ApiMediaTest(String properties) {
-        clients.setProperties(properties);
+    ApiMediaTest() {
 
     }
     @ValueSource(strings = {"none", "all"})
     @NullSource
-    @interface Properties {
+    @Retention(RetentionPolicy.RUNTIME)
+    public @interface Properties {
 
     }
 
@@ -120,7 +122,7 @@ class ApiMediaTest extends AbstractApiTest {
      * See NPA-488
      */
     @Test
-    void badRequestOnOffset() {
+    public void badRequestOnOffset() {
         Assertions.assertThrows(BadRequestException.class, () -> {
             MediaResult result = clients.getMediaService().listDescendants("RBX_S_NTR_553927", null, null, Order.DESC.toString(),
                 -1L, 0);
@@ -129,7 +131,7 @@ class ApiMediaTest extends AbstractApiTest {
     }
 
     @Test
-    void badRequestOnMax() {
+    public void badRequestOnMax() {
         Assertions.assertThrows(BadRequestException.class, () -> {
 
             MediaResult result = clients.getMediaService().listDescendants("RBX_S_NTR_553927", null, null, Order.DESC.toString(),
@@ -141,6 +143,7 @@ class ApiMediaTest extends AbstractApiTest {
     @ParameterizedTest
     @Properties
     void related(String properties) {
+        clients.setProperties(properties);
         String mid = "RBX_S_NTR_553927";
         MediaResult result = mediaUtil.getClients()
             .getMediaService()

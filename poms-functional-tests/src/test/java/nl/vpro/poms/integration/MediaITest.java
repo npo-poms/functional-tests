@@ -34,7 +34,7 @@ import static org.assertj.core.api.Assumptions.assumeThat;
  */
 @TestMethodOrder(MethodOrderer.Alphanumeric.class)
 @Slf4j
-class MediaITest extends AbstractApiMediaBackendTest {
+public class MediaITest extends AbstractApiMediaBackendTest {
 
     private static String groupMid;
     private static String clipMid;

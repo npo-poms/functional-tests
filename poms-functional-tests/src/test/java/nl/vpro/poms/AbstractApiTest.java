@@ -31,7 +31,7 @@ import nl.vpro.util.Version;
 public abstract class AbstractApiTest extends AbstractTest  {
 
 
-    protected static final String DASHES = "---------------------------------------------------------------------------------";
+    protected static final String DASHES = new String(new char[100]).replace('\0', '-');
 
 
     public static final Config CONFIG = new Config("npo-functional-tests.properties");
