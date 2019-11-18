@@ -3,7 +3,6 @@ package nl.vpro.poms;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 
-import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.time.Duration;
 import java.util.Objects;
@@ -185,11 +184,12 @@ public abstract class AbstractApiMediaBackendTest extends AbstractApiTest {
         }
     }
 
-    protected ImageUpdate.Builder randomImage(String title) throws UnsupportedEncodingException {
+    protected ImageUpdate.Builder randomImage(String title) {
         return _randomImage(title).credits(getClass().getName());
     }
 
-    private static ImageUpdate.Builder _randomImage(String title) throws UnsupportedEncodingException {
+    @SneakyThrows
+    private static ImageUpdate.Builder _randomImage(String title)  {
         /*return ImageUpdate.builder()
             .type(ImageType.PICTURE)
             .title(title)

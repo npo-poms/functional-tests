@@ -2,7 +2,6 @@ package nl.vpro.poms.backend;
 
 import lombok.extern.slf4j.Slf4j;
 
-import java.io.UnsupportedEncodingException;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.*;
@@ -47,7 +46,7 @@ import static org.junit.jupiter.api.Assumptions.assumeTrue;
 @TestMethodOrder(MethodOrderer.Alphanumeric.class)
 @Slf4j
 @ExtendWith(AbortOnException.class)
-class MediaBackendImagesTest extends AbstractApiMediaBackendTest {
+public class MediaBackendImagesTest extends AbstractApiMediaBackendTest {
 
     private static final Duration ACCEPTABLE_DURATION = Duration.ofMinutes(3);
     private static final List<String> titles = new ArrayList<>();
@@ -62,7 +61,7 @@ class MediaBackendImagesTest extends AbstractApiMediaBackendTest {
 
 
     @Test
-    void test01addRedirectingImage() throws UnsupportedEncodingException {
+    void test01addRedirectingImage() {
         assumeThat(backendVersionNumber).isGreaterThanOrEqualTo(Version.of(5));
         titles.add(title);
         ImageUpdate update = randomImage(title)
@@ -76,7 +75,7 @@ class MediaBackendImagesTest extends AbstractApiMediaBackendTest {
 
 
     @Test
-    void test02addImage() throws UnsupportedEncodingException {
+    void test02addImage() {
         titles.add(title);
 
         ImageUpdate update = randomImage(title)
@@ -92,7 +91,7 @@ class MediaBackendImagesTest extends AbstractApiMediaBackendTest {
 
 
     @Test
-    void test11addImageToObject() throws UnsupportedEncodingException {
+    void test11addImageToObject() {
         titles.add(title);
         ImageUpdate imageUpdate  = randomImage(title)
             .type(ImageType.ICON)
@@ -133,6 +132,9 @@ class MediaBackendImagesTest extends AbstractApiMediaBackendTest {
     }
 
 
+    /**
+     * If we upload an image without proper credits
+     */
     @Test
     //@Ignore
     void test14addTineyeImage() {
@@ -140,7 +142,7 @@ class MediaBackendImagesTest extends AbstractApiMediaBackendTest {
         tineyeImageTitle = title;
 
         ImageUpdate update = ImageUpdate.builder()
-            .imageUrl("http://files.vpro.nl/test/a.png")
+            .imageUrl("http://files.vpro.nl/test/poms-functional-tests/CaribDigita.png")
             .type(ImageType.PICTURE)
             .title(title)
             .build();
@@ -149,6 +151,9 @@ class MediaBackendImagesTest extends AbstractApiMediaBackendTest {
         backend.addImage(update, MID);
     }
 
+    /**
+     * Then thineye should fix that.
+     */
 
     @Test
     void test20checkArrived() {
@@ -157,13 +162,15 @@ class MediaBackendImagesTest extends AbstractApiMediaBackendTest {
         ProgramUpdate update = backend.get(MID);
 
         assertThat(update.getImages().stream()
-            .filter(i -> i.getTitle().equals(wikiImageTitle)).findFirst()
-            .orElseThrow(IllegalStateException::new).getCredits()).isEqualTo("CaribDigita");
+            .filter(i -> i.getTitle().equals(tineyeImageTitle))
+            .findFirst()
+            .orElseThrow(IllegalStateException::new)
+            .getCredits()).isEqualTo("CaribDigita");
     }
 
 
     @Test
-    void test21updateImageInObject() throws Exception {
+    void test21updateImageInObject() {
         final ProgramUpdate[] update = new ProgramUpdate[1];
         update[0] = backend.get(MID);
         Instant yesterday = Instant.now().minus(Duration.ofDays(1));
@@ -195,7 +202,7 @@ class MediaBackendImagesTest extends AbstractApiMediaBackendTest {
     }
 
     @Test
-    void test22updateImageInObjectButCleanUrn() throws Exception {
+    void test22updateImageInObjectButCleanUrn() {
         final ProgramUpdate[] update = new ProgramUpdate[1];
         update[0] = backend.get(MID);
 

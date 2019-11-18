@@ -2,11 +2,9 @@ package nl.vpro.poms.backend;
 
 import lombok.extern.slf4j.Slf4j;
 
-import java.io.UnsupportedEncodingException;
 import java.time.Duration;
 
 import javax.ws.rs.core.Response;
-
 
 import org.junit.jupiter.api.*;
 
@@ -30,25 +28,25 @@ import static nl.vpro.testutils.Utils.waitUntil;
  */
 @TestMethodOrder(MethodOrderer.Alphanumeric.class)
 @Slf4j
-class AddFrameTest extends AbstractApiMediaBackendTest {
+public class AddFrameTest extends AbstractApiMediaBackendTest {
 
     private static final Duration ACCEPTABLE_DURATION = Duration.ofMinutes(3);
 
-    private static final Duration offset = Duration.ofMinutes(10).plus(Duration.ofMinutes((int) (20f * Math.random())));
+    private static final Duration OFFSET = Duration.ofMinutes(10).plus(Duration.ofMinutes((int) (20f * Math.random())));
 
-    private static long originalSizeOfImage = 2621; // This is the size of an image we upload in test03
+    private static final long ORIGINAL_SIZE_OF_IMAGE = 2621; // This is the size of an image we upload in test03
 
     private static String createImageUri;
 
     @BeforeAll
     static void init() {
-        log.info("Offset for this test {}", offset);
+        log.info("Offset for this test {}", OFFSET);
     }
 
 
     @Test
-    public void test01AddFrame() throws UnsupportedEncodingException {
- 
+    public void test01AddFrame() {
+
 
         Program fullProgram = backend.getFullProgram(MID);
         if (fullProgram.getImage(ImageType.PICTURE) == null) {
@@ -59,7 +57,7 @@ class AddFrameTest extends AbstractApiMediaBackendTest {
         }
 
 
-        try (Response response = backend.getFrameCreatorRestService().createFrame(MID, offset, null, null, getClass().getResourceAsStream("/VPRO.png"))) {
+        try (Response response = backend.getFrameCreatorRestService().createFrame(MID, OFFSET, null, null, getClass().getResourceAsStream("/VPRO.png"))) {
             log.info("Response: {}", response);
         }
 
@@ -70,7 +68,7 @@ class AddFrameTest extends AbstractApiMediaBackendTest {
         final ProgramUpdate[] update = new ProgramUpdate[1];
 
         waitUntil(ACCEPTABLE_DURATION,
-            MID + " has image STILL with offset " + offset + " and size != " + originalSizeOfImage,
+            MID + " has image STILL with offset " + OFFSET + " and size != " + ORIGINAL_SIZE_OF_IMAGE,
             () -> {
                 update[0] = backend_authority.get(MID);
                 if (update[0] == null) {
@@ -82,16 +80,16 @@ class AddFrameTest extends AbstractApiMediaBackendTest {
                         .filter(iu ->
                             iu != null &&
                                 iu.getOffset() != null &&
-                                iu.getOffset().equals(offset) &&
+                                iu.getOffset().equals(OFFSET) &&
                                 iu.getType() == ImageType.STILL
                         ).findFirst().orElse(null);
                 if (foundImage == null) {
-                    log.info("No STILL found yet at {}", offset);
+                    log.info("No STILL found yet at {}", OFFSET);
                     return false;
                 }
 
                 long foundSize = imageUtil.getSize(foundImage).orElse(-1L);
-                if (foundSize == originalSizeOfImage) {
+                if (foundSize == ORIGINAL_SIZE_OF_IMAGE) {
                     log.info("Found {} but the size is the original size, so this may be from test10", foundImage);
                     return false;
                 }
@@ -105,12 +103,12 @@ class AddFrameTest extends AbstractApiMediaBackendTest {
     @Test
 
     public void test10Overwrite() {
- 
-        try (Response response = backend.getFrameCreatorRestService().createFrame(MID, offset, null, null, getClass().getResourceAsStream("/VPRO1970's.png"))) {
+
+        try (Response response = backend.getFrameCreatorRestService().createFrame(MID, OFFSET, null, null, getClass().getResourceAsStream("/VPRO1970's.png"))) {
             log.info("{}", response);
         }
         waitUntil(ACCEPTABLE_DURATION,
-            MID + " has STILL image with offset " + offset + " and size " + originalSizeOfImage,
+            MID + " has STILL image with offset " + OFFSET + " and size " + ORIGINAL_SIZE_OF_IMAGE,
             () -> {
                 ProgramUpdate p  = backend_authority.get(MID);
                 if (p == null) {
@@ -122,7 +120,7 @@ class AddFrameTest extends AbstractApiMediaBackendTest {
                         .filter(iu ->
                             iu != null &&
                                 iu.getOffset() != null &&
-                                iu.getOffset().equals(offset) &&
+                                iu.getOffset().equals(OFFSET) &&
                                 iu.getType() == ImageType.STILL)
                         .findFirst().orElse(null)
                     ;
@@ -135,7 +133,7 @@ class AddFrameTest extends AbstractApiMediaBackendTest {
                     return false;
                 }
                 long newSize = imageUtil.getSize(foundImage).orElse(-1L);
-                if (newSize == originalSizeOfImage || newSize == -1L) {
+                if (newSize == ORIGINAL_SIZE_OF_IMAGE || newSize == -1L) {
                     return true;
                 }
                 return false;

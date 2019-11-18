@@ -73,7 +73,7 @@ public class MediaTest {
     }
 
     @Test
-    public void test01PostClip() throws ModificationException {
+    public void test01PostClip() {
         List<Segment> segments = Collections.singletonList(createSegment(null, dynamicSuffix, null));
         ProgramUpdate clip =
             ProgramUpdate.create(
@@ -95,7 +95,7 @@ public class MediaTest {
     }
 
     @Test
-    public void test02PostClipWithCrid() throws ModificationException {
+    public void test02PostClipWithCrid() {
         String clipCrid = clipCrid(cridIdFromSuffix);
         List<Segment> segments = Collections.singletonList(createSegment(null, dynamicSuffix, null));
         ProgramUpdate clip = ProgramUpdate.create(createClip(clipCrid, dynamicSuffix, segments));
@@ -115,7 +115,7 @@ public class MediaTest {
     }
 
     @Test
-    public void test03PostSegment() throws ModificationException {
+    public void test03PostSegment() {
         SegmentUpdate segment = SegmentUpdate.create(createSegment(null, dynamicSuffix, clipMid));
 
         given()
