@@ -12,7 +12,6 @@ import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
-import org.junit.runners.Parameterized;
 
 import nl.vpro.domain.api.page.PageForm;
 import nl.vpro.domain.api.page.PageSearchResult;
@@ -39,7 +38,6 @@ class ApiPageSearchTest extends AbstractSearchTest<PageForm, PageSearchResult> {
     }
 
 
-    @Parameterized.Parameters
     static Collection<Object[]> getForms() throws IOException {
         return ApiSearchTestHelper.getForms("/examples/pages/", PageForm.class, null, "vpro", "woord");
     }

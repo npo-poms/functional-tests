@@ -6,7 +6,7 @@ import java.time.Duration;
 import java.util.Arrays;
 import java.util.Objects;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import nl.vpro.domain.media.*;
 import nl.vpro.domain.media.support.OwnerType;
@@ -33,7 +33,7 @@ public class MediaBackendIntentionsAndTargetgroups extends AbstractApiMediaBacke
      * An owner is not able to change data from a different one.
      */
     @Test
-    public void test09CreateObjectWithIntentionsAndTargetGroups() {
+    public void createObjectWithIntentionsAndTargetGroups() {
         //Given a new Media with intentions and targetgroups from multiple owners
         //And a clientApi configured with a specific owner
         Intentions intentions1 = Intentions.builder()

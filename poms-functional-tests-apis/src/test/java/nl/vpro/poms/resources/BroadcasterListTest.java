@@ -4,12 +4,12 @@ import java.net.URI;
 import java.util.Arrays;
 import java.util.Properties;
 
-import org.junit.Rule;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 
-import nl.vpro.domain.media.support.OwnerType;
 import nl.vpro.api.client.utils.Config;
-import nl.vpro.rules.TestMDC;
+import nl.vpro.domain.media.support.OwnerType;
+import nl.vpro.junit.extensions.TestMDC;
 import nl.vpro.util.URLResource;
 
 import static nl.vpro.poms.AbstractApiTest.CONFIG;
@@ -18,10 +18,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 /**
  * @author Michiel Meeuwissen
  */
-class BroadcasterListTest {
+@ExtendWith(TestMDC.class)
+public class BroadcasterListTest {
 
-    @Rule
-    public TestMDC testMDC = new TestMDC();
 
 
     @Test

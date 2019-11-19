@@ -10,8 +10,6 @@ import java.util.stream.Collectors;
 
 import javax.ws.rs.NotFoundException;
 
-import org.hamcrest.Matchers;
-import org.junit.Ignore;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 
@@ -37,8 +35,8 @@ import nl.vpro.util.Version;
 import static io.restassured.RestAssured.given;
 import static nl.vpro.api.client.utils.Config.Prefix.npo_pageupdate_api;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.hamcrest.Matchers.greaterThanOrEqualTo;
-import static org.junit.Assume.*;
+import static org.assertj.core.api.Assumptions.assumeThat;
+import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
 /**
  * @author Michiel Meeuwissen
@@ -154,7 +152,7 @@ class PagesPublisherTest extends AbstractApiMediaBackendTest {
 
     @Test
     public void test100Arrived() {
-        assumeNotNull(article);
+        assumeThat(article).isNotNull();
 
         PageUpdate update = Utils.waitUntil(ACCEPTABLE_DURATION,
             article.getUrl() + " has title " + article.getTitle(),
@@ -168,7 +166,7 @@ class PagesPublisherTest extends AbstractApiMediaBackendTest {
 
     @Test
     public void test101Published() {
-        assumeNotNull(article);
+        assumeThat(article).isNotNull();
 
         Page update = Utils.waitUntil(ACCEPTABLE_PAGE_PUBLISHED_DURATION,
             article.getUrl() + " has title " + article.getTitle(),
@@ -183,7 +181,7 @@ class PagesPublisherTest extends AbstractApiMediaBackendTest {
 
     @Test
     public void test102ArrivedInAPI() {
-        assumeNotNull(article);
+        assumeThat(article).isNotNull();
         assumeTrue(pageUtil.getClients().isAvailable());
 
         Page page = Utils.waitUntil(ACCEPTABLE_PAGE_PUBLISHED_DURATION,
@@ -234,7 +232,8 @@ class PagesPublisherTest extends AbstractApiMediaBackendTest {
 
     @Test
     public void test200UpdateExistingArticle() {
-        assumeNotNull(article);
+        assumeThat(article).isNotNull();
+
         log.info("Updating {} tot title {}", article.getUrl(), title);
         article.setTitle(title);
         Result result = util.save(article);
@@ -248,7 +247,7 @@ class PagesPublisherTest extends AbstractApiMediaBackendTest {
 
     @Test
     public void test201Published() {
-        assumeNotNull(article);
+        assumeThat(article).isNotNull();
 
         Page page = Utils.waitUntil(ACCEPTABLE_PAGE_PUBLISHED_DURATION,
             article.getUrl() + " has title " + article.getTitle(),
@@ -260,8 +259,7 @@ class PagesPublisherTest extends AbstractApiMediaBackendTest {
 
         assertThat(page.getEmbeds()).hasSize(1);
 
-        assumeThat("media " + MID + " seems to be phantom",
-                page.getEmbeds().get(0).getMedia(), Matchers.notNullValue());
+        assumeThat(page.getEmbeds().get(0).getMedia()).isNotNull();
 
         assertThat(page.getEmbeds().get(0).getMedia().getMid()).isEqualTo(MID);
         assertThat(page.getEmbeds().get(0).getMedia().getMainTitle()).isEqualTo(embedded.getMainTitle());
@@ -269,7 +267,7 @@ class PagesPublisherTest extends AbstractApiMediaBackendTest {
 
     @Test
     public void test202ArrivedInApi() {
-        assumeNotNull(article);
+        assumeThat(article).isNotNull();
         assumeTrue(pageUtil.getClients().isAvailable());
 
         Page page = Utils.waitUntil(ACCEPTABLE_PAGE_PUBLISHED_DURATION,
@@ -299,7 +297,7 @@ class PagesPublisherTest extends AbstractApiMediaBackendTest {
 
     @Test
     public void test204ArrivedInMediaApi() {
-        assumeNotNull(article);
+        assumeThat(article).isNotNull();
         assumeNotNull(embeddedDescription);
         assumeTrue(pageUtil.getClients().isAvailable());
 
@@ -335,7 +333,7 @@ class PagesPublisherTest extends AbstractApiMediaBackendTest {
 
     @Test
     public void test210RemoveAnEmbed() {
-        assumeNotNull(article);
+        assumeThat(article).isNotNull();
         article.setEmbeds(new ArrayList<>(article.getEmbeds())); // make the damn list modifiable.
         article.getEmbeds().remove(0);
         Result<Void> result = util.save(article);
@@ -348,7 +346,7 @@ class PagesPublisherTest extends AbstractApiMediaBackendTest {
 
     @Test
     public void test211CheckRemoveAnEmbed() {
-        assumeNotNull(article);
+        assumeThat(article).isNotNull();
         Page page = Utils.waitUntil(ACCEPTABLE_PAGE_PUBLISHED_DURATION,
             article.getUrl() + " has only one embed",
             () ->
@@ -394,7 +392,7 @@ class PagesPublisherTest extends AbstractApiMediaBackendTest {
 
     @Test
     public void test301ArrivedInAPI() throws JsonProcessingException {
-        assumeThat(util.getPageUpdateApiClient().getVersionNumber(),  greaterThanOrEqualTo(Version.of(5, 5)));
+        assumeThat(util.getPageUpdateApiClient().getVersionNumber()).isGreaterThanOrEqualTo(Version.of(5, 5));
         assumeTrue(createdCrids.size() > 0);
         assumeTrue(pageUtil.getClients().isAvailable());
 
@@ -428,7 +426,7 @@ class PagesPublisherTest extends AbstractApiMediaBackendTest {
     @Test
     public void test302UpdateUrls(TestInfo testInfo) throws UnsupportedEncodingException {
         //createdCrids.add(new Crid("crid://crids.functional.tests/3"));
-        assumeThat(util.getPageUpdateApiClient().getVersionNumber(),  greaterThanOrEqualTo(Version.of(5, 5)));
+        assumeThat(util.getPageUpdateApiClient().getVersionNumber()).isGreaterThanOrEqualTo(Version.of(5, 5));
         assumeTrue(createdCrids.size() > 0);
         assumeTrue(createdUrls.size() > 0);
 
@@ -456,7 +454,7 @@ class PagesPublisherTest extends AbstractApiMediaBackendTest {
 
     @Test
     public void test303ModificationsArrivedInAPI() {
-        assumeThat(util.getPageUpdateApiClient().getVersionNumber(),  greaterThanOrEqualTo(Version.of(5, 5)));
+        assumeThat(util.getPageUpdateApiClient().getVersionNumber()).isGreaterThanOrEqualTo(Version.of(5, 5));
 
         assumeTrue(createdCrids.size() > 0);
         assumeTrue(createdUrls.size() > 0);
@@ -501,7 +499,7 @@ class PagesPublisherTest extends AbstractApiMediaBackendTest {
 
     @Test
     public void test305DissappearedFromAPI() {
-        assumeThat(util.getPageUpdateApiClient().getVersionNumber(),  greaterThanOrEqualTo(Version.of(5, 5)));
+        assumeThat(util.getPageUpdateApiClient().getVersionNumber()).isGreaterThanOrEqualTo(Version.of(5, 5));
         String cridToDelete = createdCrids.get(0).getValue();
         assumeTrue(pageUtil.getClients().isAvailable());
 
@@ -531,7 +529,7 @@ class PagesPublisherTest extends AbstractApiMediaBackendTest {
 
     @Test
     public void test307DissappearedFromAPI() {
-        assumeThat(util.getPageUpdateApiClient().getVersionNumber(),  greaterThanOrEqualTo(Version.of(5, 5)));
+        assumeThat(util.getPageUpdateApiClient().getVersionNumber()).isGreaterThanOrEqualTo(Version.of(5, 5));
         assumeTrue(pageUtil.getClients().isAvailable());
 
         PageForm form = PageForm.builder()
@@ -600,7 +598,7 @@ class PagesPublisherTest extends AbstractApiMediaBackendTest {
 
 
     @Test
-    @Ignore
+    @Disabled
     public void testPage() {
         Result<?> r = util.save(PageUpdateBuilder.article("htpt://www.vpro.nl/1234")
             .crids("crid://bla/1234")
@@ -612,7 +610,7 @@ class PagesPublisherTest extends AbstractApiMediaBackendTest {
     }
 
     @Test
-    @Ignore
+    @Disabled
     public void updateUrl() {
         Result<?> r = util.save(PageUpdateBuilder.article("htpt://www.vpro.nl/1234/updated/again")
             .crids("crid://bla/1234")
@@ -624,7 +622,7 @@ class PagesPublisherTest extends AbstractApiMediaBackendTest {
     }
 
     @Test
-    @Ignore
+    @Disabled
     public void getContent() throws JsonProcessingException {
          PageForm form = PageForm.builder()
             .tags(TAG)
@@ -711,8 +709,13 @@ class PagesPublisherTest extends AbstractApiMediaBackendTest {
     }
 
     @Test
-    @Ignore
+    @Disabled
     public void test999CleanUp() {
         util.deleteWhereStartsWith("http://test.poms.nl/");
+    }
+
+    protected void assumeNotNull(Object object) {
+        assumeThat(object).isNotNull();
+
     }
 }

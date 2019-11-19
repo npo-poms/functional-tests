@@ -2,26 +2,22 @@ package nl.vpro.poms.resources;
 
 import lombok.extern.slf4j.Slf4j;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.net.URL;
 
 import javax.xml.XMLConstants;
 import javax.xml.bind.JAXB;
 import javax.xml.transform.Source;
 import javax.xml.transform.stream.StreamSource;
-import javax.xml.validation.Schema;
-import javax.xml.validation.SchemaFactory;
-import javax.xml.validation.Validator;
+import javax.xml.validation.*;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.xml.sax.SAXException;
 
+import nl.vpro.api.client.utils.Config;
 import nl.vpro.domain.media.MediaTestDataBuilder;
 import nl.vpro.domain.media.Program;
 import nl.vpro.domain.media.update.ProgramUpdate;
-import nl.vpro.api.client.utils.Config;
 import nl.vpro.util.IntegerVersion;
 
 import static nl.vpro.poms.AbstractApiTest.CONFIG;
