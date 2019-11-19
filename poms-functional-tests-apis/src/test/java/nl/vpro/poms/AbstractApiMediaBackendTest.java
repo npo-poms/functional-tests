@@ -8,6 +8,8 @@ import java.time.Duration;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
+import javax.ws.rs.core.MediaType;
+
 import org.junit.jupiter.api.*;
 
 import nl.vpro.api.client.media.MediaRestClient;
@@ -106,6 +108,7 @@ public abstract class AbstractApiMediaBackendTest extends AbstractApiTest {
         backend.setValidateInput(true);
         backend.setStealCrids(AssemblageConfig.Steal.IF_DELETED);
         backend.setLookupCrids(true);
+        backend.setAccept(MediaType.APPLICATION_XML_TYPE); // e.g. subtitels are more completely represented in XML (including metadata like last modified and creation dates)
     }
 
     @BeforeAll

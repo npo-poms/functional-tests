@@ -64,7 +64,7 @@ public abstract class AbstractSearchTest<T, S> extends AbstractApiTest {
 
     @BeforeEach
     public void setUp(TestInfo testInfo) {
-        String name = testInfo.getTestMethod().get().getName();
+        String name = testInfo.getDisplayName().split("[, ]", 3)[1];
         for (Map.Entry<Pattern, Supplier<Boolean>> e : ASSUMERS.entrySet()) {
             if (e.getKey().matcher(name).matches()) {
                 assumeTrue(e.getValue().get(), "Skipping in " + this + " because of " + e);
@@ -75,6 +75,7 @@ public abstract class AbstractSearchTest<T, S> extends AbstractApiTest {
         final List<Function<S, Boolean>> result = new ArrayList<>();
         for (Map.Entry<Pattern, Function<S, Boolean>> e : TESTERS.entrySet()) {
             if (e.getKey().matcher(name).matches()) {
+                log.info("matched {}", e.getValue());
                 result.add(e.getValue());
                 AtomicInteger atomicInteger = USED.computeIfAbsent(e.getKey().pattern(), (k) -> new AtomicInteger(0));
                 atomicInteger.incrementAndGet();
@@ -111,7 +112,8 @@ public abstract class AbstractSearchTest<T, S> extends AbstractApiTest {
     public static void shutdown() {
         Sets.SetView<String> difference = Sets.difference(AVAILABLE, USED.keySet());
         if (! difference.isEmpty()) {
-            throw new RuntimeException("Not all testers were used: " + difference);
+            //log.error("Not all testers were used: " + difference);
+            Assertions.fail("Not all testers were used: " + difference);
         }
         USED.entrySet().stream()
             .map((e) -> e.getKey() + " was used " + e.getValue().intValue() + " times")

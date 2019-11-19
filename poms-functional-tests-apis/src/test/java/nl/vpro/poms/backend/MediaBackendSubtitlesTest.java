@@ -42,7 +42,7 @@ import static org.assertj.core.api.Assumptions.assumeThat;
 @TestMethodOrder(MethodOrderer.Alphanumeric.class)
 @Slf4j
 @ExtendWith(AbortOnException.class)
-class MediaBackendSubtitlesTest extends AbstractApiMediaBackendTest {
+public class MediaBackendSubtitlesTest extends AbstractApiMediaBackendTest {
 
     private static final Duration ACCEPTABLE_DURATION = Duration.ofMinutes(3);
 
@@ -139,7 +139,6 @@ class MediaBackendSubtitlesTest extends AbstractApiMediaBackendTest {
         assertThat(iterator).toIterable().hasSize(3);
 
         // MSE-4486
-        // TODO: Fails, creation/lastmodified instant are not exposed yet via backend api
         assertThat(found[0].getCreationInstant()).isEqualTo(creationDate);
         assertThat(found[0].getCreationInstant()).isBefore(found[0].getLastModifiedInstant());
     }

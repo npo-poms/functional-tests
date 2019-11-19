@@ -1,5 +1,6 @@
 package nl.vpro.poms;
 
+import java.lang.reflect.Method;
 import java.time.Duration;
 import java.time.ZonedDateTime;
 import java.util.Objects;
@@ -17,6 +18,7 @@ import nl.vpro.domain.classification.CachedURLClassificationServiceImpl;
 import nl.vpro.domain.classification.ClassificationServiceLocator;
 import nl.vpro.domain.media.Schedule;
 import nl.vpro.junit.extensions.*;
+import nl.vpro.test.jupiter.AbortOnException;
 import nl.vpro.testutils.AbstractTest;
 import nl.vpro.testutils.Utils;
 import nl.vpro.util.IntegerVersion;
@@ -26,7 +28,8 @@ import nl.vpro.util.Version;
  * @author Michiel Meeuwissen
  * @since 1.0
  */
-@ExtendWith({AllowUnavailable.class, AllowNotImplemented.class})
+@ExtendWith({AllowUnavailable.class, AllowNotImplemented.class, AbortOnException.class})
+@TestMethodOrder(MethodOrderer.Alphanumeric.class)
 @Timeout(value = 30, unit = TimeUnit.MINUTES)
 public abstract class AbstractApiTest extends AbstractTest  {
 
@@ -48,7 +51,7 @@ public abstract class AbstractApiTest extends AbstractTest  {
         Utils.CLEAR_CACHES.set(this::clearCaches);
         title = TestMDC.getTestNumber() + ":" + NOW + " " + testInfo.getDisplayName() + " Caf\u00E9 \u6C49"; // testing encoding too!
 
-        log.info("Running {} with title {}", testInfo.getTestMethod(), title);
+        log.info("Running {} with title {}", testInfo.getTestMethod().map(Method::toString).orElse("<no method?>"), title);
         if (!Objects.equals(log, LOG)) {
             LOG = log;
         }

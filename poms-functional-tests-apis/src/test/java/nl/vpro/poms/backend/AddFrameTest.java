@@ -148,7 +148,7 @@ public class AddFrameTest extends AbstractApiMediaBackendTest {
         Assumptions.assumeTrue(update != null);
         log.info("Removing images " + update.getImages());
         update.getImages().clear();
-        backend_authority.set(update);
+        log.info("{}", backend_authority.set(update));
 
     }
 

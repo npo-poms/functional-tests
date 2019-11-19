@@ -7,10 +7,10 @@ import java.util.Collection;
 
 import javax.ws.rs.ServerErrorException;
 
+import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.TestMethodOrder;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
 import org.opentest4j.TestAbortedException;
 
 import nl.vpro.domain.api.ApiScheduleEvent;
@@ -22,7 +22,7 @@ import nl.vpro.poms.ApiSearchTestHelper;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
-@RunWith(Parameterized.class)
+@TestMethodOrder(MethodOrderer.Alphanumeric.class)
 @Slf4j
 class ApiScheduleSearchTest extends AbstractSearchTest<ScheduleForm, ScheduleSearchResult> {
 

@@ -17,7 +17,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 
 @Slf4j
-class ApiPageTest extends AbstractApiTest {
+public class ApiPageTest extends AbstractApiTest {
 
     private static final String topStoryUrl = "http://test.poms.nl/test001CreateOrUpdatePageTopStory";
 

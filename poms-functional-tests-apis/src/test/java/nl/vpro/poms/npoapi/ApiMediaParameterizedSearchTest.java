@@ -9,8 +9,7 @@ import java.time.Instant;
 import java.util.Collection;
 import java.util.stream.Collectors;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.TestInfo;
+import org.junit.jupiter.api.*;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
@@ -26,7 +25,7 @@ import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
 
 @Slf4j
-class ApiMediaParameterizedSearchTest extends AbstractSearchTest<MediaForm, MediaSearchResult> {
+public class ApiMediaParameterizedSearchTest extends AbstractSearchTest<MediaForm, MediaSearchResult> {
 
     @Retention(RetentionPolicy.RUNTIME)
     @ParameterizedTest(name = "Elaborate name listing all {arguments}")
@@ -35,7 +34,8 @@ class ApiMediaParameterizedSearchTest extends AbstractSearchTest<MediaForm, Medi
 
     }
     @BeforeEach
-    void setup(TestInfo testInfo) {
+    @Override
+    public void setUp(TestInfo testInfo) {
         addTester("clips.json/null/(xml|json)", sr -> {
             for (SearchResultItem<? extends MediaObject> m : sr.getItems()) {
                 assertThat(m.getResult().getMediaType()).isEqualTo(MediaType.CLIP);
@@ -59,7 +59,7 @@ class ApiMediaParameterizedSearchTest extends AbstractSearchTest<MediaForm, Medi
             assertThat(sr.getFacets().getRelations()).hasSize(2);
             assertThat(sr.getFacets().getRelations().get(0).getName()).isEqualTo("labels");
             for (TermFacetResultItem s : sr.getFacets().getRelations().get(0).getFacets()) {
-                System.out.println("" + s);
+                log.info("" + s);
             }
 
 
@@ -116,7 +116,7 @@ class ApiMediaParameterizedSearchTest extends AbstractSearchTest<MediaForm, Medi
         addAssumer("facet-title-az.json/.*/(xml|json)", minVersion(5, 5));
         addAssumer("NPA-403-array.json/.*/json", minVersion(5, 5));
 
-
+        super.setUp(testInfo);
 
     }
 
@@ -127,6 +127,8 @@ class ApiMediaParameterizedSearchTest extends AbstractSearchTest<MediaForm, Medi
         return ApiSearchTestHelper.getForms("/examples/media/", MediaForm.class, null, "vpro");
     }
 
+
+    @ParameterizedTest
     @Params
     void search(String name, MediaForm form, String profile, javax.ws.rs.core.MediaType mediaType) throws Exception {
         log.info(DASHES.substring(0, 30 - "search".length()) + name);
@@ -137,6 +139,7 @@ class ApiMediaParameterizedSearchTest extends AbstractSearchTest<MediaForm, Medi
 
 
     @ParameterizedTest
+    @Params
     void searchMembers(String name, MediaForm form, String profile) throws Exception {
         log.info(DASHES.substring(0, 30 - "searchMembers".length()) + name);
         MediaSearchResult searchResultItems = clients.getMediaService().findMembers(form, "POMS_S_VPRO_417550", profile, null, 0L, 10);
@@ -146,6 +149,7 @@ class ApiMediaParameterizedSearchTest extends AbstractSearchTest<MediaForm, Medi
 
 
     @ParameterizedTest
+    @Params
     void searchEpisodes(String name, MediaForm form, String profile) throws Exception {
         log.info(DASHES.substring(0, 30 - "searchEpisodes".length()) + name);
         ProgramSearchResult searchResultItems = clients.getMediaService().findEpisodes(form, "AVRO_1656037", profile, null, 0L, 10);

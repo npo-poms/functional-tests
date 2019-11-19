@@ -27,7 +27,7 @@ import static org.junit.jupiter.api.Assumptions.assumeFalse;
 import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
 @Slf4j
-class ApiMediaLoadTest extends AbstractApiTest {
+public class ApiMediaLoadTest extends AbstractApiTest {
 
     private final String profileName;
     private Profile profile;

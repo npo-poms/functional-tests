@@ -36,7 +36,7 @@ import static org.junit.jupiter.api.Assumptions.assumeTrue;
  */
 @TestMethodOrder(MethodOrderer.Alphanumeric.class)
 @Slf4j
-class SubtitlesITest extends AbstractApiMediaBackendTest {
+public class SubtitlesITest extends AbstractApiMediaBackendTest {
 
     private static final Duration ACCEPTABLE_DURATION_BACKEND = Duration.ofMinutes(2);
 
@@ -44,12 +44,6 @@ class SubtitlesITest extends AbstractApiMediaBackendTest {
 
     private static final AvailableSubtitles JAPANESE_TRANSLATION = AvailableSubtitles.published(JAPANESE, TRANSLATION);
     private static final AvailableSubtitles CHINESE_TRANSLATION = AvailableSubtitles.published(CHINESE, TRANSLATION);
-
-
-    @BeforeEach
-    void setup() {
-
-    }
 
     private static String firstTitle;
 
