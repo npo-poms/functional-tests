@@ -19,6 +19,7 @@ import nl.vpro.domain.user.Broadcaster;
 import nl.vpro.jackson2.Jackson2Mapper;
 import nl.vpro.poms.AbstractApiTest;
 
+import static nl.vpro.domain.api.FacetResults.toSimpleMap;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Fail.fail;
 
@@ -37,8 +38,8 @@ public class ApiMediaSearchTest extends AbstractApiTest {
             .broadcasterFacet()
             .build();
 
-        Map<String, Long> withProfile = toMap(clients.getMediaService().find(form, "vpro-predictions", "none", 0L, 0).getFacets().getBroadcasters());
-        Map<String, Long> withoutProfile = toMap(clients.getMediaService().find(form, null, "none", 0L, 0).getFacets().getBroadcasters());
+        Map<String, Long> withProfile = toSimpleMap(clients.getMediaService().find(form, "vpro-predictions", "none", 0L, 0).getFacets().getBroadcasters());
+        Map<String, Long> withoutProfile = toSimpleMap(clients.getMediaService().find(form, null, "none", 0L, 0).getFacets().getBroadcasters());
         for (String k : withoutProfile.keySet()) {
             assertThat(withoutProfile.get(k)).isGreaterThanOrEqualTo(withProfile.getOrDefault(k, 0L));
         }
@@ -52,8 +53,8 @@ public class ApiMediaSearchTest extends AbstractApiTest {
             .types(Match.MUST, MediaType.CLIP)
             .build();
 
-        Map<String, Long> withProfile = toMap(clients.getMediaService().find(form, "vpro-predictions", "none", 0L, 0).getFacets().getBroadcasters());
-        Map<String, Long> withoutProfile = toMap(clients.getMediaService().find(form, null, "none", 0L, 0).getFacets().getBroadcasters());
+        Map<String, Long> withProfile = toSimpleMap(clients.getMediaService().find(form, "vpro-predictions", "none", 0L, 0).getFacets().getBroadcasters());
+        Map<String, Long> withoutProfile = toSimpleMap(clients.getMediaService().find(form, null, "none", 0L, 0).getFacets().getBroadcasters());
         for (String k : withoutProfile.keySet()) {
             assertThat(withoutProfile.get(k)).isGreaterThanOrEqualTo(withProfile.getOrDefault(k, 0L));
         }
@@ -106,7 +107,7 @@ public class ApiMediaSearchTest extends AbstractApiTest {
         log.info("{}", Jackson2Mapper.getPrettyInstance().writeValueAsString(form));
         MediaSearchResult result = clients.getMediaService().find(form, "cinema", "all", 0L, 240);
 
-        Map<String, Long> broadcasters = FacetResults.toSimpleMap(result.getFacets().getBroadcasters());
+        Map<String, Long> broadcasters = toSimpleMap(result.getFacets().getBroadcasters());
         log.info("{}", broadcasters);
 
         Profile profile = clients.getProfileService().load("cinema", null);
