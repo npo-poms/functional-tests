@@ -1,16 +1,26 @@
 package nl.vpro.poms.npoapi;
 
+import java.time.LocalDateTime;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicLong;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import org.junit.jupiter.api.Test;
 
-import nl.vpro.domain.api.Match;
-import nl.vpro.domain.api.TermFacetResultItem;
-import nl.vpro.domain.api.media.MediaForm;
-import nl.vpro.domain.media.MediaType;
+import com.fasterxml.jackson.core.JsonProcessingException;
+
+import nl.vpro.domain.api.*;
+import nl.vpro.domain.api.media.*;
+import nl.vpro.domain.api.profile.Profile;
+import nl.vpro.domain.constraint.PredicateTestResult;
+import nl.vpro.domain.media.*;
+import nl.vpro.domain.user.Broadcaster;
+import nl.vpro.jackson2.Jackson2Mapper;
 import nl.vpro.poms.AbstractApiTest;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Fail.fail;
 
 public class ApiMediaSearchTest extends AbstractApiTest {
 
@@ -50,13 +60,89 @@ public class ApiMediaSearchTest extends AbstractApiTest {
         log.info("{} -> {}", withoutProfile, withProfile);
     }
 
-    private Map<String, Long> toMap(List<TermFacetResultItem> results) {
-        Map<String, Long> values = new LinkedHashMap<>();
-        for (TermFacetResultItem b : results) {
-            values.put(b.getId(), b.getCount());
+    @Test
+    void moreFacets() throws JsonProcessingException {
+        LocalDateTime until = LocalDateTime.of(2019, 1, 1, 12, 0);
+        Pattern broadcastersMidPattern = Pattern.compile("WO_NTR_1.*");
+
+        MediaForm form = MediaFormBuilder.form()
+            .broadcasterFacet(MediaFacet.builder()
+                .filter(MediaSearch.builder()
+                    .mediaIds(
+                        TextMatcherList.must(
+                            TextMatcher.must(broadcastersMidPattern.pattern(), StandardMatchType.REGEX))
+                    )
+                    .build())
+                .sort(FacetOrder.COUNT_DESC)
+                .build())
+            .ageRatingFacet(MediaFacet.builder()
+                // And this case is limited even further
+                .filter(MediaSearch.builder()
+                    .mediaIds(
+                        TextMatcherList.must(
+                            TextMatcher.must("WO_NTR_10.*", StandardMatchType.REGEX))
+                    )
+                    .build()
+                )
+                .sort(FacetOrder.COUNT_DESC)
+                .build()
+            )
+            .facetFilter(MediaSearch.builder()
+                .sortDates(DateRangeMatcherList
+                    .builder()
+                    .value(
+                        DateRangeMatcher.builder()
+                            .localEnd(until)
+                        .build()
+                    )
+                    .build()
+                )
+                .build()
+            )
+            .types(MediaType.CLIP)
+            .mediaIds(Match.MUST, "WO_NTR_.*")
+            .build();
+
+        log.info("{}", Jackson2Mapper.getPrettyInstance().writeValueAsString(form));
+        MediaSearchResult result = clients.getMediaService().find(form, "cinema", "all", 0L, 240);
+
+        Map<String, Long> broadcasters = FacetResults.toSimpleMap(result.getFacets().getBroadcasters());
+        log.info("{}", broadcasters);
+
+        Profile profile = clients.getProfileService().load("cinema", null);
+        // now explore result and compare
+        Map<String, AtomicLong> fromResult = new HashMap<>();
+        for (SearchResultItem<? extends MediaObject> m : result.getItems()) {
+            MediaObject mediaObject = m.getResult();
+            PredicateTestResult predicateTestResult = profile.getMediaProfile().getPredicate().testWithReason(mediaObject);
+            if (! predicateTestResult.applies()) {
+                fail("Found result %s not in profile %s because: %s", mediaObject, profile.getMediaProfile(), predicateTestResult.getDescription().getValue());
+            }
+            if (mediaObject.getSortInstant() == null || mediaObject.getSortInstant().isAfter(until.atZone(Schedule.ZONE_ID).toInstant())) {
+                log.info("Filtered because sort date");
+                continue;
+            }
+            if (! broadcastersMidPattern.matcher(mediaObject.getMid()).matches()) {
+                log.info("Filtered because mid");
+                continue;
+            }
+            for (Broadcaster b : mediaObject.getBroadcasters()) {
+                fromResult.computeIfAbsent(b.getId(), (br) -> new AtomicLong(0)).incrementAndGet();
+            }
         }
-        return values;
+        Map<String, Long> sorted = fromResult
+            .entrySet()
+            .stream()
+            .map((e) -> new AbstractMap.SimpleEntry<>(e.getKey(), e.getValue().get()))
+            .sorted(Collections.reverseOrder(Map.Entry.comparingByValue()))
+            .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e2,
+                LinkedHashMap::new));
+        log.info("{}", sorted);
+
+
+
     }
+
 
 
 
