@@ -204,6 +204,7 @@ public class SubtitlesITest extends AbstractApiMediaBackendTest {
                 return start.isZero();
             }
         );
+        assertThat(cueIterator.peek().getStart()).isEqualTo(ZERO);
     }
 
      @Test
