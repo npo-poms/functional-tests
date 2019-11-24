@@ -34,7 +34,7 @@ import static org.junit.jupiter.api.Assumptions.assumeTrue;
 /**
  * @author Michiel Meeuwissen
  */
-@TestMethodOrder(MethodOrderer.Alphanumeric.class)
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @Slf4j
 public class SubtitlesITest extends AbstractApiMediaBackendTest {
 
@@ -50,7 +50,8 @@ public class SubtitlesITest extends AbstractApiMediaBackendTest {
     private static boolean arrivedInBackend = false;
 
     @Test
-    void test01addSubtitles() {
+    @Order(1)
+    void addSubtitles() {
         assumeThat(backendVersionNumber).isGreaterThanOrEqualTo(Version.of(5, 1));
         assumeThat(backend.getFullProgram(MID_WITH_LOCATIONS).getLocations()).isNotEmpty();
 
@@ -83,7 +84,8 @@ public class SubtitlesITest extends AbstractApiMediaBackendTest {
 
 
     @Test
-    void test02checkArrivedInBackend() {
+    @Order(2)
+    void checkArrivedInBackend() {
         assumeThat(backendVersionNumber).isGreaterThanOrEqualTo(Version.of(5, 3));
 
 
@@ -101,13 +103,15 @@ public class SubtitlesITest extends AbstractApiMediaBackendTest {
     }
 
     @Test
-    void test03WaitForCuesAvailableInFrontend() {
+    @Order(3)
+    void waitForCuesAvailableInFrontend() {
         waitForCuesAvailableInFrontend(JAPANESE, CHINESE);
     }
 
 
     @Test
-    void test04WaitForInMediaFrontend() {
+    @Order(4)
+    void waitForInMediaFrontend() {
         assumeThat(firstTitle).isNotNull();
         assumeTrue(arrivedInBackend);
 
@@ -118,7 +122,8 @@ public class SubtitlesITest extends AbstractApiMediaBackendTest {
     }
 
     @Test
-    void test05RevokeLocations() {
+    @Order(5)
+    void revokeLocations() {
         Instant now = Instant.now();
         ProgramUpdate o = backend.get(MID_WITH_LOCATIONS);
         o.getLocations().forEach(l -> l.setPublishStopInstant(now));
@@ -126,7 +131,8 @@ public class SubtitlesITest extends AbstractApiMediaBackendTest {
     }
 
     @Test
-    void test06WaitForCuesDisappearedInFrontend() {
+    @Order(6)
+    void waitForCuesDisappearedInFrontend() {
         assumeThat(firstTitle).isNotNull();
         assumeTrue(arrivedInBackend);
 
@@ -144,7 +150,8 @@ public class SubtitlesITest extends AbstractApiMediaBackendTest {
     }
 
     @Test
-    void test07PublishLocations() {
+    @Order(7)
+    void publishLocations() {
         assumeTrue(arrivedInBackend);
 
         ProgramUpdate o = backend.get(MID_WITH_LOCATIONS);
@@ -153,12 +160,56 @@ public class SubtitlesITest extends AbstractApiMediaBackendTest {
     }
 
     @Test
-    void test08WaitForCuesAvailableInFrontend() {
+    @Order(8)
+    void waitForCuesAvailableInFrontendAfterPublishLocations() {
         waitForCuesAvailableInFrontend(JAPANESE, CHINESE);
     }
 
+
+    @Test
+    @Order(9)
+    void updateOffset() {
+        backend.getBackendRestService().setSubtitlesOffset(
+            MID_WITH_LOCATIONS, JAPANESE, TRANSLATION,
+            Duration.ofSeconds(2).plusMillis(200), null, null);
+    }
+    @Test
+    @Order(10)
+    void checkUpdateOffset() {
+        backend.getBackendRestService().setSubtitlesOffset(MID_WITH_LOCATIONS, JAPANESE, TRANSLATION, Duration.ofMinutes(1), null, null);
+        PeekingIterator<StandaloneCue> cueIterator = waitUntil(ACCEPTABLE_DURATION_FRONTEND,
+            MID_WITH_LOCATIONS + "/" + JAPANESE_TRANSLATION + "[0] has start zero",
+        () -> {
+            clearCaches();
+            try {
+                return Iterators.peekingIterator(
+                    SubtitlesUtil.standaloneStream(
+                        MediaRestClientUtils.loadOrNull(
+                            mediaUtil.getClients().getSubtitlesRestService(),
+                            MID_WITH_LOCATIONS, JAPANESE), false, false).iterator()
+                );
+            } catch (IOException ioe) {
+                log.warn(ioe.getMessage());
+                return null;
+            }
+        }
+            , (pi) -> {
+                if (pi == null ||  !pi.hasNext()) {
+                    log.info("No results yet");
+                    return false;
+                }
+                StandaloneCue peek = pi.peek();
+                Duration start = peek.getStart();
+                log.info("Start of first cue is now {}", start);
+                return start.isZero();
+            }
+        );
+        assertThat(cueIterator.peek().getStart()).isEqualTo(ZERO);
+    }
+
      @Test
-     void test09DeleteJapanese() {
+     @Order(12)
+     void deleteJapanese() {
          try(Response response = backend.getBackendRestService()
              .deleteSubtitles(MID_WITH_LOCATIONS, JAPANESE, TRANSLATION, true, null)) {
              log.info("{}", response);
@@ -166,6 +217,7 @@ public class SubtitlesITest extends AbstractApiMediaBackendTest {
     }
 
     @Test
+    @Order(13)
     void test10checkDeleteFrontend() {
         assumeThat(firstTitle).isNotNull();
         assumeThat(backendVersionNumber).isGreaterThanOrEqualTo(Version.of(5, 3));
@@ -185,7 +237,8 @@ public class SubtitlesITest extends AbstractApiMediaBackendTest {
     }
 
     @Test
-    void test90Cleanup() {
+    @Order(100)
+    void cleanup() {
         try(Response response = backend.getBackendRestService()
             .deleteSubtitles(MID_WITH_LOCATIONS, JAPANESE, TRANSLATION, true, null)) {
             log.info("{}", response);
@@ -197,7 +250,8 @@ public class SubtitlesITest extends AbstractApiMediaBackendTest {
     }
 
     @Test
-    void test91checkCleanup() {
+    @Order(101)
+    void checkCleanup() {
         assumeThat(backendVersionNumber).isGreaterThanOrEqualTo(Version.of(5, 3));
 
         waitUntil(ACCEPTABLE_DURATION_BACKEND,
