@@ -113,7 +113,7 @@ class ApiMediaChangesTest extends AbstractApiTest {
         List<MediaChange> foundWithMaxOne = new ArrayList<>();
         while (i.getAndIncrement() < toFind) {
             InputStream inputStream = mediaUtil.getClients().getMediaServiceNoTimeout()
-                .changes("vpro", null,null, sinceString(start, mid), null, 1, false, Deletes.EXCLUDE, null, null);
+                .changes("vpro", null,null, sinceString(start, mid), null, 1, false, Deletes.EXCLUDE).readEntity(InputStream.class);
 
             try (JsonArrayIterator<MediaChange> changes = new JsonArrayIterator<>(inputStream, MediaChange.class, () -> IOUtils.closeQuietly(inputStream))) {
                 MediaChange change = changes.next();
@@ -155,7 +155,7 @@ class ApiMediaChangesTest extends AbstractApiTest {
         //https://rs.poms.omroep.nl/v1/api/media/changes?profile=bnnvara&publishedSince=2015-03-22T03%3A43%3A05Z%2CRBX_EO_667486&order=asc&max=100&checkProfile=true&deletes=INCLUDE
         Instant start = Instant.parse("2015-03-22T03:43:05Z");
         InputStream inputStream = mediaUtil.getClients().getMediaServiceNoTimeout()
-            .changes("bnnvara", null,null, sinceString(start, "RBX_EO_667486"), "asc", 100, true, Deletes.INCLUDE, null, null);
+            .changes("bnnvara", null,null, sinceString(start, "RBX_EO_667486"), "asc", 100, true, Deletes.INCLUDE).readEntity(InputStream.class);
 
         try (JsonArrayIterator<MediaChange> changes = new JsonArrayIterator<>(inputStream,
             MediaChange.class, () -> IOUtils.closeQuietly(inputStream))) {
