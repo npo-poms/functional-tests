@@ -14,6 +14,7 @@ import org.apache.commons.io.IOUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import nl.vpro.api.client.utils.MediaRestClientUtils;
 import nl.vpro.domain.api.*;
 import nl.vpro.domain.media.Schedule;
 import nl.vpro.jackson2.JsonArrayIterator;
@@ -154,8 +155,8 @@ class ApiMediaChangesTest extends AbstractApiTest {
     public void NPA_453() throws IOException {
         //https://rs.poms.omroep.nl/v1/api/media/changes?profile=bnnvara&publishedSince=2015-03-22T03%3A43%3A05Z%2CRBX_EO_667486&order=asc&max=100&checkProfile=true&deletes=INCLUDE
         Instant start = Instant.parse("2015-03-22T03:43:05Z");
-        InputStream inputStream = mediaUtil.getClients().getMediaServiceNoTimeout()
-            .changes("bnnvara", null,null, sinceString(start, "RBX_EO_667486"), "asc", 100, true, Deletes.INCLUDE).readEntity(InputStream.class);
+        InputStream inputStream = MediaRestClientUtils.toInputStream(mediaUtil.getClients().getMediaServiceNoTimeout()
+            .changes("bnnvara", null,null, sinceString(start, "RBX_EO_667486"), "asc", 100, true, Deletes.INCLUDE));
 
         try (JsonArrayIterator<MediaChange> changes = new JsonArrayIterator<>(inputStream,
             MediaChange.class, () -> IOUtils.closeQuietly(inputStream))) {
