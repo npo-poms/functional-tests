@@ -16,7 +16,7 @@
   </modules>
 
   <properties>
-    <poms.version>5.12-SNAPSHOT</poms.version>
+    <poms.version>5.12.1-SNAPSHOT</poms.version>
     <selenium.version>4.0.0-alpha-3</selenium.version>
   </properties>
 
