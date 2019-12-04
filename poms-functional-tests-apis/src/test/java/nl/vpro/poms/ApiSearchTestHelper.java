@@ -22,6 +22,7 @@ import static javax.ws.rs.core.MediaType.APPLICATION_XML_TYPE;
  * @since 1.0
  */
 public class ApiSearchTestHelper {
+    private static Map<String, NpoApiClients> cache = new HashMap<>();
 
     public static <T> Stream<Arguments> getForms(NpoApiClients clients, String dir, Class<T> formClass, String... profiles) throws IOException {
         PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
@@ -56,33 +57,40 @@ public class ApiSearchTestHelper {
             if (profiles.length > 0) {
                 for (String profile : profiles) {
                     for (Map.Entry<String, T> e : forms) {
+                        String key = "" + profile + "/" + mediaType;
                         result.add(
                             Arguments.of(
                                 e.getKey() + "/" + profile + "/" + mediaType.getSubtype(),
                                 e.getValue(),
-                                clients.toBuilder()
-                                    .profile(profile)
-                                    .accept(mediaType)
-                                    .toString((c) -> "" + c.getProfile() + "/" + c.getAccept())
-                                    .build()
+                                cache.computeIfAbsent(key,
+                                    (k) -> clients.toBuilder()
+                                        .profile(profile)
+                                        .accept(mediaType)
+                                        .toString((c) -> key)
+                                        .build())
                             )
                         );
                     }
                 }
             } else {
                 for (Map.Entry<String, T> e : forms) {
+                    String key = "" + mediaType;
                     result.add(
                         Arguments.of(
                             e.getKey() + "/" + mediaType.getSubtype(),
                             e.getValue(),
-                            clients.toBuilder()
-                                .accept(mediaType)
-                                .toString((c) -> "" + c.getAccept())
-                                .build())
+                            cache.computeIfAbsent(key, (k)->
+                                clients.toBuilder()
+                                    .accept(mediaType)
+                                    .toString((c) -> key)
+                                    .build()
+                            )
+                        )
                     );
                 }
             }
         }
+
         return result.stream();
     }
 }
