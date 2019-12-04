@@ -2,6 +2,8 @@ package nl.vpro.poms.npoapi;
 
 import lombok.extern.slf4j.Slf4j;
 
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -9,7 +11,6 @@ import javax.ws.rs.NotFoundException;
 import javax.ws.rs.core.MediaType;
 
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
@@ -29,24 +30,16 @@ import static org.junit.jupiter.api.Assumptions.assumeTrue;
 @Slf4j
 public class ApiMediaLoadTest extends AbstractApiTest {
 
-    private final String profileName;
-    private Profile profile;
-    private final List<String> mids;
 
-    ApiMediaLoadTest(String profileName, List<String> mids, MediaType mediaType, String properties) {
-        this.profileName = profileName;
-        this.mids = mids;
-        clients.setAccept(mediaType);
-        clients.setProperties(properties);
+
+    ApiMediaLoadTest() {
+
 
     }
 
     @BeforeEach
     void setup() {
-        clients.setProfile(profileName);
-        if (profileName != null) {
-            profile = clients.getProfileService().load(profileName, null);
-        }
+
     }
 
 
@@ -66,7 +59,7 @@ public class ApiMediaLoadTest extends AbstractApiTest {
                     } catch (javax.ws.rs.ServiceUnavailableException ue) {
                         log.warn(ue.getMessage());
                     }
-                    result.add(new Object[]{profile, mids, mediaType, properties});
+                    result.add(new Object[]{profile == null ? null : clients.getProfileService().load(profile, null), mids, mediaType, properties});
                 }
 
             }
@@ -75,20 +68,24 @@ public class ApiMediaLoadTest extends AbstractApiTest {
     }
 
     @MethodSource("getParameters")
+    @Retention(RetentionPolicy.RUNTIME)
     @interface Params {
 
     }
 
     @ParameterizedTest
     @Params
-    void load(Profile profile, List<String> mids, MediaType mediaType, String properties) {
-
+    public void load(Profile profile, List<String> mids, MediaType mediaType, String properties) {
+        String profileName = profile == null ? null : profile.getName();
+        clients.setProfile(profileName);
+        clients.setAccept(mediaType);
+        clients.setProperties(properties);
         assumeThat(mids.size()).isGreaterThan(0);
         MediaObject o = clients.getMediaService().load(mids.get(0), null, null);
         assertThat(o.getMid()).isEqualTo(mids.get(0));
         assertThat(o.getMainTitle()).isNotEmpty(); // NPA-362
         if (clients.hasAllProperties()) {
-            if (profileName != null) {
+            if (profile != null) {
                 assertThat(profile.getMediaProfile().test(o)).isTrue();
             }
         }
@@ -96,9 +93,9 @@ public class ApiMediaLoadTest extends AbstractApiTest {
 
     @ParameterizedTest
     @Params
-    void loadOutsideProfile() {
-        assumeThat(profileName).isNotNull();
-        assumeFalse(profileName.equals("eo"));
+    void loadOutsideProfile(Profile profile, List<String> mids, MediaType mediaType, String properties) {
+        assumeThat(profile).isNotNull();
+        assumeFalse(profile.getName().equals("eo"));
 
         assumeTrue(mids.size() > 0);
         try {
@@ -115,9 +112,13 @@ public class ApiMediaLoadTest extends AbstractApiTest {
         throw new AssertionError("Should have given NotFoundException");
     }
 
-    @Test
-    void loadMultiple() {
-        clients.setProfile(null);
+    @ParameterizedTest
+    @Params
+    void loadMultiple(Profile profile, List<String> mids, MediaType mediaType, String properties) {
+        String profileName = profile == null ? null : profile.getName();
+        clients.setProfile(profileName);
+        clients.setAccept(mediaType);
+        clients.setProperties(properties);
         RedirectList redirects = mediaUtil.redirects();
         MultipleMediaResult o = clients.getMediaService().loadMultiple(
             IdList.of(mids), null, null);

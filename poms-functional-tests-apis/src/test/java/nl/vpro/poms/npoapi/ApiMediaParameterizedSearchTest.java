@@ -144,6 +144,8 @@ public class ApiMediaParameterizedSearchTest extends AbstractSearchTest<MediaFor
     @Params
     void search(String name, MediaForm form, String profile, javax.ws.rs.core.MediaType mediaType) throws Exception {
         log.info(DASHES.substring(0, 30 - "search".length()) + name);
+        clients.setProfile(profile);
+        clients.setAccept(mediaType);
         MediaSearchResult searchResultItems = clients.getMediaService().find(form, profile, null, 0L, 10);
         assumeTrue(tester.apply(searchResultItems));
         test(name, searchResultItems);
@@ -152,9 +154,11 @@ public class ApiMediaParameterizedSearchTest extends AbstractSearchTest<MediaFor
 
     @ParameterizedTest
     @Params
-    void searchMembers(String name, MediaForm form, String profile) throws Exception {
+    void searchMembers(String name, MediaForm form, String profile, javax.ws.rs.core.MediaType mediaType) throws Exception {
         log.info(DASHES.substring(0, 30 - "searchMembers".length()) + name);
-        MediaSearchResult searchResultItems = clients.getMediaService().findMembers(form, "POMS_S_VPRO_417550", profile, null, 0L, 10);
+        clients.setProfile(profile);
+        clients.setAccept(mediaType);
+        MediaSearchResult searchResultItems = clients.getMediaService().findMembers(form, "POMS_S_VPRO_417550", null, null, 0L, 10);
         assumeTrue(tester.apply(searchResultItems));
         test(name + ".members.json", searchResultItems);
     }
@@ -162,9 +166,11 @@ public class ApiMediaParameterizedSearchTest extends AbstractSearchTest<MediaFor
 
     @ParameterizedTest
     @Params
-    void searchEpisodes(String name, MediaForm form, String profile) throws Exception {
+    void searchEpisodes(String name, MediaForm form, String profile, javax.ws.rs.core.MediaType mediaType) throws Exception {
         log.info(DASHES.substring(0, 30 - "searchEpisodes".length()) + name);
-        ProgramSearchResult searchResultItems = clients.getMediaService().findEpisodes(form, "AVRO_1656037", profile, null, 0L, 10);
+        clients.setProfile(profile);
+        clients.setAccept(mediaType);
+        ProgramSearchResult searchResultItems = clients.getMediaService().findEpisodes(form, "AVRO_1656037",  null, null, 0L, 10);
         test(name + ".episodes.json", searchResultItems);
     }
 
