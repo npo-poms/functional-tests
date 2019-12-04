@@ -18,6 +18,7 @@ import nl.vpro.domain.api.TermFacetResultItem;
 import nl.vpro.domain.api.media.*;
 import nl.vpro.domain.media.*;
 import nl.vpro.poms.ApiSearchTestHelper;
+import nl.vpro.util.IntegerVersion;
 import nl.vpro.util.Version;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -47,12 +48,23 @@ public class ApiMediaParameterizedSearchTest extends AbstractSearchTest<MediaFor
         });
         addTester("facet-ageRating.json/null/(xml|json)", sr -> {
             assertThat(sr.getFacets().getAgeRatings()).isNotNull();
-            assertThat(sr.getFacets().getAgeRatings()).hasSize(5);
-            assertThat(sr.getFacets().getAgeRatings().get(0).getId()).isEqualTo("6");
-            assertThat(sr.getFacets().getAgeRatings().get(1).getId()).isEqualTo("9");
-            assertThat(sr.getFacets().getAgeRatings().get(2).getId()).isEqualTo("12");
-            assertThat(sr.getFacets().getAgeRatings().get(3).getId()).isEqualTo("16");
-            assertThat(sr.getFacets().getAgeRatings().get(4).getId()).isEqualTo("ALL");
+            if (apiVersionNumber.isNotBefore(IntegerVersion.of(5, 12))) {
+                assertThat(sr.getFacets().getAgeRatings()).hasSize(7);
+                assertThat(sr.getFacets().getAgeRatings().get(0).getId()).isEqualTo("6");
+                assertThat(sr.getFacets().getAgeRatings().get(1).getId()).isEqualTo("9");
+                assertThat(sr.getFacets().getAgeRatings().get(2).getId()).isEqualTo("12");
+                assertThat(sr.getFacets().getAgeRatings().get(3).getId()).isEqualTo("14");
+                assertThat(sr.getFacets().getAgeRatings().get(4).getId()).isEqualTo("16");
+                assertThat(sr.getFacets().getAgeRatings().get(5).getId()).isEqualTo("18");
+                assertThat(sr.getFacets().getAgeRatings().get(6).getId()).isEqualTo("ALL");
+            } else {
+                assertThat(sr.getFacets().getAgeRatings()).hasSize(5);
+                assertThat(sr.getFacets().getAgeRatings().get(0).getId()).isEqualTo("6");
+                assertThat(sr.getFacets().getAgeRatings().get(1).getId()).isEqualTo("9");
+                assertThat(sr.getFacets().getAgeRatings().get(2).getId()).isEqualTo("12");
+                assertThat(sr.getFacets().getAgeRatings().get(3).getId()).isEqualTo("16");
+                assertThat(sr.getFacets().getAgeRatings().get(4).getId()).isEqualTo("ALL");
+            }
         });
         addTester("facet-relations-and-subsearch.json/null/(xml|json)", sr -> {
             assertThat(sr.getFacets().getRelations()).isNotNull();
@@ -123,7 +135,7 @@ public class ApiMediaParameterizedSearchTest extends AbstractSearchTest<MediaFor
     ApiMediaParameterizedSearchTest() {
     }
 
-    static Collection<Object[]> getForms() throws IOException {
+    public  static Collection<Object[]> getForms() throws IOException {
         return ApiSearchTestHelper.getForms("/examples/media/", MediaForm.class, null, "vpro");
     }
 

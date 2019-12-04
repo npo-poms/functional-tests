@@ -22,7 +22,6 @@ public class GeoLocationChangeTest extends AbstractPomsTest {
 	public GeoLocationChangeTest(WebDriverFactory.Browser browser) {
 		super(browser);
 	}
-	private static final String POPUP_TITLE = "GTAA";
 
 	@Before
 	public void firstLogin() {
