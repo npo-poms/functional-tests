@@ -3,13 +3,13 @@ package nl.vpro.poms.npoapi;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
-import java.util.Collection;
-
-import javax.ws.rs.core.MediaType;
+import java.util.stream.Stream;
 
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
+import nl.vpro.api.client.frontend.NpoApiClients;
 import nl.vpro.domain.api.SearchResultItem;
 import nl.vpro.domain.api.subtitles.SubtitlesForm;
 import nl.vpro.domain.api.subtitles.SubtitlesSearchResult;
@@ -33,13 +33,13 @@ class ApiSubtitlesParameterizedSearchTest extends AbstractSearchTest<SubtitlesFo
         });
     }
 
-    static Collection<Object[]> getForms() throws IOException {
-        return ApiSearchTestHelper.getForms("/examples/subtitles/", SubtitlesForm.class);
+    static Stream<Arguments> getForms() throws IOException {
+        return ApiSearchTestHelper.getForms(clients, "/examples/subtitles/", SubtitlesForm.class);
     }
 
     @ParameterizedTest
     @MethodSource("getForms")
-    void search(String name, SubtitlesForm form, MediaType mediaType) throws Exception {
+    void search(String name, SubtitlesForm form, NpoApiClients clients) throws Exception {
 
         log.info(DASHES.substring(0, 30 - "search".length()) + name);
         SubtitlesSearchResult searchResultItems = clients.getSubtitlesRestService().search(form, 0L, 10);

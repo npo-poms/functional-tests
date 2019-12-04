@@ -6,25 +6,26 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import javax.ws.rs.NotFoundException;
 import javax.ws.rs.core.MediaType;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
+import nl.vpro.api.client.frontend.NpoApiClients;
 import nl.vpro.domain.api.Error;
 import nl.vpro.domain.api.*;
 import nl.vpro.domain.api.media.MediaForm;
 import nl.vpro.domain.api.media.RedirectList;
-import nl.vpro.domain.api.profile.Profile;
 import nl.vpro.domain.media.MediaObject;
 import nl.vpro.poms.AbstractApiTest;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assumptions.assumeThat;
-import static org.junit.jupiter.api.Assumptions.assumeFalse;
 import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
 @Slf4j
@@ -43,28 +44,40 @@ public class ApiMediaLoadTest extends AbstractApiTest {
     }
 
 
-    public static Collection<Object[]> getParameters() {
-        List<Object[]> result = new ArrayList<>();
-        for (MediaType mediaType : Arrays.asList(MediaType.APPLICATION_JSON_TYPE, MediaType.APPLICATION_XML_TYPE)) {
-            for (String profile : Arrays.asList(null, "vpro")) {
-                for (String properties : Arrays.asList(null, "none", "all", "title")) {
-                    List<String> mids = new ArrayList<>();
-                    mids.add("VPWON_1181223"); // NPA-341 ?
-                    try {
-                        mids.addAll(clients.getMediaService().find(new MediaForm(), profile, "", 0L, 10).asResult().stream().map(MediaObject::getMid).collect(Collectors.toList()));
-                        if (mids.size() == 0) {
-                            throw new IllegalStateException("No media found for profile " + profile);
-                        }
+    public static Stream<Arguments>  getParameters() {
 
-                    } catch (javax.ws.rs.ServiceUnavailableException ue) {
-                        log.warn(ue.getMessage());
-                    }
-                    result.add(new Object[]{profile == null ? null : clients.getProfileService().load(profile, null), mids, mediaType, properties});
+        List<Arguments> result = new ArrayList<>();
+
+        for (String profile : Arrays.asList(null, "vpro", "eo")) {
+            List<String> mids = new ArrayList<>();
+                mids.add("VPWON_1181223"); // NPA-341 ?
+            try {
+                mids.addAll(clients.getMediaService().find(new MediaForm(), profile, "", 0L, 10).asResult().stream().map(MediaObject::getMid).collect(Collectors.toList()));
+                if (mids.size() == 0) {
+                    throw new IllegalStateException("No media found for profile " + profile);
+                }
+
+            } catch (javax.ws.rs.ServiceUnavailableException ue) {
+                log.warn(ue.getMessage());
+            }
+            for (MediaType mediaType : Arrays.asList(MediaType.APPLICATION_JSON_TYPE, MediaType.APPLICATION_XML_TYPE)) {
+                for (String properties : Arrays.asList(null, "none", "all", "title")) {
+
+                    result.add(
+                        Arguments.arguments(
+                            clients.toBuilder()
+                                .profile(profile)
+                                .accept(mediaType)
+                                .properties(properties)
+                                .toString((c) -> "client:" + c.getProfile() + "/" + c.getAccept() + "/" + c.getProperties())
+                                .build(),
+                            mids));
                 }
 
             }
+
         }
-        return result;
+        return result.stream();
     }
 
     @MethodSource("getParameters")
@@ -75,27 +88,23 @@ public class ApiMediaLoadTest extends AbstractApiTest {
 
     @ParameterizedTest
     @Params
-    public void load(Profile profile, List<String> mids, MediaType mediaType, String properties) {
-        String profileName = profile == null ? null : profile.getName();
-        clients.setProfile(profileName);
-        clients.setAccept(mediaType);
-        clients.setProperties(properties);
+    public void load(NpoApiClients clients, List<String> mids) {
         assumeThat(mids.size()).isGreaterThan(0);
         MediaObject o = clients.getMediaService().load(mids.get(0), null, null);
         assertThat(o.getMid()).isEqualTo(mids.get(0));
         assertThat(o.getMainTitle()).isNotEmpty(); // NPA-362
         if (clients.hasAllProperties()) {
-            if (profile != null) {
-                assertThat(profile.getMediaProfile().test(o)).isTrue();
+            if (clients.getProfile() != null) {
+                assertThat(clients.getAssociatedProfile().get().getMediaProfile().test(o)).isTrue();
             }
         }
     }
 
     @ParameterizedTest
     @Params
-    void loadOutsideProfile(Profile profile, List<String> mids, MediaType mediaType, String properties) {
-        assumeThat(profile).isNotNull();
-        assumeFalse(profile.getName().equals("eo"));
+    void loadOutsideProfile(NpoApiClients clients, List<String> mids) {
+        assumeThat(clients.getProfile()).isNotNull();
+        assumeThat(clients.getProfile()).isEqualTo("eo");
 
         assumeTrue(mids.size() > 0);
         try {
@@ -114,11 +123,7 @@ public class ApiMediaLoadTest extends AbstractApiTest {
 
     @ParameterizedTest
     @Params
-    void loadMultiple(Profile profile, List<String> mids, MediaType mediaType, String properties) {
-        String profileName = profile == null ? null : profile.getName();
-        clients.setProfile(profileName);
-        clients.setAccept(mediaType);
-        clients.setProperties(properties);
+    void loadMultiple(NpoApiClients clients, List<String> mids) {
         RedirectList redirects = mediaUtil.redirects();
         MultipleMediaResult o = clients.getMediaService().loadMultiple(
             IdList.of(mids), null, null);
@@ -139,8 +144,8 @@ public class ApiMediaLoadTest extends AbstractApiTest {
 
             }
             assertThat(mid).isEqualTo(mids.get(i));
-            if (profileName != null && clients.hasAllProperties()) {
-                assertThat(profile.getMediaProfile().test(o.getItems().get(i).getResult())).isTrue();
+            if (clients.getProfile() != null && clients.hasAllProperties()) {
+                assertThat(clients.getAssociatedProfile().get().getMediaProfile().test(o.getItems().get(i).getResult())).isTrue();
             }
         }
 

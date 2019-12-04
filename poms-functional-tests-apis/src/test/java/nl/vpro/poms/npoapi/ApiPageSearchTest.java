@@ -3,16 +3,16 @@ package nl.vpro.poms.npoapi;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
-import java.util.Collection;
-
-import javax.ws.rs.core.MediaType;
+import java.util.stream.Stream;
 
 import org.assertj.core.api.Assumptions;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
+import nl.vpro.api.client.frontend.NpoApiClients;
 import nl.vpro.domain.api.page.PageForm;
 import nl.vpro.domain.api.page.PageSearchResult;
 import nl.vpro.poms.ApiSearchTestHelper;
@@ -38,15 +38,15 @@ class ApiPageSearchTest extends AbstractSearchTest<PageForm, PageSearchResult> {
     }
 
 
-    static Collection<Object[]> getForms() throws IOException {
-        return ApiSearchTestHelper.getForms("/examples/pages/", PageForm.class, null, "vpro", "woord");
+    static Stream<Arguments> getForms() throws IOException {
+        return ApiSearchTestHelper.getForms(clients, "/examples/pages/", PageForm.class, null, "vpro", "woord");
     }
 
     @ParameterizedTest
     @MethodSource("getForms")
-    void search(String name, PageForm form, String profile, MediaType mediaType) throws Exception {
+    void search(String name, PageForm form, NpoApiClients clients) throws Exception {
         log.info(DASHES.substring(0, 30 - "search".length()) + name);
-        PageSearchResult searchResultItems = clients.getPageService().find(form, profile, "", 0L, 10);
+        PageSearchResult searchResultItems = clients.getPageService().find(form, null, "", 0L, 10);
         Assumptions.assumeThat(tester.apply(searchResultItems)).isTrue();
         test(name, searchResultItems);
     }

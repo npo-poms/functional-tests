@@ -6,13 +6,16 @@ import java.io.IOException;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.time.Instant;
-import java.util.Collection;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.TestInfo;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
+import nl.vpro.api.client.frontend.NpoApiClients;
 import nl.vpro.domain.api.SearchResultItem;
 import nl.vpro.domain.api.TermFacetResultItem;
 import nl.vpro.domain.api.media.*;
@@ -135,18 +138,15 @@ public class ApiMediaParameterizedSearchTest extends AbstractSearchTest<MediaFor
     ApiMediaParameterizedSearchTest() {
     }
 
-    public  static Collection<Object[]> getForms() throws IOException {
-        return ApiSearchTestHelper.getForms("/examples/media/", MediaForm.class, null, "vpro");
+    public  static Stream<Arguments> getForms() throws IOException {
+        return ApiSearchTestHelper.getForms(clients, "/examples/media/", MediaForm.class, null, "vpro");
     }
 
 
     @ParameterizedTest
     @Params
-    void search(String name, MediaForm form, String profile, javax.ws.rs.core.MediaType mediaType) throws Exception {
-        log.info(DASHES.substring(0, 30 - "search".length()) + name);
-        clients.setProfile(profile);
-        clients.setAccept(mediaType);
-        MediaSearchResult searchResultItems = clients.getMediaService().find(form, profile, null, 0L, 10);
+    void search(String name, MediaForm form, NpoApiClients clients) throws Exception {
+        MediaSearchResult searchResultItems = clients.getMediaService().find(form, null, null, 0L, 10);
         assumeTrue(tester.apply(searchResultItems));
         test(name, searchResultItems);
     }
@@ -154,10 +154,8 @@ public class ApiMediaParameterizedSearchTest extends AbstractSearchTest<MediaFor
 
     @ParameterizedTest
     @Params
-    void searchMembers(String name, MediaForm form, String profile, javax.ws.rs.core.MediaType mediaType) throws Exception {
+    void searchMembers(String name, MediaForm form, NpoApiClients clients) throws Exception {
         log.info(DASHES.substring(0, 30 - "searchMembers".length()) + name);
-        clients.setProfile(profile);
-        clients.setAccept(mediaType);
         MediaSearchResult searchResultItems = clients.getMediaService().findMembers(form, "POMS_S_VPRO_417550", null, null, 0L, 10);
         assumeTrue(tester.apply(searchResultItems));
         test(name + ".members.json", searchResultItems);
@@ -166,10 +164,8 @@ public class ApiMediaParameterizedSearchTest extends AbstractSearchTest<MediaFor
 
     @ParameterizedTest
     @Params
-    void searchEpisodes(String name, MediaForm form, String profile, javax.ws.rs.core.MediaType mediaType) throws Exception {
+    void searchEpisodes(String name, MediaForm form, NpoApiClients clients) throws Exception {
         log.info(DASHES.substring(0, 30 - "searchEpisodes".length()) + name);
-        clients.setProfile(profile);
-        clients.setAccept(mediaType);
         ProgramSearchResult searchResultItems = clients.getMediaService().findEpisodes(form, "AVRO_1656037",  null, null, 0L, 10);
         test(name + ".episodes.json", searchResultItems);
     }
