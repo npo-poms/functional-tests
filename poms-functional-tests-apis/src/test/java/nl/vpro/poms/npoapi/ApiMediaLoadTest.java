@@ -28,6 +28,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assumptions.assumeThat;
 import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
+@SuppressWarnings("OptionalGetWithoutIsPresent")
 @Slf4j
 public class ApiMediaLoadTest extends AbstractApiTest {
 

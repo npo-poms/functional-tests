@@ -41,6 +41,7 @@ import static org.junit.jupiter.api.Assumptions.assumeTrue;
 /**
  * @author Michiel Meeuwissen
  */
+@SuppressWarnings("OptionalGetWithoutIsPresent")
 @TestMethodOrder(MethodOrderer.Alphanumeric.class)
 @Slf4j
 @ExtendWith(AbortOnException.class)
@@ -124,7 +125,7 @@ class PagesPublisherTest extends AbstractApiMediaBackendTest {
         PageUpdate yesterday = util.get(urlYesterday);
         if (yesterday == null) {
             log.info("Article for yesterday {} not found (perhaps test didn't run yesterday). Making it for now, to test referrals too" , urlYesterday);
-            Result r = util.save(PageUpdateBuilder.article(urlYesterday)
+            Result<Void> r = util.save(PageUpdateBuilder.article(urlYesterday)
                 .broadcasters("VPRO")
                 .title(title)
                 .portal(portal)
@@ -135,7 +136,7 @@ class PagesPublisherTest extends AbstractApiMediaBackendTest {
         PageUpdate topStory = util.get(topStoryUrl);
         if (topStory == null) {
             log.info("Topstory {} not found. Making it now", topStoryUrl);
-            Result r = util.save(PageUpdateBuilder.article(topStoryUrl)
+            Result<Void> r = util.save(PageUpdateBuilder.article(topStoryUrl)
                 .broadcasters("VPRO")
                 .title("Sterrenhopen en zo, heel interessant")
                 .portal(portal)
@@ -236,7 +237,7 @@ class PagesPublisherTest extends AbstractApiMediaBackendTest {
 
         log.info("Updating {} tot title {}", article.getUrl(), title);
         article.setTitle(title);
-        Result result = util.save(article);
+        Result<Void> result = util.save(article);
 
 
         log.info("{}",  result);
@@ -362,7 +363,7 @@ class PagesPublisherTest extends AbstractApiMediaBackendTest {
 
     private static final String TAG = "test_created_with_crid";
     private static final String CRID_PREFIX = "crid://crids.functional.tests/";
-    private static final List<Crid> createdCrids = new ArrayList<>();
+    private static final List<String> createdCrids = new ArrayList<>();
     private static final List<String> createdUrls = new ArrayList<>();
     private static final List<String> modifiedUrls = new ArrayList<>();
 
@@ -371,7 +372,7 @@ class PagesPublisherTest extends AbstractApiMediaBackendTest {
         String url = "http://test.poms.nl/\u00E9\u00E9n/" + URLEncoder.encode(testInfo.getTestMethod().get().getName() + LocalDate.now(), "UTF-8");
 
         for (int i = 0; i < 10; i++) {
-            createdCrids.add(new Crid(CRID_PREFIX + i));
+            createdCrids.add(CRID_PREFIX + i);
             String createdUrl = url + "/" + i;
             createdUrls.add(createdUrl);
             PageUpdate article =
@@ -383,7 +384,7 @@ class PagesPublisherTest extends AbstractApiMediaBackendTest {
                     .creationDate(Instant.now())
                     .lastModified(Instant.now())
                     .build();
-            Result result = util.save(article);
+            Result<Void> result = util.save(article);
             assertThat(result.getStatus()).isEqualTo(Result.Status.SUCCESS);
             log.info("Created {}", article);
 
@@ -408,7 +409,7 @@ class PagesPublisherTest extends AbstractApiMediaBackendTest {
             () -> pageUtil.find(form, null, 0L, 240),
             (sr) -> sr.getItems().stream().map(SearchResultItem::getResult).map(Page::getUrl).collect(Collectors.toList()).containsAll(createdUrls)
         );
-        List<Crid> foundCrids = new ArrayList<>();
+        List<String> foundCrids = new ArrayList<>();
         List<String> foundUrls= new ArrayList<>();
 
 
@@ -418,7 +419,7 @@ class PagesPublisherTest extends AbstractApiMediaBackendTest {
             foundCrids.addAll(item.getResult().getCrids());
             foundUrls.add(item.getResult().getUrl());
         }
-        assertThat(foundCrids).containsOnlyOnce(createdCrids.toArray(new Crid[0]));
+        assertThat(foundCrids).containsOnlyOnce(createdCrids.toArray(new String[0]));
         assertThat(foundUrls).containsOnlyOnce(createdUrls.toArray(new String[0]));
     }
 
@@ -433,7 +434,7 @@ class PagesPublisherTest extends AbstractApiMediaBackendTest {
         String url = "http://test.poms.nl/\u00E9\u00E9n/" + URLEncoder.encode(testInfo.getTestMethod().get().getName() + LocalDate.now(), "UTF-8");
 
         int i = 0;
-        for (Crid crid: createdCrids) {
+        for (String crid: createdCrids) {
             String modifiedUrl = url + "/" + i++;
             modifiedUrls.add(modifiedUrl);
             PageUpdate article =
@@ -445,7 +446,7 @@ class PagesPublisherTest extends AbstractApiMediaBackendTest {
                     .creationDate(Instant.now())
                     .lastModified(Instant.now())
                     .build();
-            Result result = util.save(article);
+            Result<Void> result = util.save(article);
             assertThat(result.getStatus()).isEqualTo(Result.Status.SUCCESS);
             log.info("Created {}", article);
         }
@@ -471,7 +472,7 @@ class PagesPublisherTest extends AbstractApiMediaBackendTest {
             () -> pageUtil.find(form, null, 0L, 240),
             (sr) -> sr.asResult().getItems().stream().map(Page::getUrl).collect(Collectors.toList()).containsAll(modifiedUrls)
         );
-        List<Crid> foundCrids = new ArrayList<>();
+        List<String> foundCrids = new ArrayList<>();
         List<String> foundUrls= new ArrayList<>();
 
 
@@ -480,7 +481,7 @@ class PagesPublisherTest extends AbstractApiMediaBackendTest {
             foundCrids.addAll(item.getResult().getCrids());
             foundUrls.add(item.getResult().getUrl());
         }
-        assertThat(foundCrids).containsOnlyOnce(createdCrids.toArray(new Crid[0]));
+        assertThat(foundCrids).containsOnlyOnce(createdCrids.toArray(new String[0]));
         assertThat(foundUrls).doesNotContain(createdUrls.toArray(new String[0]));
         assertThat(foundUrls).containsOnlyOnce(modifiedUrls.toArray(new String[0]));
     }
@@ -488,7 +489,7 @@ class PagesPublisherTest extends AbstractApiMediaBackendTest {
 
     @Test
     public void test304DeleteByOneCrid() {
-        Result<DeleteResult> result = util.delete(createdCrids.get(0).getValue());
+        Result<DeleteResult> result = util.delete(createdCrids.get(0));
 
 
         assertThat(result.getStatus())
@@ -500,7 +501,7 @@ class PagesPublisherTest extends AbstractApiMediaBackendTest {
     @Test
     public void test305DissappearedFromAPI() {
         assumeThat(util.getPageUpdateApiClient().getVersionNumber()).isGreaterThanOrEqualTo(Version.of(5, 5));
-        String cridToDelete = createdCrids.get(0).getValue();
+        String cridToDelete = createdCrids.get(0);
         assumeTrue(pageUtil.getClients().isAvailable());
 
         Utils.waitUntil(ACCEPTABLE_PAGE_PUBLISHED_DURATION,
@@ -630,7 +631,7 @@ class PagesPublisherTest extends AbstractApiMediaBackendTest {
 
         PageSearchResult searchResultItems = pageUtil.find(form, null, 0L, 240);
         log.info("{}\n{}", Jackson2Mapper.getPrettyInstance().writeValueAsString(form), searchResultItems);
-        List<Crid> foundCrids = new ArrayList<>();
+        List<String> foundCrids = new ArrayList<>();
         List<String> foundUrls= new ArrayList<>();
 
 
@@ -640,7 +641,7 @@ class PagesPublisherTest extends AbstractApiMediaBackendTest {
             foundCrids.addAll(item.getResult().getCrids());
             foundUrls.add(item.getResult().getUrl());
         }
-        log.info("Found crids: {}" , foundCrids);
+        log.info("Found crids: {}, found urls: {}" , foundCrids, foundUrls);
 
     }
 
