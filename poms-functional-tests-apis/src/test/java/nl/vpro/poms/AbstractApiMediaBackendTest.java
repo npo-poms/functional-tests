@@ -187,6 +187,13 @@ public abstract class AbstractApiMediaBackendTest extends AbstractApiTest {
         }
     }
 
+    @AfterAll
+    static void afterAll() {
+        backend.close();
+        backend_authority.close();
+
+    }
+
     protected ImageUpdate.Builder randomImage(String title) {
         return _randomImage(title).credits(getClass().getName());
     }

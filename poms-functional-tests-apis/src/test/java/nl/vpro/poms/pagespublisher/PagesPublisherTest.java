@@ -231,6 +231,10 @@ class PagesPublisherTest extends AbstractApiMediaBackendTest {
 
     }
 
+
+    /**
+     * Set a new title
+     */
     @Test
     public void test200UpdateExistingArticle() {
         assumeThat(article).isNotNull();
@@ -258,7 +262,7 @@ class PagesPublisherTest extends AbstractApiMediaBackendTest {
 
         MediaObject embedded = util.getMedia(MID).orElseThrow(() -> new NotFoundException(MID));
 
-        assertThat(page.getEmbeds()).hasSize(1);
+        assertThat(page.getEmbeds()).hasSize(2);
 
         assumeThat(page.getEmbeds().get(0).getMedia()).isNotNull();
 
@@ -271,14 +275,20 @@ class PagesPublisherTest extends AbstractApiMediaBackendTest {
         assumeThat(article).isNotNull();
         assumeTrue(pageUtil.getClients().isAvailable());
 
+        String url = article.getUrl();
         Page page = Utils.waitUntil(ACCEPTABLE_PAGE_PUBLISHED_DURATION,
             article.getUrl() + " has title " + article.getTitle(),
-            () ->
-                pageUtil.load(article.getUrl())[0], p -> Objects.equals(p.getTitle(), article.getTitle())
+            () -> pageUtil.get(url),
+            p -> {
+                log.info("{} -> {}", url, p);
+                return p != null && Objects.equals(p.getTitle(), article.getTitle());
+            }
         );
 
         MediaObject embedded = mediaUtil.findByMid(MID);
+        assertThat(embedded).isNotNull();
         assertThat(page.getEmbeds().get(0).getMedia().getMid()).isEqualTo(MID);
+        assertThat(page.getEmbeds().get(0).getMedia().getMainTitle()).isNotNull();
         assertThat(page.getEmbeds().get(0).getMedia().getMainTitle()).isEqualTo(embedded.getMainTitle());
     }
 
