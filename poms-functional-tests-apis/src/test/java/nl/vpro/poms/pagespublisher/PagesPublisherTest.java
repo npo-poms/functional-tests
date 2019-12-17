@@ -52,7 +52,7 @@ class PagesPublisherTest extends AbstractApiMediaBackendTest {
     private static final Duration ACCEPTABLE_PAGE_PUBLISHED_DURATION = Duration.ofMinutes(15);
     private static final Duration ACCEPTABLE_MEDIA_PUBLISHED_DURATION = Duration.ofMinutes(15);
 
-    private static PageUpdateApiUtil util = new PageUpdateApiUtil(
+    private static final PageUpdateApiUtil util = new PageUpdateApiUtil(
         PageUpdateApiClient.configured(
             CONFIG.env(),
             CONFIG.getProperties(npo_pageupdate_api)
@@ -125,7 +125,7 @@ class PagesPublisherTest extends AbstractApiMediaBackendTest {
         PageUpdate yesterday = util.get(urlYesterday);
         if (yesterday == null) {
             log.info("Article for yesterday {} not found (perhaps test didn't run yesterday). Making it for now, to test referrals too" , urlYesterday);
-            Result<Void> r = util.save(PageUpdateBuilder.article(urlYesterday)
+            Result<Void> r = util.saveAndWait(PageUpdateBuilder.article(urlYesterday)
                 .broadcasters("VPRO")
                 .title(title)
                 .portal(portal)
@@ -136,7 +136,7 @@ class PagesPublisherTest extends AbstractApiMediaBackendTest {
         PageUpdate topStory = util.get(topStoryUrl);
         if (topStory == null) {
             log.info("Topstory {} not found. Making it now", topStoryUrl);
-            Result<Void> r = util.save(PageUpdateBuilder.article(topStoryUrl)
+            Result<Void> r = util.saveAndWait(PageUpdateBuilder.article(topStoryUrl)
                 .broadcasters("VPRO")
                 .title("Sterrenhopen en zo, heel interessant")
                 .portal(portal)
@@ -144,7 +144,7 @@ class PagesPublisherTest extends AbstractApiMediaBackendTest {
             assertThat(r.getStatus()).isEqualTo(Result.Status.SUCCESS);
         }
 
-        Result<Void> result = util.save(article);
+        Result<Void> result = util.saveAndWait(article);
         log.info("{}", result);
         assertThat(result.getStatus()).withFailMessage("" + result).isEqualTo(Result.Status.SUCCESS);
         assertThat(result.getErrors()).isNull();
@@ -237,7 +237,7 @@ class PagesPublisherTest extends AbstractApiMediaBackendTest {
 
         log.info("Updating {} tot title {}", article.getUrl(), title);
         article.setTitle(title);
-        Result<Void> result = util.save(article);
+        Result<Void> result = util.saveAndWait(article);
 
 
         log.info("{}",  result);
@@ -337,7 +337,7 @@ class PagesPublisherTest extends AbstractApiMediaBackendTest {
         assumeThat(article).isNotNull();
         article.setEmbeds(new ArrayList<>(article.getEmbeds())); // make the damn list modifiable.
         article.getEmbeds().remove(0);
-        Result<Void> result = util.save(article);
+        Result<Void> result = util.saveAndWait(article);
         log.info("{}", result);
         assertThat(result.getStatus()).withFailMessage("" + result).isEqualTo(Result.Status.SUCCESS);
         assertThat(result.getErrors()).isNull();
@@ -384,7 +384,7 @@ class PagesPublisherTest extends AbstractApiMediaBackendTest {
                     .creationDate(Instant.now())
                     .lastModified(Instant.now())
                     .build();
-            Result<Void> result = util.save(article);
+            Result<Void> result = util.saveAndWait(article);
             assertThat(result.getStatus()).isEqualTo(Result.Status.SUCCESS);
             log.info("Created {}", article);
 
@@ -446,7 +446,7 @@ class PagesPublisherTest extends AbstractApiMediaBackendTest {
                     .creationDate(Instant.now())
                     .lastModified(Instant.now())
                     .build();
-            Result<Void> result = util.save(article);
+            Result<Void> result = util.saveAndWait(article);
             assertThat(result.getStatus()).isEqualTo(Result.Status.SUCCESS);
             log.info("Created {}", article);
         }
@@ -601,7 +601,7 @@ class PagesPublisherTest extends AbstractApiMediaBackendTest {
     @Test
     @Disabled
     public void testPage() {
-        Result<?> r = util.save(PageUpdateBuilder.article("htpt://www.vpro.nl/1234")
+        Result<?> r = util.saveAndWait(PageUpdateBuilder.article("htpt://www.vpro.nl/1234")
             .crids("crid://bla/1234")
             .broadcasters("VPRO")
             .title(title)
@@ -613,7 +613,7 @@ class PagesPublisherTest extends AbstractApiMediaBackendTest {
     @Test
     @Disabled
     public void updateUrl() {
-        Result<?> r = util.save(PageUpdateBuilder.article("htpt://www.vpro.nl/1234/updated/again")
+        Result<?> r = util.saveAndWait(PageUpdateBuilder.article("htpt://www.vpro.nl/1234/updated/again")
             .crids("crid://bla/1234")
             .broadcasters("VPRO")
             .title(title)
