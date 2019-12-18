@@ -76,6 +76,9 @@ class PagesPublisherTest extends AbstractApiMediaBackendTest {
     @BeforeEach
     public void setup() {
         log.info("Testing with version {}", util.getPageUpdateApiClient().getVersionNumber());
+
+        log.info("Backend: {}", backend.isAvailable());
+
     }
 
 
