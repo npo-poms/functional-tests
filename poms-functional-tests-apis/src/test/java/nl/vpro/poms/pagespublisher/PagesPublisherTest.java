@@ -184,7 +184,7 @@ class PagesPublisherTest extends AbstractApiMediaBackendTest {
     public void test102ArrivedInAPI() {
         assumeThat(article).isNotNull();
         assumeTrue(pageUtil.getClients().isAvailable());
-
+        log.info("Loading {} from API", article.getUrl());
         Page page = Utils.waitUntil(ACCEPTABLE_PAGE_PUBLISHED_DURATION,
             () ->
                 pageUtil.load(article.getUrl())[0],
