@@ -11,7 +11,6 @@ import java.util.stream.Stream;
 import javax.ws.rs.NotFoundException;
 import javax.ws.rs.core.MediaType;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -31,72 +30,71 @@ import static org.junit.jupiter.api.Assumptions.assumeTrue;
 @SuppressWarnings("OptionalGetWithoutIsPresent")
 @Slf4j
 public class ApiMediaLoadTest extends AbstractApiTest {
-
-
+    static List<Arguments> arguments;
 
     ApiMediaLoadTest() {
-
-
     }
-
-    @BeforeEach
-    void setup() {
-
-    }
-
 
     public static Stream<Arguments>  getParameters() {
 
-        List<Arguments> result = new ArrayList<>();
+        if (arguments == null) {
+            // collect some existing mids
+            arguments = new ArrayList<>();
 
-        for (String profile : Arrays.asList(null, "vpro", "eo")) {
-            List<String> mids = new ArrayList<>();
-                mids.add("VPWON_1181223"); // NPA-341 ?
-            try {
-                mids.addAll(clients.getMediaService().find(new MediaForm(), profile, "", 0L, 10).asResult().stream().map(MediaObject::getMid).collect(Collectors.toList()));
-                if (mids.size() == 0) {
-                    throw new IllegalStateException("No media found for profile " + profile);
+            for (String profile : Arrays.asList(null, "vpro", "eo")) {
+                List<String> mids = new ArrayList<>();
+                if (! "eo".equals(profile)) {
+                    mids.add("VPWON_1181223"); // NPA-341 ?
+                }
+                try {
+                    mids.addAll(clients.getMediaService().find(new MediaForm(), profile, "", 0L, 10).asResult().stream().map(MediaObject::getMid).collect(Collectors.toList()));
+                    if (mids.size() == 0) {
+                        throw new IllegalStateException("No media found for profile " + profile);
+                    }
+
+                } catch (javax.ws.rs.ServiceUnavailableException ue) {
+                    log.warn(ue.getMessage());
+                }
+                log.info("For profile {}: Found mids {}", profile, mids);
+                for (MediaType mediaType : Arrays.asList(MediaType.APPLICATION_JSON_TYPE, MediaType.APPLICATION_XML_TYPE)) {
+                    for (String properties : Arrays.asList(null, "none", "all", "title")) {
+
+                        arguments.add(
+                            Arguments.arguments(
+                                clients.toBuilder()
+                                    .profile(profile)
+                                    .accept(mediaType)
+                                    .properties(properties)
+                                    .toString((c) -> "client:" + c.getProfile() + "/" + c.getAccept() + "/" + c.getProperties())
+                                    .build(),
+                                mids));
+                    }
+
                 }
 
-            } catch (javax.ws.rs.ServiceUnavailableException ue) {
-                log.warn(ue.getMessage());
             }
-            for (MediaType mediaType : Arrays.asList(MediaType.APPLICATION_JSON_TYPE, MediaType.APPLICATION_XML_TYPE)) {
-                for (String properties : Arrays.asList(null, "none", "all", "title")) {
-
-                    result.add(
-                        Arguments.arguments(
-                            clients.toBuilder()
-                                .profile(profile)
-                                .accept(mediaType)
-                                .properties(properties)
-                                .toString((c) -> "client:" + c.getProfile() + "/" + c.getAccept() + "/" + c.getProperties())
-                                .build(),
-                            mids));
-                }
-
-            }
-
         }
-        return result.stream();
+        return arguments.stream();
     }
 
     @MethodSource("getParameters")
     @Retention(RetentionPolicy.RUNTIME)
     @interface Params {
-
     }
 
     @ParameterizedTest
     @Params
     public void load(NpoApiClients clients, List<String> mids) {
         assumeThat(mids.size()).isGreaterThan(0);
-        MediaObject o = clients.getMediaService().load(mids.get(0), null, null);
-        assertThat(o.getMid()).isEqualTo(mids.get(0));
-        assertThat(o.getMainTitle()).isNotEmpty(); // NPA-362
-        if (clients.hasAllProperties()) {
-            if (clients.getProfile() != null) {
-                assertThat(clients.getAssociatedProfile().get().getMediaProfile().test(o)).isTrue();
+        for (String mid : mids) {
+            log.info("Loading {}", mid);
+            MediaObject o = clients.getMediaService().load(mid, null, null);
+            assertThat(o.getMid()).isEqualTo(mid);
+            assertThat(o.getMainTitle()).isNotEmpty(); // NPA-362
+            if (clients.hasAllProperties()) {
+                if (clients.getProfile() != null) {
+                    assertThat(clients.getAssociatedProfile().get().getMediaProfile().test(o)).isTrue();
+                }
             }
         }
     }
@@ -105,7 +103,7 @@ public class ApiMediaLoadTest extends AbstractApiTest {
     @Params
     void loadOutsideProfile(NpoApiClients clients, List<String> mids) {
         assumeThat(clients.getProfile()).isNotNull();
-        assumeThat(clients.getProfile()).isEqualTo("eo");
+        assumeThat(clients.getProfile()).isNotEqualTo("eo");
 
         assumeTrue(mids.size() > 0);
         try {

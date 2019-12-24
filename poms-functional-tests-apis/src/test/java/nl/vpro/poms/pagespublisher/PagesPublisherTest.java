@@ -8,6 +8,7 @@ import java.time.*;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import javax.validation.constraints.NotNull;
 import javax.ws.rs.NotFoundException;
 
 import org.junit.jupiter.api.*;
@@ -19,8 +20,8 @@ import nl.vpro.api.client.pages.PageUpdateApiClient;
 import nl.vpro.api.client.utils.Result;
 import nl.vpro.api.client.utils.*;
 import nl.vpro.domain.api.*;
-import nl.vpro.domain.api.page.PageForm;
-import nl.vpro.domain.api.page.PageSearchResult;
+import nl.vpro.domain.api.Order;
+import nl.vpro.domain.api.page.*;
 import nl.vpro.domain.media.MediaObject;
 import nl.vpro.domain.media.update.MediaUpdate;
 import nl.vpro.domain.page.*;
@@ -31,6 +32,7 @@ import nl.vpro.test.jupiter.AbortOnException;
 import nl.vpro.testutils.Utils;
 import nl.vpro.testutils.Utils.Check;
 import nl.vpro.util.Version;
+import nl.vpro.validation.URI;
 
 import static io.restassured.RestAssured.given;
 import static nl.vpro.api.client.utils.Config.Prefix.npo_pageupdate_api;
@@ -77,7 +79,7 @@ class PagesPublisherTest extends AbstractApiMediaBackendTest {
     public void setup() {
         log.info("Testing with version {}", util.getPageUpdateApiClient().getVersionNumber());
 
-        log.info("Backend: {}", backend.isAvailable());
+        log.info("Backend available: {}", backend.isAvailable());
 
     }
 
@@ -407,11 +409,12 @@ class PagesPublisherTest extends AbstractApiMediaBackendTest {
     @Test
     public void test301ArrivedInAPI() throws JsonProcessingException {
         assumeThat(util.getPageUpdateApiClient().getVersionNumber()).isGreaterThanOrEqualTo(Version.of(5, 5));
-        assumeTrue(createdCrids.size() > 0);
+        //assumeTrue(createdCrids.size() > 0);
         assumeTrue(pageUtil.getClients().isAvailable());
 
         PageForm form = PageForm.builder()
             .tags(TAG)
+            .addSortField(PageSortField.lastPublished, Order.DESC)
             .build();
 
         log.info("{}", Jackson2Mapper.getPrettyInstance().writeValueAsString(form));
@@ -420,13 +423,17 @@ class PagesPublisherTest extends AbstractApiMediaBackendTest {
             ACCEPTABLE_PAGE_PUBLISHED_DURATION,
             "Has pages with tag " + TAG,
             () -> pageUtil.find(form, null, 0L, 240),
-            (sr) -> sr.getItems().stream().map(SearchResultItem::getResult).map(Page::getUrl).collect(Collectors.toList()).containsAll(createdUrls)
+            (sr) -> {
+                List<@NotNull @URI String> collect = sr.getItems().stream().map(SearchResultItem::getResult).map(Page::getUrl).collect(Collectors.toList());
+                log.info("Found {}", collect);
+                return collect.containsAll(createdUrls);
+            }
         );
         List<String> foundCrids = new ArrayList<>();
         List<String> foundUrls= new ArrayList<>();
 
 
-        assertThat(searchResultItems.getSize()).isEqualTo(10);
+        assertThat(searchResultItems.getSize()).isGreaterThanOrEqualTo(10); // at least our 10.
         for (SearchResultItem<? extends Page> item : searchResultItems) {
             log.info("Found {} with crids: {}", item, item.getResult().getCrids());
             foundCrids.addAll(item.getResult().getCrids());
