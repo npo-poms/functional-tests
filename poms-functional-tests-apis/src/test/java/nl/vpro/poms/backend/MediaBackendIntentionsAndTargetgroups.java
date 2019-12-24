@@ -36,11 +36,13 @@ public class MediaBackendIntentionsAndTargetgroups extends AbstractApiMediaBacke
     public void createObjectWithIntentionsAndTargetGroups() {
         //Given a new Media with intentions and targetgroups from multiple owners
         //And a clientApi configured with a specific owner
+
         Intentions intentions1 = Intentions.builder()
             .owner(BROADCASTER).values(Arrays.asList(
                 IntentionType.ENTERTAINMENT_INFORMATIVE,
                 IntentionType.INFORM_INDEPTH))
             .build();
+
         Intentions intentions2 = Intentions.builder()
             .owner(NPO)
             .value(IntentionType.ACTIVATING)
@@ -51,6 +53,7 @@ public class MediaBackendIntentionsAndTargetgroups extends AbstractApiMediaBacke
             .owner(OwnerType.BROADCASTER)
 
             .build();
+
         TargetGroups target2 = TargetGroups.builder()
             .values(Arrays.asList(TargetGroupType.KIDS_6, TargetGroupType.KIDS_12))
             .owner(OwnerType.NPO)
