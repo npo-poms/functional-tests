@@ -10,6 +10,7 @@ import java.nio.charset.Charset;
 import java.time.*;
 import java.util.Arrays;
 import java.util.SortedSet;
+import java.util.concurrent.TimeUnit;
 
 import javax.xml.bind.JAXB;
 
@@ -39,6 +40,7 @@ import static org.junit.jupiter.api.Assumptions.assumeTrue;
  */
 
 @TestMethodOrder(MethodOrderer.Alphanumeric.class)
+@Timeout(value = 1, unit = TimeUnit.MINUTES)
 @Slf4j
 class PromoTest extends AbstractApiMediaBackendTest {
 
