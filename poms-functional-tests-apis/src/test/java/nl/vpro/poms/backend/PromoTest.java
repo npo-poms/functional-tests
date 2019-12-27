@@ -13,7 +13,6 @@ import java.util.SortedSet;
 
 import javax.xml.bind.JAXB;
 
-import org.hamcrest.core.AnyOf;
 import org.junit.jupiter.api.*;
 
 import nl.vpro.domain.media.*;
@@ -30,6 +29,7 @@ import static nl.vpro.api.client.utils.Config.Prefix.parkpost;
 import static nl.vpro.testutils.Utils.waitUntilNotNull;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.core.AnyOf.anyOf;
 import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
 
@@ -254,7 +254,7 @@ class PromoTest extends AbstractApiMediaBackendTest {
                 .   post(PARKPOST + "promo")
                 .then()
                 .   log().all()
-                .   statusCode(AnyOf.anyOf(equalTo(202), equalTo(503)))
+                .   statusCode(anyOf(equalTo(202), equalTo(503)))
                 .   extract().asString();
 
         return resultString;
