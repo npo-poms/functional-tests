@@ -6,8 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.time.*;
 import java.util.Collections;
 import java.util.List;
 
@@ -133,8 +132,9 @@ public class MediaTest {
 
     @Test
     public void test04WaitForProcessing() throws InterruptedException {
-        log.info("Waiting for {} to be processed", clipMid);
-        Thread.sleep(60000);
+        Duration duration = Duration.ofSeconds(60);
+        log.info("Waiting {} for {} to be processed", duration, clipMid);
+        Thread.sleep(duration.toMillis());
     }
 
     @Test
