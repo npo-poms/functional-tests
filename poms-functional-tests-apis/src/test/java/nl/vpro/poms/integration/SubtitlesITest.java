@@ -218,7 +218,7 @@ public class SubtitlesITest extends AbstractApiMediaBackendTest {
 
     @Test
     @Order(13)
-    void test10checkDeleteFrontend() {
+    void checkDeleteJapaneseFrontend() {
         assumeThat(firstTitle).isNotNull();
         assumeThat(backendVersionNumber).isGreaterThanOrEqualTo(Version.of(5, 3));
 
@@ -274,7 +274,8 @@ public class SubtitlesITest extends AbstractApiMediaBackendTest {
     }
 
     @Test
-    void test92checkCleanupFrontend() {
+    @Order(102)
+    void checkCleanupFrontend() {
         assumeThat(firstTitle).isNotNull();
         assumeThat(backendVersionNumber).isGreaterThanOrEqualTo(Version.of(5, 3));
         waitUntil(ACCEPTABLE_DURATION_FRONTEND,

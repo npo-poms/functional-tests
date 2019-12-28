@@ -6,8 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.time.*;
 import java.util.Collections;
 import java.util.List;
 
@@ -15,7 +14,6 @@ import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 
 import nl.vpro.domain.media.*;
-import nl.vpro.domain.media.exceptions.ModificationException;
 import nl.vpro.domain.media.search.*;
 import nl.vpro.domain.media.update.ProgramUpdate;
 import nl.vpro.domain.media.update.SegmentUpdate;
@@ -51,7 +49,7 @@ public class MediaTest {
 
     private static final String MEDIA_URL = CONFIG.url(npo_backend_api, "media/media");
     private static final String FIND_URL = CONFIG.url(npo_backend_api, "media/find");
-    private static final String USERNAME = CONFIG.configOption(npo_backend_api, "username").orElse("vpro-mediatools");
+    private static final String USERNAME = CONFIG.requiredOption(npo_backend_api, "user");
     private static final String PASSWORD = CONFIG.requiredOption(npo_backend_api, "password");
     private static final String ERRORS_EMAIL = CONFIG.configOption(npo_backend_api, "errors_email").orElse("digitaal-techniek@vpro.nl");
     private static final String BASE_CRID = "crid://apitests";
@@ -134,8 +132,9 @@ public class MediaTest {
 
     @Test
     public void test04WaitForProcessing() throws InterruptedException {
-        log.info("Waiting for {} to be processed", clipMid);
-        Thread.sleep(60000);
+        Duration duration = Duration.ofSeconds(60);
+        log.info("Waiting {} for {} to be processed", duration, clipMid);
+        Thread.sleep(duration.toMillis());
     }
 
     @Test

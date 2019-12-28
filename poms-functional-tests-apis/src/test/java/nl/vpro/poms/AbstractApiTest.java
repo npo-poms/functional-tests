@@ -33,18 +33,13 @@ import nl.vpro.util.Version;
 @Timeout(value = 30, unit = TimeUnit.MINUTES)
 public abstract class AbstractApiTest extends AbstractTest  {
 
-
     protected static final String DASHES = new String(new char[100]).replace('\0', '-');
-
 
     public static final Config CONFIG = new Config("npo-functional-tests.properties");
 
-
     private static final String NOW = ZonedDateTime.now(Schedule.ZONE_ID).toOffsetDateTime().toString();
 
-
     protected String title;
-
 
     @BeforeEach
     public void setupTitle(TestInfo testInfo) {
@@ -56,6 +51,7 @@ public abstract class AbstractApiTest extends AbstractTest  {
             LOG = log;
         }
     }
+
     @AfterEach
     public void cleanClient() {
         clients.setProfile(null);
@@ -84,13 +80,8 @@ public abstract class AbstractApiTest extends AbstractTest  {
     protected static final NpoApiPageUtil pageUtil = new NpoApiPageUtil(clients);
     protected static final NpoApiImageUtil imageUtil = new NpoApiImageUtil(CONFIG.getProperties(Config.Prefix.images).get("baseUrl"));
 
-
-
     private static final String apiVersion = clients.getVersion();
-
-
     protected static IntegerVersion apiVersionNumber;
-
 
     static {
         try {

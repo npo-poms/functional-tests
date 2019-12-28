@@ -16,10 +16,12 @@ import org.junit.jupiter.api.Test;
 
 import nl.vpro.api.client.utils.MediaRestClientUtils;
 import nl.vpro.domain.api.*;
+import nl.vpro.domain.api.profile.Profile;
+import nl.vpro.domain.media.MediaObject;
 import nl.vpro.domain.media.Schedule;
 import nl.vpro.jackson2.JsonArrayIterator;
 import nl.vpro.poms.AbstractApiTest;
-import nl.vpro.util.Version;
+import nl.vpro.util.*;
 
 import static nl.vpro.api.client.utils.MediaRestClientUtils.sinceString;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -27,7 +29,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
 @Slf4j
-class ApiMediaChangesTest extends AbstractApiTest {
+class ApiMediaStreamingCallsTest extends AbstractApiTest {
 
 
     private Instant FROM = Instant.now().minus(Duration.ofDays(14));
@@ -56,20 +58,20 @@ class ApiMediaChangesTest extends AbstractApiTest {
 
 
     @Test
-    public void testChangesNoProfile() throws IOException {
+    public void testChangesNoProfile() throws Exception {
         testChanges(null, FROM, CHANGES_MAX);
     }
 
 
     @Test
-    public void testCloseChanges() throws IOException {
+    public void testCloseChanges() throws Exception {
 
         testChanges(null,
             LocalDateTime.of(2017, 6, 12, 10, 32).atZone(Schedule.ZONE_ID).toInstant(), 40000);
     }
 
     @Test
-    public void testChangesWithProfile() throws IOException {
+    public void testChangesWithProfile() throws Exception {
         testChanges("vpro-predictions", FROM, CHANGES_MAX);
     }
 
@@ -77,6 +79,13 @@ class ApiMediaChangesTest extends AbstractApiTest {
     public void testChangesMissingProfile() {
         assertThrows(javax.ws.rs.NotFoundException.class, () -> {
             testChanges("bestaatniet", FROM, CHANGES_MAX);
+        });
+    }
+
+    @Test
+    public void testIterateMissingProfile() {
+        assertThrows(javax.ws.rs.NotFoundException.class, () -> {
+            testIterate("bestaatniet", CHANGES_MAX);
         });
     }
 
@@ -101,7 +110,7 @@ class ApiMediaChangesTest extends AbstractApiTest {
 
     @SuppressWarnings("deprecation")
     @Test
-    public void testChangesNoProfileCheckSkipDeletesMaxOne() throws IOException {
+    public void testChangesNoProfileCheckSkipDeletesMaxOne() throws Exception {
         assumeTrue(apiVersionNumber.isNotBefore(Version.of(5, 4)));
         final AtomicInteger i = new AtomicInteger();
         final Instant JAN2017 = LocalDate.of(2017, 1, 1).atStartOfDay(Schedule.ZONE_ID).toInstant();
@@ -139,7 +148,7 @@ class ApiMediaChangesTest extends AbstractApiTest {
             }
         }
         List<MediaChange> foundWithMax100 = new ArrayList<>();
-        try (JsonArrayIterator<MediaChange> changes = mediaUtil.changes("vpro", false, JAN2017, null,  Order.ASC, toFind, Deletes.EXCLUDE)) {
+        try (CloseableIterator<MediaChange> changes = mediaUtil.changes("vpro", false, JAN2017, null,  Order.ASC, toFind, Deletes.EXCLUDE)) {
             while (changes.hasNext()) {
                 MediaChange change = changes.next();
                 foundWithMax100.add(change);
@@ -169,11 +178,11 @@ class ApiMediaChangesTest extends AbstractApiTest {
     }
 
     @SuppressWarnings("deprecation")
-    protected void testChanges(String profile, Instant from, Integer max) throws IOException {
+    protected void testChanges(String profile, Instant from, Integer max) throws Exception {
         Instant start = Instant.now();
         final AtomicInteger i = new AtomicInteger();
         Instant prev = from;
-        try(JsonArrayIterator<MediaChange> changes = mediaUtil.changes(profile, false,  from, null, Order.ASC, max, Deletes.ID_ONLY)) {
+        try(CloseableIterator<MediaChange> changes = mediaUtil.changes(profile, false,  from, null, Order.ASC, max, Deletes.ID_ONLY)) {
             while (changes.hasNext()) {
                 MediaChange change = changes.next();
                 if (!change.isTail()) {
@@ -192,6 +201,28 @@ class ApiMediaChangesTest extends AbstractApiTest {
         assertThat(prev.isBefore(start.minus(Duration.ofSeconds(9))));
         if (max != null) {
             assertThat(i.get()).isLessThanOrEqualTo(max);
+        }
+    }
+
+
+
+    @Test
+    public void testIterate() throws Exception {
+        testIterate("vpro", CHANGES_MAX);
+
+    }
+
+
+    protected void testIterate(String profile, Integer max) throws Exception {
+        Profile profileObject = mediaUtil.getClients().getProfileService().load(profile, null);
+        try(CountedIterator<MediaObject> iterator = MediaRestClientUtils.iterate(() -> mediaUtil.getClients().getMediaServiceNoTimeout().iterate(null, profile, null, 0L, max), true, "test")) {
+            int i = 0;
+            while (iterator.hasNext()) {
+                MediaObject mediaObject = iterator.next();
+                log.info("{}: {}", ++i, mediaObject);
+                assertThat(profileObject.getMediaProfile().test(mediaObject)).isTrue();
+            }
+            assertThat(i).isEqualTo(max);
         }
     }
 
