@@ -41,7 +41,7 @@ class SchemaTest {
         Validator xsdValidator = xsdSchema.newValidator();
 
         ProgramUpdate update = ProgramUpdate.create(MediaTestDataBuilder.program()
-            .withEverything(IntegerVersion.of(5, 10))
+            .withEverything(IntegerVersion.of(5, 12))
             .build());
 
         ByteArrayOutputStream out = new ByteArrayOutputStream();
