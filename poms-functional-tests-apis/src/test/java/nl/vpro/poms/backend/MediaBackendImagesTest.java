@@ -46,6 +46,7 @@ import static org.junit.jupiter.api.Assumptions.assumeTrue;
 @TestMethodOrder(MethodOrderer.Alphanumeric.class)
 @Slf4j
 @ExtendWith(AbortOnException.class)
+
 public class MediaBackendImagesTest extends AbstractApiMediaBackendTest {
 
     private static final Duration ACCEPTABLE_DURATION = Duration.ofMinutes(3);
@@ -53,6 +54,7 @@ public class MediaBackendImagesTest extends AbstractApiMediaBackendTest {
 
 
     @Test
+    @Tag("lifecycle")
     void test00setup() {
         cleanup();
         cleanupCheck();
@@ -116,6 +118,7 @@ public class MediaBackendImagesTest extends AbstractApiMediaBackendTest {
     private static String tineyeImageTitle;
 
     @Test
+    @Tag("wikimedia")
     void test13addWikimediaImage() {
         titles.add(title);
         wikiImageTitle = title;
@@ -133,11 +136,30 @@ public class MediaBackendImagesTest extends AbstractApiMediaBackendTest {
 
 
     /**
+     * Then thineye should fix that.
+     */
+
+    @Test
+    @Tag("wikimedia")
+    void test14checkArrivedWikimedia() {
+        checkArrived();
+        assumeTrue(wikiImageTitle != null);
+        ProgramUpdate update = backend.get(MID);
+
+        assertThat(update.getImages().stream()
+            .filter(i -> i.getTitle().equals(wikiImageTitle))
+            .findFirst()
+            .orElseThrow(IllegalStateException::new)
+            .getCredits()).isEqualTo("CaribDigita");
+    }
+
+
+    /**
      * If we upload an image without proper credits
      */
     @Test
-    //@Ignore
-    void test14addTineyeImage() {
+    @Tag("tineye")
+    void test15addTineyeImage() {
         titles.add(title);
         tineyeImageTitle = title;
 
@@ -156,9 +178,10 @@ public class MediaBackendImagesTest extends AbstractApiMediaBackendTest {
      */
 
     @Test
+    @Tag("tineye")
     void test20checkArrived() {
         checkArrived();
-        assumeTrue(wikiImageTitle != null);
+        assumeTrue(tineyeImageTitle != null);
         ProgramUpdate update = backend.get(MID);
 
         assertThat(update.getImages().stream()
@@ -296,18 +319,17 @@ public class MediaBackendImagesTest extends AbstractApiMediaBackendTest {
 
 
     @Test
+    @Tag("lifecycle")
     void test98Cleanup() {
         cleanup();
     }
 
 
     @Test
+    @Tag("lifecycle")
     void test99CleanupCheck() {
         cleanupCheck();
     }
-
-
-
 
     void cleanup() {
         backend.getBrowserCache().clear();
