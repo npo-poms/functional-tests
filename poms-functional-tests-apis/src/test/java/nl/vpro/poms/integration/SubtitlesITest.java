@@ -182,7 +182,6 @@ public class SubtitlesITest extends AbstractApiMediaBackendTest {
     @Test
     @Order(10)
     void checkUpdateOffset() {
-        backend.getBackendRestService().setSubtitlesOffset(MID_WITH_LOCATIONS, JAPANESE, TRANSLATION, Duration.ofMinutes(1), null, null);
         PeekingIterator<StandaloneCue> cueIterator = waitUntil(ACCEPTABLE_DURATION_FRONTEND,
             MID_WITH_LOCATIONS + "/" + JAPANESE_TRANSLATION + "[0] has start zero",
         () -> {
@@ -282,7 +281,6 @@ public class SubtitlesITest extends AbstractApiMediaBackendTest {
     @Test
     @Order(102)
     void checkCleanupFrontend() {
-        assumeThat(firstTitle).isNotNull();
         assumeThat(backendVersionNumber).isGreaterThanOrEqualTo(Version.of(5, 3));
         waitUntil(ACCEPTABLE_DURATION_FRONTEND,
             MID_WITH_LOCATIONS + " has no " + JAPANESE_TRANSLATION,
