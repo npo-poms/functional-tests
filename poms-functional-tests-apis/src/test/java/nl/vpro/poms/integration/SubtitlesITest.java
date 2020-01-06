@@ -22,8 +22,7 @@ import nl.vpro.poms.AbstractApiMediaBackendTest;
 import nl.vpro.util.Version;
 
 import static java.time.Duration.ZERO;
-import static java.util.Locale.CHINESE;
-import static java.util.Locale.JAPANESE;
+import static java.util.Locale.*;
 import static nl.vpro.domain.subtitles.SubtitlesType.TRANSLATION;
 import static nl.vpro.testutils.Utils.waitUntil;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -128,6 +127,10 @@ public class SubtitlesITest extends AbstractApiMediaBackendTest {
         o.getLocations().forEach(l -> l.setPublishStopInstant(now));
         o.getPredictions().forEach(pu -> pu.setPublishStop(now));
         backend.set(o);
+
+        waitUntil(ACCEPTABLE_DURATION_BACKEND,
+            MID_WITH_LOCATIONS + " has no publishable locations",
+            () -> backend.getFull(MID_WITH_LOCATIONS).getLocations().stream().noneMatch(TrackableObject::isPublishable));
     }
 
     @Test
@@ -137,12 +140,16 @@ public class SubtitlesITest extends AbstractApiMediaBackendTest {
         assumeTrue(arrivedInBackend);
 
         waitUntil(ACCEPTABLE_DURATION_FRONTEND,
-            MID_WITH_LOCATIONS + " has no publishable locations",
-            () -> mediaUtil.load(MID_WITH_LOCATIONS)[0].getLocations().stream().noneMatch(TrackableObject::isPublishable));
+            MID_WITH_LOCATIONS + " has no locations in frontend",
+            () -> {
+                SortedSet<Location> locations = mediaUtil.load(MID_WITH_LOCATIONS)[0].getLocations();
+                log.info("{} has locations {}", MID_WITH_LOCATIONS, locations);
+                return locations.isEmpty();
+            });
 
         waitUntil(ACCEPTABLE_DURATION_FRONTEND,
                 MID_WITH_LOCATIONS + " has no subtitles in frontend for JAPAN",
-            () -> MediaRestClientUtils.loadOrNull(mediaUtil.getClients().getSubtitlesRestService(), MID_WITH_LOCATIONS, Locale.JAPAN) == null);
+            () -> MediaRestClientUtils.loadOrNull(mediaUtil.getClients().getSubtitlesRestService(), MID_WITH_LOCATIONS, JAPAN) == null);
         waitUntil(ACCEPTABLE_DURATION_FRONTEND,
                 MID_WITH_LOCATIONS + " has no subtitles in frontend for CHINESE",
             () -> MediaRestClientUtils.loadOrNull(mediaUtil.getClients().getSubtitlesRestService(), MID_WITH_LOCATIONS, CHINESE) == null);
@@ -228,7 +235,7 @@ public class SubtitlesITest extends AbstractApiMediaBackendTest {
 
         waitUntil(ACCEPTABLE_DURATION_FRONTEND,
             MID_WITH_LOCATIONS + " has no subtitles for JAPAN",
-            () -> MediaRestClientUtils.loadOrNull(mediaUtil.getClients().getSubtitlesRestService(), MID_WITH_LOCATIONS, Locale.JAPAN) == null);
+            () -> MediaRestClientUtils.loadOrNull(mediaUtil.getClients().getSubtitlesRestService(), MID_WITH_LOCATIONS, JAPAN) == null);
 
         // the chinese ones still need to be there
         waitForCuesAvailableInFrontend(CHINESE);
