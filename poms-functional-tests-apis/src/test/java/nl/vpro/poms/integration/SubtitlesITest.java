@@ -15,8 +15,7 @@ import com.google.common.collect.Iterators;
 import com.google.common.collect.PeekingIterator;
 
 import nl.vpro.api.client.utils.MediaRestClientUtils;
-import nl.vpro.domain.media.AvailableSubtitles;
-import nl.vpro.domain.media.MediaObject;
+import nl.vpro.domain.media.*;
 import nl.vpro.domain.media.update.ProgramUpdate;
 import nl.vpro.domain.subtitles.*;
 import nl.vpro.poms.AbstractApiMediaBackendTest;
@@ -127,19 +126,19 @@ public class SubtitlesITest extends AbstractApiMediaBackendTest {
         Instant now = Instant.now();
         ProgramUpdate o = backend.get(MID_WITH_LOCATIONS);
         o.getLocations().forEach(l -> l.setPublishStopInstant(now));
+        o.getPredictions().forEach(pu -> pu.setPublishStop(now));
         backend.set(o);
     }
 
     @Test
     @Order(6)
-    void waitForCuesDisappearedInFrontend() {
+    void waitForCuesDisappearedInFrontendAfterLocationsRevoked() {
         assumeThat(firstTitle).isNotNull();
         assumeTrue(arrivedInBackend);
 
-
         waitUntil(ACCEPTABLE_DURATION_FRONTEND,
-            MID_WITH_LOCATIONS + " has no locations",
-            () -> mediaUtil.load(MID_WITH_LOCATIONS)[0].getLocations().isEmpty());
+            MID_WITH_LOCATIONS + " has no publishable locations",
+            () -> mediaUtil.load(MID_WITH_LOCATIONS)[0].getLocations().stream().noneMatch(TrackableObject::isPublishable));
 
         waitUntil(ACCEPTABLE_DURATION_FRONTEND,
                 MID_WITH_LOCATIONS + " has no subtitles in frontend for JAPAN",
