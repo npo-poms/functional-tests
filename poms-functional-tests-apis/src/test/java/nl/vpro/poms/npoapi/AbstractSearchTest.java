@@ -139,14 +139,9 @@ public abstract class AbstractSearchTest<T, S> extends AbstractApiTest {
     }
 
 
+    <U> U test(String name, U object) throws Exception {
+        return Jackson2TestUtil.roundTrip(object);
 
-    <U> void test(String name, U object) throws Exception {
-        Jackson2TestUtil.roundTrip(object);
-      /*
-        try (
-                OutputStream out = getTempStream(name)) {
-            Jackson2Mapper.getPrettyInstance().writeValue(out, object);
-        }*/
     }
 
 }
