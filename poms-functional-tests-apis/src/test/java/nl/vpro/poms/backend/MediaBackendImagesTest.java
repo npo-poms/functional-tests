@@ -2,6 +2,8 @@ package nl.vpro.poms.backend;
 
 import lombok.extern.slf4j.Slf4j;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.*;
@@ -159,12 +161,12 @@ public class MediaBackendImagesTest extends AbstractApiMediaBackendTest {
      */
     @Test
     @Tag("tineye")
-    void test15addTineyeImage() {
+    void test15addTineyeImage() throws UnsupportedEncodingException {
         titles.add(title);
         tineyeImageTitle = title;
 
         ImageUpdate update = ImageUpdate.builder()
-            .imageUrl("http://files.vpro.nl/test/poms-functional-tests/CaribDigita.png")
+            .imageUrl("http://files.vpro.nl/test/poms-functional-tests/CaribDigita.png?" + URLEncoder.encode(title, "UTF-8"))
             .type(ImageType.PICTURE)
             .title(title)
             .build();

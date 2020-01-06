@@ -101,7 +101,6 @@ public class AddFrameTest extends AbstractApiMediaBackendTest {
 
 
     @Test
-
     public void test10Overwrite() {
 
         try (Response response = backend.getFrameCreatorRestService().createFrame(MID, OFFSET, null, null, getClass().getResourceAsStream("/VPRO1970's.png"))) {
@@ -112,7 +111,7 @@ public class AddFrameTest extends AbstractApiMediaBackendTest {
             () -> {
                 ProgramUpdate p  = backend_authority.get(MID);
                 if (p == null) {
-                    throw new IllegalStateException();
+                    throw new IllegalStateException("Program " + MID + " not found");
                 }
 
                 ImageUpdate foundImage = p.getImages()
@@ -122,11 +121,13 @@ public class AddFrameTest extends AbstractApiMediaBackendTest {
                                 iu.getOffset() != null &&
                                 iu.getOffset().equals(OFFSET) &&
                                 iu.getType() == ImageType.STILL)
-                        .findFirst().orElse(null)
+                        .findFirst()
+                    .orElse(null)
                     ;
 
                 if (foundImage == null) {
-                    throw new IllegalStateException();
+                    //return false;
+                    throw new IllegalStateException("No image found for " + MID + " with offset " + OFFSET);
                 }
                 String uri = foundImage.getImageUri();
                 if (uri.equals(createImageUri)) {
