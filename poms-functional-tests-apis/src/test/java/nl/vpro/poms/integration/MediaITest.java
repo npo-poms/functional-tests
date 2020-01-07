@@ -127,12 +127,13 @@ public class MediaITest extends AbstractApiMediaBackendTest {
     }
 
     @Test
-    void test002CheckFrontendApi() {
+    void test002CheckNewObjectInFrontendApi() {
         assumeThat(clipMid).isNotNull();
         Program clip = waitUntil(Duration.ofMinutes(10),
             clipMid + " is a memberof " + groupMid,
             () -> mediaUtil.findByMid(clipMid),
-            (c) -> !c.getMemberOf().isEmpty());
+            (c) -> !c.getMemberOf().isEmpty()
+        );
         assertThat(clip).isNotNull();
         assertThat(clip.getMainTitle()).isEqualTo(clipTitle);
         assertThat(clip.getMemberOf().first().getMediaRef()).isEqualTo(groupMid);
@@ -155,7 +156,7 @@ public class MediaITest extends AbstractApiMediaBackendTest {
     }
 
     @Test
-    void test004CheckFrontendApi() {
+    void test004CheckUpdateTitleInFrontendApi() {
         assumeThat(clipMid).isNotNull();
         Program clip = waitUntil(Duration.ofMinutes(10),
             clipMid + " has title " + clipTitle,
@@ -178,7 +179,7 @@ public class MediaITest extends AbstractApiMediaBackendTest {
     }
 
     @Test
-    void test006CheckFrontendApi() {
+    void test006CheckUpdateDescriptionInFrontendApi() {
         assumeThat(clipMid).isNotNull();
         Program clip = waitUntil(Duration.ofMinutes(10),
             clipMid + " has description " + clipDescription,
@@ -193,7 +194,6 @@ public class MediaITest extends AbstractApiMediaBackendTest {
     /**
      * All images where not published to begin with or will expire in 10 minutes
      */
-
     @Test
     void test007WaitForImageRevocation() {
         assumeThat(clipMid).isNotNull();
@@ -243,7 +243,7 @@ public class MediaITest extends AbstractApiMediaBackendTest {
     }
 
     @Test
-    void test101CheckFrontendApi() {
+    void test101CheckDeletedInFrontendApi() {
         assumeThat(clipMid).isNotNull();
         waitUntil(Duration.ofMinutes(10),
             () -> clipMid + " disappeared",

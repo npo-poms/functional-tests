@@ -15,16 +15,14 @@ import com.google.common.collect.Iterators;
 import com.google.common.collect.PeekingIterator;
 
 import nl.vpro.api.client.utils.MediaRestClientUtils;
-import nl.vpro.domain.media.AvailableSubtitles;
-import nl.vpro.domain.media.MediaObject;
+import nl.vpro.domain.media.*;
 import nl.vpro.domain.media.update.ProgramUpdate;
 import nl.vpro.domain.subtitles.*;
 import nl.vpro.poms.AbstractApiMediaBackendTest;
 import nl.vpro.util.Version;
 
 import static java.time.Duration.ZERO;
-import static java.util.Locale.CHINESE;
-import static java.util.Locale.JAPANESE;
+import static java.util.Locale.*;
 import static nl.vpro.domain.subtitles.SubtitlesType.TRANSLATION;
 import static nl.vpro.testutils.Utils.waitUntil;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -127,23 +125,31 @@ public class SubtitlesITest extends AbstractApiMediaBackendTest {
         Instant now = Instant.now();
         ProgramUpdate o = backend.get(MID_WITH_LOCATIONS);
         o.getLocations().forEach(l -> l.setPublishStopInstant(now));
+        o.getPredictions().forEach(pu -> pu.setPublishStop(now));
         backend.set(o);
+
+        waitUntil(ACCEPTABLE_DURATION_BACKEND,
+            MID_WITH_LOCATIONS + " has no publishable locations",
+            () -> backend.getFull(MID_WITH_LOCATIONS).getLocations().stream().noneMatch(TrackableObject::isPublishable));
     }
 
     @Test
     @Order(6)
-    void waitForCuesDisappearedInFrontend() {
+    void waitForCuesDisappearedInFrontendAfterLocationsRevoked() {
         assumeThat(firstTitle).isNotNull();
         assumeTrue(arrivedInBackend);
 
-
         waitUntil(ACCEPTABLE_DURATION_FRONTEND,
-            MID_WITH_LOCATIONS + " has no locations",
-            () -> mediaUtil.load(MID_WITH_LOCATIONS)[0].getLocations().isEmpty());
+            MID_WITH_LOCATIONS + " has no locations in frontend",
+            () -> {
+                SortedSet<Location> locations = mediaUtil.load(MID_WITH_LOCATIONS)[0].getLocations();
+                log.info("{} has locations {}", MID_WITH_LOCATIONS, locations);
+                return locations.isEmpty();
+            });
 
         waitUntil(ACCEPTABLE_DURATION_FRONTEND,
                 MID_WITH_LOCATIONS + " has no subtitles in frontend for JAPAN",
-            () -> MediaRestClientUtils.loadOrNull(mediaUtil.getClients().getSubtitlesRestService(), MID_WITH_LOCATIONS, Locale.JAPAN) == null);
+            () -> MediaRestClientUtils.loadOrNull(mediaUtil.getClients().getSubtitlesRestService(), MID_WITH_LOCATIONS, JAPAN) == null);
         waitUntil(ACCEPTABLE_DURATION_FRONTEND,
                 MID_WITH_LOCATIONS + " has no subtitles in frontend for CHINESE",
             () -> MediaRestClientUtils.loadOrNull(mediaUtil.getClients().getSubtitlesRestService(), MID_WITH_LOCATIONS, CHINESE) == null);
@@ -176,7 +182,6 @@ public class SubtitlesITest extends AbstractApiMediaBackendTest {
     @Test
     @Order(10)
     void checkUpdateOffset() {
-        backend.getBackendRestService().setSubtitlesOffset(MID_WITH_LOCATIONS, JAPANESE, TRANSLATION, Duration.ofMinutes(1), null, null);
         PeekingIterator<StandaloneCue> cueIterator = waitUntil(ACCEPTABLE_DURATION_FRONTEND,
             MID_WITH_LOCATIONS + "/" + JAPANESE_TRANSLATION + "[0] has start zero",
         () -> {
@@ -229,7 +234,7 @@ public class SubtitlesITest extends AbstractApiMediaBackendTest {
 
         waitUntil(ACCEPTABLE_DURATION_FRONTEND,
             MID_WITH_LOCATIONS + " has no subtitles for JAPAN",
-            () -> MediaRestClientUtils.loadOrNull(mediaUtil.getClients().getSubtitlesRestService(), MID_WITH_LOCATIONS, Locale.JAPAN) == null);
+            () -> MediaRestClientUtils.loadOrNull(mediaUtil.getClients().getSubtitlesRestService(), MID_WITH_LOCATIONS, JAPAN) == null);
 
         // the chinese ones still need to be there
         waitForCuesAvailableInFrontend(CHINESE);
@@ -276,7 +281,6 @@ public class SubtitlesITest extends AbstractApiMediaBackendTest {
     @Test
     @Order(102)
     void checkCleanupFrontend() {
-        assumeThat(firstTitle).isNotNull();
         assumeThat(backendVersionNumber).isGreaterThanOrEqualTo(Version.of(5, 3));
         waitUntil(ACCEPTABLE_DURATION_FRONTEND,
             MID_WITH_LOCATIONS + " has no " + JAPANESE_TRANSLATION,

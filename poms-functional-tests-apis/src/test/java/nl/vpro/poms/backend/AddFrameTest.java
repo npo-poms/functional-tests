@@ -46,18 +46,13 @@ public class AddFrameTest extends AbstractApiMediaBackendTest {
 
     @Test
     public void test01AddFrame() {
-
-
         Program fullProgram = backend.getFullProgram(MID);
         if (fullProgram.getImage(ImageType.PICTURE) == null) {
             log.info("No image with type PICTURE yet present");
             log.info(backend.addImage(randomImage(title).build(), MID));
-        } else {
-
         }
-
-
-        try (Response response = backend.getFrameCreatorRestService().createFrame(MID, OFFSET, null, null, getClass().getResourceAsStream("/VPRO.png"))) {
+        try (Response response = backend.getFrameCreatorRestService().createFrame(
+            MID, OFFSET, null, null, getClass().getResourceAsStream("/VPRO.png"))) {
             log.info("Response: {}", response);
         }
 
