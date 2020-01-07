@@ -2,13 +2,14 @@ package nl.vpro.poms.backend;
 
 import lombok.extern.slf4j.Slf4j;
 
+import java.time.Instant;
+
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 
-import nl.vpro.domain.media.Encryption;
-import nl.vpro.domain.media.MediaBuilder;
-import nl.vpro.domain.media.update.ProgramUpdate;
-import nl.vpro.domain.media.update.TranscodeRequest;
+import nl.vpro.domain.media.*;
+import nl.vpro.domain.media.update.*;
+import nl.vpro.domain.media.update.collections.XmlCollection;
 import nl.vpro.poms.AbstractApiMediaBackendTest;
 import nl.vpro.test.jupiter.AbortOnException;
 import nl.vpro.util.Version;
@@ -17,22 +18,22 @@ import static org.assertj.core.api.Assumptions.assumeThat;
 
 /**
  * Tests if files can be uploaded, and be correctly handled.
- *
- *
- *
  * @author Michiel Meeuwissen
  */
-@TestMethodOrder(MethodOrderer.Alphanumeric.class)
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @Slf4j
 @ExtendWith(AbortOnException.class)
 class MediaBackendTranscodeTest extends AbstractApiMediaBackendTest {
 
+    Instant start = Instant.now();
+    String newMid;
 
     @Test
-    void test01Transcode() {
+    @Order(1)
+    void transcode() {
         assumeThat(backendVersionNumber).isGreaterThanOrEqualTo((Version.of(5, 6)));
 
-        String newMid = backend.set(ProgramUpdate.create(MediaBuilder.clip()
+        newMid = backend.set(ProgramUpdate.create(MediaBuilder.clip()
             .mainTitle(title)
             .broadcasters("VPRO")
             .build())
@@ -47,7 +48,20 @@ class MediaBackendTranscodeTest extends AbstractApiMediaBackendTest {
 
         String result = backend.transcode(request);
         log.info("{}: {}", newMid, result);
+    }
 
+    @Test
+    @Order(2)
+    void checkStatus() {
+        if (newMid == null) {
+            newMid = "POMS_VPRO_3318486";
+        }
+        XmlCollection<TranscodeStatus> vpro = backend.getBackendRestService().getTranscodeStatusForBroadcaster(
+            start, TranscodeStatus.Status.RUNNING, 100);
+        log.info("{}", vpro);
+
+        XmlCollection<TranscodeStatus> transcodeStatus = backend.getBackendRestService().getTranscodeStatus(EntityType.NoGroups.media, newMid);
+        log.info("{}", transcodeStatus.stream().findFirst().orElse(null));
     }
 
 
