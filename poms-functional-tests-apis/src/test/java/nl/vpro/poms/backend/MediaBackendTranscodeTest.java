@@ -2,6 +2,7 @@ package nl.vpro.poms.backend;
 
 import lombok.extern.slf4j.Slf4j;
 
+import java.time.Duration;
 import java.time.Instant;
 import java.util.Map;
 
@@ -35,10 +36,10 @@ class MediaBackendTranscodeTest extends AbstractApiMediaBackendTest {
     public static void init() {
         Map<String, String> properties = CONFIG.getProperties(Config.Prefix.nep);
         uploadService = new NEPSSHJUploadServiceImpl(
-            properties.get("gatekeeper-upload.host"),
-            properties.get("gatekeeper-upload.username"),
-            properties.get("gatekeeper-upload.password"),
-            properties.get("gatekeeper-upload.hostkey")
+            properties.get("nep.gatekeeper-upload.host"),
+            properties.get("nep.gatekeeper-upload.username"),
+            properties.get("nep.gatekeeper-upload.password"),
+            properties.get("nep.gatekeeper-upload.hostkey")
         );
         log.info("{}", uploadService);
     }
@@ -46,10 +47,9 @@ class MediaBackendTranscodeTest extends AbstractApiMediaBackendTest {
     Instant start = Instant.now();
     String newMid;
 
-
     @Test
-    @Order(1)
-    void transcode() {
+    @Order(0)
+    void createNewObject() {
         assumeThat(backendVersionNumber).isGreaterThanOrEqualTo((Version.of(5, 6)));
 
         newMid = backend.set(ProgramUpdate.create(MediaBuilder.clip()
@@ -57,12 +57,22 @@ class MediaBackendTranscodeTest extends AbstractApiMediaBackendTest {
             .broadcasters("VPRO")
             .build())
         );
+    }
+
+    @Test
+    @Order(1)
+    void transcode() {
+        assumeThat(backendVersionNumber).isGreaterThanOrEqualTo((Version.of(5, 6)));
+
+        if (newMid == null) {
+            newMid = "POMS_BV_3316992";
+        }
 
         TranscodeRequest request =
             TranscodeRequest.builder()
                 .mid(newMid)
                 .encryption(Encryption.NONE)
-                .fileName("used-by-integration-tests.m4v")
+                .fileName("used-by-integration-tests.mp4")
                 .build();
 
         String result = backend.transcode(request);
@@ -73,7 +83,8 @@ class MediaBackendTranscodeTest extends AbstractApiMediaBackendTest {
     @Order(2)
     void checkStatus() {
         if (newMid == null) {
-            newMid = "POMS_VPRO_3318486";
+            newMid = "POMS_BV_3316992";
+            start = Instant.now().minus(Duration.ofHours(5));
         }
         XmlCollection<TranscodeStatus> vpro = backend.getBackendRestService().getTranscodeStatusForBroadcaster(
             start, TranscodeStatus.Status.RUNNING, 100);
