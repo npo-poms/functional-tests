@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.junit.jupiter.api.Assumptions;
 import org.junit.jupiter.api.Test;
 
 import nl.vpro.domain.api.IdList;
@@ -22,13 +23,17 @@ public class ApiPageTest extends AbstractApiTest {
     private static final String topStoryUrl = "http://test.poms.nl/test001CreateOrUpdatePageTopStory";
 
 
-
+    /**
+     * Tests if the state (as maintained by {@link nl.vpro.poms.pagespublisher.PagesPublisherTest} is indeed consistent.
+     *
+     * I.e. all mentioned referrals of the top story do indeed also exist.
+     */
     @Test
     void load() {
 
         MultipleEntry<Page> multipleEntry = clients.getPageService().loadMultiple(topStoryUrl, null, null).getItems().get(0);
 
-        assertThat(multipleEntry.getResult()).isNotNull();
+        Assumptions.assumeTrue(multipleEntry.getResult() != null, "This test cannot be performed because " + topStoryUrl + " has not yet been created at all");
 
         IdList list = new IdList();
         for (Referral r : multipleEntry.getResult().getReferrals()) {
