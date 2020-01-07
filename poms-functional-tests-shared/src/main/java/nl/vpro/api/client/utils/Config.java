@@ -39,7 +39,9 @@ public class Config {
         npo_pageupdate_api,
         npo_publisher,
         poms,
-        images;
+        images,
+        nep
+        ;
 
         public String getKey() {
             return name().replace('_', '-');

@@ -3,13 +3,17 @@ package nl.vpro.poms.backend;
 import lombok.extern.slf4j.Slf4j;
 
 import java.time.Instant;
+import java.util.Map;
 
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 
+import nl.vpro.api.client.utils.Config;
 import nl.vpro.domain.media.*;
 import nl.vpro.domain.media.update.*;
 import nl.vpro.domain.media.update.collections.XmlCollection;
+import nl.vpro.nep.service.NEPUploadService;
+import nl.vpro.nep.service.impl.NEPSSHJUploadServiceImpl;
 import nl.vpro.poms.AbstractApiMediaBackendTest;
 import nl.vpro.test.jupiter.AbortOnException;
 import nl.vpro.util.Version;
@@ -25,8 +29,23 @@ import static org.assertj.core.api.Assumptions.assumeThat;
 @ExtendWith(AbortOnException.class)
 class MediaBackendTranscodeTest extends AbstractApiMediaBackendTest {
 
+
+    static NEPUploadService uploadService;
+    @BeforeAll
+    public static void init() {
+        Map<String, String> properties = CONFIG.getProperties(Config.Prefix.nep);
+        uploadService = new NEPSSHJUploadServiceImpl(
+            properties.get("gatekeeper-upload.host"),
+            properties.get("gatekeeper-upload.username"),
+            properties.get("gatekeeper-upload.password"),
+            properties.get("gatekeeper-upload.hostkey")
+        );
+        log.info("{}", uploadService);
+    }
+
     Instant start = Instant.now();
     String newMid;
+
 
     @Test
     @Order(1)

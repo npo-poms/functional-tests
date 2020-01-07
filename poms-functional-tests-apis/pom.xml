@@ -99,6 +99,11 @@
       <artifactId>vpro-shared-logging</artifactId>
       <scope>test</scope>
     </dependency>
+    <dependency>
+      <groupId>nl.vpro.media</groupId>
+      <artifactId>media-nep</artifactId>
+      <scope>test</scope>
+    </dependency>
 
   </dependencies>
 
