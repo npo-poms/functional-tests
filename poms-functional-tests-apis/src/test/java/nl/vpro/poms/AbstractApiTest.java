@@ -28,7 +28,7 @@ import nl.vpro.util.Version;
  * @author Michiel Meeuwissen
  * @since 1.0
  */
-@ExtendWith({AllowUnavailable.class, AllowNotImplemented.class, AbortOnException.class})
+@ExtendWith({AllowUnavailable.class, AllowNotImplemented.class, AbortOnException.class, TestMDC.class})
 @Timeout(value = 30, unit = TimeUnit.MINUTES)
 @AbortOnException.OnlyIfOrdered
 public abstract class AbstractApiTest extends AbstractTest  {

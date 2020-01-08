@@ -12,15 +12,14 @@ import javax.validation.constraints.NotNull;
 import javax.ws.rs.NotFoundException;
 
 import org.junit.jupiter.api.*;
-import org.junit.jupiter.api.extension.ExtendWith;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 
 import nl.vpro.api.client.pages.PageUpdateApiClient;
 import nl.vpro.api.client.utils.Result;
 import nl.vpro.api.client.utils.*;
-import nl.vpro.domain.api.*;
 import nl.vpro.domain.api.Order;
+import nl.vpro.domain.api.*;
 import nl.vpro.domain.api.page.*;
 import nl.vpro.domain.media.MediaObject;
 import nl.vpro.domain.media.update.MediaUpdate;
@@ -28,7 +27,6 @@ import nl.vpro.domain.page.*;
 import nl.vpro.domain.page.update.*;
 import nl.vpro.jackson2.Jackson2Mapper;
 import nl.vpro.poms.AbstractApiMediaBackendTest;
-import nl.vpro.test.jupiter.AbortOnException;
 import nl.vpro.testutils.Utils;
 import nl.vpro.testutils.Utils.Check;
 import nl.vpro.util.Version;
@@ -47,7 +45,6 @@ import static org.junit.jupiter.api.Assumptions.assumeTrue;
 @TestMethodOrder(MethodOrderer.Alphanumeric.class)
 @Slf4j
 class PagesPublisherTest extends AbstractApiMediaBackendTest {
-
 
     private static final Duration ACCEPTABLE_DURATION = Duration.ofMinutes(3);
     private static final Duration ACCEPTABLE_PAGE_PUBLISHED_DURATION = Duration.ofMinutes(15);
@@ -73,13 +70,10 @@ class PagesPublisherTest extends AbstractApiMediaBackendTest {
     private static String urlTomorrow;
 
 
-
-    @BeforeEach
-    public void setup() {
+    @BeforeAll
+    public static void setup() {
         log.info("Testing with version {}", util.getPageUpdateApiClient().getVersionNumber());
-
         log.info("Backend available: {}", backend.isAvailable());
-
     }
 
 
