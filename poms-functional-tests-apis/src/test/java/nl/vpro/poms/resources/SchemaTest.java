@@ -12,12 +12,14 @@ import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.*;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.xml.sax.SAXException;
 
 import nl.vpro.api.client.utils.Config;
 import nl.vpro.domain.media.MediaTestDataBuilder;
 import nl.vpro.domain.media.Program;
 import nl.vpro.domain.media.update.ProgramUpdate;
+import nl.vpro.junit.extensions.TestMDC;
 import nl.vpro.util.IntegerVersion;
 
 import static nl.vpro.poms.AbstractApiTest.CONFIG;
@@ -27,6 +29,7 @@ import static nl.vpro.poms.AbstractApiTest.CONFIG;
  * @author Michiel Meeuwissen
  */
 @Log4j2
+@ExtendWith(TestMDC.class)
 class SchemaTest {
 
     @Test
