@@ -1,7 +1,7 @@
 package nl.vpro.junit.extensions;
 
 
-import lombok.extern.slf4j.Slf4j;
+import lombok.extern.log4j.Log4j2;
 
 import java.lang.reflect.Method;
 import java.util.function.Consumer;
@@ -12,7 +12,7 @@ import org.opentest4j.TestAbortedException;
 /**
  * @author Michiel Meeuwissen
  */
-@Slf4j
+@Log4j2
 public class DoAfterException implements InvocationInterceptor {
 
     public DoAfterException() {

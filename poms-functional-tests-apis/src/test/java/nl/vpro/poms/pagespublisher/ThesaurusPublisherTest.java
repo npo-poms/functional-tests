@@ -1,6 +1,6 @@
 package nl.vpro.poms.pagespublisher;
 
-import lombok.extern.slf4j.Slf4j;
+import lombok.extern.log4j.Log4j2;
 
 import org.assertj.core.api.Assumptions;
 import org.junit.jupiter.api.Disabled;
@@ -20,7 +20,7 @@ import static org.assertj.core.api.Assertions.assertThat;
  * @author Michiel Meeuwissen
  */
 @SuppressWarnings("FieldCanBeLocal")
-@Slf4j
+@Log4j2
 class ThesaurusPublisherTest extends AbstractApiTest {
 
    private PageUpdateApiClient pageUpdateApiClient = PageUpdateApiClient.configured(

@@ -1,6 +1,6 @@
 package nl.vpro.poms.integration;
 
-import lombok.extern.slf4j.Slf4j;
+import lombok.extern.log4j.Log4j2;
 
 import java.time.Duration;
 import java.time.Instant;
@@ -15,7 +15,7 @@ import nl.vpro.domain.media.support.Image;
 import nl.vpro.domain.media.support.Workflow;
 import nl.vpro.domain.media.update.GroupUpdate;
 import nl.vpro.domain.media.update.ProgramUpdate;
-import nl.vpro.logging.LoggerOutputStream;
+import nl.vpro.logging.Log4j2OutputStream;
 import nl.vpro.poms.AbstractApiMediaBackendTest;
 
 import static nl.vpro.testutils.Utils.waitUntil;
@@ -33,7 +33,7 @@ import static org.assertj.core.api.Assumptions.assumeThat;
  * @author Michiel Meeuwissen
  */
 @TestMethodOrder(MethodOrderer.Alphanumeric.class)
-@Slf4j
+@Log4j2
 public class MediaITest extends AbstractApiMediaBackendTest {
 
     private static String groupMid;
@@ -91,7 +91,7 @@ public class MediaITest extends AbstractApiMediaBackendTest {
 
             );
         clipMid = backend.set(clip);
-        JAXB.marshal(clip, LoggerOutputStream.debug(log));
+        JAXB.marshal(clip, Log4j2OutputStream.debug(log));
         log.info("Created clip {} {}", clipMid, clipTitle);
         groupMid = backend.set(
             GroupUpdate.create(

@@ -1,7 +1,7 @@
 package nl.vpro.testutils;
 
 import lombok.Getter;
-import lombok.extern.slf4j.Slf4j;
+import lombok.extern.log4j.Log4j2;
 
 import java.time.Duration;
 import java.time.Instant;
@@ -17,7 +17,7 @@ import static org.assertj.core.api.Assertions.assertThat;
  * @author Michiel Meeuwissen
  */
 
-@Slf4j
+@Log4j2
 public class Utils {
 
     private final static Duration WAIT = Duration.ofSeconds(15);

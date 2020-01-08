@@ -1,6 +1,6 @@
 package nl.vpro.poms.backend;
 
-import lombok.extern.slf4j.Slf4j;
+import lombok.extern.log4j.Log4j2;
 
 import java.time.Duration;
 
@@ -27,7 +27,7 @@ import static nl.vpro.testutils.Utils.waitUntil;
  * 5.7.9 @ test: 403 permission denied (we moeten hiervoor een account hebben, anders kunnen we niet testen!)
  */
 @TestMethodOrder(MethodOrderer.Alphanumeric.class)
-@Slf4j
+@Log4j2
 public class AddFrameTest extends AbstractApiMediaBackendTest {
 
     private static final Duration ACCEPTABLE_DURATION = Duration.ofMinutes(3);

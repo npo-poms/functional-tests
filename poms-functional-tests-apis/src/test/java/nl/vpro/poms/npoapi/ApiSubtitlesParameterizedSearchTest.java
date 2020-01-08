@@ -1,6 +1,6 @@
 package nl.vpro.poms.npoapi;
 
-import lombok.extern.slf4j.Slf4j;
+import lombok.extern.log4j.Log4j2;
 
 import java.io.IOException;
 import java.util.stream.Stream;
@@ -19,7 +19,7 @@ import nl.vpro.poms.ApiSearchTestHelper;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
-@Slf4j
+@Log4j2
 class ApiSubtitlesParameterizedSearchTest extends AbstractSearchTest<SubtitlesForm, SubtitlesSearchResult> {
 
     {

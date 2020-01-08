@@ -1,12 +1,12 @@
 package nl.vpro.poms.selenium.pages;
 
 import lombok.NonNull;
-import lombok.extern.slf4j.Slf4j;
+import lombok.extern.log4j.Log4j2;
 import nl.vpro.poms.selenium.util.WebDriverUtil;
 import org.openqa.selenium.By;
 
 
-@Slf4j
+@Log4j2
 public class KeycloakLogin extends AbstractLogin {
 
     private static final By usernameBy = By.id("username");

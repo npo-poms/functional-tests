@@ -1,6 +1,6 @@
 package nl.vpro.poms.npoapi;
 
-import lombok.extern.slf4j.Slf4j;
+import lombok.extern.log4j.Log4j2;
 
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -23,7 +23,7 @@ import static org.junit.jupiter.api.Assumptions.assumeTrue;
  * @author Michiel Meeuwissen
  * @since 1.0
  */
-@Slf4j
+@Log4j2
 public abstract class AbstractSearchTest<T, S> extends AbstractApiTest {
     private Map<Pattern, Function<S, Boolean>> TESTERS = new HashMap<>();
     private static Map<String, AtomicInteger> USED = new HashMap<>();

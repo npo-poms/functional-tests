@@ -1,7 +1,7 @@
 package nl.vpro.poms.poms;
 
 import io.restassured.RestAssured;
-import lombok.extern.slf4j.Slf4j;
+import lombok.extern.log4j.Log4j2;
 
 import java.io.IOException;
 
@@ -22,7 +22,7 @@ import static org.assertj.core.api.Assertions.assertThat;
  * There
  * @author Michiel Meeuwissen
  */
-@Slf4j
+@Log4j2
 @ExtendWith({TestMDC.class})
 class LetterBoxTest extends AbstractApiMediaBackendTest {
 

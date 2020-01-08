@@ -2,7 +2,7 @@ package nl.vpro.poms.backend;
 
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
-import lombok.extern.slf4j.Slf4j;
+import lombok.extern.log4j.Log4j2;
 
 import java.io.StringReader;
 import java.io.StringWriter;
@@ -41,7 +41,7 @@ import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
 @TestMethodOrder(MethodOrderer.Alphanumeric.class)
 @Timeout(value = 1, unit = TimeUnit.MINUTES)
-@Slf4j
+@Log4j2
 class PromoTest extends AbstractApiMediaBackendTest {
 
     private static final LocalDate today = LocalDate.now(Schedule.ZONE_ID);

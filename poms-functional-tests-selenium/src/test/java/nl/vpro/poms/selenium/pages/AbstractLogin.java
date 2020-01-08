@@ -1,7 +1,7 @@
 package nl.vpro.poms.selenium.pages;
 
 import lombok.NonNull;
-import lombok.extern.slf4j.Slf4j;
+import lombok.extern.log4j.Log4j2;
 import nl.vpro.poms.selenium.util.WebDriverUtil;
 
 import static nl.vpro.poms.selenium.poms.tests.AbstractPomsTest.CONFIG;
@@ -11,7 +11,7 @@ import static nl.vpro.poms.selenium.poms.tests.AbstractPomsTest.CONFIG;
  *
  * Currently either CAS or KEYCLOAK (sharing the same log ins). We're moving to Keycloak.
  */
-@Slf4j
+@Log4j2
 public abstract class AbstractLogin extends AbstractPage {
 
 

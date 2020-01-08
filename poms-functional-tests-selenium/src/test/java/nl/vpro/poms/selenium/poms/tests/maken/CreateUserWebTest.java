@@ -1,7 +1,7 @@
 package nl.vpro.poms.selenium.poms.tests.maken;
 
 
-import lombok.extern.slf4j.Slf4j;
+import lombok.extern.log4j.Log4j2;
 
 import java.util.stream.Collectors;
 
@@ -24,7 +24,7 @@ import static org.junit.jupiter.api.Assertions.assertArrayEquals;
  * @author e.kuijt@vpro.nl
  */
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-@Slf4j
+@Log4j2
 public class CreateUserWebTest extends AbstractPomsTest {
 
     public CreateUserWebTest(Browser browser) {

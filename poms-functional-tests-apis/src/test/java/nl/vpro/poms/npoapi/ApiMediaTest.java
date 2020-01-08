@@ -1,6 +1,6 @@
 package nl.vpro.poms.npoapi;
 
-import lombok.extern.slf4j.Slf4j;
+import lombok.extern.log4j.Log4j2;
 
 import java.io.IOException;
 import java.lang.annotation.Retention;
@@ -24,7 +24,7 @@ import nl.vpro.poms.AbstractApiTest;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-@Slf4j
+@Log4j2
 public class ApiMediaTest extends AbstractApiTest {
 
     ApiMediaTest() {

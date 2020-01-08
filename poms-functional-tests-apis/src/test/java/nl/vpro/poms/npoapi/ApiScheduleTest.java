@@ -1,6 +1,6 @@
 package nl.vpro.poms.npoapi;
 
-import lombok.extern.slf4j.Slf4j;
+import lombok.extern.log4j.Log4j2;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -18,7 +18,7 @@ import nl.vpro.poms.AbstractApiTest;
 import static org.assertj.core.api.Assertions.assertThat;
 
 
-@Slf4j
+@Log4j2
 class ApiScheduleTest extends AbstractApiTest {
 
 

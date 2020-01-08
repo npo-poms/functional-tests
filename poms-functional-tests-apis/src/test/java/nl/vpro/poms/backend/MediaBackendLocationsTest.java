@@ -1,6 +1,6 @@
 package nl.vpro.poms.backend;
 
-import lombok.extern.slf4j.Slf4j;
+import lombok.extern.log4j.Log4j2;
 
 import java.io.IOException;
 import java.time.Duration;
@@ -14,7 +14,7 @@ import org.junit.jupiter.api.*;
 import nl.vpro.domain.media.update.LocationUpdate;
 import nl.vpro.domain.media.update.ProgramUpdate;
 import nl.vpro.domain.media.update.collections.XmlCollection;
-import nl.vpro.logging.LoggerOutputStream;
+import nl.vpro.logging.Log4j2OutputStream;
 import nl.vpro.poms.AbstractApiMediaBackendTest;
 import nl.vpro.test.jupiter.AbortOnException;
 
@@ -35,15 +35,13 @@ import static org.assertj.core.api.Assertions.assertThat;
  * @author Michiel Meeuwissen
  */
 @TestMethodOrder(MethodOrderer.Alphanumeric.class)
-@Slf4j
+@Log4j2
 class MediaBackendLocationsTest extends AbstractApiMediaBackendTest {
 
     private static final Duration ACCEPTABLE_DURATION = Duration.ofMinutes(3);
     private static final List<String> titles = new ArrayList<>();
 
-
     private static String firstTitle;
-
 
 /*
 
@@ -132,7 +130,7 @@ class MediaBackendLocationsTest extends AbstractApiMediaBackendTest {
         ProgramUpdate update = backend.get(MID);
         update.getLocations().add(location);
         backend.set(update);
-        JAXB.marshal(update, LoggerOutputStream.debug(log));
+        JAXB.marshal(update, Log4j2OutputStream.debug(log));
     }
 
 

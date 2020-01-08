@@ -1,6 +1,6 @@
 package nl.vpro.poms.selenium.npoapi.thesaurus;
 
-import lombok.extern.slf4j.Slf4j;
+import lombok.extern.log4j.Log4j2;
 
 import java.io.IOException;
 import java.io.StringReader;
@@ -34,7 +34,7 @@ import static org.openqa.selenium.By.tagName;
  *
  */
 @FixMethodOrder(NAME_ASCENDING)
-@Slf4j
+@Log4j2
 public class ThesaurusPopupTest extends AbstractTest {
 
     private static final String EXAMPLE_TITLE = "POMS GTAA";

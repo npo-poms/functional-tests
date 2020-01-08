@@ -1,6 +1,6 @@
 package nl.vpro.poms.resources;
 
-import lombok.extern.slf4j.Slf4j;
+import lombok.extern.log4j.Log4j2;
 
 import java.io.*;
 import java.net.URL;
@@ -25,7 +25,7 @@ import static nl.vpro.poms.AbstractApiTest.CONFIG;
 /**
  * @author Michiel Meeuwissen
  */
-@Slf4j
+@Log4j2
 class SchemaTest {
 
 

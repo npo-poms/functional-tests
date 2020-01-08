@@ -1,6 +1,6 @@
 package nl.vpro.poms.pagespublisher;
 
-import lombok.extern.slf4j.Slf4j;
+import lombok.extern.log4j.Log4j2;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -43,7 +43,7 @@ import static org.junit.jupiter.api.Assumptions.assumeTrue;
  */
 @SuppressWarnings("OptionalGetWithoutIsPresent")
 @TestMethodOrder(MethodOrderer.Alphanumeric.class)
-@Slf4j
+@Log4j2
 class PagesPublisherTest extends AbstractApiMediaBackendTest {
 
     private static final Duration ACCEPTABLE_DURATION = Duration.ofMinutes(3);

@@ -5,7 +5,7 @@ import io.github.bonigarcia.wdm.DriverManagerType;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import lombok.EqualsAndHashCode;
 import lombok.SneakyThrows;
-import lombok.extern.slf4j.Slf4j;
+import lombok.extern.log4j.Log4j2;
 
 import java.util.concurrent.ExecutionException;
 
@@ -23,7 +23,7 @@ import com.google.common.cache.*;
 import static nl.vpro.poms.selenium.util.Config.CONFIG;
 
 
-@Slf4j
+@Log4j2
 public class WebDriverFactory {
 
     public static boolean headless;

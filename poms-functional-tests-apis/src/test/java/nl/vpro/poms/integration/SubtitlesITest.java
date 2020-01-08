@@ -1,6 +1,6 @@
 package nl.vpro.poms.integration;
 
-import lombok.extern.slf4j.Slf4j;
+import lombok.extern.log4j.Log4j2;
 
 import java.io.IOException;
 import java.time.Duration;
@@ -33,7 +33,7 @@ import static org.junit.jupiter.api.Assumptions.assumeTrue;
  * @author Michiel Meeuwissen
  */
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-@Slf4j
+@Log4j2
 public class SubtitlesITest extends AbstractApiMediaBackendTest {
 
     private static final Duration ACCEPTABLE_DURATION_BACKEND = Duration.ofMinutes(2);

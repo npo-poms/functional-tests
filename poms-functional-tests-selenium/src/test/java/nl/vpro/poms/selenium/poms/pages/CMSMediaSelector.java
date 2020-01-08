@@ -1,7 +1,7 @@
 package nl.vpro.poms.selenium.poms.pages;
 
 
-import lombok.extern.slf4j.Slf4j;
+import lombok.extern.log4j.Log4j2;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
@@ -21,7 +21,7 @@ import static org.assertj.core.api.Fail.fail;
 /**
  */
 
-@Slf4j
+@Log4j2
 public class CMSMediaSelector extends AbstractPage {
     final String url = CONFIG.getProperties(Config.Prefix.poms).get("baseUrl") + "/CMSSelector/example/";
     WebDriverWait wait;

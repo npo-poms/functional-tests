@@ -1,6 +1,6 @@
 package nl.vpro.poms.backend;
 
-import lombok.extern.slf4j.Slf4j;
+import lombok.extern.log4j.Log4j2;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -14,15 +14,13 @@ import java.util.stream.Collectors;
 import javax.xml.bind.JAXB;
 
 import org.junit.jupiter.api.*;
-import org.junit.jupiter.api.extension.ExtendWith;
 
 import nl.vpro.api.client.media.ResponseError;
 import nl.vpro.domain.image.ImageType;
 import nl.vpro.domain.media.update.ImageUpdate;
 import nl.vpro.domain.media.update.ProgramUpdate;
-import nl.vpro.logging.LoggerOutputStream;
+import nl.vpro.logging.Log4j2OutputStream;
 import nl.vpro.poms.AbstractApiMediaBackendTest;
-import nl.vpro.test.jupiter.AbortOnException;
 import nl.vpro.util.Version;
 
 import static nl.vpro.testutils.Utils.waitUntil;
@@ -46,14 +44,10 @@ import static org.junit.jupiter.api.Assumptions.assumeTrue;
  * @author Michiel Meeuwissen
  */
 @TestMethodOrder(MethodOrderer.Alphanumeric.class)
-@Slf4j
-@ExtendWith(AbortOnException.class)
-
+@Log4j2
 public class MediaBackendImagesTest extends AbstractApiMediaBackendTest {
-
     private static final Duration ACCEPTABLE_DURATION = Duration.ofMinutes(3);
     private static final List<String> titles = new ArrayList<>();
-
 
     @Test
     @Tag("lifecycle")
@@ -61,8 +55,6 @@ public class MediaBackendImagesTest extends AbstractApiMediaBackendTest {
         cleanup();
         cleanupCheck();
     }
-
-
 
     @Test
     void test01addRedirectingImage() {
@@ -104,7 +96,7 @@ public class MediaBackendImagesTest extends AbstractApiMediaBackendTest {
         ProgramUpdate update = backend.get(MID);
         update.getImages().add(imageUpdate);
         backend.set(update);
-        JAXB.marshal(update, LoggerOutputStream.debug(log));
+        JAXB.marshal(update, Log4j2OutputStream.debug(log));
     }
 
 

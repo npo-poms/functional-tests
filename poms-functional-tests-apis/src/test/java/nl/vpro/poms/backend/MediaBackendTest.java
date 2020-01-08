@@ -1,6 +1,6 @@
 package nl.vpro.poms.backend;
 
-import lombok.extern.slf4j.Slf4j;
+import lombok.extern.log4j.Log4j2;
 
 import java.time.Duration;
 import java.util.*;
@@ -30,7 +30,7 @@ import static org.assertj.core.api.Assumptions.assumeThat;
  * @author Michiel Meeuwissen
  */
 @TestMethodOrder(MethodOrderer.Alphanumeric.class)
-@Slf4j
+@Log4j2
 class MediaBackendTest extends AbstractApiMediaBackendTest {
 
     private static final Duration ACCEPTABLE_DURATION = Duration.ofMinutes(3);

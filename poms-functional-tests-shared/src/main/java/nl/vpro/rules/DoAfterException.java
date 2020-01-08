@@ -1,7 +1,7 @@
 package nl.vpro.rules;
 
 
-import lombok.extern.slf4j.Slf4j;
+import lombok.extern.log4j.Log4j2;
 
 import java.util.function.Consumer;
 
@@ -13,7 +13,7 @@ import org.junit.runners.model.Statement;
 /**
  * @author Michiel Meeuwissen
  */
-@Slf4j
+@Log4j2
 public class DoAfterException implements TestRule {
 
     final Consumer<Throwable> job;

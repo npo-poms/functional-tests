@@ -2,8 +2,9 @@ package nl.vpro.junit.extensions;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
+import org.apache.logging.log4j.ThreadContext;
 import org.junit.jupiter.api.extension.*;
-import org.slf4j.MDC;
+
 
 /**
  * @author Michiel Meeuwissen
@@ -19,14 +20,14 @@ public class TestMDC implements AfterTestExecutionCallback, BeforeTestExecutionC
 
     @Override
     public void afterTestExecution(ExtensionContext context) throws Exception {
-        MDC.remove(KEY);
-        MDC.remove(NUMBER_KEY);
+        ThreadContext.remove(KEY);
+        ThreadContext.remove(NUMBER_KEY);
     }
 
     @Override
     public void beforeTestExecution(ExtensionContext context) throws Exception {
-        MDC.put(KEY, context.getRequiredTestClass().getSimpleName() + "#" + context.getRequiredTestMethod().getName());
-        MDC.put(NUMBER_KEY, String.valueOf(testNumber.incrementAndGet()) + ":");
+        ThreadContext.put(KEY, context.getRequiredTestClass().getSimpleName() + "#" + context.getRequiredTestMethod().getName());
+        ThreadContext.put(NUMBER_KEY, String.valueOf(testNumber.incrementAndGet()) + ":");
     }
 
     public static int getTestNumber() {

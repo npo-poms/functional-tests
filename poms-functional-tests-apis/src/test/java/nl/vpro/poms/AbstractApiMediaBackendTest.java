@@ -1,7 +1,7 @@
 package nl.vpro.poms;
 
 import lombok.SneakyThrows;
-import lombok.extern.slf4j.Slf4j;
+import lombok.extern.log4j.Log4j2;
 
 import java.net.URLEncoder;
 import java.time.Duration;
@@ -31,7 +31,7 @@ import static nl.vpro.domain.media.MediaBuilder.program;
  * @author Michiel Meeuwissen
  * @since 1.0
  */
-@Slf4j
+@Log4j2
 @Timeout(value = 15, unit = TimeUnit.MINUTES)
 public abstract class AbstractApiMediaBackendTest extends AbstractApiTest {
 

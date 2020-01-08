@@ -1,6 +1,6 @@
 package nl.vpro.poms.resources;
 
-import lombok.extern.slf4j.Slf4j;
+import lombok.extern.log4j.Log4j2;
 
 import org.junit.jupiter.api.Test;
 
@@ -14,7 +14,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 /**
  * @author Michiel Meeuwissen
   */
-@Slf4j
+@Log4j2
 class ClassificationTest {
 
 

@@ -1,6 +1,6 @@
 package nl.vpro.poms.npoapi;
 
-import lombok.extern.slf4j.Slf4j;
+import lombok.extern.log4j.Log4j2;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -28,7 +28,7 @@ import static org.assertj.core.api.Assumptions.assumeThat;
 import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
 @SuppressWarnings("OptionalGetWithoutIsPresent")
-@Slf4j
+@Log4j2
 public class ApiMediaLoadTest extends AbstractApiTest {
     static List<Arguments> arguments;
 

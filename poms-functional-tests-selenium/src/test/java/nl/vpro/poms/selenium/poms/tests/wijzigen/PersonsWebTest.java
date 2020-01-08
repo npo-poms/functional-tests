@@ -1,6 +1,6 @@
 package nl.vpro.poms.selenium.poms.tests.wijzigen;
 
-import lombok.extern.slf4j.Slf4j;
+import lombok.extern.log4j.Log4j2;
 
 import javax.annotation.Nonnull;
 
@@ -17,7 +17,7 @@ import nl.vpro.poms.selenium.util.WebDriverFactory;
  * @author Michiel Meeuwissen
  */
 
-@Slf4j
+@Log4j2
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class PersonsWebTest extends AbstractPomsTest {
 

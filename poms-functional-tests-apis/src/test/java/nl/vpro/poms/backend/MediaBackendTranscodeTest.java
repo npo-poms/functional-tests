@@ -1,39 +1,39 @@
  package nl.vpro.poms.backend;
 
-import lombok.extern.slf4j.Slf4j;
+ import lombok.extern.log4j.Log4j2;
 
-import java.io.IOException;
-import java.time.Duration;
-import java.time.Instant;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
+ import java.io.IOException;
+ import java.time.Duration;
+ import java.time.Instant;
+ import java.util.List;
+ import java.util.Map;
+ import java.util.stream.Collectors;
 
-import javax.ws.rs.core.Response;
+ import javax.ws.rs.core.Response;
 
-import org.junit.jupiter.api.*;
+ import org.junit.jupiter.api.*;
 
-import nl.vpro.api.client.utils.Config;
-import nl.vpro.domain.media.Encryption;
-import nl.vpro.domain.media.EntityType;
-import nl.vpro.domain.media.update.TranscodeRequest;
-import nl.vpro.domain.media.update.TranscodeStatus;
-import nl.vpro.domain.media.update.collections.XmlCollection;
-import nl.vpro.logging.simple.SimpleLogger;
-import nl.vpro.nep.service.impl.NEPSSHJUploadServiceImpl;
-import nl.vpro.poms.AbstractApiMediaBackendTest;
-import nl.vpro.util.Env;
+ import nl.vpro.api.client.utils.Config;
+ import nl.vpro.domain.media.Encryption;
+ import nl.vpro.domain.media.EntityType;
+ import nl.vpro.domain.media.update.TranscodeRequest;
+ import nl.vpro.domain.media.update.TranscodeStatus;
+ import nl.vpro.domain.media.update.collections.XmlCollection;
+ import nl.vpro.logging.simple.Log4j2SimpleLogger;
+ import nl.vpro.nep.service.impl.NEPSSHJUploadServiceImpl;
+ import nl.vpro.poms.AbstractApiMediaBackendTest;
+ import nl.vpro.util.Env;
 
-import static nl.vpro.domain.media.update.TranscodeStatus.Status.COMPLETED;
-import static nl.vpro.domain.media.update.TranscodeStatus.Status.FAILED;
-import static nl.vpro.testutils.Utils.waitUntils;
+ import static nl.vpro.domain.media.update.TranscodeStatus.Status.COMPLETED;
+ import static nl.vpro.domain.media.update.TranscodeStatus.Status.FAILED;
+ import static nl.vpro.testutils.Utils.waitUntils;
 
 /**
  * Tests if files can be uploaded, and be correctly handled.
  * @author Michiel Meeuwissen
  */
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-@Slf4j
+@Log4j2
 class MediaBackendTranscodeTest extends AbstractApiMediaBackendTest {
 
     static String fileName = MediaBackendTranscodeTest.class.getSimpleName() + "-" + SIMPLE_NOWSTRING;
@@ -100,7 +100,7 @@ class MediaBackendTranscodeTest extends AbstractApiMediaBackendTest {
     @Tag("absolute")
     @Tag("relative")
     void uploadFile() throws IOException {
-        long upload = uploadService.upload(SimpleLogger.slfj4(log), uploadFileName, 1279795L, getClass().getResourceAsStream("/test.mp4"), true);
+        long upload = uploadService.upload(Log4j2SimpleLogger.of(log), uploadFileName, 1279795L, getClass().getResourceAsStream("/test.mp4"), true);
 
         log.info("Uploaded {}: {}", uploadFileName, upload);
 

@@ -2,7 +2,7 @@ package nl.vpro.poms.backend;
 
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
-import lombok.extern.slf4j.Slf4j;
+import lombok.extern.log4j.Log4j2;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -41,11 +41,9 @@ import static org.hamcrest.Matchers.*;
  * @author Michiel Meeuwissen
  */
 @TestMethodOrder(MethodOrderer.Alphanumeric.class)
-@Slf4j
+@Log4j2
 @ExtendWith({AllowUnavailable.class, TestMDC.class})
 public class MediaTest {
-
-
 
     private static final String MEDIA_URL = CONFIG.url(npo_backend_api, "media/media");
     private static final String FIND_URL = CONFIG.url(npo_backend_api, "media/find");
