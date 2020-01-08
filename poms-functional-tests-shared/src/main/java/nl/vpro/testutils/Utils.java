@@ -8,9 +8,7 @@ import java.time.Instant;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.Callable;
-import java.util.function.Function;
-import java.util.function.Predicate;
-import java.util.function.Supplier;
+import java.util.function.*;
 import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -99,6 +97,17 @@ public class Utils {
         Supplier<T> r,
         Predicate<T> predicate) {
         return waitUntil(acceptable, predicateDescription, r, predicate, (result) -> predicateDescription + ": " + result + " doesn't match");
+    }
+
+
+    @SafeVarargs
+    public static <T> T waitUntils(
+        Duration acceptable,
+        String predicateDescription,
+        Supplier<T> r,
+        Predicate<T> ... predicate) {
+        Predicate<T> and = Arrays.stream(predicate).reduce(x -> true, Predicate::and);
+        return waitUntil(acceptable, predicateDescription, r, and, (result) -> predicateDescription + ": " + result + " doesn't match");
     }
     /**
      * Call supplier until its result evaluates true according to given predicate or the acceptable duration elapses.
