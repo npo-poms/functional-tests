@@ -21,7 +21,6 @@ import nl.vpro.domain.media.update.TranscodeRequest;
 import nl.vpro.domain.media.update.TranscodeStatus;
 import nl.vpro.domain.media.update.collections.XmlCollection;
 import nl.vpro.logging.simple.SimpleLogger;
-import nl.vpro.nep.service.NEPUploadService;
 import nl.vpro.nep.service.impl.NEPSSHJUploadServiceImpl;
 import nl.vpro.poms.AbstractApiMediaBackendTest;
 import nl.vpro.test.jupiter.AbortOnException;
@@ -42,7 +41,10 @@ class MediaBackendTranscodeTest extends AbstractApiMediaBackendTest {
 
     static String fileName = MediaBackendTranscodeTest.class.getSimpleName() + "-" + SIMPLE_NOWSTRING;
 
-    static NEPUploadService uploadService;
+    static NEPSSHJUploadServiceImpl uploadService;
+
+
+
     @BeforeAll
     public static void init() {
         Map<String, String> properties = CONFIG.getProperties(Config.Prefix.nep);
@@ -55,8 +57,9 @@ class MediaBackendTranscodeTest extends AbstractApiMediaBackendTest {
         log.info("{}", uploadService);
     }
 
-    Instant uploadStart = Instant.now();
-    Instant transcodeStart = Instant.now();
+    Instant transcodeRelativeStart = Instant.now();
+    Instant transcodeAbsoluteStart = Instant.now();
+    Instant uploadAndTranscodeStart = Instant.now();
 
     String uploadFileName = fileName + "-manual.mp4";
     String nonexistingFile = fileName + "-doesntexist.mp4";
@@ -91,14 +94,13 @@ class MediaBackendTranscodeTest extends AbstractApiMediaBackendTest {
     @Order(1)
     @Tag("errorneous")
     void checkTranscodeErrorneousFile() {
-        check(uploadStart, FAILED);
+        check(NOW.toInstant(), FAILED);
     }
 
     @Test
     @Order(10)
     @Tag("manual")
     void uploadFile() throws IOException {
-        uploadStart = Instant.now();
         long upload = uploadService.upload(SimpleLogger.slfj4(log), uploadFileName, 1279795L, getClass().getResourceAsStream("/test.mp4"), true);
 
         log.info("Uploaded {}: {}", uploadFileName, upload);
@@ -108,12 +110,13 @@ class MediaBackendTranscodeTest extends AbstractApiMediaBackendTest {
     @Test
     @Order(11)
     @Tag("manual")
-    void transcodeAfterManualUpload() {
+    void transcodeWithAbsolutePathAfterManualUpload() {
+        transcodeAbsoluteStart = Instant.now();
         TranscodeRequest request =
             TranscodeRequest.builder()
                 .mid(MID)
                 .encryption(Encryption.NONE)
-                .fileName(uploadFileName)
+                .fileName("/" + uploadService.getUsername() + "/" + uploadFileName)
                 .build();
 
         String result = backend.transcode(request);
@@ -123,19 +126,43 @@ class MediaBackendTranscodeTest extends AbstractApiMediaBackendTest {
     @Test
     @Order(12)
     @Tag("manual")
-    void checkStatusAfterManualUpload() {
+    void checkStatusAfterManualUploadAndTranscodeWithAbsolutePath() {
         XmlCollection<TranscodeStatus> vpro = backend.getBackendRestService().getTranscodeStatusForBroadcaster(
-            uploadStart.minus(Duration.ofDays(3)), /*TranscodeStatus.Status.RUNNING* doesn't work on acc*/ null, null);
+            NOW.toInstant().minus(Duration.ofDays(3)), /*TranscodeStatus.Status.RUNNING* doesn't work on acc*/ null, null);
         log.info("{}", vpro);
 
-        check(uploadStart, COMPLETED);
+        check(transcodeAbsoluteStart, COMPLETED);
+    }
+
+
+    @Test
+    @Order(13)
+    @Tag("manual")
+    void transcodeWithRelativePathAfterManualUpload() {
+        transcodeRelativeStart = Instant.now();
+        TranscodeRequest request =
+            TranscodeRequest.builder()
+                .mid(MID)
+                .encryption(Encryption.NONE)
+                .fileName(uploadFileName) // we use the account that poms will prefix
+                .build();
+
+        String result = backend.transcode(request);
+        log.info("{}: {}", newMid, result);
+    }
+
+    @Test
+    @Order(14)
+    @Tag("manual")
+    void checkStatusAfterManualUploadAndTranscodeWithRelativePath() {
+        check(transcodeRelativeStart, COMPLETED);
     }
 
     @Test
     @Order(20)
     @Tag("viaapi")
     void uploadAndTranscode() throws IOException {
-        transcodeStart = Instant.now();
+        uploadAndTranscodeStart = Instant.now();
 
         try(Response response = backend.getBackendRestService().uploadAndTranscode(
             MID,
@@ -159,7 +186,7 @@ class MediaBackendTranscodeTest extends AbstractApiMediaBackendTest {
     @Order(21)
     @Tag("viaapi")
     void checkUploadAndTranscode() {
-        check(transcodeStart, COMPLETED);
+        check(uploadAndTranscodeStart, COMPLETED);
     }
 
     @Test
