@@ -71,7 +71,7 @@ class MediaBackendTranscodeTest extends AbstractApiMediaBackendTest {
     @BeforeAll
     public static void test() {
         if (CONFIG.env() != Env.PROD) {
-            throw new IllegalStateException("It is known currently not to work in staging @ NEP");
+            throw new IllegalStateException("It is known currently not to work in acc @ NEP");
         }
     }
 
@@ -100,6 +100,8 @@ class MediaBackendTranscodeTest extends AbstractApiMediaBackendTest {
     @Test
     @Order(10)
     @Tag("manual")
+    @Tag("absolute")
+    @Tag("relative")
     void uploadFile() throws IOException {
         long upload = uploadService.upload(SimpleLogger.slfj4(log), uploadFileName, 1279795L, getClass().getResourceAsStream("/test.mp4"), true);
 
@@ -110,6 +112,7 @@ class MediaBackendTranscodeTest extends AbstractApiMediaBackendTest {
     @Test
     @Order(11)
     @Tag("manual")
+    @Tag("absolute")
     void transcodeWithAbsolutePathAfterManualUpload() {
         transcodeAbsoluteStart = Instant.now();
         TranscodeRequest request =
@@ -126,6 +129,8 @@ class MediaBackendTranscodeTest extends AbstractApiMediaBackendTest {
     @Test
     @Order(12)
     @Tag("manual")
+    @Tag("absolute")
+    @Tag("check")
     void checkStatusAfterManualUploadAndTranscodeWithAbsolutePath() {
         XmlCollection<TranscodeStatus> vpro = backend.getBackendRestService().getTranscodeStatusForBroadcaster(
             NOW.toInstant().minus(Duration.ofDays(3)), /*TranscodeStatus.Status.RUNNING* doesn't work on acc*/ null, null);
@@ -138,6 +143,7 @@ class MediaBackendTranscodeTest extends AbstractApiMediaBackendTest {
     @Test
     @Order(13)
     @Tag("manual")
+    @Tag("relative")
     void transcodeWithRelativePathAfterManualUpload() {
         transcodeRelativeStart = Instant.now();
         TranscodeRequest request =
@@ -154,6 +160,8 @@ class MediaBackendTranscodeTest extends AbstractApiMediaBackendTest {
     @Test
     @Order(14)
     @Tag("manual")
+    @Tag("relative")
+    @Tag("check")
     void checkStatusAfterManualUploadAndTranscodeWithRelativePath() {
         check(transcodeRelativeStart, COMPLETED);
     }
@@ -185,6 +193,7 @@ class MediaBackendTranscodeTest extends AbstractApiMediaBackendTest {
     @Test
     @Order(21)
     @Tag("viaapi")
+    @Tag("check")
     void checkUploadAndTranscode() {
         check(uploadAndTranscodeStart, COMPLETED);
     }
