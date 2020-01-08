@@ -1,8 +1,8 @@
 package nl.vpro.poms;
 
 import java.lang.reflect.Method;
-import java.time.Duration;
-import java.time.ZonedDateTime;
+import java.time.*;
+import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
@@ -37,14 +37,17 @@ public abstract class AbstractApiTest extends AbstractTest  {
 
     public static final Config CONFIG = new Config("npo-functional-tests.properties");
 
-    private static final String NOW = ZonedDateTime.now(Schedule.ZONE_ID).toOffsetDateTime().toString();
+    protected static final OffsetDateTime NOW = ZonedDateTime.now(Schedule.ZONE_ID).toOffsetDateTime();
+    protected static final String NOWSTRING = NOW.toString();
+    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("yyyyMMdd'T'HHmm");
+    protected static final String SIMPLE_NOWSTRING = FORMATTER.format(NOW);
 
     protected String title;
 
     @BeforeEach
     public void setupTitle(TestInfo testInfo) {
         Utils.CLEAR_CACHES.set(this::clearCaches);
-        title = TestMDC.getTestNumber() + ":" + NOW + " " + testInfo.getDisplayName() + " Caf\u00E9 \u6C49"; // testing encoding too!
+        title = TestMDC.getTestNumber() + ":" + NOWSTRING + " " + testInfo.getDisplayName() + " Caf\u00E9 \u6C49"; // testing encoding too!
 
         log.info("Running {} with title {}", testInfo.getTestMethod().map(Method::toString).orElse("<no method?>"), title);
         if (!Objects.equals(log, LOG)) {

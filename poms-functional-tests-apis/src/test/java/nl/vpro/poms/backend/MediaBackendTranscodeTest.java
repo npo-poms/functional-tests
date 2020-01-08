@@ -40,6 +40,9 @@ import static org.assertj.core.api.Assumptions.assumeThat;
 class MediaBackendTranscodeTest extends AbstractApiMediaBackendTest {
 
 
+
+    static String fileName = MediaBackendTranscodeTest.class.getSimpleName() + "-" + SIMPLE_NOWSTRING;
+
     static NEPUploadService uploadService;
     @BeforeAll
     public static void init() {
@@ -56,6 +59,9 @@ class MediaBackendTranscodeTest extends AbstractApiMediaBackendTest {
     Instant uploadStart = Instant.now();
     Instant transcodeStart = Instant.now();
 
+    String uploadFileName = fileName + "-manual.mp4";
+    String uploadAndTrancodeFileName = fileName + "-uploadAndTranscode.mp4";
+
     String newMid;
 
     @Test
@@ -64,7 +70,7 @@ class MediaBackendTranscodeTest extends AbstractApiMediaBackendTest {
     void uploadFile() throws IOException {
         uploadStart = Instant.now();
         assumeThat(backendVersionNumber).isGreaterThanOrEqualTo((Version.of(5, 6)));
-        long upload = uploadService.upload(SimpleLogger.slfj4(log), "test.mp4", 1279795L, getClass().getResourceAsStream("/test.mp4"), true);
+        long upload = uploadService.upload(SimpleLogger.slfj4(log), uploadFileName, 1279795L, getClass().getResourceAsStream("/test.mp4"), true);
 
         log.info("Uploaded {}", upload);
 
@@ -78,7 +84,7 @@ class MediaBackendTranscodeTest extends AbstractApiMediaBackendTest {
             TranscodeRequest.builder()
                 .mid(MID)
                 .encryption(Encryption.NONE)
-                .fileName("test.mp4")
+                .fileName(uploadFileName)
                 .build();
 
         String result = backend.transcode(request);
@@ -110,7 +116,7 @@ class MediaBackendTranscodeTest extends AbstractApiMediaBackendTest {
             MID,
             Encryption.NONE,
             TranscodeRequest.Priority.NORMAL,
-            "uploadAndTranscodeTest.mp4",
+            uploadAndTrancodeFileName,
             getClass().getResourceAsStream("/test.mp4"),
             "video/mp4",
             null,
