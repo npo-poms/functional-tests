@@ -166,7 +166,10 @@ class MediaBackendTranscodeTest extends AbstractApiMediaBackendTest {
     @Disabled("Not yet implemented")
     void test02CreatePredictions() {
         // TODO
+        // This can only be tested on new objects. But we cant run on dev then, because there is no environment at NEP which looks at DEV.
+        // Silly MID  checks. I would prefer they ditch it.
     }
+
 
 
     @Test
