@@ -46,7 +46,6 @@ import static org.junit.jupiter.api.Assumptions.assumeTrue;
 @SuppressWarnings("OptionalGetWithoutIsPresent")
 @TestMethodOrder(MethodOrderer.Alphanumeric.class)
 @Slf4j
-@ExtendWith(AbortOnException.class)
 class PagesPublisherTest extends AbstractApiMediaBackendTest {
 
 

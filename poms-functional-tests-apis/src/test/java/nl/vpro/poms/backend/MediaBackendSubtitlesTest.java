@@ -10,7 +10,6 @@ import java.util.Locale;
 
 import org.apache.commons.io.IOUtils;
 import org.junit.jupiter.api.*;
-import org.junit.jupiter.api.extension.ExtendWith;
 
 import com.google.common.collect.Iterators;
 import com.google.common.collect.PeekingIterator;
@@ -22,7 +21,6 @@ import nl.vpro.domain.media.update.ProgramUpdate;
 import nl.vpro.domain.subtitles.*;
 import nl.vpro.poms.AbstractApiMediaBackendTest;
 import nl.vpro.test.jupiter.AbortOnException;
-import nl.vpro.test.jupiter.NoAbort;
 import nl.vpro.util.Version;
 
 import static io.restassured.RestAssured.given;
@@ -42,7 +40,6 @@ import static org.assertj.core.api.Assumptions.assumeThat;
  */
 @TestMethodOrder(MethodOrderer.Alphanumeric.class)
 @Slf4j
-@ExtendWith(AbortOnException.class)
 public class MediaBackendSubtitlesTest extends AbstractApiMediaBackendTest {
 
     private static final Duration ACCEPTABLE_DURATION = Duration.ofMinutes(3);
@@ -233,7 +230,7 @@ public class MediaBackendSubtitlesTest extends AbstractApiMediaBackendTest {
     }
 
     @Test
-    @NoAbort
+    @AbortOnException.NoAbort
     public void test98CleanUp() {
         backend.deleteSubtitles(SubtitlesId.builder().mid(MID).language(new Locale("ar")).type(SubtitlesType.TRANSLATION).build());
         backend.deleteSubtitles(SubtitlesId.builder().mid(MID).language(Locale.CHINESE).type(SubtitlesType.TRANSLATION).build());

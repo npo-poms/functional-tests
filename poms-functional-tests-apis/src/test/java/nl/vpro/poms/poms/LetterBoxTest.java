@@ -10,7 +10,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 
 import nl.vpro.domain.media.Platform;
 import nl.vpro.domain.media.update.PredictionUpdate;
-import nl.vpro.junit.extensions.AllowUnavailable;
 import nl.vpro.junit.extensions.TestMDC;
 import nl.vpro.poms.AbstractApiMediaBackendTest;
 
@@ -23,9 +22,8 @@ import static org.assertj.core.api.Assertions.assertThat;
  * There
  * @author Michiel Meeuwissen
  */
-@TestMethodOrder(MethodOrderer.Alphanumeric.class)
 @Slf4j
-@ExtendWith({AllowUnavailable.class, TestMDC.class})
+@ExtendWith({TestMDC.class})
 class LetterBoxTest extends AbstractApiMediaBackendTest {
 
     private static final String IMPORT_URL = CONFIG.url(poms, "import/");

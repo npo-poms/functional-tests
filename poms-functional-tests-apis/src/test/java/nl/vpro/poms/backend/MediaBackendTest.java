@@ -9,20 +9,14 @@ import java.util.function.Predicate;
 import javax.xml.bind.JAXB;
 
 import org.assertj.core.api.Assertions;
-
 import org.junit.jupiter.api.*;
-import org.junit.jupiter.api.extension.ExtendWith;
 
 import nl.vpro.api.client.media.ResponseError;
 import nl.vpro.domain.media.*;
 import nl.vpro.domain.media.update.*;
 import nl.vpro.poms.AbstractApiMediaBackendTest;
-import nl.vpro.test.jupiter.AbortOnException;
 import nl.vpro.util.Version;
 
-import static nl.vpro.domain.media.support.OwnerType.BROADCASTER;
-import static nl.vpro.domain.media.support.OwnerType.NPO;
-  
 import static nl.vpro.testutils.Utils.waitUntil;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assumptions.assumeThat;
@@ -37,7 +31,6 @@ import static org.assertj.core.api.Assumptions.assumeThat;
  */
 @TestMethodOrder(MethodOrderer.Alphanumeric.class)
 @Slf4j
-@ExtendWith(AbortOnException.class)
 class MediaBackendTest extends AbstractApiMediaBackendTest {
 
     private static final Duration ACCEPTABLE_DURATION = Duration.ofMinutes(3);

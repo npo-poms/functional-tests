@@ -10,7 +10,6 @@ import java.util.stream.Collectors;
 import javax.xml.bind.JAXB;
 
 import org.junit.jupiter.api.*;
-import org.junit.jupiter.api.extension.ExtendWith;
 
 import nl.vpro.domain.media.update.LocationUpdate;
 import nl.vpro.domain.media.update.ProgramUpdate;
@@ -18,7 +17,6 @@ import nl.vpro.domain.media.update.collections.XmlCollection;
 import nl.vpro.logging.LoggerOutputStream;
 import nl.vpro.poms.AbstractApiMediaBackendTest;
 import nl.vpro.test.jupiter.AbortOnException;
-import nl.vpro.test.jupiter.NoAbort;
 
 import static nl.vpro.testutils.Utils.waitUntil;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -38,7 +36,6 @@ import static org.assertj.core.api.Assertions.assertThat;
  */
 @TestMethodOrder(MethodOrderer.Alphanumeric.class)
 @Slf4j
-@ExtendWith(AbortOnException.class)
 class MediaBackendLocationsTest extends AbstractApiMediaBackendTest {
 
     private static final Duration ACCEPTABLE_DURATION = Duration.ofMinutes(3);
@@ -173,7 +170,7 @@ class MediaBackendLocationsTest extends AbstractApiMediaBackendTest {
 
 
     @Test
-    @NoAbort
+    @AbortOnException.NoAbort
     void test98Cleanup() {
         backend.getBrowserCache().clear();
         ProgramUpdate update = backend.get(MID);

@@ -3,8 +3,8 @@ package nl.vpro.poms.pagespublisher;
 import lombok.extern.slf4j.Slf4j;
 
 import org.assertj.core.api.Assumptions;
-import org.junit.jupiter.api.*;
-import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 import nl.vpro.api.client.pages.PageUpdateApiClient;
 import nl.vpro.api.client.utils.Config;
@@ -13,7 +13,6 @@ import nl.vpro.domain.api.thesaurus.PersonResult;
 import nl.vpro.domain.gtaa.GTAANewPerson;
 import nl.vpro.domain.gtaa.GTAAPerson;
 import nl.vpro.poms.AbstractApiTest;
-import nl.vpro.test.jupiter.AbortOnException;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -21,9 +20,7 @@ import static org.assertj.core.api.Assertions.assertThat;
  * @author Michiel Meeuwissen
  */
 @SuppressWarnings("FieldCanBeLocal")
-@TestMethodOrder(MethodOrderer.Alphanumeric.class)
 @Slf4j
-@ExtendWith(AbortOnException.class)
 class ThesaurusPublisherTest extends AbstractApiTest {
 
    private PageUpdateApiClient pageUpdateApiClient = PageUpdateApiClient.configured(

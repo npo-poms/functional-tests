@@ -11,11 +11,11 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import org.apache.commons.io.IOUtils;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 
 import nl.vpro.api.client.utils.MediaRestClientUtils;
 import nl.vpro.domain.api.*;
+import nl.vpro.domain.api.Order;
 import nl.vpro.domain.api.profile.Profile;
 import nl.vpro.domain.media.MediaObject;
 import nl.vpro.domain.media.Schedule;
@@ -95,12 +95,14 @@ class ApiMediaStreamingCallsTest extends AbstractApiTest {
     }
 
     @Test
+    @Disabled("No need to support this any more")
     public void testChangesWithOldAndProfile() throws IOException {
         testChangesWithOld("vpro-predictions", CHANGES_MAX);
     }
 
 
     @Test
+    @Disabled("No need to support this any more")
     public void testChangesOldMissingProfile() {
         assertThrows(javax.ws.rs.NotFoundException.class, () -> {
             testChangesWithOld("bestaatniet", CHANGES_MAX);

@@ -12,7 +12,6 @@ import java.util.stream.Collectors;
 import javax.ws.rs.core.Response;
 
 import org.junit.jupiter.api.*;
-import org.junit.jupiter.api.extension.ExtendWith;
 
 import nl.vpro.api.client.utils.Config;
 import nl.vpro.domain.media.Encryption;
@@ -23,7 +22,6 @@ import nl.vpro.domain.media.update.collections.XmlCollection;
 import nl.vpro.logging.simple.SimpleLogger;
 import nl.vpro.nep.service.impl.NEPSSHJUploadServiceImpl;
 import nl.vpro.poms.AbstractApiMediaBackendTest;
-import nl.vpro.test.jupiter.AbortOnException;
 import nl.vpro.util.Env;
 
 import static nl.vpro.domain.media.update.TranscodeStatus.Status.COMPLETED;
@@ -36,7 +34,6 @@ import static nl.vpro.testutils.Utils.waitUntils;
  */
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @Slf4j
-@ExtendWith(AbortOnException.class)
 class MediaBackendTranscodeTest extends AbstractApiMediaBackendTest {
 
     static String fileName = MediaBackendTranscodeTest.class.getSimpleName() + "-" + SIMPLE_NOWSTRING;

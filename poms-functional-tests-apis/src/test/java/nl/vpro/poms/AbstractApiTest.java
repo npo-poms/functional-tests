@@ -29,8 +29,8 @@ import nl.vpro.util.Version;
  * @since 1.0
  */
 @ExtendWith({AllowUnavailable.class, AllowNotImplemented.class, AbortOnException.class})
-@TestMethodOrder(MethodOrderer.Alphanumeric.class)
 @Timeout(value = 30, unit = TimeUnit.MINUTES)
+@AbortOnException.OnlyIfOrdered
 public abstract class AbstractApiTest extends AbstractTest  {
 
     protected static final String DASHES = new String(new char[100]).replace('\0', '-');
