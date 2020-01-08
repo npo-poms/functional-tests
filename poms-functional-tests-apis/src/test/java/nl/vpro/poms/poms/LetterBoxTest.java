@@ -5,12 +5,11 @@ import lombok.extern.log4j.Log4j2;
 
 import java.io.IOException;
 
-import org.junit.jupiter.api.*;
-import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import nl.vpro.domain.media.Platform;
 import nl.vpro.domain.media.update.PredictionUpdate;
-import nl.vpro.junit.extensions.TestMDC;
 import nl.vpro.poms.AbstractApiMediaBackendTest;
 
 import static io.restassured.RestAssured.given;
@@ -23,7 +22,6 @@ import static org.assertj.core.api.Assertions.assertThat;
  * @author Michiel Meeuwissen
  */
 @Log4j2
-@ExtendWith({TestMDC.class})
 class LetterBoxTest extends AbstractApiMediaBackendTest {
 
     private static final String IMPORT_URL = CONFIG.url(poms, "import/");

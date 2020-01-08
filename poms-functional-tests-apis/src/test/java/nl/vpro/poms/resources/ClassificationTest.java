@@ -3,10 +3,12 @@ package nl.vpro.poms.resources;
 import lombok.extern.log4j.Log4j2;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 import nl.vpro.api.client.utils.Config;
 import nl.vpro.domain.classification.ClassificationService;
 import nl.vpro.domain.classification.URLClassificationServiceImpl;
+import nl.vpro.junit.extensions.TestMDC;
 import nl.vpro.poms.AbstractApiTest;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -15,6 +17,7 @@ import static org.assertj.core.api.Assertions.assertThat;
  * @author Michiel Meeuwissen
   */
 @Log4j2
+@ExtendWith(TestMDC.class)
 class ClassificationTest {
 
 

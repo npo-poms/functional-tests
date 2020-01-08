@@ -22,7 +22,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class BroadcasterListTest {
 
 
-
     @Test
     public void testAvailable() {
         String baseUrl = CONFIG.requiredOption(Config.Prefix.poms, "baseUrl");
