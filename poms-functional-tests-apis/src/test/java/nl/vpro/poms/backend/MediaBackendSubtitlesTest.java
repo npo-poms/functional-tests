@@ -22,6 +22,7 @@ import nl.vpro.domain.media.update.ProgramUpdate;
 import nl.vpro.domain.subtitles.*;
 import nl.vpro.poms.AbstractApiMediaBackendTest;
 import nl.vpro.test.jupiter.AbortOnException;
+import nl.vpro.test.jupiter.NoAbort;
 import nl.vpro.util.Version;
 
 import static io.restassured.RestAssured.given;
@@ -232,6 +233,7 @@ public class MediaBackendSubtitlesTest extends AbstractApiMediaBackendTest {
     }
 
     @Test
+    @NoAbort
     public void test98CleanUp() {
         backend.deleteSubtitles(SubtitlesId.builder().mid(MID).language(new Locale("ar")).type(SubtitlesType.TRANSLATION).build());
         backend.deleteSubtitles(SubtitlesId.builder().mid(MID).language(Locale.CHINESE).type(SubtitlesType.TRANSLATION).build());

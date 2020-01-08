@@ -29,7 +29,7 @@ public class ApiPageTest extends AbstractApiTest {
      * I.e. all mentioned referrals of the top story do indeed also exist.
      */
     @Test
-    void load() {
+    void topStoryOnlyReferredByExistingPages() {
 
         MultipleEntry<Page> multipleEntry = clients.getPageService().loadMultiple(topStoryUrl, null, null).getItems().get(0);
 
