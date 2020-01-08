@@ -11,10 +11,8 @@
     </Root>
     <Logger name="nl.vpro.api.client.resteasy.AbstractApiClient.4" level="WARN" />
     <Logger name="nl.vpro.api.client.frontend.NpoApiClients.4" level="WARN" />
-
     <Logger name="nl.vpro.api.client.media.MediaRestClient.4" level="DEBUG" />
     <logger name="nl.vpro.util" level="WARN" />
     <Logger name="com.joestelmach.natty" level="WARN" />
-
   </Loggers>
 </Configuration>

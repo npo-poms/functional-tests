@@ -23,13 +23,11 @@ import nl.vpro.util.IntegerVersion;
 import static nl.vpro.poms.AbstractApiTest.CONFIG;
 
 /**
+ * Checks whether the objects 'with everything' indeed validate against the XSD's we provide publicly.
  * @author Michiel Meeuwissen
  */
 @Log4j2
 class SchemaTest {
-
-
-
 
     @Test
     public void testUpdateSchema() throws IOException, SAXException {
