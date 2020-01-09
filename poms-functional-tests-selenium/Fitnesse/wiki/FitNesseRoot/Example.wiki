@@ -1,0 +1,16 @@
+---
+Suite
+---
+!contents -R2 -g -p -f -h
+
+!define TEST_SYSTEM {slim}
+!define BROWSER {firefox}
+
+!*> The fixture location 
+standalone:
+!path fixtures
+!path fixtures/*.jar
+
+pom.xml:
+!pomFile ../pom.xml@compile
+*!
