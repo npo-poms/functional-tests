@@ -1,0 +1,16 @@
+!***> Start Desktop
+|script          |selenium driver setup|
+|start driver for|${BROWSER}           |
+|show            |driver description   |
+*!
+
+!***> Libraries
+|Library     |
+|example test|
+*!
+
+|script                             |
+|delete all cookies                 |
+|set browser size to maximum        |
+|seconds before timeout          |30|
+|seconds before page load timeout|30|
