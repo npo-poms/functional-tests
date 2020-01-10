@@ -6,8 +6,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.apache.log4j.*;
-import org.apache.log4j.spi.LoggingEvent;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.core.*;
+import org.apache.logging.log4j.core.appender.AbstractAppender;
+import org.apache.logging.log4j.core.config.Configuration;
+import org.apache.logging.log4j.core.config.Property;
 import org.junit.jupiter.api.*;
 
 import nl.vpro.domain.media.update.MediaUpdate;
@@ -22,35 +25,25 @@ import static org.assertj.core.api.Assertions.assertThat;
 class BackendApiClientTest extends AbstractApiMediaBackendTest  {
 
 
-    private List<LoggingEvent> logging = new ArrayList<>();
+    private ListAppender logging = new ListAppender();
 
     @BeforeEach
     void initLogging() {
-        Logger.getRootLogger().setLevel(Level.INFO);
-        Logger.getRootLogger().addAppender(new AppenderSkeleton() {
-            {
-                this.name = "capture";
-            }
-            @Override
-            protected void append(LoggingEvent event) {
-                logging.add(event);
-            }
-            @Override
-            public void close() {
-            }
+        backend.getBackendRestService();
+        LoggerContext loggerContext = LoggerContext.getContext(false);
+        Configuration configuration = loggerContext.getConfiguration();
 
-            @Override
-            public boolean requiresLayout() {
-                return false;
-            }
-
-        });
+        configuration.getRootLogger().setLevel(Level.INFO);
+        configuration.getRootLogger().addAppender(logging, Level.DEBUG, null);
+        logging.start();
     }
     @AfterEach
     void shutdownLogging() {
-        Logger.getRootLogger().removeAppender("capture");
+        logging.stop();
+        LoggerContext loggerContext = LoggerContext.getContext(false);
+        Configuration configuration = loggerContext.getConfiguration();
+        configuration.getRootLogger().removeAppender(logging.getName());
     }
-
 
     @Test
     void getByCrid() {
@@ -62,12 +55,24 @@ class BackendApiClientTest extends AbstractApiMediaBackendTest  {
     @Test
     void test404() {
         backend.get("bestaatniet");
-        List<LoggingEvent> errors =
-            logging.stream().filter((l) -> l.getLevel().isGreaterOrEqual(Level.WARN)).collect(Collectors.toList());
+        List<LogEvent> errors = logging.list.stream().filter((l) -> l.getLevel().isMoreSpecificThan(Level.WARN)).collect(Collectors.toList());
         assertThat(errors).isEmpty();
 
-         List<LoggingEvent> info =
-             logging.stream().filter((l) -> ! l.getLevel().isGreaterOrEqual(Level.WARN)).collect(Collectors.toList());
+         List<LogEvent> info =
+             logging.list.stream().filter((l) -> l.getLevel().isLessSpecificThan(Level.INFO)).collect(Collectors.toList());
+        assertThat(info).hasSizeGreaterThan(0);
         assertThat(info.get(0).getMessage().toString()).hasLineCount(6);
+    }
+
+    public static class ListAppender extends AbstractAppender {
+        List<LogEvent> list = new ArrayList<>();
+        ListAppender() {
+            super("capture", null, null, true, Property.EMPTY_ARRAY);
+        }
+
+        @Override
+        public void append(LogEvent event) {
+            list.add(event);
+        }
     }
 }
