@@ -12,6 +12,7 @@
  import javax.ws.rs.core.Response;
 
  import org.junit.jupiter.api.*;
+ import org.opentest4j.TestAbortedException;
 
  import nl.vpro.api.client.utils.Config;
  import nl.vpro.domain.media.Encryption;
@@ -68,7 +69,7 @@ class MediaBackendTranscodeTest extends AbstractApiMediaBackendTest {
     @BeforeAll
     public static void test() {
         if (CONFIG.env() != Env.PROD) {
-            throw new IllegalStateException("It is known currently not to work in acc @ NEP");
+            throw new TestAbortedException("It is known currently not to work in acc @ NEP");
         }
     }
 
