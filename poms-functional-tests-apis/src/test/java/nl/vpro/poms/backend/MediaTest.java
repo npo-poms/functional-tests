@@ -19,6 +19,7 @@ import nl.vpro.domain.media.update.ProgramUpdate;
 import nl.vpro.domain.media.update.SegmentUpdate;
 import nl.vpro.junit.extensions.AllowUnavailable;
 import nl.vpro.junit.extensions.TestMDC;
+import nl.vpro.testutils.Utils;
 
 import static io.restassured.RestAssured.given;
 import static nl.vpro.api.client.utils.Config.Prefix.npo_backend_api;
@@ -45,6 +46,8 @@ import static org.hamcrest.Matchers.*;
 @ExtendWith({AllowUnavailable.class, TestMDC.class})
 public class MediaTest {
 
+    private static final Duration ACCEPTABLE = Duration.ofMinutes(5);
+
     private static final String MEDIA_URL = CONFIG.url(npo_backend_api, "media/media");
     private static final String FIND_URL = CONFIG.url(npo_backend_api, "media/find");
     private static final String USERNAME = CONFIG.requiredOption(npo_backend_api, "user");
@@ -69,6 +72,9 @@ public class MediaTest {
     }
 
     @Test
+    @Tag("clip")
+    @Tag("clips")
+
     public void test01PostClip() {
         List<Segment> segments = Collections.singletonList(createSegment(null, dynamicSuffix, null));
         ProgramUpdate clip =
@@ -91,6 +97,8 @@ public class MediaTest {
     }
 
     @Test
+    @Tag("cridclip")
+    @Tag("clips")
     public void test02PostClipWithCrid() {
         String clipCrid = clipCrid(cridIdFromSuffix);
         List<Segment> segments = Collections.singletonList(createSegment(null, dynamicSuffix, null));
@@ -111,15 +119,16 @@ public class MediaTest {
     }
 
     @Test
+    @Tag("segment")
     public void test03PostSegment() {
         SegmentUpdate segment = SegmentUpdate.create(createSegment(null, dynamicSuffix, clipMid));
 
         given()
-            .auth().basic(USERNAME, PASSWORD)
-            .contentType(ContentType.XML)
-            .body(segment)
-            .queryParam("errors", ERRORS_EMAIL)
-            .log().all()
+            .  auth().basic(USERNAME, PASSWORD)
+            .  contentType(ContentType.XML)
+            .  body(segment)
+            .  queryParam("errors", ERRORS_EMAIL)
+            .  log().all()
             .when()
             .  post(MEDIA_URL)
             .then()
@@ -127,36 +136,40 @@ public class MediaTest {
             .  statusCode(202)
             .  body(startsWith("POMS_VPRO"));
     }
-
     @Test
-    public void test04WaitForProcessing() throws InterruptedException {
-        Duration duration = Duration.ofSeconds(60);
-        log.info("Waiting {} for {} to be processed", duration, clipMid);
-        Thread.sleep(duration.toMillis());
-    }
-
-    @Test
+    @Tag("clip")
+    @Tag("clips")
     public void test05RetrieveClip() {
         assumeThat(clipMid).isNotNull();
-        given()
-            .auth().basic(USERNAME, PASSWORD)
-            .contentType("application/xml")
-            .queryParam("errors", ERRORS_EMAIL)
-            .log().all()
-            .when()
-            .  get(MEDIA_URL + "/" + clipMid)
-            .then()
-            .  log().all()
-            .  statusCode(200)
-            .  body(hasXPath(
-                "/u:program/u:title[@type='MAIN']/text()", NAMESPACE_CONTEXT,
-                equalTo(TITLE_PREFIX + dynamicSuffix)
-            ))
-            .  body(hasXPath("/u:program/@deleted", NAMESPACE_CONTEXT, isEmptyOrNullString()));
+        Utils.waitUntil(ACCEPTABLE, () -> {
+            try {
+                given()
+                    .auth().basic(USERNAME, PASSWORD)
+                    .contentType("application/xml")
+                    .queryParam("errors", ERRORS_EMAIL)
+                    .log().all()
+                    .when()
+                    .get(MEDIA_URL + "/" + clipMid)
+                    .then()
+                    .log().all()
+                    .statusCode(200)
+                    .body(hasXPath(
+                        "/u:program/u:title[@type='MAIN']/text()", NAMESPACE_CONTEXT,
+                        equalTo(TITLE_PREFIX + dynamicSuffix)
+                    ))
+                    .body(hasXPath("/u:program/@deleted", NAMESPACE_CONTEXT, emptyOrNullString()));
+                return true;
+            } catch (AssertionError ae) {
+                log.info(ae.getMessage());
+                return false;
+            }
+        });
     }
 
 
     @Test
+    @Tag("cridclip")
+    @Tag("clips")
     public void test06RetrieveClipWithCrid() throws UnsupportedEncodingException {
 
         String clipCrid = clipCrid(cridIdFromSuffix);
@@ -177,8 +190,8 @@ public class MediaTest {
     }
 
     @Test
+    @Tag("clips")
     public void test07FindClips() {
-
         MediaForm search = MediaForm.builder()
             .pager(MediaPager.builder().max(50).build())
             .broadcaster("VPRO")
@@ -203,6 +216,7 @@ public class MediaTest {
     }
 
     @Test
+    @Tag("clip")
     public void test08DeleteClip() throws InterruptedException {
         given()
             .auth().basic(USERNAME, PASSWORD)
@@ -214,21 +228,27 @@ public class MediaTest {
             .  log().all()
             .  statusCode(202);
 
-        // Wait for posted clip to be deleted
-        Thread.sleep(1000);
 
-        given()
-            .auth()
-            .basic(USERNAME, PASSWORD)
-            .contentType(ContentType.XML)
-            .queryParam("errors", ERRORS_EMAIL)
-            .log().all()
-            .when()
-            .  get(MEDIA_URL + "/" + clipMid)
-            .then()
-            .  log().all()
-            .  statusCode(200)
-            .  body(hasXPath("/u:program/@deleted", NAMESPACE_CONTEXT, equalTo("true")));
+        Utils.waitUntil(ACCEPTABLE, () -> {
+            try {
+                given()
+                    .auth()
+                    .basic(USERNAME, PASSWORD)
+                    .contentType(ContentType.XML)
+                    .queryParam("errors", ERRORS_EMAIL)
+                    .log().all()
+                    .when()
+                    .get(MEDIA_URL + "/" + clipMid)
+                    .then()
+                    .log().all()
+                    .statusCode(200)
+                    .body(hasXPath("/u:program/@deleted", NAMESPACE_CONTEXT, equalTo("true")));
+                return false;
+            } catch (AssertionError ae) {
+                log.info(ae.getMessage());
+                return false;
+            }
+        });
     }
 
 
