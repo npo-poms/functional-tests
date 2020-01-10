@@ -35,10 +35,11 @@ class SchemaTest {
     @Test
     public void testUpdateSchema() throws IOException, SAXException {
         String baseUrl = CONFIG.requiredOption(Config.Prefix.poms, "baseUrl");
+        URL url =  new URL(baseUrl + "/schema/update/vproMediaUpdate.xsd");
+        log.info("Testing with {}", url);
         SchemaFactory factory = SchemaFactory.newInstance(
             XMLConstants.W3C_XML_SCHEMA_NS_URI);
-        Schema xsdSchema = factory.newSchema(
-            new URL(baseUrl + "/schema/update/vproMediaUpdate.xsd"));
+        Schema xsdSchema = factory.newSchema(url);
         Validator xsdValidator = xsdSchema.newValidator();
 
         ProgramUpdate update = ProgramUpdate.create(MediaTestDataBuilder.program()
@@ -58,10 +59,11 @@ class SchemaTest {
     @Test
     public void testSchema() throws IOException, SAXException {
         String baseUrl = CONFIG.requiredOption(Config.Prefix.poms, "baseUrl");
+        URL url = new URL(baseUrl + "/schema/vproMedia.xsd");
+        log.info("Testing with {}", url);
         SchemaFactory factory = SchemaFactory.newInstance(
             XMLConstants.W3C_XML_SCHEMA_NS_URI);
-        URL url = new URL(baseUrl + "/schema/vproMedia.xsd");
-        log.info("{}", url);
+
         Schema xsdSchema = factory.newSchema(url);
         //Schema xsdSchema = factory.newSchema(new StreamSource(getClass().getClassLoader().getResourceAsStream("/nl/vpro/domain/media/vproMedia.xsd")));
         Validator xsdValidator = xsdSchema.newValidator();
