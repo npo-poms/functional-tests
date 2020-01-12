@@ -64,7 +64,7 @@ public abstract class AbstractSearchTest<T, S> extends AbstractApiTest {
 
     @BeforeEach
     public void setUp(TestInfo testInfo) {
-        String name = testInfo.getDisplayName().split("[, ]", 3)[1];
+        String name = testInfo.getDisplayName().split("[, ]", 3)[1].split("=", 2)[1];
         for (Map.Entry<Pattern, Supplier<Boolean>> e : ASSUMERS.entrySet()) {
             if (e.getKey().matcher(name).matches()) {
                 assumeTrue(e.getValue().get(), "Skipping in " + this + " because of " + e);
@@ -113,7 +113,7 @@ public abstract class AbstractSearchTest<T, S> extends AbstractApiTest {
         Sets.SetView<String> difference = Sets.difference(AVAILABLE, USED.keySet());
         if (! difference.isEmpty()) {
             //log.error("Not all testers were used: " + difference);
-            Assertions.fail("Not all testers were used: " + difference);
+            Assertions.fail("Not all testers were used: " + difference + " available: " + AVAILABLE.size() + " used: " + USED.size());
         }
         USED.entrySet().stream()
             .map((e) -> e.getKey() + " was used " + e.getValue().intValue() + " times")
