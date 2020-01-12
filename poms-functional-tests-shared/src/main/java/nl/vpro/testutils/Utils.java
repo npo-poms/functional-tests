@@ -125,10 +125,13 @@ public class Utils {
             .build());
     }
 
+    /**
+     * @parm resultSupplier The code to produce a result. This will be repeated until it doesn't return <code>null</code> or until the acceptable duration expires.
+     */
      @SafeVarargs
      public static <T> T waitUntil(
         Duration acceptable,
-        Supplier<T> r,
+        Supplier<T> resultSupplier,
         Check<T>... tests) {
          final T[] result = (T[]) new Object[1];
          final String[] predicateDescription = new String[1];
@@ -138,7 +141,7 @@ public class Utils {
             @Override
             public Boolean call() {
                 CLEAR_CACHES.get().run();
-                result[0] = r.get();
+                result[0] = resultSupplier.get();
                 if (result[0] == null) {
                     return false;
                 }
@@ -155,10 +158,10 @@ public class Utils {
 
             @Override
             public String toString() {
-                return Arrays.asList(tests)+ " supplies: " + r + " current value: " + result[0];
+                return Arrays.asList(tests)+ " supplies: " + resultSupplier + " current value: " + result[0];
             }
         });
-        assertThat(result[0]).withFailMessage(predicateDescription[0] + ":" + r + "supplied null").isNotNull();
+        assertThat(result[0]).withFailMessage(predicateDescription[0] + ":" + resultSupplier + "supplied null").isNotNull();
         for (Check<T> t : tests) {
             assertThat(t.predicate.test(result[0])).withFailMessage(t.failureDescription.apply(result[0])).isTrue();
         }

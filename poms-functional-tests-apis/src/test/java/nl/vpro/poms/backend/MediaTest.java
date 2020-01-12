@@ -25,6 +25,8 @@ import static io.restassured.RestAssured.given;
 import static nl.vpro.api.client.utils.Config.Prefix.npo_backend_api;
 import static nl.vpro.domain.Xmlns.NAMESPACE_CONTEXT;
 import static nl.vpro.poms.AbstractApiTest.CONFIG;
+import static nl.vpro.rs.media.MediaBackendRestService.ERRORS;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assumptions.assumeThat;
 import static org.hamcrest.Matchers.*;
 
@@ -103,6 +105,7 @@ public class MediaTest {
         String clipCrid = clipCrid(cridIdFromSuffix);
         List<Segment> segments = Collections.singletonList(createSegment(null, dynamicSuffix, null));
         ProgramUpdate clip = ProgramUpdate.create(createClip(clipCrid, dynamicSuffix, segments));
+        log.info("Created clip with crid {}", clipCrid);
 
         given()
             .auth().basic(USERNAME, PASSWORD)
@@ -127,7 +130,7 @@ public class MediaTest {
             .  auth().basic(USERNAME, PASSWORD)
             .  contentType(ContentType.XML)
             .  body(segment)
-            .  queryParam("errors", ERRORS_EMAIL)
+            .  queryParam(ERRORS, ERRORS_EMAIL)
             .  log().all()
             .when()
             .  post(MEDIA_URL)
@@ -141,12 +144,12 @@ public class MediaTest {
     @Tag("clips")
     public void test05RetrieveClip() {
         assumeThat(clipMid).isNotNull();
-        Utils.waitUntil(ACCEPTABLE, () -> {
+        Boolean result = Utils.waitUntil(ACCEPTABLE, () -> {
             try {
                 given()
                     .auth().basic(USERNAME, PASSWORD)
                     .contentType("application/xml")
-                    .queryParam("errors", ERRORS_EMAIL)
+                    .queryParam(ERRORS, ERRORS_EMAIL)
                     .log().all()
                     .when()
                     .get(MEDIA_URL + "/" + clipMid)
@@ -157,13 +160,21 @@ public class MediaTest {
                         "/u:program/u:title[@type='MAIN']/text()", NAMESPACE_CONTEXT,
                         equalTo(TITLE_PREFIX + dynamicSuffix)
                     ))
-                    .body(hasXPath("/u:program/@deleted", NAMESPACE_CONTEXT, emptyOrNullString()));
-                return true;
+                    .body(hasXPath("/u:program/@deleted", NAMESPACE_CONTEXT, emptyOrNullString()))
+                ;
+                return Boolean.TRUE;
             } catch (AssertionError ae) {
                 log.info(ae.getMessage());
-                return false;
+                return null;
             }
-        });
+        },
+            Utils.Check.<Boolean>builder()
+                .predicate(r -> r)
+                .description("Getting from api returns 200")
+                .build()
+        );
+
+        assertThat(result).isTrue();
     }
 
 
@@ -173,11 +184,12 @@ public class MediaTest {
     public void test06RetrieveClipWithCrid() throws UnsupportedEncodingException {
 
         String clipCrid = clipCrid(cridIdFromSuffix);
+        log.info("Retrieving clip with crid {}", clipCrid);
         String encodedClipCrid = URLEncoder.encode(clipCrid, "UTF-8");
         given()
             .auth().basic(USERNAME, PASSWORD)
             .contentType("application/xml")
-            .queryParam("errors", ERRORS_EMAIL)
+            .queryParam(ERRORS, ERRORS_EMAIL)
             .log().all()
             .when()
             .  get(MEDIA_URL + "/" + encodedClipCrid)
@@ -186,7 +198,7 @@ public class MediaTest {
             .  statusCode(200)
             .  body(hasXPath("/u:program/u:title[@type='MAIN']/text()",
                 NAMESPACE_CONTEXT, equalTo(TITLE_PREFIX + dynamicSuffix)))
-            .  body(hasXPath("/u:program/@deleted", NAMESPACE_CONTEXT, isEmptyOrNullString()));
+            .  body(hasXPath("/u:program/@deleted", NAMESPACE_CONTEXT, emptyOrNullString()));
     }
 
     @Test
@@ -217,10 +229,10 @@ public class MediaTest {
 
     @Test
     @Tag("clip")
-    public void test08DeleteClip() throws InterruptedException {
+    public void test08DeleteClip() {
         given()
             .auth().basic(USERNAME, PASSWORD)
-            .queryParam("errors", ERRORS_EMAIL)
+            .queryParam(ERRORS, ERRORS_EMAIL)
             .log().all()
             .when()
             .  delete(MEDIA_URL + "/" + clipMid)
@@ -235,7 +247,7 @@ public class MediaTest {
                     .auth()
                     .basic(USERNAME, PASSWORD)
                     .contentType(ContentType.XML)
-                    .queryParam("errors", ERRORS_EMAIL)
+                    .queryParam(ERRORS, ERRORS_EMAIL)
                     .log().all()
                     .when()
                     .get(MEDIA_URL + "/" + clipMid)
