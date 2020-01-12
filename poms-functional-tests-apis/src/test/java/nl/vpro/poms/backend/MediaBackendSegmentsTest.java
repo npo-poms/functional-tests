@@ -14,6 +14,7 @@ import nl.vpro.domain.media.*;
 import nl.vpro.domain.media.update.ProgramUpdate;
 import nl.vpro.domain.media.update.SegmentUpdate;
 import nl.vpro.poms.AbstractApiMediaBackendTest;
+import nl.vpro.test.jupiter.AbortOnException;
 
 import static nl.vpro.testutils.Utils.waitUntil;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -205,6 +206,7 @@ class MediaBackendSegmentsTest extends AbstractApiMediaBackendTest {
 
 
     @Test
+    @AbortOnException.NoAbort
     void test99Cleanup() {
         Program program = backend.getFullProgram(MID);
         assumeThat(program).isNotNull();

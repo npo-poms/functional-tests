@@ -21,6 +21,7 @@ import nl.vpro.domain.media.update.ImageUpdate;
 import nl.vpro.domain.media.update.ProgramUpdate;
 import nl.vpro.logging.Log4j2OutputStream;
 import nl.vpro.poms.AbstractApiMediaBackendTest;
+import nl.vpro.test.jupiter.AbortOnException;
 import nl.vpro.util.Version;
 
 import static nl.vpro.testutils.Utils.waitUntil;
@@ -314,6 +315,7 @@ public class MediaBackendImagesTest extends AbstractApiMediaBackendTest {
 
     @Test
     @Tag("lifecycle")
+    @AbortOnException.NoAbort
     void test98Cleanup() {
         cleanup();
     }
@@ -321,6 +323,7 @@ public class MediaBackendImagesTest extends AbstractApiMediaBackendTest {
 
     @Test
     @Tag("lifecycle")
+    @AbortOnException.NoAbort
     void test99CleanupCheck() {
         cleanupCheck();
     }

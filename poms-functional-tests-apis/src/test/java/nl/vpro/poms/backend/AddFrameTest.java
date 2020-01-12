@@ -14,6 +14,7 @@ import nl.vpro.domain.media.support.OwnerType;
 import nl.vpro.domain.media.update.ImageUpdate;
 import nl.vpro.domain.media.update.ProgramUpdate;
 import nl.vpro.poms.AbstractApiMediaBackendTest;
+import nl.vpro.test.jupiter.AbortOnException;
 
 import static nl.vpro.testutils.Utils.waitUntil;
 
@@ -139,6 +140,7 @@ public class AddFrameTest extends AbstractApiMediaBackendTest {
 
 
     @Test
+    @AbortOnException.NoAbort
     public void test98Cleanup() {
         ProgramUpdate update = backend_authority.get(MID);
         Assumptions.assumeTrue(update != null);
@@ -150,6 +152,7 @@ public class AddFrameTest extends AbstractApiMediaBackendTest {
 
 
     @Test
+    @AbortOnException.NoAbort
     public void test99CheckCleanup() {
          waitUntil(ACCEPTABLE_DURATION,
             MID + " has no stills",

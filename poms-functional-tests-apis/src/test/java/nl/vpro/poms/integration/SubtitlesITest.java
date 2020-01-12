@@ -19,6 +19,7 @@ import nl.vpro.domain.media.*;
 import nl.vpro.domain.media.update.ProgramUpdate;
 import nl.vpro.domain.subtitles.*;
 import nl.vpro.poms.AbstractApiMediaBackendTest;
+import nl.vpro.test.jupiter.AbortOnException;
 import nl.vpro.util.Version;
 
 import static java.time.Duration.ZERO;
@@ -243,6 +244,7 @@ public class SubtitlesITest extends AbstractApiMediaBackendTest {
 
     @Test
     @Order(100)
+    @AbortOnException.NoAbort
     void cleanup() {
         try(Response response = backend.getBackendRestService()
             .deleteSubtitles(MID_WITH_LOCATIONS, JAPANESE, TRANSLATION, true, null)) {
@@ -256,6 +258,7 @@ public class SubtitlesITest extends AbstractApiMediaBackendTest {
 
     @Test
     @Order(101)
+    @AbortOnException.NoAbort
     void checkCleanup() {
         assumeThat(backendVersionNumber).isGreaterThanOrEqualTo(Version.of(5, 3));
 
@@ -280,6 +283,7 @@ public class SubtitlesITest extends AbstractApiMediaBackendTest {
 
     @Test
     @Order(102)
+    @AbortOnException.NoAbort
     void checkCleanupFrontend() {
         assumeThat(backendVersionNumber).isGreaterThanOrEqualTo(Version.of(5, 3));
         waitUntil(ACCEPTABLE_DURATION_FRONTEND,

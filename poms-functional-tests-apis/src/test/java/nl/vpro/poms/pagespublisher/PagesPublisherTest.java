@@ -27,6 +27,7 @@ import nl.vpro.domain.page.*;
 import nl.vpro.domain.page.update.*;
 import nl.vpro.jackson2.Jackson2Mapper;
 import nl.vpro.poms.AbstractApiMediaBackendTest;
+import nl.vpro.test.jupiter.AbortOnException;
 import nl.vpro.testutils.Utils;
 import nl.vpro.testutils.Utils.Check;
 import nl.vpro.util.Version;
@@ -696,6 +697,7 @@ class PagesPublisherTest extends AbstractApiMediaBackendTest {
 
 
     @Test
+    @AbortOnException.NoAbort
     public void test999CleanUps() {
 
         MultipleEntry<Page> multipleEntry = clients.getPageService().loadMultiple(topStoryUrl, null, null).getItems().get(0);
