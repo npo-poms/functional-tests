@@ -56,7 +56,11 @@ class PagesPublisherTest extends AbstractApiMediaBackendTest {
         PageUpdateApiClient.configured(
             CONFIG.env(),
             CONFIG.getProperties(npo_pageupdate_api)
-        ).build(),
+        )
+            .connectTimeout(Duration.ofSeconds(10))
+            .warnThreshold(Duration.ofMillis(500))
+            .socketTimeout(Duration.ofSeconds(60))
+            .build(),
         PageUpdateRateLimiter.builder().build()
     );
 
