@@ -43,8 +43,8 @@ class MediaBackendTest extends AbstractApiMediaBackendTest {
     }
 
 
-
     private static String newMid;
+
     @Test
     public void test01CreateObjectWithMembers() {
         ProgramUpdate clip = ProgramUpdate.create(
@@ -135,7 +135,6 @@ class MediaBackendTest extends AbstractApiMediaBackendTest {
 
     /**
      * It should simple provisionlly accept.
-     *
      */
     @Test
     public void test03CreateObjectWithoutBroadcaster() {
@@ -168,7 +167,7 @@ class MediaBackendTest extends AbstractApiMediaBackendTest {
             ACCEPTABLE_DURATION,
             CRID + " does not exists (or is deleted)",
             () -> backend.optional(CRID),
-            o -> ! o.isPresent() || o.get().isDeleted());
+            o -> !o.isPresent() || o.get().isDeleted());
         pu.ifPresent(
             programUpdate -> log.info("Found {}", programUpdate)
         );
@@ -200,6 +199,7 @@ class MediaBackendTest extends AbstractApiMediaBackendTest {
             Objects::nonNull);
         assertThat(created.getCrids()).contains(CRID);
     }
+
     @Test
     public void test06CreateObjectWithCrids() {
         backend.setLookupCrids(false);
@@ -234,7 +234,7 @@ class MediaBackendTest extends AbstractApiMediaBackendTest {
         waitUntil(ACCEPTABLE_DURATION,
             CRID + " exists ",
             () -> backend.get(againMidWithStolenCrid),
-            (Predicate<MediaUpdate>) u -> u != null && u.getCrids().contains(CRID));
+            (Predicate<MediaUpdate<?>>) u -> u != null && u.getCrids().contains(CRID));
     }
 
 
@@ -246,9 +246,19 @@ class MediaBackendTest extends AbstractApiMediaBackendTest {
         waitUntil(ACCEPTABLE_DURATION,
             CRID + " exists ",
             () -> backend.get(midWithCrid),
-            (Predicate<MediaUpdate>) u -> u != null && ! u.getCrids().contains(CRID));
+            (Predicate<MediaUpdate<?>>) u -> u != null && !u.getCrids().contains(CRID));
 
         Assertions.assertThat((Object) backend.get(againMidWithCrid)).isNull();
+    }
+
+    @Test
+    public void tryToPinDownDamnServerErrorsOnDev() throws InterruptedException {
+        for (int i = 0 ; i < 100; i++) {
+            ProgramUpdate update = backend_authority.get(MID);
+            assertThat(update).isNotNull();
+            log.info("{}: {}", i, update);
+            Thread.sleep(1000);
+        }
     }
 
 

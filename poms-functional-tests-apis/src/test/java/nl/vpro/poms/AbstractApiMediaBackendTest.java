@@ -45,6 +45,9 @@ public abstract class AbstractApiMediaBackendTest extends AbstractApiTest {
             .followMerges(true)
             .validateInput(true)
             .lookupCrids(true)
+            .socketTimeout(Duration.ofSeconds(60))
+            .connectionRequestTimeout(Duration.ofSeconds(10))
+            .warnThreshold(Duration.ofSeconds(10))
             //.version("5.7")
             .build();
 
@@ -55,6 +58,9 @@ public abstract class AbstractApiMediaBackendTest extends AbstractApiTest {
             .validateInput(true)
             .lookupCrids(true)
             .owner(OwnerType.AUTHORITY)
+            .socketTimeout(Duration.ofSeconds(60))
+            .connectionRequestTimeout(Duration.ofSeconds(10))
+            .warnThreshold(Duration.ofSeconds(10))
             //.version("5.7")
             .build();
     private static final String backendVersion = backend.getVersion();

@@ -77,6 +77,8 @@ public abstract class AbstractApiTest extends AbstractTest  {
     protected static final NpoApiClients clients =
         NpoApiClients.configured(CONFIG.env(), CONFIG.getProperties(Config.Prefix.npo_api))
             .warnThreshold(Duration.ofMillis(500))
+            .connectTimeout(Duration.ofSeconds(10))
+            .socketTimeout(Duration.ofSeconds(60))
             .accept(MediaType.APPLICATION_XML_TYPE)
             .properties(Constants.PROPERTIES_ALL)
             .build();
