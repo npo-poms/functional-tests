@@ -88,7 +88,7 @@ class ApiScheduleTest extends AbstractApiTest {
     @Test
     void nowForBroadcaster() {
         try {
-            ApiScheduleEvent o = clients.getScheduleService().nowForBroadcaster("VPRO", null, true, null);
+            ApiScheduleEvent o = clients.getScheduleService().nowForBroadcaster("VPRO", "broadcasters", true, null);
             assertThat(o.getParent().getBroadcasters()).contains(new Broadcaster("VPRO"));
         } catch (javax.ws.rs.NotFoundException nfe) {
             log.info("Ok, no current schedule for VPRO");
@@ -98,8 +98,8 @@ class ApiScheduleTest extends AbstractApiTest {
     @Test
     void nowForBroadcasterAt() {
         try {
-            // Reproduces an issue when it ran at the given time
-            ApiScheduleEvent o = clients.getScheduleService().nowForBroadcaster("VPRO", null, true, LocalDateTime.of(2020, 1, 13, 0, 35).atZone(Schedule.ZONE_ID).toInstant());
+            // Reproduces an issue when it ran at the given time (solution, set the properties!)
+            ApiScheduleEvent o = clients.getScheduleService().nowForBroadcaster("VPRO", "broadcasters", true, LocalDateTime.of(2020, 1, 13, 0, 35).atZone(Schedule.ZONE_ID).toInstant());
             assertThat(o.getParent().getBroadcasters()).contains(new Broadcaster("VPRO"));
         } catch (javax.ws.rs.NotFoundException nfe) {
             log.info("Ok, no current schedule for VPRO");
