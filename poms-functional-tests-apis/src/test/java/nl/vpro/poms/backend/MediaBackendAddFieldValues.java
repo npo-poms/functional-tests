@@ -12,6 +12,8 @@ import org.junit.jupiter.api.*;
 import nl.vpro.domain.media.*;
 import nl.vpro.domain.media.update.ProgramUpdate;
 import nl.vpro.poms.AbstractApiMediaBackendTest;
+import nl.vpro.testutils.Utils;
+import nl.vpro.testutils.Utils.Check;
 
 import static nl.vpro.domain.media.GeoRoleType.SUBJECT;
 import static nl.vpro.domain.media.IntentionType.ENTERTAINMENT_INFORMATIVE;
@@ -148,6 +150,40 @@ public class MediaBackendAddFieldValues extends AbstractApiMediaBackendTest {
             .stream().map(GeoLocation::getRole))
             .containsExactly(SUBJECT, SUBJECT);
     }
+
+    @Test
+    @Order(50)
+    @Tag("clean")
+    public void setEmptyAgain() {
+        created.getIntentions().first().clear();
+        created.getTargetGroups().first().clear();
+        created.getGeoLocations().first().clear();
+        created.getTopics().first().clear();
+        ProgramUpdate clip = ProgramUpdate.create(created);
+        mid = backend.set(clip);
+
+    }
+    @Test
+    @Order(51)
+    @Tag("clean")
+    public void checkSetEmpty() {
+        MediaObject updated = Utils.waitUntil(ACCEPTABLE_DURATION,
+            () -> backend.getFull(mid),
+            Check.<MediaObject>builder()
+                .predicate(Objects::nonNull)
+                .description("is not null")
+                .build(),
+            Check.<MediaObject>builder()
+                .predicate(m -> m.getIntentions().first().isEmpty())
+                .description(mid + " has no intentions")
+                .build()
+        );
+        assertThat(updated.getIntentions().first().isEmpty()).isTrue();
+        assertThat(updated.getTargetGroups().first().isEmpty()).isTrue();
+        assertThat(updated.getGeoLocations().first().isEmpty()).isTrue();
+        assertThat(updated.getTopics().first().isEmpty()).isTrue();
+    }
+
 
     @SuppressWarnings("UnusedReturnValue")
     private Program getCreated() {
