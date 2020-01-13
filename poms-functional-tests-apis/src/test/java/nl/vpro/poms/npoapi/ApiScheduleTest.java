@@ -3,6 +3,7 @@ package nl.vpro.poms.npoapi;
 import lombok.extern.log4j.Log4j2;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -88,6 +89,17 @@ class ApiScheduleTest extends AbstractApiTest {
     void nowForBroadcaster() {
         try {
             ApiScheduleEvent o = clients.getScheduleService().nowForBroadcaster("VPRO", null, true, null);
+            assertThat(o.getParent().getBroadcasters()).contains(new Broadcaster("VPRO"));
+        } catch (javax.ws.rs.NotFoundException nfe) {
+            log.info("Ok, no current schedule for VPRO");
+        }
+    }
+
+    @Test
+    void nowForBroadcasterAt() {
+        try {
+            // Reproduces an issue when it ran at the given time
+            ApiScheduleEvent o = clients.getScheduleService().nowForBroadcaster("VPRO", null, true, LocalDateTime.of(2020, 1, 13, 0, 35).atZone(Schedule.ZONE_ID).toInstant());
             assertThat(o.getParent().getBroadcasters()).contains(new Broadcaster("VPRO"));
         } catch (javax.ws.rs.NotFoundException nfe) {
             log.info("Ok, no current schedule for VPRO");
