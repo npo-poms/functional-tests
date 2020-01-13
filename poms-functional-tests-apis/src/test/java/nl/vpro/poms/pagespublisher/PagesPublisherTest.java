@@ -5,6 +5,7 @@ import lombok.extern.log4j.Log4j2;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.time.*;
+import java.time.temporal.ChronoUnit;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -70,11 +71,23 @@ class PagesPublisherTest extends AbstractApiMediaBackendTest {
     private static String urlYesterday;
     private static String urlTomorrow;
 
+    private static final int NUMBER_OF_PAGES_TO_CREATED = 10;
+    private static final String CRID_PREFIX = "crid://crids.functional.tests/";
+    private static final String[] CREATED_CRIDS = new String[NUMBER_OF_PAGES_TO_CREATED];
+
+    static {
+        for (int i = 0; i < NUMBER_OF_PAGES_TO_CREATED; i++) {
+            CREATED_CRIDS[i] = CRID_PREFIX + i;
+        }
+    }
+
+
 
     @BeforeAll
     public static void setup() {
         log.info("Testing with version {}", util.getPageUpdateApiClient().getVersionNumber());
         log.info("Backend available: {}", backend.isAvailable());
+
     }
 
 
@@ -371,23 +384,20 @@ class PagesPublisherTest extends AbstractApiMediaBackendTest {
 
 
     private static final String TAG = "test_created_with_crid";
-    private static final String CRID_PREFIX = "crid://crids.functional.tests/";
-    private static final List<String> createdCrids = new ArrayList<>();
     private static final List<String> createdUrls = new ArrayList<>();
     private static final List<String> modifiedUrls = new ArrayList<>();
 
     @Test
     public void test300CreateSomeWithCrid(TestInfo testInfo) throws UnsupportedEncodingException {
-        String url = "http://test.poms.nl/\u00E9\u00E9n/" + URLEncoder.encode(testInfo.getTestMethod().get().getName() + LocalDate.now(), "UTF-8");
+        String url = "http://test.poms.nl/\u00E9\u00E9n/" + URLEncoder.encode(testInfo.getTestMethod().get().getName() + LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES), "UTF-8");
 
-        for (int i = 0; i < 10; i++) {
-            createdCrids.add(CRID_PREFIX + i);
+        for (int i = 0; i < NUMBER_OF_PAGES_TO_CREATED; i++) {
             String createdUrl = url + "/" + i;
             createdUrls.add(createdUrl);
             PageUpdate article =
                 PageUpdateBuilder.article(createdUrl)
                     .broadcasters("VPRO")
-                    .crids(CRID_PREFIX + i)
+                    .crids(CREATED_CRIDS[i])
                     .title(title)
                     .tags(TAG)
                     .creationDate(Instant.now())
@@ -396,15 +406,13 @@ class PagesPublisherTest extends AbstractApiMediaBackendTest {
             Result<Void> result = util.saveAndWait(article);
             assertThat(result.getStatus()).isEqualTo(Result.Status.SUCCESS);
             log.info("Created {}", article);
-
         }
     }
 
     @Test
-    public void test301ArrivedInAPI() throws JsonProcessingException {
+    public void test301ArrivedInAPIAnd() throws JsonProcessingException {
         assumeThat(util.getPageUpdateApiClient().getVersionNumber()).isGreaterThanOrEqualTo(Version.of(5, 5));
-        //assumeTrue(createdCrids.size() > 0);
-        assumeTrue(pageUtil.getClients().isAvailable());
+        //assumeTrue(pageUtil.getClients().isAvailable());
 
         PageForm form = PageForm.builder()
             .tags(TAG)
@@ -418,7 +426,11 @@ class PagesPublisherTest extends AbstractApiMediaBackendTest {
             "Has pages with tag " + TAG,
             () -> pageUtil.find(form, null, 0L, 240),
             (sr) -> {
-                List<@NotNull @URI String> collect = sr.getItems().stream().map(SearchResultItem::getResult).map(Page::getUrl).collect(Collectors.toList());
+                List<@NotNull @URI String> collect = sr.getItems()
+                    .stream()
+                    .map(SearchResultItem::getResult)
+                    .map(Page::getUrl)
+                    .collect(Collectors.toList());
                 log.info("Found {}", collect);
                 return collect.containsAll(createdUrls);
             }
@@ -433,7 +445,7 @@ class PagesPublisherTest extends AbstractApiMediaBackendTest {
             foundCrids.addAll(item.getResult().getCrids());
             foundUrls.add(item.getResult().getUrl());
         }
-        assertThat(foundCrids).containsOnlyOnce(createdCrids.toArray(new String[0]));
+        assertThat(foundCrids).containsOnlyOnce(CREATED_CRIDS);
         assertThat(foundUrls).containsOnlyOnce(createdUrls.toArray(new String[0]));
     }
 
@@ -442,13 +454,12 @@ class PagesPublisherTest extends AbstractApiMediaBackendTest {
     public void test302UpdateUrls(TestInfo testInfo) throws UnsupportedEncodingException {
         //createdCrids.add(new Crid("crid://crids.functional.tests/3"));
         assumeThat(util.getPageUpdateApiClient().getVersionNumber()).isGreaterThanOrEqualTo(Version.of(5, 5));
-        assumeTrue(createdCrids.size() > 0);
         assumeTrue(createdUrls.size() > 0);
 
         String url = "http://test.poms.nl/\u00E9\u00E9n/" + URLEncoder.encode(testInfo.getTestMethod().get().getName() + LocalDate.now(), "UTF-8");
 
         int i = 0;
-        for (String crid: createdCrids) {
+        for (String crid: CREATED_CRIDS) {
             String modifiedUrl = url + "/" + i++;
             modifiedUrls.add(modifiedUrl);
             PageUpdate article =
@@ -471,7 +482,6 @@ class PagesPublisherTest extends AbstractApiMediaBackendTest {
     public void test303ModificationsArrivedInAPI() {
         assumeThat(util.getPageUpdateApiClient().getVersionNumber()).isGreaterThanOrEqualTo(Version.of(5, 5));
 
-        assumeTrue(createdCrids.size() > 0);
         assumeTrue(createdUrls.size() > 0);
         assumeTrue(modifiedUrls.size() > 0);
         assumeTrue(pageUtil.getClients().isAvailable());
@@ -495,7 +505,7 @@ class PagesPublisherTest extends AbstractApiMediaBackendTest {
             foundCrids.addAll(item.getResult().getCrids());
             foundUrls.add(item.getResult().getUrl());
         }
-        assertThat(foundCrids).containsOnlyOnce(createdCrids.toArray(new String[0]));
+        assertThat(foundCrids).containsOnlyOnce(CREATED_CRIDS);
         assertThat(foundUrls).doesNotContain(createdUrls.toArray(new String[0]));
         assertThat(foundUrls).containsOnlyOnce(modifiedUrls.toArray(new String[0]));
     }
@@ -503,7 +513,7 @@ class PagesPublisherTest extends AbstractApiMediaBackendTest {
 
     @Test
     public void test304DeleteByOneCrid() {
-        Result<DeleteResult> result = util.delete(createdCrids.get(0));
+        Result<DeleteResult> result = util.delete(CREATED_CRIDS[0]);
 
 
         assertThat(result.getStatus())
@@ -515,7 +525,7 @@ class PagesPublisherTest extends AbstractApiMediaBackendTest {
     @Test
     public void test305DissappearedFromAPI() {
         assumeThat(util.getPageUpdateApiClient().getVersionNumber()).isGreaterThanOrEqualTo(Version.of(5, 5));
-        String cridToDelete = createdCrids.get(0);
+        String cridToDelete = CREATED_CRIDS[0];
         assumeTrue(pageUtil.getClients().isAvailable());
 
         Utils.waitUntil(ACCEPTABLE_PAGE_PUBLISHED_DURATION,
