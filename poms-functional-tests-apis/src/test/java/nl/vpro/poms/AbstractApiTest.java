@@ -13,6 +13,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 
 import nl.vpro.api.client.frontend.NpoApiClients;
 import nl.vpro.api.client.utils.*;
+import nl.vpro.domain.api.Constants;
 import nl.vpro.domain.api.media.Compatibility;
 import nl.vpro.domain.classification.CachedURLClassificationServiceImpl;
 import nl.vpro.domain.classification.ClassificationServiceLocator;
@@ -58,7 +59,7 @@ public abstract class AbstractApiTest extends AbstractTest  {
     @AfterEach
     public void cleanClient() {
         clients.setProfile(null);
-        clients.setProperties("");
+        clients.setProperties(Constants.PROPERTIES_ALL);
         clearCaches();
     }
 
@@ -77,6 +78,7 @@ public abstract class AbstractApiTest extends AbstractTest  {
         NpoApiClients.configured(CONFIG.env(), CONFIG.getProperties(Config.Prefix.npo_api))
             .warnThreshold(Duration.ofMillis(500))
             .accept(MediaType.APPLICATION_XML_TYPE)
+            .properties(Constants.PROPERTIES_ALL)
             .build();
 
     protected static final NpoApiMediaUtil mediaUtil = new NpoApiMediaUtil(clients);
