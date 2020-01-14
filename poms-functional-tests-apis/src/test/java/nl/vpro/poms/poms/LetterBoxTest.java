@@ -23,8 +23,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 class LetterBoxTest extends AbstractApiMediaBackendTest {
 
     private static final String IMPORT_URL = CONFIG.url(poms, "import/");
-    private static final String USERNAME = CONFIG.configOption(poms, "lettercase-user").orElse("vpro-cms");
-    private static final String PASSWORD = CONFIG.requiredOption(poms, "lettercase-password");
+    private static final String USERNAME = CONFIG.configOption(poms, "letterbox-user").orElse("vpro-cms");
+    private static final String PASSWORD = CONFIG.requiredOption(poms, "letterbox-password");
 
     @BeforeEach
     void setUp() {
@@ -38,7 +38,7 @@ class LetterBoxTest extends AbstractApiMediaBackendTest {
 
 
 
-    //@BeforeAll
+    @BeforeAll
     static void getList() {
 
         String s =
@@ -117,10 +117,32 @@ class LetterBoxTest extends AbstractApiMediaBackendTest {
         log.info("result: {}", result);
     }
 
+    @Test
+    @Order(3)
+    @Tag("nep")
+    void postToNEPErrorneous() throws IOException {
+        String result = given()
+            .auth()
+            .  basic(USERNAME, PASSWORD)
+            .log().ifValidationFails()
+            .when()
+            .  body("<notify drm=\"XXX\"\n" +
+                "        type=\"ONLINE\"\n" +
+                "        mid=\"" + MID + "\" timestamp=\"2017-04-21T16:09:19\" xmlns=\"urn:vpro:media:notify:2017\" />")
+            .  contentType("application/xml")
+            .  post(nepEndpoint)
+            . then()
+            .    log().all()
+            .    statusCode(400)
+            .     extract()
+            .  asString();
+
+        log.info("result: {}", result);
+    }
 
 
     @Test
-    @Order(3)
+    @Order(4)
     @Tag("restriction")
     void postRestriction() throws IOException {
         String result = given()
@@ -128,9 +150,7 @@ class LetterBoxTest extends AbstractApiMediaBackendTest {
             .  basic(USERNAME, PASSWORD)
             .log().ifValidationFails()
             .when()
-            .  body("<notify drm=\"false\"\n" +
-                "        type=\"ONLINE\"\n" +
-                "        mid=\"" + MID + "\" timestamp=\"2017-04-21T16:09:19\" xmlns=\"urn:vpro:media:notify:2017\" />")
+            .  body("<?xml version=\"1.0\" encoding=\"utf-8\"?><restriction timestamp=\"2020-01-14T08:30:29\"><prid>" + MID + "</prid><pridexport>" + MID + "</pridexport><titel>Goedemorgen Nederland</titel><platform>internetvod</platform><encryptie><encryptielabel>DRM</encryptielabel></encryptie><tijdsbeperking><starttijd>2000-01-01T01:00:00</starttijd><eindtijd>2101-01-01T00:59:00</eindtijd></tijdsbeperking><omroepen><omroep>WNL</omroep></omroepen></restriction>")
             .  contentType("application/xml")
             .  post(projectm)
             . then()
@@ -139,9 +159,7 @@ class LetterBoxTest extends AbstractApiMediaBackendTest {
             .     extract()
             .  asString();
 
-        log.info("bla" + result);
 
-        //backend.getBackendRestService().setPrediction(null, MID, Platform.INTERNETVOD, true, null, PredictionUpdate.builder().platform(Platform.INTERNETVOD).build());
 
 
     }
