@@ -5,10 +5,10 @@ import lombok.extern.log4j.Log4j2;
 
 import org.junit.jupiter.api.*;
 
-import nl.vpro.poms.AbstractApiMediaBackendTest;
-
 import static io.restassured.RestAssured.given;
 import static nl.vpro.api.client.utils.Config.Prefix.poms;
+import static nl.vpro.poms.AbstractApiTest.CONFIG;
+import static nl.vpro.poms.AbstractApiMediaBackendTest.MID;
 import static org.assertj.core.api.Assertions.assertThat;
 
 
@@ -21,7 +21,7 @@ import static org.assertj.core.api.Assertions.assertThat;
  */
 @Log4j2
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-class LetterBoxTest extends AbstractApiMediaBackendTest {
+class LetterBoxTest {
 
     private static final String IMPORT_URL = CONFIG.url(poms, "import/");
     private static final String USERNAME = CONFIG.configOption(poms, "letterbox-user").orElse("vpro-cms");
