@@ -29,12 +29,9 @@ class LetterBoxTest extends AbstractApiMediaBackendTest {
         RestAssured.useRelaxedHTTPSValidation();
         RestAssured.urlEncodingEnabled = false;
     }
-
     private static String nepEndpoint = IMPORT_URL + "nep";
 
     private static String projectm = null;
-
-
 
     @BeforeAll
     static void getList() {
@@ -62,6 +59,8 @@ class LetterBoxTest extends AbstractApiMediaBackendTest {
             }
         }
         assertThat(nepEndpoint).isNotNull();
+        assertThat(projectm).isNotNull();
+
     }
 
     @Test
@@ -88,9 +87,6 @@ class LetterBoxTest extends AbstractApiMediaBackendTest {
 
         log.info("{}", result);
     }
-
-
-
 
     @Test
     @Order(2)
@@ -124,7 +120,7 @@ class LetterBoxTest extends AbstractApiMediaBackendTest {
             .  basic(USERNAME, PASSWORD)
             .log().ifValidationFails()
             .when()
-            .  body("<notify drm=\"XXX\"\n" +
+            .  body("<notify drm=\"XXX\"\n" + // we don't understand this. A bad request will be issued
                 "        type=\"ONLINE\"\n" +
                 "        mid=\"" + MID + "\" timestamp=\"2017-04-21T16:09:19\" xmlns=\"urn:vpro:media:notify:2017\" />")
             .  contentType("application/xml")
@@ -137,7 +133,6 @@ class LetterBoxTest extends AbstractApiMediaBackendTest {
 
         log.info("result: {}", result);
     }
-
 
     @Test
     @Order(4)
@@ -157,11 +152,6 @@ class LetterBoxTest extends AbstractApiMediaBackendTest {
             .     extract()
             .  asString();
         log.info("Result {}", result);
-
-
-
-
     }
-
 
 }
