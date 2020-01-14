@@ -13,7 +13,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 
 /**
- * There
+ * On the POMS GUI environment itself there is an /import endpoint that is currently used by NEP to drop some things that used to be coming to use via the file system.
+ *
+ * It is actually a generic entry to several camel routes.
+ *
  * @author Michiel Meeuwissen
  */
 @Log4j2
@@ -33,6 +36,10 @@ class LetterBoxTest extends AbstractApiMediaBackendTest {
 
     private static String projectm = null;
 
+
+    /**
+     * Checks whether the call at root of the controller show a list of the available entries.
+     */
     @BeforeAll
     static void getList() {
 
@@ -63,6 +70,9 @@ class LetterBoxTest extends AbstractApiMediaBackendTest {
 
     }
 
+    /**
+     * Tests whether indeed we are denied if we don't provide the correct password
+     */
     @Test
     @Order(1)
     @Tag("nep")
@@ -88,6 +98,9 @@ class LetterBoxTest extends AbstractApiMediaBackendTest {
         log.info("{}", result);
     }
 
+    /**
+     * Whether notifies on /import/nep are accepted
+     */
     @Test
     @Order(2)
     @Tag("nep")
@@ -111,6 +124,9 @@ class LetterBoxTest extends AbstractApiMediaBackendTest {
         log.info("result: {}", result);
     }
 
+    /**
+     * Whether errornous XML's are indeed rejected
+     */
     @Test
     @Order(3)
     @Tag("nep")
@@ -134,6 +150,9 @@ class LetterBoxTest extends AbstractApiMediaBackendTest {
         log.info("result: {}", result);
     }
 
+    /**
+     * Whether restrictions are accepted. (See also  MSE-4666)
+     */
     @Test
     @Order(4)
     @Tag("restriction")
