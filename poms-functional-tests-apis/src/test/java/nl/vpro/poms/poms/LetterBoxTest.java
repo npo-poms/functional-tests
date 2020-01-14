@@ -3,8 +3,6 @@ package nl.vpro.poms.poms;
 import io.restassured.RestAssured;
 import lombok.extern.log4j.Log4j2;
 
-import java.io.IOException;
-
 import org.junit.jupiter.api.*;
 
 import nl.vpro.poms.AbstractApiMediaBackendTest;
@@ -97,7 +95,7 @@ class LetterBoxTest extends AbstractApiMediaBackendTest {
     @Test
     @Order(2)
     @Tag("nep")
-    void postToNEP() throws IOException {
+    void postToNEP() {
         String result = given()
             .auth()
             .  basic(USERNAME, PASSWORD)
@@ -120,7 +118,7 @@ class LetterBoxTest extends AbstractApiMediaBackendTest {
     @Test
     @Order(3)
     @Tag("nep")
-    void postToNEPErrorneous() throws IOException {
+    void postToNEPErrorneous() {
         String result = given()
             .auth()
             .  basic(USERNAME, PASSWORD)
@@ -144,7 +142,7 @@ class LetterBoxTest extends AbstractApiMediaBackendTest {
     @Test
     @Order(4)
     @Tag("restriction")
-    void postRestriction() throws IOException {
+    void postRestriction() {
         String result = given()
             .auth()
             .  basic(USERNAME, PASSWORD)
@@ -158,6 +156,7 @@ class LetterBoxTest extends AbstractApiMediaBackendTest {
             .    statusCode(200)
             .     extract()
             .  asString();
+        log.info("Result {}", result);
 
 
 
