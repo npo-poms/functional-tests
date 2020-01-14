@@ -5,11 +5,8 @@ import lombok.extern.log4j.Log4j2;
 
 import java.io.IOException;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 
-import nl.vpro.domain.media.Platform;
-import nl.vpro.domain.media.update.PredictionUpdate;
 import nl.vpro.poms.AbstractApiMediaBackendTest;
 
 import static io.restassured.RestAssured.given;
@@ -22,6 +19,7 @@ import static org.assertj.core.api.Assertions.assertThat;
  * @author Michiel Meeuwissen
  */
 @Log4j2
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class LetterBoxTest extends AbstractApiMediaBackendTest {
 
     private static final String IMPORT_URL = CONFIG.url(poms, "import/");
@@ -34,11 +32,15 @@ class LetterBoxTest extends AbstractApiMediaBackendTest {
         RestAssured.urlEncodingEnabled = false;
     }
 
-    private static String nepEndpoint = null;
+    private static String nepEndpoint = IMPORT_URL + "nep";
+
+    private static String projectm = null;
 
 
-    @Test
-    void test01GetList() {
+
+    //@BeforeAll
+    static void getList() {
+
         String s =
             given()
                 .auth().basic(USERNAME, PASSWORD)
@@ -57,16 +59,48 @@ class LetterBoxTest extends AbstractApiMediaBackendTest {
             if (endpoint.endsWith("/import/nep")) {
                 nepEndpoint = endpoint;
             }
+            if (endpoint.endsWith("/import/projectmauthority.restriction")) {
+                projectm = endpoint;
+            }
         }
         assertThat(nepEndpoint).isNotNull();
     }
 
+    @Test
+    @Order(1)
+    @Tag("nep")
+    void security() {
+        log.info("{}", USERNAME);
+        String result = given()
+            .auth()
+            .  basic(USERNAME, "WRONG PASSWORD")
+            .log()
+            .  ifValidationFails()
+            .when()
+            .  body("<notify drm=\"false\"\n" +
+                "        type=\"ONLINE\"\n" +
+                "        mid=\"" + MID + "\" timestamp=\"2017-04-21T16:09:19\" xmlns=\"urn:vpro:media:notify:2017\" />")
+            .  contentType("application/xml")
+            .  post(nepEndpoint)
+            . then()
+            .    log().all()
+            .    statusCode(401)
+            .     extract()
+            .  asString();
+
+        log.info("{}", result);
+    }
+
+
 
 
     @Test
-    void test02PostToNEP() throws IOException {
-        given()
-            .auth().basic(USERNAME, PASSWORD)
+    @Order(2)
+    @Tag("nep")
+    void postToNEP() throws IOException {
+        String result = given()
+            .auth()
+            .  basic(USERNAME, PASSWORD)
             .log().ifValidationFails()
             .when()
             .  body("<notify drm=\"false\"\n" +
@@ -77,9 +111,37 @@ class LetterBoxTest extends AbstractApiMediaBackendTest {
             . then()
             .    log().all()
             .    statusCode(200)
-            .     extract().asString();
+            .     extract()
+            .  asString();
 
-        backend.getBackendRestService().setPrediction(null, MID, Platform.INTERNETVOD, true, null, PredictionUpdate.builder().platform(Platform.INTERNETVOD).build());
+        log.info("result: {}", result);
+    }
+
+
+
+    @Test
+    @Order(3)
+    @Tag("restriction")
+    void postRestriction() throws IOException {
+        String result = given()
+            .auth()
+            .  basic(USERNAME, PASSWORD)
+            .log().ifValidationFails()
+            .when()
+            .  body("<notify drm=\"false\"\n" +
+                "        type=\"ONLINE\"\n" +
+                "        mid=\"" + MID + "\" timestamp=\"2017-04-21T16:09:19\" xmlns=\"urn:vpro:media:notify:2017\" />")
+            .  contentType("application/xml")
+            .  post(projectm)
+            . then()
+            .    log().all()
+            .    statusCode(200)
+            .     extract()
+            .  asString();
+
+        log.info("bla" + result);
+
+        //backend.getBackendRestService().setPrediction(null, MID, Platform.INTERNETVOD, true, null, PredictionUpdate.builder().platform(Platform.INTERNETVOD).build());
 
 
     }
