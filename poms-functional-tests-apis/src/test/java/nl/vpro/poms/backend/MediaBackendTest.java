@@ -2,10 +2,12 @@ package nl.vpro.poms.backend;
 
 import lombok.extern.log4j.Log4j2;
 
+import java.io.IOException;
 import java.time.Duration;
 import java.util.*;
 import java.util.function.Predicate;
 
+import javax.ws.rs.core.Response;
 import javax.xml.bind.JAXB;
 
 import org.assertj.core.api.Assertions;
@@ -14,7 +16,9 @@ import org.junit.jupiter.api.*;
 import nl.vpro.api.client.media.ResponseError;
 import nl.vpro.domain.media.*;
 import nl.vpro.domain.media.update.*;
+import nl.vpro.domain.media.update.collections.XmlCollection;
 import nl.vpro.poms.AbstractApiMediaBackendTest;
+import nl.vpro.testutils.Utils;
 import nl.vpro.util.Version;
 
 import static nl.vpro.testutils.Utils.waitUntil;
@@ -252,6 +256,7 @@ class MediaBackendTest extends AbstractApiMediaBackendTest {
     }
 
     @Test
+    @Disabled
     public void tryToPinDownDamnServerErrorsOnDev() throws InterruptedException {
         for (int i = 0 ; i < 100; i++) {
             ProgramUpdate update = backend_authority.get(MID);
@@ -260,6 +265,75 @@ class MediaBackendTest extends AbstractApiMediaBackendTest {
             Thread.sleep(1000);
         }
     }
+    @Test
+    @Tag("prediction")
+    public void test10setPrediction() throws IOException {
+        try (Response response =
+                 backend.getBackendRestService().setPrediction(
+                     null,
+                     MID,
+                     Platform.INTERNETVOD,
+                     null,
+                     null,
+                     PredictionUpdate.builder()
+                         .encryption(Encryption.NONE)
+                         .publishStart(NOW.toInstant())
+                         .build())
+        ) {
+
+            log.info("{}", response.getEntity());
+        }
+    }
+
+    @Test
+    @Tag("prediction")
+    public void test11checkPrediction() {
+        waitUntil(ACCEPTABLE_DURATION,
+            () -> backend.getFull(MID),
+            Utils.Check.<MediaObject>builder()
+                .predicate((m) -> m.findOrCreatePrediction(Platform.INTERNETVOD).getPublishStartInstant().equals(NOW.toInstant()))
+                .build(),
+            Utils.Check.<MediaObject>builder()
+                .predicate((m) -> m.findOrCreatePrediction(Platform.INTERNETVOD).getEncryption().equals(Encryption.NONE))
+                .build()
+        );
+    }
 
 
+
+     @Test
+    @Tag("prediction")
+    public void test12setPredictions() throws IOException {
+        try (Response response =
+                 backend.getBackendRestService().setPredictions(
+                     null,
+                     MID,
+                     null,
+                     null,
+                     new XmlCollection<>(
+                         PredictionUpdate.builder()
+                             .encryption(Encryption.DRM)
+                             .publishStart(NOW.toInstant().minus(Duration.ofMinutes(5)))
+                             .build()))
+        ) {
+
+            log.info("{}", response.getEntity());
+        }
+    }
+
+    @Test
+    @Tag("prediction")
+    public void test13checkPredictions() {
+        waitUntil(ACCEPTABLE_DURATION,
+            () -> backend.getFull(MID),
+            Utils.Check.<MediaObject>builder()
+                .description("prediction has publishStart " + NOW)
+                .predicate((m) -> m.findOrCreatePrediction(Platform.INTERNETVOD).getPublishStartInstant().equals(NOW.toInstant().minus(Duration.ofMinutes(5))))
+                .build(),
+            Utils.Check.<MediaObject>builder()
+                .description("prediction is with DRM")
+                .predicate((m) -> m.findOrCreatePrediction(Platform.INTERNETVOD).getEncryption().equals(Encryption.DRM))
+                .build()
+        );
+    }
 }
