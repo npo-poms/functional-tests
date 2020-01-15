@@ -170,7 +170,7 @@ public class MediaBackendAddFieldValues extends AbstractApiMediaBackendTest {
         assertThat(created.getCredits().get(0)).isInstanceOf(Person.class);
         assertThat(created.getCredits().get(1).getName()).isEqualTo("Puk, pietje");
         assertThat(created.getCredits().get(1)).isInstanceOf(Person.class);
-        assertThat(created.getCredits().get(2).getName()).isEqualTo("Doe maar");
+        assertThat(created.getCredits().get(2).getName()).isEqualTo("Doe Maar");
         assertThat(created.getCredits().get(2)).isInstanceOf(Name.class);
     }
 
