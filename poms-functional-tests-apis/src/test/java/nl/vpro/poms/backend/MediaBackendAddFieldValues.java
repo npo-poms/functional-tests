@@ -34,7 +34,7 @@ public class MediaBackendAddFieldValues extends AbstractApiMediaBackendTest {
     private static final Duration ACCEPTABLE_DURATION = Duration.ofMinutes(3);
 
     static Program created;
-    static String mid = "POMS_VPRO_3319601"; // just t be able to run a single test. just change this in the last one if a test needs fixing.
+    static String mid = "POMS_VPRO_3320036"; // just t be able to run a single test. just change this in the last one if a test needs fixing.
 
     @BeforeEach
     public void init() {
@@ -60,6 +60,8 @@ public class MediaBackendAddFieldValues extends AbstractApiMediaBackendTest {
         addTargetGroups(builder);
         addTopics(builder);
         addGeolocations(builder);
+        addCredits(builder);
+
 
         ProgramUpdate clip = ProgramUpdate.create(builder.build());
 
@@ -149,6 +151,26 @@ public class MediaBackendAddFieldValues extends AbstractApiMediaBackendTest {
         assertThat(created.getGeoLocations().first().getValues()
             .stream().map(GeoLocation::getRole))
             .containsExactly(SUBJECT, SUBJECT);
+    }
+
+    private void addCredits(MediaBuilder.ProgramBuilder  builder) {
+        builder.credits(
+            Person.builder().uri(URI.create("http://data.beeldengeluid.nl/gtaa/149017")).role(RoleType.GUEST).build(),
+            Person.builder().givenName("pietje").familyName("Puk").role(RoleType.INTERVIEWER).build(),
+            Name.builder().uri(URI.create("http://data.beeldengeluid.nl/gtaa/51771")).role(RoleType.COMPOSER).build()
+        );
+    }
+
+    @Test
+    @Order(14)
+    public void checkCredits() {
+        assertThat(created.getCredits()).hasSize(3);
+        assertThat(created.getCredits().get(0).getName()).isEqualTo("Rutte, Mark");
+        assertThat(created.getCredits().get(0)).isInstanceOf(Person.class);
+        assertThat(created.getCredits().get(1).getName()).isEqualTo("Puk, pietje");
+        assertThat(created.getCredits().get(1)).isInstanceOf(Person.class);
+        assertThat(created.getCredits().get(2).getName()).isEqualTo("Doe maar");
+        assertThat(created.getCredits().get(2)).isInstanceOf(Name.class);
     }
 
     @Test
