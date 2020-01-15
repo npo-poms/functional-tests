@@ -294,7 +294,7 @@ class MediaBackendTest extends AbstractApiMediaBackendTest {
                 .predicate((m) -> m.findOrCreatePrediction(Platform.INTERNETVOD).getPublishStartInstant().equals(NOW.toInstant()))
                 .build(),
             Utils.Check.<MediaObject>builder()
-                .predicate((m) -> m.findOrCreatePrediction(Platform.INTERNETVOD).getEncryption().equals(Encryption.NONE))
+                .predicate((m) -> Objects.equals(m.findOrCreatePrediction(Platform.INTERNETVOD).getEncryption(), Encryption.NONE))
                 .build()
         );
     }
@@ -332,7 +332,7 @@ class MediaBackendTest extends AbstractApiMediaBackendTest {
                 .build(),
             Utils.Check.<MediaObject>builder()
                 .description("prediction is with DRM")
-                .predicate((m) -> m.findOrCreatePrediction(Platform.INTERNETVOD).getEncryption().equals(Encryption.DRM))
+                .predicate((m) -> Objects.equals(m.findOrCreatePrediction(Platform.INTERNETVOD).getEncryption(), Encryption.DRM))
                 .build()
         );
     }
