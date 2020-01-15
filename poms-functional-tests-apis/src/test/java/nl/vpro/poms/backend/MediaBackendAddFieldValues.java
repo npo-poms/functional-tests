@@ -18,6 +18,7 @@ import nl.vpro.testutils.Utils.Check;
 import static nl.vpro.domain.media.GeoRoleType.SUBJECT;
 import static nl.vpro.domain.media.IntentionType.ENTERTAINMENT_INFORMATIVE;
 import static nl.vpro.domain.media.IntentionType.INFORM_INDEPTH;
+import static nl.vpro.domain.media.RoleType.*;
 import static nl.vpro.domain.media.TargetGroupType.KIDS_12;
 import static nl.vpro.domain.media.TargetGroupType.KIDS_6;
 import static nl.vpro.domain.media.support.OwnerType.BROADCASTER;
@@ -155,9 +156,9 @@ public class MediaBackendAddFieldValues extends AbstractApiMediaBackendTest {
 
     private void addCredits(MediaBuilder.ProgramBuilder  builder) {
         builder.credits(
-            Person.builder().uri(URI.create("http://data.beeldengeluid.nl/gtaa/149017")).role(RoleType.GUEST).build(),
-            Person.builder().givenName("pietje").familyName("Puk").role(RoleType.INTERVIEWER).build(),
-            Name.builder().uri(URI.create("http://data.beeldengeluid.nl/gtaa/51771")).role(RoleType.COMPOSER).build()
+            Person.builder().uri(URI.create("http://data.beeldengeluid.nl/gtaa/149017")).role(GUEST).build(),
+            Person.builder().givenName("pietje").familyName("Puk").role(INTERVIEWER).build(),
+            Name.builder().uri(URI.create("http://data.beeldengeluid.nl/gtaa/51771")).role(COMPOSER).build()
         );
     }
 
