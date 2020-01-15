@@ -289,12 +289,27 @@ class MediaBackendTest extends AbstractApiMediaBackendTest {
     @Tag("prediction")
     public void test11checkPrediction() {
         waitUntil(ACCEPTABLE_DURATION,
-            () -> backend.getFull(MID),
-            Utils.Check.<MediaObject>builder()
-                .predicate((m) -> m.findOrCreatePrediction(Platform.INTERNETVOD).getPublishStartInstant().equals(NOW.toInstant()))
+            () -> {
+                try {
+                    return backend.getBackendRestService().getPredictions(null, MID, null);
+                } catch (IOException e) {
+                    log.error(e.getMessage(), e);
+                    return null;
+                }
+            },
+            Utils.Check.<XmlCollection<PredictionUpdate>>builder()
+                .description("prediction has publishStart " + NOW)
+                .predicate((l) ->
+                        l.stream()
+                            .map(e -> e.getPlatform() == Platform.INTERNETVOD && e.getPublishStart().equals(NOW.toInstant()))
+                            .findFirst().isPresent())
                 .build(),
-            Utils.Check.<MediaObject>builder()
-                .predicate((m) -> Objects.equals(m.findOrCreatePrediction(Platform.INTERNETVOD).getEncryption(), Encryption.NONE))
+            Utils.Check.<XmlCollection<PredictionUpdate>>builder()
+                .description("prediction has encryption NONE")
+                .predicate((l) ->
+                    l.stream()
+                        .map(e -> e.getPlatform() == Platform.INTERNETVOD && Objects.equals(e.getEncryption(), Encryption.NONE))
+                        .findFirst().isPresent())
                 .build()
         );
     }
@@ -313,6 +328,7 @@ class MediaBackendTest extends AbstractApiMediaBackendTest {
                      new XmlCollection<>(
                          PredictionUpdate.builder()
                              .encryption(Encryption.DRM)
+                             .platform(Platform.INTERNETVOD)
                              .publishStart(NOW.toInstant().minus(Duration.ofMinutes(5)))
                              .build()))
         ) {
