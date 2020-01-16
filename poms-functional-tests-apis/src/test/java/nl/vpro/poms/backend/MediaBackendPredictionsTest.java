@@ -4,6 +4,7 @@ import lombok.extern.log4j.Log4j2;
 
 import java.io.IOException;
 import java.time.Duration;
+import java.time.Instant;
 import java.util.Objects;
 
 import javax.ws.rs.core.Response;
@@ -58,6 +59,7 @@ class MediaBackendPredictionsTest extends AbstractApiMediaBackendTest {
         }
     }
 
+
     @Test
     @Tag("prediction")
     @Order(2)
@@ -72,14 +74,14 @@ class MediaBackendPredictionsTest extends AbstractApiMediaBackendTest {
                 }
             },
             Utils.Check.<XmlCollection<PredictionUpdate>>builder()
-                .description("prediction has publishStart " + NOW)
+                .description("prediction of " + MID + " has publishStart " + NOW)
                 .predicate((l) ->
                         l.stream()
                             .map(e -> e.getPlatform() == Platform.INTERNETVOD && e.getPublishStart().equals(NOW.toInstant()))
                             .findFirst().isPresent())
                 .build(),
             Utils.Check.<XmlCollection<PredictionUpdate>>builder()
-                .description("prediction has encryption NONE")
+                .description("prediction of " + MID + " has encryption NONE")
                 .predicate((l) ->
                     l.stream()
                         .map(e -> e.getPlatform() == Platform.INTERNETVOD && Objects.equals(e.getEncryption(), Encryption.NONE))
@@ -88,10 +90,10 @@ class MediaBackendPredictionsTest extends AbstractApiMediaBackendTest {
         );
     }
 
-
+    private static final Instant OTHERTIME = NOW.toInstant().minus(Duration.ofMinutes(5));
 
     @Test
-    @Tag("prediction")
+    @Tag("predictions")
     @Order(3)
     public void setPredictions() throws IOException {
         try (Response response =
@@ -104,7 +106,7 @@ class MediaBackendPredictionsTest extends AbstractApiMediaBackendTest {
                          PredictionUpdate.builder()
                              .encryption(Encryption.DRM)
                              .platform(Platform.INTERNETVOD)
-                             .publishStart(NOW.toInstant().minus(Duration.ofMinutes(5)))
+                             .publishStart(OTHERTIME)
                              .build()))
         ) {
 
@@ -112,18 +114,21 @@ class MediaBackendPredictionsTest extends AbstractApiMediaBackendTest {
         }
     }
 
+    /**
+     * Reproduces MSE-4674
+     */
     @Test
-    @Tag("prediction")
+    @Tag("predictions")
     @Order(4)
     public void checkSetPredictions() {
         waitUntil(ACCEPTABLE_DURATION,
             () -> backend.getFull(MID),
             Utils.Check.<MediaObject>builder()
-                .description("prediction has publishStart " + NOW)
-                .predicate((m) -> m.findOrCreatePrediction(Platform.INTERNETVOD).getPublishStartInstant().equals(NOW.toInstant().minus(Duration.ofMinutes(5))))
+                .description("prediction of " + MID + " has publishStart " + OTHERTIME)
+                .predicate((m) -> m.findOrCreatePrediction(Platform.INTERNETVOD).getPublishStartInstant().equals(OTHERTIME))
                 .build(),
             Utils.Check.<MediaObject>builder()
-                .description("prediction is with DRM")
+                .description("prediction of " + MID + " is with DRM")
                 .predicate((m) -> Objects.equals(m.findOrCreatePrediction(Platform.INTERNETVOD).getEncryption(), Encryption.DRM))
                 .build()
         );

@@ -2,12 +2,10 @@ package nl.vpro.poms.backend;
 
 import lombok.extern.log4j.Log4j2;
 
-import java.io.IOException;
 import java.time.Duration;
 import java.util.*;
 import java.util.function.Predicate;
 
-import javax.ws.rs.core.Response;
 import javax.xml.bind.JAXB;
 
 import org.assertj.core.api.Assertions;
@@ -16,9 +14,7 @@ import org.junit.jupiter.api.*;
 import nl.vpro.api.client.media.ResponseError;
 import nl.vpro.domain.media.*;
 import nl.vpro.domain.media.update.*;
-import nl.vpro.domain.media.update.collections.XmlCollection;
 import nl.vpro.poms.AbstractApiMediaBackendTest;
-import nl.vpro.testutils.Utils;
 import nl.vpro.util.Version;
 
 import static nl.vpro.testutils.Utils.waitUntil;
