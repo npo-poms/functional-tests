@@ -4,11 +4,14 @@ import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import lombok.extern.log4j.Log4j2;
 
+import java.io.StringReader;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.time.*;
 import java.util.Collections;
 import java.util.List;
+
+import javax.xml.bind.JAXB;
 
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -24,6 +27,7 @@ import nl.vpro.testutils.Utils;
 import static io.restassured.RestAssured.given;
 import static nl.vpro.api.client.utils.Config.Prefix.npo_backend_api;
 import static nl.vpro.domain.Xmlns.NAMESPACE_CONTEXT;
+import static nl.vpro.poms.AbstractApiMediaBackendTest.MID;
 import static nl.vpro.poms.AbstractApiTest.CONFIG;
 import static nl.vpro.rs.media.MediaBackendRestService.ERRORS;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -276,6 +280,26 @@ public class MediaTest {
             .statusCode(404)
             .extract()
             .asString());
+    }
+
+    @Test
+    public void test20StreamingStatus() {
+        String streamingStatusEndpoint = CONFIG.url(npo_backend_api, "media/streamingstatus");
+        String result = given()
+            .auth().basic(USERNAME, PASSWORD)
+            .log().all()
+            .when()
+            .  get(streamingStatusEndpoint + "/" + MID)
+            .then()
+            .  log().all()
+            .statusCode(200)
+            .extract()
+            .asString();
+
+
+
+        StreamingStatus streamingStatus = JAXB.unmarshal(new StringReader(result), StreamingStatusImpl.class);
+        log.info("{} -> {}", result, streamingStatus);
     }
 
 
