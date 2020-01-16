@@ -1,5 +1,6 @@
 package nl.vpro.poms.backend;
 
+import lombok.SneakyThrows;
 import lombok.extern.log4j.Log4j2;
 
 import java.io.IOException;
@@ -15,7 +16,7 @@ import nl.vpro.domain.media.*;
 import nl.vpro.domain.media.update.PredictionUpdate;
 import nl.vpro.domain.media.update.collections.XmlCollection;
 import nl.vpro.poms.AbstractApiMediaBackendTest;
-import nl.vpro.testutils.Utils;
+import nl.vpro.testutils.Utils.Check;
 
 import static nl.vpro.testutils.Utils.waitUntil;
 import static org.assertj.core.api.Assumptions.assumeThat;
@@ -65,22 +66,15 @@ class MediaBackendPredictionsTest extends AbstractApiMediaBackendTest {
     @Order(2)
     public void checkSetPrediction() {
         waitUntil(ACCEPTABLE_DURATION,
-            () -> {
-                try {
-                    return backend.getBackendRestService().getPredictions(null, MID, null);
-                } catch (IOException e) {
-                    log.error(e.getMessage(), e);
-                    return null;
-                }
-            },
-            Utils.Check.<XmlCollection<PredictionUpdate>>builder()
+            () -> getPredictions(MID),
+            Check.<XmlCollection<PredictionUpdate>>builder()
                 .description("prediction of " + MID + " has publishStart " + NOW)
                 .predicate((l) ->
                         l.stream()
                             .map(e -> e.getPlatform() == Platform.INTERNETVOD && e.getPublishStart().equals(NOW.toInstant()))
                             .findFirst().isPresent())
                 .build(),
-            Utils.Check.<XmlCollection<PredictionUpdate>>builder()
+            Check.<XmlCollection<PredictionUpdate>>builder()
                 .description("prediction of " + MID + " has encryption NONE")
                 .predicate((l) ->
                     l.stream()
@@ -122,15 +116,28 @@ class MediaBackendPredictionsTest extends AbstractApiMediaBackendTest {
     @Order(4)
     public void checkSetPredictions() {
         waitUntil(ACCEPTABLE_DURATION,
-            () -> backend.getFull(MID),
-            Utils.Check.<MediaObject>builder()
+            () -> getPredictions(MID),
+            Check.<XmlCollection<PredictionUpdate>>builder()
                 .description("prediction of " + MID + " has publishStart " + OTHERTIME)
-                .predicate((m) -> m.findOrCreatePrediction(Platform.INTERNETVOD).getPublishStartInstant().equals(OTHERTIME))
+                .predicate((l) ->
+                        l.stream()
+                            .map(e -> e.getPlatform() == Platform.INTERNETVOD && e.getPublishStart().equals(OTHERTIME))
+                            .findFirst().isPresent())
                 .build(),
-            Utils.Check.<MediaObject>builder()
-                .description("prediction of " + MID + " is with DRM")
-                .predicate((m) -> Objects.equals(m.findOrCreatePrediction(Platform.INTERNETVOD).getEncryption(), Encryption.DRM))
+            Check.<XmlCollection<PredictionUpdate>>builder()
+                .description("prediction of " + MID + " has encryption DRM")
+                .predicate((l) ->
+                    l.stream()
+                        .map(e -> e.getPlatform() == Platform.INTERNETVOD && Objects.equals(e.getEncryption(), Encryption.DRM))
+                        .findFirst().isPresent())
                 .build()
         );
     }
+
+    @SneakyThrows
+    private XmlCollection<PredictionUpdate> getPredictions(String mid) {
+        return backend.getBackendRestService().getPredictions(null, mid, null);
+    }
 }
+
+
