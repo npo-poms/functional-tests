@@ -48,6 +48,7 @@ class MediaBackendTest extends AbstractApiMediaBackendTest {
     @Test
     public void test01CreateObjectWithMembers() {
         ProgramUpdate clip = ProgramUpdate.create(
+            backend.getVersionNumber(),
             MediaTestDataBuilder.clip()
                 .ageRating(AgeRating.ALL)
                 .title(title)
@@ -58,7 +59,6 @@ class MediaBackendTest extends AbstractApiMediaBackendTest {
                 .constrainedNew()
                 .build()
         );
-        clip.setVersion(Version.of(5, 9));
 
         JAXB.marshal(clip, System.out);
         newMid = backend.set(clip);

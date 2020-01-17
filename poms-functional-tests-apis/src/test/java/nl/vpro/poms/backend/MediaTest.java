@@ -282,6 +282,9 @@ public class MediaTest {
             .asString());
     }
 
+    /**
+     * See also MSE-4676
+     */
     @Test
     public void test20StreamingStatus() {
         String streamingStatusEndpoint = CONFIG.url(npo_backend_api, "media/streamingstatus");
