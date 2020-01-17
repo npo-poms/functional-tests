@@ -52,6 +52,7 @@ class MediaBackendTest extends AbstractApiMediaBackendTest {
                 .ageRating(AgeRating.ALL)
                 .title(title)
                 .broadcasters("VPRO")
+                .portals("NETINNL")
                 .languages("ZH")
                 .predictions(Prediction.builder().platform(Platform.INTERNETVOD).encryption(Encryption.NONE).plannedAvailability(true).build())
                 .constrainedNew()
