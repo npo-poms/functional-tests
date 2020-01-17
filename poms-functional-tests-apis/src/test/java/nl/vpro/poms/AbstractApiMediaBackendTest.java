@@ -39,14 +39,17 @@ public abstract class AbstractApiMediaBackendTest extends AbstractApiTest {
     protected static final String MID_WITH_LOCATIONS = "WO_VPRO_025700";
     protected static final String ANOTHER_MID        = "WO_VPRO_4911154";
 
+    private static final Duration BACKEND_SOCKET_TIMEOUT = Duration.ofSeconds(300);
+    private static final Duration BACKEND_CONNECTIONREQUEST_TIMEOUT = Duration.ofSeconds(10);
+
 
     protected static final MediaRestClient backend =
         MediaRestClient.configured(CONFIG.env(), CONFIG.getProperties(Config.Prefix.npo_backend_api))
             .followMerges(true)
             .validateInput(true)
             .lookupCrids(true)
-            .socketTimeout(Duration.ofSeconds(60))
-            .connectionRequestTimeout(Duration.ofSeconds(10))
+            .socketTimeout(BACKEND_SOCKET_TIMEOUT)
+            .connectionRequestTimeout(BACKEND_CONNECTIONREQUEST_TIMEOUT)
             .warnThreshold(Duration.ofSeconds(10))
             //.version("5.7")
             .build();
@@ -58,8 +61,8 @@ public abstract class AbstractApiMediaBackendTest extends AbstractApiTest {
             .validateInput(true)
             .lookupCrids(true)
             .owner(OwnerType.AUTHORITY)
-            .socketTimeout(Duration.ofSeconds(60))
-            .connectionRequestTimeout(Duration.ofSeconds(10))
+            .socketTimeout(BACKEND_SOCKET_TIMEOUT)
+            .connectionRequestTimeout(BACKEND_CONNECTIONREQUEST_TIMEOUT)
             .warnThreshold(Duration.ofSeconds(10))
             //.version("5.7")
             .build();
