@@ -101,6 +101,8 @@ class MediaBackendTest extends AbstractApiMediaBackendTest {
         assertThat(u.getLanguages()).containsExactly(new Locale("ZH"));
         assertThat(u.getPredictions()).hasSize(1);
         assertThat(u.getPredictions().first().getPlatform()).isEqualTo(Platform.INTERNETVOD);
+        assertThat(u.getPortals()).hasSize(1);
+        assertThat(u.getPortals().get(0)).isEqualTo("NETINNL");
 
         MediaUpdateList<MemberUpdate> memberUpdates = waitUntil(ACCEPTABLE_DURATION,
             newMid + " exists and has one member",

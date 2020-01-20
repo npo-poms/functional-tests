@@ -296,6 +296,7 @@ public class MediaTest {
             .then()
             .  log().all()
             .statusCode(200)
+            .contentType(ContentType.XML)
             .extract()
             .asString();
 
@@ -303,6 +304,7 @@ public class MediaTest {
 
         StreamingStatus streamingStatus = JAXB.unmarshal(new StringReader(result), StreamingStatusImpl.class);
         log.info("{} -> {}", result, streamingStatus);
+        assertThat(streamingStatus).isNotNull();
     }
 
 
