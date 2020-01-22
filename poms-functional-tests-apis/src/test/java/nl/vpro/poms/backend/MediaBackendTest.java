@@ -26,7 +26,7 @@ import static org.assertj.core.api.Assumptions.assumeThat;
  * 2018-08-17:
  * 5.9-SNAPSHOT @ dev : allemaal ok
  */
-/***
+/**
  * @author Michiel Meeuwissen
  */
 @TestMethodOrder(MethodOrderer.Alphanumeric.class)
@@ -50,7 +50,7 @@ class MediaBackendTest extends AbstractApiMediaBackendTest {
         ProgramUpdate clip = ProgramUpdate.create(
             backend.getVersionNumber(),
             MediaTestDataBuilder.clip()
-                .ageRating(AgeRating.ALL)
+                //.ageRating(AgeRating.ALL)
                 .title(title)
                 .broadcasters("VPRO")
                 .portals("NETINNL")
