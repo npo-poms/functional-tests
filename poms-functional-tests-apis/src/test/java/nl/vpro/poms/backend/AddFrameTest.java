@@ -3,6 +3,7 @@ package nl.vpro.poms.backend;
 import lombok.extern.log4j.Log4j2;
 
 import java.time.Duration;
+import java.util.Objects;
 
 import javax.ws.rs.core.Response;
 
@@ -11,10 +12,10 @@ import org.junit.jupiter.api.*;
 import nl.vpro.domain.image.ImageType;
 import nl.vpro.domain.media.Program;
 import nl.vpro.domain.media.support.OwnerType;
-import nl.vpro.domain.media.update.ImageUpdate;
-import nl.vpro.domain.media.update.ProgramUpdate;
+import nl.vpro.domain.media.update.*;
 import nl.vpro.poms.AbstractApiMediaBackendTest;
 import nl.vpro.test.jupiter.AbortOnException;
+import nl.vpro.testutils.Utils;
 
 import static nl.vpro.testutils.Utils.waitUntil;
 
@@ -61,37 +62,42 @@ public class AddFrameTest extends AbstractApiMediaBackendTest {
 
     @Test
     public void test02CheckArrived() {
-        final ProgramUpdate[] update = new ProgramUpdate[1];
-
+        final ImageUpdate[] update = new ImageUpdate[1];
         waitUntil(ACCEPTABLE_DURATION,
-            MID + " has image STILL with offset " + OFFSET + " and size != " + ORIGINAL_SIZE_OF_IMAGE,
-            () -> {
-                update[0] = backend_authority.get(MID);
-                if (update[0] == null) {
-                    return false;
-                }
-                ImageUpdate foundImage =
-                    update[0].getImages()
-                        .stream()
-                        .filter(iu ->
-                            iu != null &&
-                                iu.getOffset() != null &&
-                                iu.getOffset().equals(OFFSET) &&
-                                iu.getType() == ImageType.STILL
-                        ).findFirst().orElse(null);
-                if (foundImage == null) {
-                    log.info("No STILL found yet at {}", OFFSET);
-                    return false;
-                }
-
-                long foundSize = imageUtil.getSize(foundImage).orElse(-1L);
-                if (foundSize == ORIGINAL_SIZE_OF_IMAGE) {
-                    log.info("Found {} but the size is the original size, so this may be from test10", foundImage);
-                    return false;
-                }
-                createImageUri = foundImage.getImageUri();
-                return true;
-            });
+            () -> backend_authority.get(MID),
+            Utils.Check.<MediaUpdate<?>>builder()
+                .description("has " + MID)
+                .predicate(Objects::nonNull)
+                .build(),
+            Utils.Check.<MediaUpdate<?>>builder()
+                .description("has image STILL with offset " + OFFSET)
+                .predicate((o) -> {
+                        update[0] =
+                            o.getImages()
+                                .stream()
+                                .filter(iu ->
+                                    iu != null &&
+                                        iu.getOffset() != null &&
+                                        iu.getOffset().equals(OFFSET) &&
+                                        iu.getType() == ImageType.STILL
+                                ).findFirst().orElse(null);
+                        return update[0] != null;
+                    })
+                .build(),
+            Utils.Check.<MediaUpdate<?>>builder()
+                .description("image has sice != " + ORIGINAL_SIZE_OF_IMAGE)
+                .predicate((o) -> {
+                        long foundSize = imageUtil.getSize(update[0]).orElse(-1L);
+                        if (foundSize == ORIGINAL_SIZE_OF_IMAGE) {
+                            log.info("Found {} but the size is the original size, so this may be from test10", update[0]);
+                            return false;
+                        } else {
+                            createImageUri = update[0].getImageUri();
+                            return true;
+                        }
+                    })
+                .build()
+        );
     }
 
 
@@ -174,5 +180,4 @@ public class AddFrameTest extends AbstractApiMediaBackendTest {
 
 
     }
-
 }

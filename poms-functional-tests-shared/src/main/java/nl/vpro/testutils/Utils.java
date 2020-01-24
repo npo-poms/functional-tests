@@ -6,10 +6,11 @@ import lombok.extern.log4j.Log4j2;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.Arrays;
-import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.function.*;
 import java.util.stream.Collectors;
+
+import nl.vpro.util.TextUtil;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -135,7 +136,7 @@ public class Utils {
         Check<T>... tests) {
          final T[] result = (T[]) new Object[1];
          final String[] predicateDescription = new String[1];
-         predicateDescription[0] = Arrays.stream(tests).map(t -> t.description).collect(Collectors.joining(" and "));
+         predicateDescription[0] = Arrays.stream(tests).map(t -> t.description).collect(Collectors.joining(" AND "));
          final String originalDescription = predicateDescription[0];
          waitUntil(acceptable, () -> predicateDescription[0], new Callable<Boolean>() {
             @Override
@@ -145,15 +146,19 @@ public class Utils {
                 if (result[0] == null) {
                     return false;
                 }
-                List<Check<T>> failing = Arrays.stream(tests).filter(t -> !t.predicate.test(result[0])).collect(Collectors.toList());
-                if (failing.isEmpty()) {
-                    predicateDescription[0] = originalDescription;
-                    return true;
-                } else {
-                    predicateDescription[0] = failing.stream().map(t -> t.description).collect(Collectors.joining(" and "));
-                    return false;
-                }
+                boolean success = true;
+                StringBuilder description = new StringBuilder();
+                for (Check<T> t : tests) {
+                    boolean test = t.predicate.test(result[0]);
+                    success &= test;
+                    if (description.length() > 0) {
+                        description.append(" AND ");
+                    }
+                    description.append(test ? TextUtil.strikeThrough(t.description) : t.description);
 
+                }
+                predicateDescription[0] = description.toString();
+                return success;
             }
 
             @Override
@@ -176,7 +181,7 @@ public class Utils {
         private final Function<T, String> failureDescription;
         private final Supplier<T> supplier;
 
-        @lombok.Builder
+        @lombok.Builder(builderClassName = "Builder")
         private Check(String description, Predicate<T> predicate, Function<T, String> failureDescription, Supplier<T> supplier) {
             this.description = description;
             this.predicate = predicate;
@@ -184,5 +189,6 @@ public class Utils {
             this.failureDescription = failureDescription == null ? (t) -> description + ":" + t + " doesn't match" : failureDescription;
         }
     }
+
 }
 
