@@ -6,6 +6,7 @@ import lombok.extern.log4j.Log4j2;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.Arrays;
+import java.util.Objects;
 import java.util.concurrent.Callable;
 import java.util.function.*;
 import java.util.stream.Collectors;
@@ -44,6 +45,8 @@ public class Utils {
                 }
                 Duration duration = Duration.between(start, Instant.now());
                 if (duration.compareTo(acceptable) > 0) {
+                    // this would fail, intentionally, because we are too late
+                    //noinspection ConstantConditions
                     assertThat(result)
                         .withFailMessage("%s didn't evaluate to true after %s in less than %s", r, duration, acceptable)
                         .isTrue();
@@ -60,7 +63,7 @@ public class Utils {
 
     public static void waitUntil(Duration acceptable, Supplier<String> callableToDescription, final Callable<Boolean> r)  {
         log.info("Waiting until " + callableToDescription.get());
-        waitUntil(acceptable, new Callable<Boolean>() {
+        waitUntil(acceptable, new Callable<>() {
             @Override
             public Boolean call() throws Exception {
                 try {
@@ -108,7 +111,9 @@ public class Utils {
         Supplier<T> r,
         Predicate<T> ... predicate) {
         Predicate<T> and = Arrays.stream(predicate).reduce(x -> true, Predicate::and);
-        return waitUntil(acceptable, predicateDescription, r, and, (result) -> predicateDescription + ": " + result + " doesn't match");
+        return waitUntil(acceptable, predicateDescription, r,
+            and,
+            (result) -> predicateDescription + ": " + result + " doesn't match");
     }
     /**
      * Call supplier until its result evaluates true according to given predicate or the acceptable duration elapses.
@@ -127,8 +132,9 @@ public class Utils {
     }
 
     /**
-     * @parm resultSupplier The code to produce a result. This will be repeated until it doesn't return <code>null</code> or until the acceptable duration expires.
+     * @param resultSupplier The code to produce a result. This will be repeated until it doesn't return <code>null</code> or until the acceptable duration expires.
      */
+     @SuppressWarnings("unchecked")
      @SafeVarargs
      public static <T> T waitUntil(
         Duration acceptable,
@@ -137,41 +143,59 @@ public class Utils {
          final T[] result = (T[]) new Object[1];
          final String[] predicateDescription = new String[1];
          predicateDescription[0] = Arrays.stream(tests).map(t -> t.description).collect(Collectors.joining(" AND "));
-         final String originalDescription = predicateDescription[0];
-         waitUntil(acceptable, () -> predicateDescription[0], new Callable<Boolean>() {
-            @Override
-            public Boolean call() {
-                CLEAR_CACHES.get().run();
-                result[0] = resultSupplier.get();
-                if (result[0] == null) {
-                    return false;
-                }
-                boolean success = true;
-                StringBuilder description = new StringBuilder();
-                for (Check<T> t : tests) {
-                    boolean test = t.predicate.test(result[0]);
-                    success &= test;
-                    if (description.length() > 0) {
-                        description.append(" AND ");
-                    }
-                    description.append(test ? TextUtil.strikeThrough(t.description) : t.description);
+         waitUntil(acceptable, () -> predicateDescription[0], new Callable<>() {
+             @Override
+             public Boolean call() {
+                 CLEAR_CACHES.get().run();
+                 result[0] = resultSupplier.get();
+                 if (result[0] == null) {
+                     return false;
+                 }
+                 boolean success = true;
+                 StringBuilder description = new StringBuilder();
+                 for (Check<T> t : tests) {
+                     boolean test = t.predicate.test(result[0]);
+                     success &= test;
+                     if (description.length() > 0) {
+                         description.append(" AND ");
+                     }
+                     description.append(test ? TextUtil.strikeThrough(t.description) : t.description);
 
-                }
-                predicateDescription[0] = description.toString();
-                return success;
-            }
+                 }
+                 predicateDescription[0] = description.toString();
+                 return success;
+             }
 
-            @Override
-            public String toString() {
-                return Arrays.asList(tests)+ " supplies: " + resultSupplier + " current value: " + result[0];
-            }
-        });
+             @Override
+             public String toString() {
+                 return Arrays.asList(tests) + " supplies: " + resultSupplier + " current value: " + result[0];
+             }
+         });
         assertThat(result[0]).withFailMessage(predicateDescription[0] + ":" + resultSupplier + "supplied null").isNotNull();
         for (Check<T> t : tests) {
             assertThat(t.predicate.test(result[0])).withFailMessage(t.failureDescription.apply(result[0])).isTrue();
         }
         return result[0];
     }
+
+    @SuppressWarnings("unchecked")
+    @SafeVarargs
+    public static <T> T waitUntil(
+        Duration acceptable,
+        Supplier<T> resultSupplier,
+        Check.Builder<T>... tests) {
+          Check<T>[] args = Arrays.stream(tests).map(Check.Builder<T>::build).toArray(Check[]::new);
+         return waitUntil(acceptable, resultSupplier, args);
+    }
+
+    public static <T> T waitUntil(
+        Duration acceptable,
+        Supplier<T> resultSupplier) {
+        return waitUntil(acceptable, resultSupplier, Check.<T>builder()
+            .description(resultSupplier + " is not null")
+            .predicate(Objects::nonNull).build());
+    }
+
 
 
     @Getter
@@ -187,6 +211,11 @@ public class Utils {
             this.predicate = predicate;
             this.supplier = supplier;
             this.failureDescription = failureDescription == null ? (t) -> description + ":" + t + " doesn't match" : failureDescription;
+        }
+
+        public static <T> Check.Builder<T> description(String description) {
+            return Check
+                .<T>builder().description(description);
         }
     }
 

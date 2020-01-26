@@ -52,6 +52,9 @@ import static org.hamcrest.Matchers.*;
 @ExtendWith({AllowUnavailable.class, TestMDC.class})
 public class MediaTest {
 
+    private static final Instant NOW = Instant.now();
+    private static final LocalDate TODAY = NOW.atZone(Schedule.ZONE_ID).toLocalDate();
+    private static final LocalDateTime TIME = NOW.atZone(Schedule.ZONE_ID).toLocalDateTime();
     private static final Duration ACCEPTABLE = Duration.ofMinutes(5);
 
     private static final String MEDIA_URL = CONFIG.url(npo_backend_api, "media/media");
@@ -67,7 +70,7 @@ public class MediaTest {
 
     @BeforeAll
     public static void setUpShared() {
-        dynamicSuffix = LocalDateTime.now().toString();
+        dynamicSuffix = TIME.toString();
         cridIdFromSuffix = dynamicSuffix.replaceAll("\\D", "");
     }
 
@@ -80,7 +83,6 @@ public class MediaTest {
     @Test
     @Tag("clip")
     @Tag("clips")
-
     public void test01PostClip() {
         List<Segment> segments = Collections.singletonList(createSegment(null, dynamicSuffix, null));
         ProgramUpdate clip =
@@ -211,7 +213,9 @@ public class MediaTest {
         MediaForm search = MediaForm.builder()
             .pager(MediaPager.builder().max(50).build())
             .broadcaster("VPRO")
-            .creationRange(new InstantRange(LocalDate.now().atStartOfDay(), LocalDate.now().atStartOfDay().plusHours(24)))
+            .creationRange(
+                new InstantRange(TODAY.atStartOfDay(), TODAY.atStartOfDay().plusHours(24))
+            )
             .build();
 
         TitleForm form = new TitleForm(TITLE_PREFIX + dynamicSuffix, false);

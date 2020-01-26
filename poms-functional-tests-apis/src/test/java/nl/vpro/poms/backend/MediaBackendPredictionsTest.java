@@ -12,10 +12,12 @@ import javax.ws.rs.core.Response;
 
 import org.junit.jupiter.api.*;
 
-import nl.vpro.domain.media.*;
+import nl.vpro.domain.media.Encryption;
+import nl.vpro.domain.media.Platform;
 import nl.vpro.domain.media.update.PredictionUpdate;
 import nl.vpro.domain.media.update.collections.XmlCollection;
 import nl.vpro.poms.AbstractApiMediaBackendTest;
+import nl.vpro.testutils.Utils;
 import nl.vpro.testutils.Utils.Check;
 
 import static nl.vpro.testutils.Utils.waitUntil;
@@ -65,22 +67,20 @@ class MediaBackendPredictionsTest extends AbstractApiMediaBackendTest {
     @Tag("prediction")
     @Order(2)
     public void checkSetPrediction() {
-        waitUntil(ACCEPTABLE_DURATION,
+        Utils.waitUntil(ACCEPTABLE_DURATION,
             () -> getPredictions(MID),
-            Check.<XmlCollection<PredictionUpdate>>builder()
-                .description("prediction of " + MID + " has publishStart " + NOW)
+            Check.<XmlCollection<PredictionUpdate>>description("prediction of " + MID + " has publishStart " + NOW)
                 .predicate((l) ->
                         l.stream()
                             .map(e -> e.getPlatform() == Platform.INTERNETVOD && e.getPublishStart().equals(NOW.toInstant()))
-                            .findFirst().isPresent())
-                .build(),
-            Check.<XmlCollection<PredictionUpdate>>builder()
-                .description("prediction of " + MID + " has encryption NONE")
+                            .findFirst().isPresent()
+                ),
+            Check.<XmlCollection<PredictionUpdate>>description("prediction of " + MID + " has encryption NONE")
                 .predicate((l) ->
                     l.stream()
                         .map(e -> e.getPlatform() == Platform.INTERNETVOD && Objects.equals(e.getEncryption(), Encryption.NONE))
-                        .findFirst().isPresent())
-                .build()
+                        .findFirst().isPresent()
+                )
         );
     }
 
