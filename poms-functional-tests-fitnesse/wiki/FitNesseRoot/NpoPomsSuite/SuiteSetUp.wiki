@@ -1,0 +1,12 @@
+!***> Fixture code locations
+|Import                           |
+|nl.hsac.fitnesse.fixture         |
+|nl.hsac.fitnesse.fixture.slim    |
+|nl.hsac.fitnesse.fixture.slim.web|
+|nl.hsac.fitnesse.example         |
+*!
+
+!***> Libraries
+|Library       |
+|string fixture|
+*!

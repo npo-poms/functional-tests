@@ -1,0 +1,38 @@
+---
+Test
+---
+|script                                                                              |
+|Open Npo Poms website                                                               |
+|Log in met standaard-gebruiker                                                      |
+|click            |NIEUW                                                             |
+|wait for visible |Nieuw object toevoegen                                            |
+|                                                                                    |
+|Selecteer optie  |Clip                        |in dropdown             |Media Type *|
+|Check optie      |NPS                         |geselecteerd in dropdown|Omroep *    |
+|Selecteer optie  |Audio                       |in dropdown             |AV Type *   |
+|Selecteer optie  |Jeugd                       |in dropdown             |Genre *     |
+|Check bericht    |Nog in te vullen: Hoofdtitel|in footer                            |
+|Check knop       |Maak aan                    |in footer inactief                   |
+|                                                                                    |
+|Vul              |test                        |in tekstveld            |Hoofdtitel *|
+|Deselecteer optie|Clip                        |in dropdown             |Media Type *|
+|Check bericht    |Nog in te vullen: Mediatype |in footer                            |
+|Check knop       |Maak aan                    |in footer inactief                   |
+|                                                                                    |
+|Selecteer optie  |Clip                        |in dropdown             |Media Type *|
+|Deselecteer optie|NPS                         |in dropdown             |Omroep *    |
+|Check bericht    |Nog in te vullen: Omroep    |in footer                            |
+|Check knop       |Maak aan                    |in footer inactief                   |
+|                                                                                    |
+|Selecteer optie  |NPS                         |in dropdown             |Omroep *    |
+|Deselecteer optie|Audio                       |in dropdown             |AV Type *   |
+|Check bericht    |Nog in te vullen: AV Type   |in footer                            |
+|Check knop       |Maak aan                    |in footer inactief                   |
+|                                                                                    |
+|Selecteer optie  |Audio                       |in dropdown             |AV Type *   |
+|Deselecteer optie|Jeugd                       |in dropdown             |Genre *     |
+|Check bericht    |Nog in te vullen: Genre     |in footer                            |
+|Check knop       |Maak aan                    |in footer inactief                   |
+|                                                                                    |
+|Druk op kruisje om pop-up te sluiten                                                |
+|Log uit                                                                             |
