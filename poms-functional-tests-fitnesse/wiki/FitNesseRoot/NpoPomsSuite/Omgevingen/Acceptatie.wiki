@@ -1,0 +1,17 @@
+---
+Suite
+SymbolicLinks
+  TestScripts: <NpoPomsSuite.TestScripts
+---
+!*** Gegevens
+!*> Defines
+!define URL {!-https://poms-test.omroep.nl/ -!}
+
+*!
+
+|'''Gegevens                          '''|
+|Url               |${URL}               |
+
+*!
+
+!contents -R2 -g -p -f -h

@@ -1,9 +1,9 @@
-package nl.hsac.fitnesse.example;
+package nl.specialisterren.fitnesse.fixture.slim.web;
 
 import nl.hsac.fitnesse.fixture.slim.web.BrowserTest;
 
 import nl.hsac.fitnesse.fixture.slim.web.annotation.WaitUntil;
 import org.openqa.selenium.*;
 
-public class ExampleTest extends BrowserTest {
+public class ExtendedBrowserTest extends BrowserTest {
 }

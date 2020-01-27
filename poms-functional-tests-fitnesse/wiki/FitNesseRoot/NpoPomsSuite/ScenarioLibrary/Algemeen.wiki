@@ -1,0 +1,51 @@
+|scenario|Open Npo Poms website|
+|open    |${URL}               |
+
+|scenario     |Wacht tot inlogscherm geladen|
+|wait for page|Log in met POMS Test-omgeving|
+
+|scenario     |Wacht tot hoofdscherm geladen|
+|wait for page|POMS - Zoek                  |
+
+|scenario|Log in met standaard-gebruiker         |
+|Wacht tot inlogscherm geladen                   |
+|enter   |$standaardGebruikersnaam|as|id=username|
+|enter   |$standaardWachtwoord    |as|id=password|
+|click   |Inloggen                               |
+
+|scenario |Log uit            |
+|Wacht tot hoofdscherm geladen|
+|click    |VF Specialisterren |
+|click    |log uit            |
+|Wacht tot inlogscherm geladen|
+
+|scenario|Vul         |tekstwaarde|in tekstveld|tekstveld|
+|enter   |@tekstwaarde|as         |@tekstveld            |
+
+|scenario|Maak tekstveld|tekstveld|leeg|
+|clear   |@tekstveld                   |
+
+|scenario|Check optie|optie                                                                     |geselecteerd in dropdown|dropdown|
+|check   |value of   |xpath=//span[normalize-space(.)="@dropdown"]/../following-sibling::div/div|@optie                           |
+
+|scenario|Check geen optie geselecteerd in dropdown|dropdown                                                                          |
+|ensure  |is visible on page                       |xpath=//span[normalize-space(.)="@dropdown"]/../following-sibling::div[not(./div)]|
+
+|scenario   |Selecteer optie|optie                   |in dropdown|dropdown|
+|click      |@dropdown                                                    |
+|click      |@optie                                                       |
+|Check optie|@optie         |geselecteerd in dropdown|@dropdown           |
+
+|scenario                                 |Deselecteer optie|optie                   |in dropdown|dropdown|
+|Check optie                              |@optie           |geselecteerd in dropdown|@dropdown           |
+|click                                    |@optie                                                         |
+|Check geen optie geselecteerd in dropdown|@dropdown                                                      |
+
+|scenario|Check bericht|bericht                                                  |in footer|
+|check   |value of     |xpath=//div[contains(@class, "footer-container")]/div/div|@bericht |
+
+|scenario|Check knop        |knop                                           |in footer inactief                                           |
+|ensure  |is visible on page|xpath=//div[contains(@class, "footer-container")]/div/button[normalize-space()="@knop"][@disabled="disabled"]|
+
+|scenario|Druk op kruisje om pop-up te sluiten    |
+|click   |xpath=//div[@class="modal-close-button"]|
