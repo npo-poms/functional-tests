@@ -35,4 +35,4 @@ Test
 |Check knop       |Maak aan                    |in footer inactief                   |
 |                                                                                    |
 |Druk op kruisje om pop-up te sluiten                                                |
-|Log uit                                                                             |
+|Wacht tot tabblad Zoeken geopend in hoofdscherm                                     |

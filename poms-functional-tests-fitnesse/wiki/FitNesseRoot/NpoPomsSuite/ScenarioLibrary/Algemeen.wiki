@@ -4,26 +4,35 @@
 |scenario     |Wacht tot inlogscherm geladen|
 |wait for page|Log in met POMS Test-omgeving|
 
-|scenario     |Wacht tot hoofdscherm geladen|
-|wait for page|POMS - Zoek                  |
+|scenario     |Wacht tot tabblad|tabblad|geopend in hoofdscherm|
+|wait for page|POMS - @tabblad                                 |
+
+|scenario         |Wacht tot tabblad Zoeken geopend in hoofdscherm|
+|Wacht tot tabblad|Zoek          |geopend in hoofdscherm          |
 
 |scenario|Log in met standaard-gebruiker         |
 |Wacht tot inlogscherm geladen                   |
 |enter   |$standaardGebruikersnaam|as|id=username|
 |enter   |$standaardWachtwoord    |as|id=password|
 |click   |Inloggen                               |
+|Wacht tot tabblad Zoeken geopend in hoofdscherm |
 
 |scenario |Log uit            |
-|Wacht tot hoofdscherm geladen|
 |click    |VF Specialisterren |
 |click    |log uit            |
 |Wacht tot inlogscherm geladen|
 
-|scenario|Vul         |tekstwaarde|in tekstveld|tekstveld|
-|enter   |@tekstwaarde|as         |@tekstveld            |
+|scenario|Druk knop        |knop        |
+|click   |xpath=//button[text()="@knop"]|
+
+|scenario|Vul         |tekstwaarde|in tekstveld                         |tekstveld                        |
+|enter   |@tekstwaarde|as         |xpath=//label[normalize-space(.)="@tekstveld"]/following-sibling::input|
 
 |scenario|Maak tekstveld|tekstveld|leeg|
 |clear   |@tekstveld                   |
+
+|scenario|Check optie|optie                                                                         |als optie nummer|index|geselecteerd in dropdown|dropdown|
+|check   |value of   |xpath=//span[normalize-space(.)="@dropdown"]/../following-sibling::div[@index]|@optie                                                  |
 
 |scenario|Check optie|optie                                                                     |geselecteerd in dropdown|dropdown|
 |check   |value of   |xpath=//span[normalize-space(.)="@dropdown"]/../following-sibling::div/div|@optie                           |
@@ -49,3 +58,6 @@
 
 |scenario|Druk op kruisje om pop-up te sluiten    |
 |click   |xpath=//div[@class="modal-close-button"]|
+
+|scenario        |Wacht op notificatie|notificatie                  |
+|wait for visible|@notificatie        |in|xpath=//poms-notifications|
