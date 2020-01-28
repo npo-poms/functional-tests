@@ -1,0 +1,11 @@
+---
+Test
+---
+|script                        |
+|Open Npo Poms website         |
+|Log in met standaard-gebruiker|
+
+!include <NpoTa02-SpomsCreateUser2.HulpScripts.ControleerVerwachtResultaat
+
+|script                      |
+|Check status|Voor publicatie|

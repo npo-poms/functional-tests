@@ -1,0 +1,7 @@
+---
+Test
+---
+|script                        |
+|Open Npo Poms website         |
+|Log in met standaard-gebruiker|
+|wait     |90     |seconds     |

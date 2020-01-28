@@ -1,0 +1,4 @@
+!define mediaType {Clip}
+!define omroep {NPS}
+!define avType {Audio}
+!define genre {Jeugd}

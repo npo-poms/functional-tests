@@ -1,3 +1,6 @@
+|script |
+|Log uit|
+
 |script|selenium driver setup|
 |show  |run summary          |
 |stop driver                 |

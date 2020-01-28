@@ -1,0 +1,30 @@
+!include -c <NpoTa02-SpomsCreateUser2.Variabelen
+
+|script                          |
+|$objectNaam=|get var|object naam|
+|$start=     |get var|start      |
+|$stop=      |get var|stop       |
+
+|script                                                             |
+|Vul                            |$objectNaam |in zoekveld           |
+|Druk knop                      |Zoeken                             |
+|Hover over object              |$objectNaam |in zoekresultaten     |
+|Druk op editknop bij object    |$objectNaam |in zoekresultaten     |
+|Wacht tot tabblad              |$objectNaam |geopend in hoofdscherm|
+|Check titel van laatste tab    |$objectNaam                        |
+|Check subtitel van laatste tab |${mediaType}                       |
+|Check hoofdtitel               |$objectNaam                        |
+|Check media type               |${mediaType}                       |
+|Check veldtype 1               |Omroepen    |heeft waarde|${omroep}|
+|Check veldtype 2               |AV-Type     |heeft waarde|${avType}|
+|Check publicatiestart met start|$start      |en stop     |$stop    |
+|Check mid active                                                   |
+|Check mid or urn               |=~/WO_NTR_[0-9]{7}/                |
+|click                          |Urn                                |
+|Check urn active                                                   |
+|Check mid or urn               |=~/urn:vpro:media:program:[0-9]{9}/|
+|click                          |Label                              |
+|wait                           |3           |seconds               |
+|Check veldtype 1               |Genres      |heeft waarde|${genre} |
+|click                          |Algemeen                           |
+|wait                           |3           |seconds               |

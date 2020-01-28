@@ -3,10 +3,13 @@
 |nl.hsac.fitnesse.fixture                    |
 |nl.hsac.fitnesse.fixture.slim               |
 |nl.hsac.fitnesse.fixture.slim.web           |
+|nl.specialisterren.fitnesse.fixture.slim    |
 |nl.specialisterren.fitnesse.fixture.slim.web|
 *!
 
 !***> Libraries
-|Library       |
-|string fixture|
+|Library                |
+|string fixture         |
+|extended string fixture|
+|variable fixture       |
 *!

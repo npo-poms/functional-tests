@@ -1,0 +1,26 @@
+---
+Test
+---
+!include -c <NpoTa02-SpomsCreateUser2.Variabelen
+
+|script                          |
+|$objectNaam=|get var|object naam|
+|$start=     |get var|start      |
+|$stop=      |get var|stop       |
+
+|script                                                           |
+|Open Npo Poms website                                            |
+|Log in met standaard-gebruiker                                   |
+|Vul                           |$objectNaam|in zoekveld           |
+|Druk knop                     |Zoeken                            |
+|Hover over object             |$objectNaam|in zoekresultaten     |
+|Druk op editknop bij object   |$objectNaam|in zoekresultaten     |
+|Wacht tot tabblad             |$objectNaam|geopend in hoofdscherm|
+|Check titel van laatste tab   |$objectNaam                       |
+|Check subtitel van laatste tab|${mediaType}                      |
+|click                         |Relaties                          |
+|wait                          |3          |seconds               |
+|click                         |Clip verwijderen                  |
+|wait for visible              |Clip verwijderen?                 |
+|click                         |verwijder                         |
+|Check subtitel van laatste tab|Zoeken                            |

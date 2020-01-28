@@ -1,0 +1,32 @@
+---
+Test
+---
+!include -c <NpoTa02-SpomsCreateUser2.Variabelen
+
+|script                                                    |
+|$objectNaam=|store      |Object TA !today (yyyyMMddHHmmss)|
+|set var     |object naam|to          |$objectNaam         |
+
+|script                                                                                            |
+|Open Npo Poms website                                                                             |
+|Log in met standaard-gebruiker                                                                    |
+|click            |NIEUW                                                                           |
+|wait for visible |Nieuw object toevoegen                                                          |
+|Vul              |$objectNaam |in tekstveld            |Hoofdtitel *                              |
+|Selecteer optie  |${mediaType}|in dropdown             |Media Type *                              |
+|Check optie      |${omroep}   |geselecteerd in dropdown|Omroep *                                  |
+|Selecteer optie  |${avType}   |in dropdown             |AV Type *                                 |
+|Selecteer optie  |${genre}    |in dropdown             |Genre *                                   |
+|click            |Publicatiestart                                                                 |
+|$start=          |store       |!today (dd-MM-yyyy) +2 00:00                                       |
+|set var          |start       |to                      |$start                                    |
+|$stop=           |store       |!today (dd-MM-yyyy) +3 00:00                                       |
+|set var          |stop        |to                      |$stop                                     |
+|Vul              |$start      |in tekstveld            |Start                                     |
+|Vul              |$stop       |in tekstveld            |Stop                                      |
+|click            |Publicatiestart                                                                 |
+|Check optie      |van: $start |als optie nummer        |1|geselecteerd in dropdown|Publicatiestart|
+|Check optie      |tot: $stop  |als optie nummer        |2|geselecteerd in dropdown|Publicatiestart|
+|wait             |5           |seconds                                                            |
+|click            |Maak aan                                                                        |
+|Wacht tot tabblad|$objectNaam |geopend in hoofdscherm                                             |
