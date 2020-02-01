@@ -25,6 +25,7 @@ import nl.vpro.junit.extensions.TestMDC;
 import nl.vpro.util.IntegerVersion;
 import nl.vpro.util.Version;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static nl.vpro.domain.media.MediaBuilder.program;
 
 /**
@@ -83,7 +84,7 @@ public abstract class AbstractApiMediaBackendTest extends AbstractApiTest {
     @SneakyThrows
     protected Image createImage() {
         Image image = new Image(OwnerType.BROADCASTER, ImageType.PICTURE, title);
-        image.setImageUri("https://via.placeholder.com/150?text=" + URLEncoder.encode(title, "UTF-8"));
+        image.setImageUri("https://via.placeholder.com/150?text=" + URLEncoder.encode(title, UTF_8));
         image.setLicense(License.CC_BY);
         image.setSourceName("placeholder.com");
         image.setSource("https://via.placeholder.com/");
@@ -231,7 +232,7 @@ public abstract class AbstractApiMediaBackendTest extends AbstractApiTest {
         ImageUpdate.Builder builder = ImageUpdate.builder()
             .type(ImageType.PICTURE)
             .title(title)
-            .imageUrl("https://images.poms.omroep.nl/image/s" + (TestMDC.getTestNumber() + 10) + "/7617.jpg?" + URLEncoder.encode(title, "UTF-8"))
+            .imageUrl("https://images.poms.omroep.nl/image/s" + (TestMDC.getTestNumber() + 10) + "/7617.jpg?" + URLEncoder.encode(title, UTF_8))
             .license(License.CC_BY)
             .sourceName("vpro")
             .source("https://www.vpro.nl/");
