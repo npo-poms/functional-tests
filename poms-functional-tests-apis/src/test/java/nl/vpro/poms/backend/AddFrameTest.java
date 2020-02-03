@@ -15,7 +15,7 @@ import nl.vpro.domain.media.support.OwnerType;
 import nl.vpro.domain.media.update.*;
 import nl.vpro.poms.AbstractApiMediaBackendTest;
 import nl.vpro.test.jupiter.AbortOnException;
-import nl.vpro.testutils.Utils;
+import nl.vpro.testutils.Utils.Check;
 
 import static nl.vpro.testutils.Utils.waitUntil;
 
@@ -65,11 +65,11 @@ public class AddFrameTest extends AbstractApiMediaBackendTest {
         final ImageUpdate[] update = new ImageUpdate[1];
         waitUntil(ACCEPTABLE_DURATION,
             () -> backend_authority.get(MID),
-            Utils.Check.<MediaUpdate<?>>builder()
+            Check.<MediaUpdate<?>>builder()
                 .description("has " + MID)
                 .predicate(Objects::nonNull)
                 .build(),
-            Utils.Check.<MediaUpdate<?>>builder()
+            Check.<MediaUpdate<?>>builder()
                 .description("has image STILL with offset " + OFFSET)
                 .predicate((o) -> {
                         update[0] =
@@ -84,8 +84,8 @@ public class AddFrameTest extends AbstractApiMediaBackendTest {
                         return update[0] != null;
                     })
                 .build(),
-            Utils.Check.<MediaUpdate<?>>builder()
-                .description("image has sice != " + ORIGINAL_SIZE_OF_IMAGE)
+            Check.<MediaUpdate<?>>builder()
+                .description("image has size != " + ORIGINAL_SIZE_OF_IMAGE)
                 .predicate((o) -> {
                         long foundSize = imageUtil.getSize(update[0]).orElse(-1L);
                         if (foundSize == ORIGINAL_SIZE_OF_IMAGE) {

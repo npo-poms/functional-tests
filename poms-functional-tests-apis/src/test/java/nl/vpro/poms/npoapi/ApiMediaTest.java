@@ -28,8 +28,8 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 public class ApiMediaTest extends AbstractApiTest {
 
     ApiMediaTest() {
-
     }
+
     @ValueSource(strings = {"none", "all"})
     @NullSource
     @Retention(RetentionPolicy.RUNTIME)
