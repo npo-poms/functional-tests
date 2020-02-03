@@ -229,12 +229,13 @@ class PagesPublisherTest extends AbstractApiMediaBackendTest {
 
         Page yesterday = pageUtil.load(urlYesterday)[0];
 
+        assertThat(yesterday).isNotNull();
+        assertThat(yesterday.getReferrals()).isNotNull();
         assertThat(yesterday.getReferrals().size()).isGreaterThanOrEqualTo(1);
 
         Page tomorrow = pageUtil.load(urlTomorrow)[0];
 
         assertThat(tomorrow).isNull();
-
         Page topStory = pageUtil.load(topStoryUrl)[0];
 
         Optional<Referral> referral = topStory.getReferrals()
