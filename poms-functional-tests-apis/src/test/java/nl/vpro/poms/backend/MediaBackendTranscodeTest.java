@@ -5,9 +5,7 @@
  import java.io.IOException;
  import java.time.Duration;
  import java.time.Instant;
- import java.util.List;
  import java.util.Map;
- import java.util.stream.Collectors;
 
  import javax.ws.rs.core.Response;
 
@@ -23,11 +21,12 @@
  import nl.vpro.logging.simple.Log4j2SimpleLogger;
  import nl.vpro.nep.service.impl.NEPSSHJUploadServiceImpl;
  import nl.vpro.poms.AbstractApiMediaBackendTest;
+ import nl.vpro.testutils.Utils;
  import nl.vpro.util.Env;
 
  import static nl.vpro.domain.media.update.TranscodeStatus.Status.COMPLETED;
  import static nl.vpro.domain.media.update.TranscodeStatus.Status.FAILED;
- import static nl.vpro.testutils.Utils.waitUntils;
+ import static nl.vpro.testutils.Utils.waitUntil;
 
 /**
  * Tests if files can be uploaded, and be correctly handled.
@@ -213,18 +212,27 @@ class MediaBackendTranscodeTest extends AbstractApiMediaBackendTest {
     }
 
 
-    protected  List<TranscodeStatus>  check(Instant after, TranscodeStatus.Status expectedStatus) {
-        List<TranscodeStatus> transcodeStatus = waitUntils(Duration.ofMinutes(20), "transcoding finished with status " + expectedStatus, () -> {
-                List<TranscodeStatus> list = backend.getBackendRestService()
-                    .getTranscodeStatus(EntityType.NoGroups.media, MID)
-                    .stream()
-                    .filter(ts -> ts.getStartTime().isAfter(after))
-                    .collect(Collectors.toList());
-                log.info("Found {}", list);
-                return list;
-            },
-            (list) -> list.size() > 0,
-            (list) -> list.get(0).getStatus() == expectedStatus
+    protected  XmlCollection<TranscodeStatus>  check(Instant after, TranscodeStatus.Status expectedStatus) {
+        XmlCollection<TranscodeStatus> transcodeStatus = waitUntil(Duration.ofMinutes(20),
+            () -> backend.getBackendRestService()
+                .getTranscodeStatus(EntityType.NoGroups.media, MID),
+            Utils.Check.<XmlCollection<TranscodeStatus>>builder()
+                .description(MID + " has transcodestatuses")
+                .predicate((list) -> list.iterator().hasNext())
+                .build(),
+            Utils.Check.<XmlCollection<TranscodeStatus>>builder()
+                .description(MID + " has one after " + after)
+                .predicate((list) -> list.stream().anyMatch((ts) -> ts.getStartTime().isAfter(after)))
+                .build(),
+            Utils.Check.<XmlCollection<TranscodeStatus>>builder()
+                .description(MID + " most recent has status   " + expectedStatus)
+                .predicate((list) -> list.stream().filter((ts) -> ts.getStartTime().isAfter(after)).anyMatch(
+                    (ts) -> {
+                        log.info("{}", ts);
+                        return ts.getStatus() == expectedStatus;
+                    })
+                )
+                .build()
         );
         log.info("{}", transcodeStatus);
         return transcodeStatus;
