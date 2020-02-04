@@ -104,9 +104,9 @@ class ApiMediaStreamingCallsTest extends AbstractApiTest {
     @Test
     @Disabled("No need to support this any more")
     public void testChangesOldMissingProfile() {
-        assertThrows(javax.ws.rs.NotFoundException.class, () -> {
-            testChangesWithOld("bestaatniet", CHANGES_MAX);
-        });
+        assertThrows(javax.ws.rs.NotFoundException.class, () ->
+            testChangesWithOld("bestaatniet", CHANGES_MAX)
+        );
     }
 
 

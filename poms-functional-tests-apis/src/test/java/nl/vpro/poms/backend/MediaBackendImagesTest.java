@@ -2,7 +2,6 @@ package nl.vpro.poms.backend;
 
 import lombok.extern.log4j.Log4j2;
 
-import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.time.Duration;
 import java.time.Instant;
@@ -24,6 +23,7 @@ import nl.vpro.poms.AbstractApiMediaBackendTest;
 import nl.vpro.test.jupiter.AbortOnException;
 import nl.vpro.util.Version;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static nl.vpro.testutils.Utils.waitUntil;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assumptions.assumeThat;
@@ -154,12 +154,12 @@ public class MediaBackendImagesTest extends AbstractApiMediaBackendTest {
      */
     @Test
     @Tag("tineye")
-    void test15addTineyeImage() throws UnsupportedEncodingException {
+    void test15addTineyeImage() {
         titles.add(title);
         tineyeImageTitle = title;
 
         ImageUpdate update = ImageUpdate.builder()
-            .imageUrl("http://files.vpro.nl/test/poms-functional-tests/CaribDigita.png?" + URLEncoder.encode(title, "UTF-8"))
+            .imageUrl("http://files.vpro.nl/test/poms-functional-tests/CaribDigita.png?" + URLEncoder.encode(title, UTF_8))
             .type(ImageType.PICTURE)
             .title(title)
             .build();
@@ -174,6 +174,7 @@ public class MediaBackendImagesTest extends AbstractApiMediaBackendTest {
 
     @Test
     @Tag("tineye")
+    @AbortOnException.NoAbort("known to sometimes fail")
     void test20checkArrived() {
         checkArrived();
         assumeTrue(tineyeImageTitle != null);

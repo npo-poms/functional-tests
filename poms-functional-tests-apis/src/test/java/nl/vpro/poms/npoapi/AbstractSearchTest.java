@@ -123,14 +123,15 @@ public abstract class AbstractSearchTest<T, S> extends AbstractApiTest {
 
 
     private static Supplier<Boolean> minVersion(final IntegerVersion minVersion) {
-        return new Supplier<Boolean>() {
+        return new Supplier<>() {
             @Override
             public Boolean get() {
                 return apiVersionNumber.isNotBefore(minVersion);
             }
+
             @Override
             public String toString() {
-                return "" + apiVersionNumber + " < " +  minVersion;
+                return "" + apiVersionNumber + " < " + minVersion;
             }
         };
     }

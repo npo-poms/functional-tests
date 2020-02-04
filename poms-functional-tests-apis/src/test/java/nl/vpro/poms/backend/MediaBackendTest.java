@@ -170,7 +170,7 @@ class MediaBackendTest extends AbstractApiMediaBackendTest {
             ACCEPTABLE_DURATION,
             CRID + " does not exists (or is deleted)",
             () -> backend.optional(CRID),
-            o -> !o.isPresent() || o.get().isDeleted());
+            o -> o.isEmpty() || o.get().isDeleted());
         pu.ifPresent(
             programUpdate -> log.info("Found {}", programUpdate)
         );

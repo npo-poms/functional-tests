@@ -125,6 +125,7 @@ public abstract class AbstractApiMediaBackendTest extends AbstractApiTest {
     public static void checkMids() {
         try {
             {
+                log.info("Checking {}", MID);
                 MediaUpdate<?> mediaUpdate = backend.get(MID);
                 boolean needSet = false;
                 if (mediaUpdate == null) {
@@ -146,10 +147,12 @@ public abstract class AbstractApiMediaBackendTest extends AbstractApiTest {
 
                 }
                 if (needSet) {
+                    log.info("{}, needs fixing, posting that first", MID);
                     backend.set(mediaUpdate);
                 }
             }
             {
+                log.info("Checking {}", MID_WITH_LOCATIONS);
                 MediaUpdate<?> mediaUpdate = backend.get(MID_WITH_LOCATIONS);
                 if (mediaUpdate == null) {
                     mediaUpdate = ProgramUpdate.create();
