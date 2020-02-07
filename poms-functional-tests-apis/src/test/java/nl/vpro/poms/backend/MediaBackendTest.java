@@ -29,7 +29,7 @@ import static org.assertj.core.api.Assumptions.assumeThat;
 /**
  * @author Michiel Meeuwissen
  */
-@TestMethodOrder(MethodOrderer.Alphanumeric.class)
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @Log4j2
 class MediaBackendTest extends AbstractApiMediaBackendTest {
 
@@ -46,7 +46,8 @@ class MediaBackendTest extends AbstractApiMediaBackendTest {
     private static String newMid;
 
     @Test
-    public void test01CreateObjectWithMembers() {
+    @Order(1)
+    public void createObjectWithMembers() {
         ProgramUpdate clip = ProgramUpdate.create(
             backend.getVersionNumber(),
             MediaTestDataBuilder.clip()
@@ -89,7 +90,8 @@ class MediaBackendTest extends AbstractApiMediaBackendTest {
     }
 
     @Test
-    public void test02CheckArrived() {
+    @Order(2)
+    public void checkArrivedCreateObjectWithMembers() {
         assumeThat(newMid).isNotNull();
 
         ProgramUpdate u = waitUntil(
@@ -140,7 +142,8 @@ class MediaBackendTest extends AbstractApiMediaBackendTest {
      * It should simple provisionlly accept.
      */
     @Test
-    public void test03CreateObjectWithoutBroadcaster() {
+    @Order(3)
+    public void createObjectWithoutBroadcaster() {
         backend.setValidateInput(false);
         ProgramUpdate clip = ProgramUpdate.create(
             MediaBuilder.clip()
@@ -164,7 +167,8 @@ class MediaBackendTest extends AbstractApiMediaBackendTest {
     private static final String CRID = "crid://test.poms/1";
 
     @Test
-    public void test04DeleteForCridIfExists() {
+    @Order(4)
+    public void deleteForCridIfExists() {
         log.info("{}", backend.deleteIfExists(CRID));
         Optional<ProgramUpdate> pu = waitUntil(
             ACCEPTABLE_DURATION,
@@ -184,7 +188,8 @@ class MediaBackendTest extends AbstractApiMediaBackendTest {
 
 
     @Test
-    public void test05CreateObjectWithCrids() {
+    @Order(5)
+    public void createObjectWithCrids() {
         backend.setLookupCrids(false);
         ProgramUpdate clip = ProgramUpdate.create(
             MediaBuilder.clip()
@@ -204,7 +209,8 @@ class MediaBackendTest extends AbstractApiMediaBackendTest {
     }
 
     @Test
-    public void test06CreateObjectWithCrids() {
+    @Order(6)
+    public void createObjectWithCridsAgain() {
         backend.setLookupCrids(false);
         ProgramUpdate clip = ProgramUpdate.create(
             MediaBuilder.clip()
@@ -219,7 +225,8 @@ class MediaBackendTest extends AbstractApiMediaBackendTest {
     }
 
     @Test
-    public void test07CreateObjectWithStolenCrids() {
+    @Order(7)
+    public void createObjectWithStolenCrids() {
         backend.setLookupCrids(false);
         backend.setStealCrids(AssemblageConfig.Steal.YES);
         ProgramUpdate clip = ProgramUpdate.create(
@@ -242,7 +249,8 @@ class MediaBackendTest extends AbstractApiMediaBackendTest {
 
 
     @Test
-    public void test08checkObjectsWithCrids() {
+    @Order(8)
+    public void checkObjectsWithCrids() {
         assumeThat(midWithCrid).isNotNull();
         assumeThat(againMidWithCrid).isNotNull();
         assumeThat(againMidWithStolenCrid).isNotNull();
