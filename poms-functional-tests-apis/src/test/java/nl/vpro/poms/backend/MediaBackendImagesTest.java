@@ -171,10 +171,9 @@ public class MediaBackendImagesTest extends AbstractApiMediaBackendTest {
     /**
      * Then thineye should fix that.
      */
-
     @Test
     @Tag("tineye")
-    @AbortOnException.NoAbort("known to sometimes fail")
+    @AbortOnException.Except("known to sometimes fail")
     void test20checkArrived() {
         checkArrived();
         assumeTrue(tineyeImageTitle != null);
@@ -186,7 +185,6 @@ public class MediaBackendImagesTest extends AbstractApiMediaBackendTest {
             .orElseThrow(IllegalStateException::new)
             .getCredits()).isEqualTo("CaribDigita");
     }
-
 
     @Test
     void test21updateImageInObject() {
@@ -312,7 +310,6 @@ public class MediaBackendImagesTest extends AbstractApiMediaBackendTest {
             backend.addImage(update, MID);
         });
     }
-
 
     @Test
     @Tag("lifecycle")
