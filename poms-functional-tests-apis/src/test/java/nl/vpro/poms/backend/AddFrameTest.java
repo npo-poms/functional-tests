@@ -18,6 +18,7 @@ import nl.vpro.test.jupiter.AbortOnException;
 import nl.vpro.testutils.Utils.Check;
 
 import static nl.vpro.testutils.Utils.waitUntil;
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * 2018-08-14
@@ -28,7 +29,7 @@ import static nl.vpro.testutils.Utils.waitUntil;
  * @ test: 403 permission denied (we moeten hiervoor een account hebben, anders kunnen we niet testen!)
  * 5.7.9 @ test: 403 permission denied (we moeten hiervoor een account hebben, anders kunnen we niet testen!)
  */
-@TestMethodOrder(MethodOrderer.Alphanumeric.class)
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @Log4j2
 public class AddFrameTest extends AbstractApiMediaBackendTest {
 
@@ -47,7 +48,8 @@ public class AddFrameTest extends AbstractApiMediaBackendTest {
 
 
     @Test
-    public void test01AddFrame() {
+    @Order(1)
+    public void addFrame() {
         Program fullProgram = backend.getFullProgram(MID);
         if (fullProgram.getImage(ImageType.PICTURE) == null) {
             log.info("No image with type PICTURE yet present");
@@ -56,12 +58,15 @@ public class AddFrameTest extends AbstractApiMediaBackendTest {
         try (Response response = backend.getFrameCreatorRestService().createFrame(
             MID, OFFSET, null, null, getClass().getResourceAsStream("/VPRO.png"))) {
             log.info("Response: {}", response);
+            assertThat(response.getStatus()).isEqualTo(202);
+
         }
 
     }
 
     @Test
-    public void test02CheckArrived() {
+    @Order(2)
+    public void checkFameArrived() {
         final ImageUpdate[] update = new ImageUpdate[1];
         waitUntil(ACCEPTABLE_DURATION,
             () -> backend_authority.get(MID),
@@ -87,9 +92,6 @@ public class AddFrameTest extends AbstractApiMediaBackendTest {
             Check.<MediaUpdate<?>>builder()
                 .description("image has size != " + ORIGINAL_SIZE_OF_IMAGE)
                 .predicate((o) -> {
-                    if (update[0] == null) {
-                        return false;
-                    }
                     long foundSize = imageUtil.getSize(update[0]).orElse(-1L);
                     if (foundSize == ORIGINAL_SIZE_OF_IMAGE) {
                         log.info("Found {} but the size is the original size, so this may be from test10", update[0]);
@@ -106,7 +108,8 @@ public class AddFrameTest extends AbstractApiMediaBackendTest {
 
 
     @Test
-    public void test10Overwrite() {
+    @Order(10)
+    public void overwrite() {
 
         try (Response response = backend.getFrameCreatorRestService().createFrame(MID, OFFSET, null, null, getClass().getResourceAsStream("/VPRO1970's.png"))) {
             log.info("{}", response);
@@ -139,18 +142,15 @@ public class AddFrameTest extends AbstractApiMediaBackendTest {
                     return false;
                 }
                 long newSize = imageUtil.getSize(foundImage).orElse(-1L);
-                if (newSize == ORIGINAL_SIZE_OF_IMAGE || newSize == -1L) {
-                    return true;
-                }
-                return false;
-
+                return newSize == ORIGINAL_SIZE_OF_IMAGE || newSize == -1L;
             });
     }
 
 
     @Test
     @AbortOnException.NoAbort
-    public void test98Cleanup() {
+    @Order(100)
+    public void cleanup() {
         ProgramUpdate update = backend_authority.get(MID);
         Assumptions.assumeTrue(update != null);
         log.info("Removing images " + update.getImages());
@@ -162,13 +162,14 @@ public class AddFrameTest extends AbstractApiMediaBackendTest {
 
     @Test
     @AbortOnException.NoAbort
-    public void test99CheckCleanup() {
+    @Order(101)
+    public void checkCleanup() {
          waitUntil(ACCEPTABLE_DURATION,
             MID + " has no stills",
             () -> {
                 try {
                     log.info("Getting full {}", MID);
-                    ;
+
                     Program p = backend.getFullProgram(MID);
                     log.info("Found images for {}: {}", MID, p.getImages());
                     return
