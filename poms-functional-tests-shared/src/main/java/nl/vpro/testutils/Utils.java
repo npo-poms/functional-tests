@@ -142,12 +142,23 @@ public class Utils {
                  boolean success = true;
                  StringBuilder description = new StringBuilder();
                  for (Check<T> t : tests) {
-                     boolean test = t.predicate.test(result[0]);
+                     boolean test;
+                     Exception exception = null;
+                     try {
+                         test = t.predicate.test(result[0]);
+                     } catch (Exception e) {
+                         test = false;
+                         exception = e;
+                     }
                      success &= test;
                      if (description.length() > 0) {
                          description.append(" AND ");
                      }
                      description.append(test ? TextUtil.strikeThrough(t.description) : t.description);
+                     if (exception != null) {
+                         description.append('(').append(exception.getClass().getSimpleName()).append(' ').append(exception.getMessage()).append(')');
+                     }
+
 
                  }
                  predicateDescription[0] = description.toString();
