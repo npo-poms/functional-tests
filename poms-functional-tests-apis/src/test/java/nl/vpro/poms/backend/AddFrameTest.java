@@ -87,15 +87,18 @@ public class AddFrameTest extends AbstractApiMediaBackendTest {
             Check.<MediaUpdate<?>>builder()
                 .description("image has size != " + ORIGINAL_SIZE_OF_IMAGE)
                 .predicate((o) -> {
-                        long foundSize = imageUtil.getSize(update[0]).orElse(-1L);
-                        if (foundSize == ORIGINAL_SIZE_OF_IMAGE) {
-                            log.info("Found {} but the size is the original size, so this may be from test10", update[0]);
-                            return false;
-                        } else {
-                            createImageUri = update[0].getImageUri();
-                            return true;
-                        }
-                    })
+                    if (update[0] == null) {
+                        return false;
+                    }
+                    long foundSize = imageUtil.getSize(update[0]).orElse(-1L);
+                    if (foundSize == ORIGINAL_SIZE_OF_IMAGE) {
+                        log.info("Found {} but the size is the original size, so this may be from test10", update[0]);
+                        return false;
+                    } else {
+                        createImageUri = update[0].getImageUri();
+                        return true;
+                    }
+                })
                 .build()
         );
     }
