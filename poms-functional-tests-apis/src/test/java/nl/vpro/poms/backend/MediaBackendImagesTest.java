@@ -5,6 +5,7 @@ import lombok.extern.log4j.Log4j2;
 import java.net.URLEncoder;
 import java.time.Duration;
 import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.*;
 import java.util.function.Function;
 import java.util.function.Predicate;
@@ -174,7 +175,7 @@ public class MediaBackendImagesTest extends AbstractApiMediaBackendTest {
     @Test
     @Tag("tineye")
     @AbortOnException.Except("known to sometimes fail")
-    void test20checkArrived() {
+    void test20checkArrivedThineye() {
         checkArrived();
         assumeTrue(tineyeImageTitle != null);
         ProgramUpdate update = backend.get(MID);
@@ -190,7 +191,7 @@ public class MediaBackendImagesTest extends AbstractApiMediaBackendTest {
     void test21updateImageInObject() {
         final ProgramUpdate[] update = new ProgramUpdate[1];
         update[0] = backend.get(MID);
-        Instant yesterday = Instant.now().minus(Duration.ofDays(1));
+        Instant yesterday = Instant.now().minus(Duration.ofDays(1)).truncatedTo(ChronoUnit.MINUTES);
 
         ImageUpdate image = update[0].getImages().get(0);
         String urn = image.getUrn();
