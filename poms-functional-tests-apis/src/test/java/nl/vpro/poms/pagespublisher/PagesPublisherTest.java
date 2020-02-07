@@ -2,7 +2,6 @@ package nl.vpro.poms.pagespublisher;
 
 import lombok.extern.log4j.Log4j2;
 
-import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.time.*;
 import java.time.temporal.ChronoUnit;
@@ -12,6 +11,7 @@ import java.util.stream.Collectors;
 import javax.validation.constraints.NotNull;
 import javax.ws.rs.NotFoundException;
 
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.*;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -19,7 +19,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import nl.vpro.api.client.pages.PageUpdateApiClient;
 import nl.vpro.api.client.utils.Result;
 import nl.vpro.api.client.utils.*;
-import nl.vpro.domain.api.Order;
 import nl.vpro.domain.api.*;
 import nl.vpro.domain.api.page.*;
 import nl.vpro.domain.media.MediaObject;
@@ -35,7 +34,9 @@ import nl.vpro.util.Version;
 import nl.vpro.validation.URI;
 
 import static io.restassured.RestAssured.given;
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static nl.vpro.api.client.utils.Config.Prefix.npo_pageupdate_api;
+import static nl.vpro.domain.api.Order.DESC;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assumptions.assumeThat;
 import static org.junit.jupiter.api.Assumptions.assumeTrue;
@@ -44,7 +45,7 @@ import static org.junit.jupiter.api.Assumptions.assumeTrue;
  * @author Michiel Meeuwissen
  */
 @SuppressWarnings("OptionalGetWithoutIsPresent")
-@TestMethodOrder(MethodOrderer.Alphanumeric.class)
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @Log4j2
 class PagesPublisherTest extends AbstractApiMediaBackendTest {
 
@@ -96,14 +97,15 @@ class PagesPublisherTest extends AbstractApiMediaBackendTest {
 
 
     @Test
-    public void test001CreateOrUpdatePage(TestInfo testInfo) throws UnsupportedEncodingException {
+    @Order(1)
+    public void createOrUpdatePage(TestInfo testInfo) {
 
         String methodName = testInfo.getTestMethod().get().getName();
         LocalDate today = LocalDate.now();
 
-        urlToday = "http://test.poms.nl/" + URLEncoder.encode(methodName + today, "UTF-8");
-        urlYesterday = "http://test.poms.nl/" + URLEncoder.encode(methodName + today.minusDays(1), "UTF-8");
-        urlTomorrow = "http://test.poms.nl/" + URLEncoder.encode(methodName + today.plusDays(1), "UTF-8");
+        urlToday = "http://test.poms.nl/" + URLEncoder.encode(methodName + today, UTF_8);
+        urlYesterday = "http://test.poms.nl/" + URLEncoder.encode(methodName + today.minusDays(1), UTF_8);
+        urlTomorrow = "http://test.poms.nl/" + URLEncoder.encode(methodName + today.plusDays(1), UTF_8);
 
 
         PortalUpdate portal = new PortalUpdate("WETENSCHAP24", "http://test.poms.nl");
@@ -168,7 +170,8 @@ class PagesPublisherTest extends AbstractApiMediaBackendTest {
     }
 
     @Test
-    public void test100Arrived() {
+    @Order(100)
+    public void checkArrived() {
         assumeThat(article).isNotNull();
 
         PageUpdate update = Utils.waitUntil(ACCEPTABLE_DURATION,
@@ -182,7 +185,8 @@ class PagesPublisherTest extends AbstractApiMediaBackendTest {
 
 
     @Test
-    public void test101Published() {
+    @Order(101)
+    public void checkPublished() {
         assumeThat(article).isNotNull();
 
         Page update = Utils.waitUntil(ACCEPTABLE_PAGE_PUBLISHED_DURATION,
@@ -197,7 +201,9 @@ class PagesPublisherTest extends AbstractApiMediaBackendTest {
 
 
     @Test
-    public void test102ArrivedInAPI() {
+    @Order(102)
+    @AbortOnException.Except
+    public void checkArrivedInAPI() {
         assumeThat(article).isNotNull();
         assumeTrue(pageUtil.getClients().isAvailable());
         log.info("Loading {} from API", article.getUrl());
@@ -253,7 +259,8 @@ class PagesPublisherTest extends AbstractApiMediaBackendTest {
      * Set a new title
      */
     @Test
-    public void test200UpdateExistingArticle() {
+    @Order(200)
+    public void updateExistingArticle() {
         assumeThat(article).isNotNull();
 
         log.info("Updating {} tot title {}", article.getUrl(), title);
@@ -268,7 +275,8 @@ class PagesPublisherTest extends AbstractApiMediaBackendTest {
     }
 
     @Test
-    public void test201Published() {
+    @Order(201)
+    public void checkUpdateExistingArticlePublished() {
         assumeThat(article).isNotNull();
 
         Page page = Utils.waitUntil(ACCEPTABLE_PAGE_PUBLISHED_DURATION,
@@ -288,7 +296,9 @@ class PagesPublisherTest extends AbstractApiMediaBackendTest {
     }
 
     @Test
-    public void test202ArrivedInApi() {
+    @Order(202)
+    @AbortOnException.Except
+    public void checkUpdateExistingArticleArrivedInApi() {
         assumeThat(article).isNotNull();
         assumeTrue(pageUtil.getClients().isAvailable());
 
@@ -312,7 +322,8 @@ class PagesPublisherTest extends AbstractApiMediaBackendTest {
     private static String embeddedDescription;
 
     @Test
-    public void test203UpdateExistingEmbeddedMedia() {
+    @Order(203)
+    public void updateExistingEmbeddedMedia() {
         assumeTrue(backend.isAvailable());
 
         MediaUpdate<?> embedded = backend.get(MID);
@@ -324,7 +335,8 @@ class PagesPublisherTest extends AbstractApiMediaBackendTest {
 
 
     @Test
-    public void test204ArrivedInMediaApi() {
+    @Order(204)
+    public void checkUpdateExistingEmbedMediaArrivedInMediaApi() {
         assumeThat(article).isNotNull();
         assumeNotNull(embeddedDescription);
         assumeTrue(pageUtil.getClients().isAvailable());
@@ -345,7 +357,8 @@ class PagesPublisherTest extends AbstractApiMediaBackendTest {
     }
 
     @Test
-    public void test205ArrivedInPagesApi() {
+    @Order(205)
+    public void checkUpdateExistingEmbedMediaArrivedInPagesApi() {
         assumeTrue(pageUtil.getClients().isAvailable());
 
         Page page = Utils.waitUntil(ACCEPTABLE_PAGE_PUBLISHED_DURATION,
@@ -360,7 +373,8 @@ class PagesPublisherTest extends AbstractApiMediaBackendTest {
 
 
     @Test
-    public void test210RemoveAnEmbed() {
+    @Order(210)
+    public void removeAnEmbed() {
         assumeThat(article).isNotNull();
         article.setEmbeds(new ArrayList<>(article.getEmbeds())); // make the damn list modifiable.
         article.getEmbeds().remove(0);
@@ -373,7 +387,8 @@ class PagesPublisherTest extends AbstractApiMediaBackendTest {
     }
 
     @Test
-    public void test211CheckRemoveAnEmbed() {
+    @Order(211)
+    public void checkRemoveAnEmbed() {
         assumeThat(article).isNotNull();
         Page page = Utils.waitUntil(ACCEPTABLE_PAGE_PUBLISHED_DURATION,
             article.getUrl() + " has only one embed",
@@ -393,8 +408,9 @@ class PagesPublisherTest extends AbstractApiMediaBackendTest {
     private static final List<String> modifiedUrls = new ArrayList<>();
 
     @Test
-    public void test300CreateSomeWithCrid(TestInfo testInfo) throws UnsupportedEncodingException {
-        String url = "http://test.poms.nl/\u00E9\u00E9n/" + URLEncoder.encode(testInfo.getTestMethod().get().getName() + LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES), "UTF-8");
+    @Order(300)
+    public void createPageSomeWithCrid(TestInfo testInfo) {
+        String url = "http://test.poms.nl/\u00E9\u00E9n/" + URLEncoder.encode(testInfo.getTestMethod().get().getName() + LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES), UTF_8);
 
         for (int i = 0; i < NUMBER_OF_PAGES_TO_CREATED; i++) {
             String createdUrl = url + "/" + i;
@@ -415,13 +431,15 @@ class PagesPublisherTest extends AbstractApiMediaBackendTest {
     }
 
     @Test
-    public void test301ArrivedInAPIAnd() throws JsonProcessingException {
+    @Order(301)
+
+    public void checkCreatedPageWithCridArrivedInAPI() throws JsonProcessingException {
         assumeThat(util.getPageUpdateApiClient().getVersionNumber()).isGreaterThanOrEqualTo(Version.of(5, 5));
         //assumeTrue(pageUtil.getClients().isAvailable());
 
         PageForm form = PageForm.builder()
             .tags(TAG)
-            .addSortField(PageSortField.lastPublished, Order.DESC)
+            .addSortField(PageSortField.lastPublished, DESC)
             .build();
 
         log.info("{}", Jackson2Mapper.getPrettyInstance().writeValueAsString(form));
@@ -456,12 +474,13 @@ class PagesPublisherTest extends AbstractApiMediaBackendTest {
 
 
     @Test
-    public void test302UpdateUrls(TestInfo testInfo) throws UnsupportedEncodingException {
+    @Order(302)
+    public void updateUrls(TestInfo testInfo) {
         //createdCrids.add(new Crid("crid://crids.functional.tests/3"));
         assumeThat(util.getPageUpdateApiClient().getVersionNumber()).isGreaterThanOrEqualTo(Version.of(5, 5));
         assumeTrue(createdUrls.size() > 0);
 
-        String url = "http://test.poms.nl/\u00E9\u00E9n/" + URLEncoder.encode(testInfo.getTestMethod().get().getName() + LocalDate.now(), "UTF-8");
+        String url = "http://test.poms.nl/\u00E9\u00E9n/" + URLEncoder.encode(testInfo.getTestMethod().get().getName() + LocalDate.now(), UTF_8);
 
         int i = 0;
         for (String crid: CREATED_CRIDS) {
@@ -484,7 +503,9 @@ class PagesPublisherTest extends AbstractApiMediaBackendTest {
     }
 
     @Test
-    public void test303ModificationsArrivedInAPI() {
+    @Order(303)
+
+    public void checkModificationsArrivedInAPI() {
         assumeThat(util.getPageUpdateApiClient().getVersionNumber()).isGreaterThanOrEqualTo(Version.of(5, 5));
 
         assumeTrue(createdUrls.size() > 0);
@@ -517,7 +538,8 @@ class PagesPublisherTest extends AbstractApiMediaBackendTest {
 
 
     @Test
-    public void test304DeleteByOneCrid() {
+    @Order(304)
+    public void deleteByOneCrid() {
         Result<DeleteResult> result = util.delete(CREATED_CRIDS[0]);
 
 
@@ -528,7 +550,8 @@ class PagesPublisherTest extends AbstractApiMediaBackendTest {
 
 
     @Test
-    public void test305DissappearedFromAPI() {
+    @Order(305)
+    public void checkDeletedByCridDissappearedFromAPI() {
         assumeThat(util.getPageUpdateApiClient().getVersionNumber()).isGreaterThanOrEqualTo(Version.of(5, 5));
         String cridToDelete = CREATED_CRIDS[0];
         assumeTrue(pageUtil.getClients().isAvailable());
@@ -545,7 +568,8 @@ class PagesPublisherTest extends AbstractApiMediaBackendTest {
 
 
     @Test
-    public void test306DeleteByCrids() {
+    @Order(306)
+    public void deleteByCrids() {
         Result<DeleteResult> result = util.deleteWhereStartsWith(CRID_PREFIX);
 
         //assertThat(result.getEntity().getCount()).isGreaterThan(0);;
@@ -558,7 +582,8 @@ class PagesPublisherTest extends AbstractApiMediaBackendTest {
 
 
     @Test
-    public void test307DissappearedFromAPI() {
+    @Order(307)
+    public void checkDissappearedFromAPI() {
         assumeThat(util.getPageUpdateApiClient().getVersionNumber()).isGreaterThanOrEqualTo(Version.of(5, 5));
         assumeTrue(pageUtil.getClients().isAvailable());
 
@@ -578,14 +603,16 @@ class PagesPublisherTest extends AbstractApiMediaBackendTest {
 
 
     @Test
-    public void test400Consistency() {
+    @Order(400)
+    public void consistency() {
         Set<String> checked = new LinkedHashSet<>();
         testConsistency(topStoryUrl, checked, false);
         log.info("{}", checked);
     }
 
     @Test
-    public void test500PostInvalid() {
+    @Order(500)
+    public void postInvalid() {
         String user = CONFIG.requiredOption(npo_pageupdate_api, "user");
         String password= CONFIG.requiredOption(npo_pageupdate_api, "password");
         String url = CONFIG.requiredOption(npo_pageupdate_api, "baseUrl");
@@ -604,7 +631,8 @@ class PagesPublisherTest extends AbstractApiMediaBackendTest {
     }
 
     @Test
-    public void test501PostInvalid() {
+    @Order(501)
+    public void postInvalid2() {
         String user = CONFIG.requiredOption(npo_pageupdate_api, "user");
         String password= CONFIG.requiredOption(npo_pageupdate_api, "password");
         String url = CONFIG.requiredOption(npo_pageupdate_api, "baseUrl");
@@ -713,8 +741,8 @@ class PagesPublisherTest extends AbstractApiMediaBackendTest {
 
     @Test
     @AbortOnException.NoAbort
-    public void test999CleanUps() {
-
+    @Order(1000)
+    public void cleanUps() {
         MultipleEntry<Page> multipleEntry = clients.getPageService().loadMultiple(topStoryUrl, null, null).getItems().get(0);
 
         assertThat(multipleEntry.getResult()).isNotNull();
