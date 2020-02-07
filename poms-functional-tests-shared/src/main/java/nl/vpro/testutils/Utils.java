@@ -103,18 +103,6 @@ public class Utils {
         return waitUntil(acceptable, predicateDescription, r, predicate, (result) -> predicateDescription + ": " + result + " doesn't match");
     }
 
-
-    @SafeVarargs
-    public static <T> T waitUntils(
-        Duration acceptable,
-        String predicateDescription,
-        Supplier<T> r,
-        Predicate<T> ... predicate) {
-        Predicate<T> and = Arrays.stream(predicate).reduce(x -> true, Predicate::and);
-        return waitUntil(acceptable, predicateDescription, r,
-            and,
-            (result) -> predicateDescription + ": " + result + " doesn't match");
-    }
     /**
      * Call supplier until its result evaluates true according to given predicate or the acceptable duration elapses.
      */
