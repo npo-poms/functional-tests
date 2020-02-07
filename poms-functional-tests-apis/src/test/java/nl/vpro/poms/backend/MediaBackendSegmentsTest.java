@@ -11,6 +11,7 @@ import javax.xml.bind.JAXB;
 import org.junit.jupiter.api.*;
 
 import nl.vpro.domain.media.*;
+import nl.vpro.domain.media.support.Workflow;
 import nl.vpro.domain.media.update.ProgramUpdate;
 import nl.vpro.domain.media.update.SegmentUpdate;
 import nl.vpro.poms.AbstractApiMediaBackendTest;
@@ -42,11 +43,6 @@ class MediaBackendSegmentsTest extends AbstractApiMediaBackendTest {
 
     private static String programMid;
 
-
-    @BeforeEach
-    void setup() {
-
-    }
 
     @Test
     @Order(1)
@@ -149,7 +145,7 @@ class MediaBackendSegmentsTest extends AbstractApiMediaBackendTest {
 
     @Test
     @Order(6)
-    void cCceckResultCreatedProgramWithSegmentArrived() {
+    void checkResultCreatedProgramWithSegmentArrived() {
         assumeThat(programMid).isNotNull();
         ProgramUpdate up = backend.get(programMid);
         assertThat(up).isNotNull();
@@ -226,11 +222,9 @@ class MediaBackendSegmentsTest extends AbstractApiMediaBackendTest {
         int count = 0;
         while(segments.hasNext()) {
             Segment segment = segments.next();
-            if (segment.getCreationInstant().isBefore(Instant.now().minus(Duration.ofDays(3)))) {
-                log.info("Deleting {}", segment);
-                count++;
-                backend.removeSegment(MID, segment.getMid());
-            }
+            log.info("Deleting {}", segment);
+            count++;
+            backend.removeSegment(MID, segment.getMid());
         }
         log.info("Deleted {} segments for {}", count, MID);
     }
@@ -241,7 +235,7 @@ class MediaBackendSegmentsTest extends AbstractApiMediaBackendTest {
     @Order(101)
     void checkCleanup() {
         Program program = backend.getFullProgram(MID);
-        assertThat(program.getSegments()).isEmpty();
+        assertThat(program.getSegments()).filteredOn(s -> !Workflow.DELETES.contains(s.getWorkflow())).isEmpty();
     }
 
 
