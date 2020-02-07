@@ -57,7 +57,7 @@ public class AddFrameTest extends AbstractApiMediaBackendTest {
         }
         try (Response response = backend.getFrameCreatorRestService().createFrame(
             MID, OFFSET, null, null, getClass().getResourceAsStream("/VPRO.png"))) {
-            log.info("Response: {}", response);
+            log.info("Response: {}", response.readEntity(String.class));
             assertThat(response.getStatus()).isEqualTo(202);
 
         }
