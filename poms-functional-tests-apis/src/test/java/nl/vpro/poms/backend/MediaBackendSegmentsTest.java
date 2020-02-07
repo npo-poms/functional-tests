@@ -66,7 +66,7 @@ class MediaBackendSegmentsTest extends AbstractApiMediaBackendTest {
     }
 
     @Test
-    void test02WaitFor() {
+    void test02WaitForCreatedSegment() {
         assumeThat(segmentMid).isNotNull();
         waitUntil(ACCEPTABLE_DURATION,
             segmentMid + " in backend",
@@ -81,7 +81,7 @@ class MediaBackendSegmentsTest extends AbstractApiMediaBackendTest {
      * TODO: this actually checks the frontend. This is therefor not a pure backend test
      */
     @Test
-    void test03WaitForInFrontend() {
+    void test03WaitForCreatedSegmentInFrontend() {
         assumeThat(segmentMid).isNotNull();
         Segment[] segments = new Segment[1];
         waitUntil(ACCEPTABLE_DURATION_FRONTEND,
@@ -109,7 +109,6 @@ class MediaBackendSegmentsTest extends AbstractApiMediaBackendTest {
 
     @Test
     void test04CreateProgramWithSegment() {
-
         Segment segment =
             MediaBuilder.segment()
                 .avType(AVType.VIDEO)
@@ -132,7 +131,7 @@ class MediaBackendSegmentsTest extends AbstractApiMediaBackendTest {
     }
 
     @Test
-    void test05WaitFor() {
+    void test05WaitForCreatedProgramWithSegmentArrived() {
         assumeThat(programMid).isNotNull();
         waitUntil(ACCEPTABLE_DURATION,
             programMid + " in backend",
@@ -143,7 +142,7 @@ class MediaBackendSegmentsTest extends AbstractApiMediaBackendTest {
     }
 
     @Test
-    void test06CheckResult() {
+    void test06CheckResultCreatedProgramWithSegmentArrived() {
         assumeThat(programMid).isNotNull();
         ProgramUpdate up = backend.get(programMid);
         assertThat(up).isNotNull();
@@ -166,7 +165,7 @@ class MediaBackendSegmentsTest extends AbstractApiMediaBackendTest {
     }
 
     @Test
-    void test08WaitFor() {
+    void test08WaitForUpdateSegmentDirectly() {
         assumeThat(segmentMid).isNotNull();
         waitUntil(ACCEPTABLE_DURATION,
             segmentMid + " has title " + updatedSegmentTitle,
@@ -194,7 +193,7 @@ class MediaBackendSegmentsTest extends AbstractApiMediaBackendTest {
 
 
     @Test
-    void test10WaitFor() {
+    void test10WaitForUpdatedSegmentViaProgram() {
         assumeThat(segmentMid).isNotNull();
         waitUntil(ACCEPTABLE_DURATION,
             segmentMid + " has title " + updatedSegmentTitle,
@@ -207,7 +206,7 @@ class MediaBackendSegmentsTest extends AbstractApiMediaBackendTest {
 
     @Test
     @AbortOnException.NoAbort
-    void test99Cleanup() {
+    void test98Cleanup() {
         Program program = backend.getFullProgram(MID);
         assumeThat(program).isNotNull();
         log.info("Found {} with {} segments", program, program.getSegments().size());
@@ -222,6 +221,14 @@ class MediaBackendSegmentsTest extends AbstractApiMediaBackendTest {
             }
         }
         log.info("Deleted {} segments for {}", count, MID);
+    }
+
+
+    @Test
+    @AbortOnException.NoAbort
+    void test99CheckCleanup() {
+        Program program = backend.getFullProgram(MID);
+        assertThat(program.getSegments()).isEmpty();
     }
 
 
