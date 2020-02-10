@@ -17,7 +17,7 @@
 
   <properties>
     <poms.version>5.13-SNAPSHOT</poms.version>
-    <vpro.shared.version>2.11-SNAPSHOT</vpro.shared.version>
+    <vpro.shared.version>2.12-SNAPSHOT</vpro.shared.version>
     <selenium.version>4.0.0-alpha-4</selenium.version>
   </properties>
 

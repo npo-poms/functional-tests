@@ -11,6 +11,7 @@ import javax.xml.bind.JAXB;
 import org.junit.jupiter.api.*;
 
 import nl.vpro.domain.media.*;
+import nl.vpro.domain.media.support.Workflow;
 import nl.vpro.domain.media.update.ProgramUpdate;
 import nl.vpro.domain.media.update.SegmentUpdate;
 import nl.vpro.poms.AbstractApiMediaBackendTest;
@@ -43,10 +44,9 @@ class MediaBackendSegmentsTest extends AbstractApiMediaBackendTest {
     private static String programMid;
 
 
-
     @Test
     @Order(1)
-    void createSNewegment() {
+    void createNewSegment() {
         segmentTitle = title;
         SegmentUpdate update = SegmentUpdate.create(
             MediaBuilder.segment()
@@ -63,9 +63,8 @@ class MediaBackendSegmentsTest extends AbstractApiMediaBackendTest {
     }
 
     @Test
-    @Order(1)
-
-    void waitForNewSegment() {
+    @Order(2)
+    void checkCreateNewSegment() {
         assumeThat(segmentMid).isNotNull();
         waitUntil(ACCEPTABLE_DURATION,
             segmentMid + " in backend",
@@ -80,9 +79,9 @@ class MediaBackendSegmentsTest extends AbstractApiMediaBackendTest {
      * TODO: this actually checks the frontend. This is therefor not a pure backend test
      */
     @Test
-    @Order(2)
-
-    void waitForNewSegmentInFrontend() {
+    @Order(3)
+    @AbortOnException.Except
+    void waitForCreatedSegmentInFrontend() {
         assumeThat(segmentMid).isNotNull();
         Segment[] segments = new Segment[1];
         waitUntil(ACCEPTABLE_DURATION_FRONTEND,
@@ -109,9 +108,8 @@ class MediaBackendSegmentsTest extends AbstractApiMediaBackendTest {
 
 
     @Test
-    @Order(10)
-    void createProgramWithSegment() {
-
+    @Order(4)
+    void createNewProgramWithSegment() {
         Segment segment =
             MediaBuilder.segment()
                 .avType(AVType.VIDEO)
@@ -134,8 +132,8 @@ class MediaBackendSegmentsTest extends AbstractApiMediaBackendTest {
     }
 
     @Test
-    @Order(11)
-    void waitForProgramWithSegment() {
+    @Order(5)
+    void waitForCreatedProgramWithSegmentArrived() {
         assumeThat(programMid).isNotNull();
         waitUntil(ACCEPTABLE_DURATION,
             programMid + " in backend",
@@ -146,9 +144,8 @@ class MediaBackendSegmentsTest extends AbstractApiMediaBackendTest {
     }
 
     @Test
-    @Order(12)
-
-    void checkProgramWithSegment() {
+    @Order(6)
+    void checkResultCreatedProgramWithSegmentArrived() {
         assumeThat(programMid).isNotNull();
         ProgramUpdate up = backend.get(programMid);
         assertThat(up).isNotNull();
@@ -159,7 +156,7 @@ class MediaBackendSegmentsTest extends AbstractApiMediaBackendTest {
 
 
     @Test
-    @Order(20)
+    @Order(7)
     void updateSegmentDirectly() {
         assumeThat(segmentMid).isNotNull();
 
@@ -172,7 +169,7 @@ class MediaBackendSegmentsTest extends AbstractApiMediaBackendTest {
     }
 
     @Test
-    @Order(21)
+    @Order(8)
     void waitForUpdateSegmentDirectly() {
         assumeThat(segmentMid).isNotNull();
         waitUntil(ACCEPTABLE_DURATION,
@@ -184,7 +181,7 @@ class MediaBackendSegmentsTest extends AbstractApiMediaBackendTest {
     }
 
     @Test
-    @Order(30)
+    @Order(9)
     void updateSegmentViaProgram() {
         assumeThat(segmentMid).isNotNull();
         ProgramUpdate programUpdate = backend.get(MID);
@@ -202,8 +199,8 @@ class MediaBackendSegmentsTest extends AbstractApiMediaBackendTest {
 
 
     @Test
-    @Order(31)
-    void waitForUpdateSegmentViaProgram() {
+    @Order(10)
+    void waitForUpdatedSegmentViaProgram() {
         assumeThat(segmentMid).isNotNull();
         waitUntil(ACCEPTABLE_DURATION,
             segmentMid + " has title " + updatedSegmentTitle,
@@ -225,13 +222,20 @@ class MediaBackendSegmentsTest extends AbstractApiMediaBackendTest {
         int count = 0;
         while(segments.hasNext()) {
             Segment segment = segments.next();
-            if (segment.getCreationInstant().isBefore(Instant.now().minus(Duration.ofDays(3)))) {
-                log.info("Deleting {}", segment);
-                count++;
-                backend.removeSegment(MID, segment.getMid());
-            }
+            log.info("Deleting {}", segment);
+            count++;
+            backend.removeSegment(MID, segment.getMid());
         }
         log.info("Deleted {} segments for {}", count, MID);
+    }
+
+
+    @Test
+    @AbortOnException.NoAbort
+    @Order(101)
+    void checkCleanup() {
+        Program program = backend.getFullProgram(MID);
+        assertThat(program.getSegments()).filteredOn(s -> !Workflow.DELETES.contains(s.getWorkflow())).isEmpty();
     }
 
 

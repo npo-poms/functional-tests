@@ -103,18 +103,6 @@ public class Utils {
         return waitUntil(acceptable, predicateDescription, r, predicate, (result) -> predicateDescription + ": " + result + " doesn't match");
     }
 
-
-    @SafeVarargs
-    public static <T> T waitUntils(
-        Duration acceptable,
-        String predicateDescription,
-        Supplier<T> r,
-        Predicate<T> ... predicate) {
-        Predicate<T> and = Arrays.stream(predicate).reduce(x -> true, Predicate::and);
-        return waitUntil(acceptable, predicateDescription, r,
-            and,
-            (result) -> predicateDescription + ": " + result + " doesn't match");
-    }
     /**
      * Call supplier until its result evaluates true according to given predicate or the acceptable duration elapses.
      */
@@ -154,12 +142,26 @@ public class Utils {
                  boolean success = true;
                  StringBuilder description = new StringBuilder();
                  for (Check<T> t : tests) {
-                     boolean test = t.predicate.test(result[0]);
+                     boolean test;
+                     Exception exception = null;
+                     try {
+                         test = t.predicate.test(result[0]);
+                     } catch (Exception e) {
+                         test = false;
+                         exception = e;
+                     }
                      success &= test;
                      if (description.length() > 0) {
                          description.append(" AND ");
                      }
                      description.append(test ? TextUtil.strikeThrough(t.description) : t.description);
+                     if (exception != null) {
+                         description.append(" (")
+                             //.append(exception.getClass().getSimpleName()).append(' ').append(exception.getMessage())
+                             .append("!") // exception occured
+                             .append(')');
+                     }
+
 
                  }
                  predicateDescription[0] = description.toString();

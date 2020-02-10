@@ -27,14 +27,11 @@ class ApiMediaRedirectsTest extends AbstractApiTest {
 
 
     static Collection<Object[]> getRedirects() {
-        Response response = clients.getMediaService().redirects(null);
-        try {
+        try (Response response = clients.getMediaService().redirects(null)) {
             assertThat(response.getStatus()).isEqualTo(200);
             RedirectList list = response.readEntity(RedirectList.class);
             assertThat(list).isNotEmpty();
             return list.getList().stream().map(e -> new Object[]{e}).collect(Collectors.toList());
-        } finally {
-            response.close();
         }
     }
 

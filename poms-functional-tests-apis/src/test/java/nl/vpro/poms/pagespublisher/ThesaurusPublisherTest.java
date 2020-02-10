@@ -3,8 +3,7 @@ package nl.vpro.poms.pagespublisher;
 import lombok.extern.log4j.Log4j2;
 
 import org.assertj.core.api.Assumptions;
-import org.junit.jupiter.api.Disabled;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 
 import nl.vpro.api.client.pages.PageUpdateApiClient;
 import nl.vpro.api.client.utils.Config;
@@ -19,6 +18,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 /**
  * @author Michiel Meeuwissen
  */
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @SuppressWarnings("FieldCanBeLocal")
 @Log4j2
 class ThesaurusPublisherTest extends AbstractApiTest {
@@ -35,6 +35,7 @@ class ThesaurusPublisherTest extends AbstractApiTest {
 
 
     @Test
+    @Order(1)
     void test001CreatePerson() {
         givenName = "Pietje2" + System.currentTimeMillis();
         log.info("Creating {} {}", givenName, familyName);
@@ -51,6 +52,7 @@ class ThesaurusPublisherTest extends AbstractApiTest {
     }
 
     @Test
+    @Order(2)
     void test100Arrived() {
         Assumptions.assumeThat(gtaaId).isNotNull();
         log.info("Getting person with id {}", gtaaId);
@@ -66,6 +68,7 @@ class ThesaurusPublisherTest extends AbstractApiTest {
     //Test fails if there is no '.' added after givenName.
     @Disabled
     @Test
+    @Order(3)
     void test101ArrivedAndFindable() {
         Assumptions.assumeThat(gtaaId).isNotNull();
         PersonResult persons = clients.getThesaurusRestService().findPersons(givenName, 100);

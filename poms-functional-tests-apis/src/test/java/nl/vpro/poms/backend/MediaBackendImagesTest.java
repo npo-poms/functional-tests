@@ -2,10 +2,10 @@ package nl.vpro.poms.backend;
 
 import lombok.extern.log4j.Log4j2;
 
-import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.time.Duration;
 import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.*;
 import java.util.function.Function;
 import java.util.function.Predicate;
@@ -24,6 +24,7 @@ import nl.vpro.poms.AbstractApiMediaBackendTest;
 import nl.vpro.test.jupiter.AbortOnException;
 import nl.vpro.util.Version;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static nl.vpro.testutils.Utils.waitUntil;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assumptions.assumeThat;
@@ -154,12 +155,12 @@ public class MediaBackendImagesTest extends AbstractApiMediaBackendTest {
      */
     @Test
     @Tag("tineye")
-    void test15addTineyeImage() throws UnsupportedEncodingException {
+    void test15addTineyeImage() {
         titles.add(title);
         tineyeImageTitle = title;
 
         ImageUpdate update = ImageUpdate.builder()
-            .imageUrl("http://files.vpro.nl/test/poms-functional-tests/CaribDigita.png?" + URLEncoder.encode(title, "UTF-8"))
+            .imageUrl("http://files.vpro.nl/test/poms-functional-tests/CaribDigita.png?" + URLEncoder.encode(title, UTF_8))
             .type(ImageType.PICTURE)
             .title(title)
             .build();
@@ -171,10 +172,10 @@ public class MediaBackendImagesTest extends AbstractApiMediaBackendTest {
     /**
      * Then thineye should fix that.
      */
-
     @Test
     @Tag("tineye")
-    void test20checkArrived() {
+    @AbortOnException.Except("known to sometimes fail")
+    void test20checkArrivedThineye() {
         checkArrived();
         assumeTrue(tineyeImageTitle != null);
         ProgramUpdate update = backend.get(MID);
@@ -186,12 +187,11 @@ public class MediaBackendImagesTest extends AbstractApiMediaBackendTest {
             .getCredits()).isEqualTo("CaribDigita");
     }
 
-
     @Test
     void test21updateImageInObject() {
         final ProgramUpdate[] update = new ProgramUpdate[1];
         update[0] = backend.get(MID);
-        Instant yesterday = Instant.now().minus(Duration.ofDays(1));
+        Instant yesterday = Instant.now().minus(Duration.ofDays(1)).truncatedTo(ChronoUnit.MINUTES);
 
         ImageUpdate image = update[0].getImages().get(0);
         String urn = image.getUrn();
@@ -312,7 +312,6 @@ public class MediaBackendImagesTest extends AbstractApiMediaBackendTest {
         });
     }
 
-
     @Test
     @Tag("lifecycle")
     @AbortOnException.NoAbort
@@ -329,20 +328,8 @@ public class MediaBackendImagesTest extends AbstractApiMediaBackendTest {
     }
 
     void cleanup() {
-        backend.getBrowserCache().clear();
-
-        ProgramUpdate update;
-        update = backend.get(ANOTHER_MID);
-        log.info("Removing images " + update.getImages());
-        update.getImages().clear();
-        backend.set(update);
-
-        update = backend.get(MID);
-        log.info("Removing images " + update.getImages());
-        update.getImages().clear();
-        backend.set(update);
-
-
+        cleanupAllImages(ANOTHER_MID);
+        cleanupAllImages(MID);
     }
 
 
@@ -362,7 +349,7 @@ public class MediaBackendImagesTest extends AbstractApiMediaBackendTest {
                 update[0] = backend.get(ANOTHER_MID);
                 return update[0].getImages().isEmpty();
             });
-        assertThat(update[0].getImages()).isEmpty();
+        assertThat(update[0].getImages()).withFailMessage( "{} shouldnt have images but has {}",  MID, update[0].getImages()).isEmpty();
     }
 
     void checkArrived() {

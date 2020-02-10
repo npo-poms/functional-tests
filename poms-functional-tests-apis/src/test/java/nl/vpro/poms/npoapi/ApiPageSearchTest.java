@@ -21,9 +21,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 class ApiPageSearchTest extends AbstractSearchTest<PageForm, PageSearchResult> {
 
     {
-        addTester("NPA-331.json/woord/.*", sr -> {
-            assertThat(sr.getItems()).isNotEmpty();
-            }
+        addTester("NPA-331.json/woord/.*", sr ->
+            assertThat(sr.getItems()).isNotEmpty()
         );
         addAssumer("regexp.json/.*", minVersion(4, 8, 6));
         addAssumer("tags.json/.*", minVersion(4, 8, 6));

@@ -22,6 +22,7 @@ import nl.vpro.domain.media.support.OwnerType;
 import nl.vpro.domain.media.update.*;
 import nl.vpro.domain.support.License;
 import nl.vpro.junit.extensions.TestMDC;
+import nl.vpro.testutils.Utils;
 import nl.vpro.util.IntegerVersion;
 import nl.vpro.util.Version;
 
@@ -125,6 +126,7 @@ public abstract class AbstractApiMediaBackendTest extends AbstractApiTest {
     public static void checkMids() {
         try {
             {
+                log.info("Checking {}", MID);
                 MediaUpdate<?> mediaUpdate = backend.get(MID);
                 boolean needSet = false;
                 if (mediaUpdate == null) {
@@ -146,10 +148,12 @@ public abstract class AbstractApiMediaBackendTest extends AbstractApiTest {
 
                 }
                 if (needSet) {
+                    log.info("{}, needs fixing, posting that first", MID);
                     backend.set(mediaUpdate);
                 }
             }
             {
+                log.info("Checking {}", MID_WITH_LOCATIONS);
                 MediaUpdate<?> mediaUpdate = backend.get(MID_WITH_LOCATIONS);
                 if (mediaUpdate == null) {
                     mediaUpdate = ProgramUpdate.create();
@@ -201,6 +205,32 @@ public abstract class AbstractApiMediaBackendTest extends AbstractApiTest {
     static void afterAll() {
         backend.close();
         backend_authority.close();
+
+    }
+
+    protected void cleanupAllImages(String mid) {
+        backend.getBrowserCache().clear();
+        MediaUpdate<?> update = backend.get(mid);
+        if (!update.getImages().isEmpty()) {
+            log.info("Removing images " + update.getImages());
+            update.getImages().clear();
+            backend.set(update);
+        }
+        Utils.waitUntil(Duration.ofMinutes(2),
+            () -> backend.get(mid),
+            Utils.Check.<MediaUpdate<?>>builder()
+                .predicate(o -> o.getImages().isEmpty())
+                .description(mid +  " has no image")
+            .build()
+        );
+
+        update = backend_authority.get(mid);
+        Assumptions.assumeTrue(update != null);
+        if (!update.getImages().isEmpty()) {
+            log.info("Removing images " + update.getImages());
+            update.getImages().clear();
+            log.info("{}", backend_authority.set(update));
+        }
 
     }
 
