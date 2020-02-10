@@ -328,20 +328,8 @@ public class MediaBackendImagesTest extends AbstractApiMediaBackendTest {
     }
 
     void cleanup() {
-        backend.getBrowserCache().clear();
-
-        ProgramUpdate update;
-        update = backend.get(ANOTHER_MID);
-        log.info("Removing images " + update.getImages());
-        update.getImages().clear();
-        backend.set(update);
-
-        update = backend.get(MID);
-        log.info("Removing images " + update.getImages());
-        update.getImages().clear();
-        backend.set(update);
-
-
+        cleanupAllImages(ANOTHER_MID);
+        cleanupAllImages(MID);
     }
 
 

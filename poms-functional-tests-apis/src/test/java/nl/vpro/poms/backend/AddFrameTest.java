@@ -47,6 +47,8 @@ public class AddFrameTest extends AbstractApiMediaBackendTest {
     }
 
 
+
+
     @Test
     @Order(1)
     public void addFrame() {
@@ -151,12 +153,7 @@ public class AddFrameTest extends AbstractApiMediaBackendTest {
     @AbortOnException.NoAbort
     @Order(100)
     public void cleanup() {
-        ProgramUpdate update = backend_authority.get(MID);
-        Assumptions.assumeTrue(update != null);
-        log.info("Removing images " + update.getImages());
-        update.getImages().clear();
-        log.info("{}", backend_authority.set(update));
-
+        cleanupAllImages(MID);
     }
 
 

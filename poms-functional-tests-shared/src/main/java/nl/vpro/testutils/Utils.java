@@ -156,7 +156,10 @@ public class Utils {
                      }
                      description.append(test ? TextUtil.strikeThrough(t.description) : t.description);
                      if (exception != null) {
-                         description.append('(').append(exception.getClass().getSimpleName()).append(' ').append(exception.getMessage()).append(')');
+                         description.append(" (")
+                             //.append(exception.getClass().getSimpleName()).append(' ').append(exception.getMessage())
+                             .append("!") // exception occured
+                             .append(')');
                      }
 
 
