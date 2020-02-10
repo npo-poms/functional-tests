@@ -361,7 +361,7 @@ public class MediaBackendImagesTest extends AbstractApiMediaBackendTest {
                 update[0] = backend.get(ANOTHER_MID);
                 return update[0].getImages().isEmpty();
             });
-        assertThat(update[0].getImages()).isEmpty();
+        assertThat(update[0].getImages()).withFailMessage( "{} shouldnt have images but has {}",  MID, update[0].getImages()).isEmpty();
     }
 
     void checkArrived() {
