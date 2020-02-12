@@ -44,10 +44,10 @@ class SchemaTest {
         Schema xsdSchema = factory.newSchema(url);
         Validator xsdValidator = xsdSchema.newValidator();
 
-        ProgramUpdate update = ProgramUpdate.create(AbstractApiMediaBackendTest.getBackendVersionNumber(), MediaTestDataBuilder.program()
-            .version(AbstractApiMediaBackendTest.getBackendVersionNumber())
-            .withEverything()
-            .build());
+        ProgramUpdate update = ProgramUpdate.create(AbstractApiMediaBackendTest.getBackendVersionNumber(),
+            MediaTestDataBuilder.program()
+                .withEverything()
+                .build());
 
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         JAXB.marshal(update, out);

@@ -37,6 +37,7 @@ import static org.assertj.core.api.Assumptions.assumeThat;
 public class MediaITest extends AbstractApiMediaBackendTest {
 
     private static String groupMid;
+    private static String offlineGroup;
     private static String clipMid;
     private static String clipTitle;
     private static String clipDescription;
@@ -72,7 +73,6 @@ public class MediaITest extends AbstractApiMediaBackendTest {
                 getBackendVersionNumber(),
                 MediaTestDataBuilder
                     .clip()
-                    .version(getBackendVersionNumber())
                     .constrainedNew()
                     .clearBroadcasters()
                     .broadcasters("VPRO")
@@ -101,7 +101,6 @@ public class MediaITest extends AbstractApiMediaBackendTest {
                 getBackendVersionNumber(),
                 MediaTestDataBuilder
                     .playlist()
-                    .version(getBackendVersionNumber())
                     .constrainedNew()
                     .mainTitle(title)
                     .clearBroadcasters()
@@ -110,12 +109,11 @@ public class MediaITest extends AbstractApiMediaBackendTest {
                     .build()
 
             ));
-        String offlineGroup = backend.set(
+        offlineGroup = backend.set(
             GroupUpdate.create(
                 getBackendVersionNumber(),
                 MediaTestDataBuilder
                     .playlist()
-                    .version(getBackendVersionNumber())
                     .constrainedNew()
                     .mainTitle(title + " offline")
                     .publishStop(Instant.now().minus(Duration.ofMinutes(5)))
@@ -266,6 +264,8 @@ public class MediaITest extends AbstractApiMediaBackendTest {
     void test100Delete() {
         assumeThat(clipMid).isNotNull();
         backend.delete(clipMid);
+        backend.delete(groupMid);
+        backend.delete(offlineGroup);
     }
 
     @Test
