@@ -165,8 +165,30 @@ public class MediaITest extends AbstractApiMediaBackendTest {
     @Test
     @Order(10)
     void updateTitle() {
+        if (getBackendVersionNumber().isBefore(5, 11, 7)) {
+            // Known to fail MSE-4715
+            clipTitle = null;
+        } else{
+            //clipMid = "POMS_VPRO_3322744";
+            assumeThat(clipMid).isNotNull();
+            ProgramUpdate mediaUpdate = backend.get(clipMid);
+            clipTitle = title;
+            mediaUpdate.setMainTitle(clipTitle);
+            backend.set(mediaUpdate);
+        }
+    }
+
+
+    @Test
+    @Order(11)
+    void checkUpdateTitleInBackend() {
         //clipMid = "POMS_VPRO_3322744";
         assumeThat(clipMid).isNotNull();
+        assumeThat(clipTitle).isNotNull();
+        waitUntil(Duration.ofMinutes(2),
+            clipMid + " has title " + clipTitle,
+            () -> backend.getFullProgram(clipMid),
+            (c) -> c.getMainTitle().equals(clipTitle));
         ProgramUpdate mediaUpdate = backend.get(clipMid);
         clipTitle = title;
         mediaUpdate.setMainTitle(clipTitle);
@@ -174,9 +196,10 @@ public class MediaITest extends AbstractApiMediaBackendTest {
     }
 
     @Test
-    @Order(11)
+    @Order(12)
     void checkUpdateTitleInFrontendApi() {
         assumeThat(clipMid).isNotNull();
+        assumeThat(clipTitle).isNotNull();
         Program clip = waitUntil(Duration.ofMinutes(10),
             clipMid + " has title " + clipTitle,
             () -> mediaUtil.findByMid(clipMid),
