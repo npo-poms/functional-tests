@@ -11,12 +11,12 @@ import javax.xml.bind.JAXB;
 import org.junit.jupiter.api.*;
 
 import nl.vpro.domain.media.*;
-import nl.vpro.domain.media.support.Image;
-import nl.vpro.domain.media.support.Workflow;
+import nl.vpro.domain.media.support.*;
 import nl.vpro.domain.media.update.GroupUpdate;
 import nl.vpro.domain.media.update.ProgramUpdate;
 import nl.vpro.logging.Log4j2OutputStream;
 import nl.vpro.poms.AbstractApiMediaBackendTest;
+import nl.vpro.test.jupiter.AbortOnException;
 
 import static nl.vpro.testutils.Utils.waitUntil;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -32,7 +32,7 @@ import static org.assertj.core.api.Assumptions.assumeThat;
  *
  * @author Michiel Meeuwissen
  */
-@TestMethodOrder(MethodOrderer.Alphanumeric.class)
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @Log4j2
 public class MediaITest extends AbstractApiMediaBackendTest {
 
@@ -42,7 +42,8 @@ public class MediaITest extends AbstractApiMediaBackendTest {
     private static String clipDescription;
 
     @Test
-    void test001CreateMedia() {
+    @Order(1)
+    void createMedia() {
         clipTitle = title;
         Image expiredImage = createImage();
         expiredImage.setTitle("OFFLINE " + title);
@@ -68,8 +69,10 @@ public class MediaITest extends AbstractApiMediaBackendTest {
 
         ProgramUpdate clip = ProgramUpdate
             .create(
+                getBackendVersionNumber(),
                 MediaTestDataBuilder
                     .clip()
+                    .version(getBackendVersionNumber())
                     .constrainedNew()
                     .clearBroadcasters()
                     .broadcasters("VPRO")
@@ -90,13 +93,15 @@ public class MediaITest extends AbstractApiMediaBackendTest {
                 .build()
 
             );
-        clipMid = backend.set(clip);
         JAXB.marshal(clip, Log4j2OutputStream.debug(log));
+        clipMid = backend.set(clip);
         log.info("Created clip {} {}", clipMid, clipTitle);
         groupMid = backend.set(
             GroupUpdate.create(
+                getBackendVersionNumber(),
                 MediaTestDataBuilder
                     .playlist()
+                    .version(getBackendVersionNumber())
                     .constrainedNew()
                     .mainTitle(title)
                     .clearBroadcasters()
@@ -107,8 +112,10 @@ public class MediaITest extends AbstractApiMediaBackendTest {
             ));
         String offlineGroup = backend.set(
             GroupUpdate.create(
+                getBackendVersionNumber(),
                 MediaTestDataBuilder
                     .playlist()
+                    .version(getBackendVersionNumber())
                     .constrainedNew()
                     .mainTitle(title + " offline")
                     .publishStop(Instant.now().minus(Duration.ofMinutes(5)))
@@ -118,16 +125,27 @@ public class MediaITest extends AbstractApiMediaBackendTest {
                     .build()
             ));
         waitUntil(Duration.ofMinutes(2),
-            () -> "clip:" + clipMid + " and group:" + groupMid + " available",
-            () -> backend.getFull(clipMid) != null && backend.getFull(groupMid) != null
-        );
+            () -> "clip:" + clipMid + " available",
+            () -> backend.getFull(clipMid) != null);
+
+
+        waitUntil(Duration.ofMinutes(2),
+            () -> "group:" + groupMid + " available",
+            () -> backend.getFull(groupMid) != null);
+
+
+        waitUntil(Duration.ofMinutes(2),
+            () -> "group:" + offlineGroup + " available",
+            () -> backend.getFull(offlineGroup) != null);
+
         log.info("Created groups {}, {}", groupMid, offlineGroup);
         backend.createMember(offlineGroup, clipMid, 1);
         backend.createMember(groupMid, clipMid, 2);
     }
 
     @Test
-    void test002CheckNewObjectInFrontendApi() {
+    @Order(2)
+    void checkNewObjectInFrontendApi() {
         assumeThat(clipMid).isNotNull();
         Program clip = waitUntil(Duration.ofMinutes(10),
             clipMid + " is a memberof " + groupMid,
@@ -147,7 +165,8 @@ public class MediaITest extends AbstractApiMediaBackendTest {
     }
 
     @Test
-    void test003UpdateTitle() {
+    @Order(10)
+    void updateTitle() {
         assumeThat(clipMid).isNotNull();
         ProgramUpdate mediaUpdate = backend.get(clipMid);
         clipTitle = title;
@@ -156,7 +175,8 @@ public class MediaITest extends AbstractApiMediaBackendTest {
     }
 
     @Test
-    void test004CheckUpdateTitleInFrontendApi() {
+    @Order(11)
+    void checkUpdateTitleInFrontendApi() {
         assumeThat(clipMid).isNotNull();
         Program clip = waitUntil(Duration.ofMinutes(10),
             clipMid + " has title " + clipTitle,
@@ -169,7 +189,8 @@ public class MediaITest extends AbstractApiMediaBackendTest {
 
 
     @Test
-    void test005UpdateDescription() {
+    @Order(20)
+    void updateDescription() {
         assumeThat(clipMid).isNotNull();
         ProgramUpdate mediaUpdate = backend.get(clipMid);
         clipDescription = title;
@@ -179,7 +200,8 @@ public class MediaITest extends AbstractApiMediaBackendTest {
     }
 
     @Test
-    void test006CheckUpdateDescriptionInFrontendApi() {
+    @Order(21)
+    void checkUpdateDescriptionInFrontendApi() {
         assumeThat(clipMid).isNotNull();
         Program clip = waitUntil(Duration.ofMinutes(10),
             clipMid + " has description " + clipDescription,
@@ -195,7 +217,8 @@ public class MediaITest extends AbstractApiMediaBackendTest {
      * All images where not published to begin with or will expire in 10 minutes
      */
     @Test
-    void test007WaitForImageRevocation() {
+    @Order(30)
+    void waitForImageRevocation() {
         assumeThat(clipMid).isNotNull();
         Program clip = waitUntil(Duration.ofMinutes(20),
             clipMid + " has no images any more",
@@ -210,7 +233,8 @@ public class MediaITest extends AbstractApiMediaBackendTest {
      * All segments where not published to begin with or will expire in 10 minutes
      */
     @Test
-    void test008WaitForSegmentRevocation() {
+    @Order(40)
+    void waitForSegmentRevocation() {
         assumeThat(clipMid).isNotNull();
         Program clip = waitUntil(Duration.ofMinutes(20),
             clipMid + " has no segments any more",
@@ -225,7 +249,8 @@ public class MediaITest extends AbstractApiMediaBackendTest {
      * All locations where not published to begin with or will expire in 10 minutes
      */
     @Test
-    void test009WaitForLocationsRevocation() {
+    @Order(40)
+    void waitForLocationsRevocation() {
         assumeThat(clipMid).isNotNull();
         Program clip = waitUntil(Duration.ofMinutes(20),
             clipMid + " has no locations any more",
@@ -236,13 +261,16 @@ public class MediaITest extends AbstractApiMediaBackendTest {
     }
 
     @Test
+    @Order(100)
+    @AbortOnException.NoAbort
     void test100Delete() {
         assumeThat(clipMid).isNotNull();
-
         backend.delete(clipMid);
     }
 
     @Test
+    @Order(101)
+    @AbortOnException.NoAbort
     void test101CheckDeletedInFrontendApi() {
         assumeThat(clipMid).isNotNull();
         waitUntil(Duration.ofMinutes(10),
