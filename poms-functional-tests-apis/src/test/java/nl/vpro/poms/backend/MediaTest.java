@@ -22,6 +22,8 @@ import nl.vpro.domain.media.update.ProgramUpdate;
 import nl.vpro.domain.media.update.SegmentUpdate;
 import nl.vpro.junit.extensions.AllowUnavailable;
 import nl.vpro.junit.extensions.TestMDC;
+import nl.vpro.poms.AbstractApiMediaBackendTest;
+import nl.vpro.test.jupiter.AbortOnException;
 import nl.vpro.testutils.Utils;
 
 import static io.restassured.RestAssured.given;
@@ -47,9 +49,9 @@ import static org.hamcrest.Matchers.*;
  * @author Daan Debie
  * @author Michiel Meeuwissen
  */
-@TestMethodOrder(MethodOrderer.Alphanumeric.class)
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @Log4j2
-@ExtendWith({AllowUnavailable.class, TestMDC.class})
+@ExtendWith({AllowUnavailable.class, TestMDC.class, AbortOnException.class})
 public class MediaTest {
 
     private static final Instant NOW = Instant.now();
@@ -83,10 +85,12 @@ public class MediaTest {
     @Test
     @Tag("clip")
     @Tag("clips")
-    public void test01PostClip() {
+    @Order(1)
+    public void postClip() {
         List<Segment> segments = Collections.singletonList(createSegment(null, dynamicSuffix, null));
         ProgramUpdate clip =
             ProgramUpdate.create(
+                AbstractApiMediaBackendTest.getBackendVersionNumber(),
                 createClip(null, dynamicSuffix, segments));
 
         clipMid = given()
@@ -107,10 +111,14 @@ public class MediaTest {
     @Test
     @Tag("cridclip")
     @Tag("clips")
-    public void test02PostClipWithCrid() {
+    @Order(2)
+    public void postClipWithCrid() {
         String clipCrid = clipCrid(cridIdFromSuffix);
         List<Segment> segments = Collections.singletonList(createSegment(null, dynamicSuffix, null));
-        ProgramUpdate clip = ProgramUpdate.create(createClip(clipCrid, dynamicSuffix, segments));
+        ProgramUpdate clip = ProgramUpdate.create(
+            AbstractApiMediaBackendTest.getBackendVersionNumber(),
+            createClip(clipCrid, dynamicSuffix, segments)
+        );
         log.info("Created clip with crid {}", clipCrid);
 
         given()
@@ -129,8 +137,12 @@ public class MediaTest {
 
     @Test
     @Tag("segment")
-    public void test03PostSegment() {
-        SegmentUpdate segment = SegmentUpdate.create(createSegment(null, dynamicSuffix, clipMid));
+    @Order(3)
+    public void postSegment() {
+        SegmentUpdate segment = SegmentUpdate.create(
+            AbstractApiMediaBackendTest.getBackendVersionNumber(),
+            createSegment(null, dynamicSuffix, clipMid)
+        );
 
         given()
             .  auth().basic(USERNAME, PASSWORD)
@@ -148,7 +160,8 @@ public class MediaTest {
     @Test
     @Tag("clip")
     @Tag("clips")
-    public void test05RetrieveClip() {
+    @Order(20)
+    public void retrieveClip() {
         assumeThat(clipMid).isNotNull();
         Boolean result = Utils.waitUntil(ACCEPTABLE, () -> {
             try {
@@ -187,7 +200,8 @@ public class MediaTest {
     @Test
     @Tag("cridclip")
     @Tag("clips")
-    public void test06RetrieveClipWithCrid() throws UnsupportedEncodingException {
+    @Order(21)
+    public void retrieveClipWithCrid() throws UnsupportedEncodingException {
 
         String clipCrid = clipCrid(cridIdFromSuffix);
         log.info("Retrieving clip with crid {}", clipCrid);
@@ -209,7 +223,8 @@ public class MediaTest {
 
     @Test
     @Tag("clips")
-    public void test07FindClips() {
+    @Order(22)
+    public void findClips() {
         MediaForm search = MediaForm.builder()
             .pager(MediaPager.builder().max(50).build())
             .broadcaster("VPRO")
@@ -237,7 +252,9 @@ public class MediaTest {
 
     @Test
     @Tag("clip")
-    public void test08DeleteClip() {
+    @Order(100)
+    @AbortOnException.NoAbort
+    public void deleteClip() {
         given()
             .auth().basic(USERNAME, PASSWORD)
             .queryParam(ERRORS, ERRORS_EMAIL)
@@ -273,7 +290,9 @@ public class MediaTest {
 
 
     @Test
-    public void test10Retrieve404() {
+    @Order(101)
+    @AbortOnException.NoAbort
+    public void retrieve404() {
         log.info(given()
             .auth().basic(USERNAME, PASSWORD)
             .log().all()
@@ -290,7 +309,9 @@ public class MediaTest {
      * See also MSE-4676
      */
     @Test
-    public void test20StreamingStatus() {
+    @Order(200)
+    @AbortOnException.NoAbort
+    public void streamingStatus() {
         String streamingStatusEndpoint = CONFIG.url(npo_backend_api, "media/streamingstatus");
         String result = given()
             .auth().basic(USERNAME, PASSWORD)
