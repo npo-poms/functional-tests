@@ -82,6 +82,10 @@ public abstract class AbstractApiMediaBackendTest extends AbstractApiTest {
         log.info("Using {} ({} -> {})", backend, backendVersion, backendVersionNumber);
     }
 
+    public static IntegerVersion getBackendVersionNumber() {
+        return backendVersionNumber;
+    }
+
     @SneakyThrows
     protected Image createImage() {
         Image image = new Image(OwnerType.BROADCASTER, ImageType.PICTURE, title);
