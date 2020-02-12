@@ -39,7 +39,7 @@ import static org.junit.jupiter.api.Assumptions.assumeTrue;
  * 5.9-SNAPSHOT @ dev : allemaal ok
  */
 
-@TestMethodOrder(MethodOrderer.Alphanumeric.class)
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @Timeout(value = 1, unit = TimeUnit.MINUTES)
 @Log4j2
 class PromoTest extends AbstractApiMediaBackendTest {
@@ -131,7 +131,8 @@ class PromoTest extends AbstractApiMediaBackendTest {
 
 
     @Test
-    void test001() {
+    @Order(1)
+    void sendPromoEvent() {
         promoEvent = todaysPromoEvent();
         promoEvent.setFiles(Arrays.asList(
             File.builder().fileName("http://adaptive.npostreaming.nl/u/npo/promo/3P1101MO_DODENLIE/3P1101MO_DODENLIE.ismv").build(),
@@ -150,7 +151,8 @@ class PromoTest extends AbstractApiMediaBackendTest {
 
 
     @Test
-    void test002arrived() {
+    @Order(2)
+    void checkArrived() {
         //promotionTitle = "1:2018-11-26T11:48:37.341+01:00 test001 Café 汉";
         MemberUpdate update = testArrived(2);
         log.info("TODO the following looks wrong:");
@@ -161,7 +163,8 @@ class PromoTest extends AbstractApiMediaBackendTest {
 
 
     @Test
-    void test003RepostWithoutFiles() {
+    @Order(3)
+    void repostWithoutFiles() {
         assumeTrue(promoEvent != null);
         promoEvent.setFiles(null);
         String resultString = send(promoEvent);
@@ -172,7 +175,8 @@ class PromoTest extends AbstractApiMediaBackendTest {
     }
 
     @Test
-    void test004arrived() {
+    @Order(4)
+    void checkArrivedWithoutFiles() {
         // FAILS MSE-4091
         testArrived(2);
     }

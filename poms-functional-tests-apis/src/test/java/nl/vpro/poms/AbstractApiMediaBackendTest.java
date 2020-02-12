@@ -82,6 +82,10 @@ public abstract class AbstractApiMediaBackendTest extends AbstractApiTest {
         log.info("Using {} ({} -> {})", backend, backendVersion, backendVersionNumber);
     }
 
+    public static IntegerVersion getBackendVersionNumber() {
+        return backendVersionNumber;
+    }
+
     @SneakyThrows
     protected Image createImage() {
         Image image = new Image(OwnerType.BROADCASTER, ImageType.PICTURE, title);
@@ -94,12 +98,14 @@ public abstract class AbstractApiMediaBackendTest extends AbstractApiTest {
 
     }
 
-    protected Segment createSegment() {
+
+    protected Segment createSegment(int duration) {
         return
             MediaBuilder.segment()
                 .mainTitle(title)
                 .ageRating(AgeRating.ALL)
-                .start(Duration.ofSeconds(70))
+                .start(Duration.ofMinutes(duration))
+                .duration(Duration.ofMinutes(duration + 1))
                 .avType(AVType.MIXED)
                 .build();
     }

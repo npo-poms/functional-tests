@@ -20,7 +20,7 @@ import nl.vpro.domain.media.MediaTestDataBuilder;
 import nl.vpro.domain.media.Program;
 import nl.vpro.domain.media.update.ProgramUpdate;
 import nl.vpro.junit.extensions.TestMDC;
-import nl.vpro.util.IntegerVersion;
+import nl.vpro.poms.AbstractApiMediaBackendTest;
 
 import static nl.vpro.poms.AbstractApiTest.CONFIG;
 
@@ -34,6 +34,8 @@ class SchemaTest {
 
     @Test
     public void testUpdateSchema() throws IOException, SAXException {
+
+
         String baseUrl = CONFIG.requiredOption(Config.Prefix.poms, "baseUrl");
         URL url =  new URL(baseUrl + "/schema/update/vproMediaUpdate.xsd");
         log.info("Testing with {}", url);
@@ -42,9 +44,10 @@ class SchemaTest {
         Schema xsdSchema = factory.newSchema(url);
         Validator xsdValidator = xsdSchema.newValidator();
 
-        ProgramUpdate update = ProgramUpdate.create(MediaTestDataBuilder.program()
-            .withEverything(IntegerVersion.of(5, 12))
-            .build());
+        ProgramUpdate update = ProgramUpdate.create(AbstractApiMediaBackendTest.getBackendVersionNumber(),
+            MediaTestDataBuilder.program()
+                .withEverything()
+                .build());
 
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         JAXB.marshal(update, out);
