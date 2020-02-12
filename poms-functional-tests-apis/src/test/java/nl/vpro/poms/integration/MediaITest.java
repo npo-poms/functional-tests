@@ -167,7 +167,7 @@ public class MediaITest extends AbstractApiMediaBackendTest {
     @Test
     @Order(10)
     void updateTitle() {
-        if (getBackendVersionNumber().isBefore(5, 11, 7)) {
+        if (getBackendVersionNumber().isNotAfter(5, 11, 7)) {
             // Known to fail MSE-4715
             clipTitle = null;
             throw new TestAbortedException();
