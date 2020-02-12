@@ -93,9 +93,10 @@ public class MediaITest extends AbstractApiMediaBackendTest {
                 .build()
 
             );
-        JAXB.marshal(clip, Log4j2OutputStream.debug(log));
+        JAXB.marshal(clip, Log4j2OutputStream.info(log));
         clipMid = backend.set(clip);
         log.info("Created clip {} {}", clipMid, clipTitle);
+
         groupMid = backend.set(
             GroupUpdate.create(
                 getBackendVersionNumber(),
