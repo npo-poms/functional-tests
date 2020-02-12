@@ -9,6 +9,7 @@ import java.util.Objects;
 import javax.xml.bind.JAXB;
 
 import org.junit.jupiter.api.*;
+import org.opentest4j.TestAbortedException;
 
 import nl.vpro.domain.media.*;
 import nl.vpro.domain.media.support.*;
@@ -169,6 +170,7 @@ public class MediaITest extends AbstractApiMediaBackendTest {
         if (getBackendVersionNumber().isBefore(5, 11, 7)) {
             // Known to fail MSE-4715
             clipTitle = null;
+            throw new TestAbortedException();
         } else{
             //clipMid = "POMS_VPRO_3322744";
             assumeThat(clipMid).isNotNull();
@@ -190,10 +192,6 @@ public class MediaITest extends AbstractApiMediaBackendTest {
             clipMid + " has title " + clipTitle,
             () -> backend.getFullProgram(clipMid),
             (c) -> c.getMainTitle().equals(clipTitle));
-        ProgramUpdate mediaUpdate = backend.get(clipMid);
-        clipTitle = title;
-        mediaUpdate.setMainTitle(clipTitle);
-        backend.set(mediaUpdate);
     }
 
     @Test
@@ -214,18 +212,37 @@ public class MediaITest extends AbstractApiMediaBackendTest {
     @Test
     @Order(20)
     void updateDescription() {
-        assumeThat(clipMid).isNotNull();
-        ProgramUpdate mediaUpdate = backend.get(clipMid);
-        clipDescription = title;
-        assumeThat(mediaUpdate).isNotNull();
-        mediaUpdate.setMainDescription(clipDescription);
-        backend.set(mediaUpdate);
+        if (getBackendVersionNumber().isBefore(5, 11, 7)) {
+            // Known to fail MSE-4715
+            clipDescription = null;
+            throw new TestAbortedException();
+        } else {
+            assumeThat(clipMid).isNotNull();
+            ProgramUpdate mediaUpdate = backend.get(clipMid);
+            clipDescription = title;
+            assumeThat(mediaUpdate).isNotNull();
+            mediaUpdate.setMainDescription(clipDescription);
+            backend.set(mediaUpdate);
+        }
     }
+
+    @Test
+    @Order(21)
+    void checkUpdateDescriptionInBackend() {
+        assumeThat(clipMid).isNotNull();
+        assumeThat(clipDescription).isNotNull();
+        waitUntil(Duration.ofMinutes(2),
+            clipMid + " has description " + clipDescription,
+            () -> backend.getFullProgram(clipMid),
+            (c) -> c.getMainDescription().equals(clipDescription));
+    }
+
 
     @Test
     @Order(21)
     void checkUpdateDescriptionInFrontendApi() {
         assumeThat(clipMid).isNotNull();
+        assumeThat(clipDescription).isNotNull();
         Program clip = waitUntil(Duration.ofMinutes(10),
             clipMid + " has description " + clipDescription,
             () -> mediaUtil.findByMid(clipMid),
