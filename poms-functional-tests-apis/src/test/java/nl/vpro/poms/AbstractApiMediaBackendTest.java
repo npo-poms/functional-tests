@@ -98,12 +98,14 @@ public abstract class AbstractApiMediaBackendTest extends AbstractApiTest {
 
     }
 
-    protected Segment createSegment() {
+
+    protected Segment createSegment(int duration) {
         return
             MediaBuilder.segment()
                 .mainTitle(title)
                 .ageRating(AgeRating.ALL)
-                .start(Duration.ofSeconds(70))
+                .start(Duration.ofMinutes(duration))
+                .duration(Duration.ofMinutes(duration + 1))
                 .avType(AVType.MIXED)
                 .build();
     }

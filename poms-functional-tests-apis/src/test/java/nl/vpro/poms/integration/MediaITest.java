@@ -54,11 +54,11 @@ public class MediaITest extends AbstractApiMediaBackendTest {
         publishedImage.setTitle("PUBLISHED " + title);
         publishedImage.setPublishStopInstant(Instant.now().plus(Duration.ofMinutes(10)));
 
-        Segment expiredSegment= createSegment();
+        Segment expiredSegment= createSegment(1);
         expiredSegment.setMainTitle("OFFLINE " + title);
         expiredSegment.setPublishStopInstant(Instant.now().minus(Duration.ofMinutes(1)));
 
-        Segment publishedSegment = createSegment();
+        Segment publishedSegment = createSegment(2);
         publishedSegment.setMainTitle("PUBLISHED " + title);
         publishedSegment.setPublishStopInstant(Instant.now().plus(Duration.ofMinutes(10)));
 
@@ -165,6 +165,7 @@ public class MediaITest extends AbstractApiMediaBackendTest {
     @Test
     @Order(10)
     void updateTitle() {
+        //clipMid = "POMS_VPRO_3322744";
         assumeThat(clipMid).isNotNull();
         ProgramUpdate mediaUpdate = backend.get(clipMid);
         clipTitle = title;
