@@ -5,6 +5,30 @@
 
 *!
 
+|scenario|Open Npo Poms website|
+|open    |${UrlPoms}           |
+
+|scenario     |Wacht tot inlogscherm van Npo Poms geladen|
+|wait for page|Log in met POMS Test-omgeving             |
+
+|scenario     |Wacht tot tabblad|tabblad|geopend in hoofdscherm van Npo Poms|
+|wait for page|POMS - @tabblad                                              |
+
+|scenario         |Wacht tot tabblad Zoeken geopend in hoofdscherm van Npo Poms|
+|Wacht tot tabblad|Zoek                 |geopend in hoofdscherm                |
+
+|scenario   |Log in met standaard-gebruiker in Npo Poms      |
+|Wacht tot inlogscherm van Npo Poms geladen                  |
+|enter      |$standaardGebruikersnaam   |as   |id=username   |
+|enter      |$standaardWachtwoord       |as   |id=password   |
+|click      |Inloggen                                        |
+|Wacht tot tabblad Zoeken geopend in hoofdscherm van Npo Poms|
+
+|scenario |Log uit in Npo Poms|
+|click    |VF Specialisterren |
+|click    |log uit            |
+|Wacht tot inlogscherm geladen|
+
 |scenario|Vul   |tekst|in zoekveld  |
 |enter   |@tekst|as   |xpath=//input|
 

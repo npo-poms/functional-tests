@@ -15,7 +15,7 @@ Test
 
 |script                                                                                                          |
 |Open Npo Poms website                                                                                           |
-|Log in met standaard-gebruiker                                                                                  |
+|Log in met standaard-gebruiker in Npo Poms                                                                      |
 |click                          |NIEUW                                                                           |
 |wait for visible               |Nieuw object toevoegen                                                          |
 |Vul                            |$objectNaam |in tekstveld            |Hoofdtitel *                              |
@@ -33,7 +33,7 @@ Test
 |Check optie                    |tot: $stop  |als optie nummer        |2|geselecteerd in dropdown|Publicatiestart|
 |wait                           |5           |seconds                                                            |
 |click                          |Maak aan                                                                        |
-|Wacht tot tabblad              |$objectNaam |geopend in hoofdscherm                                             |
+|Wacht tot tabblad              |$objectNaam |geopend in hoofdscherm van Npo Poms                                |
 |Check titel van laatste tab    |$objectNaam                                                                     |
 |Check subtitel van laatste tab |${mediaType}                                                                    |
 |Check hoofdtitel               |$objectNaam                                                                     |
@@ -61,3 +61,4 @@ Test
 |click                          |verwijder                                                                       |
 |wait                           |3           |seconds                                                            |
 |Check subtitel van laatste tab |Zoeken                                                                          |
+|Log uit in Npo Poms                                                                                             |

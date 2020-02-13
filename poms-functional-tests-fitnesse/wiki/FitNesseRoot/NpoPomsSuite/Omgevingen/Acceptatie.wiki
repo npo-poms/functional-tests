@@ -5,12 +5,14 @@ SymbolicLinks
 ---
 !*** Gegevens
 !*> Defines
-!define URL {!-https://poms-test.omroep.nl/ -!}
+!define UrlPoms {!-https://poms-test.omroep.nl -!}
+!define UrlFrontendApi {!-https://rs-test.poms.omroep.nl/v1/api-!}
 
 *!
 
-|'''Gegevens                          '''|
-|Url               |${URL}               |
+|'''URL's                          '''|
+|POMS            |${UrlPoms}          |
+|Frontend API    |${UrlFrontendApi}   |
 
 *!
 

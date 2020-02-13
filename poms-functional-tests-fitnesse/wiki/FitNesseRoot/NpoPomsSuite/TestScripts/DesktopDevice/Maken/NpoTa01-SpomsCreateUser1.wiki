@@ -3,7 +3,7 @@ Test
 ---
 |script                                                                              |
 |Open Npo Poms website                                                               |
-|Log in met standaard-gebruiker                                                      |
+|Log in met standaard-gebruiker in Npo Poms                                          |
 |click            |NIEUW                                                             |
 |wait for visible |Nieuw object toevoegen                                            |
 |                                                                                    |
@@ -35,4 +35,5 @@ Test
 |Check knop       |Maak aan                    |in footer inactief                   |
 |                                                                                    |
 |Druk op kruisje om pop-up te sluiten                                                |
-|Wacht tot tabblad Zoeken geopend in hoofdscherm                                     |
+|Wacht tot tabblad Zoeken geopend in hoofdscherm van Npo Poms                        |
+|Log uit in Npo Poms                                                                 |

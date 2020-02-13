@@ -1,27 +1,3 @@
-|scenario|Open Npo Poms website|
-|open    |${URL}               |
-
-|scenario     |Wacht tot inlogscherm geladen|
-|wait for page|Log in met POMS Test-omgeving|
-
-|scenario     |Wacht tot tabblad|tabblad|geopend in hoofdscherm|
-|wait for page|POMS - @tabblad                                 |
-
-|scenario         |Wacht tot tabblad Zoeken geopend in hoofdscherm|
-|Wacht tot tabblad|Zoek          |geopend in hoofdscherm          |
-
-|scenario|Log in met standaard-gebruiker         |
-|Wacht tot inlogscherm geladen                   |
-|enter   |$standaardGebruikersnaam|as|id=username|
-|enter   |$standaardWachtwoord    |as|id=password|
-|click   |Inloggen                               |
-|Wacht tot tabblad Zoeken geopend in hoofdscherm |
-
-|scenario |Log uit            |
-|click    |VF Specialisterren |
-|click    |log uit            |
-|Wacht tot inlogscherm geladen|
-
 |scenario|Druk knop        |knop        |
 |click   |xpath=//button[text()="@knop"]|
 
