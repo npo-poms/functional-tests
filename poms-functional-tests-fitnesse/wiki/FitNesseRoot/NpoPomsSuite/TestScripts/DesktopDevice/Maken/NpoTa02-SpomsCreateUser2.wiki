@@ -1,0 +1,63 @@
+---
+Test
+---
+!*> Lokale variabelen
+
+!define mediaType {Clip}
+!define omroep {NPS}
+!define avType {Audio}
+!define genre {Jeugd}
+
+*!
+
+|script                                              |
+|$objectNaam=|store|Object TA !today (yyyyMMddHHmmss)|
+
+|script                                                                                                          |
+|Open Npo Poms website                                                                                           |
+|Log in met standaard-gebruiker                                                                                  |
+|click                          |NIEUW                                                                           |
+|wait for visible               |Nieuw object toevoegen                                                          |
+|Vul                            |$objectNaam |in tekstveld            |Hoofdtitel *                              |
+|Selecteer optie                |${mediaType}|in dropdown             |Media Type *                              |
+|Check optie                    |${omroep}   |geselecteerd in dropdown|Omroep *                                  |
+|Selecteer optie                |${avType}   |in dropdown             |AV Type *                                 |
+|Selecteer optie                |${genre}    |in dropdown             |Genre *                                   |
+|click                          |Publicatiestart                                                                 |
+|$start=                        |store       |!today (dd-MM-yyyy) +2 00:00                                       |
+|$stop=                         |store       |!today (dd-MM-yyyy) +3 00:00                                       |
+|Vul                            |$start      |in tekstveld            |Start                                     |
+|Vul                            |$stop       |in tekstveld            |Stop                                      |
+|click                          |Publicatiestart                                                                 |
+|Check optie                    |van: $start |als optie nummer        |1|geselecteerd in dropdown|Publicatiestart|
+|Check optie                    |tot: $stop  |als optie nummer        |2|geselecteerd in dropdown|Publicatiestart|
+|wait                           |5           |seconds                                                            |
+|click                          |Maak aan                                                                        |
+|Wacht tot tabblad              |$objectNaam |geopend in hoofdscherm                                             |
+|Check titel van laatste tab    |$objectNaam                                                                     |
+|Check subtitel van laatste tab |${mediaType}                                                                    |
+|Check hoofdtitel               |$objectNaam                                                                     |
+|Check media type               |${mediaType}                                                                    |
+|Check veldtype 1               |Omroepen    |heeft waarde            |${omroep}                                 |
+|Check veldtype 2               |AV-Type     |heeft waarde            |${avType}                                 |
+|Check publicatiestart met start|$start      |en stop                 |$stop                                     |
+|Check mid active                                                                                                |
+|Check mid or urn               |=~/WO_NTR_[0-9]{7}/                                                             |
+|click                          |Urn                                                                             |
+|Check urn active                                                                                                |
+|Check mid or urn               |=~/urn:vpro:media:program:[0-9]{9}/                                             |
+|click                          |Label                                                                           |
+|wait                           |3           |seconds                                                            |
+|Check veldtype 1               |Genres      |heeft waarde            |${genre}                                  |
+|click                          |Algemeen                                                                        |
+|wait                           |3           |seconds                                                            |
+|Check status                   |Voor publicatie                                                                 |
+|wait                           |90          |seconds                                                            |
+|Check status                   |Ingetrokken                                                                     |
+|click                          |Relaties                                                                        |
+|wait                           |3           |seconds                                                            |
+|click                          |Clip verwijderen                                                                |
+|wait for visible               |Clip verwijderen?                                                               |
+|click                          |verwijder                                                                       |
+|wait                           |3           |seconds                                                            |
+|Check subtitel van laatste tab |Zoeken                                                                          |
