@@ -56,7 +56,7 @@ public abstract class AbstractTest5 {
 
     }
     protected static Map<Browser, WebDriver> staticDrivers = new HashMap<>();
-    protected static Map<Class, Boolean> loggedAboutSetupEach = new HashMap<>();
+    protected static Map<Class<?>, Boolean> loggedAboutSetupEach = new HashMap<>();
     protected boolean setupEach = true;
 
 
