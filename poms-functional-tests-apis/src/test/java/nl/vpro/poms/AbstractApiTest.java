@@ -90,6 +90,11 @@ public abstract class AbstractApiTest extends AbstractTest  {
     private static final String apiVersion = clients.getVersion();
     protected static IntegerVersion apiVersionNumber;
 
+    /**
+     * TODO: can't we determin this automaticly?
+     */
+    public static final IntegerVersion DOMAIN_VERSION = Version.of(5, 13);
+
     static {
         try {
             apiVersionNumber = clients.getVersionNumber();
