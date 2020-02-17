@@ -21,8 +21,10 @@ import nl.vpro.domain.media.Program;
 import nl.vpro.domain.media.update.ProgramUpdate;
 import nl.vpro.junit.extensions.TestMDC;
 import nl.vpro.poms.AbstractApiMediaBackendTest;
+import nl.vpro.poms.AbstractApiTest;
 
 import static nl.vpro.poms.AbstractApiTest.CONFIG;
+import static org.assertj.core.api.Assumptions.assumeThat;
 
 /**
  * Checks whether the objects 'with everything' indeed validate against the XSD's we provide publicly.
@@ -61,6 +63,8 @@ class SchemaTest {
 
     @Test
     public void testSchema() throws IOException, SAXException {
+        assumeThat(AbstractApiMediaBackendTest.getBackendVersionNumber()).isGreaterThanOrEqualTo(AbstractApiTest.DOMAIN_VERSION);
+
         String baseUrl = CONFIG.requiredOption(Config.Prefix.poms, "baseUrl");
         URL url = new URL(baseUrl + "/schema/vproMedia.xsd");
         log.info("Testing with {}", url);
