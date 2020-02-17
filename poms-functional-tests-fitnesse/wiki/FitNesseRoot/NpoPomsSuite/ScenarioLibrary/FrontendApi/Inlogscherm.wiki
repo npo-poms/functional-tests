@@ -1,0 +1,12 @@
+|scenario|Open Frontend api website|
+|open    |${UrlFrontendApi}        |
+
+|scenario     |Frontend api Inlogscherm Wacht tot pagina geladen|
+|wait for page|Publieke Omroep Media Service (POMS)             |
+
+|scenario|Frontend api Inlogscherm Log in met standaard-gebruiker|
+|Frontend api Inlogscherm Wacht tot pagina geladen               |
+|enter   |$standaardGebruikersnaam      |as     |id=username     |
+|enter   |$standaardWachtwoord          |as     |id=password     |
+|click   |LOGIN                                                  |
+|Frontend api Hoofdscherm Wacht tot pagina geladen               |
