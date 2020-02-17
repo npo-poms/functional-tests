@@ -28,7 +28,7 @@ import nl.vpro.test.jupiter.AbortOnException;
  *
  * You cannot  in the mean time parameterize a class any more. You can give every single test a browser argument, and create the utilities on the fly, but this is hardly nicer.
  *
- * Since browser testing is typically done for several different browsers, and every test should be done on every browser,the way to go is simply class parameterization. We'll simply away a fix for #878, which will be 'soon'.
+ * Since browser testing is typically done for several different browsers, and every test should be done on every browser,the way to go is simply class parameterization. We'll simply await a fix for #878, which will be 'soon'.
  *
  */
 @Timeout(value = 5, unit = TimeUnit.MINUTES)

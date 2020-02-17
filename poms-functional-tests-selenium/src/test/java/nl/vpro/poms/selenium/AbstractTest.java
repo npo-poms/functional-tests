@@ -58,7 +58,7 @@ public abstract class AbstractTest {
 
     protected static Map<Browser, WebDriver> staticDrivers = new HashMap<>();
 
-    protected static Map<Class, Boolean> loggedAboutSetupEach = new HashMap<>();
+    protected static Map<Class<?>, Boolean> loggedAboutSetupEach = new HashMap<>();
     protected boolean setupEach = true;
 
     @Rule
@@ -69,7 +69,7 @@ public abstract class AbstractTest {
     });
 
 
-    protected  static final Map<Class, Throwable> exceptions = new ConcurrentHashMap<>();
+    protected  static final Map<Class<?>, Throwable> exceptions = new ConcurrentHashMap<>();
 
 
     @Parameterized.Parameters

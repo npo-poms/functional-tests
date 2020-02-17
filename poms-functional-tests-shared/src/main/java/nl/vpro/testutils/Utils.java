@@ -56,6 +56,9 @@ public class Utils {
             }
         } catch (RuntimeException rte) {
             throw rte;
+        } catch (InterruptedException ie) {
+            Thread.currentThread().interrupt();
+            throw new RuntimeException(ie);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
