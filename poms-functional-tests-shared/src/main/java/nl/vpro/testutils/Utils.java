@@ -11,6 +11,9 @@ import java.util.concurrent.Callable;
 import java.util.function.*;
 import java.util.stream.Collectors;
 
+import org.slf4j.helpers.FormattingTuple;
+import org.slf4j.helpers.MessageFormatter;
+
 import nl.vpro.util.TextUtil;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -211,16 +214,31 @@ public class Utils {
         private final Supplier<T> supplier;
 
         @lombok.Builder(builderClassName = "Builder")
-        private Check(String description, Predicate<T> predicate, Function<T, String> failureDescription, Supplier<T> supplier) {
-            this.description = description;
+        private Check(String _description, Predicate<T> predicate, Function<T, String> failureDescription, Supplier<T> supplier) {
+            this.description = _description;
             this.predicate = predicate;
             this.supplier = supplier;
             this.failureDescription = failureDescription == null ? (t) -> description + ":" + t + " doesn't match" : failureDescription;
         }
 
-        public static <T> Check.Builder<T> description(String description) {
+
+        public static <T> Check.Builder<T> description(String description, Object... args) {
             return Check
-                .<T>builder().description(description);
+                .<T>builder()
+                .description(description, args);
+        }
+
+        public static class Builder<T> {
+            private Builder<T> _description(String _description) {
+                this._description = _description;
+                return this;
+            }
+
+            public Builder<T> description(String description, Object... params) {
+                FormattingTuple ft = MessageFormatter.arrayFormat(description, params);
+                return _description(ft.getMessage());
+            }
+
         }
     }
 

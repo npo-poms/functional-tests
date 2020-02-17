@@ -73,11 +73,11 @@ public class AddFrameTest extends AbstractApiMediaBackendTest {
         waitUntil(ACCEPTABLE_DURATION,
             () -> backend_authority.get(MID),
             Check.<MediaUpdate<?>>builder()
-                .description("has " + MID)
+                .description("has {}", MID)
                 .predicate(Objects::nonNull)
                 .build(),
             Check.<MediaUpdate<?>>builder()
-                .description("has image STILL with offset " + OFFSET)
+                .description("has image STILL with offset {}", OFFSET)
                 .predicate((o) -> {
                         update[0] =
                             o.getImages()
@@ -92,7 +92,7 @@ public class AddFrameTest extends AbstractApiMediaBackendTest {
                     })
                 .build(),
             Check.<MediaUpdate<?>>builder()
-                .description("image has size != " + ORIGINAL_SIZE_OF_IMAGE)
+                .description("image has size != {}",   ORIGINAL_SIZE_OF_IMAGE)
                 .predicate((o) -> {
                     long foundSize = imageUtil.getSize(update[0]).orElse(-1L);
                     if (foundSize == ORIGINAL_SIZE_OF_IMAGE) {

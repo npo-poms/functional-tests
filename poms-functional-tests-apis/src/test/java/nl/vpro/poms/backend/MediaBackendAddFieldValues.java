@@ -194,11 +194,11 @@ public class MediaBackendAddFieldValues extends AbstractApiMediaBackendTest {
             () -> backend.getFull(mid),
             Check.<MediaObject>builder()
                 .predicate(Objects::nonNull)
-                .description(mid + " is not null")
+                .description("{} is not null", mid)
                 .build(),
             Check.<MediaObject>builder()
                 .predicate(m -> m.getIntentions().first().isEmpty())
-                .description(mid + " has no intentions")
+                .description("{} has no intentions", mid)
                 .build()
         );
         assertThat(updated.getIntentions().first().isEmpty()).isTrue();

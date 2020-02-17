@@ -69,13 +69,13 @@ class MediaBackendPredictionsTest extends AbstractApiMediaBackendTest {
     public void checkSetPrediction() {
         Utils.waitUntil(ACCEPTABLE_DURATION,
             () -> getPredictions(MID),
-            Check.<XmlCollection<PredictionUpdate>>description("prediction of " + MID + " has publishStart " + NOW)
+            Check.<XmlCollection<PredictionUpdate>>description("prediction of {} has publishStart {}", MID, NOW)
                 .predicate((l) ->
                         l.stream()
                             .map(e -> e.getPlatform() == Platform.INTERNETVOD && e.getPublishStart().equals(NOW.toInstant()))
                             .findFirst().isPresent()
                 ),
-            Check.<XmlCollection<PredictionUpdate>>description("prediction of " + MID + " has encryption NONE")
+            Check.<XmlCollection<PredictionUpdate>>description("prediction of {} has encryption NONE", MID)
                 .predicate((l) ->
                     l.stream()
                         .map(e -> e.getPlatform() == Platform.INTERNETVOD && Objects.equals(e.getEncryption(), Encryption.NONE))

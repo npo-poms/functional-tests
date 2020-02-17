@@ -226,7 +226,7 @@ public abstract class AbstractApiMediaBackendTest extends AbstractApiTest {
             () -> backend.get(mid),
             Utils.Check.<MediaUpdate<?>>builder()
                 .predicate(o -> o.getImages().isEmpty())
-                .description(mid +  " has no image")
+                .description("{} has no image", mid)
             .build()
         );
 

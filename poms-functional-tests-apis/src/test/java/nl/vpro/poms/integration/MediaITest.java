@@ -19,6 +19,7 @@ import nl.vpro.domain.media.update.ProgramUpdate;
 import nl.vpro.logging.Log4j2OutputStream;
 import nl.vpro.poms.AbstractApiMediaBackendTest;
 import nl.vpro.test.jupiter.AbortOnException;
+import nl.vpro.testutils.Utils.Check;
 
 import static nl.vpro.testutils.Utils.waitUntil;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -149,9 +150,15 @@ public class MediaITest extends AbstractApiMediaBackendTest {
     void checkNewObjectInFrontendApi() {
         assumeThat(clipMid).isNotNull();
         Program clip = waitUntil(Duration.ofMinutes(10),
-            clipMid + " is a memberof " + groupMid,
             () -> mediaUtil.findByMid(clipMid),
-            (c) -> !c.getMemberOf().isEmpty()
+            Check.<Program>builder()
+                .description("has {}", clipMid)
+                .predicate(Objects::nonNull)
+                .build(),
+            Check.<Program>builder()
+                .description("{} is a memberOf", clipMid)
+                .predicate( p -> ! p.getMemberOf().isEmpty())
+                .build()
         );
         assertThat(clip).isNotNull();
         assertThat(clip.getMainTitle()).isEqualTo(clipTitle);
