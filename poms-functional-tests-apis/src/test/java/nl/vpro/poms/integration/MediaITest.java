@@ -12,7 +12,8 @@ import org.junit.jupiter.api.*;
 import org.opentest4j.TestAbortedException;
 
 import nl.vpro.domain.media.*;
-import nl.vpro.domain.media.support.*;
+import nl.vpro.domain.media.support.Image;
+import nl.vpro.domain.media.support.Workflow;
 import nl.vpro.domain.media.update.GroupUpdate;
 import nl.vpro.domain.media.update.ProgramUpdate;
 import nl.vpro.logging.Log4j2OutputStream;
@@ -303,17 +304,30 @@ public class MediaITest extends AbstractApiMediaBackendTest {
     @Test
     @Order(100)
     @AbortOnException.NoAbort
+    @Tag("cleanup")
     void test100Delete() {
+        if (clipMid == null){
+            //  to debug a failure, you may explicitely set it here.
+            //clipMid = "POMS_VPRO_3323958";
+        }
         assumeThat(clipMid).isNotNull();
         backend.delete(clipMid);
-        backend.delete(groupMid);
-        backend.delete(offlineGroup);
+        if (groupMid != null) {
+            backend.delete(groupMid);
+        }
+        if (offlineGroup != null) {
+            backend.delete(offlineGroup);
+        }
     }
 
     @Test
     @Order(101)
     @AbortOnException.NoAbort
+    @Tag("cleanup")
     void test101CheckDeletedInFrontendApi() {
+        if (clipMid == null){
+            //clipMid = "POMS_VPRO_3323958";
+        }
         assumeThat(clipMid).isNotNull();
         waitUntil(Duration.ofMinutes(10),
             () -> clipMid + " disappeared",
