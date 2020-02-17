@@ -310,8 +310,7 @@ public class MediaTest {
      */
     @Test
     @Order(200)
-    @AbortOnException.NoAbort
-    @AbortOnException.Except
+    @AbortOnException.Ignore
     public void streamingStatus() {
         String streamingStatusEndpoint = CONFIG.url(npo_backend_api, "media/streamingstatus");
         String result = given()
