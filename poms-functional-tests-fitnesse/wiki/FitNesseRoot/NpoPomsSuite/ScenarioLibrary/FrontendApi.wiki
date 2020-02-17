@@ -1,27 +1,4 @@
-|scenario|Open Frontend Api website|
-|open    |${UrlFrontendApi}        |
+!contents -R2 -g -p -f -h
 
-|scenario     |Wacht tot inlogscherm van Frontend Api geladen|
-|wait for page|Publieke Omroep Media Service (POMS)          |
-
-|scenario        |Wacht tot hoofdscherm van Frontend Api geladen|
-|wait for visible|NPO Frontend API                              |
-
-|scenario|Log in met standaard-gebruiker in Frontend Api|
-|Wacht tot inlogscherm van Frontend Api geladen         |
-|enter   |$standaardGebruikersnaam   |as  |id=username  |
-|enter   |$standaardWachtwoord       |as  |id=password  |
-|click   |LOGIN                                         |
-|Wacht tot hoofdscherm van Frontend Api geladen         |
-
-|scenario     |Log uit in Frontend Api|
-|scroll to    |logout                 |
-|click        |logout                 |
-|wait for page|Log out                |
-
-|scenario|Check tekstveld|tekstveld                                                        |heeft waarde|waarde|in Frontend Api|
-|check   |value of       |xpath=//label[text()="@tekstveld"]/../following-sibling::td/input|@waarde                            |
-
-|scenario |Check responsveld|responsveld                                                 |heeft waarde|waarde|in Frontend Api|
-|scroll to|@responsveld                                                                                                      |
-|check    |value of         |xpath=//h4[text()="@responsveld"]/following-sibling::div/pre|@waarde                            |
+!include FrontendApi.Inlogscherm
+!include FrontendApi.Hoofdscherm

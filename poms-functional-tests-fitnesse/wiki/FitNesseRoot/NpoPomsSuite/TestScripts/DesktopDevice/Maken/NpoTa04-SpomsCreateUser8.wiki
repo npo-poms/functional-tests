@@ -14,15 +14,15 @@ Test
 
 *!
 
-|script                                                                                             |
-|Open Frontend Api website                                                                          |
-|Log in met standaard-gebruiker in Frontend Api                                                     |
-|click            |media                                                                            |
-|click            |xpath=//li[@class="endpoint"][3]//p[text()="Load entity"]                        |
-|Check tekstveld  |mid            |heeft waarde|${mid}                              |in Frontend Api|
-|click            |Try it out!                                                                      |
-|Check responsveld|Curl           |heeft waarde|${curl}                             |in Frontend Api|
-|Check responsveld|Request URL    |heeft waarde|${UrlFrontendApi}/media/AVRO_1656037|in Frontend Api|
-|Check responsveld|Request Headers|heeft waarde|${requestHeaders}                   |in Frontend Api|
-|Check responsveld|Response Code  |heeft waarde|${responseCode}                     |in Frontend Api|
-|Log uit in Frontend Api                                                                            |
+|script                                                                                                                      |
+|Open Frontend api website                                                                                                   |
+|Frontend api Inlogscherm Log in met standaard-gebruiker                                                                     |
+|click                                     |media                                                                            |
+|click                                     |xpath=//li[@class="endpoint"][3]//p[text()="Load entity"]                        |
+|Frontend api Hoofdscherm Check tekstveld  |mid            |heeft waarde|${mid}                              |in Frontend Api|
+|click                                     |Try it out!                                                                      |
+|Frontend api Hoofdscherm Check responsveld|Curl           |heeft waarde|${curl}                             |in Frontend Api|
+|Frontend api Hoofdscherm Check responsveld|Request URL    |heeft waarde|${UrlFrontendApi}/media/AVRO_1656037|in Frontend Api|
+|Frontend api Hoofdscherm Check responsveld|Request Headers|heeft waarde|${requestHeaders}                   |in Frontend Api|
+|Frontend api Hoofdscherm Check responsveld|Response Code  |heeft waarde|${responseCode}                     |in Frontend Api|
+|Frontend api Hoofdscherm Log uit                                                                                            |

@@ -1,0 +1,15 @@
+|scenario        |Frontend api Hoofdscherm Wacht tot pagina geladen|
+|wait for visible|NPO Frontend API                                 |
+
+|scenario     |Frontend api Hoofdscherm Log uit|
+|scroll to    |logout                          |
+|click        |logout                          |
+|wait for page|Log out                         |
+
+|scenario|Frontend api Hoofdscherm Check tekstveld|tekstveld                                                        |heeft waarde|waarde|in Frontend Api|
+|check   |value of                                |xpath=//label[text()="@tekstveld"]/../following-sibling::td/input|@waarde                            |
+
+|scenario |Frontend api Hoofdscherm Check responsveld|responsveld                                                 |heeft waarde|waarde|in Frontend Api|
+|scroll to|@responsveld                                                                                                                               |
+|check    |value of                                  |xpath=//h4[text()="@responsveld"]/following-sibling::div/pre|@waarde                            |
+
