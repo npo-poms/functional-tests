@@ -13,51 +13,52 @@ Test
 |script                                              |
 |$objectNaam=|store|Object TA !today (yyyyMMddHHmmss)|
 
-|script                                                                                                          |
-|Open Npo Poms website                                                                                           |
-|Log in met standaard-gebruiker                                                                                  |
-|click                          |NIEUW                                                                           |
-|wait for visible               |Nieuw object toevoegen                                                          |
-|Vul                            |$objectNaam |in tekstveld            |Hoofdtitel *                              |
-|Selecteer optie                |${mediaType}|in dropdown             |Media Type *                              |
-|Check optie                    |${omroep}   |geselecteerd in dropdown|Omroep *                                  |
-|Selecteer optie                |${avType}   |in dropdown             |AV Type *                                 |
-|Selecteer optie                |${genre}    |in dropdown             |Genre *                                   |
-|click                          |Publicatiestart                                                                 |
-|$start=                        |store       |!today (dd-MM-yyyy) -2 00:00                                       |
-|$stop=                         |store       |!today (dd-MM-yyyy) +3 00:00                                       |
-|Vul                            |$start      |in tekstveld            |Start                                     |
-|Vul                            |$stop       |in tekstveld            |Stop                                      |
-|click                          |Publicatiestart                                                                 |
-|Check optie                    |van: $start |als optie nummer        |1|geselecteerd in dropdown|Publicatiestart|
-|Check optie                    |tot: $stop  |als optie nummer        |2|geselecteerd in dropdown|Publicatiestart|
-|wait                           |5           |seconds                                                            |
-|click                          |Maak aan                                                                        |
-|Wacht tot tabblad              |$objectNaam |geopend in hoofdscherm                                             |
-|Check titel van laatste tab    |$objectNaam                                                                     |
-|Check subtitel van laatste tab |${mediaType}                                                                    |
-|Check hoofdtitel               |$objectNaam                                                                     |
-|Check media type               |${mediaType}                                                                    |
-|Check veldtype 1               |Omroepen    |heeft waarde            |${omroep}                                 |
-|Check veldtype 2               |AV-Type     |heeft waarde            |${avType}                                 |
-|Check publicatiestart met start|$start      |en stop                 |$stop                                     |
-|Check mid active                                                                                                |
-|Check mid or urn               |=~/WO_NTR_[0-9]{7}/                                                             |
-|click                          |Urn                                                                             |
-|Check urn active                                                                                                |
-|Check mid or urn               |=~/urn:vpro:media:program:[0-9]{9}/                                             |
-|click                          |Label                                                                           |
-|wait                           |3           |seconds                                                            |
-|Check veldtype 1               |Genres      |heeft waarde            |${genre}                                  |
-|click                          |Algemeen                                                                        |
-|wait                           |3           |seconds                                                            |
-|Check status                   |Voor publicatie                                                                 |
-|wait                           |90          |seconds                                                            |
-|Check status                   |Gepubliceerd                                                                    |
-|click                          |Relaties                                                                        |
-|wait                           |3           |seconds                                                            |
-|click                          |Clip verwijderen                                                                |
-|wait for visible               |Clip verwijderen?                                                               |
-|click                          |verwijder                                                                       |
-|wait                           |3           |seconds                                                            |
-|Check subtitel van laatste tab |Zoeken                                                                          |
+|script                                                                                                                                  |
+|Open Npo poms website                                                                                                                   |
+|Npo poms Inlogscherm Log in met standaard-gebruiker                                                                                     |
+|click                                                  |NIEUW                                                                           |
+|Npo poms Nieuw object toevoegen Wacht tot popup geladen                                                                                 |
+|Npo poms Nieuw object toevoegen Vul                    |$objectNaam |in tekstveld            |Hoofdtitel *                              |
+|Npo poms Nieuw object toevoegen Selecteer optie        |${mediaType}|in dropdown             |Media Type *                              |
+|Npo poms Nieuw object toevoegen Check optie            |${omroep}   |geselecteerd in dropdown|Omroep *                                  |
+|Npo poms Nieuw object toevoegen Selecteer optie        |${avType}   |in dropdown             |AV Type *                                 |
+|Npo poms Nieuw object toevoegen Selecteer optie        |${genre}    |in dropdown             |Genre *                                   |
+|click                                                  |Publicatiestart                                                                 |
+|$start=                                                |store       |!today (dd-MM-yyyy) -2 00:00                                       |
+|$stop=                                                 |store       |!today (dd-MM-yyyy) +3 00:00                                       |
+|Npo poms Nieuw object toevoegen Vul                    |$start      |in tekstveld            |Start                                     |
+|Npo poms Nieuw object toevoegen Vul                    |$stop       |in tekstveld            |Stop                                      |
+|click                                                  |Publicatiestart                                                                 |
+|Npo poms Nieuw object toevoegen Check optie            |van: $start |als optie nummer        |1|geselecteerd in dropdown|Publicatiestart|
+|Npo poms Nieuw object toevoegen Check optie            |tot: $stop  |als optie nummer        |2|geselecteerd in dropdown|Publicatiestart|
+|wait                                                   |5           |seconds                                                            |
+|click                                                  |Maak aan                                                                        |
+|Npo poms Hoofdscherm Wacht tot tabblad                 |$objectNaam |geopend                                                            |
+|Npo poms Hoofdscherm Check titel van laatste tab       |$objectNaam                                                                     |
+|Npo poms Hoofdscherm Check subtitel van laatste tab    |${mediaType}                                                                    |
+|Npo poms Tabblad object Check hoofdtitel               |$objectNaam                                                                     |
+|Npo poms Tabblad object Check media type               |${mediaType}                                                                    |
+|Npo poms Tabblad object Check veldtype 1               |Omroepen    |heeft waarde            |${omroep}                                 |
+|Npo poms Tabblad object Check veldtype 2               |AV-Type     |heeft waarde            |${avType}                                 |
+|Npo poms Tabblad object Check publicatiestart met start|$start      |en stop                 |$stop                                     |
+|Npo poms Tabblad object Check mid active                                                                                                |
+|Npo poms Tabblad object Check mid or urn               |=~/WO_NTR_[0-9]{7}/                                                             |
+|click                                                  |Urn                                                                             |
+|Npo poms Tabblad object Check urn active                                                                                                |
+|Npo poms Tabblad object Check mid or urn               |=~/urn:vpro:media:program:[0-9]{9}/                                             |
+|click                                                  |Label                                                                           |
+|wait                                                   |3           |seconds                                                            |
+|Npo poms Tabblad object Check veldtype 1               |Genres      |heeft waarde            |${genre}                                  |
+|click                                                  |Algemeen                                                                        |
+|wait                                                   |3           |seconds                                                            |
+|Npo poms Tabblad object Check status                   |Voor publicatie                                                                 |
+|wait                                                   |90          |seconds                                                            |
+|Npo poms Tabblad object Check status                   |Gepubliceerd                                                                    |
+|click                                                  |Relaties                                                                        |
+|wait                                                   |3           |seconds                                                            |
+|click                                                  |Clip verwijderen                                                                |
+|wait for visible                                       |Clip verwijderen?                                                               |
+|click                                                  |verwijder                                                                       |
+|wait                                                   |3           |seconds                                                            |
+|Npo poms Hoofdscherm Check subtitel van laatste tab    |Zoeken                                                                          |
+|Npo poms Hoofdscherm Log uit                                                                                                            |
