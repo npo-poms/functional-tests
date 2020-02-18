@@ -502,11 +502,11 @@ class PagesPublisherTest extends AbstractApiMediaBackendTest {
     }
 
     /**
-     * In the frontend api we're going the test a bit more sophisticated.
+     * In the frontend api we're going to test a bit more sophisticated.
      *
-     * We search everthing withe the tag {@link #TAG}
+     * We search everthing with the tag {@link #TAG}
      *
-     * This should only the createdUrls, nothing more, nothing less.
+     * This should only result the createdUrls, nothing more, nothing less.
      */
     @Test
     @Order(302)
@@ -552,6 +552,11 @@ class PagesPublisherTest extends AbstractApiMediaBackendTest {
 
 
 
+    /**
+     * Now iterate the set of pages again, give then the same crids, but make up new urls.
+     *
+     * This whould work, no duplicate crids should come to exist
+     */
     @Test
     @Order(400)
     public void updateUrls(TestInfo testInfo) {
@@ -559,11 +564,11 @@ class PagesPublisherTest extends AbstractApiMediaBackendTest {
         assumeThat(pageUpdateApiUtil.getPageUpdateApiClient().getVersionNumber()).isGreaterThanOrEqualTo(Version.of(5, 5));
         assumeTrue(createdUrls.size() > 0);
 
-        String url = "http://test.poms.nl/\u00E9\u00E9n/" + URLEncoder.encode(testInfo.getTestMethod().get().getName() + LocalDate.now(), UTF_8);
+        String url = "http://test.poms.nl/\u00E9\u00E9n/" + URLEncoder.encode(testInfo.getTestMethod().get().getName() + SIMPLE_NOWSTRING, UTF_8);
 
         int i = 0;
         for (String crid: CREATED_CRIDS) {
-            String modifiedUrl = url + "/" + i++;
+            String modifiedUrl = url + "/modified/" + i++;
             modifiedUrls.add(modifiedUrl);
             PageUpdate article =
                 PageUpdateBuilder.article(modifiedUrl)
@@ -576,7 +581,7 @@ class PagesPublisherTest extends AbstractApiMediaBackendTest {
                     .build();
             Result<Void> result = pageUpdateApiUtil.saveAndWait(article);
             assertThat(result.getStatus()).isEqualTo(Result.Status.SUCCESS);
-            log.info("Created {}", article);
+            log.info("Update {}", article);
         }
 
     }
@@ -616,6 +621,9 @@ class PagesPublisherTest extends AbstractApiMediaBackendTest {
     }
 
 
+    /**
+     * Now delete one of those create pages by crid.
+     */
     @Test
     @Order(500)
     public void deleteByOneCrid() {
@@ -628,6 +636,9 @@ class PagesPublisherTest extends AbstractApiMediaBackendTest {
     }
 
 
+    /**
+     * That should work.
+     */
     @Test
     @Order(501)
     public void checkDeletedByCridDissappearedFromAPI() {
@@ -646,6 +657,9 @@ class PagesPublisherTest extends AbstractApiMediaBackendTest {
     }
 
 
+    /**
+     * Delete the rest too.
+     */
     @Test
     @Order(600)
     public void deleteByCrids() {
@@ -660,6 +674,9 @@ class PagesPublisherTest extends AbstractApiMediaBackendTest {
 
 
 
+    /**
+     * That too should work.
+     */
     @Test
     @Order(601)
     public void checkDissappearedFromAPI() {
@@ -681,6 +698,9 @@ class PagesPublisherTest extends AbstractApiMediaBackendTest {
     }
 
 
+    /**
+     * Some more testing about the state of the publisher
+     */
     @Test
     @Order(700)
     public void consistency() {
@@ -689,9 +709,14 @@ class PagesPublisherTest extends AbstractApiMediaBackendTest {
         log.info("{}", checked);
     }
 
+
+
+    /**
+     * What happens if we post completely invalid XML?
+     */
     @Test
     @Order(800)
-    public void postInvalid() {
+    public void postCompletelyWrongXML() {
         String user = CONFIG.requiredOption(npo_pageupdate_api, "user");
         String password= CONFIG.requiredOption(npo_pageupdate_api, "password");
         String url = CONFIG.requiredOption(npo_pageupdate_api, "baseUrl");
@@ -705,13 +730,17 @@ class PagesPublisherTest extends AbstractApiMediaBackendTest {
             .  post(url + "/api/pages/updates")
             .then()
             .  log().all()
-            .  statusCode(400);
+            .  statusCode(400); // bad request
 
     }
 
+
+    /**
+     * Now we post an xml that is more or less ok, but use an entity that does not exist (ldquo), this should be rejected.
+     */
     @Test
     @Order(801)
-    public void postInvalid2() {
+    public void postInvalidXMLInvalidEntity() {
         String user = CONFIG.requiredOption(npo_pageupdate_api, "user");
         String password= CONFIG.requiredOption(npo_pageupdate_api, "password");
         String url = CONFIG.requiredOption(npo_pageupdate_api, "baseUrl");
@@ -730,6 +759,35 @@ class PagesPublisherTest extends AbstractApiMediaBackendTest {
             .then()
             .  log().all()
             .  statusCode(400);
+
+    }
+
+
+
+    /**
+     * Now we post an xml that is more or less ok, no title, this is another example of invalid content
+     */
+    @Test
+    @Order(802)
+    public void postInvalidXML() {
+        String user = CONFIG.requiredOption(npo_pageupdate_api, "user");
+        String password= CONFIG.requiredOption(npo_pageupdate_api, "password");
+        String url = CONFIG.requiredOption(npo_pageupdate_api, "baseUrl");
+
+        given()
+            .auth().basic(user, password)
+            .log().all()
+            .when()
+            .  contentType("application/xml")
+            .  body("<page type=\"AUDIO\" url=\"http://test.kassa.nl/article/1234\"  xmlns=\"urn:vpro:pages:update:2013\">\n" +
+                "  <crid>crid://bla/vara/1234</crid>\n" +
+                "  <broadcaster>VARA</broadcaster>\n" +
+                "</page>")
+            .  post(url + "/api/pages/updates")
+            .then()
+            .  log().all()
+            .  statusCode(400);
+        // TODO, I dont see the actual message anywhere.
 
     }
 
@@ -781,6 +839,10 @@ class PagesPublisherTest extends AbstractApiMediaBackendTest {
 
     }
 
+
+    /**
+     * the giving URL must have referrals that exist too.
+     */
     private void testConsistency(String url, Set<String> checked, boolean cleanup) {
         if (checked.contains(url)) {
             return;
