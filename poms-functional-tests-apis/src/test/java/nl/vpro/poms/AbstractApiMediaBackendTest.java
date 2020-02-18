@@ -5,11 +5,12 @@ import lombok.extern.log4j.Log4j2;
 
 import java.net.URLEncoder;
 import java.time.Duration;
-import java.util.Objects;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 import javax.ws.rs.core.MediaType;
 
+import org.apache.commons.text.StringSubstitutor;
 import org.junit.jupiter.api.*;
 
 import nl.vpro.api.client.media.MediaRestClient;
@@ -45,9 +46,14 @@ public abstract class AbstractApiMediaBackendTest extends AbstractApiTest {
     private static final Duration BACKEND_CONNECTIONREQUEST_TIMEOUT = Duration.ofSeconds(10);
 
 
-    private static final String errorMail = CONFIG.getProperties(Config.Prefix.npo_backend_api).get("errors");
+    private static final String errorMail;
     static {
-        errorMail.replace("{TESTRUN}", NOWSTRING);
+
+        Map<String, String> valuesMap = new HashMap<>();
+        valuesMap.put("TESTRUN", SIMPLE_NOWSTRING);
+        StringSubstitutor subst = new StringSubstitutor(valuesMap);
+        errorMail =  subst.replace(CONFIG.getProperties(Config.Prefix.npo_backend_api).get("errors"));
+        log.info("Mailing errors to {}", errorMail);
     }
 
     protected static final MediaRestClient backend =
@@ -58,6 +64,7 @@ public abstract class AbstractApiMediaBackendTest extends AbstractApiTest {
             .socketTimeout(BACKEND_SOCKET_TIMEOUT)
             .connectionRequestTimeout(BACKEND_CONNECTIONREQUEST_TIMEOUT)
             .warnThreshold(Duration.ofSeconds(10))
+            .errors(errorMail)
             //.version("5.7")
             .build();
 
@@ -71,6 +78,7 @@ public abstract class AbstractApiMediaBackendTest extends AbstractApiTest {
             .socketTimeout(BACKEND_SOCKET_TIMEOUT)
             .connectionRequestTimeout(BACKEND_CONNECTIONREQUEST_TIMEOUT)
             .warnThreshold(Duration.ofSeconds(10))
+            .errors(errorMail)
             //.version("5.7")
             .build();
     private static final String backendVersion = backend.getVersion();
