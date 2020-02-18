@@ -333,10 +333,10 @@ public class MediaITest extends AbstractApiMediaBackendTest {
     @Tag("cleanup")
     void test101CheckDeletedInFrontendApi() {
         if (clipMid == null){
-            //clipMid = "POMS_VPRO_3323958";
+            //clipMid = "POMS_VPRO_3324155";
         }
         assumeThat(clipMid).isNotNull();
-        waitUntil(Duration.ofMinutes(10),
+        waitUntil(Duration.ofMinutes(20),
             () -> clipMid + " disappeared",
             () -> mediaUtil.findByMid(clipMid) == null
         );
