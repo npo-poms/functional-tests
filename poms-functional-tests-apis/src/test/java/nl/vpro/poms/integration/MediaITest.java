@@ -312,10 +312,10 @@ public class MediaITest extends AbstractApiMediaBackendTest {
     @Order(100)
     @AbortOnException.NoAbort
     @Tag("cleanup")
-    void test100Delete() {
+    void delete() {
         if (clipMid == null){
             //  to debug a failure, you may explicitely set it here.
-            //clipMid = "POMS_VPRO_3323958";
+            clipMid = "POMS_VPRO_3324281";
         }
         assumeThat(clipMid).isNotNull();
         backend.delete(clipMid);
@@ -331,7 +331,32 @@ public class MediaITest extends AbstractApiMediaBackendTest {
     @Order(101)
     @AbortOnException.NoAbort
     @Tag("cleanup")
-    void test101CheckDeletedInFrontendApi() {
+    void checkDeletedInBackendApi() {
+        if (clipMid == null){
+            clipMid = "POMS_VPRO_3324281";
+        }
+        assumeThat(clipMid).isNotNull();
+        waitUntil(Duration.ofMinutes(3),
+            () -> backend.getFull(clipMid),
+            Check.<Program>builder()
+                .failureDescription(c -> "Workflow is now " + c.getWorkflow())
+                .description("{} is deleted", clipMid)
+                .predicate(c -> Workflow.DELETES.contains(c.getWorkflow()))
+            ,
+            Check.<Program>builder()
+                .failureDescription(c -> "Workflow is now " + c.getWorkflow())
+                .description("{} delete is published", clipMid)
+                .predicate(c -> c.getWorkflow() == Workflow.DELETED)
+
+        );
+
+    }
+
+    @Test
+    @Order(102)
+    @AbortOnException.NoAbort
+    @Tag("cleanup")
+    void checkDeletedInFrontendApi() {
         if (clipMid == null){
             //clipMid = "POMS_VPRO_3324155";
         }

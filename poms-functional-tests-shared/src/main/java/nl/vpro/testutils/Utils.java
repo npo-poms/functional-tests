@@ -5,8 +5,7 @@ import lombok.extern.log4j.Log4j2;
 
 import java.time.Duration;
 import java.time.Instant;
-import java.util.Arrays;
-import java.util.Objects;
+import java.util.*;
 import java.util.concurrent.Callable;
 import java.util.function.*;
 import java.util.stream.Collectors;
@@ -161,6 +160,9 @@ public class Utils {
                          description.append(" AND ");
                      }
                      description.append(test ? TextUtil.strikeThrough(t.description) : t.description);
+                     if (! test) {
+                         t.getFailureDescription().ifPresent(f -> description.append(" (").append(f.apply(result[0])).append(")"));
+                     }
                      if (exception != null) {
                          description.append(" (")
                              //.append(exception.getClass().getSimpleName()).append(' ').append(exception.getMessage())
@@ -213,12 +215,17 @@ public class Utils {
         private final Function<T, String> failureDescription;
         private final Supplier<T> supplier;
 
+
         @lombok.Builder(builderClassName = "Builder")
         private Check(String _description, Predicate<T> predicate, Function<T, String> failureDescription, Supplier<T> supplier) {
             this.description = _description;
             this.predicate = predicate;
             this.supplier = supplier;
-            this.failureDescription = failureDescription == null ? (t) -> description + ":" + t + " doesn't match" : failureDescription;
+            this.failureDescription =  failureDescription;
+        }
+
+        public Optional<Function<T, String>> getFailureDescription() {
+            return Optional.ofNullable(failureDescription);
         }
 
 
