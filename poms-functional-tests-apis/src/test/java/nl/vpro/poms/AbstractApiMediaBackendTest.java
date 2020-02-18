@@ -45,6 +45,8 @@ public abstract class AbstractApiMediaBackendTest extends AbstractApiTest {
     private static final Duration BACKEND_SOCKET_TIMEOUT = Duration.ofSeconds(300);
     private static final Duration BACKEND_CONNECTIONREQUEST_TIMEOUT = Duration.ofSeconds(10);
 
+    private static final int MAX_IMAGE_RESIZE = 2000;
+
 
     private static final String errorMail;
     static {
@@ -281,7 +283,7 @@ public abstract class AbstractApiMediaBackendTest extends AbstractApiTest {
         ImageUpdate.Builder builder = ImageUpdate.builder()
             .type(ImageType.PICTURE)
             .title(title)
-            .imageUrl("https://images.poms.omroep.nl/image/s" + (TestMDC.getTestNumber() + 10) + "/7617.jpg?" + URLEncoder.encode(title, UTF_8))
+            .imageUrl("https://images.poms.omroep.nl/image/s" + ((TestMDC.getTestNumber() + 10) % MAX_IMAGE_RESIZE) + "/7617.jpg?" + URLEncoder.encode(title, UTF_8))
             .license(License.CC_BY)
             .sourceName("vpro")
             .source("https://www.vpro.nl/");

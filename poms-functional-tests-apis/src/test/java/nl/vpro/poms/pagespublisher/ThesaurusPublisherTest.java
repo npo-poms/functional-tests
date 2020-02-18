@@ -75,7 +75,6 @@ class ThesaurusPublisherTest extends AbstractApiTest {
         assertThat(persons.getSize()).isGreaterThan(0);
         for (PersonInterface p : persons) {
             log.info("{}", p);
-
         }
     }
 

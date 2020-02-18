@@ -19,7 +19,7 @@ public class TestMDC implements AfterTestExecutionCallback, BeforeTestExecutionC
     static final protected AtomicInteger testNumber = new AtomicInteger(0);
 
     @Override
-    public void afterTestExecution(ExtensionContext context) throws Exception {
+    public void afterTestExecution(ExtensionContext context) {
         ThreadContext.remove(KEY);
         ThreadContext.remove(NUMBER_KEY);
     }
@@ -27,7 +27,7 @@ public class TestMDC implements AfterTestExecutionCallback, BeforeTestExecutionC
     @Override
     public void beforeTestExecution(ExtensionContext context) throws Exception {
         ThreadContext.put(KEY, context.getRequiredTestClass().getSimpleName() + "#" + context.getRequiredTestMethod().getName());
-        ThreadContext.put(NUMBER_KEY, String.valueOf(testNumber.incrementAndGet()) + ":");
+        ThreadContext.put(NUMBER_KEY, testNumber.incrementAndGet() + ":");
     }
 
     public static int getTestNumber() {

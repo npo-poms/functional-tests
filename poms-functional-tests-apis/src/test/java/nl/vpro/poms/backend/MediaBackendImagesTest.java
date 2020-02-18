@@ -67,7 +67,6 @@ public class MediaBackendImagesTest extends AbstractApiMediaBackendTest {
             .source("https://google.com/")
             .imageUrl("https://goo.gl/fKL1rj") // redirects
             .build();
-
         backend.addImage(update, MID);
     }
 
