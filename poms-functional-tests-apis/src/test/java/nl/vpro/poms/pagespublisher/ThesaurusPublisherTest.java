@@ -6,13 +6,13 @@ import org.assertj.core.api.Assumptions;
 import org.junit.jupiter.api.*;
 
 import nl.vpro.api.client.pages.PageUpdateApiClient;
-import nl.vpro.api.client.utils.Config;
 import nl.vpro.domain.PersonInterface;
 import nl.vpro.domain.api.thesaurus.PersonResult;
 import nl.vpro.domain.gtaa.GTAANewPerson;
 import nl.vpro.domain.gtaa.GTAAPerson;
 import nl.vpro.poms.AbstractApiTest;
 
+import static nl.vpro.api.client.utils.Config.Prefix.npo_pageupdate_api;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
@@ -24,8 +24,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 class ThesaurusPublisherTest extends AbstractApiTest {
 
    private PageUpdateApiClient pageUpdateApiClient = PageUpdateApiClient.configured(
-       CONFIG.env(),
-       CONFIG.getProperties(Config.Prefix.npo_pageupdate_api)
+       CONFIG.env(npo_pageupdate_api),
+       CONFIG.getProperties(npo_pageupdate_api)
    ).build();
 
 
