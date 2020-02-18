@@ -1,0 +1,2 @@
+!define zoekopdracht {klusjesmannen}
+!define objectNaam {De Klusjesmannen}

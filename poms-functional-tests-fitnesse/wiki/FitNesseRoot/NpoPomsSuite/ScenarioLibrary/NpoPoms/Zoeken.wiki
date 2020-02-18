@@ -1,0 +1,21 @@
+|scenario|Npo poms Zoeken Vul|waarde|in zoekveld        |
+|enter   |@waarde            |as    |css=input[id=query]|
+
+|scenario|Npo poms Zoeken Vul|waarde|in tekstveld|veld|
+|enter   |@waarde            |as    |@veld            |
+
+|scenario|Npo poms Zoeken Druk knop|knop|
+|click   |xpath=//button[text()="@knop"]|
+
+|scenario  |Npo poms Zoeken Hover over object                         |objectNaam                         |met mediatype                        |mediatype                        |
+|hover over|xpath=//table/tbody/tr[./td[@class="column-title"]/span/span[normalize-space(.)="@objectNaam"]][./td[@class="column-type"]/span/span[normalize-space(.)="@mediatype"]]|
+
+|scenario|Npo poms Zoeken Druk op viewknop bij object                                    |objectNaam                                   |met mediatype                                   |mediatype                                   |
+|click   |xpath=//table/tbody/tr[./td[@class="column-title"]/span/span[normalize-space(.)="@objectNaam"]][./td[@class="column-type"]/span/span[normalize-space(.)="@mediatype"]]/td[@class="column-tools"]/div/span[@title="preview"]|
+
+|scenario                                      |Npo poms Zoeken Open object|objectNaam   |met mediatype|mediatype|als preview|
+|Npo poms Zoeken Hover over object             |@objectNaam                |met mediatype|@mediatype                         |
+|Npo poms Zoeken Druk op viewknop bij object   |@objectNaam                |met mediatype|@mediatype                         |
+|Npo poms Previewscherm object Check hoofdtitel|@objectNaam                                                                  |
+|Npo poms Previewscherm object Check media type|@mediatype                                                                   |
+
