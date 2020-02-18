@@ -1,6 +1,7 @@
 = POMS functional tests
 :toc:
 
+== Introduction
 These are functional integration tests for POMS and the NPO Frontend and Backend API.
 
 This is used to test actual deployments of https://poms.omroep.nl/[POMS], the https://api.poms.omroep.nl[POMS Backend API],
