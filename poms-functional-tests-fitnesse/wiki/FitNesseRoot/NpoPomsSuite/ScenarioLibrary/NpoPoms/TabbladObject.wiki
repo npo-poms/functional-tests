@@ -15,11 +15,17 @@
 |check                              |value of                                               |xpath=//h2[@class="viewer-media-type"]/span[2]|$scenarioLibrary_hoofdscherm_start|
 |check                              |value of                                               |xpath=//div[@class="pickers"]                 |${publicatiestart}                |
 
+|scenario        |Npo poms Tabblad object Wacht tot veldtype 1|veld|zichtbaar|
+|wait for visible|xpath=//h2[text()="@veld"]/following-sibling::div/span     |
+
 |scenario|Npo poms Tabblad object Check veldtype 1|veld                                                  |heeft waarde|waarde|
 |check   |value of                                |xpath=//h2[text()="@veld"]/following-sibling::div/span|@waarde            |
 
 |scenario|Npo poms Tabblad object Check veldtype 2|veld                                           |heeft waarde|waarde|
 |check   |value of                                |xpath=//h2[text()="@veld"]/following-sibling::p|@waarde            |
+
+|scenario        |Npo poms Tabblad object Wacht tot status zichtbaar|
+|wait for visible|xpath=//h2[text()="Status"]/following-sibling::*/p|
 
 |scenario|Npo poms Tabblad object Check status|status                                                    |
 |check   |value of                            |xpath=//h2[text()="Status"]/following-sibling::*/p|@status|
