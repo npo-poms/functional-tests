@@ -183,7 +183,10 @@ public class Utils {
          });
         assertThat(result[0]).withFailMessage(predicateDescription[0] + ":" + resultSupplier + "supplied null").isNotNull();
         for (Check<T> t : tests) {
-            assertThat(t.predicate.test(result[0])).withFailMessage(t.failureDescription.apply(result[0])).isTrue();
+            Function<T, String> failDescription = t.getFailureDescription().orElse((c)->  t.description + ":" + t + " doesn't match");
+            assertThat(t.predicate.test(result[0]))
+                .withFailMessage(failDescription.apply(result[0]))
+                .isTrue();
         }
         return result[0];
     }
