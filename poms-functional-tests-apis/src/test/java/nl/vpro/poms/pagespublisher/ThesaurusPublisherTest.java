@@ -36,7 +36,7 @@ class ThesaurusPublisherTest extends AbstractApiTest {
 
     @Test
     @Order(1)
-    void test001CreatePerson() {
+    void createPerson() {
         givenName = "Pietje2" + System.currentTimeMillis();
         log.info("Creating {} {}", givenName, familyName);
         GTAAPerson created = pageUpdateApiClient.getThesaurusUpdateRestService().submit(null,
@@ -53,7 +53,7 @@ class ThesaurusPublisherTest extends AbstractApiTest {
 
     @Test
     @Order(2)
-    void test100Arrived() {
+    void newPersonArrivedInGTAA() {
         Assumptions.assumeThat(gtaaId).isNotNull();
         log.info("Getting person with id {}", gtaaId);
         GTAAPerson item = (GTAAPerson) clients.getThesaurusRestService().conceptStatus(gtaaId);
@@ -69,7 +69,7 @@ class ThesaurusPublisherTest extends AbstractApiTest {
     @Disabled
     @Test
     @Order(3)
-    void test101ArrivedAndFindable() {
+    void newPersonIsAlsoFindableInGTAA() {
         Assumptions.assumeThat(gtaaId).isNotNull();
         PersonResult persons = clients.getThesaurusRestService().findPersons(givenName, 100);
         assertThat(persons.getSize()).isGreaterThan(0);
