@@ -6,10 +6,9 @@
 |click        |logout                          |
 |wait for page|Log out                         |
 
-|scenario|Frontend api Hoofdscherm Check tekstveld|tekstveld                                                        |heeft waarde|waarde|in Frontend Api|
-|check   |value of                                |xpath=//label[text()="@tekstveld"]/../following-sibling::td/input|@waarde                            |
+|scenario|Frontend api Hoofdscherm Check tekstveld|tekstveld                                                        |heeft waarde|waarde|
+|check   |value of                                |xpath=//label[text()="@tekstveld"]/../following-sibling::td/input|@waarde            |
 
-|scenario |Frontend api Hoofdscherm Check responsveld|responsveld                                                 |heeft waarde|waarde|in Frontend Api|
-|scroll to|@responsveld                                                                                                                               |
-|check    |value of                                  |xpath=//h4[text()="@responsveld"]/following-sibling::div/pre|@waarde                            |
-
+|scenario |Frontend api Hoofdscherm Check response body bevat waarde|waarde                                                   |
+|scroll to|xpath=//div[@class="block response_body"]                                                                          |
+|check    |value of                                                 |xpath=//div[@class="block response_body"]|=~/.*@waarde.*/|

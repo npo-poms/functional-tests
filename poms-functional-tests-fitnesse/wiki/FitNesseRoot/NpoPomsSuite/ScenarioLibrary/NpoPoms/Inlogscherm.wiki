@@ -8,5 +8,5 @@
 |Npo poms Inlogscherm Wacht tot pagina geladen               |
 |enter   |$standaardGebruikersnaam    |as    |id=username    |
 |enter   |$standaardWachtwoord        |as    |id=password    |
-|click   |Inloggen                                           |
+|click   |id=kc-login                                        |
 |Npo poms Hoofdscherm Wacht tot tabblad Zoeken geopend       |

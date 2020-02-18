@@ -31,7 +31,6 @@ Test
 |click                                                  |Publicatiestart                                                                 |
 |Npo poms Nieuw object toevoegen Check optie            |van: $start |als optie nummer        |1|geselecteerd in dropdown|Publicatiestart|
 |Npo poms Nieuw object toevoegen Check optie            |tot: $stop  |als optie nummer        |2|geselecteerd in dropdown|Publicatiestart|
-|wait                                                   |5           |seconds                                                            |
 |click                                                  |Maak aan                                                                        |
 |Npo poms Hoofdscherm Wacht tot tabblad                 |$objectNaam |geopend                                                            |
 |Npo poms Hoofdscherm Check titel van laatste tab       |$objectNaam                                                                     |
@@ -47,18 +46,16 @@ Test
 |Npo poms Tabblad object Check urn active                                                                                                |
 |Npo poms Tabblad object Check mid or urn               |=~/urn:vpro:media:program:[0-9]{9}/                                             |
 |click                                                  |Label                                                                           |
-|wait                                                   |3           |seconds                                                            |
+|Npo poms Tabblad object Wacht tot veldtype 1           |Genres      |zichtbaar                                                          |
 |Npo poms Tabblad object Check veldtype 1               |Genres      |heeft waarde            |${genre}                                  |
 |click                                                  |Algemeen                                                                        |
-|wait                                                   |3           |seconds                                                            |
+|Npo poms Tabblad object Wacht tot status zichtbaar                                                                                      |
 |Npo poms Tabblad object Check status                   |Voor publicatie                                                                 |
 |wait                                                   |90          |seconds                                                            |
 |Npo poms Tabblad object Check status                   |Gepubliceerd                                                                    |
 |click                                                  |Relaties                                                                        |
-|wait                                                   |3           |seconds                                                            |
 |click                                                  |Clip verwijderen                                                                |
 |wait for visible                                       |Clip verwijderen?                                                               |
 |click                                                  |verwijder                                                                       |
-|wait                                                   |3           |seconds                                                            |
 |Npo poms Hoofdscherm Check subtitel van laatste tab    |Zoeken                                                                          |
 |Npo poms Hoofdscherm Log uit                                                                                                            |
