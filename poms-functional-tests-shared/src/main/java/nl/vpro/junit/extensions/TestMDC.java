@@ -25,7 +25,7 @@ public class TestMDC implements AfterTestExecutionCallback, BeforeTestExecutionC
     }
 
     @Override
-    public void beforeTestExecution(ExtensionContext context) throws Exception {
+    public void beforeTestExecution(ExtensionContext context) {
         ThreadContext.put(KEY, context.getRequiredTestClass().getSimpleName() + "#" + context.getRequiredTestMethod().getName());
         ThreadContext.put(NUMBER_KEY, testNumber.incrementAndGet() + ":");
     }
