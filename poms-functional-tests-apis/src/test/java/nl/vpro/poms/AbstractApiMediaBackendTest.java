@@ -45,6 +45,11 @@ public abstract class AbstractApiMediaBackendTest extends AbstractApiTest {
     private static final Duration BACKEND_CONNECTIONREQUEST_TIMEOUT = Duration.ofSeconds(10);
 
 
+    private static final String errorMail = CONFIG.getProperties(Config.Prefix.npo_backend_api).get("errors");
+    static {
+        errorMail.replace("{TESTRUN}", NOWSTRING);
+    }
+
     protected static final MediaRestClient backend =
         MediaRestClient.configured(CONFIG.env(), CONFIG.getProperties(Config.Prefix.npo_backend_api))
             .followMerges(true)
