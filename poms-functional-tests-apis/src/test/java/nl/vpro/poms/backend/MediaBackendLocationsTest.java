@@ -34,7 +34,7 @@ import static org.assertj.core.api.Assertions.assertThat;
  *
  * @author Michiel Meeuwissen
  */
-@TestMethodOrder(MethodOrderer.Alphanumeric.class)
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @Log4j2
 class MediaBackendLocationsTest extends AbstractApiMediaBackendTest {
 
@@ -60,7 +60,8 @@ class MediaBackendLocationsTest extends AbstractApiMediaBackendTest {
 
 
     @Test
-    void test01addLocation() {
+    @Order(1)
+    void addLocation() {
         titles.add(title);
         firstTitle = title;
         LocationUpdate update = LocationUpdate.builder()
@@ -71,7 +72,8 @@ class MediaBackendLocationsTest extends AbstractApiMediaBackendTest {
 
 
     @Test
-    void test10checkArrived() {
+    @Order(2)
+    void checkArrivedLocation() {
         List<String> currentLocations = new ArrayList<>();
         waitUntil(ACCEPTABLE_DURATION,
             MID + " in backend with location " + titles,
@@ -86,7 +88,8 @@ class MediaBackendLocationsTest extends AbstractApiMediaBackendTest {
     }
 
     @Test
-    void test11checkArrivedViaGetLocations() {
+    @Order(3)
+    void checkArrivedViaGetLocations() {
         List<String> currentLocations = new ArrayList<>();
         waitUntil(ACCEPTABLE_DURATION,
             MID + " in backend with location " + titles,
@@ -101,7 +104,8 @@ class MediaBackendLocationsTest extends AbstractApiMediaBackendTest {
     }
 
     @Test
-    void test12updateLocation() throws IOException {
+    @Order(10)
+    void updateLocation() throws IOException {
         String firstLocation = programUrl(firstTitle);
         LocationUpdate update = backend.getBackendRestService()
             .getLocations(null, MID, true, null).stream()
@@ -120,7 +124,8 @@ class MediaBackendLocationsTest extends AbstractApiMediaBackendTest {
 
 
     @Test
-    void test20addLocationToObject() {
+    @Order(11)
+    void addLocationToObject() {
         titles.add(title);
         LocationUpdate location = LocationUpdate
             .builder()
@@ -135,7 +140,8 @@ class MediaBackendLocationsTest extends AbstractApiMediaBackendTest {
 
 
     @Test
-    void test21addLocationToObjectCheck() {
+    @Order(20)
+    void addLocationToObjectCheck() {
         List<String> currentLocations = new ArrayList<>();
         waitUntil(ACCEPTABLE_DURATION,
             MID + " in backend with location " + titles,
@@ -151,7 +157,8 @@ class MediaBackendLocationsTest extends AbstractApiMediaBackendTest {
 
 
     @Test
-    void test40addInvalidLocationToObject() {
+    @Order(40)
+    void addInvalidLocationToObject() {
         Assertions.assertThrows(Exception.class, () ->
             backend.doValidated(() -> {
                 LocationUpdate location = LocationUpdate
