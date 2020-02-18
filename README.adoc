@@ -1,5 +1,4 @@
 = POMS functional tests
-
 :toc:
 
 These are functional integration tests for POMS and the NPO Frontend and Backend API.
