@@ -4,7 +4,6 @@ import lombok.extern.log4j.Log4j2;
 
 import java.net.URLEncoder;
 import java.time.*;
-import java.time.temporal.ChronoUnit;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -171,7 +170,7 @@ class PagesPublisherTest extends AbstractApiMediaBackendTest {
 
     @Test
     @Order(100)
-    public void checkArrived() {
+    public void checkPageArrived() {
         assumeThat(article).isNotNull();
 
         PageUpdate update = Utils.waitUntil(ACCEPTABLE_DURATION,
@@ -184,9 +183,14 @@ class PagesPublisherTest extends AbstractApiMediaBackendTest {
     }
 
 
+    /**
+     * Check if the page arrived correctly in ES. (Using the specific end point for that)
+     *
+     * This is more direct, and to test this the API itself doesn't even need to be running itself.
+     */
     @Test
     @Order(101)
-    public void checkPublished() {
+    public void checkPagePublished() {
         assumeThat(article).isNotNull();
 
         Page update = Utils.waitUntil(ACCEPTABLE_PAGE_PUBLISHED_DURATION,
@@ -200,6 +204,12 @@ class PagesPublisherTest extends AbstractApiMediaBackendTest {
 
 
 
+
+    /**
+     * Also, check if it arrived in the api itself. That should not make a difference, it looks at the same Elasticsearch.
+     *
+     * But _if_ it does, this probably points to some misconfiguration, (or some odd caching issue?)
+     */
     @Test
     @Order(102)
     @AbortOnException.Except
@@ -275,6 +285,9 @@ class PagesPublisherTest extends AbstractApiMediaBackendTest {
 
     }
 
+    /**
+     * Make sure this new titles arrived in ES
+     */
     @Test
     @Order(201)
     public void checkUpdateExistingArticlePublished() {
@@ -296,6 +309,9 @@ class PagesPublisherTest extends AbstractApiMediaBackendTest {
         assertThat(page.getEmbeds().get(0).getMedia().getMainTitle()).isEqualTo(embedded.getMainTitle());
     }
 
+    /**
+     * And also in the API of course (this should be the same)
+     */
     @Test
     @Order(202)
     @AbortOnException.Except
@@ -323,6 +339,10 @@ class PagesPublisherTest extends AbstractApiMediaBackendTest {
 
     private static String embeddedDescription;
 
+
+    /**
+     * Now we update a media that is embded. The pages publisher should synchronize this change to all pages embedding this media.
+     */
     @Test
     @Order(203)
     public void updateExistingEmbeddedMedia() {
@@ -335,6 +355,11 @@ class PagesPublisherTest extends AbstractApiMediaBackendTest {
 
     }
 
+
+    /**
+     * Let's first wait until this change arrives in the API, i.e. in ES. earlier, there is no chance that
+     * the page publisher will be aware of this change.
+     */
 
     @Test
     @Order(204)
@@ -359,6 +384,7 @@ class PagesPublisherTest extends AbstractApiMediaBackendTest {
         log.info("Received from api {}", fromApi);
     }
 
+
     @Test
     @Order(205)
     @Tag("frontendapi")
@@ -376,6 +402,9 @@ class PagesPublisherTest extends AbstractApiMediaBackendTest {
     }
 
 
+    /**
+     * How entirely remove an embed. Also that must be mirrored in all pages.
+     */
     @Test
     @Order(210)
     public void removeAnEmbed() {
@@ -390,6 +419,9 @@ class PagesPublisherTest extends AbstractApiMediaBackendTest {
 
     }
 
+    /**
+     * Check that the remoed embed disappeared. i.e. on the given page there should only be one left.
+     */
     @Test
     @Order(211)
     public void checkRemoveAnEmbed() {
@@ -411,10 +443,21 @@ class PagesPublisherTest extends AbstractApiMediaBackendTest {
     private static final List<String> createdUrls = new ArrayList<>();
     private static final List<String> modifiedUrls = new ArrayList<>();
 
+
+    /**
+     * Now create an entirely new page, but use some of the same number of crids.
+     *
+     * The point is that the urls are generated on date, but the crids aren't.
+     *
+     * So in the database the crids are normally already present, but may be with different URL's.
+     *
+     * Als this should give no problems, and everything should be updated according.
+     */
     @Test
     @Order(300)
+    @Tag("crids")
     public void createPageSomeWithCrid(TestInfo testInfo) {
-        String url = "http://test.poms.nl/\u00E9\u00E9n/" + URLEncoder.encode(testInfo.getTestMethod().get().getName() + LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES), UTF_8);
+        String url = "http://test.poms.nl/\u00E9\u00E9n/" + URLEncoder.encode(testInfo.getTestMethod().get().getName() + SIMPLE_NOWSTRING, UTF_8);
 
         for (int i = 0; i < NUMBER_OF_PAGES_TO_CREATED; i++) {
             String createdUrl = url + "/" + i;
@@ -436,7 +479,39 @@ class PagesPublisherTest extends AbstractApiMediaBackendTest {
 
     @Test
     @Order(301)
+    @Tag("crids")
+    public void checkPagesWithCrids() {
+        for (int i = 0; i < NUMBER_OF_PAGES_TO_CREATED; i++) {
+            String createdUrl = createdUrls.get(i);
+            Utils.waitUntil(Duration.ofMinutes(1),
+                () -> pageUpdateApiUtil.get(createdUrl),
+                Check.<PageUpdate>builder()
+                    .description("Has update  {}", createdUrl)
+                    .predicate(Objects::nonNull)
+            );
+        }
+        for (int i = 0; i < NUMBER_OF_PAGES_TO_CREATED; i++) {
+            String createdUrl = createdUrls.get(i);
+            Utils.waitUntil(Duration.ofMinutes(1),
+                () -> pageUpdateApiUtil.getPublishedPage(createdUrl),
+                Check.<Optional<Page>>builder()
+                    .description("Has {}", createdUrl)
+                    .predicate(Optional::isPresent)
+            );
+        }
+    }
+
+    /**
+     * In the frontend api we're going the test a bit more sophisticated.
+     *
+     * We search everthing withe the tag {@link #TAG}
+     *
+     * This should only the createdUrls, nothing more, nothing less.
+     */
+    @Test
+    @Order(302)
     @Tag("frontendapi")
+    @Tag("crids")
     public void checkCreatedPageWithCridArrivedInES() throws JsonProcessingException {
 
         PageForm form = PageForm.builder()
@@ -475,47 +550,6 @@ class PagesPublisherTest extends AbstractApiMediaBackendTest {
     }
 
 
-    @Test
-    @Order(302)
-    @Tag("frontendapi")
-    public void checkCreatedPageWithCridArrivedInAPI() throws JsonProcessingException {
-        assumeThat(pageUpdateApiUtil.getPageUpdateApiClient().getVersionNumber()).isGreaterThanOrEqualTo(Version.of(5, 5));
-        //assumeTrue(pageUtil.getClients().isAvailable());
-
-        PageForm form = PageForm.builder()
-            .tags(TAG)
-            .addSortField(PageSortField.lastPublished, DESC)
-            .build();
-
-        log.info("{}", Jackson2Mapper.getPrettyInstance().writeValueAsString(form));
-
-        PageSearchResult searchResultItems = Utils.waitUntil(
-            ACCEPTABLE_PAGE_PUBLISHED_DURATION,
-            "Has pages with tag " + TAG,
-            () -> pageUtil.find(form, null, 0L, 240),
-            (sr) -> {
-                List<@NotNull @URI String> collect = sr.getItems()
-                    .stream()
-                    .map(SearchResultItem::getResult)
-                    .map(Page::getUrl)
-                    .collect(Collectors.toList());
-                log.info("Found {}", collect);
-                return collect.containsAll(createdUrls);
-            }
-        );
-        List<String> foundCrids = new ArrayList<>();
-        List<String> foundUrls= new ArrayList<>();
-
-
-        assertThat(searchResultItems.getSize()).isGreaterThanOrEqualTo(10); // at least our 10.
-        for (SearchResultItem<? extends Page> item : searchResultItems) {
-            log.info("Found {} with crids: {}", item, item.getResult().getCrids());
-            foundCrids.addAll(item.getResult().getCrids());
-            foundUrls.add(item.getResult().getUrl());
-        }
-        assertThat(foundCrids).containsOnlyOnce(CREATED_CRIDS);
-        assertThat(foundUrls).containsOnlyOnce(createdUrls.toArray(new String[0]));
-    }
 
 
     @Test
