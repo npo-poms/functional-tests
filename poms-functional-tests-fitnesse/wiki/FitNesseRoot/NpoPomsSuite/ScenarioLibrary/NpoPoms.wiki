@@ -4,3 +4,4 @@
 !include NpoPoms.Hoofdscherm
 !include NpoPoms.NieuwObjectToevoegen
 !include NpoPoms.TabbladObject
+!include NpoPoms.AccountInstellingen
