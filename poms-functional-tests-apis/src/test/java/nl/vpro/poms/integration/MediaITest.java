@@ -354,7 +354,6 @@ public class MediaITest extends AbstractApiMediaBackendTest {
 
     @Test
     @Order(102)
-    @AbortOnException.NoAbort
     @Tag("cleanup")
     void checkDeletedInFrontendApi() {
         if (clipMid == null){
