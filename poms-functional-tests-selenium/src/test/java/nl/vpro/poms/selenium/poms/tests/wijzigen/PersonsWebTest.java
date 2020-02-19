@@ -4,9 +4,7 @@ import lombok.extern.log4j.Log4j2;
 
 import javax.annotation.Nonnull;
 
-import org.junit.FixMethodOrder;
-import org.junit.Test;
-import org.junit.jupiter.api.Disabled;
+import org.junit.*;
 import org.junit.runners.MethodSorters;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
@@ -49,7 +47,7 @@ public class PersonsWebTest extends AbstractPomsTest {
 
     }
     @Test
-    @Disabled("This is broken. Never finished?")
+    @Ignore("This is broken. Never finished?")
     public void test02AddPerson() {
         webDriverUtil.waitForAngularRequestsToFinish();
 
