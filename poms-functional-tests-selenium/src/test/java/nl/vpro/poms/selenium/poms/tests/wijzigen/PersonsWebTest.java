@@ -4,7 +4,9 @@ import lombok.extern.log4j.Log4j2;
 
 import javax.annotation.Nonnull;
 
-import org.junit.*;
+import org.junit.FixMethodOrder;
+import org.junit.Test;
+import org.junit.jupiter.api.Disabled;
 import org.junit.runners.MethodSorters;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
@@ -47,10 +49,11 @@ public class PersonsWebTest extends AbstractPomsTest {
 
     }
     @Test
+    @Disabled("This is broken. Never finished?")
     public void test02AddPerson() {
         webDriverUtil.waitForAngularRequestsToFinish();
 
-        String selector = "#media-general-WO_VPRO_025057 > div.media-section-general-left > poms-persons > div > button";
+        String selector = "button#addCredits";
         log.info("Opening persons of {}", selector);
         WebElement element = driver.findElement(By.cssSelector(selector));// FAILS
 
