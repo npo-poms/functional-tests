@@ -21,3 +21,6 @@
 |scenario             |Npo poms Hoofdscherm Check subtitel van laatste tab|subtitel                                                                                        |
 |$subtitelInUpperCase=|convert to upper case                              |@subtitel                                                                  |                    |
 |check                |value of                                           |xpath=//ul[@class="nav nav-tabs"]/li[last()-1]//span[@class="tab-subtitle"]|$subtitelInUpperCase|
+
+|scenario|Npo poms Hoofdscherm Sluit laatste tab                              |
+|click   |xpath=//ul[@class="nav nav-tabs"]/li[last()-1]//span[text()="close"]|

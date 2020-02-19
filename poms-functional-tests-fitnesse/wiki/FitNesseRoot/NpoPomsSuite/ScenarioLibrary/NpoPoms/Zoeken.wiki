@@ -19,3 +19,19 @@
 |Npo poms Previewscherm object Check hoofdtitel|@objectNaam                                                                  |
 |Npo poms Previewscherm object Check media type|@mediatype                                                                   |
 
+|scenario    |Npo poms Zoeken Dubbelklik op hoofdtitel van eerste object   |
+|double click|xpath=//table/tbody/tr[1]/td[@class="column-title"]/span/span|
+
+|scenario|Npo poms Zoeken Check optie|optie                                                               |geselecteerd in dropdown|dropdown|
+|check   |value of                   |xpath=//span[normalize-space(.)="@dropdown"]/../following-sibling::a|@optie                           |
+
+|scenario                   |Npo poms Zoeken Selecteer optie|optie                   |in dropdown|dropdown|
+|click                      |@dropdown                                                                    |
+|click                      |@optie                                                                       |
+|Npo poms Zoeken Check optie|@optie                         |geselecteerd in dropdown|@dropdown           |
+
+|scenario|Npo poms Zoeken Sla hoofdtitel van eerste object op in var|var                                                          |
+|$@var=  |value of                                                  |xpath=//table/tbody/tr[1]/td[@class="column-title"]/span/span|
+
+|scenario|Npo poms Zoeken Sla type van eerste object op in var|var                                                         |
+|$@var=  |value of                                            |xpath=//table/tbody/tr[1]/td[@class="column-type"]/span/span|
