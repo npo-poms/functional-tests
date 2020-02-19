@@ -50,7 +50,7 @@ public class ThesaurusPopupTest extends AbstractTest {
     protected AbstractLogin login() {
         String url = CONFIG.getProperties(Config.Prefix.npo_api)
             .get("baseUrl") + "/thesaurus/example/secure";
-        return casLogin(url);
+        return keycloakLogin(url);
     }
 
     @Before
