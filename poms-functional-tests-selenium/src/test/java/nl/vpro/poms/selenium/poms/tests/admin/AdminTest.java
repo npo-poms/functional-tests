@@ -41,21 +41,6 @@ public class AdminTest extends AbstractPomsTest {
 //		logout();
 	}
 
-	//Succeeds
-	@Test
-	public void testAddAndRemoveOmroep() {
-		loginSpeciaalAdminGebruiker();
-		Search search = new Search(webDriverUtil);
-		search.clickAdminItem("omroepen");
-		OmroepenOverlayPage overlay = new OmroepenOverlayPage(webDriverUtil);
-		overlay.addOmroep("Test");
-		overlay.close();
-
-		search.clickAdminItem("omroepen");
-
-
-//		logout();
-	}
 
 	private void loginSpeciaalAdminGebruiker() {
 		String user = CONFIG.getProperty("AdminGebruiker.LOGIN");
