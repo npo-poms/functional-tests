@@ -38,7 +38,7 @@ import static org.assertj.core.api.Assumptions.assumeThat;
 /**
  * @author Michiel Meeuwissen
  */
-@TestMethodOrder(MethodOrderer.Alphanumeric.class)
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @Log4j2
 public class MediaBackendSubtitlesTest extends AbstractApiMediaBackendTest {
 
@@ -50,7 +50,8 @@ public class MediaBackendSubtitlesTest extends AbstractApiMediaBackendTest {
 
 
     @Test
-    public void test01addSubtitles() {
+    @Order(1)
+    public void addSubtitles() {
         assumeThat(backendVersionNumber).isGreaterThanOrEqualTo(Version.of(5, 1));
 
         firstTitle = title;
@@ -77,7 +78,8 @@ public class MediaBackendSubtitlesTest extends AbstractApiMediaBackendTest {
 
 
     @Test
-    public void test02CheckArrived() {
+    @Order(2)
+    public void checkArrivedInBackend() {
         assumeThat(firstTitle).isNotNull();
         final Subtitles[] found = new Subtitles[1];
         PeekingIterator<StandaloneCue> iterator = waitUntil(ACCEPTABLE_DURATION,
@@ -97,7 +99,8 @@ public class MediaBackendSubtitlesTest extends AbstractApiMediaBackendTest {
 
 
     @Test
-    public void test03updateSubtitles() throws InterruptedException {
+    @Order(3)
+    public void updateSubtitles() throws InterruptedException {
         assumeThat(backendVersionNumber).isGreaterThanOrEqualTo(Version.of(5, 11));
         Thread.sleep(2L);
         updatedFirstTitle = title;
@@ -122,7 +125,8 @@ public class MediaBackendSubtitlesTest extends AbstractApiMediaBackendTest {
     }
 
     @Test
-    public void test04CheckArrived() {
+    @Order(4)
+    public void checkUpdateArrived() {
         assumeThat(updatedFirstTitle).isNotNull();
 
         final Subtitles[] found = new Subtitles[1];
@@ -145,7 +149,9 @@ public class MediaBackendSubtitlesTest extends AbstractApiMediaBackendTest {
 
 
     @Test
-    public void test06WebVttWithNotesWithoutCueNumbers() throws IOException {
+    @Order(10)
+
+    public void webVttWithNotesWithoutCueNumbers() throws IOException {
         InputStream input = getClass().getResourceAsStream("/POMS_VPRO_4981202.vtt");
         ByteArrayOutputStream body = new ByteArrayOutputStream();
         IOUtils.copy(input, body);
@@ -167,7 +173,8 @@ public class MediaBackendSubtitlesTest extends AbstractApiMediaBackendTest {
 
 
     @Test
-    public void test07CheckArrived() {
+    @Order(11)
+    public void checkWebVttWithNotesWithoutCueNumberArrived() {
 
         PeekingIterator<StandaloneCue> iterator = waitUntil(ACCEPTABLE_DURATION,
             MID + "/ar has cues" ,
@@ -186,7 +193,8 @@ public class MediaBackendSubtitlesTest extends AbstractApiMediaBackendTest {
 
     @Test
     @Disabled("Known to fail MSE-3836")
-    public void test08CreateSubtitlesForNewClip() {
+    @Order(20)
+    public void createSubtitlesForNewClip() {
 
         ProgramUpdate clip = ProgramUpdate.create(MediaTestDataBuilder.clip()
             .mainTitle(title)
@@ -214,7 +222,8 @@ public class MediaBackendSubtitlesTest extends AbstractApiMediaBackendTest {
 
 
     @Test
-    public void test09CreateSubtitlesForNewClipCheckArrived() {
+    @Order(21)
+    public void checkCreateSubtitlesForNewClipCheckArrived() {
         assumeThat(newMid).isNotNull();
 
         PeekingIterator<StandaloneCue> iterator = waitUntil(ACCEPTABLE_DURATION,
@@ -231,14 +240,20 @@ public class MediaBackendSubtitlesTest extends AbstractApiMediaBackendTest {
 
     @Test
     @AbortOnException.NoAbort
-    public void test98CleanUp() {
+    @Order(100)
+    public void cleanUp() {
         backend.deleteSubtitles(SubtitlesId.builder().mid(MID).language(new Locale("ar")).type(SubtitlesType.TRANSLATION).build());
         backend.deleteSubtitles(SubtitlesId.builder().mid(MID).language(Locale.CHINESE).type(SubtitlesType.TRANSLATION).build());
         if (newMid != null) {
             backend.delete(newMid);
         }
         //Subtitles subtitles = backend.getBackendRestService().getSubtitles(MID, new Locale("ar"), SubtitlesType.TRANSLATION, null);
+    }
 
+    @Test
+    @AbortOnException.NoAbort
+    @Order(101)
+    public void checkCleanup() {
         waitUntil(ACCEPTABLE_DURATION,
             MID + " ar subtitles dissappeared",
             () -> backend.getBackendRestService().getSubtitles(MID, new Locale("ar"), SubtitlesType.TRANSLATION, null) == null
