@@ -1,0 +1,29 @@
+---
+Test
+---
+!*> Lokale variabelen
+
+!define oorspronkelijkeOmroep {NPS}
+!define nieuweOmroep {VPRO}
+
+*!
+
+|script                                                                                                              |
+|Open Npo poms website                                                                                               |
+|Npo poms Inlogscherm Log in met standaard-gebruiker                                                                 |
+|click                                          |VF Specialisterren                                                  |
+|click                                          |account-instellingen                                                |
+|Npo poms Account instellingen Wacht tot popup geladen                                                               |
+|Npo poms Account instellingen Deselecteer optie|${oorspronkelijkeOmroep}|in dropdown             |Standaard-omroepen|
+|Npo poms Account instellingen Selecteer optie  |${nieuweOmroep}         |in dropdown             |Standaard-omroepen|
+|click                                          |Opslaan                 |                                           |
+|click                                          |NIEUW                                                               |
+|Npo poms Nieuw object toevoegen Check optie    |${nieuweOmroep}         |geselecteerd in dropdown|Omroep *          |
+|Npo poms Nieuw object toevoegen Druk op kruisje om pop-up te sluiten                                                |
+|click                                          |VF Specialisterren                                                  |
+|click                                          |account-instellingen                                                |
+|Npo poms Account instellingen Wacht tot popup geladen                                                               |
+|Npo poms Account instellingen Deselecteer optie|${nieuweOmroep}         |in dropdown             |Standaard-omroepen|
+|Npo poms Account instellingen Selecteer optie  |${oorspronkelijkeOmroep}|in dropdown             |Standaard-omroepen|
+|click                                          |Opslaan                                                             |
+|Npo poms Hoofdscherm Log uit                                                                                        |

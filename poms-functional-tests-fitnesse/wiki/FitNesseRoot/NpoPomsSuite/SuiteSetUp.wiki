@@ -11,4 +11,5 @@
 |Library                |
 |string fixture         |
 |extended string fixture|
+|integer fixture        |
 *!
