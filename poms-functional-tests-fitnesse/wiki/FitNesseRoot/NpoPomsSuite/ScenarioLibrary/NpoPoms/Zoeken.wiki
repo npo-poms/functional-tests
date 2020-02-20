@@ -1,8 +1,8 @@
 |scenario|Npo poms Zoeken Vul|waarde|in zoekveld        |
 |enter   |@waarde            |as    |css=input[id=query]|
 
-|scenario|Npo poms Zoeken Vul|waarde|in tekstveld|veld|
-|enter   |@waarde            |as    |@veld            |
+|scenario|Npo poms Zoeken Check tekstveld|veld                                    |heeft waarde|waarde|
+|check   |value of                       |xpath=//*[./label[text()="@veld"]]/input|@waarde            |
 
 |scenario|Npo poms Zoeken Druk knop|knop|
 |click   |xpath=//button[text()="@knop"]|
@@ -22,8 +22,12 @@
 |scenario    |Npo poms Zoeken Dubbelklik op hoofdtitel van eerste object   |
 |double click|xpath=//table/tbody/tr[1]/td[@class="column-title"]/span/span|
 
-|scenario|Npo poms Zoeken Check optie|optie                                                               |geselecteerd in dropdown|dropdown|
-|check   |value of                   |xpath=//span[normalize-space(.)="@dropdown"]/../following-sibling::a|@optie                           |
+|scenario|Npo poms Zoeken Check optie|optie                                                                 |geselecteerd in dropdown|dropdown|
+|check   |value of                   |xpath=//span[normalize-space(.)="@dropdown"]/../following-sibling::div|@optie                           |
+
+|scenario|Npo poms Zoeken Check optie|optieDeel1                                                             |is|optieDeel2|geselecteerd in dropdown|dropdown|
+|check   |value of                   |xpath=//span[normalize-space(.)="@dropdown"]/../following-sibling::span|@optieDeel1                                    |
+|check   |value of                   |xpath=//span[normalize-space(.)="@dropdown"]/../following-sibling::a   |@optieDeel2                                    |
 
 |scenario                   |Npo poms Zoeken Selecteer optie|optie                   |in dropdown|dropdown|
 |click                      |@dropdown                                                                    |
@@ -38,3 +42,8 @@
 
 |scenario|Npo poms Zoeken Sla aantal zoekresultaten op in var|var                                           |
 |$@var=  |value of                                           |xpath=//div[@class="search-result-count"]/span|
+
+|scenario|Npo poms Zoeken Selecteer persoon|persoon                                                                                          |
+|enter   |@persoon                         |as                                              |xpath=//label[@for="search-person-filter"]/input|
+|click   |xpath=//label[@for="search-person-filter"]/ul/li/a/strong[text()="@persoon"]                                                       |
+|check   |value of                         |xpath=//label[@for="search-person-filter"]/input|@persoon                                        |
