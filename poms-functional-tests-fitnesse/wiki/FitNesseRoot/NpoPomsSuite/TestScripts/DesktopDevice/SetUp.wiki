@@ -9,14 +9,16 @@
 |extended browser test|
 *!
 
+!define secondsBeforeTimeout {30}
+
 |script                   |properties file fixture      |
 |load values from         |accounts.properties          |
 |show                     |values                       |
 |$standaardGebruikersnaam=|value|standaardGebruikersnaam|
 |$standaardWachtwoord=    |value|standaardWachtwoord    |
 
-|script                             |
-|delete all cookies                 |
-|set browser size to maximum        |
-|seconds before timeout          |30|
-|seconds before page load timeout|30|
+|script                                                  |
+|delete all cookies                                      |
+|set browser size to maximum                             |
+|seconds before timeout          |${secondsBeforeTimeout}|
+|seconds before page load timeout|${secondsBeforeTimeout}|

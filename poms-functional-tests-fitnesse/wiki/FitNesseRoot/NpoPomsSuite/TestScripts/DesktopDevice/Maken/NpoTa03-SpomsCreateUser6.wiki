@@ -51,8 +51,9 @@ Test
 |click                                                  |Algemeen                                                                        |
 |Npo poms Tabblad object Wacht tot status zichtbaar                                                                                      |
 |Npo poms Tabblad object Check status                   |Voor publicatie                                                                 |
-|wait                                                   |90          |seconds                                                            |
-|Npo poms Tabblad object Check status                   |Gepubliceerd                                                                    |
+|seconds before timeout                                 |120                                                                             |
+|Npo poms Tabblad object Wacht tot status               |Gepubliceerd                                                                    |
+|seconds before timeout                                 |${secondsBeforeTimeout}                                                         |
 |click                                                  |Relaties                                                                        |
 |click                                                  |Clip verwijderen                                                                |
 |wait for visible                                       |Clip verwijderen?                                                               |
