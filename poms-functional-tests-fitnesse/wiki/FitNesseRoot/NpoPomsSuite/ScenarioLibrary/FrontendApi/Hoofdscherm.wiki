@@ -6,6 +6,9 @@
 |click        |logout                          |
 |wait for page|Log out                         |
 
+|scenario|Frontend api Hoofdscherm Vul|waarde|in tekstveld                      |tekstveld                     |
+|enter   |@waarde                     |as    |xpath=//label[text()="@tekstveld"]/../following-sibling::td/input|
+
 |scenario|Frontend api Hoofdscherm Check tekstveld|tekstveld                                                        |heeft waarde|waarde|
 |check   |value of                                |xpath=//label[text()="@tekstveld"]/../following-sibling::td/input|@waarde            |
 

@@ -3,7 +3,7 @@ Test
 ---
 !*> Lokale variabelen
 
-!define mid {!-AVRO_1656037-!}
+!define mid {!-VPWON_1272435-!}
 
 *!
 
@@ -12,7 +12,7 @@ Test
 |Frontend api Inlogscherm Log in met standaard-gebruiker                                                            |
 |click                                                    |media                                                    |
 |click                                                    |xpath=//li[@class="endpoint"][3]//p[text()="Load entity"]|
-|Frontend api Hoofdscherm Check tekstveld                 |mid            |heeft waarde           |${mid}           |
+|Frontend api Hoofdscherm Vul                             |${mid}            |in tekstveld           |mid           |
 |click                                                    |Try it out!                                              |
 |Frontend api Hoofdscherm Check response body bevat waarde|"midRef": "${mid}"                                       |
 |Frontend api Hoofdscherm Log uit                                                                                   |
