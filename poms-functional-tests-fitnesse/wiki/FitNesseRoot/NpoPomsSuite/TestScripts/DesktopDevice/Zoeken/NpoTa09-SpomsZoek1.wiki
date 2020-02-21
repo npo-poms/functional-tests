@@ -1,0 +1,25 @@
+---
+Test
+---
+!include -c <Zoeken.Variabelen
+
+!*> Lokale variabelen
+
+!define mediatype1 {Seizoen}
+!define mediatype2 {Serie}
+!define mediatype3 {Uitzending}
+
+*!
+
+|script                                                                             |
+|Open Npo poms website                                                              |
+|Npo poms Inlogscherm Log in met standaard-gebruiker                                |
+|Npo poms Zoeken Vul        |${zoekopdracht}|in zoekveld                            |
+|Npo poms Zoeken Druk knop  |Zoeken                                                 |
+|Npo poms Zoeken Open object|${objectNaam}  |met mediatype|${mediatype1}|als preview|
+|click                      |Sluit                                                  |
+|Npo poms Zoeken Open object|${objectNaam}  |met mediatype|${mediatype2}|als preview|
+|click                      |Sluit                                                  |
+|Npo poms Zoeken Open object|${objectNaam}  |met mediatype|${mediatype3}|als preview|
+|click                      |Sluit                                                  |
+|Npo poms Hoofdscherm Log uit                                                       |

@@ -1,0 +1,48 @@
+---
+Test
+---
+!include -c <Zoeken.Variabelen
+
+!*> Lokale variabelen
+
+!define mediatype1 {Programma}
+!define mediatype2 {Uitzending}
+
+*!
+
+|script                                                                                                                                |
+|Open Npo poms website                                                                                                                 |
+|Npo poms Inlogscherm Log in met standaard-gebruiker                                                                                   |
+|Npo poms Zoeken Vul                                       |${zoekopdracht}      |in zoekveld                                          |
+|Npo poms Zoeken Druk knop                                 |Zoeken                                                                     |
+|wait for visible                                          |Gezocht naar: '${zoekopdracht}'                                            |
+|$aantalResultaten1=                                       |value of             |xpath=//span[@class="count"]                         |
+|Npo poms Zoeken Selecteer optie                           |${mediatype1}        |in dropdown       |!-MediaType-!                     |
+|wait for visible                                          |Gezocht naar: '${zoekopdracht}' in ${mediatype1}                           |
+|$aantalResultaten2=                                       |value of             |xpath=//span[@class="count"]                         |
+|ensure                                                    |value                |$aantalResultaten2|is smaller than|$aantalResultaten1|
+|Npo poms Zoeken Sla hoofdtitel van eerste object op in var|titelVanEersteObject                                                       |
+|Npo poms Zoeken Sla type van eerste object op in var      |typeVanEersteObject                                                        |
+|Npo poms Zoeken Dubbelklik op hoofdtitel van eerste object                                                                            |
+|Npo poms Hoofdscherm Wacht tot tabblad                    |$titelVanEersteObject|geopend                                              |
+|Npo poms Hoofdscherm Check titel van laatste tab          |$titelVanEersteObject                                                      |
+|Npo poms Hoofdscherm Check subtitel van laatste tab       |$typeVanEersteObject                                                       |
+|Npo poms Hoofdscherm Sluit laatste tab                                                                                                |
+|Npo poms Hoofdscherm Sluit laatste tab                                                                                                |
+|Npo poms Zoeken Vul                                       |${zoekopdracht}      |in zoekveld                                          |
+|Npo poms Zoeken Druk knop                                 |Zoeken                                                                     |
+|wait for visible                                          |Gezocht naar: '${zoekopdracht}'                                            |
+|$aantalResultaten1=                                       |value of             |xpath=//span[@class="count"]                         |
+|Npo poms Zoeken Selecteer optie                           |${mediatype2}        |in dropdown       |!-MediaType-!                     |
+|wait for visible                                          |Gezocht naar: '${zoekopdracht}' in ${mediatype2}                           |
+|$aantalResultaten2=                                       |value of             |xpath=//span[@class="count"]                         |
+|ensure                                                    |value                |$aantalResultaten2|is smaller than|$aantalResultaten1|
+|Npo poms Zoeken Sla hoofdtitel van eerste object op in var|titelVanEersteObject                                                       |
+|Npo poms Zoeken Sla type van eerste object op in var      |typeVanEersteObject                                                        |
+|Npo poms Zoeken Dubbelklik op hoofdtitel van eerste object                                                                            |
+|Npo poms Hoofdscherm Wacht tot tabblad                    |$titelVanEersteObject|geopend                                              |
+|Npo poms Hoofdscherm Check titel van laatste tab          |$titelVanEersteObject                                                      |
+|Npo poms Hoofdscherm Check subtitel van laatste tab       |$typeVanEersteObject                                                       |
+|Npo poms Hoofdscherm Sluit laatste tab                                                                                                |
+|Npo poms Hoofdscherm Sluit laatste tab                                                                                                |
+|Npo poms Hoofdscherm Log uit                                                                                                          |
