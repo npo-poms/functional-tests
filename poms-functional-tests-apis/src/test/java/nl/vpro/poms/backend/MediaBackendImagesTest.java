@@ -174,6 +174,7 @@ public class MediaBackendImagesTest extends AbstractApiMediaBackendTest {
     @Test
     @Tag("tineye")
     @AbortOnException.Except("known to sometimes fail")
+    @Disabled("MSE-4391, MSE-4069, PIS-11")
     void test20checkArrivedThineye() {
         checkArrived();
         assumeTrue(tineyeImageTitle != null);
