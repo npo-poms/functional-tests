@@ -154,6 +154,7 @@ public class MediaBackendImagesTest extends AbstractApiMediaBackendTest {
      */
     @Test
     @Tag("tineye")
+    @Disabled("MSE-4391, MSE-4069, PIS-11")
     void test15addTineyeImage() {
         titles.add(title);
         tineyeImageTitle = title;
@@ -175,7 +176,7 @@ public class MediaBackendImagesTest extends AbstractApiMediaBackendTest {
     @Tag("tineye")
     @AbortOnException.Except("known to sometimes fail")
     @Disabled("MSE-4391, MSE-4069, PIS-11")
-    void test20checkArrivedThineye() {
+    void test20checkArrivedTineye() {
         checkArrived();
         assumeTrue(tineyeImageTitle != null);
         ProgramUpdate update = backend.get(MID);
