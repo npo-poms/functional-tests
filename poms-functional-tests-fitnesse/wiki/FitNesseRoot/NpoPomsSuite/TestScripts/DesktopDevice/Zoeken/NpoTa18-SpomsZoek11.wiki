@@ -1,0 +1,19 @@
+---
+Test
+---
+!*> Lokale variabelen
+
+!define zoekopdracht {Pluk}
+!define zoeksuggestieNummer {3}
+
+*!
+
+|script                                                                                     |
+|Open Npo poms website                                                                      |
+|Npo poms Inlogscherm Log in met standaard-gebruiker                                        |
+|Npo poms Zoeken Vul                         |${zoekopdracht}       |in zoekveld            |
+|Npo poms Zoeken Sla zoeksuggestie nummer    |${zoeksuggestieNummer}|op in var|zoeksuggestie|
+|Npo poms Zoeken Druk op zoeksuggestie nummer|${zoeksuggestieNummer}                        |
+|Npo poms Zoeken Check zoekveld heeft waarde |$zoeksuggestie                                |
+|Npo poms Hoofdscherm Sluit laatste tab                                                     |
+|Npo poms Hoofdscherm Log uit                                                               |

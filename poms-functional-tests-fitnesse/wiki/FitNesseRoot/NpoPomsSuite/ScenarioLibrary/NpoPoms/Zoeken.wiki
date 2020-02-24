@@ -4,6 +4,15 @@
 |scenario|Npo poms Zoeken Check tekstveld|veld                                    |heeft waarde|waarde|
 |check   |value of                       |xpath=//*[./label[text()="@veld"]]/input|@waarde            |
 
+|scenario|Npo poms Zoeken Sla zoeksuggestie nummer|index                  |op in var                 |var                 |
+|$@var=  |value of                                |xpath=//input[@id="query"]/following-sibling::ul/li[@index]/a/span/span|
+
+|scenario|Npo poms Zoeken Druk op zoeksuggestie nummer           |index          |
+|click   |xpath=//input[@id="query"]/following-sibling::ul/li[@index]/a/span/span|
+
+|scenario|Npo poms Zoeken Check zoekveld heeft waarde|waarde                     |
+|check   |value of                                   |css=input[id=query]|@waarde|
+
 |scenario|Npo poms Zoeken Druk knop|knop|
 |click   |xpath=//button[text()="@knop"]|
 
