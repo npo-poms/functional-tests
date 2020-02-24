@@ -88,7 +88,7 @@ public class ThesaurusPopupTest extends AbstractTest {
                 .filter(s -> s.getText().contains("Jan Peter"))
                 .count();
 
-        assertThat(counter).isGreaterThanOrEqualTo(2);
+        assertThat(counter).isGreaterThanOrEqualTo(1);
     }
 
     @Test

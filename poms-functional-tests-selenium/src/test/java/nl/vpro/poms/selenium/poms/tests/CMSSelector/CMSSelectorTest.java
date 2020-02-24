@@ -1,17 +1,17 @@
 package nl.vpro.poms.selenium.poms.tests.CMSSelector;
 
 import org.checkerframework.checker.nullness.qual.NonNull;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.*;
 import org.openqa.selenium.By;
 
-import nl.vpro.poms.selenium.poms.tests.AbstractPomsTest;
 import nl.vpro.poms.selenium.poms.pages.CMSMediaSelector;
 import nl.vpro.poms.selenium.poms.pages.Search;
+import nl.vpro.poms.selenium.poms.tests.AbstractPomsTest;
 import nl.vpro.poms.selenium.util.WebDriverFactory;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+@Ignore
 public class CMSSelectorTest extends AbstractPomsTest {
 
     private CMSMediaSelector cms;

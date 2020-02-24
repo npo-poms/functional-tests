@@ -3,4 +3,7 @@
 !include NpoPoms.Inlogscherm
 !include NpoPoms.Hoofdscherm
 !include NpoPoms.NieuwObjectToevoegen
+!include NpoPoms.Zoeken
 !include NpoPoms.TabbladObject
+!include NpoPoms.AccountInstellingen
+!include NpoPoms.PreviewschermObject

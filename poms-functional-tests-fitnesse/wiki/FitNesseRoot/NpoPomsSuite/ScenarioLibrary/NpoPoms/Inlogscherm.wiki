@@ -1,8 +1,8 @@
 |scenario|Open Npo poms website|
 |open    |${UrlPoms}           |
 
-|scenario     |Npo poms Inlogscherm Wacht tot pagina geladen|
-|wait for page|Log in met POMS Test-omgeving                |
+|scenario        |Npo poms Inlogscherm Wacht tot pagina geladen|
+|wait for visible|POMS Test-omgeving                           |
 
 |scenario|Npo Poms Inlogscherm Log in met standaard-gebruiker|
 |Npo poms Inlogscherm Wacht tot pagina geladen               |
