@@ -9,23 +9,23 @@ Test
 
 *!
 
-|script                                                                                                                                |
-|Open Npo poms website                                                                                                                 |
-|Npo poms Inlogscherm Log in met standaard-gebruiker                                                                                   |
-|Npo poms Zoeken Vul                                       |${zoekopdracht}      |in zoekveld                                          |
-|Npo poms Zoeken Druk knop                                 |Zoeken                                                                     |
-|wait for visible                                          |Gezocht naar: '${zoekopdracht}'                                            |
-|$aantalResultaten1=                                       |value of             |xpath=//span[@class="count"]                         |
-|Npo poms Zoeken Selecteer optie                           |${avtype}            |in dropdown       |!-avType-!                        |
-|wait for visible                                          |Gezocht naar: '${zoekopdracht}' in ${avtype}                               |
-|$aantalResultaten2=                                       |value of             |xpath=//span[@class="count"]                         |
-|ensure                                                    |value                |$aantalResultaten2|is smaller than|$aantalResultaten1|
-|Npo poms Zoeken Sla hoofdtitel van eerste object op in var|titelVanEersteObject                                                       |
-|Npo poms Zoeken Sla type van eerste object op in var      |typeVanEersteObject                                                        |
-|Npo poms Zoeken Dubbelklik op hoofdtitel van eerste object                                                                            |
-|Npo poms Hoofdscherm Wacht tot tabblad                    |$titelVanEersteObject|geopend                                              |
-|Npo poms Hoofdscherm Check titel van laatste tab          |$titelVanEersteObject                                                      |
-|Npo poms Hoofdscherm Check subtitel van laatste tab       |$typeVanEersteObject                                                       |
-|Npo poms Hoofdscherm Sluit laatste tab                                                                                                |
-|Npo poms Hoofdscherm Sluit laatste tab                                                                                                |
-|Npo poms Hoofdscherm Log uit                                                                                                          |
+|script                                                                                                                                        |
+|Open Npo poms website                                                                                                                         |
+|Npo poms Inlogscherm Log in met standaard-gebruiker                                                                                           |
+|Npo poms Zoeken Vul                                       |${zoekopdracht}      |in zoekveld                                                  |
+|Npo poms Zoeken Druk knop                                 |Zoeken                                                                             |
+|wait for visible                                          |Gezocht naar: '${zoekopdracht}'                                                    |
+|Npo poms Zoeken Sla aantal zoekresultaten op in var       |aantalZoekresultaten1                                                              |
+|Npo poms Zoeken Selecteer optie                           |${avtype}            |in dropdown           |!-avType-!                            |
+|wait for visible                                          |Gezocht naar: '${zoekopdracht}' in ${avtype}                                       |
+|Npo poms Zoeken Sla aantal zoekresultaten op in var       |aantalZoekresultaten2                                                              |
+|ensure                                                    |value                |$aantalZoekresultaten2|is smaller than|$aantalZoekresultaten1|
+|Npo poms Zoeken Sla hoofdtitel van eerste object op in var|titelVanEersteObject                                                               |
+|Npo poms Zoeken Sla type van eerste object op in var      |typeVanEersteObject                                                                |
+|Npo poms Zoeken Dubbelklik op hoofdtitel van eerste object                                                                                    |
+|Npo poms Hoofdscherm Wacht tot tabblad                    |$titelVanEersteObject|geopend                                                      |
+|Npo poms Hoofdscherm Check titel van laatste tab          |$titelVanEersteObject                                                              |
+|Npo poms Hoofdscherm Check subtitel van laatste tab       |$typeVanEersteObject                                                               |
+|Npo poms Hoofdscherm Sluit laatste tab                                                                                                        |
+|Npo poms Hoofdscherm Sluit laatste tab                                                                                                        |
+|Npo poms Hoofdscherm Log uit                                                                                                                  |

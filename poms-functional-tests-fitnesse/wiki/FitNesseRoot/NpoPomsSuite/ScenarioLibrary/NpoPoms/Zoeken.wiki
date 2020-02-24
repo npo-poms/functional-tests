@@ -35,3 +35,6 @@
 
 |scenario|Npo poms Zoeken Sla type van eerste object op in var|var                                                         |
 |$@var=  |value of                                            |xpath=//table/tbody/tr[1]/td[@class="column-type"]/span/span|
+
+|scenario|Npo poms Zoeken Sla aantal zoekresultaten op in var|var                                           |
+|$@var=  |value of                                           |xpath=//div[@class="search-result-count"]/span|
