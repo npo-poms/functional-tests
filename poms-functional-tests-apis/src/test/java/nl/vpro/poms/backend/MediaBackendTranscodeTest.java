@@ -2,31 +2,30 @@
 
  import lombok.extern.log4j.Log4j2;
 
- import java.io.IOException;
- import java.time.Duration;
- import java.time.Instant;
- import java.util.Map;
+import java.io.IOException;
+import java.time.Duration;
+import java.time.Instant;
+import java.util.Map;
 
- import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response;
 
- import org.junit.jupiter.api.*;
- import org.opentest4j.TestAbortedException;
+import org.junit.jupiter.api.*;
 
- import nl.vpro.api.client.utils.Config;
- import nl.vpro.domain.media.Encryption;
- import nl.vpro.domain.media.EntityType;
- import nl.vpro.domain.media.update.TranscodeRequest;
- import nl.vpro.domain.media.update.TranscodeStatus;
- import nl.vpro.domain.media.update.collections.XmlCollection;
- import nl.vpro.logging.simple.Log4j2SimpleLogger;
- import nl.vpro.nep.service.impl.NEPSSHJUploadServiceImpl;
- import nl.vpro.poms.AbstractApiMediaBackendTest;
- import nl.vpro.testutils.Utils;
- import nl.vpro.util.Env;
+import nl.vpro.api.client.utils.Config;
+import nl.vpro.domain.media.Encryption;
+import nl.vpro.domain.media.EntityType;
+import nl.vpro.domain.media.update.TranscodeRequest;
+import nl.vpro.domain.media.update.TranscodeStatus;
+import nl.vpro.domain.media.update.collections.XmlCollection;
+import nl.vpro.logging.simple.Log4j2SimpleLogger;
+import nl.vpro.nep.service.impl.NEPSSHJUploadServiceImpl;
+import nl.vpro.poms.AbstractApiMediaBackendTest;
+import nl.vpro.testutils.Utils;
+import nl.vpro.util.Env;
 
- import static nl.vpro.domain.media.update.TranscodeStatus.Status.COMPLETED;
- import static nl.vpro.domain.media.update.TranscodeStatus.Status.FAILED;
- import static nl.vpro.testutils.Utils.waitUntil;
+import static nl.vpro.domain.media.update.TranscodeStatus.Status.COMPLETED;
+import static nl.vpro.domain.media.update.TranscodeStatus.Status.FAILED;
+import static nl.vpro.testutils.Utils.waitUntil;
 
 /**
  * Tests if files can be uploaded, and be correctly handled.
@@ -68,7 +67,8 @@ class MediaBackendTranscodeTest extends AbstractApiMediaBackendTest {
     @BeforeAll
     public static void test() {
         if (CONFIG.env() != Env.PROD) {
-            throw new TestAbortedException("It is known currently not to work in acc @ NEP");
+            //throw new TestAbortedException(
+            log.warn("It is known currently not to work in acc @ NEP");
         }
     }
 
