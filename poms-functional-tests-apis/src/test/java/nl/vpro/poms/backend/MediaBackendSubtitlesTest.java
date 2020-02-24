@@ -57,6 +57,7 @@ public class MediaBackendSubtitlesTest extends AbstractApiMediaBackendTest {
         firstTitle = title;
         Subtitles subtitles = Subtitles.webvttTranslation(MID, Duration.ofMinutes(2), Locale.CHINESE,
             "WEBVTT\n" +
+                "X-TIMESTAMP-MAP=MPEGTS:900000,LOCAL:00:00:00.000\n" +
                 "\n" +
                 "1\n" +
                 "00:00:02.200 --> 00:00:04.150\n" +
