@@ -199,11 +199,11 @@
                               <platform>windows</platform>
                               <bit>32</bit>
                           </driver>
-                          <driver>
+                          <!--<driver>
                               <name>edgedriver</name>
                               <platform>windows</platform>
                               <bit>64</bit>
-                          </driver>
+                          </driver>-->
                           <driver>
                               <name>chromedriver</name>
                               <platform>windows</platform>
