@@ -1,0 +1,48 @@
+---
+Test
+---
+!*> Lokale variabelen
+
+!define oudeKolom {Type}
+!define nieuweKolom {MID}
+
+*!
+
+|script                                                                                              |
+|Open Npo poms website                                                                               |
+|Npo poms Inlogscherm Log in met standaard-gebruiker                                                 |
+|Npo poms Zoeken Sla aantal zoekresultaten op in var|aantalZoekresultaten                            |
+|Npo poms Zoeken Check kolom                        |${nieuweKolom}       |niet zichtbaar            |
+|Npo poms Zoeken Check kolom                        |${oudeKolom}         |zichtbaar                 |
+|Npo poms Zoeken Druk op wieltje                                                                     |
+|set search context to                              |xpath=//poms-search-columns                     |
+|click                                              |${nieuweKolom}                                  |
+|click                                              |${oudeKolom}                                    |
+|scroll to                                          |maak standaard                                  |
+|click                                              |maak standaard                                  |
+|clear search context                                                                                |
+|Npo poms Hoofdscherm Wacht op notificatie          |Uw voorkeuren voor zoek-kolommen zijn opgeslagen|
+|Npo poms Zoeken Scroll naar zoekveld                                                                |
+|Npo poms Zoeken Check kolom                        |${nieuweKolom}       |zichtbaar                 |
+|Npo poms Zoeken Check kolom                        |${oudeKolom}         |niet zichtbaar            |
+|Npo poms Zoeken Check aantal zoekresultaten        |$aantalZoekresultaten                           |
+|Npo poms Zoeken Druk op header van kolom           |${nieuweKolom}                                  |
+|Npo poms Zoeken Check kolom                        |${nieuweKolom}       |aflopend gesorteerd       |
+|Npo poms Zoeken Druk op header van kolom           |${nieuweKolom}                                  |
+|Npo poms Zoeken Check kolom                        |${nieuweKolom}       |oplopend gesorteerd       |
+|Npo poms Hoofdscherm Sluit laatste tab                                                              |
+|Npo poms Zoeken Check kolom                        |${nieuweKolom}       |zichtbaar                 |
+|Npo poms Zoeken Check kolom                        |${oudeKolom}         |niet zichtbaar            |
+|Npo poms Zoeken Druk op wieltje                                                                     |
+|set search context to                              |xpath=//poms-search-columns                     |
+|click                                              |MID                                             |
+|click                                              |Type                                            |
+|scroll to                                          |maak standaard                                  |
+|click                                              |maak standaard                                  |
+|clear search context                                                                                |
+|Npo poms Hoofdscherm Wacht op notificatie          |Uw voorkeuren voor zoek-kolommen zijn opgeslagen|
+|Npo poms Zoeken Scroll naar zoekveld                                                                |
+|Npo poms Zoeken Check kolom                        |${nieuweKolom}       |niet zichtbaar            |
+|Npo poms Zoeken Check kolom                        |${oudeKolom}         |zichtbaar                 |
+|Npo poms Hoofdscherm Sluit laatste tab                                                              |
+|Npo poms Hoofdscherm Log uit                                                                        |

@@ -1,6 +1,9 @@
 |scenario|Npo poms Zoeken Vul|waarde|in zoekveld        |
 |enter   |@waarde            |as    |css=input[id=query]|
 
+|scenario |Npo poms Zoeken Scroll naar zoekveld|
+|scroll to|css=input[id=query]                 |
+
 |scenario|Npo poms Zoeken Check tekstveld|veld                                    |heeft waarde|waarde|
 |check   |value of                       |xpath=//*[./label[text()="@veld"]]/input|@waarde            |
 
@@ -52,7 +55,34 @@
 |scenario|Npo poms Zoeken Sla aantal zoekresultaten op in var|var                                           |
 |$@var=  |value of                                           |xpath=//div[@class="search-result-count"]/span|
 
+|scenario|Npo poms Zoeken Check aantal zoekresultaten|aantal                                                |
+|check   |value of                                   |xpath=//div[@class="search-result-count"]/span|@aantal|
+
 |scenario|Npo poms Zoeken Selecteer persoon|persoon                                                                                          |
 |enter   |@persoon                         |as                                              |xpath=//label[@for="search-person-filter"]/input|
 |click   |xpath=//label[@for="search-person-filter"]/ul/li/a/strong[text()="@persoon"]                                                       |
 |check   |value of                         |xpath=//label[@for="search-person-filter"]/input|@persoon                                        |
+
+|scenario|Npo poms Zoeken Druk op wieltje                  |
+|click   |xpath=//div[@title="Kolominstellingen aanpassen"]|
+
+|scenario             |Npo poms Zoeken Check kolom|kolom|zichtbaar|
+|set search context to|xpath=//table/thead/tr                     |
+|ensure               |is visible on page         |@kolom         |
+|clear search context                                             |
+
+|scenario              |Npo poms Zoeken Check kolom|kolom|niet zichtbaar|
+|set search context to |xpath=//table/thead/tr                          |
+|seconds before timeout|3                                               |
+|reject                |is visible on page         |@kolom              |
+|seconds before timeout|${secondsBeforeTimeout}                         |
+|clear search context                                                   |
+
+|scenario|Npo poms Zoeken Druk op header van kolom       |kolom      |
+|click   |xpath=//table/thead/tr/th/span[normalize-space(.)="@kolom"]|
+
+|scenario|Npo poms Zoeken Check kolom|kolom                                |aflopend gesorteerd                               |
+|ensure  |is visible on page         |xpath=//table/thead/tr/th/span[@class="column-header DESC"][normalize-space(.)="@kolom"]|
+
+|scenario|Npo poms Zoeken Check kolom|kolom                               |oplopend gesorteerd                               |
+|ensure  |is visible on page         |xpath=//table/thead/tr/th/span[@class="column-header ASC"][normalize-space(.)="@kolom"]|
