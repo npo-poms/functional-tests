@@ -10,6 +10,7 @@ import java.net.URLEncoder;
 import java.time.*;
 import java.util.Collections;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import javax.xml.bind.JAXB;
 
@@ -20,6 +21,7 @@ import nl.vpro.domain.media.*;
 import nl.vpro.domain.media.search.*;
 import nl.vpro.domain.media.update.ProgramUpdate;
 import nl.vpro.domain.media.update.SegmentUpdate;
+import nl.vpro.domain.subtitles.SubtitlesFormat;
 import nl.vpro.junit.extensions.AllowUnavailable;
 import nl.vpro.junit.extensions.TestMDC;
 import nl.vpro.poms.AbstractApiMediaBackendTest;
@@ -65,7 +67,7 @@ public class MediaTest {
     private static final String PASSWORD = CONFIG.requiredOption(npo_backend_api, "password");
     private static final String ERRORS_EMAIL = CONFIG.configOption(npo_backend_api, "errors_email").orElse("digitaal-techniek@vpro.nl");
     private static final String BASE_CRID = "crid://apitests";
-    private static final String TITLE_PREFIX = "API_FUNCTIONAL_TEST_";
+    private static final String TITLE_PREFIX = MediaTest.class.getSimpleName() + " " + TIME + " ";
     private static String dynamicSuffix;
     private static String cridIdFromSuffix;
     private static String clipMid;
@@ -161,7 +163,7 @@ public class MediaTest {
     @Tag("clip")
     @Tag("clips")
     @Order(20)
-    public void retrieveClip() {
+    public void retrieveClip(TestInfo testInfo) {
         assumeThat(clipMid).isNotNull();
         Boolean result = Utils.waitUntil(ACCEPTABLE, () -> {
             try {
@@ -275,15 +277,15 @@ public class MediaTest {
                     .queryParam(ERRORS, ERRORS_EMAIL)
                     .log().all()
                     .when()
-                    .get(MEDIA_URL + "/" + clipMid)
+                    .  get(MEDIA_URL + "/" + clipMid)
                     .then()
-                    .log().all()
-                    .statusCode(200)
-                    .body(hasXPath("/u:program/@deleted", NAMESPACE_CONTEXT, equalTo("true")));
-                return false;
+                    .  log().all()
+                    .  statusCode(200)
+                    .  body(hasXPath("/u:program/@deleted", NAMESPACE_CONTEXT, equalTo("true")));
+                return true;
             } catch (AssertionError ae) {
                 log.info(ae.getMessage());
-                return false;
+                return null;
             }
         });
     }
@@ -326,12 +328,78 @@ public class MediaTest {
             .asString();
 
 
-
         StreamingStatus streamingStatus = JAXB.unmarshal(new StringReader(result), StreamingStatusImpl.class);
         log.info("{} -> {}", result, streamingStatus);
         assertThat(streamingStatus).isNotNull();
     }
 
+
+    private String subtitlesTitle;
+
+    @Test
+    @Order(300)
+    public void addSubtitles(TestInfo testInfo) {
+        subtitlesTitle = testInfo.getDisplayName() + TIME;
+        String subtitles = CONFIG.url(npo_backend_api, "media/subtitles");
+        String result = given()
+            .auth().basic(USERNAME, PASSWORD)
+            .contentType(SubtitlesFormat.WEBVTT.getMediaType())
+            .body("WEBVTT\n" +
+                "X-TIMESTAMP-MAP=MPEGTS:900000,LOCAL:00:00:00.000\n" +
+                "\n" +
+                "1\n" +
+                "00:00:02.200 --> 00:00:04.150\n" +
+                "" + subtitlesTitle+ "\n" +
+                "\n" +
+                "2\n" +
+                "00:00:04.200 --> 00:00:08.060\n" +
+                "*'k Heb een paar puntjes die ik met je wil bespreken\n" +
+                "\n" +
+                "3\n" +
+                "00:00:08.110 --> 00:00:11.060\n" +
+                "*Dat wil ik doen in jouw mobiele bakkerij\n" +
+                "\n" +
+                "")
+            .post(subtitles + "/" + MID + "/fr/TRANSLATION")
+            .then()
+            .log().all()
+            .statusCode(202)
+            .contentType(ContentType.TEXT)
+            .extract()
+            .asString();
+
+        assertThat(result).matches(Pattern.compile("Subtitles \\(3 cues, \\d+ bytes\\) provisionally accepted for WO_VPRO_025057\tTRANSLATION\tfr"));
+    }
+
+    @Test
+    @Order(301)
+    @Disabled("TODO")
+    public void checkAddSubtitlesArrived(TestInfo testInfo) {
+        String subtitles = CONFIG.url(npo_backend_api, "media/subtitles");
+        Utils.waitUntil(ACCEPTABLE, () -> {
+            try {
+                given()
+                    .auth()
+                    .basic(USERNAME, PASSWORD)
+                    .log().all()
+                    .when()
+                    .  get(subtitles + "/" + MID + "/fr/TRANSLATION")
+                    .then()
+                    .  log().all()
+                    .  statusCode(200)
+                    .  body(startsWith("WEBVTT\n" +
+                "X-TIMESTAMP-MAP=MPEGTS:900000,LOCAL:00:00:00.000\n" +
+                "\n" +
+                "1\n" +
+                "00:00:02.200 --> 00:00:04.150\n" +
+                "" + subtitlesTitle + "\n" ));
+                return Boolean.TRUE;
+            } catch (AssertionError ae) {
+                log.info(ae.getMessage());
+                return null;
+            }
+        });
+    }
 
     private Program createClip(String crid, String dynamicSuffix, List<Segment> segments) {
 
