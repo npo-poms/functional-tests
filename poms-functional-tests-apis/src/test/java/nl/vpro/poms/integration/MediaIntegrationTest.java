@@ -37,7 +37,7 @@ import static org.assertj.core.api.Assumptions.assumeThat;
  */
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @Log4j2
-public class MediaITest extends AbstractApiMediaBackendTest {
+public class MediaIntegrationTest extends AbstractApiMediaBackendTest {
 
     private static String groupMid;
     private static String offlineGroup;
