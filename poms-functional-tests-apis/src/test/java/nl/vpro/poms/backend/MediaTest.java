@@ -5,7 +5,6 @@ import io.restassured.http.ContentType;
 import lombok.extern.log4j.Log4j2;
 
 import java.io.StringReader;
-import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.time.*;
 import java.util.Collections;
@@ -29,6 +28,7 @@ import nl.vpro.test.jupiter.AbortOnException;
 import nl.vpro.testutils.Utils;
 
 import static io.restassured.RestAssured.given;
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static nl.vpro.api.client.utils.Config.Prefix.npo_backend_api;
 import static nl.vpro.domain.Xmlns.NAMESPACE_CONTEXT;
 import static nl.vpro.poms.AbstractApiMediaBackendTest.MID;
@@ -203,11 +203,11 @@ public class MediaTest {
     @Tag("cridclip")
     @Tag("clips")
     @Order(21)
-    public void retrieveClipWithCrid() throws UnsupportedEncodingException {
+    public void retrieveClipWithCrid() {
 
         String clipCrid = clipCrid(cridIdFromSuffix);
         log.info("Retrieving clip with crid {}", clipCrid);
-        String encodedClipCrid = URLEncoder.encode(clipCrid, "UTF-8");
+        String encodedClipCrid = URLEncoder.encode(clipCrid, UTF_8);
         given()
             .auth().basic(USERNAME, PASSWORD)
             .contentType("application/xml")
