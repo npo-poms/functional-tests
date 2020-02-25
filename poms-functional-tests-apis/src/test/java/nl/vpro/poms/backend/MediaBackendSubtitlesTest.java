@@ -86,7 +86,7 @@ public class MediaBackendSubtitlesTest extends AbstractApiMediaBackendTest {
         PeekingIterator<StandaloneCue> iterator = waitUntil(ACCEPTABLE_DURATION,
             MID + "/" + Locale.CHINESE + "[0]=" + firstTitle,
             () ->  {
-                found[0] = backend.getBackendRestService().getSubtitles(MID, Locale.CHINESE, SubtitlesType.TRANSLATION, true);
+                found[0] = backend.getBackendRestService().getSubtitles(MID, Locale.CHINESE, SubtitlesType.TRANSLATION, true, false);
                 return Iterators.peekingIterator(SubtitlesUtil.standaloneStream(found[0], false, false).iterator());
             }
             , (cpi) -> cpi != null && cpi.hasNext() && cpi.peek().getContent().equals(firstTitle));
@@ -134,7 +134,7 @@ public class MediaBackendSubtitlesTest extends AbstractApiMediaBackendTest {
         PeekingIterator<StandaloneCue> iterator = waitUntil(ACCEPTABLE_DURATION,
             MID + "/" + Locale.CHINESE + "[0]=" + updatedFirstTitle,
             () -> {
-                found[0] = backend.getBackendRestService().getSubtitles(MID, Locale.CHINESE, SubtitlesType.TRANSLATION, true);
+                found[0] = backend.getBackendRestService().getSubtitles(MID, Locale.CHINESE, SubtitlesType.TRANSLATION, true, null);
                 return Iterators.peekingIterator(SubtitlesUtil.standaloneStream(found[0], false, false).iterator());
             }
             , (cpi) -> cpi != null && cpi.hasNext() && cpi.peek().getContent().equals(updatedFirstTitle));
@@ -182,7 +182,7 @@ public class MediaBackendSubtitlesTest extends AbstractApiMediaBackendTest {
             () -> Iterators.peekingIterator(
                 SubtitlesUtil.standaloneStream(
                     backend.getBackendRestService().getSubtitles(MID,
-                        new Locale("ar"), SubtitlesType.TRANSLATION, true), false, false).iterator()
+                        new Locale("ar"), SubtitlesType.TRANSLATION, true, null), false, false).iterator()
             )
             , (cpi) -> cpi != null && cpi.hasNext());
 
@@ -232,7 +232,7 @@ public class MediaBackendSubtitlesTest extends AbstractApiMediaBackendTest {
             () -> Iterators.peekingIterator(
                 SubtitlesUtil.standaloneStream(
                     backend.getBackendRestService().getSubtitles(newMid,
-                        new Locale("ar"), SubtitlesType.TRANSLATION, true), false, false).iterator()
+                        new Locale("ar"), SubtitlesType.TRANSLATION, true, false), false, false).iterator()
             )
             , (cpi) -> cpi != null && cpi.hasNext());
 
@@ -257,16 +257,16 @@ public class MediaBackendSubtitlesTest extends AbstractApiMediaBackendTest {
     public void checkCleanup() {
         waitUntil(ACCEPTABLE_DURATION,
             MID + " ar subtitles dissappeared",
-            () -> backend.getBackendRestService().getSubtitles(MID, new Locale("ar"), SubtitlesType.TRANSLATION, null) == null
+            () -> backend.getBackendRestService().getSubtitles(MID, new Locale("ar"), SubtitlesType.TRANSLATION, null, null) == null
         );
         waitUntil(ACCEPTABLE_DURATION,
             MID + " zh subtitles dissappeared",
-            () -> backend.getBackendRestService().getSubtitles(MID, Locale.CHINESE, SubtitlesType.TRANSLATION, null) == null
+            () -> backend.getBackendRestService().getSubtitles(MID, Locale.CHINESE, SubtitlesType.TRANSLATION, null, null) == null
         );
         if (newMid != null) {
             waitUntil(ACCEPTABLE_DURATION,
                 newMid + " ar subtitles dissappeared",
-                () -> backend.getBackendRestService().getSubtitles(newMid, new Locale("ar"), SubtitlesType.TRANSLATION, null) == null
+                () -> backend.getBackendRestService().getSubtitles(newMid, new Locale("ar"), SubtitlesType.TRANSLATION, null, null) == null
             );
         }
     }
