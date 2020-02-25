@@ -334,7 +334,7 @@ public class MediaTest {
     }
 
 
-    private String subtitlesTitle;
+    private static String subtitlesTitle;
 
     @Test
     @Order(300)
@@ -376,6 +376,7 @@ public class MediaTest {
     @Order(301)
     @Tag("subtitles")
     public void checkAddSubtitlesArrived() {
+        assumeThat(subtitlesTitle).isNotNull();
         String subtitles = CONFIG.url(npo_backend_api, "media/subtitles");
         Utils.waitUntil(ACCEPTABLE, () -> {
             try {
