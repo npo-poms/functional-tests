@@ -118,12 +118,18 @@ public class ApiMediaParameterizedSearchTest extends AbstractSearchTest<MediaFor
             }
         });
 
-          addTester(Version.of(5, 4, 2),"visualsegments.json/null/(xml|json)", sr -> {
+        addTester(Version.of(5, 4, 2),"visualsegments.json/null/(xml|json)", sr -> {
               String testName = testInfo.getTestMethod().get().getName();
               if (testName.startsWith("search[")) {
                   assertThat(sr.getSize()).isGreaterThan(0);
               }
 
+        });
+
+        addTester(Version.of(5, 11, 0),"NPA-490.json/null/(xml|json)", sr -> {
+            for (SearchResultItem<? extends MediaObject> r : sr) {
+                log.info("{}", r);
+            }
         });
 
         addAssumer("channels.json/.*/(xml|json)", minVersion(5, 3));
