@@ -46,7 +46,10 @@ import static org.hamcrest.Matchers.*;
  */
 
 /**
- * Basic tests which do not even use our client.
+ * Basic tests which do not even use our client (just using rest assured).
+ *
+ * Sometime our client is a bit 'too good' making it hard to submit errorneous posts, or making certain choices. And though
+ * we don't really expect issues of things that only work if you use our client, it's at least good to test some basic things also without it.
  *
  * @author Daan Debie
  * @author Michiel Meeuwissen
@@ -54,7 +57,7 @@ import static org.hamcrest.Matchers.*;
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @Log4j2
 @ExtendWith({AllowUnavailable.class, TestMDC.class, AbortOnException.class})
-public class MediaTest {
+public class LowLevelMediaTest {
 
     private static final Instant NOW = Instant.now();
     private static final LocalDate TODAY = NOW.atZone(Schedule.ZONE_ID).toLocalDate();
@@ -67,7 +70,7 @@ public class MediaTest {
     private static final String PASSWORD = CONFIG.requiredOption(npo_backend_api, "password");
     private static final String ERRORS_EMAIL = CONFIG.configOption(npo_backend_api, "errors_email").orElse("digitaal-techniek@vpro.nl");
     private static final String BASE_CRID = "crid://apitests";
-    private static final String TITLE_PREFIX = MediaTest.class.getSimpleName() + " " + TIME + " ";
+    private static final String TITLE_PREFIX = LowLevelMediaTest.class.getSimpleName() + " " + TIME + " ";
     private static String dynamicSuffix;
     private static String cridIdFromSuffix;
     private static String clipMid;
