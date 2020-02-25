@@ -35,7 +35,7 @@ import static org.junit.jupiter.api.Assumptions.assumeTrue;
  */
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @Log4j2
-public class SubtitlesITest extends AbstractApiMediaBackendTest {
+public class SubtitlesIntegrationTest extends AbstractApiMediaBackendTest {
 
     private static final Duration ACCEPTABLE_DURATION_BACKEND = Duration.ofMinutes(2);
 
