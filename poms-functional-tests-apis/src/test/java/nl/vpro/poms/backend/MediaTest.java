@@ -338,6 +338,7 @@ public class MediaTest {
 
     @Test
     @Order(300)
+    @Tag("subtitles")
     public void addSubtitles(TestInfo testInfo) {
         subtitlesTitle = testInfo.getDisplayName() + TIME;
         String subtitles = CONFIG.url(npo_backend_api, "media/subtitles");
@@ -373,8 +374,8 @@ public class MediaTest {
 
     @Test
     @Order(301)
-    @Disabled("TODO")
-    public void checkAddSubtitlesArrived(TestInfo testInfo) {
+    @Tag("subtitles")
+    public void checkAddSubtitlesArrived() {
         String subtitles = CONFIG.url(npo_backend_api, "media/subtitles");
         Utils.waitUntil(ACCEPTABLE, () -> {
             try {
@@ -383,7 +384,7 @@ public class MediaTest {
                     .basic(USERNAME, PASSWORD)
                     .log().all()
                     .when()
-                    .  get(subtitles + "/" + MID + "/fr/TRANSLATION")
+                    .  get(subtitles + "/" + MID + "/fr/TRANSLATION?avoidParsing=true")
                     .then()
                     .  log().all()
                     .  statusCode(200)
