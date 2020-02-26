@@ -113,10 +113,11 @@ public class SubtitlesIntegrationTest extends AbstractApiMediaBackendTest {
     void waitForInMediaFrontend() {
         assumeThat(firstTitle).isNotNull();
         assumeTrue(arrivedInBackend);
+        List<AvailableSubtitles> expected = Arrays.asList(JAPANESE_TRANSLATION, CHINESE_TRANSLATION);
 
         waitUntil(ACCEPTABLE_DURATION_FRONTEND,
-            MID_WITH_LOCATIONS + " has " + JAPANESE_TRANSLATION,
-            () -> mediaUtil.findByMid(MID_WITH_LOCATIONS).getAvailableSubtitles().containsAll(Arrays.asList(JAPANESE_TRANSLATION, CHINESE_TRANSLATION))
+            MID_WITH_LOCATIONS + " has " + expected,
+            () -> mediaUtil.findByMid(MID_WITH_LOCATIONS).getAvailableSubtitles().containsAll(expected)
         );
     }
 
