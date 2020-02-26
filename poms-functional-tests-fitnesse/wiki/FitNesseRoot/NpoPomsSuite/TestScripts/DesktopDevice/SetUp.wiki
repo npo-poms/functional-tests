@@ -17,7 +17,7 @@
 |$npoGebruikersnaam=      |value|npoGebruikersnaam      |
 |$npoWachtwoord=          |value|npoWachtwoord          |
 
-|script                                                  |
+|script                          |extended browser test  |
 |delete all cookies                                      |
 |set browser size to maximum                             |
 |seconds before timeout          |${secondsBeforeTimeout}|

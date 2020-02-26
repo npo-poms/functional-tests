@@ -31,11 +31,14 @@
 |Npo poms Previewscherm object Check hoofdtitel|@objectNaam                                                                  |
 |Npo poms Previewscherm object Check media type|@mediatype                                                                   |
 
-|scenario    |Npo poms Zoeken Dubbelklik op hoofdtitel van eerste object   |
-|double click|xpath=//table/tbody/tr[1]/td[@class="column-title"]/span/span|
+|scenario    |Npo poms Zoeken Dubbelklik op hoofdtitel van object nummer |index |
+|double click|xpath=//table/tbody/tr[@index]/td[@class="column-title"]/span/span|
 
-|scenario|Npo poms Zoeken Check optie|optie                                                                 |geselecteerd in dropdown|dropdown|
-|check   |value of                   |xpath=//span[normalize-space(.)="@dropdown"]/../following-sibling::div|@optie                           |
+|scenario                                                  |Npo poms Zoeken Dubbelklik op hoofdtitel van eerste object|
+|Npo poms Zoeken Dubbelklik op hoofdtitel van object nummer|1                                                         |
+
+|scenario|Npo poms Zoeken Check optie|optie                                                               |geselecteerd in dropdown|dropdown|
+|check   |value of                   |xpath=//span[normalize-space(.)="@dropdown"]/../following-sibling::*|@optie                           |
 
 |scenario|Npo poms Zoeken Check optie|optieDeel1                                                             |is|optieDeel2|geselecteerd in dropdown|dropdown|
 |check   |value of                   |xpath=//span[normalize-space(.)="@dropdown"]/../following-sibling::span|@optieDeel1                                    |
@@ -43,14 +46,22 @@
 
 |scenario                   |Npo poms Zoeken Selecteer optie|optie                   |in dropdown|dropdown|
 |click                      |@dropdown                                                                    |
+|set search context to      |xpath=//*[contains(@repeat, "item in options")]                              |
 |click                      |@optie                                                                       |
+|clear search context                                                                                     |
 |Npo poms Zoeken Check optie|@optie                         |geselecteerd in dropdown|@dropdown           |
 
-|scenario|Npo poms Zoeken Sla hoofdtitel van eerste object op in var|var                                                          |
-|$@var=  |value of                                                  |xpath=//table/tbody/tr[1]/td[@class="column-title"]/span/span|
+|scenario|Npo poms Zoeken Sla hoofdtitel van object nummer|index                |op in var                |var               |
+|$@var=  |value of                                        |xpath=//table/tbody/tr[@index]/td[@class="column-title"]/span/span|
 
-|scenario|Npo poms Zoeken Sla type van eerste object op in var|var                                                         |
-|$@var=  |value of                                            |xpath=//table/tbody/tr[1]/td[@class="column-type"]/span/span|
+|scenario                                        |Npo poms Zoeken Sla hoofdtitel van eerste object op in var|var           |
+|Npo poms Zoeken Sla hoofdtitel van object nummer|1                                                         |op in var|@var|
+
+|scenario|Npo poms Zoeken Sla type van object nummer|index                |op in var               |var               |
+|$@var=  |value of                                  |xpath=//table/tbody/tr[@index]/td[@class="column-type"]/span/span|
+
+|scenario                                  |Npo poms Zoeken Sla type van eerste object op in var|var           |
+|Npo poms Zoeken Sla type van object nummer|1                                                   |op in var|@var|
 
 |scenario|Npo poms Zoeken Sla aantal zoekresultaten op in var|var                                           |
 |$@var=  |value of                                           |xpath=//div[@class="search-result-count"]/span|
