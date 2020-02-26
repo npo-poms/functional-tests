@@ -4,9 +4,15 @@
 |scenario        |Npo poms Inlogscherm Wacht tot pagina geladen|
 |wait for visible|POMS Test-omgeving                           |
 
-|scenario|Npo Poms Inlogscherm Log in met standaard-gebruiker|
-|Npo poms Inlogscherm Wacht tot pagina geladen               |
-|enter   |$standaardGebruikersnaam    |as    |id=username    |
-|enter   |$standaardWachtwoord        |as    |id=password    |
-|click   |id=kc-login                                        |
-|Npo poms Hoofdscherm Wacht tot tabblad Zoeken geopend       |
+|scenario|Npo poms Inlogscherm Log in met gebruiker|gebruiker|en wachtwoord|wachtwoord|
+|Npo poms Inlogscherm Wacht tot pagina geladen                                        |
+|enter   |@gebruiker                               |as       |id=username             |
+|enter   |@wachtwoord                              |as       |id=password             |
+|click   |id=kc-login                                                                 |
+|Npo poms Hoofdscherm Wacht tot tabblad Zoeken geopend                                |
+
+|scenario                                 |Npo poms Inlogscherm Log in met standaard-gebruiker        |
+|Npo poms Inlogscherm Log in met gebruiker|$standaardGebruikersnaam|en wachtwoord|$standaardWachtwoord|
+
+|scenario                                 |Npo poms Inlogscherm Log in met npo            |
+|Npo poms Inlogscherm Log in met gebruiker|$npoGebruikersnaam|en wachtwoord|$npoWachtwoord|
