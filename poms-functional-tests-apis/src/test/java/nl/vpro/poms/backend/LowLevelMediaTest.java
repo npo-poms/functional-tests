@@ -48,7 +48,7 @@ import static org.hamcrest.Matchers.*;
 /**
  * Basic tests which do not even use our client (just using rest assured).
  *
- * Sometime our client is a bit 'too good' making it hard to submit errorneous posts, or making certain choices. And though
+ * Sometimes our client is a bit 'too good' making it hard to submit errorneous posts, or making certain choices. And though
  * we don't really expect issues of things that only work if you use our client, it's at least good to test some basic things also without it.
  *
  * @author Daan Debie
