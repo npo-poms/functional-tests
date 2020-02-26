@@ -9,8 +9,6 @@
 |extended browser test|
 *!
 
-!define secondsBeforeTimeout {30}
-
 |script                   |properties file fixture      |
 |load values from         |accounts.properties          |
 |show                     |values                       |
