@@ -1,0 +1,35 @@
+|scenario|Npo poms Tabblad object Detailscherm Selecteer optie|optie|in dropdown                      |dropdown                      |
+|select  |@optie                                              |for  |xpath=//label[text()="@dropdown"]/following-sibling::span/select|
+
+|scenario|Npo poms Tabblad object Detailscherm Check dropdown|dropdown                                                        |heeft waarde|waarde|
+|check   |value of                                           |xpath=//label[text()="@dropdown"]/following-sibling::span/select|@waarde            |
+
+|scenario|Npo poms Tabblad object Detailscherm Vul|tekst|in datepicker                      |datepicker                     |
+|enter   |@tekst                                  |as   |xpath=//label[text()="@datepicker"]/../following-sibling::div/input|
+
+|scenario|Npo poms Tabblad object Detailscherm Sla datepicker|datepicker               |op in var              |var              |
+|$@var=  |value of                                           |xpath=//label[text()="@datepicker"]/../following-sibling::div/input|
+
+|scenario|Npo poms Tabblad object Detailscherm Check datepicker|datepicker                                                         |heeft waarde|waarde|
+|check   |value of                                             |xpath=//label[text()="@datepicker"]/../following-sibling::div/input|@waarde            |
+
+|scenario|Npo poms Tabblad object Detailscherm Vul|tekstwaarde|in tekstveld                         |tekstveld                        |
+|enter   |@tekstwaarde                            |as         |xpath=//label[normalize-space(.)="@tekstveld"]/following-sibling::input|
+
+|scenario|Npo poms Tabblad object Detailscherm Sla tekstveld|tekstveld            |op in var            |var            |
+|$@var=  |value of                                          |xpath=//label[text()="@tekstveld"]/following-sibling::input|
+
+|scenario|Npo poms Tabblad object Detailscherm Check tekstveld|tekstveld                                                  |heeft waarde|tekstwaarde|
+|check   |value of                                            |xpath=//label[text()="@tekstveld"]/following-sibling::input|@tekstwaarde            |
+
+|scenario|Npo poms Tabblad object Detailscherm Vul|tekst|in textarea                     |textarea                    |
+|enter   |@tekst                                  |as   |xpath=//label[text()="@textarea"]/following-sibling::textarea|
+
+|scenario|Npo poms Tabblad object Detailscherm Sla textarea|textarea             |op in var             |var             |
+|$@var=  |value of                                         |xpath=//label[text()="@textarea"]/following-sibling::textarea|
+
+|scenario|Npo poms Tabblad object Detailscherm Check textarea|textarea                                                     |heeft waarde|waarde|
+|check   |value of                                           |xpath=//label[text()="@textarea"]/following-sibling::textarea|@waarde            |
+
+|scenario|Npo poms Tabblad object Detailscherm Druk op kruisje om pop-up te sluiten|
+|click   |xpath=//div[@class="modal-close-button"]                                 |

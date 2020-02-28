@@ -41,20 +41,20 @@ Test
 |Npo poms Tabblad object Check veldtype 2               |AV-Type     |heeft waarde            |${avType}                                 |
 |Npo poms Tabblad object Check publicatiestart met start|$start      |en stop                 |$stop                                     |
 |Npo poms Tabblad object Check mid active                                                                                                |
-|Npo poms Tabblad object Check mid or urn               |=~/WO_NTR_[0-9]{7}/                                                             |
+|Npo poms Tabblad object Check mid of urn               |=~/WO_NTR_[0-9]{7}/                                                             |
 |click                                                  |Urn                                                                             |
 |Npo poms Tabblad object Check urn active                                                                                                |
-|Npo poms Tabblad object Check mid or urn               |=~/urn:vpro:media:program:[0-9]{9}/                                             |
-|click                                                  |Label                                                                           |
+|Npo poms Tabblad object Check mid of urn               |=~/urn:vpro:media:program:[0-9]{9}/                                             |
+|Npo poms Tabblad object Druk op link                   |Labels      |in sidebar                                                         |
 |Npo poms Tabblad object Wacht tot veldtype 1           |Genres      |zichtbaar                                                          |
 |Npo poms Tabblad object Check veldtype 1               |Genres      |heeft waarde            |${genre}                                  |
-|click                                                  |Algemeen                                                                        |
+|Npo poms Tabblad object Druk op link                   |Algemeen    |in sidebar                                                         |
 |Npo poms Tabblad object Wacht tot status zichtbaar                                                                                      |
 |Npo poms Tabblad object Check status                   |Voor publicatie                                                                 |
 |seconds before timeout                                 |120                                                                             |
 |Npo poms Tabblad object Wacht tot status               |Ingetrokken                                                                     |
 |seconds before timeout                                 |${secondsBeforeTimeout}                                                         |
-|click                                                  |Relaties                                                                        |
+|Npo poms Tabblad object Druk op link                   |Relaties    |in sidebar                                                         |
 |click                                                  |Clip verwijderen                                                                |
 |wait for visible                                       |Clip verwijderen?                                                               |
 |click                                                  |verwijder                                                                       |
