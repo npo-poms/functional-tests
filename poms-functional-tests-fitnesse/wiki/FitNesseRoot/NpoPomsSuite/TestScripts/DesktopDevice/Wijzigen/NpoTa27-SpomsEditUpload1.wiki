@@ -1,0 +1,62 @@
+---
+Test
+---
+!*> Lokale variabelen
+
+!define mediatype {Clip}
+!define omroep {VPRO}
+!define objectNummer {5}
+!define plaatje {files/images/Tulips.jpg}
+!define titel {Testfoto}
+!define beschrijving {Beschrijving}
+!define waarschuwingFotosUploaden {Bij uploaden van foto's moeten de rechten altijd verkregen zijn. Daarnaast kan het niet correct invullen van onderstaande gegevens leiden tot claims van de rechthebbenden. Lees hier meer over het correcte gebruik.}
+
+*!
+
+|script                                                                                                                                                    |
+|Open Npo poms website                                                                                                                                     |
+|Npo poms Inlogscherm Log in met standaard-gebruiker                                                                                                       |
+|Npo poms Zoeken Selecteer optie                             |${mediatype}   |in dropdown                        |!-MediaType-!                            |
+|Npo poms Zoeken Selecteer optie                             |${omroep}      |in dropdown                        |Omroepen                                 |
+|wait for visible                                            |Gezocht naar: ${mediatype}, ${omroep}                                                        |
+|Npo poms Zoeken Sla hoofdtitel van object nummer            |${objectNummer}|op in var                          |titelVanObject                           |
+|Npo poms Zoeken Sla type van object nummer                  |${objectNummer}|op in var                          |typeVanObject                            |
+|Npo poms Zoeken Dubbelklik op hoofdtitel van object nummer  |${objectNummer}                                                                              |
+|Npo poms Hoofdscherm Wacht tot tabblad                      |$titelVanObject|geopend                                                                      |
+|Npo poms Hoofdscherm Check titel van laatste tab            |$titelVanObject                                                                              |
+|Npo poms Hoofdscherm Check subtitel van laatste tab         |$typeVanObject                                                                               |
+|Npo poms Tabblad object Druk op link                        |Afbeeldingen   |in sidebar                                                                   |
+|wait for visible                                            |Afbeelding toevoegen                                                                         |
+|$aantalAfbeeldingen1=                                       |value of       |xpath=//poms-images/div/h1                                                   |
+|$aantalAfbeeldingen1=                                       |extract string |$aantalAfbeeldingen1               |from|Afbeeldingen \((\d+)\)|using group|1|
+|set search context to                                       |xpath=//poms-images                                                                          |
+|click                                                       |Afbeelding toevoegen                                                                         |
+|clear search context                                                                                                                                      |
+|select file                                                 |${plaatje}     |for                                |css=input[id=inputFile]                  |
+|Npo poms Tabblad object Detailscherm Check knop             |Maak aan       |in footer inactief                                                           |
+|Npo poms Tabblad object Detailscherm Vul                    |${titel}       |in tekstveld                       |Titel *                                  |
+|Npo poms Tabblad object Detailscherm Check knop             |Maak aan       |in footer inactief                                                           |
+|Npo poms Tabblad object Detailscherm Vul                    |${beschrijving}|in textarea                        |Beschrijving *                           |
+|Npo poms Tabblad object Detailscherm Check knop             |Maak aan       |in footer inactief                                                           |
+|scroll to                                                   |Afbeeldingstype *                                                                            |
+|Npo poms Tabblad object Detailscherm Selecteer optie        |Afbeelding     |in selecteerbare tekstveld         |Afbeeldingstype *                        |
+|Npo poms Tabblad object Detailscherm Check knop             |Maak aan       |in footer actief                                                             |
+|click                                                       |Maak aan                                                                                     |
+|check                                                       |value of       |xpath=//div[@class="modal-message"]|${waarschuwingFotosUploaden}             |
+|click                                                       |begrepen                                                                                     |
+|wait for not visible                                        |begrepen                                                                                     |
+|$aantalAfbeeldingen2=                                       |add            |$aantalAfbeeldingen1               |and |1                                   |
+|check                                                       |value of       |xpath=//poms-images/div/h1         |Afbeeldingen ($aantalAfbeeldingen2)      |
+|Npo poms Tabblad object Check afbeelding                    |${titel}       |zichtbaar                                                                    |
+|Npo poms Tabblad object Check afbeelding                    |${titel}       |heeft beschrijving                 |${beschrijving}                          |
+|Npo poms Tabblad object Hover over afbeelding               |${titel}                                                                                     |
+|Npo poms Tabblad object Druk op verwijderknop bij afbeelding|${titel}                                                                                     |
+|wait for visible                                            |Afbeelding verwijderen?                                                                      |
+|click                                                       |xpath=//button[text()="verwijderen"]                                                         |
+|set search context to                                       |xpath=//poms-images                                                                          |
+|check                                                       |value of       |xpath=.//h1                        |Afbeeldingen ($aantalAfbeeldingen1)      |
+|Npo poms Tabblad object Check afbeelding                    |${titel}       |niet zichtbaar                                                               |
+|clear search context                                                                                                                                      |
+|Npo poms Hoofdscherm Sluit laatste tab                                                                                                                    |
+|Npo poms Hoofdscherm Sluit laatste tab                                                                                                                    |
+|Npo poms Hoofdscherm Log uit                                                                                                                              |

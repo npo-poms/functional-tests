@@ -63,3 +63,18 @@
 |set search context to|css=[id=sidebar]                                    |
 |click                |@link                                               |
 |clear search context                                                      |
+
+|scenario|Npo poms Tabblad object Check afbeelding|afbeelding                                          |zichtbaar                                         |
+|ensure  |is visible on page                      |xpath=//poms-images/div/table/tbody/tr/td[@class="column-title"]/span[normalize-space(.)="@afbeelding"]|
+
+|scenario|Npo poms Tabblad object Check afbeelding|afbeelding                                       |niet zichtbaar                                       |
+|reject  |is visible on page                      |xpath=//poms-images/div/table/tbody/tr/td[@class="column-title"]/span[normalize-space(.)="@afbeelding"]|
+
+|scenario|Npo poms Tabblad object Check afbeelding|afbeelding                                                                                                                                     |heeft beschrijving|beschrijving|
+|check   |value of                                |xpath=//poms-images/div/table/tbody/tr[./td[@class="column-title"]/span[normalize-space(.)="@afbeelding"]]/td[@class="column-description"]/span|@beschrijving                  |
+
+|scenario  |Npo poms Tabblad object Hover over afbeelding                        |afbeelding                       |
+|hover over|xpath=//poms-images/div/table/tbody/tr/td[@class="column-title"]/span[normalize-space(.)="@afbeelding"]|
+
+|scenario|Npo poms Tabblad object Druk op verwijderknop bij afbeelding                                                    |afbeelding                                                   |
+|click   |xpath=//poms-images/div/table/tbody/tr[./td[@class="column-title"]/span[normalize-space(.)="@afbeelding"]]/td[@class="column-tools"]/div/button[@title="verwijder afbeelding"]|
