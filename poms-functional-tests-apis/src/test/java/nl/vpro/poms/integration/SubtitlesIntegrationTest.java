@@ -31,6 +31,7 @@ import static org.assertj.core.api.Assumptions.assumeThat;
 import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
 /**
+ * Creates and changes various subtitles via backend api, checks whether they correctly arrive in backend an frontend apis.
  * @author Michiel Meeuwissen
  */
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
