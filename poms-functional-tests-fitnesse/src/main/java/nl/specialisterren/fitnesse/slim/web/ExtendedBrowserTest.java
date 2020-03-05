@@ -14,4 +14,8 @@ public class ExtendedBrowserTest extends BrowserTest {
     public boolean waitForNotVisible(String place) {
         return !waitForVisibleIn(place, null);
     }
+	
+	public boolean isPresentOnPage(String place) {
+        return isVisibleOnPage(place);
+    }
 }

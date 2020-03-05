@@ -78,3 +78,14 @@
 
 |scenario|Npo poms Tabblad object Druk op verwijderknop bij afbeelding                                                    |afbeelding                                                   |
 |click   |xpath=//poms-images/div/table/tbody/tr[./td[@class="column-title"]/span[normalize-space(.)="@afbeelding"]]/td[@class="column-tools"]/div/button[@title="verwijder afbeelding"]|
+
+|table template       |Npo poms Tabblad object Check veld niet te bewerken en niet te verwijderen                                                                 |
+|hover over           |xpath=//h2[starts-with(normalize-space(.), "@{veld}")]                                                                                     |
+|set search context to|xpath=//h2[starts-with(normalize-space(.), "@{veld}")]/ancestor::div[contains(@class, "editfield-wrapper")]/div[@class="media-field-tools"]|
+|$heeftSlotje=        |is present on page                                       |xpath=./div[@class="forbidden-icon"]                                             |
+|$kanBewerken=        |is present on page                                       |xpath=./div[@class="edit-icon"]                                                  |
+|$kanVerwijderen=     |is present on page                                       |xpath=./div[@class="remove-override-icon"]                                       |
+|clear search context                                                                                                                                             |
+
+|scenario|Npo poms Tabblad object Check checkbox|checkbox                               |inactief                               |
+|ensure  |is visible on page                    |xpath=//h2[text()="@checkbox"]/following-sibling::p/input[@disabled="disabled"]|

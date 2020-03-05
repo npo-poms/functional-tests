@@ -31,6 +31,12 @@
 |Npo poms Previewscherm object Check hoofdtitel|@objectNaam                                                                  |
 |Npo poms Previewscherm object Check media type|@mediatype                                                                   |
 
+|scenario|Npo poms Zoeken Check object nummer|index                                                                    |heeft geen omroep|omroep|
+|check   |value of                           |xpath=//table/tbody/tr[@index]/td[@class="column-broadcasters"]/span/span|=~/(?!@omroep)/         |
+
+|scenario                           |Npo poms Zoeken Check eerste object heeft geen omroep|omroep                   |
+|Npo poms Zoeken Check object nummer|1                                                    |heeft geen omroep|@omroep|
+
 |scenario    |Npo poms Zoeken Dubbelklik op hoofdtitel van object nummer |index |
 |double click|xpath=//table/tbody/tr[@index]/td[@class="column-title"]/span/span|
 

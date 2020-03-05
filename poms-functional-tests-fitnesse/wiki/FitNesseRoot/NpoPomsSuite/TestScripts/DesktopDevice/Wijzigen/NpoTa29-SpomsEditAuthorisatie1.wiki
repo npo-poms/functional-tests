@@ -1,0 +1,104 @@
+---
+Test
+---
+!*> Lokale variabelen
+
+!define mediatype {Clip}
+!define omroep {NMO}
+!define omroepNietAanwezig {VPRO}
+!define kolomOmroep {Omroep}
+!define platform {INTERNETVOD}
+
+*!
+
+|script                                                                                              |
+|Open Npo poms website                                                                               |
+|Npo poms Inlogscherm Log in met standaard-gebruiker                                                 |
+|Npo poms Zoeken Selecteer optie                           |${mediatype}   |in dropdown|!-MediaType-!|
+|Npo poms Zoeken Selecteer optie                           |${omroep}      |in dropdown|Omroepen     |
+|wait for visible                                          |Gezocht naar: ${mediatype}, ${omroep}    |
+|Npo poms Zoeken Druk op wieltje                                                                     |
+|set search context to                                     |xpath=//poms-search-columns              |
+|click                                                     |${kolomOmroep}                           |
+|clear search context                                                                                |
+|Npo poms Zoeken Check eerste object heeft geen omroep     |${omroepNietAanwezig}                    |
+|Npo poms Zoeken Sla hoofdtitel van eerste object op in var|titelVanObject                           |
+|Npo poms Zoeken Sla type van eerste object op in var      |typeVanObject                            |
+|Npo poms Zoeken Dubbelklik op hoofdtitel van eerste object                                          |
+|Npo poms Hoofdscherm Wacht tot tabblad                    |$titelVanObject|geopend                  |
+|Npo poms Hoofdscherm Check titel van laatste tab          |$titelVanObject                          |
+|Npo poms Hoofdscherm Check subtitel van laatste tab       |$typeVanObject                           |
+
+|Npo poms Tabblad object Check veld niet te bewerken en niet te verwijderen|
+|veld                       |heeft slotje? |kan bewerken? |kan verwijderen?|
+|Titel                      |true          |false         |false           |
+|Afleveringtitel / Subtitel |true          |false         |false           |
+|Korte titel                |true          |false         |false           |
+|Afkorting                  |true          |false         |false           |
+|Werktitel                  |true          |false         |false           |
+|Originele titel            |true          |false         |false           |
+|Lexicografische titel      |true          |false         |false           |
+|Beschrijving               |true          |false         |false           |
+|Korte beschrijving         |true          |false         |false           |
+|Eenregelige beschrijving   |true          |false         |false           |
+|Datum online / offline     |true          |false         |false           |
+|Jaar                       |true          |false         |false           |
+|Speelduur (hh:mm:ss)       |true          |false         |false           |
+|AV-Type                    |true          |false         |false           |
+|Omroepen                   |true          |false         |false           |
+|Portals                    |true          |false         |false           |
+|Landen                     |true          |false         |false           |
+|Talen                      |true          |false         |false           |
+
+|script                                                                                           |
+|Npo poms Tabblad object Check checkbox|Nagesynchroniseerd          |inactief                     |
+|set search context to                 |xpath=//div[@ng-click="editController.showSubtitles()"]/..|
+|reject                                |is present on page          |Ondertitel toevoegen         |
+|clear search context                                                                             |
+
+|Npo poms Tabblad object Check veld niet te bewerken en niet te verwijderen|
+|veld                   |heeft slotje?  |kan bewerken?  |kan verwijderen?  |
+|Genres                 |true           |false          |false             |
+|Tags                   |true           |false          |false             |
+|Doelgroep              |true           |false          |false             |
+|Intenties              |true           |false          |false             |
+|Personen               |true           |false          |false             |
+|Geografische locaties  |true           |false          |false             |
+|Websites               |true           |false          |false             |
+|Twitter                |true           |false          |false             |
+|Kijkwijzer: leeftijd   |true           |false          |false             |
+|Kijkwijzer: inhoud     |true           |false          |false             |
+|Georestricties         |true           |false          |false             |
+|Portalrestricties      |true           |false          |false             |
+
+|script                                                                                                  |
+|Npo poms Tabblad object Check checkbox              |Embedbaar                   |inactief              |
+|Npo poms Tabblad object Druk op link                |Platformen                  |in sidebar            |
+|wait for visible                                    |Geplande beschikbaarheid                           |
+|set search context to                               |xpath=//poms-predictions                           |
+|double click                                        |${platform}                                        |
+|clear search context                                                                                    |
+|Npo poms Tabblad object Detailscherm Check checkbox |Beschikbaar                 |inactief              |
+|Npo poms Tabblad object Detailscherm Check dropdown |Encryptie                   |inactief              |
+|click                                               |Sla op                                             |
+|wait for visible                                    |Er is iets mis gegaan                              |
+|click                                               |ga door                                            |
+|Npo poms Tabblad object Detailscherm Druk op kruisje om pop-up te sluiten                               |
+|set search context to                               |xpath=//poms-locations                             |
+|double click                                        |WMP                                                |
+|clear search context                                                                                    |
+|Npo poms Tabblad object Detailscherm Check tekstveld|URL *                       |inactief              |
+|Npo poms Tabblad object Detailscherm Check veld     |Type *                      |inactief              |
+|Npo poms Tabblad object Detailscherm Check veld     |Bitrate                     |inactief              |
+|Npo poms Tabblad object Detailscherm Check veld     |Bestandsgrootte             |inactief              |
+|Npo poms Tabblad object Detailscherm Check tekstveld|Offset                      |inactief              |
+|click                                               |xpath=//span[normalize-space(.)="Online / Offline"]|
+|Npo poms Tabblad object Detailscherm Check tekstveld|Start                       |inactief              |
+|Npo poms Tabblad object Detailscherm Check tekstveld|Stop                        |inactief              |
+|click                                               |bewaar                                             |
+|wait for visible                                    |Er is iets mis gegaan                              |
+|click                                               |ga door                                            |
+|Npo poms Tabblad object Detailscherm Druk op kruisje om pop-up te sluiten                               |
+|Npo poms Hoofdscherm Sluit laatste tab                                                                  |
+|Npo poms Hoofdscherm Sluit laatste tab                                                                  |
+|Npo poms Hoofdscherm Log uit                                                                            |
