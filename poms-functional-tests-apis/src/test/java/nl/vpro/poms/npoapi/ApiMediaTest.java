@@ -33,9 +33,7 @@ public class ApiMediaTest extends AbstractApiTest {
     @ValueSource(strings = {"none", "all"})
     @NullSource
     @Retention(RetentionPolicy.RUNTIME)
-    public @interface Properties {
-
-    }
+    public @interface Properties {}
 
     @ParameterizedTest
     @Properties
@@ -56,7 +54,6 @@ public class ApiMediaTest extends AbstractApiTest {
         MediaResult result = clients.getMediaService().listMembers(o.getMid(),  null, null, "ASC", 0L, 0);
         assertThat(result.getTotal()).isGreaterThan(10);
         assertThat(result.getSize()).isEqualTo(0);
-
     }
 
     @ParameterizedTest
@@ -65,7 +62,6 @@ public class ApiMediaTest extends AbstractApiTest {
         clients.setProperties(properties);
         MediaSearchResult result = clients.getMediaService().findMembers(MediaFormBuilder.emptyForm(), "POMS_S_VPRO_407881", null, null, 0L, 100);
         assertThat(result.getSize()).isGreaterThan(1);
-
     }
 
     @Test
@@ -101,8 +97,6 @@ public class ApiMediaTest extends AbstractApiTest {
         }).isInstanceOf(javax.ws.rs.NotFoundException.class);
     }
 
-
-
     @Test
     void test404LoadOrNull() throws IOException {
         assertThat((MediaObject) mediaUtil.loadOrNull("https://www.youtube.com/watch?v=1XiY_mhzd3Q")).isNull();
@@ -115,7 +109,6 @@ public class ApiMediaTest extends AbstractApiTest {
         MediaResult result = mediaUtil.listDescendants("RBX_S_NTR_553927",
             Order.DESC, input -> input.getMediaType() == MediaType.BROADCAST, 123);
         assertThat(result.getSize()).isEqualTo(123);
-
     }
 
     /**
@@ -127,7 +120,6 @@ public class ApiMediaTest extends AbstractApiTest {
             MediaResult result = clients.getMediaService().listDescendants("RBX_S_NTR_553927", null, null, Order.DESC.toString(),
                 -1L, 0);
         });
-
     }
 
     @Test
@@ -137,7 +129,6 @@ public class ApiMediaTest extends AbstractApiTest {
             MediaResult result = clients.getMediaService().listDescendants("RBX_S_NTR_553927", null, null, Order.DESC.toString(),
                 0L, 1_000_000);
         });
-
     }
 
     @ParameterizedTest
@@ -155,7 +146,5 @@ public class ApiMediaTest extends AbstractApiTest {
 
         }
     }
-
-
 
 }
