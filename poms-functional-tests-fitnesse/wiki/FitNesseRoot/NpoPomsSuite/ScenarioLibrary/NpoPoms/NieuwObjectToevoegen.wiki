@@ -6,7 +6,7 @@
 
 |scenario                                   |Npo poms Nieuw object toevoegen Selecteer optie|optie                   |in dropdown|dropdown|
 |click                                      |@dropdown                                                                                    |
-|click                                      |@optie                                                                                       |
+|click                                      |@optie                                         |in                      |${dialogSelector}   |
 |Npo poms Nieuw object toevoegen Check optie|@optie                                         |geselecteerd in dropdown|@dropdown           |
 
 |scenario|Npo poms Nieuw object toevoegen Check bericht|bericht                                                  |in footer|
@@ -31,3 +31,27 @@
 
 |scenario|Npo poms Nieuw object toevoegen Check optie|optie                                                                         |als optie nummer|index|geselecteerd in dropdown|dropdown|
 |check   |value of                                   |xpath=//span[normalize-space(.)="@dropdown"]/../following-sibling::div[@index]|@optie                                                  |
+
+!note TODO Bespreek met Ronny of dit zinvolle standaardwaarden zijn
+!define omroep {NPS}
+!define avType {Audio}
+!define genre {Jeugd}
+
+|scenario                                           |Npo poms Nieuw object toevoegen Voeg|mediaType   |toe met titel|titel|
+|click                                              |NIEUW                                                                |
+|Npo poms Nieuw object toevoegen Wacht tot popup geladen                                                                  |
+|Npo poms Nieuw object toevoegen Vul                |@titel                              |in tekstveld|Hoofdtitel *       |
+|Npo poms Nieuw object toevoegen Selecteer optie    |@mediaType                          |in dropdown |Media Type *       |
+|Npo poms Nieuw object toevoegen Verwijder eventuele voorgeselecteerde omroep                                             |
+|Npo poms Nieuw object toevoegen Selecteer optie    |${omroep}                           |in dropdown |Omroep *           |
+|Npo poms Nieuw object toevoegen Selecteer optie    |${avType}                           |in dropdown |AV Type *          |
+|Npo poms Nieuw object toevoegen Selecteer optie    |${genre}                            |in dropdown |Genre *            |
+|click                                              |Maak aan                                                             |
+|Npo poms Hoofdscherm Wacht tot tabblad             |@titel                              |geopend                         |
+|Npo poms Hoofdscherm Check titel van laatste tab   |@titel                                                               |
+|Npo poms Hoofdscherm Check subtitel van laatste tab|@mediaType                                                           |
+
+|scenario              |Npo poms Nieuw object toevoegen Verwijder eventuele voorgeselecteerde omroep|
+|seconds before timeout|5                                                                           |
+|click if available    |xpath=//*[@ng-if="media.broadcasters"]                                      |
+|seconds before timeout|${secondsBeforeTimeout}                                                     |

@@ -6,6 +6,15 @@
 |check   |value of                                |xpath=//span[@class="media breadcrumb-link-title"]|@hoofdtitel|
 |check   |value of                                |xpath=//h1[@class="viewer-title"]                 |@hoofdtitel|
 
+|scenario        |Npo poms Tabblad object Wacht tot subtitel          |subtitel          |
+|wait for visible|xpath=//h2[@class="viewer-subtitle" and normalize-space(.)="@subtitel"]|
+
+|scenario                                  |Npo poms Tabblad object Verander subtitel naar|subtitel                           |
+|click                                     |Afleveringtitel / Subtitel                                                        |
+|enter                                     |@subtitel                                     |as|xpath=//input[@name="editvalue"]|
+|press enter                                                                                                                  |
+|Npo poms Tabblad object Wacht tot subtitel|@subtitel                                                                         |
+
 |scenario              |Npo poms Tabblad object Check media type|mediaType                                                                   |
 |$mediaTypeInUpperCase=|convert to upper case                   |@mediaType                                            |                     |
 |check                 |value of                                |xpath=//span[@class="media breadcrumb-link-type"]/span|$mediaTypeInUpperCase|
@@ -100,3 +109,8 @@
 
 |scenario|Npo poms Tabblad object Check checkbox|checkbox                               |inactief                               |
 |ensure  |is visible on page                    |xpath=//h2[text()="@checkbox"]/following-sibling::p/input[@disabled="disabled"]|
+
+|scenario        |Npo poms Tabblad object Verwijder huidig object met media type|mediaType           |
+|click           |@mediaType verwijderen                                                             |
+|wait for visible|@mediaType verwijderen?                                       |in|${dialogSelector}|
+|click           |verwijder                                                     |in|${dialogSelector}|
