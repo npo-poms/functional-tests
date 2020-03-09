@@ -21,13 +21,13 @@
           <dependency>
               <groupId>org.fitnesse</groupId>
               <artifactId>fitnesse</artifactId>
-              <version>20190508</version>
+              <version>20200205</version>
               <scope>provided</scope>
           </dependency>
           <dependency>
               <groupId>nl.hsac</groupId>
               <artifactId>hsac-fitnesse-fixtures</artifactId>
-              <version>4.9.1</version>
+              <version>4.11.0</version>
           </dependency>
           <dependency>
               <groupId>com.github.tcnh</groupId>
@@ -199,11 +199,11 @@
                               <platform>windows</platform>
                               <bit>32</bit>
                           </driver>
-                          <driver>
+                          <!--<driver>
                               <name>edgedriver</name>
                               <platform>windows</platform>
                               <bit>64</bit>
-                          </driver>
+                          </driver>-->
                           <driver>
                               <name>chromedriver</name>
                               <platform>windows</platform>

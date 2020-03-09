@@ -1,7 +1,15 @@
-|scenario    |Npo poms Hoofdscherm Log uit    |
-|click       |VF Specialisterren              |
-|click       |log uit                         |
-|Npo poms Inlogscherm Wacht tot pagina geladen|
+|scenario|Npo poms Hoofdscherm Druk op huidige gebruiker|
+|click   |css=span[id=currentUser]                      |
+
+|scenario|Npo poms Hoofdscherm Ga naar account-instellingen|
+|Npo poms Hoofdscherm Druk op huidige gebruiker            |
+|click   |account-instellingen                             |
+|Npo poms Account instellingen Wacht tot popup geladen     |
+
+|scenario     |Npo poms Hoofdscherm Log uit    |
+|Npo poms Hoofdscherm Druk op huidige gebruiker|
+|click        |log uit                         |
+|Npo poms Inlogscherm Wacht tot pagina geladen |
 
 |scenario        |Npo poms Hoofdscherm Wacht op notificatie|notificatie                  |
 |wait for visible|@notificatie                             |in|xpath=//poms-notifications|

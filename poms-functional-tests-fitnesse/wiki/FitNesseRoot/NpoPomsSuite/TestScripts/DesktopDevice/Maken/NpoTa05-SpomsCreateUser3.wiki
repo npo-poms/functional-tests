@@ -1,4 +1,5 @@
 ---
+Prune
 Test
 ---
 !*> Lokale variabelen
@@ -11,9 +12,7 @@ Test
 |script                                                                                                              |
 |Open Npo poms website                                                                                               |
 |Npo poms Inlogscherm Log in met standaard-gebruiker                                                                 |
-|click                                          |VF Specialisterren                                                  |
-|click                                          |account-instellingen                                                |
-|Npo poms Account instellingen Wacht tot popup geladen                                                               |
+|Npo poms Hoofdscherm Ga naar account-instellingen                                                                   |
 |Npo poms Account instellingen Deselecteer optie|${oorspronkelijkeOmroep}|in dropdown             |Standaard-omroepen|
 |Npo poms Account instellingen Selecteer optie  |${nieuweOmroep}         |in dropdown             |Standaard-omroepen|
 |click                                          |Opslaan                 |                                           |

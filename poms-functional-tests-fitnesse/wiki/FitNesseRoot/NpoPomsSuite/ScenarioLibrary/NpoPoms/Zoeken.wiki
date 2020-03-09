@@ -1,8 +1,20 @@
 |scenario|Npo poms Zoeken Vul|waarde|in zoekveld        |
 |enter   |@waarde            |as    |css=input[id=query]|
 
-|scenario|Npo poms Zoeken Vul|waarde|in tekstveld|veld|
-|enter   |@waarde            |as    |@veld            |
+|scenario |Npo poms Zoeken Scroll naar zoekveld|
+|scroll to|css=input[id=query]                 |
+
+|scenario|Npo poms Zoeken Check tekstveld|veld                                    |heeft waarde|waarde|
+|check   |value of                       |xpath=//*[./label[text()="@veld"]]/input|@waarde            |
+
+|scenario|Npo poms Zoeken Sla zoeksuggestie nummer|index                  |op in var                 |var                 |
+|$@var=  |value of                                |xpath=//input[@id="query"]/following-sibling::ul/li[@index]/a/span/span|
+
+|scenario|Npo poms Zoeken Druk op zoeksuggestie nummer           |index          |
+|click   |xpath=//input[@id="query"]/following-sibling::ul/li[@index]/a/span/span|
+
+|scenario|Npo poms Zoeken Check zoekveld heeft waarde|waarde                     |
+|check   |value of                                   |css=input[id=query]|@waarde|
 
 |scenario|Npo poms Zoeken Druk knop|knop|
 |click   |xpath=//button[text()="@knop"]|
@@ -19,19 +31,70 @@
 |Npo poms Previewscherm object Check hoofdtitel|@objectNaam                                                                  |
 |Npo poms Previewscherm object Check media type|@mediatype                                                                   |
 
-|scenario    |Npo poms Zoeken Dubbelklik op hoofdtitel van eerste object   |
-|double click|xpath=//table/tbody/tr[1]/td[@class="column-title"]/span/span|
+|scenario    |Npo poms Zoeken Dubbelklik op hoofdtitel van object nummer |index |
+|double click|xpath=//table/tbody/tr[@index]/td[@class="column-title"]/span/span|
+
+|scenario                                                  |Npo poms Zoeken Dubbelklik op hoofdtitel van eerste object|
+|Npo poms Zoeken Dubbelklik op hoofdtitel van object nummer|1                                                         |
 
 |scenario|Npo poms Zoeken Check optie|optie                                                               |geselecteerd in dropdown|dropdown|
-|check   |value of                   |xpath=//span[normalize-space(.)="@dropdown"]/../following-sibling::a|@optie                           |
+|check   |value of                   |xpath=//span[normalize-space(.)="@dropdown"]/../following-sibling::*|@optie                           |
+
+|scenario|Npo poms Zoeken Check optie|optieDeel1                                                             |is|optieDeel2|geselecteerd in dropdown|dropdown|
+|check   |value of                   |xpath=//span[normalize-space(.)="@dropdown"]/../following-sibling::span|@optieDeel1                                    |
+|check   |value of                   |xpath=//span[normalize-space(.)="@dropdown"]/../following-sibling::a   |@optieDeel2                                    |
 
 |scenario                   |Npo poms Zoeken Selecteer optie|optie                   |in dropdown|dropdown|
 |click                      |@dropdown                                                                    |
+|set search context to      |xpath=//*[contains(@repeat, "item in options")]                              |
+|scroll to                  |@optie                                                                       |
 |click                      |@optie                                                                       |
+|clear search context                                                                                     |
 |Npo poms Zoeken Check optie|@optie                         |geselecteerd in dropdown|@dropdown           |
 
-|scenario|Npo poms Zoeken Sla hoofdtitel van eerste object op in var|var                                                          |
-|$@var=  |value of                                                  |xpath=//table/tbody/tr[1]/td[@class="column-title"]/span/span|
+|scenario|Npo poms Zoeken Sla hoofdtitel van object nummer|index                |op in var                |var               |
+|$@var=  |value of                                        |xpath=//table/tbody/tr[@index]/td[@class="column-title"]/span/span|
 
-|scenario|Npo poms Zoeken Sla type van eerste object op in var|var                                                         |
-|$@var=  |value of                                            |xpath=//table/tbody/tr[1]/td[@class="column-type"]/span/span|
+|scenario                                        |Npo poms Zoeken Sla hoofdtitel van eerste object op in var|var           |
+|Npo poms Zoeken Sla hoofdtitel van object nummer|1                                                         |op in var|@var|
+
+|scenario|Npo poms Zoeken Sla type van object nummer|index                |op in var               |var               |
+|$@var=  |value of                                  |xpath=//table/tbody/tr[@index]/td[@class="column-type"]/span/span|
+
+|scenario                                  |Npo poms Zoeken Sla type van eerste object op in var|var           |
+|Npo poms Zoeken Sla type van object nummer|1                                                   |op in var|@var|
+
+|scenario|Npo poms Zoeken Sla aantal zoekresultaten op in var|var                                           |
+|$@var=  |value of                                           |xpath=//div[@class="search-result-count"]/span|
+
+|scenario|Npo poms Zoeken Check aantal zoekresultaten|aantal                                                |
+|check   |value of                                   |xpath=//div[@class="search-result-count"]/span|@aantal|
+
+|scenario|Npo poms Zoeken Selecteer persoon|persoon                                                                                          |
+|enter   |@persoon                         |as                                              |xpath=//label[@for="search-person-filter"]/input|
+|click   |xpath=//label[@for="search-person-filter"]/ul/li/a/strong[text()="@persoon"]                                                       |
+|check   |value of                         |xpath=//label[@for="search-person-filter"]/input|@persoon                                        |
+
+|scenario|Npo poms Zoeken Druk op wieltje                  |
+|click   |xpath=//div[@title="Kolominstellingen aanpassen"]|
+
+|scenario             |Npo poms Zoeken Check kolom|kolom|zichtbaar|
+|set search context to|xpath=//table/thead/tr                     |
+|ensure               |is visible on page         |@kolom         |
+|clear search context                                             |
+
+|scenario              |Npo poms Zoeken Check kolom|kolom|niet zichtbaar|
+|set search context to |xpath=//table/thead/tr                          |
+|seconds before timeout|3                                               |
+|reject                |is visible on page         |@kolom              |
+|seconds before timeout|${secondsBeforeTimeout}                         |
+|clear search context                                                   |
+
+|scenario|Npo poms Zoeken Druk op header van kolom       |kolom      |
+|click   |xpath=//table/thead/tr/th/span[normalize-space(.)="@kolom"]|
+
+|scenario|Npo poms Zoeken Check kolom|kolom                                |aflopend gesorteerd                               |
+|ensure  |is visible on page         |xpath=//table/thead/tr/th/span[@class="column-header DESC"][normalize-space(.)="@kolom"]|
+
+|scenario|Npo poms Zoeken Check kolom|kolom                               |oplopend gesorteerd                               |
+|ensure  |is visible on page         |xpath=//table/thead/tr/th/span[@class="column-header ASC"][normalize-space(.)="@kolom"]|

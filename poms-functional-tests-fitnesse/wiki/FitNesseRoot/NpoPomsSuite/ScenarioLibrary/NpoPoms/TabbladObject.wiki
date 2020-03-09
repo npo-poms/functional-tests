@@ -1,4 +1,6 @@
-!include >Variabelen
+!contents -R2 -g -p -f -h
+
+!include -c >Variabelen
 
 |scenario|Npo poms Tabblad object Check hoofdtitel|hoofdtitel                                                    |
 |check   |value of                                |xpath=//span[@class="media breadcrumb-link-title"]|@hoofdtitel|
@@ -22,13 +24,19 @@
 |check   |value of                                |xpath=//h2[text()="@veld"]/following-sibling::div/span|@waarde            |
 
 |scenario|Npo poms Tabblad object Check veldtype 2|veld                                           |heeft waarde|waarde|
-|check   |value of                                |xpath=//h2[text()="@veld"]/following-sibling::p|@waarde            |
+|check   |value of                                |xpath=//h2[text()="@veld"]/following-sibling::*|@waarde            |
+
+|scenario|Npo poms Tabblad object Sla veldtype 2|veld          |op in var          |var         |
+|$@var=  |value of                              |xpath=//h2[text()="@veld"]/following-sibling::*|
 
 |scenario        |Npo poms Tabblad object Wacht tot status zichtbaar|
 |wait for visible|xpath=//h2[text()="Status"]/following-sibling::*/p|
 
 |scenario|Npo poms Tabblad object Check status|status                                                    |
 |check   |value of                            |xpath=//h2[text()="Status"]/following-sibling::*/p|@status|
+
+|scenario        |Npo poms Tabblad object Wacht tot status                 |status                |
+|wait for visible|xpath=//h2[text()="Status"]/following-sibling::*/p[normalize-space(.)="@status"]|
 
 |scenario  |Npo poms Tabblad object Hover over object         |objectNaam        |in zoekresultaten        |
 |hover over|xpath=//table/tbody/tr[./td[@class="column-title"]/span/span[normalize-space(.)="@objectNaam"]]|
@@ -42,8 +50,31 @@
 |scenario|Npo poms Tabblad object Check urn active                      |
 |ensure  |is visible on page|xpath=//span[text()="Urn"][@class="active"]|
 
-|scenario|Npo poms Tabblad object Check mid or urn|midOrUrn                                                                                    |
-|check   |value of                                |xpath=//h2[normalize-space(.)="Mid Urn"]/following-sibling::p/poms-clipboard/input|@midOrUrn|
+|scenario|Npo poms Tabblad object Check mid of urn|midOfUrn                                                                                    |
+|check   |value of                                |xpath=//h2[normalize-space(.)="Mid Urn"]/following-sibling::p/poms-clipboard/input|@midOfUrn|
+
+|scenario|Npo poms Tabblad object Sla mid of urn op in var|var                                                                               |
+|$@var=  |value of                                        |xpath=//h2[normalize-space(.)="Mid Urn"]/following-sibling::p/poms-clipboard/input|
 
 |scenario|Npo poms Tabblad object Maak tekstveld|tekstveld|leeg|
 |clear   |@tekstveld                                           |
+
+|scenario             |Npo poms Tabblad object Druk op link|link|in sidebar|
+|set search context to|css=[id=sidebar]                                    |
+|click                |@link                                               |
+|clear search context                                                      |
+
+|scenario|Npo poms Tabblad object Check afbeelding|afbeelding                                          |zichtbaar                                         |
+|ensure  |is visible on page                      |xpath=//poms-images/div/table/tbody/tr/td[@class="column-title"]/span[normalize-space(.)="@afbeelding"]|
+
+|scenario|Npo poms Tabblad object Check afbeelding|afbeelding                                       |niet zichtbaar                                       |
+|reject  |is visible on page                      |xpath=//poms-images/div/table/tbody/tr/td[@class="column-title"]/span[normalize-space(.)="@afbeelding"]|
+
+|scenario|Npo poms Tabblad object Check afbeelding|afbeelding                                                                                                                                     |heeft beschrijving|beschrijving|
+|check   |value of                                |xpath=//poms-images/div/table/tbody/tr[./td[@class="column-title"]/span[normalize-space(.)="@afbeelding"]]/td[@class="column-description"]/span|@beschrijving                  |
+
+|scenario  |Npo poms Tabblad object Hover over afbeelding                        |afbeelding                       |
+|hover over|xpath=//poms-images/div/table/tbody/tr/td[@class="column-title"]/span[normalize-space(.)="@afbeelding"]|
+
+|scenario|Npo poms Tabblad object Druk op verwijderknop bij afbeelding                                                    |afbeelding                                                   |
+|click   |xpath=//poms-images/div/table/tbody/tr[./td[@class="column-title"]/span[normalize-space(.)="@afbeelding"]]/td[@class="column-tools"]/div/button[@title="verwijder afbeelding"]|

@@ -16,3 +16,9 @@
 |Npo poms Account instellingen Check optie                              |@optie                                         |geselecteerd in dropdown|@dropdown           |
 |click                                                                  |@optie                                                                                       |
 |Npo poms Account instellingen Check geen optie geselecteerd in dropdown|@dropdown                                                                                    |
+
+|scenario|Npo poms Account instellingen Check veld|veld                                                       |heeft waarde|waarde|
+|check   |value of                                |xpath=//h4[normalize-space(.)="@veld"]/following-sibling::p|@waarde            |
+
+|scenario|Npo poms Account instellingen Druk op kruisje om pop-up te sluiten|
+|click   |xpath=//div[@class="modal-close-button"]                          |

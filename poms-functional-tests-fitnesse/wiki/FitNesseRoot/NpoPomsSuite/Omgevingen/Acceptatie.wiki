@@ -7,6 +7,7 @@ SymbolicLinks
 !*> Defines
 !define UrlPoms {!-https://poms-test.omroep.nl -!}
 !define UrlFrontendApi {!-https://rs-test.poms.omroep.nl/v1/api-!}
+!define secondsBeforeTimeout {30}
 
 *!
 

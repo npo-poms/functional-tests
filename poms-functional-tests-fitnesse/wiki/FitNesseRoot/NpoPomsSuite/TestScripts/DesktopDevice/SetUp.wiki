@@ -14,9 +14,11 @@
 |show                     |values                       |
 |$standaardGebruikersnaam=|value|standaardGebruikersnaam|
 |$standaardWachtwoord=    |value|standaardWachtwoord    |
+|$npoGebruikersnaam=      |value|npoGebruikersnaam      |
+|$npoWachtwoord=          |value|npoWachtwoord          |
 
-|script                             |
-|delete all cookies                 |
-|set browser size to maximum        |
-|seconds before timeout          |30|
-|seconds before page load timeout|30|
+|script                          |extended browser test  |
+|delete all cookies                                      |
+|set browser size to maximum                             |
+|seconds before timeout          |${secondsBeforeTimeout}|
+|seconds before page load timeout|${secondsBeforeTimeout}|

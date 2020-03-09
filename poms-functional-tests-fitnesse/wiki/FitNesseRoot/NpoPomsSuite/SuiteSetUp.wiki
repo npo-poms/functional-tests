@@ -12,4 +12,5 @@
 |string fixture         |
 |extended string fixture|
 |integer fixture        |
+|calendar fixture       |
 *!
