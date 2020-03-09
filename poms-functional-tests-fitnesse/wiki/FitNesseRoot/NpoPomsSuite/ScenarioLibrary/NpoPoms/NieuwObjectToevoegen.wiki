@@ -32,24 +32,42 @@
 |scenario|Npo poms Nieuw object toevoegen Check optie|optie                                                                         |als optie nummer|index|geselecteerd in dropdown|dropdown|
 |check   |value of                                   |xpath=//span[normalize-space(.)="@dropdown"]/../following-sibling::div[@index]|@optie                                                  |
 
-!note TODO Bespreek met Ronny of dit zinvolle standaardwaarden zijn
-!define omroep {NPS}
-!define avType {Audio}
-!define genre {Jeugd}
+!define standaardOmroep {NPS}
+!define standaardAvType {Audio}
+!define standaardGenre {Jeugd}
 
-|scenario                                           |Npo poms Nieuw object toevoegen Voeg|mediaType   |toe met titel|titel|
-|click                                              |NIEUW                                                                |
-|Npo poms Nieuw object toevoegen Wacht tot popup geladen                                                                  |
-|Npo poms Nieuw object toevoegen Vul                |@titel                              |in tekstveld|Hoofdtitel *       |
-|Npo poms Nieuw object toevoegen Selecteer optie    |@mediaType                          |in dropdown |Media Type *       |
-|Npo poms Nieuw object toevoegen Verwijder eventuele voorgeselecteerde omroep                                             |
-|Npo poms Nieuw object toevoegen Selecteer optie    |${omroep}                           |in dropdown |Omroep *           |
-|Npo poms Nieuw object toevoegen Selecteer optie    |${avType}                           |in dropdown |AV Type *          |
-|Npo poms Nieuw object toevoegen Selecteer optie    |${genre}                            |in dropdown |Genre *            |
-|click                                              |Maak aan                                                             |
-|Npo poms Hoofdscherm Wacht tot tabblad             |@titel                              |geopend                         |
-|Npo poms Hoofdscherm Check titel van laatste tab   |@titel                                                               |
-|Npo poms Hoofdscherm Check subtitel van laatste tab|@mediaType                                                           |
+|scenario                                                                     |Npo poms Nieuw object toevoegen Voeg|mediaType|toe met titel|titel|
+|Npo poms Nieuw object toevoegen Start met toevoegen                          |@mediaType                          |met titel|@titel             |
+|Npo poms Nieuw object toevoegen Maak aan en controleer tabblad met media type|@mediaType                          |en titel |@titel             |
+
+|scenario                                                                     |Npo poms Nieuw object toevoegen Voeg|mediaType        |toe met titel  |titel|en publicatiestart|publicatieStart|en publicatiestop|publicatieStop|
+|Npo poms Nieuw object toevoegen Start met toevoegen                          |@mediaType                          |met titel        |@titel                                                                                   |
+|Npo poms Nieuw object toevoegen Stel publicatiestart                         |@publicatieStart                    |en publicatiestop|@publicatieStop|in                                                                       |
+|Npo poms Nieuw object toevoegen Maak aan en controleer tabblad met media type|@mediaType                          |en titel         |@titel                                                                                   |
+
+|scenario                                       |Npo poms Nieuw object toevoegen Start met toevoegen|mediaType   |met titel|titel|
+|click                                          |NIEUW                                                                           |
+|Npo poms Nieuw object toevoegen Wacht tot popup geladen                                                                         |
+|Npo poms Nieuw object toevoegen Vul            |@titel                                             |in tekstveld|Hoofdtitel *   |
+|Npo poms Nieuw object toevoegen Selecteer optie|@mediaType                                         |in dropdown |Media Type *   |
+|Npo poms Nieuw object toevoegen Verwijder eventuele voorgeselecteerde omroep                                                    |
+|Npo poms Nieuw object toevoegen Selecteer optie|${standaardOmroep}                                 |in dropdown |Omroep *       |
+|Npo poms Nieuw object toevoegen Selecteer optie|${standaardAvType}                                 |in dropdown |AV Type *      |
+|Npo poms Nieuw object toevoegen Selecteer optie|${standaardGenre}                                  |in dropdown |Genre *        |
+
+|scenario                                   |Npo poms Nieuw object toevoegen Stel publicatiestart|publicatieStart |en publicatiestop|publicatieStop          |in             |
+|click                                      |Publicatiestart                                                                                                                 |
+|Npo poms Nieuw object toevoegen Vul        |@publicatieStart                                    |in tekstveld    |Start                                                     |
+|Npo poms Nieuw object toevoegen Vul        |@publicatieStop                                     |in tekstveld    |Stop                                                      |
+|click                                      |Publicatiestart                                                                                                                 |
+|Npo poms Nieuw object toevoegen Check optie|van: @publicatieStart                               |als optie nummer|1                |geselecteerd in dropdown|Publicatiestart|
+|Npo poms Nieuw object toevoegen Check optie|tot: @publicatieStop                                |als optie nummer|2                |geselecteerd in dropdown|Publicatiestart|
+
+|scenario                                           |Npo poms Nieuw object toevoegen Maak aan en controleer tabblad met media type|mediaType|en titel|titel|
+|click                                              |Maak aan                                                                                              |
+|Npo poms Hoofdscherm Wacht tot tabblad             |@titel                                                                       |geopend                 |
+|Npo poms Hoofdscherm Check titel van laatste tab   |@titel                                                                                                |
+|Npo poms Hoofdscherm Check subtitel van laatste tab|@mediaType                                                                                            |
 
 |scenario              |Npo poms Nieuw object toevoegen Verwijder eventuele voorgeselecteerde omroep|
 |seconds before timeout|5                                                                           |
