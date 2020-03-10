@@ -16,3 +16,6 @@
 
 |scenario                                 |Npo poms Inlogscherm Log in met npo            |
 |Npo poms Inlogscherm Log in met gebruiker|$npoGebruikersnaam|en wachtwoord|$npoWachtwoord|
+
+|scenario                                 |Npo poms Inlogscherm Log in met admin              |
+|Npo poms Inlogscherm Log in met gebruiker|$adminGebruikersnaam|en wachtwoord|$adminWachtwoord|

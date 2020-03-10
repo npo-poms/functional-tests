@@ -16,6 +16,8 @@
 |$standaardWachtwoord=    |value|standaardWachtwoord    |
 |$npoGebruikersnaam=      |value|npoGebruikersnaam      |
 |$npoWachtwoord=          |value|npoWachtwoord          |
+|$adminGebruikersnaam=    |value|adminGebruikersnaam    |
+|$adminWachtwoord=        |value|adminWachtwoord        |
 
 |script                          |extended browser test  |
 |delete all cookies                                      |

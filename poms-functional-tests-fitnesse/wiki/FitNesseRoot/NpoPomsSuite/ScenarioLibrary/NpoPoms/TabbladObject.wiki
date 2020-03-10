@@ -67,6 +67,12 @@
 |scenario|Npo poms Tabblad object Check afbeelding|afbeelding                                          |zichtbaar                                         |
 |ensure  |is visible on page                      |xpath=//poms-images/div/table/tbody/tr/td[@class="column-title"]/span[normalize-space(.)="@afbeelding"]|
 
+|scenario        |Npo poms Tabblad object Wacht tot preview afbeelding van                      |afbeelding                     |zichtbaar                     |
+|wait for visible|xpath=//poms-images/div/table/tbody/tr[./td[@class="column-title"]/span[normalize-space(.)="@afbeelding"]]/td[@class="column-preview"]/span/a|
+
+|scenario|Npo poms Tabblad object Druk op preview afbeelding van                                      |afbeelding                                      |
+|click   |xpath=//poms-images/div/table/tbody/tr[./td[@class="column-title"]/span[normalize-space(.)="@afbeelding"]]/td[@class="column-preview"]/span/a|
+
 |scenario|Npo poms Tabblad object Check afbeelding|afbeelding                                       |niet zichtbaar                                       |
 |reject  |is visible on page                      |xpath=//poms-images/div/table/tbody/tr/td[@class="column-title"]/span[normalize-space(.)="@afbeelding"]|
 

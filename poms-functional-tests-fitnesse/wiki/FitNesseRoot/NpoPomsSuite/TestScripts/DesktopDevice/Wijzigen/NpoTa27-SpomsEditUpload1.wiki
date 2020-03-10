@@ -1,15 +1,11 @@
 ---
 Test
 ---
+!include -c <Wijzigen.Variabelen
+
 !*> Lokale variabelen
 
-!define mediatype {Clip}
-!define omroep {VPRO}
-!define objectNummer {5}
-!define plaatje {files/images/Tulips.jpg}
-!define titel {Testfoto}
-!define beschrijving {Beschrijving}
-!define waarschuwingFotosUploaden {Bij uploaden van foto's moeten de rechten altijd verkregen zijn. Daarnaast kan het niet correct invullen van onderstaande gegevens leiden tot claims van de rechthebbenden. Lees hier meer over het correcte gebruik.}
+!define screenshot {Wijzigen_NpoTa27_SpomsEditUpload1_AfbeeldingToegevoegd}
 
 *!
 
@@ -25,6 +21,7 @@ Test
 |Npo poms Hoofdscherm Wacht tot tabblad                      |$titelVanObject|geopend                                                                      |
 |Npo poms Hoofdscherm Check titel van laatste tab            |$titelVanObject                                                                              |
 |Npo poms Hoofdscherm Check subtitel van laatste tab         |$typeVanObject                                                                               |
+|Npo poms Tabblad object Sla mid of urn op in var            |mid                                                                                          |
 |Npo poms Tabblad object Druk op link                        |Afbeeldingen   |in sidebar                                                                   |
 |wait for visible                                            |Afbeelding toevoegen                                                                         |
 |$aantalAfbeeldingen1=                                       |value of       |xpath=//poms-images/div/h1                                                   |
@@ -33,6 +30,8 @@ Test
 |click                                                       |Afbeelding toevoegen                                                                         |
 |clear search context                                                                                                                                      |
 |select file                                                 |${plaatje}     |for                                |css=input[id=inputFile]                  |
+|wait for visible                                            |css=img                                                                                      |
+|show                                                        |take screenshot|${screenshot}_!today (yyyyMMddHHmmss)                                        |
 |Npo poms Tabblad object Detailscherm Check knop             |Maak aan       |in footer inactief                                                           |
 |Npo poms Tabblad object Detailscherm Vul                    |${titel}       |in tekstveld                       |Titel *                                  |
 |Npo poms Tabblad object Detailscherm Check knop             |Maak aan       |in footer inactief                                                           |
@@ -49,14 +48,23 @@ Test
 |check                                                       |value of       |xpath=//poms-images/div/h1         |Afbeeldingen ($aantalAfbeeldingen2)      |
 |Npo poms Tabblad object Check afbeelding                    |${titel}       |zichtbaar                                                                    |
 |Npo poms Tabblad object Check afbeelding                    |${titel}       |heeft beschrijving                 |${beschrijving}                          |
+|Npo poms Tabblad object Wacht tot preview afbeelding van    |${titel}       |zichtbaar                                                                    |
+|show                                                        |take screenshot|${screenshot}_!today (yyyyMMddHHmmss)                                        |
+|Npo poms Tabblad object Druk op preview afbeelding van      |${titel}                                                                                     |
+|switch to next tab                                                                                                                                        |
+|wait for visible                                            |css=img                                                                                      |
+|show                                                        |take screenshot|${screenshot}_!today (yyyyMMddHHmmss)                                        |
+|close tab                                                                                                                                                 |
 |Npo poms Tabblad object Hover over afbeelding               |${titel}                                                                                     |
 |Npo poms Tabblad object Druk op verwijderknop bij afbeelding|${titel}                                                                                     |
 |wait for visible                                            |Afbeelding verwijderen?                                                                      |
 |click                                                       |xpath=//button[text()="verwijderen"]                                                         |
+|wait for not visible                                        |Afbeelding verwijderen?                                                                      |
 |set search context to                                       |xpath=//poms-images                                                                          |
 |check                                                       |value of       |xpath=.//h1                        |Afbeeldingen ($aantalAfbeeldingen1)      |
 |Npo poms Tabblad object Check afbeelding                    |${titel}       |niet zichtbaar                                                               |
 |clear search context                                                                                                                                      |
+|show                                                        |take screenshot|${screenshot}_!today (yyyyMMddHHmmss)                                        |
 |Npo poms Hoofdscherm Sluit laatste tab                                                                                                                    |
 |Npo poms Hoofdscherm Sluit laatste tab                                                                                                                    |
 |Npo poms Hoofdscherm Log uit                                                                                                                              |
