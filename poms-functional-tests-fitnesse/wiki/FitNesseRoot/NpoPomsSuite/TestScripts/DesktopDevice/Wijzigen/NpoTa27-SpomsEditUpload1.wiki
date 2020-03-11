@@ -44,11 +44,11 @@ Test
 |check                                                       |value of       |xpath=//div[@class="modal-message"]|${waarschuwingFotosUploaden}             |
 |click                                                       |begrepen                                                                                     |
 |wait for not visible                                        |begrepen                                                                                     |
-|$aantalAfbeeldingen2=                                       |add            |$aantalAfbeeldingen1               |and |1                                   |
-|check                                                       |value of       |xpath=//poms-images/div/h1         |Afbeeldingen ($aantalAfbeeldingen2)      |
 |Npo poms Tabblad object Check afbeelding                    |${titel}       |zichtbaar                                                                    |
 |Npo poms Tabblad object Check afbeelding                    |${titel}       |heeft beschrijving                 |${beschrijving}                          |
 |Npo poms Tabblad object Wacht tot preview afbeelding van    |${titel}       |zichtbaar                                                                    |
+|$aantalAfbeeldingen2=                                       |add            |$aantalAfbeeldingen1               |and |1                                   |
+|check                                                       |value of       |xpath=//poms-images/div/h1         |Afbeeldingen ($aantalAfbeeldingen2)      |
 |show                                                        |take screenshot|${screenshot}_!today (yyyyMMddHHmmss)                                        |
 |Npo poms Tabblad object Druk op preview afbeelding van      |${titel}                                                                                     |
 |switch to next tab                                                                                                                                        |

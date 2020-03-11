@@ -73,8 +73,10 @@
 |scenario|Npo poms Tabblad object Druk op preview afbeelding van                                      |afbeelding                                      |
 |click   |xpath=//poms-images/div/table/tbody/tr[./td[@class="column-title"]/span[normalize-space(.)="@afbeelding"]]/td[@class="column-preview"]/span/a|
 
-|scenario|Npo poms Tabblad object Check afbeelding|afbeelding                                       |niet zichtbaar                                       |
-|reject  |is visible on page                      |xpath=//poms-images/div/table/tbody/tr/td[@class="column-title"]/span[normalize-space(.)="@afbeelding"]|
+|scenario              |Npo poms Tabblad object Check afbeelding|afbeelding                                       |niet zichtbaar                                       |
+|seconds before timeout|3                                                                                                                                               |
+|reject                |is visible on page                      |xpath=//poms-images/div/table/tbody/tr/td[@class="column-title"]/span[normalize-space(.)="@afbeelding"]|
+|seconds before timeout|${secondsBeforeTimeout}                                                                                                                         |
 
 |scenario|Npo poms Tabblad object Check afbeelding|afbeelding                                                                                                                                     |heeft beschrijving|beschrijving|
 |check   |value of                                |xpath=//poms-images/div/table/tbody/tr[./td[@class="column-title"]/span[normalize-space(.)="@afbeelding"]]/td[@class="column-description"]/span|@beschrijving                  |
