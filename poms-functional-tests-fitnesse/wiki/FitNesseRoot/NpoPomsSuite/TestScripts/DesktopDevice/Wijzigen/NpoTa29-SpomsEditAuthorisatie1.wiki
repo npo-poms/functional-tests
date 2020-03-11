@@ -31,6 +31,7 @@ Test
 
 |Npo poms Tabblad object Check veld niet te bewerken en niet te verwijderen|
 |veld                       |heeft slotje? |kan bewerken? |kan verwijderen?|
+|Type                       |true          |false         |false           |
 |Titel                      |true          |false         |false           |
 |Afleveringtitel / Subtitel |true          |false         |false           |
 |Korte titel                |true          |false         |false           |
