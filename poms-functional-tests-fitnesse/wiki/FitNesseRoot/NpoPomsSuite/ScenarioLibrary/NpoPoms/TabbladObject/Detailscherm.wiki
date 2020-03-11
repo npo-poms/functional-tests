@@ -1,8 +1,14 @@
+|scenario|Npo poms Tabblad object Detailscherm Check checkbox|checkbox                                   |actief                                   |
+|ensure  |is visible on page                                 |xpath=//label[text()="@checkbox"]/following-sibling::input[not(@disabled="disabled")]|
+
 |scenario|Npo poms Tabblad object Detailscherm Check checkbox|checkbox                                |inactief                               |
 |ensure  |is visible on page                                 |xpath=//label[text()="@checkbox"]/following-sibling::input[@disabled="disabled"]|
 
 |scenario|Npo poms Tabblad object Detailscherm Selecteer optie|optie|in dropdown                      |dropdown                      |
 |select  |@optie                                              |for  |xpath=//label[text()="@dropdown"]/following-sibling::span/select|
+
+|scenario|Npo poms Tabblad object Detailscherm Check veld|veld                                 |actief                                 |
+|ensure  |is visible on page                             |xpath=//label[text()="@veld"]/following-sibling::*[not(@disabled="disabled")]|
 
 |scenario|Npo poms Tabblad object Detailscherm Check veld|veld                              |inactief                             |
 |ensure  |is visible on page                             |xpath=//label[text()="@veld"]/following-sibling::*[@disabled="disabled"]|
@@ -11,6 +17,9 @@
 |click   |xpath=//label[text()="@tekstveld"]/following-sibling::div                                                                                                       |
 |click   |xpath=//div[@role="option"]/div/div[text()="@optie"]                                                                                                            |
 |check   |value of                                            |xpath=//label[text()="@tekstveld"]/following-sibling::div/div/div/span|@optie                              |
+
+|scenario|Npo poms Tabblad object Detailscherm Check dropdown|dropdown                                      |actief                                     |
+|ensure  |is visible on page                                 |xpath=//label[text()="@dropdown"]/following-sibling::div//input[not(@disabled="disabled")]|
 
 |scenario|Npo poms Tabblad object Detailscherm Check dropdown|dropdown                                  |inactief                                  |
 |ensure  |is visible on page                                 |xpath=//label[text()="@dropdown"]/following-sibling::div//input[@disabled="disabled"]|
@@ -32,6 +41,9 @@
 
 |scenario|Npo poms Tabblad object Detailscherm Sla tekstveld|tekstveld            |op in var            |var            |
 |$@var=  |value of                                          |xpath=//label[text()="@tekstveld"]/following-sibling::input|
+
+|scenario|Npo poms Tabblad object Detailscherm Check tekstveld|tekstveld                                   |actief                                   |
+|ensure  |is visible on page                                  |xpath=//label[text()="@tekstveld"]/following-sibling::input[not(@disabled="disabled")]|
 
 |scenario|Npo poms Tabblad object Detailscherm Check tekstveld|tekstveld                                |inactief                               |
 |ensure  |is visible on page                                  |xpath=//label[text()="@tekstveld"]/following-sibling::input[@disabled="disabled"]|

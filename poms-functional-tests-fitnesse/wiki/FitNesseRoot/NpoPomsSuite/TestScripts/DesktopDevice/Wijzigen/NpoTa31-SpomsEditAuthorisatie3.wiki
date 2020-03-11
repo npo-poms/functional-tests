@@ -1,0 +1,93 @@
+---
+Test
+---
+!*> Lokale variabelen
+
+!define mediatype {Clip}
+!define omroep {NPS}
+!define platform {INTERNETVOD}
+!define bron {MP4}
+
+*!
+
+|script                                                                                              |
+|Open Npo poms website                                                                               |
+|Npo poms Inlogscherm Log in met standaard-gebruiker                                                 |
+|Npo poms Zoeken Selecteer optie                           |${mediatype}   |in dropdown|!-MediaType-!|
+|Npo poms Zoeken Selecteer optie                           |${omroep}      |in dropdown|Omroepen     |
+|wait for visible                                          |Gezocht naar: ${mediatype}, ${omroep}    |
+|Npo poms Zoeken Sla hoofdtitel van eerste object op in var|titelVanObject                           |
+|Npo poms Zoeken Sla type van eerste object op in var      |typeVanObject                            |
+|Npo poms Zoeken Dubbelklik op hoofdtitel van eerste object                                          |
+|Npo poms Hoofdscherm Wacht tot tabblad                    |$titelVanObject|geopend                  |
+|Npo poms Hoofdscherm Check titel van laatste tab          |$titelVanObject                          |
+|Npo poms Hoofdscherm Check subtitel van laatste tab       |$typeVanObject                           |
+
+|Npo poms Tabblad object Check veld niet te bewerken en niet te verwijderen|
+|veld                       |heeft slotje? |kan bewerken? |kan verwijderen?|
+|Type                       |false         |true          |false           |
+|Titel                      |false         |true          |true            |
+|Afleveringtitel / Subtitel |false         |true          |true            |
+|Korte titel                |false         |true          |false           |
+|Afkorting                  |false         |true          |false           |
+|Werktitel                  |false         |true          |false           |
+|Originele titel            |false         |true          |false           |
+|Lexicografische titel      |false         |true          |false           |
+|Beschrijving               |false         |true          |true            |
+|Korte beschrijving         |false         |true          |true            |
+|Eenregelige beschrijving   |true          |false         |false           |
+|Datum online / offline     |false         |true          |false           |
+|Jaar                       |false         |true          |false           |
+|Speelduur (hh:mm:ss)       |false         |true          |false           |
+|AV-Type                    |false         |true          |false           |
+|Omroepen                   |false         |true          |false           |
+|Portals                    |false         |true          |false           |
+|Landen                     |false         |true          |false           |
+|Talen                      |false         |true          |false           |
+
+|script                                                                                           |
+|Npo poms Tabblad object Check checkbox|Nagesynchroniseerd          |actief                       |
+|set search context to                 |xpath=//div[@ng-click="editController.showSubtitles()"]/..|
+|ensure                                |is present on page          |Ondertitel toevoegen         |
+|clear search context                                                                             |
+
+|Npo poms Tabblad object Check veld niet te bewerken en niet te verwijderen|
+|veld                   |heeft slotje?  |kan bewerken?  |kan verwijderen?  |
+|Genres                 |false          |true           |false             |
+|Tags                   |false          |true           |false             |
+|Doelgroep              |false          |true           |false             |
+|Intenties              |false          |true           |false             |
+|Personen               |false          |false          |true              |
+|Geografische locaties  |false          |false          |false             |
+|Websites               |false          |true           |true              |
+|Twitter                |false          |true           |false             |
+|Kijkwijzer: leeftijd   |false          |true           |false             |
+|Kijkwijzer: inhoud     |false          |true           |false             |
+|Georestricties         |false          |true           |false             |
+|Portalrestricties      |false          |true           |false             |
+
+|script                                                                                                  |
+|Npo poms Tabblad object Check checkbox              |Embedbaar                   |actief                |
+|Npo poms Tabblad object Druk op link                |Platformen                  |in sidebar            |
+|wait for visible                                    |Geplande beschikbaarheid                           |
+|set search context to                               |xpath=//poms-predictions                           |
+|double click                                        |${platform}                                        |
+|clear search context                                                                                    |
+|Npo poms Tabblad object Detailscherm Check checkbox |Beschikbaar                 |actief                |
+|Npo poms Tabblad object Detailscherm Check dropdown |Encryptie                   |actief                |
+|Npo poms Tabblad object Detailscherm Druk op kruisje om pop-up te sluiten                               |
+|set search context to                               |xpath=//poms-locations                             |
+|double click                                        |${bron}                                            |
+|clear search context                                                                                    |
+|Npo poms Tabblad object Detailscherm Check tekstveld|URL *                       |actief                |
+|Npo poms Tabblad object Detailscherm Check veld     |Type *                      |actief                |
+|Npo poms Tabblad object Detailscherm Check veld     |Bitrate                     |actief                |
+|Npo poms Tabblad object Detailscherm Check veld     |Bestandsgrootte             |actief                |
+|Npo poms Tabblad object Detailscherm Check tekstveld|Offset                      |actief                |
+|click                                               |xpath=//span[normalize-space(.)="Online / Offline"]|
+|Npo poms Tabblad object Detailscherm Check tekstveld|Start                       |actief                |
+|Npo poms Tabblad object Detailscherm Check tekstveld|Stop                        |actief                |
+|Npo poms Tabblad object Detailscherm Druk op kruisje om pop-up te sluiten                               |
+|Npo poms Hoofdscherm Sluit laatste tab                                                                  |
+|Npo poms Hoofdscherm Sluit laatste tab                                                                  |
+|Npo poms Hoofdscherm Log uit                                                                            |

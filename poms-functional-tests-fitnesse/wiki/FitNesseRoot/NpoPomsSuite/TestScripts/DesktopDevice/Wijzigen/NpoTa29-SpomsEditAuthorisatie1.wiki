@@ -8,6 +8,7 @@ Test
 !define omroepNietAanwezig {VPRO}
 !define kolomOmroep {Omroep}
 !define platform {INTERNETVOD}
+!define bron {WMP}
 
 *!
 
@@ -86,7 +87,7 @@ Test
 |click                                               |ga door                                            |
 |Npo poms Tabblad object Detailscherm Druk op kruisje om pop-up te sluiten                               |
 |set search context to                               |xpath=//poms-locations                             |
-|double click                                        |WMP                                                |
+|double click                                        |${bron}                                            |
 |clear search context                                                                                    |
 |Npo poms Tabblad object Detailscherm Check tekstveld|URL *                       |inactief              |
 |Npo poms Tabblad object Detailscherm Check veld     |Type *                      |inactief              |

@@ -95,5 +95,8 @@
 |$kanVerwijderen=     |is present on page                                       |xpath=./div[@class="remove-override-icon"]                                       |
 |clear search context                                                                                                                                             |
 
+|scenario|Npo poms Tabblad object Check checkbox|checkbox                                   |actief                                  |
+|ensure  |is visible on page                    |xpath=//h2[text()="@checkbox"]/following-sibling::p/input[not(@disabled="disabled")]|
+
 |scenario|Npo poms Tabblad object Check checkbox|checkbox                               |inactief                               |
 |ensure  |is visible on page                    |xpath=//h2[text()="@checkbox"]/following-sibling::p/input[@disabled="disabled"]|
