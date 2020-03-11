@@ -1,0 +1,21 @@
+---
+Test
+---
+!*> Lokale variabelen
+
+!define mediatype {Clip}
+!define omroep {NMO}
+!define criteria {Mag schrijven}
+
+*!
+
+|script                                                                                        |
+|Open Npo poms website                                                                         |
+|Npo poms Inlogscherm Log in met standaard-gebruiker                                           |
+|Npo poms Zoeken Selecteer optie            |${mediatype}    |in dropdown    |!-MediaType-!    |
+|Npo poms Zoeken Selecteer optie            |${omroep}       |in dropdown    |Omroepen         |
+|Npo poms Zoeken Selecteer optie            |${criteria}     |in dropdown    |Criteria         |
+|wait for visible                           |Gezocht naar: ${mediatype}, ${omroep}, ${criteria}|
+|Npo poms Zoeken Check aantal zoekresultaten|0                                                 |
+|Npo poms Hoofdscherm Sluit laatste tab                                                        |
+|Npo poms Hoofdscherm Log uit                                                                  |
