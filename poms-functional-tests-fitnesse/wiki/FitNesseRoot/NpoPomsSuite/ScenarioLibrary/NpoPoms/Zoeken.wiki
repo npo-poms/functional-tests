@@ -34,8 +34,14 @@
 |Npo poms Previewscherm object Check hoofdtitel|@objectNaam                                                                  |
 |Npo poms Previewscherm object Check media type|@mediatype                                                                   |
 
+|scenario|Npo poms Zoeken Check object nummer|index                                                                    |heeft omroep|omroep|
+|check   |value of                           |xpath=//table/tbody/tr[@index]/td[@class="column-broadcasters"]/span/span|=~/@omroep/        |
+
 |scenario|Npo poms Zoeken Check object nummer|index                                                                    |heeft geen omroep|omroep|
 |check   |value of                           |xpath=//table/tbody/tr[@index]/td[@class="column-broadcasters"]/span/span|=~/(?!@omroep)/         |
+
+|scenario                           |Npo poms Zoeken Check eerste object heeft omroep|omroep              |
+|Npo poms Zoeken Check object nummer|1                                               |heeft omroep|@omroep|
 
 |scenario                           |Npo poms Zoeken Check eerste object heeft geen omroep|omroep                   |
 |Npo poms Zoeken Check object nummer|1                                                    |heeft geen omroep|@omroep|
@@ -46,8 +52,8 @@
 |scenario                                                  |Npo poms Zoeken Dubbelklik op hoofdtitel van eerste object|
 |Npo poms Zoeken Dubbelklik op hoofdtitel van object nummer|1                                                         |
 
-|scenario|Npo poms Zoeken Check optie|optie                                                               |geselecteerd in dropdown|dropdown|
-|check   |value of                   |xpath=//span[normalize-space(.)="@dropdown"]/../following-sibling::*|@optie                           |
+|scenario|Npo poms Zoeken Check optie|optie                                                                |geselecteerd in dropdown|dropdown|
+|check   |value of                   |xpath=.//span[normalize-space(.)="@dropdown"]/../following-sibling::*|@optie                           |
 
 |scenario|Npo poms Zoeken Check optie|optieDeel1                                                             |is|optieDeel2|geselecteerd in dropdown|dropdown|
 |check   |value of                   |xpath=//span[normalize-space(.)="@dropdown"]/../following-sibling::span|@optieDeel1                                    |
@@ -58,7 +64,7 @@
 |set search context to      |xpath=//*[contains(@repeat, "item in options")]                              |
 |scroll to                  |@optie                                                                       |
 |click                      |@optie                                                                       |
-|clear search context                                                                                     |
+|remove last search context                                                                               |
 |Npo poms Zoeken Check optie|@optie                         |geselecteerd in dropdown|@dropdown           |
 
 |scenario|Npo poms Zoeken Sla hoofdtitel van object nummer|index                |op in var                |var               |
