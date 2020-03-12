@@ -1,0 +1,25 @@
+---
+Test
+---
+!*> Lokale variabelen
+
+!define subtitle {Testsubtitel}
+
+*!
+
+|script                                                        |
+|$uitzendingTitel=|store|Testuitzending !today (yyyyMMddHHmmss)|
+
+|script                                                                                                                                                      |
+|Open Npo poms website                                                                                                                                       |
+|Npo poms Inlogscherm Log in met admin                                                                                                                       |
+|Npo poms Nieuw object toevoegen Voeg                          |Uitzending                       |toe met titel     |$uitzendingTitel                        |
+|Npo poms Tabblad object Verander subtitel naar                |${subtitle}                                                                                  |
+|Npo poms Tabblad object Verwijder huidig object met media type|Uitzending                                                                                   |
+|Npo poms Hoofdscherm Wacht tot tabblad Zoeken geopend                                                                                                       |
+|Npo poms Zoeken Vul                                           |$uitzendingTitel ${subtitle}     |in zoekveld                                                |
+|Npo poms Zoeken Druk knop                                     |Zoeken                                                                                       |
+|note                                                          |De status van een verwijderd item is in eerste instantie "Wordt verwijderd" en het duurt soms|
+|note                                                          |erg lang voordat dit "Verwijderd" wordt. Momenteel keuren we daarom beide varianten goed     |
+|Npo poms Zoeken Wacht tot status bij object                   |$uitzendingTitel                 |met mediatype     |Uitzending     |bevat     |erwijderd    |
+|Npo poms Hoofdscherm Log uit                                                                                                                                |

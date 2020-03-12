@@ -25,6 +25,9 @@
 |scenario|Npo poms Zoeken Druk op viewknop bij object                                    |objectNaam                                   |met mediatype                                   |mediatype                                   |
 |click   |xpath=//table/tbody/tr[./td[@class="column-title"]/span/span[normalize-space(.)="@objectNaam"]][./td[@class="column-type"]/span/span[normalize-space(.)="@mediatype"]]/td[@class="column-tools"]/div/span[@title="preview"]|
 
+|scenario        |Npo poms Zoeken Wacht tot status bij object                          |objectNaam                         |met mediatype                         |mediatype                         |bevat                         |statusTekst                         |
+|wait for visible|xpath=//table/tbody/tr[./td[@class="column-title"]/span/span[normalize-space(.)="@objectNaam"]][./td[@class="column-type"]/span/span[normalize-space(.)="@mediatype"]][./td[@class="column-workflow" and contains(normalize-space(.), "@statusTekst")]]|
+
 |scenario                                      |Npo poms Zoeken Open object|objectNaam   |met mediatype|mediatype|als preview|
 |Npo poms Zoeken Hover over object             |@objectNaam                |met mediatype|@mediatype                         |
 |Npo poms Zoeken Druk op viewknop bij object   |@objectNaam                |met mediatype|@mediatype                         |
