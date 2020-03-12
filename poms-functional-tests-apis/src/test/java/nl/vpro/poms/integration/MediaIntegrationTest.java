@@ -22,6 +22,7 @@ import nl.vpro.test.jupiter.AbortOnException;
 import nl.vpro.testutils.Utils.Check;
 
 import static nl.vpro.testutils.Utils.waitUntil;
+import static nl.vpro.testutils.Utils.waitUntilNotNull;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assumptions.assumeThat;
 
@@ -126,10 +127,11 @@ public class MediaIntegrationTest extends AbstractApiMediaBackendTest {
                     .broadcasters("VPRO")
                     .build()
             ));
-        waitUntil(Duration.ofMinutes(2),
-            () -> "clip:" + clipMid + " available",
-            () -> backend.getFull(clipMid) != null);
+        MediaObject foundClip = waitUntilNotNull(Duration.ofMinutes(2),
+            "clip:" + clipMid + " available",
+            () -> backend.getFull(clipMid));
 
+        assertThat(foundClip.getImages()).withFailMessage("%s doesn't have 2 images", foundClip).hasSize(2);
 
         waitUntil(Duration.ofMinutes(2),
             () -> "group:" + groupMid + " available",
@@ -165,7 +167,7 @@ public class MediaIntegrationTest extends AbstractApiMediaBackendTest {
         assertThat(clip.getMemberOf().first().getMediaRef()).isEqualTo(groupMid);
         assertThat(clip.getMemberOf().first().getNumber()).isEqualTo(2);
         assertThat(clip.getMemberOf()).hasSize(1);
-        assertThat(clip.getImages()).hasSize(1);
+        assertThat(clip.getImages()).withFailMessage("%s doesn't have 1 image", clip).hasSize(1);
         assertThat(clip.getSegments()).hasSize(1);
         assertThat(clip.getLocations()).hasSize(1);
         assertThat(clip.getWorkflow()).isEqualTo(Workflow.PUBLISHED);

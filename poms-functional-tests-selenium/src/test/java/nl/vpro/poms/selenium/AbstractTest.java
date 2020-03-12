@@ -122,13 +122,17 @@ public abstract class AbstractTest {
     public void tearDown() {
         if (setupEach) {
             if (driver != null) {
-                /**
+                /*
                  * In head mode we experience the issue with driver.close()
                  * org.openqa.selenium.NoSuchSessionException: Tried to run command without establishing a connection
                  */
-                if (WebDriverFactory.headless) driver.close();
+                if (WebDriverFactory.headless) {
+                    driver.close();
+                }
                 driver.quit();
             }
+            webDriverUtil = null;
+            wait = null;
         }
     }
 
@@ -136,9 +140,11 @@ public abstract class AbstractTest {
     public static void tearDownClass() {
         if (exceptions.isEmpty() || WebDriverFactory.headless) {
             for (WebDriver wd : staticDrivers.values()) {
+                wd.close();
                 wd.quit();
             }
             staticDrivers.clear();
+            loggedAboutSetupEach.clear();
         } else {
             LOG.warn("Not closing browser because of test failures {}", exceptions);
         }
