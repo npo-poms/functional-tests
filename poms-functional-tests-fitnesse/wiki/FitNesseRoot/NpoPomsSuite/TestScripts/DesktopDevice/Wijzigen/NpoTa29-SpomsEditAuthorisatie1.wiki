@@ -18,7 +18,7 @@ Test
 |Npo poms Zoeken Selecteer optie                           |${mediatype}   |in dropdown|!-MediaType-!|
 |Npo poms Zoeken Selecteer optie                           |${omroep}      |in dropdown|Omroepen     |
 |wait for visible                                          |Gezocht naar: ${mediatype}, ${omroep}    |
-|Npo poms Zoeken Druk op wieltje                                                                     |
+|Npo poms Zoeken Druk op tandwieltje                                                                 |
 |set search context to                                     |xpath=//poms-search-columns              |
 |click                                                     |${kolomOmroep}                           |
 |clear search context                                                                                |

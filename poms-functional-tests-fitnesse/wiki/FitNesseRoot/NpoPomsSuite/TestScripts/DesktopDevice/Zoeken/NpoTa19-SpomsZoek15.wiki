@@ -14,7 +14,7 @@ Test
 |Npo poms Zoeken Sla aantal zoekresultaten op in var|aantalZoekresultaten                            |
 |Npo poms Zoeken Check kolom                        |${nieuweKolom}       |niet zichtbaar            |
 |Npo poms Zoeken Check kolom                        |${oudeKolom}         |zichtbaar                 |
-|Npo poms Zoeken Druk op wieltje                                                                     |
+|Npo poms Zoeken Druk op tandwieltje                                                                 |
 |set search context to                              |xpath=//poms-search-columns                     |
 |click                                              |${nieuweKolom}                                  |
 |click                                              |${oudeKolom}                                    |
@@ -33,7 +33,7 @@ Test
 |Npo poms Hoofdscherm Sluit laatste tab                                                              |
 |Npo poms Zoeken Check kolom                        |${nieuweKolom}       |zichtbaar                 |
 |Npo poms Zoeken Check kolom                        |${oudeKolom}         |niet zichtbaar            |
-|Npo poms Zoeken Druk op wieltje                                                                     |
+|Npo poms Zoeken Druk op tandwieltje                                                                 |
 |set search context to                              |xpath=//poms-search-columns                     |
 |click                                              |MID                                             |
 |click                                              |Type                                            |

@@ -81,7 +81,7 @@
 |click   |xpath=//label[@for="search-person-filter"]/ul/li/a/strong[text()="@persoon"]                                                       |
 |check   |value of                         |xpath=//label[@for="search-person-filter"]/input|@persoon                                        |
 
-|scenario|Npo poms Zoeken Druk op wieltje                  |
+|scenario|Npo poms Zoeken Druk op tandwieltje              |
 |click   |xpath=//div[@title="Kolominstellingen aanpassen"]|
 
 |scenario             |Npo poms Zoeken Check kolom|kolom|zichtbaar|
