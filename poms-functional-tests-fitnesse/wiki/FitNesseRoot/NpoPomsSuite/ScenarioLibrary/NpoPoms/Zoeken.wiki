@@ -129,5 +129,11 @@
 |scenario|Npo poms Zoeken Check kolom|kolom                               |oplopend gesorteerd                               |
 |ensure  |is visible on page         |xpath=//table/thead/tr/th/span[@class="column-header ASC"][normalize-space(.)="@kolom"]|
 
-|scenario|Npo poms Zoeken Check of de sorteerdatum van de zoekresultaten gelijk aan of later dan|datum                                                                                       |is                                                                   |
-|ensure  |dates in elements                                                                     |xpath=//*[contains(concat(" ",@class," "),"search-result-row")]/td[@class="column-sortDate"]|matched with|!-^([0-9]{2}-[0-9]{2}-[0-9]{4})-!|compare|>=|with|@datum|
+|scenario                                                      |Npo poms Zoeken Check of de sorteerdatum van de zoekresultaten gelijk aan of later dan|datum            |is    |
+|Npo poms Zoeken Check of de sorteerdatum van de zoekresultaten|>=                                                                                    |is vergeleken met|@datum|
+
+|scenario                                                      |Npo poms Zoeken Check of de sorteerdatum van de zoekresultaten gelijk aan|datum            |is    |
+|Npo poms Zoeken Check of de sorteerdatum van de zoekresultaten|==                                                                       |is vergeleken met|@datum|
+
+|scenario|Npo poms Zoeken Check of de sorteerdatum van de zoekresultaten|vergelijking                                                                                |is vergeleken met|datum                                                                                |
+|ensure  |dates in elements                                             |xpath=//*[contains(concat(" ",@class," "),"search-result-row")]/td[@class="column-sortDate"]|matched with     |!-^([0-9]{2}-[0-9]{2}-[0-9]{4}) [0-9]{2}:[0-9]{2}-!|compare|@vergelijking|with|@datum|
