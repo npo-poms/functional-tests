@@ -13,4 +13,6 @@
 |extended string fixture|
 |integer fixture        |
 |calendar fixture       |
+|timer fixture          |
+|date format fixture    |
 *!
