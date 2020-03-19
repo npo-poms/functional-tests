@@ -32,7 +32,7 @@ Test
 |Npo poms Tabblad object Druk op link                          |Algemeen    |in sidebar                                                                 |
 |Npo poms Tabblad object Wacht tot status zichtbaar                                                                                                     |
 |Npo poms Tabblad object Check status                          |Voor publicatie                                                                         |
-|seconds before timeout                                        |120                                                                                     |
+|seconds before timeout                                        |600                                                                                     |
 |Npo poms Tabblad object Wacht tot status                      |Ingetrokken                                                                             |
 |seconds before timeout                                        |${secondsBeforeTimeout}                                                                 |
 |Npo poms Tabblad object Druk op link                          |Relaties    |in sidebar                                                                 |

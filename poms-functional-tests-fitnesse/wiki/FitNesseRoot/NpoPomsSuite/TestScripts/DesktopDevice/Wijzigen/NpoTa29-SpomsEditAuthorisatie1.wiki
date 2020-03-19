@@ -73,34 +73,16 @@ Test
 |Georestricties         |true           |false          |false             |
 |Portalrestricties      |true           |false          |false             |
 
-|script                                                                                                  |
-|Npo poms Tabblad object Check checkbox              |Embedbaar                   |inactief              |
-|Npo poms Tabblad object Druk op link                |Platformen                  |in sidebar            |
-|wait for visible                                    |Geplande beschikbaarheid                           |
-|set search context to                               |xpath=//poms-predictions                           |
-|double click                                        |${platform}                                        |
-|clear search context                                                                                    |
-|Npo poms Tabblad object Detailscherm Check checkbox |Beschikbaar                 |inactief              |
-|Npo poms Tabblad object Detailscherm Check dropdown |Encryptie                   |inactief              |
-|click                                               |Sla op                                             |
-|wait for visible                                    |Er is iets mis gegaan                              |
-|click                                               |ga door                                            |
-|Npo poms Tabblad object Detailscherm Druk op kruisje om pop-up te sluiten                               |
-|set search context to                               |xpath=//poms-locations                             |
-|double click                                        |${bron}                                            |
-|clear search context                                                                                    |
-|Npo poms Tabblad object Detailscherm Check tekstveld|URL *                       |inactief              |
-|Npo poms Tabblad object Detailscherm Check veld     |Type *                      |inactief              |
-|Npo poms Tabblad object Detailscherm Check veld     |Bitrate                     |inactief              |
-|Npo poms Tabblad object Detailscherm Check veld     |Bestandsgrootte             |inactief              |
-|Npo poms Tabblad object Detailscherm Check tekstveld|Offset                      |inactief              |
-|click                                               |xpath=//span[normalize-space(.)="Online / Offline"]|
-|Npo poms Tabblad object Detailscherm Check tekstveld|Start                       |inactief              |
-|Npo poms Tabblad object Detailscherm Check tekstveld|Stop                        |inactief              |
-|click                                               |bewaar                                             |
-|wait for visible                                    |Er is iets mis gegaan                              |
-|click                                               |ga door                                            |
-|Npo poms Tabblad object Detailscherm Druk op kruisje om pop-up te sluiten                               |
-|Npo poms Hoofdscherm Sluit laatste tab                                                                  |
-|Npo poms Hoofdscherm Sluit laatste tab                                                                  |
-|Npo poms Hoofdscherm Log uit                                                                            |
+|script                                                                   |
+|Npo poms Tabblad object Check checkbox             |Embedbaar   |inactief|
+|Npo poms Zoeken Dubbelklik op platform             |${platform}          |
+|wait for visible                                   |Sla op               |
+|Npo poms Tabblad object Detailscherm Check checkbox|Beschikbaar |inactief|
+|Npo poms Tabblad object Detailscherm Check dropdown|Encryptie   |inactief|
+|click                                              |Sla op               |
+|wait for visible                                   |Er is iets mis gegaan|
+|click                                              |ga door              |
+|Npo poms Tabblad object Detailscherm Druk op kruisje om pop-up te sluiten|
+|Npo poms Hoofdscherm Sluit laatste tab                                   |
+|Npo poms Hoofdscherm Sluit laatste tab                                   |
+|Npo poms Hoofdscherm Log uit                                             |
