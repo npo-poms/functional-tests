@@ -12,30 +12,34 @@ Test
 |$start=     |store|!today (dd-MM-yyyy) +2 00:00     |
 |$stop=      |store|!today (dd-MM-yyyy) +3 00:00     |
 
-|script                                                                                                                                                 |
-|Open Npo poms website                                                                                                                                  |
-|Npo poms Inlogscherm Log in met standaard-gebruiker                                                                                                    |
-|Npo poms Nieuw object toevoegen Voeg                          |${mediaType}|toe met titel|$objectNaam|en publicatiestart|$start|en publicatiestop|$stop|
-|Npo poms Tabblad object Check hoofdtitel                      |$objectNaam                                                                             |
-|Npo poms Tabblad object Check media type                      |${mediaType}                                                                            |
-|Npo poms Tabblad object Check veldtype 1                      |Omroepen    |heeft waarde |${standaardOmroep}                                           |
-|Npo poms Tabblad object Check veldtype 2                      |AV-Type     |heeft waarde |${standaardAvType}                                           |
-|Npo poms Tabblad object Check publicatiestart met start       |$start      |en stop      |$stop                                                        |
-|Npo poms Tabblad object Check mid active                                                                                                               |
-|Npo poms Tabblad object Check mid of urn                      |=~/WO_NTR_[0-9]{7}/                                                                     |
-|click                                                         |Urn                                                                                     |
-|Npo poms Tabblad object Check urn active                                                                                                               |
-|Npo poms Tabblad object Check mid of urn                      |=~/urn:vpro:media:program:[0-9]{9}/                                                     |
-|Npo poms Tabblad object Druk op link                          |Labels      |in sidebar                                                                 |
-|Npo poms Tabblad object Wacht tot veldtype 1                  |Genres      |zichtbaar                                                                  |
-|Npo poms Tabblad object Check veldtype 1                      |Genres      |heeft waarde |${standaardGenre}                                            |
-|Npo poms Tabblad object Druk op link                          |Algemeen    |in sidebar                                                                 |
-|Npo poms Tabblad object Wacht tot status zichtbaar                                                                                                     |
-|Npo poms Tabblad object Check status                          |Voor publicatie                                                                         |
-|seconds before timeout                                        |600                                                                                     |
-|Npo poms Tabblad object Wacht tot status                      |Ingetrokken                                                                             |
-|seconds before timeout                                        |${secondsBeforeTimeout}                                                                 |
-|Npo poms Tabblad object Druk op link                          |Relaties    |in sidebar                                                                 |
-|Npo poms Tabblad object Verwijder huidig object met media type|Clip                                                                                    |
-|Npo poms Hoofdscherm Wacht tot subtitel van laatste tab       |Zoeken                                                                                  |
-|Npo poms Hoofdscherm Log uit                                                                                                                           |
+|script                                                                                                                                                     |
+|Open Npo poms website                                                                                                                                      |
+|Npo poms Inlogscherm Log in met standaard-gebruiker                                                                                                        |
+|Npo poms Nieuw object toevoegen Voeg                          |${mediaType}    |toe met titel|$objectNaam|en publicatiestart|$start|en publicatiestop|$stop|
+|Npo poms Tabblad object Check hoofdtitel                      |$objectNaam                                                                                 |
+|Npo poms Tabblad object Check media type                      |${mediaType}                                                                                |
+|Npo poms Tabblad object Check veldtype 1                      |Omroepen        |heeft waarde |${standaardOmroep}                                           |
+|Npo poms Tabblad object Check veldtype 2                      |AV-Type         |heeft waarde |${standaardAvType}                                           |
+|Npo poms Tabblad object Check publicatiestart met start       |$start          |en stop      |$stop                                                        |
+|Npo poms Tabblad object Check mid active                                                                                                                   |
+|Npo poms Tabblad object Check mid of urn                      |=~/WO_NTR_[0-9]{7}/                                                                         |
+|click                                                         |Urn                                                                                         |
+|Npo poms Tabblad object Check urn active                                                                                                                   |
+|Npo poms Tabblad object Check mid of urn                      |=~/urn:vpro:media:program:[0-9]{9}/                                                         |
+|Npo poms Tabblad object Druk op link                          |Labels          |in sidebar                                                                 |
+|Npo poms Tabblad object Wacht tot veldtype 1                  |Genres          |zichtbaar                                                                  |
+|Npo poms Tabblad object Check veldtype 1                      |Genres          |heeft waarde |${standaardGenre}                                            |
+|Npo poms Tabblad object Druk op link                          |Algemeen        |in sidebar                                                                 |
+|Npo poms Tabblad object Wacht tot status zichtbaar                                                                                                         |
+|Npo poms Tabblad object Check status                          |Voor publicatie                                                                             |
+|seconds before timeout                                        |600                                                                                         |
+|start timer                                                   |timer                                                                                       |
+|Npo poms Tabblad object Wacht tot status                      |Ingetrokken                                                                                 |
+|$wachttijd=                                                   |time on timer   |timer                                                                      |
+|$wachttijd=                                                   |format timestamp|$wachttijd   |as         |m:ss                                             |
+|stop timer                                                    |timer                                                                                       |
+|seconds before timeout                                        |${secondsBeforeTimeout}                                                                     |
+|Npo poms Tabblad object Druk op link                          |Relaties        |in sidebar                                                                 |
+|Npo poms Tabblad object Verwijder huidig object met media type|Clip                                                                                        |
+|Npo poms Hoofdscherm Wacht tot subtitel van laatste tab       |Zoeken                                                                                      |
+|Npo poms Hoofdscherm Log uit                                                                                                                               |
