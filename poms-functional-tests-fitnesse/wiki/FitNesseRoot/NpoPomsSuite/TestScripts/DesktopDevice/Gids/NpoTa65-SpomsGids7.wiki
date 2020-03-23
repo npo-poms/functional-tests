@@ -1,0 +1,27 @@
+---
+Test
+---
+|script                           |
+|$today=|store|!today (dd-MM-yyyy)|
+
+|script                                                                                                                                                                                  |
+|Open Npo poms website                                                                                                                                                                   |
+|Npo poms Inlogscherm Log in met standaard-gebruiker                                                                                                                                     |
+|click                                                                    |Datum & Persoon                                                                                               |
+|Npo poms Zoeken Vul                                                      |$today                                                                   |in tekstveld        |van:           |
+|Npo poms Zoeken Vul                                                      |$today                                                                   |in tekstveld        |t/m            |
+|Npo poms Zoeken Klik op                                                  |Zoek                                                                     |in geopende dropdown|Datum & Persoon|
+|Npo poms Zoeken Selecteer optie                                          |Nederland 3 & Zapp                                                       |in dropdown         |Zenders        |
+|Npo poms Zoeken Wacht tot zoekopdracht met Gezocht naar:                 |Nederland 3 & Zapp, uitzend-/sorteerdatum: vanaf $today tot en met $today|klaar is                            |
+|Npo poms Zoeken Druk op tandwieltje                                                                                                                                                     |
+|set search context to                                                    |xpath=//poms-search-columns                                                                                   |
+|click                                                                    |Laatste uitzending                                                                                            |
+|clear search context                                                                                                                                                                    |
+|Npo poms Zoeken Wacht tot zoeken klaar is                                                                                                                                               |
+|Npo poms Zoeken Druk op header van kolom                                 |Laatste uitzending                                                                                            |
+|Npo poms Zoeken Wacht tot zoeken klaar is                                                                                                                                               |
+|Npo poms Zoeken Check aantal zoekresultaten                              |>0                                                                                                            |
+|Npo poms Zoeken Check of de sorteerdatum van de zoekresultaten gelijk aan|$today                                                                   |is                                  |
+|Npo poms Zoeken Scroll naar zoekveld                                                                                                                                                    |
+|Npo poms Zoeken Check kolom                                              |Laatste uitzending                                                       |aflopend gesorteerd                 |
+|Npo poms Hoofdscherm Log uit                                                                                                                                                            |
