@@ -7,6 +7,9 @@
 |scenario|Npo poms Zoeken Check tekstveld|veld                                    |heeft waarde|waarde|
 |check   |value of                       |xpath=//*[./label[text()="@veld"]]/input|@waarde            |
 
+|scenario|Npo poms Zoeken Vul|tekstwaarde|in tekstveld                         |tekstveld                        |
+|enter   |@tekstwaarde       |as         |xpath=//label[normalize-space(.)="@tekstveld"]/following-sibling::input|
+
 |scenario|Npo poms Zoeken Sla zoeksuggestie nummer|index                  |op in var                 |var                 |
 |$@var=  |value of                                |xpath=//input[@id="query"]/following-sibling::ul/li[@index]/a/span/span|
 
@@ -19,11 +22,23 @@
 |scenario|Npo poms Zoeken Druk knop|knop|
 |click   |xpath=//button[text()="@knop"]|
 
+|scenario        |Npo poms Zoeken Wacht tot zoekopdracht met Gezocht naar:|gezochtNaar|klaar is|
+|note            |Wacht eerst totdat de juiste "Gezocht naar:"-regel er staat                  |
+|wait for visible|Gezocht naar: @gezochtNaar                                                   |
+|Npo poms Zoeken Wacht tot zoeken klaar is                                                     |
+
+|scenario        |Npo poms Zoeken Wacht tot zoeken klaar is                                                                                                             |
+|note            |Zolang het zoeken bezig is heeft de "search-result-count" div de extra class "waiting", daarom matcht de volgende selector pas als het zoeken klaar is|
+|wait for visible|xpath=//div[@class="search-result-count"]                                                                                                             |
+
 |scenario  |Npo poms Zoeken Hover over object                         |objectNaam                         |met mediatype                        |mediatype                        |
 |hover over|xpath=//table/tbody/tr[./td[@class="column-title"]/span/span[normalize-space(.)="@objectNaam"]][./td[@class="column-type"]/span/span[normalize-space(.)="@mediatype"]]|
 
 |scenario|Npo poms Zoeken Druk op viewknop bij object                                    |objectNaam                                   |met mediatype                                   |mediatype                                   |
 |click   |xpath=//table/tbody/tr[./td[@class="column-title"]/span/span[normalize-space(.)="@objectNaam"]][./td[@class="column-type"]/span/span[normalize-space(.)="@mediatype"]]/td[@class="column-tools"]/div/span[@title="preview"]|
+
+|scenario        |Npo poms Zoeken Wacht tot status bij object                          |objectNaam                         |met mediatype                         |mediatype                         |bevat                         |statusTekst                         |
+|wait for visible|xpath=//table/tbody/tr[./td[@class="column-title"]/span/span[normalize-space(.)="@objectNaam"]][./td[@class="column-type"]/span/span[normalize-space(.)="@mediatype"]][./td[@class="column-workflow" and contains(normalize-space(.), "@statusTekst")]]|
 
 |scenario                                      |Npo poms Zoeken Open object|objectNaam   |met mediatype|mediatype|als preview|
 |Npo poms Zoeken Hover over object             |@objectNaam                |met mediatype|@mediatype                         |
@@ -31,8 +46,14 @@
 |Npo poms Previewscherm object Check hoofdtitel|@objectNaam                                                                  |
 |Npo poms Previewscherm object Check media type|@mediatype                                                                   |
 
+|scenario|Npo poms Zoeken Check object nummer|index                                                                    |heeft omroep|omroep|
+|check   |value of                           |xpath=//table/tbody/tr[@index]/td[@class="column-broadcasters"]/span/span|=~/@omroep/        |
+
 |scenario|Npo poms Zoeken Check object nummer|index                                                                    |heeft geen omroep|omroep|
 |check   |value of                           |xpath=//table/tbody/tr[@index]/td[@class="column-broadcasters"]/span/span|=~/(?!@omroep)/         |
+
+|scenario                           |Npo poms Zoeken Check eerste object heeft omroep|omroep              |
+|Npo poms Zoeken Check object nummer|1                                               |heeft omroep|@omroep|
 
 |scenario                           |Npo poms Zoeken Check eerste object heeft geen omroep|omroep                   |
 |Npo poms Zoeken Check object nummer|1                                                    |heeft geen omroep|@omroep|
@@ -43,20 +64,25 @@
 |scenario                                                  |Npo poms Zoeken Dubbelklik op hoofdtitel van eerste object|
 |Npo poms Zoeken Dubbelklik op hoofdtitel van object nummer|1                                                         |
 
-|scenario|Npo poms Zoeken Check optie|optie                                                               |geselecteerd in dropdown|dropdown|
-|check   |value of                   |xpath=//span[normalize-space(.)="@dropdown"]/../following-sibling::*|@optie                           |
+|scenario        |Npo poms Zoeken Check optie|optie                    |geselecteerd in dropdown                    |dropdown                   |
+|wait for visible|xpath=.//span[normalize-space(.)="@dropdown"]/../following-sibling::*                                                         |
+|ensure          |is visible on page         |xpath=.//span[normalize-space(.)="@dropdown"]/../following-sibling::*[normalize-space(.)="@optie"]|
 
-|scenario|Npo poms Zoeken Check optie|optieDeel1                                                             |is|optieDeel2|geselecteerd in dropdown|dropdown|
-|check   |value of                   |xpath=//span[normalize-space(.)="@dropdown"]/../following-sibling::span|@optieDeel1                                    |
-|check   |value of                   |xpath=//span[normalize-space(.)="@dropdown"]/../following-sibling::a   |@optieDeel2                                    |
+|scenario        |Npo poms Zoeken Check optie|optieDeel1                                                             |is|optieDeel2|geselecteerd in dropdown|dropdown|
+|wait for visible|xpath=//span[normalize-space(.)="@dropdown"]/../following-sibling::*                                                                               |
+|check           |value of                   |xpath=//span[normalize-space(.)="@dropdown"]/../following-sibling::span|@optieDeel1                                    |
+|check           |value of                   |xpath=//span[normalize-space(.)="@dropdown"]/../following-sibling::a   |@optieDeel2                                    |
 
 |scenario                   |Npo poms Zoeken Selecteer optie|optie                   |in dropdown|dropdown|
 |click                      |@dropdown                                                                    |
 |set search context to      |xpath=//*[contains(@repeat, "item in options")]                              |
 |scroll to                  |@optie                                                                       |
 |click                      |@optie                                                                       |
-|clear search context                                                                                     |
+|remove last search context                                                                               |
 |Npo poms Zoeken Check optie|@optie                         |geselecteerd in dropdown|@dropdown           |
+
+|scenario|Npo poms Zoeken Klik op|selector|in geopende dropdown                   |dropdown                  |
+|click   |@selector              |in      |xpath=.//span[normalize-space(.)="@dropdown"]/following-sibling::*|
 
 |scenario|Npo poms Zoeken Sla hoofdtitel van object nummer|index                |op in var                |var               |
 |$@var=  |value of                                        |xpath=//table/tbody/tr[@index]/td[@class="column-title"]/span/span|
@@ -104,3 +130,12 @@
 
 |scenario|Npo poms Zoeken Check kolom|kolom                               |oplopend gesorteerd                               |
 |ensure  |is visible on page         |xpath=//table/thead/tr/th/span[@class="column-header ASC"][normalize-space(.)="@kolom"]|
+
+|scenario                                                      |Npo poms Zoeken Check of de sorteerdatum van de zoekresultaten gelijk aan of later dan|datum            |is    |
+|Npo poms Zoeken Check of de sorteerdatum van de zoekresultaten|>=                                                                                    |is vergeleken met|@datum|
+
+|scenario                                                      |Npo poms Zoeken Check of de sorteerdatum van de zoekresultaten gelijk aan|datum            |is    |
+|Npo poms Zoeken Check of de sorteerdatum van de zoekresultaten|==                                                                       |is vergeleken met|@datum|
+
+|scenario|Npo poms Zoeken Check of de sorteerdatum van de zoekresultaten|vergelijking                                                                                |is vergeleken met|datum                                                                                |
+|ensure  |dates in elements                                             |xpath=//*[contains(concat(" ",@class," "),"search-result-row")]/td[@class="column-sortDate"]|matched with     |!-^([0-9]{2}-[0-9]{2}-[0-9]{4}) [0-9]{2}:[0-9]{2}-!|compare|@vergelijking|with|@datum|

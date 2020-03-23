@@ -66,28 +66,13 @@ Test
 |Georestricties         |false          |true           |false             |
 |Portalrestricties      |false          |true           |false             |
 
-|script                                                                                                  |
-|Npo poms Tabblad object Check checkbox              |Embedbaar                   |actief                |
-|Npo poms Tabblad object Druk op link                |Platformen                  |in sidebar            |
-|wait for visible                                    |Geplande beschikbaarheid                           |
-|set search context to                               |xpath=//poms-predictions                           |
-|double click                                        |${platform}                                        |
-|clear search context                                                                                    |
-|Npo poms Tabblad object Detailscherm Check checkbox |Beschikbaar                 |actief                |
-|Npo poms Tabblad object Detailscherm Check dropdown |Encryptie                   |actief                |
-|Npo poms Tabblad object Detailscherm Druk op kruisje om pop-up te sluiten                               |
-|set search context to                               |xpath=//poms-locations                             |
-|double click                                        |${bron}                                            |
-|clear search context                                                                                    |
-|Npo poms Tabblad object Detailscherm Check tekstveld|URL *                       |actief                |
-|Npo poms Tabblad object Detailscherm Check veld     |Type *                      |actief                |
-|Npo poms Tabblad object Detailscherm Check veld     |Bitrate                     |actief                |
-|Npo poms Tabblad object Detailscherm Check veld     |Bestandsgrootte             |actief                |
-|Npo poms Tabblad object Detailscherm Check tekstveld|Offset                      |actief                |
-|click                                               |xpath=//span[normalize-space(.)="Online / Offline"]|
-|Npo poms Tabblad object Detailscherm Check tekstveld|Start                       |actief                |
-|Npo poms Tabblad object Detailscherm Check tekstveld|Stop                        |actief                |
-|Npo poms Tabblad object Detailscherm Druk op kruisje om pop-up te sluiten                               |
-|Npo poms Hoofdscherm Sluit laatste tab                                                                  |
-|Npo poms Hoofdscherm Sluit laatste tab                                                                  |
-|Npo poms Hoofdscherm Log uit                                                                            |
+|script                                                                   |
+|Npo poms Tabblad object Check checkbox              |Embedbaar   |actief |
+|Npo poms Zoeken Dubbelklik op platform              |${platform}         |
+|wait for visible                                    |Sla op              |
+|Npo poms Tabblad object Detailscherm Check checkbox |Beschikbaar |actief |
+|Npo poms Tabblad object Detailscherm Check dropdown |Encryptie   |actief |
+|Npo poms Tabblad object Detailscherm Druk op kruisje om pop-up te sluiten|
+|Npo poms Hoofdscherm Sluit laatste tab                                   |
+|Npo poms Hoofdscherm Sluit laatste tab                                   |
+|Npo poms Hoofdscherm Log uit                                             |

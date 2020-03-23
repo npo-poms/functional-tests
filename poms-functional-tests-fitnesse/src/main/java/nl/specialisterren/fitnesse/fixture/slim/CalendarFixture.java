@@ -13,10 +13,16 @@ public class CalendarFixture {
 	public String decreaseTodayWithMonthsWithFormatWithLocal(String months, String format, String local) throws ParseException {
         Calendar cal = Calendar.getInstance();
         Locale loc = new Locale(local);
+		
         Integer intMonths = Integer.valueOf(months);
-        cal.add(Calendar.MONTH, -intMonths);
-		cal.add(Calendar.DAY_OF_YEAR, 1);
-        return new SimpleDateFormat(format,loc).format(cal.getTime());
+        cal.add(Calendar.DAY_OF_YEAR, -intMonths*30);
+		
+		int currentMonth = cal.get(Calendar.MONTH);
+		int currentYear = cal.get(Calendar.YEAR);
+		if (currentYear % 4 == 0 && currentMonth == 3)
+		    cal.add(Calendar.DAY_OF_YEAR, -1);
+        
+		return new SimpleDateFormat(format,loc).format(cal.getTime());
     }
 	
 	public String increaseDateWithHours(String datetime, int hours) {
