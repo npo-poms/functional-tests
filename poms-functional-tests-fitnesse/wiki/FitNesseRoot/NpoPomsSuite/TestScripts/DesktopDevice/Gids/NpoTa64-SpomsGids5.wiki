@@ -1,0 +1,27 @@
+---
+Test
+---
+!*> Lokale variabelen
+
+!define objectNummer {2}
+
+*!
+
+|script                           |
+|$today=|store|!today (dd-MM-yyyy)|
+
+|script                                                                                                                                          |
+|Open Npo poms website                                                                                                                           |
+|Npo poms Inlogscherm Log in met standaard-gebruiker                                                                                             |
+|click                                                     |Datum & Persoon                                                                      |
+|Npo poms Zoeken Vul                                       |$today                                          |in tekstveld        |van:           |
+|Npo poms Zoeken Klik op                                   |Zoek                                            |in geopende dropdown|Datum & Persoon|
+|Npo poms Zoeken Selecteer optie                           |Nederland 1                                     |in dropdown         |Zenders        |
+|Npo poms Zoeken Wacht tot zoekopdracht met Gezocht naar:  |Nederland 1, uitzend-/sorteerdatum: vanaf $today|klaar is                            |
+|Npo poms Zoeken Sla hoofdtitel van object nummer          |${objectNummer}                                 |op in var           |titelVanObject |
+|Npo poms Zoeken Sla type van object nummer                |${objectNummer}                                 |op in var           |typeVanObject  |
+|Npo poms Zoeken Dubbelklik op hoofdtitel van object nummer|${objectNummer}                                                                      |
+|Npo poms Hoofdscherm Wacht tot tabblad                    |$titelVanObject                                 |geopend                             |
+|Npo poms Hoofdscherm Check titel van laatste tab          |$titelVanObject                                                                      |
+|Npo poms Hoofdscherm Check subtitel van laatste tab       |$typeVanObject                                                                       |
+|Npo poms Hoofdscherm Log uit                                                                                                                    |

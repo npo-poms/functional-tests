@@ -100,6 +100,23 @@
 |scenario|Npo poms Tabblad object Druk op verwijderknop bij afbeelding                                                    |afbeelding                                                   |
 |click   |xpath=//poms-images/div/table/tbody/tr[./td[@class="column-title"]/span[normalize-space(.)="@afbeelding"]]/td[@class="column-tools"]/div/button[@title="verwijder afbeelding"]|
 
+|scenario|Npo poms Tabblad object Check bron|url                                          |zichtbaar                                          |
+|ensure  |is visible on page                |xpath=//poms-locations/div/table/tbody/tr/td[@class="column-url"]/span[normalize-space(.)="@url"]|
+
+|scenario              |Npo poms Tabblad object Check bron|url                                        |niet zichtbaar                                       |
+|seconds before timeout|3                                                                                                                                   |
+|reject                |is visible on page                |xpath=//poms-locations/div/table/tbody/tr/td[@class="column-url"]/span[normalize-space(.)="@url"]|
+|seconds before timeout|${secondsBeforeTimeout}                                                                                                             |
+
+|scenario|Npo poms Tabblad object Check bron|url                                                                                                                                 |heeft type|type|
+|check   |value of                          |xpath=//poms-locations/div/table/tbody/tr[./td[@class="column-url"]/span[normalize-space(.)="@url"]]/td[@class="column-format"]/span|@type          |
+
+|scenario  |Npo poms Tabblad object Hover over bron                           |url                           |
+|hover over|xpath=//poms-locations/div/table/tbody/tr/td[@class="column-url"]/span[normalize-space(.)="@url"]|
+
+|scenario|Npo poms Tabblad object Druk op verwijderknop bij bron                                                   |url                                                  |
+|click   |xpath=//poms-locations/div/table/tbody/tr[./td[@class="column-url"]/span[normalize-space(.)="@url"]]/td[@class="column-tools"]//button[@title="verwijder bron"]|
+
 |table template        |Npo poms Tabblad object Check veld niet te bewerken en niet te verwijderen                                                                 |
 |hover over            |xpath=//h2[starts-with(normalize-space(.), "@{veld}")]                                                                                     |
 |set search context to |xpath=//h2[starts-with(normalize-space(.), "@{veld}")]/ancestor::div[contains(@class, "editfield-wrapper")]/div[@class="media-field-tools"]|
@@ -116,10 +133,13 @@
 |scenario|Npo poms Tabblad object Check checkbox|checkbox                               |inactief                               |
 |ensure  |is visible on page                    |xpath=//h2[text()="@checkbox"]/following-sibling::p/input[@disabled="disabled"]|
 
-|scenario        |Npo poms Tabblad object Verwijder huidig object met media type|mediaType           |
-|click           |@mediaType verwijderen                                                             |
-|wait for visible|@mediaType verwijderen?                                       |in|${dialogSelector}|
-|click           |verwijder                                                     |in|${dialogSelector}|
+|scenario                                         |Npo poms Tabblad object Verwijder huidig object met media type|mediaType|
+|click                                            |@mediaType verwijderen                                                  |
+|Npo poms Tabblad object Bevestig verwijdering van|@mediaType                                                              |
+
+|scenario        |Npo poms Tabblad object Bevestig verwijdering van|objectType          |
+|wait for visible|@objectType verwijderen?                         |in|${dialogSelector}|
+|click           |verwijder                                        |in|${dialogSelector}|
 
 |scenario             |Npo poms Zoeken Dubbelklik op kanaal|kanaal|
 |set search context to|xpath=//poms-scheduleevents                |

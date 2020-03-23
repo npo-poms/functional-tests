@@ -44,6 +44,8 @@ public class ExtendedBrowserTest extends BrowserTest {
 
     /**
      * Checks if the dates in all visible (on page) elements matching place compare as specified within the timeout.
+     * Warning: this method may scroll elements into view, make sure that any subsequent actions do not depend on
+     * scroll position!
      * @param place a technical selector (i.e. starting with id=, css=, xpath=, name=, link=, partialLink=).
      * @param regex a regex that matches the dd-MM-yyyy to be converted as capture group 1
      * @param comparison the way the matching numbers should be compared (possibilities: < <= == >= >).
@@ -73,6 +75,12 @@ public class ExtendedBrowserTest extends BrowserTest {
         }
         for (WebElement e : visibleMatchingElements) {
             String elementText = getSeleniumHelper().getText(e);
+            if (elementText.isEmpty()) {
+                // Elements that are not in the viewport sometimes incorrectly return an empty string
+                // As a workaround, scroll them into view to get their true contents
+                scrollTo(e);
+                return false;
+            }
             Matcher m = matchedWith.matcher(elementText);
             if (!m.find()) {
                 throw new RuntimeException("No match for pattern (\"" + regex + "\") in element contents (\"" + elementText + "\")!");
