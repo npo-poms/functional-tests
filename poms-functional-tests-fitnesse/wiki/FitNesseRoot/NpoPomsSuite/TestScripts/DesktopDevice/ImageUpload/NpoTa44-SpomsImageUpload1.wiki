@@ -1,39 +1,29 @@
 ---
 Test
 ---
-!define mediatype {Clip}
-!define omroep {VPRO}
-!define objectNummer {5}
-!define plaatje {files/images/Tulips.jpg}
-!define titel {Testfoto}
-!define beschrijving {Beschrijving}
-!define waarschuwingFotosUploaden {Bij uploaden van foto's moeten de rechten altijd verkregen zijn. Daarnaast kan het niet correct invullen van onderstaande gegevens leiden tot claims van de rechthebbenden. Lees hier meer over het correcte gebruik.}
-!define screenshot {screenshotimg}
+!include -c <ImageUpload.Variabelen
 
-
-|script                                                                                                                                                        |
-|Open Npo poms website                                                                                                                                         |
-|Npo poms Inlogscherm Log in met standaard-gebruiker                                                                                                           |
-|Npo poms Zoeken Selecteer optie                           |Clip                 |in dropdown   |!-MediaType-!                                                 |
-|Npo poms Zoeken Selecteer optie                           |VPRO                 |in dropdown   |Omroepen                                                      |
-|wait for visible                                          |Gezocht naar: Clip, VPRO                                                                           |
-|Npo poms Zoeken Sla hoofdtitel van object nummer          |5                    |op in var     |titelVanObject                                                |
-|Npo poms Zoeken Sla type van object nummer                |5                    |op in var     |typeVanObject                                                 |
-|Npo poms Zoeken Dubbelklik op hoofdtitel van object nummer|5                                                                                                  |
-|Npo poms Hoofdscherm Wacht tot tabblad                    |$titelVanObject      |geopend                                                                      |
-|Npo poms Hoofdscherm Check titel van laatste tab          |$titelVanObject                                                                                    |
-|Npo poms Hoofdscherm Check subtitel van laatste tab       |$typeVanObject                                                                                     |
-|Npo poms Tabblad object Sla mid of urn op in var          |mid                                                                                                |
-|Npo poms Tabblad object Druk op link                      |Afbeeldingen         |in sidebar                                                                   |
-|wait for visible                                          |Afbeelding toevoegen                                                                               |
-|                                                          |$aantalAfbeeldingen1=|value of      |xpath=//poms-images/div/h1                                    |
-|                                                          |$aantalAfbeeldingen1=|extract string|$aantalAfbeeldingen1|from|Afbeeldingen \((\d+)\)|using group|1|
-|set search context to                                     |xpath=//poms-images                                                                                |
-|click                                                     |Afbeelding toevoegen                                                                               |
-|clear search context                                                                                                                                          |
-|select file                                               |${plaatje}           |for           |css=input[id=inputFile]                                       |
-|wait for visible                                          |css=img                                                                                            |
-|show                                                      |take screenshot      |${screenshot}_!today (yyyyMMddHHmmss)                                        |
-|Npo poms Tabblad object Detailscherm Check knop           |Maak aan             |in footer inactief                                                           |
-|ensure                                                    |is visible on page   |xpath=//span[text()='Nog in te vullen:']                                     |
-|wait                                                      |15                   |seconds                                                                      |
+|script                                                                                                                                 |
+|Open Npo poms website                                                                                                                  |
+|Npo poms Inlogscherm Log in met standaard-gebruiker                                                                                    |
+|Npo poms Zoeken Selecteer optie                                                  |Clip           |in dropdown |!-MediaType-!           |
+|Npo poms Zoeken Selecteer optie                                                  |VPRO           |in dropdown |Omroepen                |
+|wait for visible                                                                 |Gezocht naar: Clip, VPRO                             |
+|Npo poms Zoeken Sla hoofdtitel van object nummer                                 |${objectNummer}|op in var   |titelVanObject          |
+|Npo poms Zoeken Sla type van object nummer                                       |${objectNummer}|op in var   |typeVanObject           |
+|Npo poms Zoeken Dubbelklik op hoofdtitel van object nummer                       |${objectNummer}                                      |
+|Npo poms Hoofdscherm Wacht tot tabblad                                           |$titelVanObject|geopend                              |
+|Npo poms Hoofdscherm Check titel van laatste tab                                 |$titelVanObject                                      |
+|Npo poms Hoofdscherm Check subtitel van laatste tab                              |$typeVanObject                                       |
+|Npo poms Tabblad object Druk op link                                             |Afbeeldingen   |in sidebar                           |
+|wait for visible                                                                 |Afbeelding toevoegen                                 |
+|set search context to                                                            |xpath=//poms-images                                  |
+|click                                                                            |Afbeelding toevoegen                                 |
+|clear search context                                                                                                                   |
+|select file                                                                      |${plaatje}     |for         |css=input[id=inputFile] |
+|wait for visible                                                                 |css=img                                              |
+|show                                                                             |take screenshot|${screenshot}_!today (yyyyMMddHHmmss)|
+|Npo poms Tabblad object Detailscherm Check knop                                  |Maak aan       |in footer inactief                   |
+|Npo poms Tabblad object Detailscherm controleer nog in te vullen melding van veld|Titel                                                |
+|Npo poms Tabblad object Detailscherm controleer nog in te vullen melding van veld|Beschrijving                                         |
+|Npo poms Tabblad object Detailscherm controleer nog in te vullen melding van veld|Afbeeldingtype                                       |

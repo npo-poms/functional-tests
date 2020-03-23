@@ -68,3 +68,7 @@
 
 |scenario|Npo poms Tabblad object Detailscherm Check knop|knop                                           |in footer inactief                                           |
 |ensure  |is visible on page                             |xpath=//div[contains(@class, "footer-container")]/div/button[normalize-space()="@knop"][@disabled="disabled"]|
+
+|scenario|Npo poms Tabblad object Detailscherm controleer nog in te vullen melding van veld|veld                                                              |
+|ensure  |is visible on page                                                               |xpath=//span[text()='Nog in te vullen:']                          |
+|ensure  |is visible on page                                                               |xpath=//span[@class='required-field' and contains(text(),'@veld')]|
