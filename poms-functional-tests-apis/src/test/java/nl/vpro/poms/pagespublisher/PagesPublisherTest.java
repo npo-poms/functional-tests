@@ -354,9 +354,7 @@ class PagesPublisherTest extends AbstractApiMediaBackendTest {
         embeddedDescription = "Updated by " + title;
         embedded.setMainDescription(embeddedDescription);
         backend.set(embedded);
-
     }
-
 
     /**
      * Let's first wait until this change arrives in the API, i.e. in ES. earlier, there is no chance that
@@ -365,16 +363,14 @@ class PagesPublisherTest extends AbstractApiMediaBackendTest {
 
     @Test
     @Order(204)
-    @Tag("frontendapi")
     @Tag("embeddedmedia")
-    public void checkUpdateExistingEmbedMediaArrivedInMediaApi() {
+    public void checkUpdateExistingEmbedMediaArrivedInMedia() {
         assumeThat(article).isNotNull();
         assumeNotNull(embeddedDescription);
-        assumeTrue(pageUtil.getClients().isAvailable());
 
         MediaObject fromApi = Utils.waitUntil(ACCEPTABLE_MEDIA_PUBLISHED_DURATION,
             MID + " has description " + embeddedDescription,
-            () -> mediaUtil.findByMid(MID),
+            () -> pageUpdateApiUtil.getMedia(MID).orElse(null),
             mo -> {
                 if (mo != null) {
                     log.info("{} : {}", mo, mo.getMainDescription());
@@ -398,15 +394,15 @@ class PagesPublisherTest extends AbstractApiMediaBackendTest {
                 pageUpdateApiUtil.getPublishedPage(article.getUrl()),
             Check.<Optional<Page>>builder()
                 .predicate(Optional::isPresent)
-                .description("%s exists", article.getUrl())
+                .description("{} exists", article.getUrl())
             ,
             Check.<Optional<Page>>builder()
                 .predicate(p -> Objects.equals(p.get().getEmbeds().get(0).getMedia().getMid(), MID))
-                .description("%s embeds %s", article.getUrl(), MID)
+                .description("{} embeds {}", article.getUrl(), MID)
             ,
             Check.<Optional<Page>>builder()
                 .predicate(p -> Objects.equals(p.get().getEmbeds().get(0).getMedia().getMainDescription(), embeddedDescription))
-                .description("%s/%s has description %s", article.getUrl(), MID,  embeddedDescription)
+                .description("{}/{} has description {}", article.getUrl(), MID,  embeddedDescription)
         ).get();
 
         assertThat(page.getEmbeds().get(0).getMedia().getMainDescription()).isEqualTo(embeddedDescription);
