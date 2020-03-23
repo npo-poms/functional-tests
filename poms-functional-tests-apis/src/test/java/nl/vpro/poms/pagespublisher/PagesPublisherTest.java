@@ -97,6 +97,7 @@ class PagesPublisherTest extends AbstractApiMediaBackendTest {
 
     @Test
     @Order(1)
+    @Tag("embeddedmedia")
     public void createOrUpdatePage(TestInfo testInfo) {
 
         String methodName = testInfo.getTestMethod().get().getName();
@@ -341,10 +342,11 @@ class PagesPublisherTest extends AbstractApiMediaBackendTest {
 
 
     /**
-     * Now we update a media that is embded. The pages publisher should synchronize this change to all pages embedding this media.
+     * Now we update a media that is embedded. The pages publisher should synchronize this change to all pages embedding this media.
      */
     @Test
     @Order(203)
+    @Tag("embeddedmedia")
     public void updateExistingEmbeddedMedia() {
         assumeTrue(backend.isAvailable());
 
@@ -364,6 +366,7 @@ class PagesPublisherTest extends AbstractApiMediaBackendTest {
     @Test
     @Order(204)
     @Tag("frontendapi")
+    @Tag("embeddedmedia")
     public void checkUpdateExistingEmbedMediaArrivedInMediaApi() {
         assumeThat(article).isNotNull();
         assumeNotNull(embeddedDescription);
@@ -387,7 +390,34 @@ class PagesPublisherTest extends AbstractApiMediaBackendTest {
 
     @Test
     @Order(205)
+    @Tag("embeddedmedia")
+    public void checkUpdateExistingEmbedMediaArrivedInPublishedPage() {
+        Page page = Utils.waitUntil(ACCEPTABLE_PAGE_PUBLISHED_DURATION,
+            //article.getUrl() + " has embedded " + MID + " with description " + embeddedDescription,
+            () ->
+                pageUpdateApiUtil.getPublishedPage(article.getUrl()),
+            Check.<Optional<Page>>builder()
+                .predicate(Optional::isPresent)
+                .description("%s exists", article.getUrl())
+            ,
+            Check.<Optional<Page>>builder()
+                .predicate(p -> Objects.equals(p.get().getEmbeds().get(0).getMedia().getMid(), MID))
+                .description("%s embeds %s", article.getUrl(), MID)
+            ,
+            Check.<Optional<Page>>builder()
+                .predicate(p -> Objects.equals(p.get().getEmbeds().get(0).getMedia().getMainDescription(), embeddedDescription))
+                .description("%s/%s has description %s", article.getUrl(), MID,  embeddedDescription)
+        ).get();
+
+        assertThat(page.getEmbeds().get(0).getMedia().getMainDescription()).isEqualTo(embeddedDescription);
+    }
+
+
+
+    @Test
+    @Order(206)
     @Tag("frontendapi")
+    @Tag("embeddedmedia")
     public void checkUpdateExistingEmbedMediaArrivedInPagesApi() {
         assumeTrue(pageUtil.getClients().isAvailable());
 
@@ -407,6 +437,7 @@ class PagesPublisherTest extends AbstractApiMediaBackendTest {
      */
     @Test
     @Order(210)
+    @Tag("embeddedmedia")
     public void removeAnEmbed() {
         assumeThat(article).isNotNull();
         article.setEmbeds(new ArrayList<>(article.getEmbeds())); // make the damn list modifiable.
@@ -424,6 +455,7 @@ class PagesPublisherTest extends AbstractApiMediaBackendTest {
      */
     @Test
     @Order(211)
+    @Tag("embeddedmedia")
     public void checkRemoveAnEmbed() {
         assumeThat(article).isNotNull();
         Page page = Utils.waitUntil(ACCEPTABLE_PAGE_PUBLISHED_DURATION,
