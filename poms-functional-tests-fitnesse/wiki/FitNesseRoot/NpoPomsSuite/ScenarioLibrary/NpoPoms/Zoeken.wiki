@@ -64,12 +64,14 @@
 |scenario                                                  |Npo poms Zoeken Dubbelklik op hoofdtitel van eerste object|
 |Npo poms Zoeken Dubbelklik op hoofdtitel van object nummer|1                                                         |
 
-|scenario|Npo poms Zoeken Check optie|optie                                                                |geselecteerd in dropdown|dropdown|
-|check   |value of                   |xpath=.//span[normalize-space(.)="@dropdown"]/../following-sibling::*|@optie                           |
+|scenario        |Npo poms Zoeken Check optie|optie                                                                |geselecteerd in dropdown|dropdown|
+|wait for visible|xpath=.//span[normalize-space(.)="@dropdown"]/../following-sibling::*                                                              |
+|check           |value of                   |xpath=.//span[normalize-space(.)="@dropdown"]/../following-sibling::*|@optie                           |
 
-|scenario|Npo poms Zoeken Check optie|optieDeel1                                                             |is|optieDeel2|geselecteerd in dropdown|dropdown|
-|check   |value of                   |xpath=//span[normalize-space(.)="@dropdown"]/../following-sibling::span|@optieDeel1                                    |
-|check   |value of                   |xpath=//span[normalize-space(.)="@dropdown"]/../following-sibling::a   |@optieDeel2                                    |
+|scenario        |Npo poms Zoeken Check optie|optieDeel1                                                             |is|optieDeel2|geselecteerd in dropdown|dropdown|
+|wait for visible|xpath=//span[normalize-space(.)="@dropdown"]/../following-sibling::*                                                                               |
+|check           |value of                   |xpath=//span[normalize-space(.)="@dropdown"]/../following-sibling::span|@optieDeel1                                    |
+|check           |value of                   |xpath=//span[normalize-space(.)="@dropdown"]/../following-sibling::a   |@optieDeel2                                    |
 
 |scenario                   |Npo poms Zoeken Selecteer optie|optie                   |in dropdown|dropdown|
 |click                      |@dropdown                                                                    |
