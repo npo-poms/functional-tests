@@ -45,15 +45,18 @@
 |Npo poms Nieuw object toevoegen Stel publicatiestart                         |@publicatieStart                    |en publicatiestop|@publicatieStop|in                                                                       |
 |Npo poms Nieuw object toevoegen Maak aan en controleer tabblad met media type|@mediaType                          |en titel         |@titel                                                                                   |
 
-|scenario                                       |Npo poms Nieuw object toevoegen Start met toevoegen|mediaType   |met titel|titel|
-|click                                          |NIEUW                                                                           |
-|Npo poms Nieuw object toevoegen Wacht tot popup geladen                                                                         |
-|Npo poms Nieuw object toevoegen Vul            |@titel                                             |in tekstveld|Hoofdtitel *   |
-|Npo poms Nieuw object toevoegen Selecteer optie|@mediaType                                         |in dropdown |Media Type *   |
-|Npo poms Nieuw object toevoegen Verwijder eventuele voorgeselecteerde omroep                                                    |
-|Npo poms Nieuw object toevoegen Selecteer optie|${standaardOmroep}                                 |in dropdown |Omroep *       |
-|Npo poms Nieuw object toevoegen Selecteer optie|${standaardAvType}                                 |in dropdown |AV Type *      |
-|Npo poms Nieuw object toevoegen Selecteer optie|${standaardGenre}                                  |in dropdown |Genre *        |
+|scenario                                           |Npo poms Nieuw object toevoegen Start met toevoegen|mediaType|met titel|titel                                                                                |
+|Npo poms Nieuw object toevoegen Start met toevoegen|@mediaType                                         |met titel|@titel   |en omroep|${standaardOmroep}|en AV Type|${standaardAvType}|en genre|${standaardGenre}|
+
+|scenario                                       |Npo poms Nieuw object toevoegen Start met toevoegen|mediaType   |met titel|titel|en omroep|omroep|en AV Type|avType|en genre|genre|
+|click                                          |NIEUW                                                                                                                             |
+|Npo poms Nieuw object toevoegen Wacht tot popup geladen                                                                                                                           |
+|Npo poms Nieuw object toevoegen Vul            |@titel                                             |in tekstveld|Hoofdtitel *                                                     |
+|Npo poms Nieuw object toevoegen Selecteer optie|@mediaType                                         |in dropdown |Media Type *                                                     |
+|Npo poms Nieuw object toevoegen Verwijder eventuele voorgeselecteerde omroep                                                                                                      |
+|Npo poms Nieuw object toevoegen Selecteer optie|@omroep                                            |in dropdown |Omroep *                                                         |
+|Npo poms Nieuw object toevoegen Selecteer optie|@avType                                            |in dropdown |AV Type *                                                        |
+|Npo poms Nieuw object toevoegen Selecteer optie|@genre                                             |in dropdown |Genre *                                                          |
 
 |scenario                                   |Npo poms Nieuw object toevoegen Stel publicatiestart|publicatieStart |en publicatiestop|publicatieStop          |in             |
 |click                                      |Publicatiestart                                                                                                                 |
