@@ -13,7 +13,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 
 /**
- * On the POMS GUI environment itself there is an /import endpoint that is currently used by NEP to drop some things that used to be coming to use via the file system.
+ * On the POMS GUI environment itself there is an /import endpoint that is currently used by NEP to drop some things that used to be coming in via the file system.
  *
  * It is actually a generic entry to several camel routes.
  *
