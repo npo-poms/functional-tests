@@ -47,10 +47,8 @@ public abstract class AbstractApiMediaBackendTest extends AbstractApiTest {
 
     private static final int MAX_IMAGE_RESIZE = 2000;
 
-
     private static final String errorMail;
     static {
-
         Map<String, String> valuesMap = new HashMap<>();
         valuesMap.put("TESTRUN", SIMPLE_NOWSTRING);
         StringSubstitutor subst = new StringSubstitutor(valuesMap);
