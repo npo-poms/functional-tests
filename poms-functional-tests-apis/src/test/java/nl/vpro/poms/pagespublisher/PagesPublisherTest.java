@@ -21,6 +21,7 @@ import nl.vpro.api.client.utils.*;
 import nl.vpro.domain.api.*;
 import nl.vpro.domain.api.page.*;
 import nl.vpro.domain.media.MediaObject;
+import nl.vpro.domain.media.Schedule;
 import nl.vpro.domain.media.update.MediaUpdate;
 import nl.vpro.domain.page.*;
 import nl.vpro.domain.page.update.*;
@@ -67,8 +68,8 @@ class PagesPublisherTest extends AbstractApiMediaBackendTest {
     static {
         log.info("Using {}", pageUpdateApiUtil);
     }
-
-    private static final String topStoryUrl = "http://test.poms.nl/test001CreateOrUpdatePageTopStory";
+    private static final String URL_PREFIX = "http://test.poms.nl/";
+    private static final String TOP_STORY_URL = URL_PREFIX + "test001CreateOrUpdatePageTopStory";
     private static PageUpdate article;
 
     private static String urlToday;
@@ -91,7 +92,6 @@ class PagesPublisherTest extends AbstractApiMediaBackendTest {
     public static void setup() {
         log.info("Testing with version {}", pageUpdateApiUtil.getPageUpdateApiClient().getVersionNumber());
         log.info("Backend available: {}", backend.isAvailable());
-
     }
 
 
@@ -103,9 +103,9 @@ class PagesPublisherTest extends AbstractApiMediaBackendTest {
         String methodName = testInfo.getTestMethod().get().getName();
         LocalDate today = LocalDate.now();
 
-        urlToday = "http://test.poms.nl/" + URLEncoder.encode(methodName + today, UTF_8);
-        urlYesterday = "http://test.poms.nl/" + URLEncoder.encode(methodName + today.minusDays(1), UTF_8);
-        urlTomorrow = "http://test.poms.nl/" + URLEncoder.encode(methodName + today.plusDays(1), UTF_8);
+        urlToday = URL_PREFIX  + URLEncoder.encode(methodName + today, UTF_8);
+        urlYesterday = URL_PREFIX + URLEncoder.encode(methodName + today.minusDays(1), UTF_8);
+        urlTomorrow = URL_PREFIX + URLEncoder.encode(methodName + today.plusDays(1), UTF_8);
 
 
         PortalUpdate portal = new PortalUpdate("WETENSCHAP24", "http://test.poms.nl");
@@ -134,7 +134,7 @@ class PagesPublisherTest extends AbstractApiMediaBackendTest {
                     )
                 .portal(portal)
                 .links(
-                    LinkUpdate.topStory(topStoryUrl, "mooie story over sterrenhopen"),
+                    LinkUpdate.topStory(TOP_STORY_URL, "mooie story over sterrenhopen"),
                     LinkUpdate.of(urlYesterday, "yesterday"),
                     LinkUpdate.of(urlTomorrow, "tomorrow")
                 )
@@ -151,10 +151,10 @@ class PagesPublisherTest extends AbstractApiMediaBackendTest {
             assertThat(r.getStatus()).withFailMessage(r.toString()).isEqualTo(Result.Status.SUCCESS);
         }
 
-        PageUpdate topStory = pageUpdateApiUtil.get(topStoryUrl);
+        PageUpdate topStory = pageUpdateApiUtil.get(TOP_STORY_URL);
         if (topStory == null) {
-            log.info("Topstory {} not found. Making it now", topStoryUrl);
-            Result<Void> r = pageUpdateApiUtil.saveAndWait(PageUpdateBuilder.article(topStoryUrl)
+            log.info("Topstory {} not found. Making it now", TOP_STORY_URL);
+            Result<Void> r = pageUpdateApiUtil.saveAndWait(PageUpdateBuilder.article(TOP_STORY_URL)
                 .broadcasters("VPRO")
                 .title("Sterrenhopen en zo, heel interessant")
                 .portal(portal)
@@ -254,14 +254,14 @@ class PagesPublisherTest extends AbstractApiMediaBackendTest {
         Page tomorrow = pageUtil.load(urlTomorrow)[0];
 
         assertThat(tomorrow).isNull();
-        Page topStory = pageUtil.load(topStoryUrl)[0];
+        Page topStory = pageUtil.load(TOP_STORY_URL)[0];
 
         Optional<Referral> referral = topStory.getReferrals()
             .stream()
             .filter(r -> r.getPageRef().equals(urlToday))
             .findFirst();
 
-        assertThat(referral).withFailMessage(topStoryUrl + " has no referral " + urlToday).isPresent();
+        assertThat(referral).withFailMessage(TOP_STORY_URL + " has no referral " + urlToday).isPresent();
         assertThat(referral.get().getType()).isEqualTo(LinkType.TOP_STORY);
 
     }
@@ -457,12 +457,21 @@ class PagesPublisherTest extends AbstractApiMediaBackendTest {
         Page page = Utils.waitUntil(ACCEPTABLE_PAGE_PUBLISHED_DURATION,
             article.getUrl() + " has only one embed",
             () ->
-                pageUtil.load(article.getUrl())[0],
+                pageUpdateApiUtil.getPublishedPage(article.getUrl()).orElse(null),
             p -> p != null && p.getEmbeds().size() == 1
         );
 
         assertThat(page.getEmbeds()).hasSize(1);
         assertThat(page.getEmbeds().get(0).getMedia().getMid()).isEqualTo(ANOTHER_MID);
+
+    }
+
+    @Test
+    public void cleanUpOldPages() {
+        LocalDate today = LocalDate.now(Schedule.ZONE_ID);
+
+        LocalDate lastMonth = today.minusMonths(1);
+
 
     }
 
@@ -733,7 +742,7 @@ class PagesPublisherTest extends AbstractApiMediaBackendTest {
     @Order(700)
     public void consistency() {
         Set<String> checked = new LinkedHashSet<>();
-        testConsistency(topStoryUrl, checked, false);
+        testConsistency(TOP_STORY_URL, checked, false);
         log.info("{}", checked);
     }
 
@@ -912,7 +921,7 @@ class PagesPublisherTest extends AbstractApiMediaBackendTest {
     @AbortOnException.NoAbort
     @Order(1000)
     public void cleanUps() {
-        MultipleEntry<Page> multipleEntry = clients.getPageService().loadMultiple(topStoryUrl, null, null).getItems().get(0);
+        MultipleEntry<Page> multipleEntry = clients.getPageService().loadMultiple(TOP_STORY_URL, null, null).getItems().get(0);
 
         assertThat(multipleEntry.getResult()).isNotNull();
 
@@ -937,9 +946,11 @@ class PagesPublisherTest extends AbstractApiMediaBackendTest {
     }
 
     @Test
+    @Order(1500)
     @Disabled
     public void test999CleanUp() {
-        pageUpdateApiUtil.deleteWhereStartsWith("http://test.poms.nl/");
+        Result<DeleteResult> deleteResult = pageUpdateApiUtil.deleteWhereStartsWith(URL_PREFIX);
+        log.info("{}", deleteResult);
     }
 
     protected void assumeNotNull(Object object) {
