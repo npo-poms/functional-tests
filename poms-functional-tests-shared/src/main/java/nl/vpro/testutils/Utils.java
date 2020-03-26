@@ -197,7 +197,7 @@ public class Utils {
         Duration acceptable,
         Supplier<T> resultSupplier,
         Check.Builder<T>... tests) {
-          Check<T>[] args = Arrays.stream(tests).map(Check.Builder<T>::build).toArray(Check[]::new);
+          Check<T>[] args = Arrays.stream(tests).map(Check.Builder::build).toArray(Check[]::new);
          return waitUntil(acceptable, resultSupplier, args);
     }
 

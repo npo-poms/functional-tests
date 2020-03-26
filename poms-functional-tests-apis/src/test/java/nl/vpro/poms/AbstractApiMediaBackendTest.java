@@ -100,9 +100,10 @@ public abstract class AbstractApiMediaBackendTest extends AbstractApiTest {
     }
 
     @SneakyThrows
-    protected Image createImage() {
-        Image image = new Image(OwnerType.BROADCASTER, ImageType.PICTURE, title);
-        image.setImageUri("https://via.placeholder.com/150?text=" + URLEncoder.encode(title, UTF_8));
+    protected Image createImage(String prefix) {
+        String imageTitle = prefix + title;
+        Image image = new Image(OwnerType.BROADCASTER, ImageType.PICTURE, imageTitle);
+        image.setImageUri("https://via.placeholder.com/150?text=" + URLEncoder.encode(imageTitle, UTF_8));
         image.setLicense(License.CC_BY);
         image.setSourceName("placeholder.com");
         image.setSource("https://via.placeholder.com/");

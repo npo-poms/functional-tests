@@ -50,11 +50,11 @@ public class MediaIntegrationTest extends AbstractApiMediaBackendTest {
     @Order(1)
     void createMedia() {
         clipTitle = title;
-        Image expiredImage = createImage();
+        Image expiredImage = createImage("OFFLINE ");
         expiredImage.setTitle("OFFLINE " + title);
         expiredImage.setPublishStopInstant(Instant.now().minus(Duration.ofMinutes(1)));
 
-        Image publishedImage = createImage();
+        Image publishedImage = createImage("PUBLISHED ");
         publishedImage.setTitle("PUBLISHED " + title);
         publishedImage.setPublishStopInstant(Instant.now().plus(Duration.ofMinutes(10)));
 
