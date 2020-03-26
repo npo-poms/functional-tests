@@ -2,6 +2,9 @@
 
 !include -c >Variabelen
 
+|scenario|Npo poms Tabblad object Open|object|
+|open    |${UrlPoms}/#/edit/@object          |
+
 |scenario|Npo poms Tabblad object Check hoofdtitel|hoofdtitel                                                    |
 |check   |value of                                |xpath=//span[@class="media breadcrumb-link-title"]|@hoofdtitel|
 |check   |value of                                |xpath=//h1[@class="viewer-title"]                 |@hoofdtitel|
