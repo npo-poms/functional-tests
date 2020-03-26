@@ -93,7 +93,7 @@ Test
 |Sla huidige waardes uit Detailscherm op                                                                                             |
 |Vul nieuwe waardes in in het detailscherm                                                                                           |
 |click                                                     |Bewaar                                                                   |
-|wait                                                      |3                        |seconds                                        |
+|wait for visible                                          |is nu Wordt gepubliceerd                                    |
 |Npo poms zoeken Selecteer eerste uitzending                                                                                         |
 |Zet originele waardes terug in het detailscherm                                                                                     |
 |click                                                     |Bewaar                                                                   |
