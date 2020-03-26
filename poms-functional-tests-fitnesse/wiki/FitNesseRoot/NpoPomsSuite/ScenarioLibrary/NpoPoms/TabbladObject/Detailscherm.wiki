@@ -72,3 +72,18 @@
 |scenario|Npo poms Tabblad object Detailscherm controleer nog in te vullen melding van veld|veld                                                              |
 |ensure  |is visible on page                                                               |xpath=//span[text()='Nog in te vullen:']                          |
 |ensure  |is visible on page                                                               |xpath=//span[@class='required-field' and contains(text(),'@veld')]|
+
+|scenario       |Npo poms Tabblad object Detailscherm controleer waarde dropdown van veld|veld          |heeft waarde|waarde                                                      |
+|$selectedvalue=|value of attribute                                                      |selected      |on          |xpath=//label[text()='@veld']/following::*[text()='@waarde']|
+|check          |value of                                                                |$selectedvalue|true                                                                     |
+
+|scenario|Npo poms Tabblad object Detailscherm controleer aanwezigheid dropdown met titel|titel                                           |
+|ensure  |is visible on page                                                             |xpath=//label[text()='@titel']/following::select|
+
+|scenario|Npo poms Tabblad object Detailscherm controleer aanwezigheid input veld met titel|titel                                             |
+|ensure  |is visible on page                                                               |xpath=//label[text()='@titel']/following::input[1]|
+
+|scenario|Npo poms Tabblad object Detailscherm controleer aanwezigheid textarea met titel|titel                                                |
+|ensure  |is visible on page                                                             |xpath=//label[text()='@titel']/following::textarea[1]|
+
+
