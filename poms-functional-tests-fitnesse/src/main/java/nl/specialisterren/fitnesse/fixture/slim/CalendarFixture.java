@@ -45,4 +45,25 @@ public class CalendarFixture {
 
 		return new SimpleDateFormat("dd-MM-yyyy HH:mm", new Locale("nl")).format(cal.getTime());
 	}
+
+	public String increaseDateWithMinutes(String datetime, int minutes) {
+		String regex = "(?<day>\\d{2})-(?<month>\\d{2})-(?<year>\\d{4}) (?<hour>\\d{2}):(?<minute>\\d{2})";
+		Pattern p = Pattern.compile(regex);
+		Matcher m = p.matcher(datetime);
+
+		if (!m.find())
+			return "";
+
+		int day = Integer.valueOf(m.group("day"));
+		int month = Integer.valueOf(m.group("month"));
+		int year = Integer.valueOf(m.group("year"));
+		int hour = Integer.valueOf(m.group("hour"));
+		int minute = Integer.valueOf(m.group("minute"));
+
+		Calendar cal = Calendar.getInstance();
+		cal.set(year, month-1, day, hour, minute);
+		cal.add(Calendar.MINUTE, minutes);
+
+		return new SimpleDateFormat("dd-MM-yyyy HH:mm", new Locale("nl")).format(cal.getTime());
+	}
 }
