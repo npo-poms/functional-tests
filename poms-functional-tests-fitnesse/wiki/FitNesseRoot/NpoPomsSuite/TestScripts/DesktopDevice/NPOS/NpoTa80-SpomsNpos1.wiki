@@ -1,0 +1,40 @@
+---
+Test
+---
+|script                                                                                                                      |
+|Open Npo poms website                                                                                                       |
+|Npo poms Inlogscherm Log in met npo                                                                                         |
+|click                                                                            |ZOEKEN                                    |
+|Npo poms Hoofdscherm Wacht tot tabblad Zoeken geopend                                                                       |
+|Npo poms Zoeken Selecteer optie                                                  |Nederland 2       |in dropdown|Zenders    |
+|Npo poms Zoeken Druk knop                                                        |Zoeken                                    |
+|wait for visible                                                                 |Gezocht naar: Nederland 2                 |
+|Npo poms zoeken Scroll naar object nummer                                        |10                                        |
+|Npo poms Zoeken Sla hoofdtitel van object nummer                                 |10                |op in var  |titelObject|
+|Npo poms Zoeken Sla type van object nummer                                       |10                |op in var  |typeObject |
+|Npo poms Zoeken Dubbelklik op hoofdtitel van object nummer                       |10                                        |
+|Npo poms Hoofdscherm Wacht tot tabblad                                           |$titelObject      |geopend                |
+|Npo poms Hoofdscherm Check titel van laatste tab                                 |$titelObject                              |
+|Npo poms Hoofdscherm Check subtitel van laatste tab                              |$typeObject                               |
+|Npo poms zoeken Klik op uitzendingen in linkermenu                                                                          |
+|Npo poms zoeken Selecteer eerste uitzending                                                                                 |
+|Npo poms Tabblad object Detailscherm controleer aanwezigheid dropdown met titel  |Kanaal:                                   |
+|Npo poms Tabblad object Detailscherm controleer aanwezigheid dropdown met titel  |Net:                                      |
+|Npo poms Tabblad object Detailscherm controleer aanwezigheid input veld met titel|Starttijd:                                |
+|Npo poms Tabblad object Detailscherm controleer aanwezigheid input veld met titel|Stoptijd:                                 |
+|Npo poms Tabblad object Detailscherm controleer aanwezigheid input veld met titel|Titel                                     |
+|Npo poms Tabblad object Detailscherm controleer aanwezigheid input veld met titel|Afleveringtitel / Subtitel                |
+|Npo poms Tabblad object Detailscherm controleer aanwezigheid input veld met titel|Afkorting                                 |
+|Npo poms Tabblad object Detailscherm controleer aanwezigheid input veld met titel|Werktitel                                 |
+|Npo poms Tabblad object Detailscherm controleer aanwezigheid input veld met titel|Originele titel                           |
+|Npo poms Tabblad object Detailscherm controleer aanwezigheid textarea met titel  |Beschrijving                              |
+|Npo poms Tabblad object Detailscherm controleer aanwezigheid textarea met titel  |Korte beschrijving                        |
+|Npo poms Tabblad object Detailscherm controleer aanwezigheid textarea met titel  |Eenregelige beschrijving                  |
+|ensure                                                                           |is visible on page|Bewaar                 |
+|ensure                                                                           |is visible on page|Annuleer               |
+|ensure                                                                           |is visible on page|Gidsdatum:             |
+|ensure                                                                           |is visible on page|Teletekstpagina:       |
+|ensure                                                                           |is visible on page|Ondertiteling:         |
+|ensure                                                                           |is visible on page|Herhaling:             |
+|Npo poms Tabblad object Detailscherm Druk op kruisje om pop-up te sluiten                                                   |
+|Npo poms Hoofdscherm Sluit laatste tab                                                                                      |

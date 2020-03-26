@@ -44,8 +44,12 @@
 |scenario|Npo poms Tabblad object Check status|status                                                    |
 |check   |value of                            |xpath=//h2[text()="Status"]/following-sibling::*/p|@status|
 
-|scenario        |Npo poms Tabblad object Wacht tot status                 |status                |
+|scenario        |Npo poms Tabblad object Wacht tot status      |status                           |
+|start timer     |timer                                                                           |
 |wait for visible|xpath=//h2[text()="Status"]/following-sibling::*/p[normalize-space(.)="@status"]|
+|$wachttijd=     |time on timer                                 |timer                            |
+|$wachttijd=     |format timestamp                              |$wachttijd     |as     |m:ss     |
+|stop timer      |timer                                                                           |
 
 |scenario  |Npo poms Tabblad object Hover over object         |objectNaam        |in zoekresultaten        |
 |hover over|xpath=//table/tbody/tr[./td[@class="column-title"]/span/span[normalize-space(.)="@objectNaam"]]|
