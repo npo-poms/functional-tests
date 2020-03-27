@@ -4,7 +4,8 @@ Test
 |scenario|Npo poms Tabblad object Detailscherm Sla geselecteerde waarde op uit veld|veld                  |op in var                  |var                  |
 |$@var=  |value of                                                                 |xpath=//label[text()='@veld']/following::option[@selected='selected'][1]|
 
-
+|scenario|Npo poms Tabblad object Detailscherm Check dat checkbox|checkbox                                             |waarde|waarde|heeft|
+|check   |value of                                               |xpath=//label[text()='@checkbox']/following::input[1]|@waarde            |
 
 |scenario|Npo poms Tabblad object Detailscherm Sla waarde vinkvak op uit veld|veld           |op in var          |var          |
 |$@var=  |value of                                                           |xpath=//label[text()='@veld']/following::input[1]|
@@ -69,6 +70,21 @@ Test
 |Npo poms Tabblad object Detailscherm Vul                                 |$kortebeschrijvingVar      |in textarea                     |Korte beschrijving        |
 |Npo poms Tabblad object Detailscherm Vul                                 |$eenregeligebeschrijvingVar|in textarea                     |Eenregelige beschrijving  |
 
+|scenario                                               |Controleer de nieuwe waardes in detailscherm                         |
+|Npo poms Tabblad object Detailscherm Check dat checkbox|Herhaling:                |waarde      |true          |heeft         |
+|Npo poms Tabblad object Detailscherm Check dropdown    |Kanaal:                   |heeft waarde|Nederland 1                  |
+|Npo poms Tabblad object Detailscherm Check dropdown    |Net:                      |heeft waarde|Zapp 24                      |
+|Npo poms Tabblad object Detailscherm Check datepicker  |Starttijd:                |heeft waarde|$nieuwstarttijd              |
+|Npo poms Tabblad object Detailscherm Check datepicker  |Stoptijd:                 |heeft waarde|$nieuwstoptijd               |
+|Npo poms Tabblad object Detailscherm Check tekstveld   |Titel                     |heeft waarde|Titel test                   |
+|Npo poms Tabblad object Detailscherm Check tekstveld   |Afleveringtitel / Subtitel|heeft waarde|Afleveringstitel             |
+|Npo poms Tabblad object Detailscherm Check tekstveld   |Korte titel               |heeft waarde|Korte titel test             |
+|Npo poms Tabblad object Detailscherm Check tekstveld   |Afkorting                 |heeft waarde|Afkorting test               |
+|Npo poms Tabblad object Detailscherm Check tekstveld   |Werktitel                 |heeft waarde|Werktitel test               |
+|Npo poms Tabblad object Detailscherm Check tekstveld   |Originele titel           |heeft waarde|Originele titel test         |
+|Npo poms Tabblad object Detailscherm Check textarea    |Beschrijving              |heeft waarde|Beschrijving test            |
+|Npo poms Tabblad object Detailscherm Check textarea    |Korte beschrijving        |heeft waarde|Korte beschrijving test      |
+|Npo poms Tabblad object Detailscherm Check textarea    |Eenregelige beschrijving  |heeft waarde|Eenregelige beschrijving test|
 *!
 
 
@@ -93,8 +109,9 @@ Test
 |Sla huidige waardes uit Detailscherm op                                                                                             |
 |Vul nieuwe waardes in in het detailscherm                                                                                           |
 |click                                                     |Bewaar                                                                   |
-|wait for visible                                          |is nu Wordt gepubliceerd                                    |
+|wait for visible                                          |is nu Wordt gepubliceerd                                                 |
 |Npo poms zoeken Selecteer eerste uitzending                                                                                         |
+|Controleer de nieuwe waardes in detailscherm                                                                                        |
 |Zet originele waardes terug in het detailscherm                                                                                     |
 |click                                                     |Bewaar                                                                   |
 |                                                          |Npo poms Tabblad object Detailscherm Druk op kruisje om pop-up te sluiten|
