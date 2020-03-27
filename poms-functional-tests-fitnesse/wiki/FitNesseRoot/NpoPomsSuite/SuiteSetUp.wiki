@@ -15,4 +15,5 @@
 |calendar fixture       |
 |timer fixture          |
 |date format fixture    |
+|script language fixture|
 *!

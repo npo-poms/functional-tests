@@ -27,58 +27,60 @@ Test
 |script       |ng browser test      |
 |wait for Angular requests to finish|
 
-|script                                              |extended browser test                                                                        |
-|$aantalAfbeeldingen1=                               |value of       |xpath=//poms-images/div/h1                                                   |
-|$aantalAfbeeldingen1=                               |extract string |$aantalAfbeeldingen1               |from|Afbeeldingen \((\d+)\)|using group|1|
-|set search context to                               |xpath=//poms-images                                                                          |
-|click                                               |Afbeelding toevoegen                                                                         |
-|clear search context                                                                                                                              |
-|select file                                         |${plaatje}     |for                                |css=input[id=inputFile]                  |
-|wait for visible                                    |css=img                                                                                      |
-|show                                                |take screenshot|${screenshot}_!today (yyyyMMddHHmmss)                                        |
-|Npo poms Tabblad object Detailscherm Vul            |${titel}       |in tekstveld                       |Titel *                                  |
-|Npo poms Tabblad object Detailscherm Vul            |${beschrijving}|in textarea                        |Beschrijving *                           |
-|scroll to                                           |Afbeeldingstype *                                                                            |
-|Npo poms Tabblad object Detailscherm Selecteer optie|Afbeelding     |in selecteerbare tekstveld         |Afbeeldingstype *                        |
-|click                                               |Maak aan                                                                                     |
-|check                                               |value of       |xpath=//div[@class="modal-message"]|${waarschuwingFotosUploaden}             |
-|click                                               |begrepen                                                                                     |
-|wait for not visible                                |begrepen                                                                                     |
-|Npo poms Hoofdscherm Sluit laatste tab                                                                                                            |
-|Npo poms Hoofdscherm Sluit laatste tab                                                                                                            |
-|Npo poms Hoofdscherm Log uit                                                                                                                      |
+|script                                              |extended browser test                                                           |
+|set search context to                               |xpath=//poms-images                                                             |
+|Npo poms Tabblad object Sla aantal in veld          |Afbeeldingen   |op in var                          |aantalAfbeeldingen          |
+|click                                               |Afbeelding toevoegen                                                            |
+|clear search context                                                                                                                 |
+|select file                                         |${plaatje}     |for                                |css=input[id=inputFile]     |
+|wait for visible                                    |css=img                                                                         |
+|show                                                |take screenshot|${screenshot}_!today (yyyyMMddHHmmss)                           |
+|Npo poms Tabblad object Detailscherm Vul            |${titel}       |in tekstveld                       |Titel *                     |
+|Npo poms Tabblad object Detailscherm Vul            |${beschrijving}|in textarea                        |Beschrijving *              |
+|scroll to                                           |Afbeeldingstype *                                                               |
+|Npo poms Tabblad object Detailscherm Selecteer optie|Afbeelding     |in selecteerbare tekstveld         |Afbeeldingstype *           |
+|click                                               |Maak aan                                                                        |
+|check                                               |value of       |xpath=//div[@class="modal-message"]|${waarschuwingFotosUploaden}|
+|click                                               |begrepen                                                                        |
+|wait for not visible                                |begrepen                                                                        |
+|Npo poms Hoofdscherm Sluit laatste tab                                                                                               |
+|Npo poms Hoofdscherm Sluit laatste tab                                                                                               |
+|Npo poms Hoofdscherm Log uit                                                                                                         |
 
 
-|script                                                      |extended browser test                                                 |
-|Npo poms Inlogscherm Log in met admin                                                                                              |
-|Npo poms Zoeken Vul                                         |$mid           |in zoekveld                                           |
-|Npo poms Zoeken Druk knop                                   |Zoeken                                                                |
-|wait for visible                                            |Gezocht naar: '$mid'                                                  |
-|Npo poms Zoeken Dubbelklik op hoofdtitel van eerste object                                                                         |
-|Npo poms Hoofdscherm Wacht tot tabblad                      |$titelVanObject|geopend                                               |
-|Npo poms Hoofdscherm Check titel van laatste tab            |$titelVanObject                                                       |
-|Npo poms Hoofdscherm Check subtitel van laatste tab         |$typeVanObject                                                        |
-|Npo poms Tabblad object Druk op link                        |Afbeeldingen   |in sidebar                                            |
-|wait for visible                                            |Afbeelding toevoegen                                                  |
-|Npo poms Tabblad object Check afbeelding                    |${titel}       |zichtbaar                                             |
-|Npo poms Tabblad object Check afbeelding                    |${titel}       |heeft beschrijving|${beschrijving}                    |
-|Npo poms Tabblad object Wacht tot preview afbeelding van    |${titel}       |zichtbaar                                             |
-|show                                                        |take screenshot|${screenshot}_!today (yyyyMMddHHmmss)                 |
-|Npo poms Tabblad object Druk op preview afbeelding van      |${titel}                                                              |
-|switch to next tab                                                                                                                 |
-|wait for visible                                            |css=img                                                               |
-|show                                                        |take screenshot|${screenshot}_!today (yyyyMMddHHmmss)                 |
-|close tab                                                                                                                          |
-|Npo poms Tabblad object Hover over afbeelding               |${titel}                                                              |
-|Npo poms Tabblad object Druk op verwijderknop bij afbeelding|${titel}                                                              |
-|wait for visible                                            |Afbeelding verwijderen?                                               |
-|click                                                       |xpath=//button[text()="verwijderen"]                                  |
-|wait for not visible                                        |Afbeelding verwijderen?                                               |
-|set search context to                                       |xpath=//poms-images                                                   |
-|check                                                       |value of       |xpath=.//h1       |Afbeeldingen ($aantalAfbeeldingen1)|
-|Npo poms Tabblad object Check afbeelding                    |${titel}       |niet zichtbaar                                        |
-|clear search context                                                                                                               |
-|show                                                        |take screenshot|${screenshot}_!today (yyyyMMddHHmmss)                 |
-|Npo poms Hoofdscherm Sluit laatste tab                                                                                             |
-|Npo poms Hoofdscherm Sluit laatste tab                                                                                             |
-|Npo poms Hoofdscherm Log uit                                                                                                       |
+|script                                                      |extended browser test                                       |
+|Npo poms Inlogscherm Log in met admin                                                                                    |
+|Npo poms Zoeken Vul                                         |$mid           |in zoekveld                                 |
+|Npo poms Zoeken Druk knop                                   |Zoeken                                                      |
+|wait for visible                                            |Gezocht naar: '$mid'                                        |
+|Npo poms Zoeken Dubbelklik op hoofdtitel van eerste object                                                               |
+|Npo poms Hoofdscherm Wacht tot tabblad                      |$titelVanObject|geopend                                     |
+|Npo poms Hoofdscherm Check titel van laatste tab            |$titelVanObject                                             |
+|Npo poms Hoofdscherm Check subtitel van laatste tab         |$typeVanObject                                              |
+|Npo poms Tabblad object Druk op link                        |Afbeeldingen   |in sidebar                                  |
+|wait for visible                                            |Afbeelding toevoegen                                        |
+|Npo poms Tabblad object Check afbeelding                    |${titel}       |zichtbaar                                   |
+|Npo poms Tabblad object Check afbeelding                    |${titel}       |heeft beschrijving|${beschrijving}          |
+|Npo poms Tabblad object Wacht tot preview afbeelding van    |${titel}       |zichtbaar                                   |
+|set search context to                                       |xpath=//poms-images                                         |
+|Npo poms Tabblad object Check aantal in veld                |Afbeeldingen   |is var            |aantalAfbeeldingen|plus|1|
+|clear search context                                                                                                     |
+|show                                                        |take screenshot|${screenshot}_!today (yyyyMMddHHmmss)       |
+|Npo poms Tabblad object Druk op preview afbeelding van      |${titel}                                                    |
+|switch to next tab                                                                                                       |
+|wait for visible                                            |css=img                                                     |
+|show                                                        |take screenshot|${screenshot}_!today (yyyyMMddHHmmss)       |
+|close tab                                                                                                                |
+|Npo poms Tabblad object Hover over afbeelding               |${titel}                                                    |
+|Npo poms Tabblad object Druk op verwijderknop bij afbeelding|${titel}                                                    |
+|wait for visible                                            |Afbeelding verwijderen?                                     |
+|click                                                       |xpath=//button[text()="verwijderen"]                        |
+|wait for not visible                                        |Afbeelding verwijderen?                                     |
+|set search context to                                       |xpath=//poms-images                                         |
+|Npo poms Tabblad object Check aantal in veld                |Afbeeldingen   |is var            |aantalAfbeeldingen       |
+|Npo poms Tabblad object Check afbeelding                    |${titel}       |niet zichtbaar                              |
+|clear search context                                                                                                     |
+|show                                                        |take screenshot|${screenshot}_!today (yyyyMMddHHmmss)       |
+|Npo poms Hoofdscherm Sluit laatste tab                                                                                   |
+|Npo poms Hoofdscherm Sluit laatste tab                                                                                   |
+|Npo poms Hoofdscherm Log uit                                                                                             |

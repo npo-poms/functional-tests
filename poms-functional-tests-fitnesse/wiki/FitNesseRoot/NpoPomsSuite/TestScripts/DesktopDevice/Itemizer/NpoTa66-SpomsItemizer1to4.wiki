@@ -1,0 +1,60 @@
+---
+Test
+---
+!*> Lokale variabelen
+
+!define media {POW_00587306}
+!define titel1 {1e itemizer test}
+!define titel2 {2e segment}
+!define beschrijving1 {De test met de Itemizer}
+!define beschrijving2 {De test voor het 2e segment}
+
+*!
+
+|script                                             |
+|Open Npo poms website                              |
+|Npo poms Inlogscherm Log in met standaard-gebruiker|
+|Npo poms Tabblad object Open       |${media}       |
+
+|script                                                         |
+|Npo poms Tabblad object Segment Bewaar aantal segmenten op id|1|
+|Npo poms Tabblad object Segment toevoegen met speler           |
+
+|script                                                           |
+|Npo poms Tabblad object Segment Speel video voor       |1  |sec  |
+|Npo poms Tabblad object Segment Zet huidige positie als|starttijd|
+|Npo poms Tabblad object Segment Speel video voor       |2  |sec  |
+|Npo poms Tabblad object Segment Zet huidige positie als|stoptijd |
+
+Controleer verwacht resultaat:
+Door het zetten van start- en stop tijd, worden de start- en stop tijden ingevuld en wordt de speelduur berekend.
+Klik daarna op “Bewaar en nieuw”.
+|script                                                                                                              |
+|Npo poms Tabblad object Segment Controleer start |00:00:01 |stop        |00:00:03        |en duration      |00:00:02|
+|Npo poms Tabblad object Segment opslaan met titel|${titel1}|beschrijving|${beschrijving1}|en knop Bewaar en|nieuw   |
+|click                                            |Annuleer                                                          |
+
+BUG! Na klik op “Bewaar en nieuw” werkt de playknop niet meer, zie https://specialisterren.atlassian.net/browse/NPOTA-99
+TODO: De stappen uit alle comments hieronder toevoegen, zodra bug NPOTA-99 is opgelost:
+#|script                                 |
+#|Npo poms Tabblad object Segment Zet huidige positie als|starttijd|
+#|Npo poms Tabblad object Segment Speel video voor       |1  |sec  |
+#|Npo poms Tabblad object Segment Zet huidige positie als|stoptijd |
+#
+#Controleer verwacht resultaat:
+#Door het zetten van start- en stop tijd, worden de start- en stop tijden ingevuld en wordt de speelduur berekend.
+#Klik daarna op “Bewaar en sluit”.
+#|script                                                          |
+#|Npo poms Tabblad object Segment Controleer start |00:00:03 |stop        |00:00:04        |en duration      |00:00:01|
+#|Npo poms Tabblad object Segment opslaan met titel|${titel2}|beschrijving|${beschrijving2}|en knop Bewaar en|sluit|
+
+Controleer verwacht resultaat:
+Terug in het deel van de segmenten zijn er de twee aangemaakte segmenten toegevoegd. De teller bij “Segmenten” is met 2 opgehoogd
+|script                                                                                  |
+|Npo poms Tabblad object Segment Bewaar aantal segmenten op id|2                         |
+|Npo poms Tabblad object Segment Controleer aantal tussen id  |1|en|2|is toegenomen met|1|
+
+|script                                                                                                        |
+|Npo poms Tabblad object Segment Verwijder en verwacht|$segmentCount1|segmenten met andere titels dan|${titel1}|
+#|Npo poms Tabblad object Segment Verwijder en verwacht|$segmentCount1|segmenten met andere titels dan|${titel2}|
+
