@@ -1,0 +1,20 @@
+---
+Test
+---
+!define MIDVALUE {!-POMS_NTR_157704-!}
+
+|script                                                                                      |
+|Open Npo poms website                                                                       |
+|Npo poms Inlogscherm Log in met npo                                                         |
+|click                                                     |Zoeken                           |
+|Npo poms Zoeken Vul                                       |${MIDVALUE}          |in zoekveld|
+|Npo poms Zoeken Druk knop                                 |Zoeken                           |
+|Npo poms Zoeken Check aantal zoekresultaten               |1                                |
+|Npo poms Zoeken Sla hoofdtitel van eerste object op in var|titelVanEersteObject             |
+|Npo poms Zoeken Sla type van eerste object op in var      |typeVanEersteObject              |
+|Npo poms Zoeken Dubbelklik op hoofdtitel van eerste object                                  |
+|Npo poms Hoofdscherm Wacht tot tabblad                    |$titelVanEersteObject|geopend    |
+|Npo poms Hoofdscherm Check titel van laatste tab          |$titelVanEersteObject            |
+|Npo poms Hoofdscherm Check subtitel van laatste tab       |$typeVanEersteObject             |
+|Npo poms Hoofdscherm Sluit laatste tab                                                      |
+|Npo poms Hoofdscherm Log uit                                                                |
