@@ -2,6 +2,9 @@
 
 !include -c >Variabelen
 
+|scenario|Npo poms Tabblad object Open|object|
+|open    |${UrlPoms}/#/edit/@object          |
+
 |scenario|Npo poms Tabblad object Check hoofdtitel|hoofdtitel                                                    |
 |check   |value of                                |xpath=//span[@class="media breadcrumb-link-title"]|@hoofdtitel|
 |check   |value of                                |xpath=//h1[@class="viewer-title"]                 |@hoofdtitel|
@@ -44,8 +47,12 @@
 |scenario|Npo poms Tabblad object Check status|status                                                    |
 |check   |value of                            |xpath=//h2[text()="Status"]/following-sibling::*/p|@status|
 
-|scenario        |Npo poms Tabblad object Wacht tot status                 |status                |
+|scenario        |Npo poms Tabblad object Wacht tot status      |status                           |
+|start timer     |timer                                                                           |
 |wait for visible|xpath=//h2[text()="Status"]/following-sibling::*/p[normalize-space(.)="@status"]|
+|$wachttijd=     |time on timer                                 |timer                            |
+|$wachttijd=     |format timestamp                              |$wachttijd     |as     |m:ss     |
+|stop timer      |timer                                                                           |
 
 |scenario  |Npo poms Tabblad object Hover over object         |objectNaam        |in zoekresultaten        |
 |hover over|xpath=//table/tbody/tr[./td[@class="column-title"]/span/span[normalize-space(.)="@objectNaam"]]|
@@ -96,6 +103,24 @@
 |scenario|Npo poms Tabblad object Druk op verwijderknop bij afbeelding                                                    |afbeelding                                                   |
 |click   |xpath=//poms-images/div/table/tbody/tr[./td[@class="column-title"]/span[normalize-space(.)="@afbeelding"]]/td[@class="column-tools"]/div/button[@title="verwijder afbeelding"]|
 
+|scenario|Npo poms Tabblad object Check onderdeel|onderdeel                                                                                                                               |heeft type|type|
+|check   |value of                               |xpath=//poms-members/div/table/tbody/tr[./td[@class="column-title"]/span[normalize-space(.)="@onderdeel"]]/td[@class="column-type"]/span|@type          |
+
+|scenario              |Npo poms Tabblad object Check item|item                                  |niet zichtbaar                                 |
+|seconds before timeout|3                                                                                                                        |
+|reject                |is visible on page                |xpath=.//div/table/tbody/tr/td[@class="column-title"]/span[normalize-space(.)="@item"]|
+|seconds before timeout|${secondsBeforeTimeout}                                                                                                  |
+
+|scenario|Npo poms Tabblad object Check item|item                                    |zichtbaar                                    |
+|ensure  |is visible on page                |xpath=.//div/table/tbody/tr/td[@class="column-title"]/span[normalize-space(.)="@item"]|
+
+|scenario  |Npo poms Tabblad object Hover over item                     |item                     |
+|hover over|xpath=.//div/table/tbody/tr/td[@class="column-title"]/span[normalize-space(.)="@item"]|
+
+|scenario|Npo poms Tabblad object Druk op verwijderknop bij item                                              |item                                              |
+|click   |xpath=.//div/table/tbody/tr[./td[@class="column-title"]/span[normalize-space(.)="@item"]]/td[@class="column-tools"]/div/button[@title="verwijder item"]|
+
+
 |scenario|Npo poms Tabblad object Check bron|url                                          |zichtbaar                                          |
 |ensure  |is visible on page                |xpath=//poms-locations/div/table/tbody/tr/td[@class="column-url"]/span[normalize-space(.)="@url"]|
 
@@ -112,6 +137,20 @@
 
 |scenario|Npo poms Tabblad object Druk op verwijderknop bij bron                                                   |url                                                  |
 |click   |xpath=//poms-locations/div/table/tbody/tr[./td[@class="column-url"]/span[normalize-space(.)="@url"]]/td[@class="column-tools"]//button[@title="verwijder bron"]|
+
+|scenario|Npo poms Tabblad object Check segment|segment                                             |zichtbaar                                            |
+|ensure  |is visible on page                   |xpath=//poms-segments/div/table/tbody/tr/td[@class="column-mainTitle"]/span[normalize-space(.)="@segment"]|
+
+|scenario              |Npo poms Tabblad object Check segment|segment                                          |niet zichtbaar                                          |
+|seconds before timeout|3                                                                                                                                               |
+|reject                |is visible on page                   |xpath=//poms-segments/div/table/tbody/tr/td[@class="column-mainTitle"]/span[normalize-space(.)="@segment"]|
+|seconds before timeout|${secondsBeforeTimeout}                                                                                                                         |
+
+|scenario  |Npo poms Tabblad object Hover over segment                            |segment                            |
+|hover over|xpath=//poms-segments/div/table/tbody/tr/td[@class="column-mainTitle"]/span[normalize-space(.)="@segment"]|
+
+|scenario|Npo poms Tabblad object Druk op verwijderknop bij segment                                                        |segment                                                        |
+|click   |xpath=//poms-segments/div/table/tbody/tr[./td[@class="column-mainTitle"]/span[normalize-space(.)="@segment"]]/td[@class="column-tools-xl"]/div/button[@title="verwijder segment"]|
 
 |table template        |Npo poms Tabblad object Check veld niet te bewerken en niet te verwijderen                                                                 |
 |hover over            |xpath=//h2[starts-with(normalize-space(.), "@{veld}")]                                                                                     |
@@ -146,3 +185,14 @@
 |set search context to|xpath=//poms-predictions                       |
 |double click         |@platform                                      |
 |clear search context                                                 |
+
+|scenario|Npo poms Tabblad object Sla aantal in veld|veld |op in var|var                          |
+|$@var=  |value of                                  |xpath=.//div/h1[contains(text(), "@veld")]   |
+|$@var=  |extract string                            |$@var|from     |@veld \((\d+)\)|using group|1|
+
+|scenario|Npo poms Tabblad object Check aantal in veld|veld                                      |is var  |var |
+|check   |value of                                    |xpath=.//div/h1[contains(text(), "@veld")]|@veld ($@var)|
+
+|scenario     |Npo poms Tabblad object Check aantal in veld|veld                                      |is var|var|plus|optellenMetGetal|
+|$nieuwAantal=|add                                         |$@var                                     |and   |@optellenMetGetal        |
+|check        |value of                                    |xpath=.//div/h1[contains(text(), "@veld")]|@veld ($nieuwAantal)            |

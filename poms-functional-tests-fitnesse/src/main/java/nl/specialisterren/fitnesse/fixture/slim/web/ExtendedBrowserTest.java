@@ -42,6 +42,75 @@ public class ExtendedBrowserTest extends BrowserTest {
         }
     }
 
+    public void zetCheckboxOpWaarde(String place, String huidig, String nieuw){
+
+	    if(huidig.equals(nieuw))
+	        return ;
+
+        getSeleniumHelper().getElement(place).click();
+
+    }
+
+    @WaitUntil
+    public void checkPendingRequests() {
+        int maxQuite = 0;
+        for(int breakOut=0;breakOut<1200;breakOut++) {
+            waitMilliseconds(5);
+            final Object numberOfAjaxConnections = getSeleniumHelper().executeJavascript("return window.openHTTPs");
+            // return should be a number
+            if (numberOfAjaxConnections instanceof Long) {
+                final Long n = (Long) numberOfAjaxConnections;
+                if (n.longValue() <= 0L) {
+                    if(maxQuite++ > 100) break;
+                } else maxQuite = 0;
+            } else {
+                // If it's not a number, the page might have been freshly loaded indicating the monkey
+                // patch is replaced or we haven't yet done the patch.
+                monkeyPatchXMLHttpRequest();
+            }
+        }
+    }
+
+    protected void monkeyPatchXMLHttpRequest() {
+        try {
+            final Object numberOfAjaxConnections = getSeleniumHelper().executeJavascript("return window.openHTTPs");
+            if (numberOfAjaxConnections instanceof Long) {
+                return;
+            }
+/*            final String script = "  (function() {" + "var oldOpen = XMLHttpRequest.prototype.open;" + "window.openHTTPs = 0;" +
+                    "XMLHttpRequest.prototype.open = function(method, url, async, user, pass) {" + "window.openHTTPs++;" +
+                    "this.addEventListener('readystatechange', function() {" + "if(this.readyState == 4) {" + "window.openHTTPs--;" + "}" +
+                    "}, false);" + "oldOpen.call(this, method, url, async, user, pass);" + "}" + "})();";*/
+            final String script =
+                    "(function() {" +
+                            "var oldOpen = XMLHttpRequest.prototype.open;" +
+                            "window.openHTTPs = 0;" +
+                            "XMLHttpRequest.prototype.specialisterrenEventListenerAdded = false;" +
+                            "XMLHttpRequest.prototype.specialisterrenCountsAsOpen = false;" +
+                            "XMLHttpRequest.prototype.open = function(method, url, async, user, pass) {" +
+                            "if(!this.specialisterrenEventListenerAdded) {" +
+                            "this.addEventListener('readystatechange', function() {" +
+                            "if(this.readyState > 0 && this.readyState < 4) {" +
+                            "if(!this.specialisterrenCountsAsOpen) {" +
+                            "window.openHTTPs++;" + "this.specialisterrenCountsAsOpen = true;" +
+                            "}" +
+                            "} else {" +
+                            "if(this.specialisterrenCountsAsOpen) {" +
+                            "window.openHTTPs--;" + "this.specialisterrenCountsAsOpen = false;" +
+                            "}" +
+                            "}" +
+                            "}, false);" +
+                            "this.specialisterrenEventListenerAdded = true;" +
+                            "}" +
+                            "oldOpen.call(this, method, url, async, user, pass);" +
+                            "}" +
+                            "})();";
+            getSeleniumHelper().executeJavascript(script);
+        } catch (final Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
     /**
      * Checks if the dates in all visible (on page) elements matching place compare as specified within the timeout.
      * Warning: this method may scroll elements into view, make sure that any subsequent actions do not depend on

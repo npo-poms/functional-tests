@@ -1,0 +1,101 @@
+---
+Test
+---
+|scenario|Npo poms Tabblad object Detailscherm Sla geselecteerde waarde op uit veld|veld                  |op in var                  |var                  |
+|$@var=  |value of                                                                 |xpath=//label[text()='@veld']/following::option[@selected='selected'][1]|
+
+
+
+|scenario|Npo poms Tabblad object Detailscherm Sla waarde vinkvak op uit veld|veld           |op in var          |var          |
+|$@var=  |value of                                                           |xpath=//label[text()='@veld']/following::input[1]|
+
+|scenario|Npo poms Tabblad object Detailscherm Selecteer optie op basis van klikken|optie|in dropdown|dropdown|
+|click   |xpath=//label[text()='@dropdown']/following::select                                                 |
+|click   |xpath=//label[text()='@dropdown']/following::select/descendant::option[@value='@optie']             |
+
+!*> Lokale scenario's
+
+|scenario                                                                 |Sla huidige waardes uit Detailscherm op                        |
+|Npo poms Tabblad object Detailscherm Sla waarde vinkvak op uit veld      |Herhaling:                |op in var|herhalingVar              |
+|Npo poms Tabblad object Detailscherm Sla geselecteerde waarde op uit veld|Kanaal:                   |op in var|kanaalVar                 |
+|Npo poms Tabblad object Detailscherm Sla geselecteerde waarde op uit veld|Net:                      |op in var|netVar                    |
+|Npo poms Tabblad object Detailscherm Sla datepicker                      |Starttijd:                |op in var|starttijdVar              |
+|Npo poms Tabblad object Detailscherm Sla datepicker                      |Stoptijd:                 |op in var|stoptijdVar               |
+|Npo poms Tabblad object Detailscherm Sla tekstveld                       |Titel                     |op in var|titelVar                  |
+|Npo poms Tabblad object Detailscherm Sla tekstveld                       |Afleveringtitel / Subtitel|op in var|subtitelVar               |
+|Npo poms Tabblad object Detailscherm Sla tekstveld                       |Korte titel               |op in var|kortetitelVar             |
+|Npo poms Tabblad object Detailscherm Sla tekstveld                       |Afkorting                 |op in var|afkortingVar              |
+|Npo poms Tabblad object Detailscherm Sla tekstveld                       |Werktitel                 |op in var|werktitelVar              |
+|Npo poms Tabblad object Detailscherm Sla tekstveld                       |Originele titel           |op in var|origineletitelVar         |
+|Npo poms Tabblad object Detailscherm Sla textarea                        |Beschrijving              |op in var|beschrijvingVar           |
+|Npo poms Tabblad object Detailscherm Sla textarea                        |Korte beschrijving        |op in var|kortebeschrijvingVar      |
+|Npo poms Tabblad object Detailscherm Sla textarea                        |Eenregelige beschrijving  |op in var|eenregeligebeschrijvingVar|
+
+|scenario               |Zet huidige waarde                                    |waarde |van herhaling checkbox op waarde|nieuwwaarde|
+|zet Checkbox Op Waarde;|xpath=//label[text()='Herhaling:']/following::input[1]|@waarde|@nieuwwaarde                                |
+
+|scenario                                                                 |Vul nieuwe waardes in in het detailscherm                                                |
+|Zet huidige waarde                                                       |$herhalingVar                |van herhaling checkbox op waarde|true                      |
+|Npo poms Tabblad object Detailscherm Selecteer optie op basis van klikken|NED1                         |in dropdown                     |Kanaal:                   |
+|Npo poms Tabblad object Detailscherm Selecteer optie op basis van klikken|24ZAPP                       |in dropdown                     |Net:                      |
+|$nieuwstarttijd=                                                         |increase Date With Minutes;  |$starttijdVar                   |30                        |
+|$nieuwstoptijd=                                                          |increase Date With Minutes;  |$stoptijdVar                    |30                        |
+|Npo poms Tabblad object Detailscherm Vul                                 |$nieuwstarttijd              |in datepicker                   |Starttijd:                |
+|Npo poms Tabblad object Detailscherm Vul                                 |$nieuwstoptijd               |in datepicker                   |Stoptijd:                 |
+|Npo poms Tabblad object Detailscherm Vul                                 |Titel test                   |in tekstveld                    |Titel                     |
+|Npo poms Tabblad object Detailscherm Vul                                 |Afleveringstitel             |in tekstveld                    |Afleveringtitel / Subtitel|
+|Npo poms Tabblad object Detailscherm Vul                                 |Korte titel test             |in tekstveld                    |Korte titel               |
+|Npo poms Tabblad object Detailscherm Vul                                 |Afkorting test               |in tekstveld                    |Afkorting                 |
+|Npo poms Tabblad object Detailscherm Vul                                 |Werktitel test               |in tekstveld                    |Werktitel                 |
+|Npo poms Tabblad object Detailscherm Vul                                 |Originele titel test         |in tekstveld                    |Originele titel           |
+|Npo poms Tabblad object Detailscherm Vul                                 |Beschrijving test            |in textarea                     |Beschrijving              |
+|Npo poms Tabblad object Detailscherm Vul                                 |Korte beschrijving test      |in textarea                     |Korte beschrijving        |
+|Npo poms Tabblad object Detailscherm Vul                                 |Eenregelige beschrijving test|in textarea                     |Eenregelige beschrijving  |
+
+|scenario                                                                 |Zet originele waardes terug in het detailscherm                                        |
+|Npo poms Tabblad object Detailscherm Sla waarde vinkvak op uit veld      |Herhaling:                 |op in var                       |herhalingVar              |
+|Zet huidige waarde                                                       |$herhalingVar              |van herhaling checkbox op waarde|true                      |
+|Npo poms Tabblad object Detailscherm Selecteer optie op basis van klikken|$kanaalVar                 |in dropdown                     |Kanaal:                   |
+|Npo poms Tabblad object Detailscherm Selecteer optie op basis van klikken|$netVar                    |in dropdown                     |Net:                      |
+|Npo poms Tabblad object Detailscherm Vul                                 |$starttijdVar              |in datepicker                   |Starttijd:                |
+|Npo poms Tabblad object Detailscherm Vul                                 |$stoptijdVar               |in datepicker                   |Stoptijd:                 |
+|Npo poms Tabblad object Detailscherm Vul                                 |$titelVar                  |in tekstveld                    |Titel                     |
+|Npo poms Tabblad object Detailscherm Vul                                 |$subtitelVar               |in tekstveld                    |Afleveringtitel / Subtitel|
+|Npo poms Tabblad object Detailscherm Vul                                 |$kortetitelVar             |in tekstveld                    |Korte titel               |
+|Npo poms Tabblad object Detailscherm Vul                                 |$afkortingVar              |in tekstveld                    |Afkorting                 |
+|Npo poms Tabblad object Detailscherm Vul                                 |$werktitelVar              |in tekstveld                    |Werktitel                 |
+|Npo poms Tabblad object Detailscherm Vul                                 |$origineletitelVar         |in tekstveld                    |Originele titel           |
+|Npo poms Tabblad object Detailscherm Vul                                 |$beschrijvingVar           |in textarea                     |Beschrijving              |
+|Npo poms Tabblad object Detailscherm Vul                                 |$kortebeschrijvingVar      |in textarea                     |Korte beschrijving        |
+|Npo poms Tabblad object Detailscherm Vul                                 |$eenregeligebeschrijvingVar|in textarea                     |Eenregelige beschrijving  |
+
+*!
+
+
+|script                                                                                                                              |
+|Open Npo poms website                                                                                                               |
+|                                                          |Npo poms Inlogscherm Log in met npo                                      |
+|Npo poms Inlogscherm Log in met admin                                                                                               |
+|click                                                     |ZOEKEN                                                                   |
+|Npo poms Hoofdscherm Wacht tot tabblad Zoeken geopend                                                                               |
+|Npo poms Zoeken Selecteer optie                           |Nederland 2              |in dropdown            |Zenders                |
+|Npo poms Zoeken Druk knop                                 |Zoeken                                                                   |
+|wait for visible                                          |Gezocht naar: Nederland 2                                                |
+|Npo poms zoeken Scroll naar object nummer                 |10                                                                       |
+|Npo poms Zoeken Sla hoofdtitel van object nummer          |10                       |op in var              |titelObject            |
+|Npo poms Zoeken Sla type van object nummer                |10                       |op in var              |typeObject             |
+|Npo poms Zoeken Dubbelklik op hoofdtitel van object nummer|10                                                                       |
+|Npo poms Hoofdscherm Wacht tot tabblad                    |$titelObject             |geopend                                        |
+|Npo poms Hoofdscherm Check titel van laatste tab          |$titelObject                                                             |
+|Npo poms Hoofdscherm Check subtitel van laatste tab       |$typeObject                                                              |
+|Npo poms zoeken Klik op uitzendingen in linkermenu                                                                                  |
+|Npo poms zoeken Selecteer eerste uitzending                                                                                         |
+|Sla huidige waardes uit Detailscherm op                                                                                             |
+|Vul nieuwe waardes in in het detailscherm                                                                                           |
+|click                                                     |Bewaar                                                                   |
+|wait for visible                                          |is nu Wordt gepubliceerd                                    |
+|Npo poms zoeken Selecteer eerste uitzending                                                                                         |
+|Zet originele waardes terug in het detailscherm                                                                                     |
+|click                                                     |Bewaar                                                                   |
+|                                                          |Npo poms Tabblad object Detailscherm Druk op kruisje om pop-up te sluiten|
+|Npo poms Hoofdscherm Sluit laatste tab                                                                                              |
