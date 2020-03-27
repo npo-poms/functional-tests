@@ -86,4 +86,15 @@
 |scenario|Npo poms Tabblad object Detailscherm controleer aanwezigheid textarea met titel|titel                                                |
 |ensure  |is visible on page                                                             |xpath=//label[text()='@titel']/following::textarea[1]|
 
+|scenario|Npo poms Tabblad object Detailscherm Sla geselecteerde waarde op uit veld|veld                  |op in var                  |var                  |
+|$@var=  |value of                                                                 |xpath=//label[text()='@veld']/following::option[@selected='selected'][1]|
 
+|scenario|Npo poms Tabblad object Detailscherm Check dat checkbox|checkbox                                             |waarde|waarde|heeft|
+|check   |value of                                               |xpath=//label[text()='@checkbox']/following::input[1]|@waarde            |
+
+|scenario|Npo poms Tabblad object Detailscherm Sla waarde vinkvak op uit veld|veld           |op in var          |var          |
+|$@var=  |value of                                                           |xpath=//label[text()='@veld']/following::input[1]|
+
+|scenario|Npo poms Tabblad object Detailscherm Selecteer optie op basis van klikken|optie|in dropdown|dropdown|
+|click   |xpath=//label[text()='@dropdown']/following::select                                                 |
+|click   |xpath=//label[text()='@dropdown']/following::select/descendant::option[@value='@optie']             |
