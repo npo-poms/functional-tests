@@ -196,3 +196,12 @@
 |scenario     |Npo poms Tabblad object Check aantal in veld|veld                                      |is var|var|plus|optellenMetGetal|
 |$nieuwAantal=|add                                         |$@var                                     |and   |@optellenMetGetal        |
 |check        |value of                                    |xpath=.//div/h1[contains(text(), "@veld")]|@veld ($nieuwAantal)            |
+
+|scenario  |Npo poms Tabblad object Klik op wijzig tags icoon                |
+|hover over|Tags                                                             |
+|click     |xpath=(//h2[text()='Tags']/following::div[@class='edit-icon'])[1]|
+
+
+|scenario|Npo poms Tabblad object Kies een tag met tekst|tekst                                                                          |
+|enter   |@tekst                                        |as               |xpath=(//h2[text()='Tags']/following::input)[1]              |
+|click   |xpath=//button[@class='button-save']                                                                                          |
