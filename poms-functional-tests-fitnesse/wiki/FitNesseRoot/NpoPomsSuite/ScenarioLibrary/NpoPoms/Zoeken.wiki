@@ -81,6 +81,13 @@
 |remove last search context                                                                               |
 |Npo poms Zoeken Check optie|@optie                         |geselecteerd in dropdown|@dropdown           |
 
+|scenario             |Npo poms Zoeken Selecteer optie|optie|zonder controle in dropdown|dropdown|
+|click                |@dropdown                                                                 |
+|set search context to|xpath=//*[contains(@repeat, "item in options")]                           |
+|scroll to            |@optie                                                                    |
+|click                |@optie                                                                    |
+|remove last search context                                                                      |
+
 |scenario|Npo poms Zoeken Klik op|selector|in geopende dropdown                   |dropdown                  |
 |click   |@selector              |in      |xpath=.//span[normalize-space(.)="@dropdown"]/following-sibling::*|
 
@@ -148,3 +155,23 @@
 
 |scenario |Npo poms zoeken Scroll naar object nummer|nummer|
 |scroll to|xpath=//table/tbody/tr[@nummer]                 |
+
+|scenario|Npo poms Zoeken Check checkbox aangevinkt bij object nummer|index                   |in zoekresultaten                  |
+|ensure  |is visible on page                                         |xpath=//table/tbody/tr[@index][contains(@class, "selected")]|
+
+|scenario                                                   |Npo poms Zoeken Check checkbox aangevinkt bij eerste object in zoekresultaten|
+|Npo poms Zoeken Check checkbox aangevinkt bij object nummer|1                             |in zoekresultaten                             |
+
+|scenario|Npo poms Zoeken Check checkbox uitgevinkt bij object nummer|index                     |in zoekresultaten                     |
+|ensure  |is visible on page                                         |xpath=//table/tbody/tr[@index][not(contains(@class, "selected"))]|
+
+|scenario                                                   |Npo poms Zoeken Check checkbox uitgevinkt bij eerste object in zoekresultaten|
+|Npo poms Zoeken Check checkbox uitgevinkt bij object nummer|1                             |in zoekresultaten                             |
+
+|scenario                                                   |Npo poms Zoeken Vink checkbox aan bij object nummer  |index |in zoekresultaten |
+|Npo poms Zoeken Check checkbox uitgevinkt bij object nummer|@index                                               |in zoekresultaten        |
+|click                                                      |xpath=//table/tbody/tr[@index]/td[@class="checkbox-cell column-checkbox"]/input|
+|Npo poms Zoeken Check checkbox aangevinkt bij object nummer|@index                                               |in zoekresultaten        |
+
+|scenario                                           |Npo poms Zoeken Vink checkbox aan bij eerste object in zoekresultaten|
+|Npo poms Zoeken Vink checkbox aan bij object nummer|1                         |in zoekresultaten                         |

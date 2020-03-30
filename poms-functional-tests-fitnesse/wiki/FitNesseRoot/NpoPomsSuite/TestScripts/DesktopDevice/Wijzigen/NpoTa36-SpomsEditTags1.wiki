@@ -1,0 +1,52 @@
+---
+Test
+---
+!*> Lokale variabelen
+!define MEDIATYPE {Clip}
+!define TITEL {Test}
+!define OMROEP {NPO}
+!define AVTYPE {Afwisselend}
+!define GENRE {Jeugd}
+*!
+
+!*> Lokale scenario's
+
+|scenario|Controleer dat de eerste tag aanwezig is                    |
+|ensure  |is visible on page|xpath=//span[normalize-space(.)='Test1,']|
+
+|scenario|Controleer dat de tweede tag aanwezig is                    |
+|ensure  |is visible on page|xpath=//span[normalize-space(.)='Test2,']|
+
+|scenario|Controleer dat de derde tag aanwezig is                    |
+|ensure  |is visible on page|xpath=//span[normalize-space(.)='Test3']|
+
+|scenario|Verwijder de eerste tag                                    |
+|click   |xpath=(//span[contains(@class,'ui-select-match-close')])[1]|
+|click   |xpath=//button[@class='button-save']                       |
+
+|scenario|Controleer dat eerste tag verdwenen is                      |
+|reject  |is visible on page|xpath=//span[normalize-space(.)='Test1,']|
+
+*!
+
+|script                                                                                                                                                   |
+|Open Npo poms website                                                                                                                                    |
+|Npo poms Inlogscherm Log in met npo                                                                                                                      |
+|Npo poms Nieuw object toevoegen Start met toevoegen           |${MEDIATYPE}|met titel|${TITEL}|en omroep|${OMROEP}|en AV Type|${AVTYPE}|en genre|${GENRE}|
+|click                                                         |Maak aan                                                                                  |
+|click                                                         |Labels                                                                                    |
+|Npo poms Tabblad object Klik op wijzig tags icoon                                                                                                        |
+|Npo poms Tabblad object Kies een tag met tekst                |!-Test1-!                                                                                 |
+|Npo poms Tabblad object Klik op wijzig tags icoon                                                                                                        |
+|Npo poms Tabblad object Kies een tag met tekst                |!-Test2-!                                                                                 |
+|Npo poms Tabblad object Klik op wijzig tags icoon                                                                                                        |
+|Npo poms Tabblad object Kies een tag met tekst                |!-Test3-!                                                                                 |
+|Controleer dat de eerste tag aanwezig is                                                                                                                 |
+|Controleer dat de tweede tag aanwezig is                                                                                                                 |
+|Controleer dat de derde tag aanwezig is                                                                                                                  |
+|Npo poms Tabblad object Klik op wijzig tags icoon                                                                                                        |
+|Verwijder de eerste tag                                                                                                                                  |
+|Controleer dat eerste tag verdwenen is                                                                                                                   |
+|Controleer dat de tweede tag aanwezig is                                                                                                                 |
+|Controleer dat de derde tag aanwezig is                                                                                                                  |
+|Npo poms Tabblad object Verwijder huidig object met media type|${MEDIATYPE}                                                                              |

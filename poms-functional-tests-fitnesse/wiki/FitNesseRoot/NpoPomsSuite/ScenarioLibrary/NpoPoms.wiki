@@ -10,6 +10,7 @@
 !include NpoPoms.Zoeken
 !include NpoPoms.TabbladObject
 !include NpoPoms.TabbladObject.Detailscherm
+!include NpoPoms.TabbladObject.LexicografischeTitel
 !include NpoPoms.TabbladObject.Segment
 !include NpoPoms.AccountInstellingen
 !include NpoPoms.PreviewschermObject
