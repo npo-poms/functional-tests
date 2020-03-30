@@ -1,0 +1,66 @@
+---
+Test
+---
+!*> Lokale variabelen
+
+!define mediatype1 {Archief}
+!define omroep1 {VPRO}
+!define mediatype2 {Clip}
+!define omroep2 {AVRO}
+!define objectNummer {2}
+
+*!
+
+|script                                                    |extended browser test                    |
+|Open Npo poms website                                                                               |
+|Npo poms Inlogscherm Log in met standaard-gebruiker                                                 |
+|Npo poms Zoeken Selecteer optie                           |${mediatype1}  |in dropdown|!-MediaType-!|
+|Npo poms Zoeken Selecteer optie                           |${omroep1}     |in dropdown|Omroepen     |
+|wait for visible                                          |Gezocht naar: ${mediatype1}, ${omroep1}  |
+|Npo poms Zoeken Sla hoofdtitel van eerste object op in var|titelVanObject                           |
+|Npo poms Zoeken Sla type van eerste object op in var      |typeVanObject                            |
+|Npo poms Zoeken Dubbelklik op hoofdtitel van eerste object                                          |
+|Npo poms Hoofdscherm Wacht tot tabblad                    |$titelVanObject|geopend                  |
+|Npo poms Hoofdscherm Check titel van laatste tab          |$titelVanObject                          |
+|Npo poms Hoofdscherm Check subtitel van laatste tab       |$typeVanObject                           |
+|Npo poms Tabblad object Sla mid of urn op in var          |mid                                      |
+|Npo poms Tabblad object Druk op link                      |Onderdelen     |in sidebar               |
+
+|script       |ng browser test      |
+|wait for Angular requests to finish|
+
+|script                                                |extended browser test                                 |
+|Npo poms Tabblad object Sla aantal in veld            |Onderdelen        |op in var  |aantalOnderdelen       |
+|set search context to                                 |xpath=//poms-members                                  |
+|click                                                 |Onderdeel toevoegen                                   |
+|clear search context                                                                                         |
+|Npo poms Zoeken Selecteer optie                       |${mediatype2}     |in dropdown|!-MediaType-!          |
+|Npo poms Zoeken Selecteer optie                       |${omroep2}        |in dropdown|Omroepen               |
+|wait for visible                                      |Gezocht naar: ${mediatype2}, ${omroep2}, niet: $mid   |
+|Npo poms Zoeken Sla hoofdtitel van object nummer      |${objectNummer}   |op in var  |titelVanOnderdeel      |
+|Npo poms Zoeken Sla type van object nummer            |${objectNummer}   |op in var  |typeVanOnderdeel       |
+|Npo poms Zoeken Vink checkbox aan bij object nummer   |${objectNummer}   |in zoekresultaten                  |
+|click                                                 |Kies                                                  |
+|wait for not visible                                  |Kies                                                  |
+|set search context to                                 |xpath=//poms-members                                  |
+|Npo poms Tabblad object Check item                    |$titelVanOnderdeel|zichtbaar                          |
+|Npo poms Tabblad object Check onderdeel               |$titelVanOnderdeel|heeft type |$typeVanOnderdeel      |
+|Npo poms Tabblad object Check aantal in veld          |Onderdelen        |is var     |aantalOnderdelen|plus|1|
+|Npo poms Tabblad object Hover over item               |$titelVanOnderdeel                                    |
+|Npo poms Tabblad object Druk op verwijderknop bij item|$titelVanOnderdeel                                    |
+|clear search context                                                                                         |
+|wait for visible                                      |verwijderen?                                          |
+|click                                                 |xpath=//button[text()="verwijderen"]                  |
+|wait for not visible                                  |verwijderen?                                          |
+
+|script       |ng browser test      |
+|wait for Angular requests to finish|
+
+|script                                      |extended browser test                     |
+|Npo poms Tabblad object Check aantal in veld|Onderdelen        |is var|aantalOnderdelen|
+|set search context to                       |xpath=//poms-members                      |
+|Npo poms Tabblad object Check item          |$titelVanOnderdeel|niet zichtbaar         |
+|clear search context                                                                   |
+|Npo poms Hoofdscherm Sluit laatste tab                                                 |
+|Npo poms Hoofdscherm Sluit laatste tab                                                 |
+|Npo poms Hoofdscherm Log uit                                                           |
