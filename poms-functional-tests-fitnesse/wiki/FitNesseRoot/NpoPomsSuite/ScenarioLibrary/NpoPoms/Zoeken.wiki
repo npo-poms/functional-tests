@@ -7,8 +7,8 @@
 |scenario|Npo poms Zoeken Check tekstveld|veld                                    |heeft waarde|waarde|
 |check   |value of                       |xpath=//*[./label[text()="@veld"]]/input|@waarde            |
 
-|scenario|Npo poms Zoeken Vul|tekstwaarde|in tekstveld                                      |tekstveld                                      |
-|enter   |@tekstwaarde       |as         |xpath=//label[normalize-space(.)="@tekstveld"Npo poms Zoeken Check optie]/following-sibling::input|
+|scenario|Npo poms Zoeken Vul|tekstwaarde|in tekstveld                         |tekstveld                        |
+|enter   |@tekstwaarde       |as         |xpath=//label[normalize-space(.)="@tekstveld"]/following-sibling::input|
 
 |scenario|Npo poms Zoeken Sla zoeksuggestie nummer|index                  |op in var                 |var                 |
 |$@var=  |value of                                |xpath=//input[@id="query"]/following-sibling::ul/li[@index]/a/span/span|
@@ -81,12 +81,12 @@
 |remove last search context                                                                               |
 |Npo poms Zoeken Check optie|@optie                         |geselecteerd in dropdown|@dropdown           |
 
-|scenario                   |Npo poms Zoeken Selecteer optie|optie                   |zonder controle in dropdown|dropdown|
-|click                      |@dropdown                                                                                    |
-|set search context to      |xpath=//*[contains(@repeat, "item in options")]                                              |
-|scroll to                  |@optie                                                                                       |
-|click                      |@optie                                                                                       |
-|remove last search context                                                                                               |
+|scenario             |Npo poms Zoeken Selecteer optie|optie|zonder controle in dropdown|dropdown|
+|click                |@dropdown                                                                 |
+|set search context to|xpath=//*[contains(@repeat, "item in options")]                           |
+|scroll to            |@optie                                                                    |
+|click                |@optie                                                                    |
+|remove last search context                                                                      |
 
 |scenario|Npo poms Zoeken Klik op|selector|in geopende dropdown                   |dropdown                  |
 |click   |@selector              |in      |xpath=.//span[normalize-space(.)="@dropdown"]/following-sibling::*|

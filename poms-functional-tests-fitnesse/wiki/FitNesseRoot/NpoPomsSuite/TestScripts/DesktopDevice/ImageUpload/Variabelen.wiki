@@ -1,6 +1,0 @@
-!define objectNummer {5}
-!define plaatje {files/images/Tulips.jpg}
-!define titel {Testfoto}
-!define beschrijving {Beschrijving}
-!define waarschuwingFotosUploaden {Bij uploaden van foto's moeten de rechten altijd verkregen zijn. Daarnaast kan het niet correct invullen van onderstaande gegevens leiden tot claims van de rechthebbenden. Lees hier meer over het correcte gebruik.}
-!define screenshot {screenshotimg}
