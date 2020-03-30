@@ -1,7 +1,7 @@
 ---
 Test
 ---
-!include -c <ImageUpload.Variabelen
+!include -c <ImageUpload.SmallScenarioLibrary
 
 !*> Lokale variabelen
 
@@ -10,22 +10,6 @@ Test
 *!
 
 !*> Lokale scenario's
-
-|scenario                                                  |Zoek clip met objectnummer|nummer                     |en druk op link afbeelding toevoegen|
-|scroll to                                                 |!-MediaType-!                                                                              |
-|Npo poms Zoeken Selecteer optie                           |Clip                      |zonder controle in dropdown|!-MediaType-!                       |
-|scroll to                                                 |!-Omroepen-!                                                                               |
-|Npo poms Zoeken Selecteer optie                           |VPRO                      |zonder controle in dropdown|!-Omroepen-!                        |
-|wait for visible                                          |Gezocht naar: Clip, VPRO                                                                   |
-|Npo poms Zoeken Sla hoofdtitel van object nummer          |@nummer                   |op in var                  |titelVanObject                      |
-|Npo poms Zoeken Sla type van object nummer                |@nummer                   |op in var                  |typeVanObject                       |
-|Npo poms Zoeken Dubbelklik op hoofdtitel van object nummer|@nummer                                                                                    |
-|Npo poms Hoofdscherm Wacht tot tabblad                    |$titelVanObject           |geopend                                                         |
-|Npo poms Hoofdscherm Check titel van laatste tab          |$titelVanObject                                                                            |
-|Npo poms Hoofdscherm Check subtitel van laatste tab       |$typeVanObject                                                                             |
-|Npo poms Tabblad object Sla mid of urn op in var          |mid                                                                                        |
-|Npo poms Tabblad object Druk op link                      |Afbeeldingen              |in sidebar                                                      |
-
 |scenario                                           |Zoek clip met eerste hoofdtitel en druk op link afbeelding toevoegen|
 |scroll to                                          |!-MediaType-!                                                       |
 |Npo poms Zoeken Selecteer optie                    |Clip               |zonder controle in dropdown    |!-MediaType-!   |
@@ -39,53 +23,11 @@ Test
 |Npo poms Tabblad object Sla mid of urn op in var   |mid                                                                 |
 |Npo poms Tabblad object Druk op link               |Afbeeldingen       |in sidebar                                      |
 
-
-
-|scenario                                            |Voeg afbeelding toe aan clip                                                    |
-|click                                               |Afbeelding toevoegen                                                            |
-|clear search context                                                                                                                 |
-|select file                                         |${plaatje}     |for                                |css=input[id=inputFile]     |
-|wait for visible                                    |css=img                                                                         |
-|show                                                |take screenshot|${screenshot}_!today (yyyyMMddHHmmss)                           |
-|Npo poms Tabblad object Detailscherm Check knop     |Maak aan       |in footer inactief                                              |
-|Npo poms Tabblad object Detailscherm Vul            |${titel}       |in tekstveld                       |Titel *                     |
-|Npo poms Tabblad object Detailscherm Check knop     |Maak aan       |in footer inactief                                              |
-|Npo poms Tabblad object Detailscherm Vul            |${beschrijving}|in textarea                        |Beschrijving *              |
-|Npo poms Tabblad object Detailscherm Check knop     |Maak aan       |in footer inactief                                              |
-|scroll to                                           |Afbeeldingstype *                                                               |
-|Npo poms Tabblad object Detailscherm Selecteer optie|Afbeelding     |in selecteerbare tekstveld         |Afbeeldingstype *           |
-|Npo poms Tabblad object Detailscherm Check knop     |Maak aan       |in footer actief                                                |
-|click                                               |Maak aan                                                                        |
-|check                                               |value of       |xpath=//div[@class="modal-message"]|${waarschuwingFotosUploaden}|
-|click                                               |begrepen                                                                        |
-|wait for not visible                                |begrepen                                                                        |
-
-|scenario                                                |Controleer dat er twee afbeeldingen zijn                    |
-|Npo poms Tabblad object Check afbeelding                |${titel}       |zichtbaar                                   |
-|Npo poms Tabblad object Check afbeelding                |${titel}       |heeft beschrijving|${beschrijving}          |
-|Npo poms Tabblad object Wacht tot preview afbeelding van|${titel}       |zichtbaar                                   |
-|set search context to                                   |xpath=//poms-images                                         |
-|Npo poms Tabblad object Check aantal in veld            |Afbeeldingen   |is var            |aantalAfbeeldingen|plus|2|
-|clear search context                                                                                                 |
-|show                                                    |take screenshot|${screenshot}_!today (yyyyMMddHHmmss)       |
-|Npo poms Tabblad object Druk op preview afbeelding van  |${titel}                                                    |
-|switch to next tab                                                                                                   |
-|wait for visible                                        |css=img                                                     |
-|show                                                    |take screenshot|${screenshot}_!today (yyyyMMddHHmmss)       |
-|close tab                                                                                                            |
-
-|scenario                                                    |Verwijder afbeelding                |
-|Npo poms Tabblad object Hover over afbeelding               |${titel}                            |
-|Npo poms Tabblad object Druk op verwijderknop bij afbeelding|${titel}                            |
-|wait for visible                                            |Afbeelding verwijderen?             |
-|click                                                       |xpath=//button[text()="verwijderen"]|
-|wait for not visible                                        |Afbeelding verwijderen?             |
-
 *!
 
-|script                             |
-|Open Npo poms website              |
-|Npo poms Inlogscherm Log in met npo|
+|script                                             |
+|Open Npo poms website                              |
+|Npo poms Inlogscherm Log in met standaard-gebruiker|
 
 |script                    |extended browser test                               |
 |Zoek clip met objectnummer|${objectNummer}|en druk op link afbeelding toevoegen|
@@ -93,27 +35,16 @@ Test
 |script       |ng browser test      |
 |wait for Angular requests to finish|
 
-|script                                       |extended browser test                          |
-|set search context to                        |xpath=//poms-images                            |
-|Npo poms Tabblad object Sla aantal in veld   |Afbeeldingen  |op in var  |aantalAfbeeldingen  |
-|Voeg afbeelding toe aan clip                                                                 |
-|Npo poms Hoofdscherm Sluit laatste tab                                                       |
-|click                                        |open een nieuwe zoek-tab                       |
-|Zoek clip met eerste hoofdtitel                          en druk op link afbeelding toevoegen|
-
-|script       |ng browser test      |
-|wait for Angular requests to finish|
-
-|script               |extended browser test|
-|set search context to|xpath=//poms-images  |
-|Voeg afbeelding toe aan clip               |
-|Controleer dat er twee afbeeldingen zijn   |
-|Verwijder afbeelding                       |
-|Verwijder afbeelding                       |
-
 |script                                      |extended browser test                                |
 |set search context to                       |xpath=//poms-images                                  |
-|Npo poms Tabblad object Check aantal in veld|Afbeeldingen   |is var      |aantalAfbeeldingen      |
+|Npo poms Tabblad object Sla aantal in veld  |Afbeeldingen   |op in var     |aantalAfbeeldingen    |
+|Voeg afbeelding met titel                   |${titel}1      |toe aan clip                         |
+|Voeg afbeelding met titel                   |${titel}2      |toe aan clip                         |
+|Controleer dat er                           |2              |afbeeldingen zijn                    |
+|Verwijder afbeelding met titel              |${titel}1                                            |
+|Verwijder afbeelding met titel              |${titel}2                                            |
+|set search context to                       |xpath=//poms-images                                  |
+|Npo poms Tabblad object Check aantal in veld|Afbeeldingen   |is var        |aantalAfbeeldingen    |
 |Npo poms Tabblad object Check afbeelding    |${titel}       |niet zichtbaar                       |
 |clear search context                                                                              |
 |show                                        |take screenshot|${screenshot}_!today (yyyyMMddHHmmss)|

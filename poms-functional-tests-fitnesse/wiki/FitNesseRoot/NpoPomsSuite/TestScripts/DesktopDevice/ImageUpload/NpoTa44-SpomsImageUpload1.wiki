@@ -1,7 +1,7 @@
 ---
 Test
 ---
-!include -c <ImageUpload.Variabelen
+!include -c <ImageUpload.SmallScenarioLibrary
 
 |script                                                                                                                                 |
 |Open Npo poms website                                                                                                                  |
