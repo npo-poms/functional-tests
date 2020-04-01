@@ -118,11 +118,16 @@ public class ApiMediaTest extends AbstractApiTest {
         { // list
             MediaResult result = mediaUtil.getClients().getMediaService().listDescendants("POW_03067897", "vpro-predictions", null, null, 0L, 0);
             log.info("{} {}", result.getTotal(), result.getTotalQualifier());
+            assertThat(result.getSize()).isEqualTo(0);
+            assertThat(result.getTotal()).isGreaterThan(0);
         }
 
         { // empty find
+            // see NPA-532
             MediaSearchResult result = mediaUtil.getClients().getMediaService().findDescendants(MediaForm.builder().build(), "POW_03067897", "vpro-predictions", null, null, 0);
             log.info("{} {}", result.getTotal(), result.getTotalQualifier());
+            assertThat(result.getSize()).isEqualTo(0);
+            assertThat(result.getTotal()).isGreaterThan(0);
         }
 
     }
