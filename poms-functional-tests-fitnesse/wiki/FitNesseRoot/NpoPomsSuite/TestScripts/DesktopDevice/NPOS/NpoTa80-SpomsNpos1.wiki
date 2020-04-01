@@ -24,6 +24,7 @@ Test
 |Npo poms Tabblad object Detailscherm controleer aanwezigheid input veld met titel|Stoptijd:                                 |
 |Npo poms Tabblad object Detailscherm controleer aanwezigheid input veld met titel|Titel                                     |
 |Npo poms Tabblad object Detailscherm controleer aanwezigheid input veld met titel|Afleveringtitel / Subtitel                |
+|Npo poms Tabblad object Detailscherm controleer aanwezigheid input veld met titel|Korte titel                               |
 |Npo poms Tabblad object Detailscherm controleer aanwezigheid input veld met titel|Afkorting                                 |
 |Npo poms Tabblad object Detailscherm controleer aanwezigheid input veld met titel|Werktitel                                 |
 |Npo poms Tabblad object Detailscherm controleer aanwezigheid input veld met titel|Originele titel                           |

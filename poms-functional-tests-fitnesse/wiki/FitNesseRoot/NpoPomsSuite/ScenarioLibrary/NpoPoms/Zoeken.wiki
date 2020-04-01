@@ -81,6 +81,13 @@
 |remove last search context                                                                               |
 |Npo poms Zoeken Check optie|@optie                         |geselecteerd in dropdown|@dropdown           |
 
+|scenario             |Npo poms Zoeken Selecteer optie|optie|zonder controle in dropdown|dropdown|
+|click                |@dropdown                                                                 |
+|set search context to|xpath=//*[contains(@repeat, "item in options")]                           |
+|scroll to            |@optie                                                                    |
+|click                |@optie                                                                    |
+|remove last search context                                                                      |
+
 |scenario|Npo poms Zoeken Klik op|selector|in geopende dropdown                   |dropdown                  |
 |click   |@selector              |in      |xpath=.//span[normalize-space(.)="@dropdown"]/following-sibling::*|
 

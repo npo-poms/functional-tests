@@ -1,0 +1,33 @@
+---
+Test
+---
+!include -c <Wijzigen.Variabelen
+
+!*> Lokale variabelen
+
+!define objectNummer {2}
+
+*!
+
+|script                                                                                                                           |
+|Open Npo poms website                                                                                                            |
+|Npo poms Inlogscherm Log in met standaard-gebruiker                                                                              |
+|Npo poms Zoeken Selecteer optie                                                |Trailer              |in dropdown |!-MediaType-! |
+|Npo poms Zoeken Wacht tot zoekopdracht met Gezocht naar:                       |Trailer              |klaar is                   |
+|Npo poms Zoeken Sla hoofdtitel van object nummer                               |${objectNummer}      |op in var   |titelVanObject|
+|Npo poms Zoeken Sla type van object nummer                                     |${objectNummer}      |op in var   |typeVanObject |
+|Npo poms Zoeken Dubbelklik op hoofdtitel van object nummer                     |${objectNummer}                                  |
+|Npo poms Hoofdscherm Wacht tot tabblad                                         |$titelVanObject      |geopend                    |
+|Npo poms Hoofdscherm Check titel van laatste tab                               |$titelVanObject                                  |
+|Npo poms Hoofdscherm Check subtitel van laatste tab                            |$typeVanObject                                   |
+|Npo poms Tabblad object Verander hoofdtitel naar                               |TEST                                             |
+|Npo poms Tabblad object Start met bewerken Lexicografische titel                                                                 |
+|Npo poms Tabblad object Check tekst in invoerveld Lexicografische titel is     |TEST                                             |
+|Npo poms Tabblad object Verander tekst in invoerveld Lexicografische titel naar|TESTCASE             |en sla op                  |
+|Npo poms Tabblad object Wacht tot veldtype 2                                   |Lexicografische titel|heeft waarde|TESTCASE      |
+|Npo poms Tabblad object Start met bewerken Lexicografische titel                                                                 |
+|Npo poms Tabblad object Verander tekst in invoerveld Lexicografische titel naar|                     |en sla op                  |
+|Npo poms Tabblad object Verander hoofdtitel naar                               |$titelVanObject                                  |
+|Npo poms Hoofdscherm Sluit laatste tab                                                                                           |
+|Npo poms Hoofdscherm Sluit laatste tab                                                                                           |
+|Npo poms Hoofdscherm Log uit                                                                                                     |

@@ -9,6 +9,15 @@
 |check   |value of                                |xpath=//span[@class="media breadcrumb-link-title"]|@hoofdtitel|
 |check   |value of                                |xpath=//h1[@class="viewer-title"]                 |@hoofdtitel|
 
+|scenario        |Npo poms Tabblad object Wacht tot hoofdtitel        |hoofdtitel       |
+|wait for visible|xpath=//h1[@class="viewer-title" and normalize-space(.)="@hoofdtitel"]|
+
+|scenario                                    |Npo poms Tabblad object Verander hoofdtitel naar|hoofdtitel                         |
+|click                                       |xpath=//poms-editable[@field="mainTitle"]//*[normalize-space(.)="Titel"]            |
+|enter                                       |@hoofdtitel                                     |as|xpath=//input[@name="editvalue"]|
+|press enter                                                                                                                      |
+|Npo poms Tabblad object Wacht tot hoofdtitel|@hoofdtitel                                                                         |
+
 |scenario        |Npo poms Tabblad object Wacht tot subtitel          |subtitel          |
 |wait for visible|xpath=//h2[@class="viewer-subtitle" and normalize-space(.)="@subtitel"]|
 
@@ -29,17 +38,20 @@
 |check                              |value of                                               |xpath=//h2[@class="viewer-media-type"]/span[2]|$scenarioLibrary_hoofdscherm_start|
 |check                              |value of                                               |xpath=//div[@class="pickers"]                 |${publicatiestart}                |
 
-|scenario        |Npo poms Tabblad object Wacht tot veldtype 1|veld|zichtbaar|
-|wait for visible|xpath=//h2[text()="@veld"]/following-sibling::div/span     |
+|scenario        |Npo poms Tabblad object Wacht tot veldtype 1   |veld  |zichtbaar  |
+|wait for visible|xpath=//h2[normalize-space(.)="@veld"]/following-sibling::div/span|
 
-|scenario|Npo poms Tabblad object Check veldtype 1|veld                                                  |heeft waarde|waarde|
-|check   |value of                                |xpath=//h2[text()="@veld"]/following-sibling::div/span|@waarde            |
+|scenario|Npo poms Tabblad object Check veldtype 1|veld                                                              |heeft waarde|waarde|
+|check   |value of                                |xpath=//h2[normalize-space(.)="@veld"]/following-sibling::div/span|@waarde            |
 
-|scenario|Npo poms Tabblad object Check veldtype 2|veld                                           |heeft waarde|waarde|
-|check   |value of                                |xpath=//h2[text()="@veld"]/following-sibling::*|@waarde            |
+|scenario|Npo poms Tabblad object Check veldtype 2|veld                                                       |heeft waarde|waarde|
+|check   |value of                                |xpath=//h2[normalize-space(.)="@veld"]/following-sibling::*|@waarde            |
 
-|scenario|Npo poms Tabblad object Sla veldtype 2|veld          |op in var          |var         |
-|$@var=  |value of                              |xpath=//h2[text()="@veld"]/following-sibling::*|
+|scenario        |Npo poms Tabblad object Wacht tot veldtype 2     |veld     |heeft waarde     |waarde     |
+|wait for visible|xpath=//h2[normalize-space(.)="@veld"]/following-sibling::*[normalize-space(.)="@waarde"]|
+
+|scenario|Npo poms Tabblad object Sla veldtype 2|veld              |op in var              |var             |
+|$@var=  |value of                              |xpath=//h2[normalize-space(.)="@veld"]/following-sibling::*|
 
 |scenario        |Npo poms Tabblad object Wacht tot status zichtbaar|
 |wait for visible|xpath=//h2[text()="Status"]/following-sibling::*/p|
@@ -196,3 +208,12 @@
 |scenario     |Npo poms Tabblad object Check aantal in veld|veld                                      |is var|var|plus|optellenMetGetal|
 |$nieuwAantal=|add                                         |$@var                                     |and   |@optellenMetGetal        |
 |check        |value of                                    |xpath=.//div/h1[contains(text(), "@veld")]|@veld ($nieuwAantal)            |
+
+|scenario  |Npo poms Tabblad object Klik op wijzig tags icoon                |
+|hover over|Tags                                                             |
+|click     |xpath=(//h2[text()='Tags']/following::div[@class='edit-icon'])[1]|
+
+
+|scenario|Npo poms Tabblad object Kies een tag met tekst|tekst                                                                          |
+|enter   |@tekst                                        |as               |xpath=(//h2[text()='Tags']/following::input)[1]              |
+|click   |xpath=//button[@class='button-save']                                                                                          |
