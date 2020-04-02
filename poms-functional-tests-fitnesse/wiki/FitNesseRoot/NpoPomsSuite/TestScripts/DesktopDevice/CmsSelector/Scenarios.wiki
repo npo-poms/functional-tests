@@ -1,0 +1,5 @@
+|scenario|Npo poms Hoofdscherm Wacht tot tabblad Zoeken geopend|
+|note    |Overschrijf scenario met lege scenario               |
+
+|scenario|Check tekstveld|tekstveld                                                  |heeft waarde|waarde|
+|check   |value of       |xpath=//label[text()="@tekstveld"]/following-sibling::input|@waarde            |

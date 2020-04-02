@@ -37,6 +37,12 @@
 |scenario|Npo poms Zoeken Druk op viewknop bij object                                    |objectNaam                                   |met mediatype                                   |mediatype                                   |
 |click   |xpath=//table/tbody/tr[./td[@class="column-title"]/span/span[normalize-space(.)="@objectNaam"]][./td[@class="column-type"]/span/span[normalize-space(.)="@mediatype"]]/td[@class="column-tools"]/div/span[@title="preview"]|
 
+|scenario|Npo poms Zoeken Sla mid bij object nummer|index              |op in var              |var              |
+|$@var=  |value of                                 |xpath=//table/tbody/tr[@index]/td[@class="column-mid"]//input|
+
+|scenario                                 |Npo poms Zoeken Sla mid bij eerste object op in var|var           |
+|Npo poms Zoeken Sla mid bij object nummer|1                                                  |op in var|@var|
+
 |scenario        |Npo poms Zoeken Wacht tot status bij object                          |objectNaam                         |met mediatype                         |mediatype                         |bevat                         |statusTekst                         |
 |wait for visible|xpath=//table/tbody/tr[./td[@class="column-title"]/span/span[normalize-space(.)="@objectNaam"]][./td[@class="column-type"]/span/span[normalize-space(.)="@mediatype"]][./td[@class="column-workflow" and contains(normalize-space(.), "@statusTekst")]]|
 
