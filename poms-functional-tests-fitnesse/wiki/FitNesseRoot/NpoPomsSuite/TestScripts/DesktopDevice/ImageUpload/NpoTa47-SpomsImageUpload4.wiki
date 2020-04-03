@@ -9,9 +9,6 @@ Test
 |Npo poms Inlogscherm Log in met standaard-gebruiker                                  |
 |Zoek clip met titel en mediatype en omroep;|!-De radio-5 documentaire-!|Clip|!-VPRO-!|
 
-|script       |ng browser test      |
-|wait for Angular requests to finish|
-
 |script                                     |extended browser test                                                                                                                                                                                                                |
 |set search context to                      |xpath=//poms-images                                                                                                                                                                                                                  |
 |Npo poms Tabblad object Sla aantal in veld |Afbeeldingen                                                                                                                     |op in var                                    |aantalAfbeeldingen                                   |
