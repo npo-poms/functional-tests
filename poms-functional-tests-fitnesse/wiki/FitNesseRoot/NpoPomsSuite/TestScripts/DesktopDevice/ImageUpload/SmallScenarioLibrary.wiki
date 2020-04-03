@@ -68,9 +68,20 @@
 |show                                        |take screenshot  |${screenshot}_!today (yyyyMMddHHmmss) |
 
 |scenario                                                    |Verwijder afbeelding met titel|titel|
-|scroll to|Afbeelding toevoegen|
+|scroll to                                                   |Afbeelding toevoegen                |
 |hover over                                                  |@titel                              |
 |Npo poms Tabblad object Druk op verwijderknop bij afbeelding|@titel                              |
 |wait for visible                                            |Afbeelding verwijderen?             |
 |click                                                       |xpath=//button[text()="verwijderen"]|
 |wait for not visible                                        |Afbeelding verwijderen?             |
+
+|scenario|Controleer status clip is wordt gepubliceerd                                                        |
+|ensure  |is visible on page|xpath=//h2[normalize-space(.)='Status']/following::p[@title='Wordt gepubliceerd']|
+
+|scenario   |Controleer volgorde van afbeeldingen _|aantalafbeeldingen, afbeelding1, afbeelding2, afbeelding3                                                                     |
+|$selector1=|add                                   |@aantalafbeeldingen                                  |and                                  |1                                 |
+|$selector2=|add                                   |@aantalafbeeldingen                                  |and                                  |2                                 |
+|$selector3=|add                                   |@aantalafbeeldingen                                  |and                                  |3                                 |
+|ensure     |is visible on page                    |xpath=(//tbody[@ui-sortable='sortableOptions']/descendant::tr[$selector1])/descendant::span[normalize-space(.)='@afbeelding1']|
+|ensure     |is visible on page                    |xpath=(//tbody[@ui-sortable='sortableOptions']/descendant::tr[$selector2])/descendant::span[normalize-space(.)='@afbeelding2']|
+|ensure     |is visible on page                    |xpath=(//tbody[@ui-sortable='sortableOptions']/descendant::tr[$selector3])/descendant::span[normalize-space(.)='@afbeelding3']|
