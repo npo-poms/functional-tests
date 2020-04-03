@@ -4,11 +4,6 @@
 |show            |driver description   |
 *!
 
-!***> Libraries
-|Library              |
-|extended browser test|
-*!
-
 |script                   |properties file fixture      |
 |load values from         |accounts.properties          |
 |show                     |values                       |

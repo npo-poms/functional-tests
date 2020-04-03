@@ -9,25 +9,21 @@ Test
 
 *!
 
-|script                                                    |extended browser test                     |
-|Open Npo poms website                                                                                |
-|Npo poms Inlogscherm Log in met standaard-gebruiker                                                  |
-|Npo poms Zoeken Selecteer optie                           |${mediatype}   |in dropdown|!-MediaType-! |
-|Npo poms Zoeken Selecteer optie                           |${omroep}      |in dropdown|Omroepen      |
-|wait for visible                                          |Gezocht naar: ${mediatype}, ${omroep}     |
-|Npo poms Zoeken Sla hoofdtitel van object nummer          |${objectNummer}|op in var  |titelVanObject|
-|Npo poms Zoeken Sla type van object nummer                |${objectNummer}|op in var  |typeVanObject |
-|Npo poms Zoeken Dubbelklik op hoofdtitel van object nummer|${objectNummer}                           |
-|Npo poms Hoofdscherm Wacht tot tabblad                    |$titelVanObject|geopend                   |
-|Npo poms Hoofdscherm Check titel van laatste tab          |$titelVanObject                           |
-|Npo poms Hoofdscherm Check subtitel van laatste tab       |$typeVanObject                            |
-|Npo poms Tabblad object Sla mid of urn op in var          |mid                                       |
-|Npo poms Tabblad object Druk op link                      |Afbeeldingen   |in sidebar                |
-
-|script       |ng browser test      |
-|wait for Angular requests to finish|
-
-|script                                                      |extended browser test                                                           |
+|script                                                                                                                                       |
+|Open Npo poms website                                                                                                                        |
+|Npo poms Inlogscherm Log in met standaard-gebruiker                                                                                          |
+|Npo poms Zoeken Selecteer optie                             |${mediatype}   |in dropdown                        |!-MediaType-!               |
+|Npo poms Zoeken Selecteer optie                             |${omroep}      |in dropdown                        |Omroepen                    |
+|wait for visible                                            |Gezocht naar: ${mediatype}, ${omroep}                                           |
+|Npo poms Zoeken Sla hoofdtitel van object nummer            |${objectNummer}|op in var                          |titelVanObject              |
+|Npo poms Zoeken Sla type van object nummer                  |${objectNummer}|op in var                          |typeVanObject               |
+|Npo poms Zoeken Dubbelklik op hoofdtitel van object nummer  |${objectNummer}                                                                 |
+|Npo poms Hoofdscherm Wacht tot tabblad                      |$titelVanObject|geopend                                                         |
+|Npo poms Hoofdscherm Check titel van laatste tab            |$titelVanObject                                                                 |
+|Npo poms Hoofdscherm Check subtitel van laatste tab         |$typeVanObject                                                                  |
+|Npo poms Tabblad object Sla mid of urn op in var            |mid                                                                             |
+|Npo poms Tabblad object Druk op link                        |Afbeeldingen   |in sidebar                                                      |
+|Npo poms Tabblad object Wacht tot scrollen klaar is                                                                                          |
 |set search context to                                       |xpath=//poms-images                                                             |
 |Npo poms Tabblad object Sla aantal in veld                  |Afbeeldingen   |op in var                          |aantalAfbeeldingen          |
 |click                                                       |Afbeelding toevoegen                                                            |

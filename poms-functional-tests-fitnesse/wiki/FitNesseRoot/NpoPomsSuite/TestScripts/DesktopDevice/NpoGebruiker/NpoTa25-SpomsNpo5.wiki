@@ -10,49 +10,41 @@ Test
 
 *!
 
-|script                                                    |extended browser test                           |
+|script                                                                                                     |
 |Open Npo poms website                                                                                      |
 |Npo poms Inlogscherm Log in met npo                                                                        |
-|Npo poms Zoeken Selecteer optie                           |${mediatype}      |in dropdown  |!-MediaType-!  |
-|Npo poms Zoeken Selecteer optie                           |${avType}         |in dropdown  |!-avType-!     |
-|Npo poms Zoeken Selecteer optie                           |${omroep}         |in dropdown  |Omroepen       |
+|Npo poms Zoeken Selecteer optie                           |${mediatype}     |in dropdown   |!-MediaType-!  |
+|Npo poms Zoeken Selecteer optie                           |${avType}        |in dropdown   |!-avType-!     |
+|Npo poms Zoeken Selecteer optie                           |${omroep}        |in dropdown   |Omroepen       |
 |wait for visible                                          |Gezocht naar: ${mediatype}, ${omroep}, ${avType}|
 |Npo poms Zoeken Sla hoofdtitel van eerste object op in var|titelVanObject                                  |
 |Npo poms Zoeken Sla type van eerste object op in var      |typeVanObject                                   |
 |Npo poms Zoeken Dubbelklik op hoofdtitel van eerste object                                                 |
-|Npo poms Hoofdscherm Wacht tot tabblad                    |$titelVanObject   |geopend                      |
+|Npo poms Hoofdscherm Wacht tot tabblad                    |$titelVanObject  |geopend                       |
 |Npo poms Hoofdscherm Check titel van laatste tab          |$titelVanObject                                 |
 |Npo poms Hoofdscherm Check subtitel van laatste tab       |$typeVanObject                                  |
-|Npo poms Tabblad object Sla veldtype 2                    |Sorteerdatum      |op in var    |datum1         |
-|Npo poms Tabblad object Druk op link                      |Platformen        |in sidebar                   |
-
-|script       |ng browser test      |
-|wait for Angular requests to finish|
-
-|script                                  |extended browser test                 |
-|Npo poms Zoeken Dubbelklik op platform  |${platform}                           |
-|wait for visible                        |Sla op                                |
-|$datum2=                                |store       |!today (dd-MM-yyyy HH:mm)|
-|Npo poms Tabblad object Detailscherm Vul|$datum2     |in tekstveld   |Start    |
-|click                                   |Sla op                                |
-|wait for not visible                    |Sla op                                |
-|Npo poms Tabblad object Druk op link    |Algemeen    |in sidebar               |
-|wait for visible                        |Sorteerdatum                          |
-|Npo poms Tabblad object Check veldtype 2|Sorteerdatum|heeft waarde   |$datum2  |
-|Npo poms Tabblad object Druk op link    |Platformen  |in sidebar               |
-
-|script       |ng browser test      |
-|wait for Angular requests to finish|
-
-|script                                  |extended browser test            |
-|Npo poms Zoeken Dubbelklik op platform  |${platform}                      |
-|wait for visible                        |Sla op                           |
-|Npo poms Tabblad object Detailscherm Vul|$datum1     |in tekstveld|Start  |
-|click                                   |Sla op                           |
-|wait for not visible                    |Sla op                           |
-|Npo poms Tabblad object Druk op link    |Algemeen    |in sidebar          |
-|wait for visible                        |Sorteerdatum                     |
-|Npo poms Tabblad object Check veldtype 2|Sorteerdatum|heeft waarde|$datum1|
-|Npo poms Hoofdscherm Sluit laatste tab                                    |
-|Npo poms Hoofdscherm Sluit laatste tab                                    |
-|Npo poms Hoofdscherm Log uit                                              |
+|Npo poms Tabblad object Sla veldtype 2                    |Sorteerdatum     |op in var     |datum1         |
+|Npo poms Tabblad object Druk op link                      |Platformen       |in sidebar                    |
+|Npo poms Tabblad object Wacht tot scrollen klaar is                                                        |
+|Npo poms Zoeken Dubbelklik op platform                    |${platform}                                     |
+|wait for visible                                          |Sla op                                          |
+|$datum2=                                                  |store            |!today (dd-MM-yyyy HH:mm)     |
+|Npo poms Tabblad object Detailscherm Vul                  |$datum2          |in tekstveld  |Start          |
+|click                                                     |Sla op                                          |
+|wait for not visible                                      |Sla op                                          |
+|Npo poms Tabblad object Druk op link                      |Algemeen         |in sidebar                    |
+|wait for visible                                          |Sorteerdatum                                    |
+|Npo poms Tabblad object Check veldtype 2                  |Sorteerdatum     |heeft waarde  |$datum2        |
+|Npo poms Tabblad object Druk op link                      |Platformen       |in sidebar                    |
+|Npo poms Tabblad object Wacht tot scrollen klaar is                                                        |
+|Npo poms Zoeken Dubbelklik op platform                    |${platform}                                     |
+|wait for visible                                          |Sla op                                          |
+|Npo poms Tabblad object Detailscherm Vul                  |$datum1          |in tekstveld  |Start          |
+|click                                                     |Sla op                                          |
+|wait for not visible                                      |Sla op                                          |
+|Npo poms Tabblad object Druk op link                      |Algemeen         |in sidebar                    |
+|wait for visible                                          |Sorteerdatum                                    |
+|Npo poms Tabblad object Check veldtype 2                  |Sorteerdatum     |heeft waarde  |$datum1        |
+|Npo poms Hoofdscherm Sluit laatste tab                                                                     |
+|Npo poms Hoofdscherm Sluit laatste tab                                                                     |
+|Npo poms Hoofdscherm Log uit                                                                               |
