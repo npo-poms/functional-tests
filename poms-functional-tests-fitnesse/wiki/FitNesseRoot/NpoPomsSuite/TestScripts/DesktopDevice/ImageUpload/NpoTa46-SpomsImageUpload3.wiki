@@ -42,7 +42,6 @@ Test
 |Voeg afbeelding met titel                   |${titel}2      |toe aan clip                         |
 |Controleer dat er                           |2              |afbeeldingen zijn                    |
 |Verwijder afbeelding met titel              |${titel}1                                            |
-|refresh|
 |Verwijder afbeelding met titel              |${titel}2                                            |
 |set search context to                       |xpath=//poms-images                                  |
 |Npo poms Tabblad object Check aantal in veld|Afbeeldingen   |is var        |aantalAfbeeldingen    |

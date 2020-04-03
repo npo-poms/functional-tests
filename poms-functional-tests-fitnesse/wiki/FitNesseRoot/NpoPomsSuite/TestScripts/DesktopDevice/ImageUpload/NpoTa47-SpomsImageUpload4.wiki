@@ -3,46 +3,38 @@ Test
 ---
 !include -c <ImageUpload.SmallScenarioLibrary
 
-{{{
-|script                                             |
-|Open Npo poms website                              |
-|Npo poms Inlogscherm Log in met standaard-gebruiker|
 
-|script                    |extended browser test                               |
-|Zoek clip met objectnummer|${objectNummer}|en druk op link afbeelding toevoegen|
+|script                                                                               |
+|Open Npo poms website                                                                |
+|Npo poms Inlogscherm Log in met standaard-gebruiker                                  |
+|Zoek clip met titel en mediatype en omroep;|!-De radio-5 documentaire-!|Clip|!-VPRO-!|
 
 |script       |ng browser test      |
 |wait for Angular requests to finish|
 
-|script                                    |extended browser test                    |
-|set search context to                     |xpath=//poms-images                      |
-|Npo poms Tabblad object Sla aantal in veld|Afbeeldingen|op in var|aantalAfbeeldingen|
-|Voeg afbeelding met titel                 |${titel}1   |toe aan clip                |
-|Voeg afbeelding met titel                 |${titel}2   |toe aan clip                |
-|Voeg afbeelding met titel                 |${titel}3   |toe aan clip                |
-|Controleer dat er                         |3           |afbeeldingen zijn           |
+|script                                     |extended browser test                                                                                                                                                                                                                |
+|set search context to                      |xpath=//poms-images                                                                                                                                                                                                                  |
+|Npo poms Tabblad object Sla aantal in veld |Afbeeldingen                                                                                                                     |op in var                                    |aantalAfbeeldingen                                   |
+|Voeg afbeelding met titel                  |${titel}1                                                                                                                        |toe aan clip                                                                                       |
+|Voeg afbeelding met titel                  |${titel}2                                                                                                                        |toe aan clip                                                                                       |
+|Voeg afbeelding met titel                  |${titel}3                                                                                                                        |toe aan clip                                                                                       |
+|Controleer dat er                          |3                                                                                                                                |afbeeldingen zijn                                                                                  |
+|scroll to                                  |Afbeelding toevoegen                                                                                                                                                                                                                 |
+|hover over                                 |${titel}3                                                                                                                                                                                                                            |
+|dragAndDropFromTo;                         |//tbody[@ui-sortable='sortableOptions']/descendant::span[normalize-space(.)='${titel}3']/preceding::span[@class='sort-handle'][1]|//tbody[@ui-sortable='sortableOptions']/descendant::span[normalize-space(.)='${titel}2']/parent::td|
+|Npo poms Hoofdscherm Sluit laatste tab                                                                                                                                                                                                                                           |
+|click                                      |open een nieuwe zoek-tab                                                                                                                                                                                                             |
+|Zoek clip met titel en mediatype en omroep;|!-De radio-5 documentaire-!                                                                                                      |Clip                                         |!-VPRO-!                                             |
+|Verwijder afbeelding met titel             |${titel}1                                                                                                                                                                                                                            |
+|Verwijder afbeelding met titel             |${titel}2                                                                                                                                                                                                                            |
+|Verwijder afbeelding met titel             |${titel}3                                                                                                                                                                                                                            |
+|set search context to                      |xpath=//poms-images                                                                                                                                                                                                                  |
+|Npo poms Tabblad object Check afbeelding   |${titel}1                                                                                                                        |niet zichtbaar                                                                                     |
+|Npo poms Tabblad object Check afbeelding   |${titel}2                                                                                                                        |niet zichtbaar                                                                                     |
+|Npo poms Tabblad object Check afbeelding   |${titel}3                                                                                                                        |niet zichtbaar                                                                                     |
+|clear search context                                                                                                                                                                                                                                                             |
+|Controleer dat er                          |0                                                                                                                                |afbeeldingen zijn                                                                                  |
+|Npo poms Hoofdscherm Sluit laatste tab                                                                                                                                                                                                                                           |
+|Npo poms Hoofdscherm Sluit laatste tab                                                                                                                                                                                                                                           |
+|Npo poms Hoofdscherm Log uit                                                                                                                                                                                                                                                     |
 
-
-
-
-|Verwijder afbeelding met titel              |${titel}1                                            |
-|Verwijder afbeelding met titel              |${titel}2                                            |
-|Verwijder afbeelding met titel              |${titel}3                                            |
-|set search context to                       |xpath=//poms-images                                  |
-|Npo poms Tabblad object Check aantal in veld|Afbeeldingen   |is var      |aantalAfbeeldingen      |
-|Npo poms Tabblad object Check afbeelding    |${titel}       |niet zichtbaar                       |
-|clear search context                                                                              |
-|show                                        |take screenshot|${screenshot}_!today (yyyyMMddHHmmss)|
-|Npo poms Hoofdscherm Sluit laatste tab                                                            |
-|Npo poms Hoofdscherm Sluit laatste tab                                                            |
-|Npo poms Hoofdscherm Log uit                                                                      |
-}}}
-
-|script                                                                                                                                                                                             |
-|Open Npo poms website                                                                                                                                                                              |
-|Npo poms Inlogscherm Log in met standaard-gebruiker                                                                                                                                                |
-|Npo poms Zoeken Vul      |De radio-5 documentaire                                                             |in zoekveld                                                                         |
-|Npo poms Zoeken Druk knop|Zoeken                                                                                                                                                                   |
-|double click             |De radio-5 documentaire                                                                                                                                                  |
-|dragAndDropFromTo;       |//tbody[@ui-sortable='sortableOptions']/descendant::span[normalize-space(.)='foto3']|//tbody[@ui-sortable='sortableOptions']/descendant::span[normalize-space(.)='foto2']|
-|wait                     |10                                                                                  |seconds                                                                             |

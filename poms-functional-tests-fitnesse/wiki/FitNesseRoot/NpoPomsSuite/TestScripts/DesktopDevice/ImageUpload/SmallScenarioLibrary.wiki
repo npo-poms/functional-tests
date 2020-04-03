@@ -5,6 +5,19 @@
 !define waarschuwingFotosUploaden {Bij uploaden van foto's moeten de rechten altijd verkregen zijn. Daarnaast kan het niet correct invullen van onderstaande gegevens leiden tot claims van de rechthebbenden. Lees hier meer over het correcte gebruik.}
 !define screenshot {screenshotimg}
 
+|scenario                              |Zoek clip met titel en mediatype en omroep _|titel, mediatype, omroep                 |
+|scroll to                             |!-MediaType-!                                                                         |
+|Npo poms Zoeken Selecteer optie       |@mediatype                                  |zonder controle in dropdown|!-MediaType-!|
+|scroll to                             |!-Omroepen-!                                                                          |
+|Npo poms Zoeken Selecteer optie       |@omroep                                     |zonder controle in dropdown|!-Omroepen-! |
+|wait for visible                      |Gezocht naar: @mediatype, @omroep                                                     |
+|scroll to                             |xpath=//input[@id='query']                                                            |
+|Npo poms Zoeken Vul                   |@titel                                      |in zoekveld                              |
+|Npo poms Zoeken Druk knop             |Zoeken                                                                                |
+|double click                          |@titel                                                                                |
+|Npo poms Hoofdscherm Wacht tot tabblad|@titel                                      |geopend                                  |
+
+
 |scenario                                                  |Zoek clip met objectnummer|nummer                     |en druk op link afbeelding toevoegen|
 |scroll to                                                 |!-MediaType-!                                                                              |
 |Npo poms Zoeken Selecteer optie                           |Clip                      |zonder controle in dropdown|!-MediaType-!                       |
@@ -54,9 +67,10 @@
 |clear search context                                                                                 |
 |show                                        |take screenshot  |${screenshot}_!today (yyyyMMddHHmmss) |
 
-|scenario                                                    |Verwijder afbeelding met titel               |titel |
-|hover over                                                  |@titel                                             |
-|Npo poms Tabblad object Druk op verwijderknop bij afbeelding|@titel                                              |
-|wait for visible                                            |Afbeelding verwijderen?                             |
-|click                                                       |xpath=//button[text()="verwijderen"]                |
-|wait for not visible                                        |Afbeelding verwijderen?                             |
+|scenario                                                    |Verwijder afbeelding met titel|titel|
+|scroll to|Afbeelding toevoegen|
+|hover over                                                  |@titel                              |
+|Npo poms Tabblad object Druk op verwijderknop bij afbeelding|@titel                              |
+|wait for visible                                            |Afbeelding verwijderen?             |
+|click                                                       |xpath=//button[text()="verwijderen"]|
+|wait for not visible                                        |Afbeelding verwijderen?             |

@@ -53,7 +53,17 @@ public class ExtendedBrowserTest extends BrowserTest {
     }
 
     public void dragAndDropFromTo(String from, String to){
-	    this.dragAndDropTo(from, to);
+
+        WebElement element = getSeleniumHelper().findElement(By.xpath(from));
+
+        WebElement target = getSeleniumHelper().findElement(By.xpath(to));
+
+        Actions builder = new Actions(getSeleniumHelper().driver());
+
+        builder.clickAndHold(element)
+                .moveToElement(target)
+                .release(target)
+                .build().perform();
     }
 
     @WaitUntil
