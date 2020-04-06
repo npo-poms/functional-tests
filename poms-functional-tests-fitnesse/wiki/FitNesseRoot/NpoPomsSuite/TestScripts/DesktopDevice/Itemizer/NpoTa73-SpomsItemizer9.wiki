@@ -1,0 +1,54 @@
+---
+Test
+---
+!*> Lokale variabelen
+
+!define media {POW_00587306}
+!define titel {itemizer test}
+!define beschrijving {De test met de Itemizer}
+
+*!
+
+|script                                             |
+|Open Npo poms website                              |
+|Npo poms Inlogscherm Log in met standaard-gebruiker|
+|Npo poms Tabblad object Open       |${media}       |
+
+|storyboard                                                                |
+|Npo poms Tabblad object Segment wacht op status              |Gepubliceerd|
+|Npo poms Tabblad object Segment Bewaar aantal segmenten op id|1           |
+|Npo poms Tabblad object Segment toevoegen met speler                      |
+
+|script                                                           |
+|Npo poms Tabblad object Segment Zet huidige positie als|starttijd|
+|Npo poms Tabblad object Segment Speel video voor       |1  |sec  |
+|Npo poms Tabblad object Segment Zet huidige positie als|stoptijd |
+
+Controleer verwacht resultaat:
+Door het zetten van start- en stop tijd, worden de start- en stop tijden ingevuld en wordt de speelduur berekend.
+|script                                                                                                            |
+|Npo poms Tabblad object Segment Controleer start |00:00:00|stop        |00:00:01       |en speelduur     |00:00:01|
+|Npo poms Tabblad object Segment opslaan met titel|${titel}|beschrijving|${beschrijving}|en knop Bewaar en|sluit   |
+
+|script                                                                            |
+|Npo poms Tabblad object Segment aanpassen                        |${titel}        |
+|Npo poms Tabblad object Segment wacht op status                  |Gepubliceerd    |
+|Npo poms Tabblad object Segment aanpassen speeltijd naar hh:mm:ss|00:01:01        |
+|Npo poms Hoofdscherm Sluit tab met tekst                         |Segment ${titel}|
+
+|script                                                                                                          |
+|repeat at most        |10                                                                       |times          |
+|set repeat interval to|3000                                                                     |milliseconds   |
+|refresh until value of|css=.column-workflow p                                                   |is|Gepubliceerd|
+|refresh until value of|xpath=//tr[contains(.,'${titel}')]/td[contains(@class,'column-stop')]    |is|01:01       |
+|refresh until value of|xpath=//tr[contains(.,'${titel}')]/td[contains(@class,'column-duration')]|is|01:01       |
+|show                  |repeat count                                                                             |
+|show                  |time spent repeating                                                                     |
+
+|script                                                                                    |
+|wait for visible|css=.column-workflow [title="Gepubliceerd"]                              |
+|check           |value of|css=.column-stop    |in|xpath=//tr[contains(.,'${titel}')]|01:01|
+|check           |value of|css=.column-duration|in|xpath=//tr[contains(.,'${titel}')]|01:01|
+
+|script                                                                                                       |
+|Npo poms Tabblad object Segment Verwijder en verwacht|$segmentCount1|segmenten met andere titels dan|${titel}|
