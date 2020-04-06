@@ -4,38 +4,34 @@ Test
 !include -c <ImageUpload.SmallScenarioLibrary
 
 
-|script                                                                               |
-|Open Npo poms website                                                                |
-|Npo poms Inlogscherm Log in met standaard-gebruiker                                  |
-|Zoek clip met titel en mediatype en omroep;|!-De radio-5 documentaire-!|Clip|!-VPRO-!|
-
-|script                                     |extended browser test                                                                                                                                                                                                                |
-|set search context to                      |xpath=//poms-images                                                                                                                                                                                                                  |
-|Npo poms Tabblad object Sla aantal in veld |Afbeeldingen                                                                                                                     |op in var                        |aantalAfbeeldingen                                               |
-|Voeg afbeelding met titel                  |${titel}1                                                                                                                        |toe aan clip                                                                                       |
-|Voeg afbeelding met titel                  |${titel}2                                                                                                                        |toe aan clip                                                                                       |
-|Voeg afbeelding met titel                  |${titel}3                                                                                                                        |toe aan clip                                                                                       |
-|Controleer dat er                          |3                                                                                                                                |afbeeldingen zijn                                                                                  |
-|Controleer volgorde van afbeeldingen;      |$aantalAfbeeldingen                                                                                                              |${titel}1                        |${titel}2                       |${titel}3                       |
-|scroll to                                  |Afbeelding toevoegen                                                                                                                                                                                                                 |
-|hover over                                 |${titel}3                                                                                                                                                                                                                            |
-|dragAndDropFromTo;                         |//tbody[@ui-sortable='sortableOptions']/descendant::span[normalize-space(.)='${titel}3']/preceding::span[@class='sort-handle'][1]|//tbody[@ui-sortable='sortableOptions']/descendant::span[normalize-space(.)='${titel}2']/parent::td|
-|Npo poms Hoofdscherm Sluit laatste tab                                                                                                                                                                                                                                           |
-|Npo poms Hoofdscherm Sluit laatste tab                                                                                                                                                                                                                                           |
-|Zoek clip met titel en mediatype en omroep;|!-De radio-5 documentaire-!                                                                                                      |Clip                             |!-VPRO-!                                                         |
-|Controleer status clip is wordt gepubliceerd                                                                                                                                                                                                                                     |
-|scroll to                                  |Afbeelding toevoegen                                                                                                                                                                                                                 |
-|Controleer volgorde van afbeeldingen;      |$aantalAfbeeldingen                                                                                                              |${titel}1                        |${titel}3                       |${titel}2                       |
-|Verwijder afbeelding met titel             |${titel}1                                                                                                                                                                                                                            |
-|Verwijder afbeelding met titel             |${titel}2                                                                                                                                                                                                                            |
-|Verwijder afbeelding met titel             |${titel}3                                                                                                                                                                                                                            |
-|set search context to                      |xpath=//poms-images                                                                                                                                                                                                                  |
-|Npo poms Tabblad object Check afbeelding   |${titel}1                                                                                                                        |niet zichtbaar                                                                                     |
-|Npo poms Tabblad object Check afbeelding   |${titel}2                                                                                                                        |niet zichtbaar                                                                                     |
-|Npo poms Tabblad object Check afbeelding   |${titel}3                                                                                                                        |niet zichtbaar                                                                                     |
-|clear search context                                                                                                                                                                                                                                                             |
-|Controleer dat er                          |0                                                                                                                                |afbeeldingen zijn                                                                                  |
-|Npo poms Hoofdscherm Sluit laatste tab                                                                                                                                                                                                                                           |
-|Npo poms Hoofdscherm Sluit laatste tab                                                                                                                                                                                                                                           |
-|Npo poms Hoofdscherm Log uit                                                                                                                                                                                                                                                     |
+|script                                     |extended browser test                                    |
+|Open Npo poms website                                                                                |
+|Npo poms Inlogscherm Log in met standaard-gebruiker                                                  |
+|Zoek clip met titel en mediatype en omroep;|!-De radio-5 documentaire-!|Clip     |!-VPRO-!           |
+|set search context to                      |xpath=//poms-images                                      |
+|Npo poms Tabblad object Sla aantal in veld |Afbeeldingen               |op in var|aantalAfbeeldingen |
+|Voeg afbeelding met titel                  |${titel}1                  |toe aan clip                 |
+|Voeg afbeelding met titel                  |${titel}2                  |toe aan clip                 |
+|Voeg afbeelding met titel                  |${titel}3                  |toe aan clip                 |
+|Controleer dat er                          |3                          |afbeeldingen toegevoegd zijn |
+|Controleer volgorde van afbeeldingen;      |$aantalAfbeeldingen        |${titel}1|${titel}2|${titel}3|
+|Klik en sleep                   |${titel}3                  |boven    |${titel}2          |
+|Npo poms Hoofdscherm Sluit laatste tab                                                               |
+|Npo poms Hoofdscherm Sluit laatste tab                                                               |
+|Zoek clip met titel en mediatype en omroep;|!-De radio-5 documentaire-!|Clip     |!-VPRO-!           |
+|Controleer status clip is wordt gepubliceerd                                                         |
+|scroll to                                  |Afbeelding toevoegen                                     |
+|Controleer volgorde van afbeeldingen;      |$aantalAfbeeldingen        |${titel}1|${titel}3|${titel}2|
+|Verwijder afbeelding met titel             |${titel}1                                                |
+|Verwijder afbeelding met titel             |${titel}2                                                |
+|Verwijder afbeelding met titel             |${titel}3                                                |
+|set search context to                      |xpath=//poms-images                                      |
+|Npo poms Tabblad object Check afbeelding   |${titel}1                  |niet zichtbaar               |
+|Npo poms Tabblad object Check afbeelding   |${titel}2                  |niet zichtbaar               |
+|Npo poms Tabblad object Check afbeelding   |${titel}3                  |niet zichtbaar               |
+|clear search context                                                                                 |
+|Controleer dat er                          |0                          |afbeeldingen toegevoegd zijn |
+|Npo poms Hoofdscherm Sluit laatste tab                                                               |
+|Npo poms Hoofdscherm Sluit laatste tab                                                               |
+|Npo poms Hoofdscherm Log uit                                                                         |
 
