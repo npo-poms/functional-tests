@@ -6,6 +6,23 @@
 |click   |Segment toevoegen met speler                        |
 |Npo poms Tabblad object Segment video should be ready        |
 
+|scenario             |Npo poms Tabblad object Segment aanpassen|titel|
+|set search context to|css=poms-segments                              |
+|hover over           |css=h1                                         |
+|hover over           |@titel                                         |
+|click                |edit segment                                   |
+|clear search context                                                 |
+
+|scenario|Npo poms Tabblad object Segment aanpassen speeltijd naar hh:mm:ss|duration   |
+|click   |Speelduur                                                                    |
+|enter   |@duration                                                        |as|hh:mm:ss|
+|click   |save                                                                         |
+
+|scenario              |Npo poms Tabblad object Segment wacht op status|status|
+|seconds before timeout|300                                                   |
+|wait for visible      |css=.tab-pane.active .media-workflow [title='@status']|
+|seconds before timeout|${secondsBeforeTimeout}                               |
+
 |scenario             |Npo poms Tabblad object Segment itemize|titel|
 |set search context to|css=poms-segments                            |
 |hover over           |css=h1                                       |
@@ -46,12 +63,12 @@
 |$start=      |value of                                        |css=#inputStart                                              |
 |$stop=       |value of                                        |css=#inputStop                                               |
 |$speelduur=  |value of                                        |css=#inputDuration                                           |
-|check        |replace all                                     |^(.+)\.\d+$       |in  |$start    |with        |$1|@starttijd|
-|check        |replace all                                     |^(.+)\.\d+$       |in  |$stop     |with        |$1|@stoptijd |
-|check        |replace all                                     |^(.+)\.\d+$       |in  |$speelduur|with        |$1|@speelduur|
-|$startMs=    |replace all                                     |^.+\.(\d+)$       |in  |$start    |with        |$1           |
-|$stopMs=     |replace all                                     |^.+\.(\d+)$       |in  |$stop     |with        |$1           |
-|$speelduurMs=|replace all                                     |^.+\.(\d+)$       |in  |$speelduur|with        |$1           |
+|check        |replace all                                     |(.+)\.\d+         |in  |$start    |with        |$1|@starttijd|
+|check        |replace all                                     |(.+)\.\d+         |in  |$stop     |with        |$1|@stoptijd |
+|check        |replace all                                     |(.+)\.\d+         |in  |$speelduur|with        |$1|@speelduur|
+|$startMs=    |replace all                                     |.+\.0*(\d+)       |in  |$start    |with        |$1           |
+|$stopMs=     |replace all                                     |.+\.0*(\d+)       |in  |$stop     |with        |$1           |
+|$speelduurMs=|replace all                                     |.+\.0*(\d+)       |in  |$speelduur|with        |$1           |
 |check        |evaluate                                        |$stopMs - $startMs|$speelduurMs                              |
 
 |scenario              |Npo poms Tabblad object Segment Verwijder en verwacht|aantal|segmenten met andere titels dan|oudeTitel|
