@@ -45,7 +45,6 @@ Door het zetten van start- en stop tijd, worden de start- en stop tijden ingevul
 |show                  |repeat count                                                                             |
 |show                  |time spent repeating                                                                     |
 
-#|Npo poms Tabblad object Segment wacht op status|Gepubliceerd                                                             |
 |script                                                                                    |
 |wait for visible|css=.column-workflow [title="Gepubliceerd"]                              |
 |check           |value of|css=.column-stop    |in|xpath=//tr[contains(.,'${titel}')]|01:01|
@@ -53,11 +52,3 @@ Door het zetten van start- en stop tijd, worden de start- en stop tijden ingevul
 
 |script                                                                                                       |
 |Npo poms Tabblad object Segment Verwijder en verwacht|$segmentCount1|segmenten met andere titels dan|${titel}|
-
-#|script                                                                                    |
-#|Npo poms Tabblad object Open|${media}                                                     |
-#|set search context to       |xpath=//poms-segments//tr[contains(.,'itemizer test')]       |
-#|seconds before timeout      |180                                                          |
-#|wait for visible            |css=.column-workflow [title="Gepubliceerd"]                  |
-#|seconds before timeout      |${secondsBeforeTimeout}                                      |
-#|check                       |value of|xpath=./td[contains(@class,'column-duration')]|01:02|
