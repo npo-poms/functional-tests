@@ -22,7 +22,10 @@ Test
 |Npo poms Tabblad object Segment Zet huidige positie als|starttijd|
 |Npo poms Tabblad object Segment Speel video voor       |1  |sec  |
 |Npo poms Tabblad object Segment Zet huidige positie als|stoptijd |
-#|click                                                  |css=.canvas-grab|
+#|click                                          |css=.canvas-grab| <= fotocamera-knop met bug, zie hieronder:
+TODO: Na het oplossen van bug https://specialisterren.atlassian.net/browse/NPOTA-101
+Toevoegen: stappen 17. Klik op “fotocamera” en 19. "foto is geplaatst bij afbeelding (staat voor de titel)"
+(vanuit https://specialisterren.atlassian.net/browse/NPOTA-69)
 
 Controleer verwacht resultaat:
 Door het zetten van start- en stop tijd, worden de start- en stop tijden ingevuld en wordt de speelduur berekend.
