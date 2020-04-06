@@ -70,9 +70,9 @@
 |scenario                                                  |Npo poms Zoeken Dubbelklik op hoofdtitel van eerste object|
 |Npo poms Zoeken Dubbelklik op hoofdtitel van object nummer|1                                                         |
 
-|scenario        |Npo poms Zoeken Check optie|optie                                                                |geselecteerd in dropdown|dropdown|
-|wait for visible|xpath=.//span[normalize-space(.)="@dropdown"]/../following-sibling::*                                                              |
-|check           |value of                   |xpath=.//span[normalize-space(.)="@dropdown"]/../following-sibling::*|@optie                           |
+|scenario        |Npo poms Zoeken Check optie|optie                    |geselecteerd in dropdown                    |dropdown                   |
+|wait for visible|xpath=.//span[normalize-space(.)="@dropdown"]/../following-sibling::*                                                         |
+|ensure          |is visible on page         |xpath=.//span[normalize-space(.)="@dropdown"]/../following-sibling::*[normalize-space(.)="@optie"]|
 
 |scenario        |Npo poms Zoeken Check optie|optieDeel1                                                             |is|optieDeel2|geselecteerd in dropdown|dropdown|
 |wait for visible|xpath=//span[normalize-space(.)="@dropdown"]/../following-sibling::*                                                                               |
