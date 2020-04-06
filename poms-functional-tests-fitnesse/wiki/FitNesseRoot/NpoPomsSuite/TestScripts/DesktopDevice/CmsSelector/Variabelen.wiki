@@ -1,1 +1,2 @@
 !define affixCmsSelector {!-CMSSelector/example-!}
+!define kolomMid {MID}
