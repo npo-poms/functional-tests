@@ -2,3 +2,9 @@
 
 !include ScenarioLibrary.FrontendApi
 !include ScenarioLibrary.NpoPoms
+
+|scenario|Wacht tot Angular requests klaar zijn|
+|push fixture                                  |
+|start   |ng browser test                      |
+|wait for Angular requests to finish           |
+|pop fixture                                   |

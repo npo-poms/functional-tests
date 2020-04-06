@@ -92,6 +92,9 @@
 |click                |@link                                               |
 |clear search context                                                      |
 
+|scenario           |Npo poms Tabblad object Wacht tot scrollen klaar is|
+|wait until property|scrollTop|of element|css=.tab-pane.active|is stable|
+
 |scenario|Npo poms Tabblad object Check afbeelding|afbeelding                                          |zichtbaar                                         |
 |ensure  |is visible on page                      |xpath=//poms-images/div/table/tbody/tr/td[@class="column-title"]/span[normalize-space(.)="@afbeelding"]|
 
@@ -214,6 +217,6 @@
 |click     |xpath=(//h2[text()='Tags']/following::div[@class='edit-icon'])[1]|
 
 
-|scenario|Npo poms Tabblad object Kies een tag met tekst|tekst                                                                          |
-|enter   |@tekst                                        |as               |xpath=(//h2[text()='Tags']/following::input)[1]              |
-|click   |xpath=//button[@class='button-save']                                                                                          |
+|scenario|Npo poms Tabblad object Kies een tag met tekst|tekst                                             |
+|enter   |@tekst                                        |as|xpath=(//h2[text()='Tags']/following::input)[1]|
+|click   |xpath=//button[@class='button-save']                                                             |

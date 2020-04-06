@@ -10,6 +10,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 import java.util.regex.Matcher;
@@ -17,6 +18,8 @@ import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
 public class ExtendedBrowserTest extends BrowserTest {
+    private LinkedList<String> previousPropertyValues = new LinkedList<>();
+
 	public Object store(Object result) {
 		return result;
 	}
@@ -116,7 +119,7 @@ public class ExtendedBrowserTest extends BrowserTest {
      * Warning: this method may scroll elements into view, make sure that any subsequent actions do not depend on
      * scroll position!
      * @param place a technical selector (i.e. starting with id=, css=, xpath=, name=, link=, partialLink=).
-     * @param regex a regex that matches the dd-MM-yyyy to be converted as capture group 1
+     * @param regex a regex that matches the dd-MM-yyyy to be converted as capture group 1.
      * @param comparison the way the matching numbers should be compared (possibilities: < <= == >= >).
      * @param compareWith the dd-MM-yyyy to compare the matching numbers with.
      * @return true if the dates in the matching elements compare as specified within the timeout, false otherwise.
@@ -192,5 +195,34 @@ public class ExtendedBrowserTest extends BrowserTest {
             }
         }
         return visibleElements;
+    }
+
+    /**
+     * Waits until the specified property of the specified element becomes stable.
+     * This method checks if the property has the same value three times in a row while polling with the WaitUntil
+     * interval.
+     * @param property the name of the property to check for stability, e.g. <code>scrollTop</code>.
+     * @param place a technical selector (i.e. starting with id=, css=, xpath=, name=, link=, partialLink=).
+     * @return true if the property has the same value three times in a row, false otherwise.
+     */
+    @WaitUntil
+    public boolean waitUntilPropertyOfElementIsStable(String property, String place) {
+        WebElement e = getSeleniumHelper().findElement(TechnicalSelectorBy.forPlace(place));
+        String currentValue = getSeleniumHelper().executeJavascript("return arguments[0][arguments[1]]", e, property).toString();
+
+        if (previousPropertyValues.size() == 2
+                && previousPropertyValues.getFirst().equals(previousPropertyValues.getLast())
+                && currentValue.equals(previousPropertyValues.getLast())) {
+            System.out.println("Property \"" + property + "\" of element " + e + " became stable at value: " + currentValue);
+            previousPropertyValues.clear();
+            return true;
+        } else {
+            previousPropertyValues.addLast(currentValue);
+            if (previousPropertyValues.size() > 2) {
+                previousPropertyValues.removeFirst();
+            }
+            System.out.println("Waiting for property \"" + property + "\" of element " + e + " to become stable. Current value: " + currentValue);
+            return false;
+        }
     }
 }
