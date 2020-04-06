@@ -25,22 +25,15 @@ Test
 
 *!
 
-|script                                             |
-|Open Npo poms website                              |
-|Npo poms Inlogscherm Log in met standaard-gebruiker|
-
-|script                    |extended browser test                               |
-|Zoek clip met objectnummer|${objectNummer}|en druk op link afbeelding toevoegen|
-
-|script       |ng browser test      |
-|wait for Angular requests to finish|
-
 |script                                      |extended browser test                                |
+|Open Npo poms website                                                                             |
+|Npo poms Inlogscherm Log in met standaard-gebruiker                                               |
+|Zoek clip met objectnummer                  |${objectNummer}|en druk op link afbeelding toevoegen |
 |set search context to                       |xpath=//poms-images                                  |
 |Npo poms Tabblad object Sla aantal in veld  |Afbeeldingen   |op in var     |aantalAfbeeldingen    |
 |Voeg afbeelding met titel                   |${titel}1      |toe aan clip                         |
 |Voeg afbeelding met titel                   |${titel}2      |toe aan clip                         |
-|Controleer dat er                           |2              |afbeeldingen zijn                    |
+|Controleer dat er                           |2              |afbeeldingen toegevoegd zijn         |
 |Verwijder afbeelding met titel              |${titel}1                                            |
 |Verwijder afbeelding met titel              |${titel}2                                            |
 |set search context to                       |xpath=//poms-images                                  |

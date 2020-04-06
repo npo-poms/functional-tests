@@ -5,6 +5,7 @@ import nl.hsac.fitnesse.fixture.slim.web.annotation.TimeoutPolicy;
 import nl.hsac.fitnesse.fixture.slim.web.annotation.WaitUntil;
 import nl.hsac.fitnesse.fixture.util.selenium.by.TechnicalSelectorBy;
 import org.openqa.selenium.*;
+import org.openqa.selenium.interactions.Actions;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -52,6 +53,20 @@ public class ExtendedBrowserTest extends BrowserTest {
 
         getSeleniumHelper().getElement(place).click();
 
+    }
+
+    public void dragAndDropFromTo(String from, String to){
+
+        WebElement element = getSeleniumHelper().findElement(By.xpath(from));
+
+        WebElement target = getSeleniumHelper().findElement(By.xpath(to));
+
+        Actions builder = new Actions(getSeleniumHelper().driver());
+
+        builder.clickAndHold(element)
+                .moveToElement(target)
+                .release(target)
+                .build().perform();
     }
 
     @WaitUntil

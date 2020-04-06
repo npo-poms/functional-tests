@@ -5,6 +5,24 @@
 !define waarschuwingFotosUploaden {Bij uploaden van foto's moeten de rechten altijd verkregen zijn. Daarnaast kan het niet correct invullen van onderstaande gegevens leiden tot claims van de rechthebbenden. Lees hier meer over het correcte gebruik.}
 !define screenshot {screenshotimg}
 
+|scenario          |Klik en sleep                                                                                                                       |afbeelding1                         |boven                        |afbeelding2                        |
+|scroll to         |Afbeelding toevoegen                                                                                                                                                                                                                       |
+|hover over        |@afbeelding1                                                                                                                                                                                                                               |
+|dragAndDropFromTo;|//tbody[@ui-sortable='sortableOptions']/descendant::span[normalize-space(.)='@afbeelding1']/preceding::span[@class='sort-handle'][1]|//tbody[@ui-sortable='sortableOptions']/descendant::span[normalize-space(.)='@afbeelding2']/parent::td|
+
+|scenario                              |Zoek clip met titel en mediatype en omroep _|titel, mediatype, omroep                 |
+|scroll to                             |!-MediaType-!                                                                         |
+|Npo poms Zoeken Selecteer optie       |@mediatype                                  |zonder controle in dropdown|!-MediaType-!|
+|scroll to                             |!-Omroepen-!                                                                          |
+|Npo poms Zoeken Selecteer optie       |@omroep                                     |zonder controle in dropdown|!-Omroepen-! |
+|wait for visible                      |Gezocht naar: @mediatype, @omroep                                                     |
+|scroll to                             |xpath=//input[@id='query']                                                            |
+|Npo poms Zoeken Vul                   |@titel                                      |in zoekveld                              |
+|Npo poms Zoeken Druk knop             |Zoeken                                                                                |
+|double click                          |@titel                                                                                |
+|Npo poms Hoofdscherm Wacht tot tabblad|@titel                                      |geopend                                  |
+
+
 |scenario                                                  |Zoek clip met objectnummer|nummer                     |en druk op link afbeelding toevoegen|
 |scroll to                                                 |!-MediaType-!                                                                              |
 |Npo poms Zoeken Selecteer optie                           |Clip                      |zonder controle in dropdown|!-MediaType-!                       |
@@ -19,6 +37,7 @@
 |Npo poms Hoofdscherm Check subtitel van laatste tab       |$typeVanObject                                                                             |
 |Npo poms Tabblad object Sla mid of urn op in var          |mid                                                                                        |
 |Npo poms Tabblad object Druk op link                      |Afbeeldingen              |in sidebar                                                      |
+
 
 |scenario                                            |Voeg afbeelding met titel|titel                              |toe aan clip                |
 |click                                               |Afbeelding toevoegen                                                                      |
@@ -39,16 +58,27 @@
 |click                                               |begrepen                                                                                  |
 |wait for not visible                                |begrepen                                                                                  |
 
-|scenario                                    |Controleer dat er|aantal|afbeeldingen zijn              |
+|scenario                                    |Controleer dat er|aantal|afbeeldingen toegevoegd zijn   |
 |set search context to                       |xpath=//poms-images                                     |
 |Npo poms Tabblad object Check aantal in veld|Afbeeldingen     |is var|aantalAfbeeldingen|plus|@aantal|
 |clear search context                                                                                 |
 |show                                        |take screenshot  |${screenshot}_!today (yyyyMMddHHmmss) |
 
 |scenario                                                    |Verwijder afbeelding met titel|titel|
-|scroll to                                                   |@titel                              |
-|Npo poms Tabblad object Hover over afbeelding               |@titel                              |
+|scroll to                                                   |Afbeelding toevoegen                |
+|hover over                                                  |@titel                              |
 |Npo poms Tabblad object Druk op verwijderknop bij afbeelding|@titel                              |
 |wait for visible                                            |Afbeelding verwijderen?             |
 |click                                                       |xpath=//button[text()="verwijderen"]|
 |wait for not visible                                        |Afbeelding verwijderen?             |
+
+|scenario|Controleer status clip is wordt gepubliceerd                                                        |
+|ensure  |is visible on page|xpath=//h2[normalize-space(.)='Status']/following::p[@title='Wordt gepubliceerd']|
+
+|scenario   |Controleer volgorde van afbeeldingen _|aantalafbeeldingen, afbeelding1, afbeelding2, afbeelding3                                                                     |
+|$selector1=|add                                   |@aantalafbeeldingen                                  |and                                  |1                                 |
+|$selector2=|add                                   |@aantalafbeeldingen                                  |and                                  |2                                 |
+|$selector3=|add                                   |@aantalafbeeldingen                                  |and                                  |3                                 |
+|ensure     |is visible on page                    |xpath=(//tbody[@ui-sortable='sortableOptions']/descendant::tr[$selector1])/descendant::span[normalize-space(.)='@afbeelding1']|
+|ensure     |is visible on page                    |xpath=(//tbody[@ui-sortable='sortableOptions']/descendant::tr[$selector2])/descendant::span[normalize-space(.)='@afbeelding2']|
+|ensure     |is visible on page                    |xpath=(//tbody[@ui-sortable='sortableOptions']/descendant::tr[$selector3])/descendant::span[normalize-space(.)='@afbeelding3']|
