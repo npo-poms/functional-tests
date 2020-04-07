@@ -31,23 +31,20 @@ Test
 |Programma              |
 |Uitzending             |
 |Clip                   |
+|Koepelprogramma        |
+|Trailer                |
+|Film                   |
+|Groep                  |
+|Serie                  |
+|Seizoen                |
+|Paraplu                |
+|Archief                |
+|Collectie              |
+|Speellijst             |
+|Album                  |
+|Segment                |
+|Track                  |
+|Visual radio           |
+|Opname                 |
+|Promo                  |
 
-
-{{{
-|Koepelprogramma|
-|Trailer        |
-|Film           |
-|Groep          |
-|Serie          |
-|Seizoen        |
-|Paraplu        |
-|Archief        |
-|Collectie      |
-|Speellijst     |
-|Album          |
-|Segment        |
-|Track          |
-|Visual radio   |
-|Opname         |
-|Promo          |
-}}}
