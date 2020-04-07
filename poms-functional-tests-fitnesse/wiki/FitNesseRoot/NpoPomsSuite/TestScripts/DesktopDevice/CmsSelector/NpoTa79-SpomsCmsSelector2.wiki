@@ -1,0 +1,50 @@
+---
+Test
+---
+!include -c <CmsSelector.Variabelen
+!include -c <CmsSelector.Scenarios
+
+!*> Lokale scenario's
+|table template                                     |Controleer CMS selector                             |
+|open                                               |${UrlPoms}/${affixCmsSelector}                      |
+|click                                              |@{filtertype}                                       |
+|click                                              |Select                                              |
+|switch to next tab                                                                                      |
+|Npo poms Inlogscherm Log in met admin                                                                   |
+|Npo poms Zoeken Check optie                        |@{filtertype}|geselecteerd in dropdown|!-MediaType-!|
+|Npo poms Zoeken Druk op tandwieltje                                                                     |
+|set search context to                              |xpath=//poms-search-columns                         |
+|click                                              |${kolomMid}                                         |
+|clear search context                                                                                    |
+|Npo poms Zoeken Druk op tandwieltje                                                                     |
+|Npo poms Zoeken Sla mid bij eerste object op in var|mid                                                 |
+|Npo poms Zoeken Dubbelklik op hoofdtitel van eerste object                                              |
+|switch to next tab                                                                                      |
+|Check tekstveld                                    |Result:      |heeft waarde            |$mid         |
+|Open Npo poms website                                                                                   |
+|Npo poms Hoofdscherm Log uit                                                                            |
+*!
+
+|Controleer CMS selector|
+|filtertype             |
+|Alle media             |
+|Programma              |
+|Uitzending             |
+|Clip                   |
+|Koepelprogramma        |
+|Trailer                |
+|Film                   |
+|Groep                  |
+|Serie                  |
+|Seizoen                |
+|Paraplu                |
+|Archief                |
+|Collectie              |
+|Speellijst             |
+|Album                  |
+|Segment                |
+|Track                  |
+|Visual radio           |
+|Opname                 |
+|Promo                  |
+
