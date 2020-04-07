@@ -240,4 +240,28 @@ public class ExtendedBrowserTest extends BrowserTest {
             return false;
         }
     }
+
+    @Override
+    public boolean switchToNextTab() {
+        List<String> tabs = getTabHandles();
+        if (tabs.size() == 1 && getCurrentTabIndex(tabs) < 0) {
+            // There is only one open tab, but it is not the current one. Switch to the only open tab
+            goToTab(tabs, 0);
+            return true;
+        } else {
+            return super.switchToNextTab();
+        }
+    }
+
+    @Override
+    public boolean switchToPreviousTab() {
+        List<String> tabs = getTabHandles();
+        if (tabs.size() == 1 && getCurrentTabIndex(tabs) < 0) {
+            // There is only one open tab, but it is not the current one. Switch to the only open tab
+            goToTab(tabs, 0);
+            return true;
+        } else {
+            return super.switchToPreviousTab();
+        }
+    }
 }
