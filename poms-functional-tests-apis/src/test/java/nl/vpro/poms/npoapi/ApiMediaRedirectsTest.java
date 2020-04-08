@@ -24,14 +24,15 @@ import static org.assertj.core.api.Assertions.assertThat;
 @Log4j2
 class ApiMediaRedirectsTest extends AbstractApiTest {
 
-
-
     static Collection<Object[]> getRedirects() {
         try (Response response = clients.getMediaService().redirects(null)) {
             assertThat(response.getStatus()).isEqualTo(200);
             RedirectList list = response.readEntity(RedirectList.class);
             assertThat(list).isNotEmpty();
-            return list.getList().stream().map(e -> new Object[]{e}).collect(Collectors.toList());
+            return list.getList()
+                .stream()
+                .map(e -> new Object[]{e})
+                .collect(Collectors.toList());
         }
     }
 
@@ -39,7 +40,7 @@ class ApiMediaRedirectsTest extends AbstractApiTest {
     @MethodSource("getRedirects")
     void testRedirect(RedirectEntry entry) {
         try {
-            assertThat(clients.getMediaService().load(entry.getFrom(), null, null).getMid()).isEqualTo(entry.getTo());
+            assertThat(clients.getMediaService().load(entry.getFrom(), null, null).getMid()).isEqualTo(entry.getUltimate());
         } catch (javax.ws.rs.NotFoundException nfe) {
             log.warn("For " + entry + ": " + nfe.getMessage());
         }
