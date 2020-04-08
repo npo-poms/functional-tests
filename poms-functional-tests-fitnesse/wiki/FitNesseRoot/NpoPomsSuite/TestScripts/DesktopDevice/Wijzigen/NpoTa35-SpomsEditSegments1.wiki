@@ -1,4 +1,5 @@
 ---
+Suites: MT
 Test
 ---
 !*> Lokale variabelen

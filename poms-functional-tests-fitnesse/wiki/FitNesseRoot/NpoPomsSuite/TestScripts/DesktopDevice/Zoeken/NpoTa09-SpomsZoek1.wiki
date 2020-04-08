@@ -1,4 +1,5 @@
 ---
+Suites: RG
 Test
 ---
 !include -c <Zoeken.Variabelen
