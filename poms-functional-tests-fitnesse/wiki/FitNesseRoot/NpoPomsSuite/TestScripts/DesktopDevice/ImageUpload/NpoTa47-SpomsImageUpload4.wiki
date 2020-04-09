@@ -23,9 +23,9 @@ Test
 |Controleer status clip is wordt gepubliceerd                                                         |
 |scroll to                                  |Afbeelding toevoegen                                     |
 |Controleer volgorde van afbeeldingen;      |$aantalAfbeeldingen        |${titel}1|${titel}3|${titel}2|
-|Verwijder afbeelding met titel             |${titel}1                                                |
 |Verwijder afbeelding met titel             |${titel}2                                                |
 |Verwijder afbeelding met titel             |${titel}3                                                |
+|Verwijder afbeelding met titel             |${titel}1                                                |
 |set search context to                      |xpath=//poms-images                                      |
 |Npo poms Tabblad object Check afbeelding   |${titel}1                  |niet zichtbaar               |
 |Npo poms Tabblad object Check afbeelding   |${titel}2                  |niet zichtbaar               |
