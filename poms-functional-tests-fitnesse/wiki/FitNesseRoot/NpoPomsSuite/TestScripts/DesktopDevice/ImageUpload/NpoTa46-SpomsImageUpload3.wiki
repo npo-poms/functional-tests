@@ -26,7 +26,7 @@ Test
 
 *!
 
-|script                                      |extended browser test                                |
+|script                                                                                            |
 |Open Npo poms website                                                                             |
 |Npo poms Inlogscherm Log in met standaard-gebruiker                                               |
 |Zoek clip met objectnummer                  |${objectNummer}|en druk op link afbeelding toevoegen |

@@ -154,10 +154,10 @@
 |ensure  |dates in elements                                             |xpath=//*[contains(concat(" ",@class," "),"search-result-row")]/td[@class="column-sortDate"]|matched with     |!-^([0-9]{2}-[0-9]{2}-[0-9]{4}) [0-9]{2}:[0-9]{2}-!|compare|@vergelijking|with|@datum|
 
 |scenario|Npo poms zoeken Klik op uitzendingen in linkermenu|
-|click   |xpath=//span[contains(text(),'Uitzendingen')]     |
+|click   |xpath=//span[contains(text(),"Uitzendingen")]     |
 
 |scenario    |Npo poms zoeken Selecteer eerste uitzending                          |
-|double click|xpath=(//h1[contains(text(),'Uitzendingen')]/following::tbody//td)[1]|
+|double click|xpath=(//h1[contains(text(),"Uitzendingen")]/following::tbody//td)[1]|
 
 |scenario |Npo poms zoeken Scroll naar object nummer|nummer|
 |scroll to|xpath=//table/tbody/tr[@nummer]                 |

@@ -37,19 +37,8 @@ Door het zetten van start- en stop tijd, worden de start- en stop tijden ingevul
 |Npo poms Tabblad object Segment aanpassen speeltijd naar hh:mm:ss|00:01:01        |
 |Npo poms Hoofdscherm Sluit tab met tekst                         |Segment ${titel}|
 
-Wacht maximaal drie minuten tot de wijzigingen zichtbaar zijn:
-|script                                                                                                          |
-|repeat at most        |60                                                                       |times          |
-|set repeat interval to|3000                                                                     |milliseconds   |
-|refresh until value of|xpath=//tr[contains(.,'${titel}')]/td[contains(@class,'column-stop')]    |is|01:01       |
-|show                  |repeat count                                                                             |
-|show                  |time spent repeating                                                                     |
-|refresh until value of|xpath=//tr[contains(.,'${titel}')]/td[contains(@class,'column-duration')]|is|01:01       |
-|show                  |repeat count                                                                             |
-|show                  |time spent repeating                                                                     |
-|refresh until value of|css=.column-workflow p                                                   |is|Gepubliceerd|
-|show                  |repeat count                                                                             |
-|show                  |time spent repeating                                                                     |
+|script                                                                                                                              |
+|Npo poms Tabblad object Segment Refresh maximaal|10|keer na|3000|ms tot|${titel}|gewijzigd is naar stoptijd|01:01|en speelduur|01:01|
 
 |script                                                                                    |
 |wait for visible|css=.column-workflow [title="Gepubliceerd"]                              |
