@@ -4,11 +4,12 @@
 
 |scenario|Npo poms Tabblad object Segment toevoegen met speler|
 |click   |Segment toevoegen met speler                        |
-|Npo poms Tabblad object Segment video should be ready        |
+|Npo poms Tabblad object Segment wacht tot video ingeladen is |
 
 |scenario             |Npo poms Tabblad object Segment aanpassen|titel|
 |set search context to|css=poms-segments                              |
 |hover over           |css=h1                                         |
+|wait for visible     |@titel                                         |
 |hover over           |@titel                                         |
 |click                |edit segment                                   |
 |clear search context                                                 |
@@ -20,7 +21,7 @@
 
 |scenario              |Npo poms Tabblad object Segment wacht op status|status|
 |seconds before timeout|300                                                   |
-|wait for visible      |css=.tab-pane.active .media-workflow [title='@status']|
+|wait for visible      |css=.tab-pane.active .media-workflow [title="@status"]|
 |seconds before timeout|${secondsBeforeTimeout}                               |
 
 |scenario             |Npo poms Tabblad object Segment itemize|titel|
@@ -29,11 +30,11 @@
 |hover over           |@titel                                       |
 |click                |itemize                                      |
 |clear search context                                               |
-|Npo poms Tabblad object Segment video should be ready              |
+|Npo poms Tabblad object Segment wacht tot video ingeladen is       |
 
-|scenario        |Npo poms Tabblad object Segment video should be ready|
-|wait for visible|xpath=//*[@id='videoDuration' and .!='00:00:00']     |
-|wait for visible|css=.icon-play                                       |
+|scenario        |Npo poms Tabblad object Segment wacht tot video ingeladen is|
+|wait for visible|xpath=//*[@id="videoDuration" and .!="00:00:00"]            |
+|wait for visible|css=.icon-play                                              |
 
 |scenario|Npo poms Tabblad object Segment Speel video voor|sec|sec|
 |click   |css=#iconPlayPause                                      |
@@ -47,7 +48,7 @@
 |enter   |@titel                                           |as   |Titel (verplicht)                                      |
 |enter   |@beschrijving                                    |as   |Beschrijving                                           |
 |click   |Bewaar en @nieuw_sluit                                                                                         |
-|ensure  |is visible on page                               |css=poms-segments .column-mainTitle [title='@titel']         |
+|ensure  |is visible on page                               |css=poms-segments .column-mainTitle [title="@titel"]         |
 
 |scenario         |Npo poms Tabblad object Segment Bewaar aantal segmenten op id|id                                              |
 |$segmentValue@id=|value of                                                     |css=[title="Segmenten"] span                    |
@@ -57,6 +58,19 @@
 |scenario|Npo poms Tabblad object Segment Controleer aantal tussen id|id1                                  |en|id2|is toegenomen met|aantal|
 |        |script language fixture                                                                                                          |
 |check   |evaluate                                                   |$segmentCount@id2 - $segmentCount@id1|@aantal                        |
+
+|scenario              |Npo poms Tabblad object Segment Refresh maximaal                       |max|keer na|int|ms tot|titel|gewijzigd is naar stoptijd|stoptijd|en speelduur|speelduur|
+|repeat at most        |@max                                                                   |times                                                                                  |
+|set repeat interval to|@int                                                                   |milliseconds                                                                           |
+|refresh until value of|xpath=//tr[contains(.,"@titel")]/td[contains(@class,"column-stop")]    |is |@stoptijd                                                                          |
+|show                  |repeat count                                                                                                                                                   |
+|show                  |time spent repeating                                                                                                                                           |
+|refresh until value of|xpath=//tr[contains(.,"@titel")]/td[contains(@class,"column-duration")]|is |@speelduur                                                                         |
+|show                  |repeat count                                                                                                                                                   |
+|show                  |time spent repeating                                                                                                                                           |
+|refresh until value of|css=.column-workflow p                                                 |is |Gepubliceerd                                                                       |
+|show                  |repeat count                                                                                                                                                   |
+|show                  |time spent repeating                                                                                                                                           |
 
 |scenario     |Npo poms Tabblad object Segment Controleer start|starttijd         |stop|stoptijd  |en speelduur|speelduur    |
 |note         |milliseconds checked separately, to account for small speed differences each test                             |
@@ -79,8 +93,8 @@
 |clear search context                                                                                                         |
 |click                 |verwijderen                                                                                           |
 |set search context to |css=poms-segments                                                                                     |
-|wait for visible      |xpath=//h1[contains(normalize-space(.),'Segmenten (@aantal)')]                                        |
+|wait for visible      |xpath=//h1[contains(normalize-space(.),"Segmenten (@aantal)")]                                        |
 |seconds before timeout|1                                                                                                     |
-|reject                |is visible on page                                   |css=.column-mainTitle [title='@oudeTitel']      |
+|reject                |is visible on page                                   |css=.column-mainTitle [title="@oudeTitel"]      |
 |seconds before timeout|${secondsBeforeTimeout}                                                                               |
 |clear search context                                                                                                         |

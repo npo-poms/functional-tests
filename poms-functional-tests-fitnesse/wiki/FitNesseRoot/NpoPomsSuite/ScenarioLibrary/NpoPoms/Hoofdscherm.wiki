@@ -40,4 +40,4 @@
 |click   |xpath=//ul[@class="nav nav-tabs"]/li[last()-1]//span[text()="close"]|
 
 |scenario|Npo poms Hoofdscherm Sluit tab met tekst|tekst                                                             |
-|click   |sluit deze tab                          |in|xpath=//*[contains(@class,'nav-link') and contains(.,'@tekst')]|
+|click   |sluit deze tab                          |in|xpath=//*[contains(@class,"nav-link") and contains(.,"@tekst")]|
