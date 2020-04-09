@@ -1,5 +1,6 @@
 ---
 Prune
+Suites: RG
 Test
 ---
 !*> Lokale variabelen

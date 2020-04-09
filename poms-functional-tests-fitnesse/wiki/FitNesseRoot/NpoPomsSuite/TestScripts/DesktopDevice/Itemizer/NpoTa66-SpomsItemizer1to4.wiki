@@ -1,4 +1,5 @@
 ---
+Suites: DV
 Test
 ---
 !*> Lokale variabelen

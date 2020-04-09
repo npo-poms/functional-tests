@@ -2,11 +2,11 @@
 |open    |${UrlFrontendApi}        |
 
 |scenario     |Frontend api Inlogscherm Wacht tot pagina geladen|
-|wait for page|Publieke Omroep Media Service (POMS)             |
+|wait for page|Log in met POMS Test-omgeving                    |
 
 |scenario|Frontend api Inlogscherm Log in met standaard-gebruiker|
 |Frontend api Inlogscherm Wacht tot pagina geladen               |
 |enter   |$standaardGebruikersnaam      |as     |id=username     |
 |enter   |$standaardWachtwoord          |as     |id=password     |
-|click   |LOGIN                                                  |
+|click   |id=kc-login                                            |
 |Frontend api Hoofdscherm Wacht tot pagina geladen               |
