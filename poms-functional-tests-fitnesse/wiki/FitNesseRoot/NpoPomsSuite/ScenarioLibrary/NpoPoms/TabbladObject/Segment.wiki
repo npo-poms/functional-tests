@@ -59,18 +59,18 @@
 |        |script language fixture                                                                                                          |
 |check   |evaluate                                                   |$segmentCount@id2 - $segmentCount@id1|@aantal                        |
 
-|scenario              |Npo poms Tabblad object Segment Refresh maximaal                       |max|na|int|ms tot|titel|gewijzigd is naar stoptijd|stoptijd|en speelduur|speelduur|
-|repeat at most        |@max                                                                   |times                                                                             |
-|set repeat interval to|@int                                                                   |milliseconds                                                                      |
-|refresh until value of|xpath=//tr[contains(.,"@titel")]/td[contains(@class,"column-stop")]    |is |@stoptijd                                                                     |
-|show                  |repeat count                                                                                                                                              |
-|show                  |time spent repeating                                                                                                                                      |
-|refresh until value of|xpath=//tr[contains(.,"@titel")]/td[contains(@class,"column-duration")]|is |@speelduur                                                                    |
-|show                  |repeat count                                                                                                                                              |
-|show                  |time spent repeating                                                                                                                                      |
-|refresh until value of|css=.column-workflow p                                                 |is |Gepubliceerd                                                                  |
-|show                  |repeat count                                                                                                                                              |
-|show                  |time spent repeating                                                                                                                                      |
+|scenario              |Npo poms Tabblad object Segment Refresh maximaal                       |max|keer na|int|ms tot|titel|gewijzigd is naar stoptijd|stoptijd|en speelduur|speelduur|
+|repeat at most        |@max                                                                   |times                                                                                  |
+|set repeat interval to|@int                                                                   |milliseconds                                                                           |
+|refresh until value of|xpath=//tr[contains(.,"@titel")]/td[contains(@class,"column-stop")]    |is |@stoptijd                                                                          |
+|show                  |repeat count                                                                                                                                                   |
+|show                  |time spent repeating                                                                                                                                           |
+|refresh until value of|xpath=//tr[contains(.,"@titel")]/td[contains(@class,"column-duration")]|is |@speelduur                                                                         |
+|show                  |repeat count                                                                                                                                                   |
+|show                  |time spent repeating                                                                                                                                           |
+|refresh until value of|css=.column-workflow p                                                 |is |Gepubliceerd                                                                       |
+|show                  |repeat count                                                                                                                                                   |
+|show                  |time spent repeating                                                                                                                                           |
 
 |scenario     |Npo poms Tabblad object Segment Controleer start|starttijd         |stop|stoptijd  |en speelduur|speelduur    |
 |note         |milliseconds checked separately, to account for small speed differences each test                             |
