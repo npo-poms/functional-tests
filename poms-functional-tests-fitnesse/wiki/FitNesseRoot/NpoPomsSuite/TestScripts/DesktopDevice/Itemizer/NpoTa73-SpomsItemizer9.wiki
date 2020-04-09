@@ -4,7 +4,7 @@ Test
 !*> Lokale variabelen
 
 !define media {POW_00587306}
-!define titel {itemizer test}
+!define titel {testD_!today (yyMMddHHmmss)}
 !define beschrijving {De test met de Itemizer}
 
 *!
@@ -14,7 +14,7 @@ Test
 |Npo poms Inlogscherm Log in met standaard-gebruiker|
 |Npo poms Tabblad object Open       |${media}       |
 
-|storyboard                                                                |
+|script                                                                    |
 |Npo poms Tabblad object Segment wacht op status              |Gepubliceerd|
 |Npo poms Tabblad object Segment Bewaar aantal segmenten op id|1           |
 |Npo poms Tabblad object Segment toevoegen met speler                      |
@@ -36,12 +36,17 @@ Door het zetten van start- en stop tijd, worden de start- en stop tijden ingevul
 |Npo poms Tabblad object Segment aanpassen speeltijd naar hh:mm:ss|00:01:01        |
 |Npo poms Hoofdscherm Sluit tab met tekst                         |Segment ${titel}|
 
+Wacht maximaal drie minuten tot de wijzigingen zichtbaar zijn:
 |script                                                                                                          |
-|repeat at most        |10                                                                       |times          |
+|repeat at most        |60                                                                       |times          |
 |set repeat interval to|3000                                                                     |milliseconds   |
-|refresh until value of|css=.column-workflow p                                                   |is|Gepubliceerd|
 |refresh until value of|xpath=//tr[contains(.,'${titel}')]/td[contains(@class,'column-stop')]    |is|01:01       |
+|show                  |repeat count                                                                             |
+|show                  |time spent repeating                                                                     |
 |refresh until value of|xpath=//tr[contains(.,'${titel}')]/td[contains(@class,'column-duration')]|is|01:01       |
+|show                  |repeat count                                                                             |
+|show                  |time spent repeating                                                                     |
+|refresh until value of|css=.column-workflow p                                                   |is|Gepubliceerd|
 |show                  |repeat count                                                                             |
 |show                  |time spent repeating                                                                     |
 

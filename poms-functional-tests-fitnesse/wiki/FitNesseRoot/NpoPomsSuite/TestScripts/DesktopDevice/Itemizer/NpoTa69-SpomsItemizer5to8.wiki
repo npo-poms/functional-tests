@@ -4,7 +4,7 @@ Test
 !*> Lokale variabelen
 
 !define media {POW_00587306}
-!define titel {segment test}
+!define titel {testC_!today (yyMMddHHmmss)}
 !define beschrijving {De test met de Itemizer}
 
 *!

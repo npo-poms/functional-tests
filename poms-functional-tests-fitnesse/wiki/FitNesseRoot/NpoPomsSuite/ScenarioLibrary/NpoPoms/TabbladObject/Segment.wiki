@@ -9,6 +9,7 @@
 |scenario             |Npo poms Tabblad object Segment aanpassen|titel|
 |set search context to|css=poms-segments                              |
 |hover over           |css=h1                                         |
+|wait for visible     |@titel                                         |
 |hover over           |@titel                                         |
 |click                |edit segment                                   |
 |clear search context                                                 |
