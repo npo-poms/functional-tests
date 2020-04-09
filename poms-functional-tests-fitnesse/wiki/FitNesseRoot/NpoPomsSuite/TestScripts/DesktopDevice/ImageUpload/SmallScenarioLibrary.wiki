@@ -37,6 +37,7 @@
 |Npo poms Hoofdscherm Check subtitel van laatste tab       |$typeVanObject                                                                             |
 |Npo poms Tabblad object Sla mid of urn op in var          |mid                                                                                        |
 |Npo poms Tabblad object Druk op link                      |Afbeeldingen              |in sidebar                                                      |
+|Npo poms Tabblad object Wacht tot scrollen klaar is                                                                                                   |
 
 
 |scenario                                            |Voeg afbeelding met titel|titel                              |toe aan clip                |
