@@ -5,6 +5,7 @@ import lombok.extern.log4j.Log4j2;
 import java.util.Collection;
 import java.util.stream.Collectors;
 
+import javax.ws.rs.NotFoundException;
 import javax.ws.rs.core.Response;
 
 import org.junit.jupiter.params.ParameterizedTest;
@@ -40,9 +41,16 @@ class ApiMediaRedirectsTest extends AbstractApiTest {
     @MethodSource("getRedirects")
     void testRedirect(RedirectEntry entry) {
         try {
-            assertThat(clients.getMediaService().load(entry.getFrom(), null, null).getMid()).isEqualTo(entry.getUltimate());
+            assertThat(clients.getMediaService()
+                .load(entry.getFrom(), null, null)
+                .getMid()
+            ).isEqualTo(entry.getUltimate());
         } catch (javax.ws.rs.NotFoundException nfe) {
-            log.warn("For " + entry + ": " + nfe.getMessage());
+            if (apiVersionNumber.isBefore(5, 12)) {
+                log.info("NPA-533");
+                throw new NotFoundException(nfe.getMessage() + " (known to fail in this version  NPA-533", nfe);
+            }
+            throw nfe;
         }
     }
 }
