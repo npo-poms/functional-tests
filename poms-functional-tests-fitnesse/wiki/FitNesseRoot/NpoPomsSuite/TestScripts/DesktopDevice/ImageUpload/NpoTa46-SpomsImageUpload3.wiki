@@ -10,23 +10,7 @@ Test
 
 *!
 
-!*> Lokale scenario's
-|scenario                                           |Zoek clip met eerste hoofdtitel en druk op link afbeelding toevoegen|
-|scroll to                                          |!-MediaType-!                                                       |
-|Npo poms Zoeken Selecteer optie                    |Clip               |zonder controle in dropdown    |!-MediaType-!   |
-|scroll to                                          |!-Omroepen-!                                                        |
-|Npo poms Zoeken Selecteer optie                    |VPRO               |zonder controle in dropdown    |!-Omroepen-!    |
-|wait for visible                                   |Gezocht naar: Clip, VPRO                                            |
-|double click                                       |$titelVanObject                                                     |
-|Npo poms Hoofdscherm Wacht tot tabblad             |$titelVanObject    |geopend                                         |
-|Npo poms Hoofdscherm Check titel van laatste tab   |$titelVanObject                                                     |
-|Npo poms Hoofdscherm Check subtitel van laatste tab|$typeVanObject                                                      |
-|Npo poms Tabblad object Sla mid of urn op in var   |mid                                                                 |
-|Npo poms Tabblad object Druk op link               |Afbeeldingen       |in sidebar                                      |
-
-*!
-
-|script                                      |extended browser test                                |
+|script                                                                                            |
 |Open Npo poms website                                                                             |
 |Npo poms Inlogscherm Log in met standaard-gebruiker                                               |
 |Zoek clip met objectnummer                  |${objectNummer}|en druk op link afbeelding toevoegen |
@@ -35,8 +19,8 @@ Test
 |Voeg afbeelding met titel                   |${titel}1      |toe aan clip                         |
 |Voeg afbeelding met titel                   |${titel}2      |toe aan clip                         |
 |Controleer dat er                           |2              |afbeeldingen toegevoegd zijn         |
-|Verwijder afbeelding met titel              |${titel}1                                            |
 |Verwijder afbeelding met titel              |${titel}2                                            |
+|Verwijder afbeelding met titel              |${titel}1                                            |
 |set search context to                       |xpath=//poms-images                                  |
 |Npo poms Tabblad object Check aantal in veld|Afbeeldingen   |is var        |aantalAfbeeldingen    |
 |Npo poms Tabblad object Check afbeelding    |${titel}       |niet zichtbaar                       |

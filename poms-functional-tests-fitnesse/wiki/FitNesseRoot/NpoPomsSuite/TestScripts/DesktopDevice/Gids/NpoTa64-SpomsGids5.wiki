@@ -8,8 +8,8 @@ Test
 
 *!
 
-|script                           |
-|$today=|store|!today (dd-MM-yyyy)|
+|script                              |
+|$today=|store|!today (dd-MM-yyyy) -7|
 
 |script                                                                                                                                          |
 |Open Npo poms website                                                                                                                           |
