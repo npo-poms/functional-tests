@@ -3,17 +3,20 @@ package nl.vpro.poms.npoapi;
 import lombok.extern.log4j.Log4j2;
 
 import java.util.Collection;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
-import javax.ws.rs.NotFoundException;
 import javax.ws.rs.core.Response;
 
+import org.assertj.core.api.Assumptions;
+import org.assertj.core.api.Fail;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
 import nl.vpro.domain.api.media.RedirectEntry;
 import nl.vpro.domain.api.media.RedirectList;
 import nl.vpro.poms.AbstractApiTest;
+import nl.vpro.util.IntegerVersion;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -22,6 +25,7 @@ import static org.assertj.core.api.Assertions.assertThat;
  * @author Michiel Meeuwissen
  * @since 1.0
  */
+@SuppressWarnings("ResultOfMethodCallIgnored")
 @Log4j2
 class ApiMediaRedirectsTest extends AbstractApiTest {
 
@@ -46,11 +50,15 @@ class ApiMediaRedirectsTest extends AbstractApiTest {
                 .getMid()
             ).isEqualTo(entry.getUltimate());
         } catch (javax.ws.rs.NotFoundException nfe) {
-            if (apiVersionNumber.isBefore(5, 12)) {
-                log.info("NPA-533");
-                throw new NotFoundException(nfe.getMessage() + " (known to fail in this version  NPA-533", nfe);
+            if (! Objects.equals(entry.getTo(), entry.getUltimate())) {
+                Assumptions.assumeThat(apiVersionNumber)
+                    .withFailMessage("Known to fail before 5.12. See NPA-533/ %s", entry)
+                    .isGreaterThanOrEqualTo(IntegerVersion.of(5, 12));
+            } else {
+                // TODO: Still suffering https://jira.vpro.nl/browse/NPA-535
             }
-            throw nfe;
+            Fail.fail("Could not resolve %s: %s", entry, nfe.getMessage(),  nfe);
+
         }
     }
 }
