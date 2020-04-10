@@ -1,8 +1,8 @@
 |scenario|Open Frontend api website|
 |open    |${UrlFrontendApi}        |
 
-|scenario     |Frontend api Inlogscherm Wacht tot pagina geladen|
-|wait for page|Log in met POMS Test-omgeving                    |
+|scenario        |Frontend api Inlogscherm Wacht tot pagina geladen|
+|wait for visible|POMS Test-omgeving                               |
 
 |scenario|Frontend api Inlogscherm Log in met standaard-gebruiker|
 |Frontend api Inlogscherm Wacht tot pagina geladen               |

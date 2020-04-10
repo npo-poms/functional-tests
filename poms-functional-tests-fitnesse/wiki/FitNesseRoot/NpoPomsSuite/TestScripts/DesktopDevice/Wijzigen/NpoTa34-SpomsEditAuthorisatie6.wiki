@@ -12,15 +12,22 @@ Test
 
 *!
 
+!*> Lokale scenario's
+
+|scenario|Klik om alle onderdelen te laten zien|
+|click   |xpath=//div[@class='show-all-rows']  |
+
+*!
+
 |script                                                                                                           |
 |Open Npo poms website                                                                                            |
 |Npo poms Inlogscherm Log in met standaard-gebruiker                                                              |
 |Npo poms Zoeken Selecteer optie                           |${mediatype1}     |in dropdown|!-MediaType-!          |
 |Npo poms Zoeken Selecteer optie                           |${omroep1}        |in dropdown|Omroepen               |
 |wait for visible                                          |Gezocht naar: ${mediatype1}, ${omroep1}               |
-|Npo poms Zoeken Sla hoofdtitel van eerste object op in var|titelVanObject                                        |
-|Npo poms Zoeken Sla type van eerste object op in var      |typeVanObject                                         |
-|Npo poms Zoeken Dubbelklik op hoofdtitel van eerste object                                                       |
+|Npo poms Zoeken Sla hoofdtitel van object nummer          |4                 |op in var  |titelVanObject         |
+|Npo poms Zoeken Sla type van object nummer                |4                 |op in var  |typeVanObject          |
+|Npo poms Zoeken Dubbelklik op hoofdtitel van object nummer|4                                                     |
 |Npo poms Hoofdscherm Wacht tot tabblad                    |$titelVanObject   |geopend                            |
 |Npo poms Hoofdscherm Check titel van laatste tab          |$titelVanObject                                       |
 |Npo poms Hoofdscherm Check subtitel van laatste tab       |$typeVanObject                                        |
@@ -39,6 +46,7 @@ Test
 |Npo poms Zoeken Vink checkbox aan bij object nummer       |${objectNummer}   |in zoekresultaten                  |
 |click                                                     |Kies                                                  |
 |wait for not visible                                      |Kies                                                  |
+|Klik om alle onderdelen te laten zien                                                                            |
 |set search context to                                     |xpath=//poms-members                                  |
 |Npo poms Tabblad object Check item                        |$titelVanOnderdeel|zichtbaar                          |
 |Npo poms Tabblad object Check onderdeel                   |$titelVanOnderdeel|heeft type |$typeVanOnderdeel      |
