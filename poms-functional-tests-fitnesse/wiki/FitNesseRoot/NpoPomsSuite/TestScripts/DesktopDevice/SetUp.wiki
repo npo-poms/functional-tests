@@ -4,15 +4,17 @@
 |show            |driver description   |
 *!
 
-|script                   |properties file fixture      |
-|load values from         |accounts.properties          |
-|show                     |values                       |
-|$standaardGebruikersnaam=|value|standaardGebruikersnaam|
-|$standaardWachtwoord=    |value|standaardWachtwoord    |
-|$npoGebruikersnaam=      |value|npoGebruikersnaam      |
-|$npoWachtwoord=          |value|npoWachtwoord          |
-|$adminGebruikersnaam=    |value|adminGebruikersnaam    |
-|$adminWachtwoord=        |value|adminWachtwoord        |
+|script                        |properties file fixture           |
+|load values from              |accounts.properties               |
+|show                          |values                            |
+|$standaardGebruikersnaam=     |value|standaardGebruikersnaam     |
+|$standaardWachtwoord=         |value|standaardWachtwoord         |
+|$npoGebruikersnaam=           |value|npoGebruikersnaam           |
+|$npoWachtwoord=               |value|npoWachtwoord               |
+|$adminGebruikersnaam=         |value|adminGebruikersnaam         |
+|$adminWachtwoord=             |value|adminWachtwoord             |
+|$omroepUploaderGebruikersnaam=|value|omroepUploaderGebruikersnaam|
+|$omroepUploaderWachtwoord=    |value|omroepUploaderWachtwoord    |
 
 |script                          |extended browser test  |
 |delete all cookies                                      |
