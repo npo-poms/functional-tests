@@ -1,0 +1,96 @@
+---
+Suites: DV
+Test
+---
+!*> Lokale variabelen
+
+!define media {POW_00587306}
+!define titel {testE_!today (yyMMddHHmmss)}
+!define beschrijving {Test toevoegen segment 1}
+
+*!
+
+|scenario        |vul     |item                                                 |met       |tekst      |
+|wait for visible|@item                                                                                |
+|click           |@item                                                                                |
+|enter           |@tekst  |as                                                   |css=[name="editvalue"]|
+|click           |save                                                                                 |
+|wait for visible|xpath=//h2[contains(.,"@item")]//following-sibling::p                                |
+|check           |value of|xpath=//h2[contains(.,"@item")]//following-sibling::p|@tekst                |
+
+
+|script                                         |
+|Open Npo poms website                          |
+|Npo poms Inlogscherm Log in met omroep-uploader|
+|Npo poms Tabblad object Open     |${media}     |
+
+#|Npo poms Tabblad object Segment wacht op status              |Gepubliceerd|
+|script                                                         |
+|Npo poms Tabblad object Segment Bewaar aantal segmenten op id|1|
+|Npo poms Tabblad object Segment toevoegen met speler           |
+
+#|script                                                           |
+#|Npo poms Tabblad object Segment Zet huidige positie als|starttijd|
+#|Npo poms Tabblad object Segment Speel video voor       |1  |sec  |
+#|Npo poms Tabblad object Segment Zet huidige positie als|stoptijd |
+#
+#Controleer verwacht resultaat:
+#Door het zetten van start- en stop tijd, worden de start- en stop tijden ingevuld en wordt de speelduur berekend.
+#|script                                                                                                            |
+#|Npo poms Tabblad object Segment Controleer start |00:00:00|stop        |00:00:01       |en speelduur     |00:00:01|
+#|Npo poms Tabblad object Segment opslaan met titel|${titel}|beschrijving|${beschrijving}|en knop Bewaar en|nieuw   |
+
+|script                                                                                                                                                         |
+|click                                                  |id=seekbar                                                                                             |
+|Npo poms Tabblad object Segment Zet huidige positie als|starttijd                                                                                              |
+|ensure                                                 |is visible on page|De starttijd van een segment mag niet later zijn dan of gelijk zijn aan de stoptijd.|
+
+|script                                                                                                                        |
+|enter                 |00:06:50.010      |as                                     |Eindtijd                                    |
+|seconds before timeout|1                                                                                                      |
+|reject                |is visible on page|De starttijd van een segment mag niet later zijn dan of gelijk zijn aan de stoptijd.|
+|seconds before timeout|${secondsBeforeTimeout}                                                                                |
+
+|script                                                                                           |
+|enter                                           |00:02:25.001|as  |Starttijd                     |
+|Npo poms Tabblad object Segment Controleer start|00:02:25    |stop|00:06:50|en speelduur|00:04:25|
+
+|storyboard                         |
+|click           |id=seekbar        |
+|click           |css=.canvas-grab  |
+|wait for visible|css=.image-preview|
+
+|script                                                                                                            |
+|Npo poms Tabblad object Segment Controleer start |00:02:25|stop        |00:06:50       |en speelduur     |00:04:25|
+|Npo poms Tabblad object Segment opslaan met titel|${titel}|beschrijving|${beschrijving}|en knop Bewaar en|sluit   |
+|Npo poms Tabblad object Segment itemize          |${titel}                                                        |
+
+|script                                                                                           |
+|enter                                           |00:02:25.000|as  |Starttijd                     |
+|enter                                           |00:06:49.500|as  |Eindtijd                      |
+|Npo poms Tabblad object Segment Controleer start|00:02:25    |stop|00:06:49|en speelduur|00:04:24|
+|click                                           |Annuleer                                        |
+
+|script                                            |
+|Npo poms Tabblad object Segment aanpassen|${titel}|
+
+|script                                                                      |
+|wait for visible|css=[field="media.mid"] input                              |
+|check           |value of|css=[field="media.mid"] input|=~/POMS_VPRO_[0-9]+/|
+
+|script                                                  |
+|vul|Afleveringtitel      |met|test afleveringtitel      |
+|vul|Korte titel          |met|test korte titel          |
+|vul|Afkorting            |met|test afkorting            |
+|vul|Werktitel            |met|test werktitel            |
+|vul|Originele titel      |met|test originele titel      |
+|vul|Lexicografische titel|met|test lexicografische titel|
+|vul|Beschrijving         |met|test beschrijving         |
+|vul|Korte beschrijving   |met|test korte beschrijving   |
+
+|script                                                   |
+|Npo poms Hoofdscherm Sluit tab met tekst|Segment ${titel}|
+
+
+|script                                                                                                       |
+|Npo poms Tabblad object Segment Verwijder en verwacht|$segmentCount1|segmenten met andere titels dan|${titel}|
