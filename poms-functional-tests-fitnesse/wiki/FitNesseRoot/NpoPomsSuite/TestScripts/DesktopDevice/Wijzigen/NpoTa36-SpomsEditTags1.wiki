@@ -35,7 +35,8 @@ Test
 |Npo poms Inlogscherm Log in met npo                                                                                                                      |
 |Npo poms Nieuw object toevoegen Start met toevoegen           |${MEDIATYPE}|met titel|${TITEL}|en omroep|${OMROEP}|en AV Type|${AVTYPE}|en genre|${GENRE}|
 |click                                                         |Maak aan                                                                                  |
-|click                                                         |Labels                                                                                    |
+|Npo poms Tabblad object Druk op link                          |Labels      |in sidebar                                                                   |
+|Npo poms Tabblad object Wacht tot scrollen klaar is                                                                                                      |
 |Npo poms Tabblad object Klik op wijzig tags icoon                                                                                                        |
 |Npo poms Tabblad object Kies een tag met tekst                |!-Test1-!                                                                                 |
 |Npo poms Tabblad object Klik op wijzig tags icoon                                                                                                        |

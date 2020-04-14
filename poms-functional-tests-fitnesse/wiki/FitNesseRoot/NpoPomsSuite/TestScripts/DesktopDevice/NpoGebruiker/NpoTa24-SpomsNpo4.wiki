@@ -31,7 +31,7 @@ Test
 |Npo poms Tabblad object Sla mid of urn op in var        |mid                                                                                               |
 |Npo poms Tabblad object Druk op link                    |Uitzendingen                                               |in sidebar                            |
 |Npo poms Tabblad object Wacht tot scrollen klaar is                                                                                                        |
-|Npo poms Zoeken Dubbelklik op kanaal                    |${zender1}                                                                                        |
+|Npo poms Tabblad object Dubbelklik op kanaal            |${zender1}                                                                                        |
 |wait for visible                                        |Bewaar                                                                                            |
 |Npo poms Tabblad object Detailscherm Selecteer optie    |${zender2}                                                 |in dropdown  |Kanaal:                 |
 |Npo poms Tabblad object Detailscherm Sla datepicker     |Starttijd:                                                 |op in var    |starttijd1              |
@@ -54,7 +54,7 @@ Test
 |Npo poms Tabblad object Wacht tot scrollen klaar is                                                                                                        |
 |ensure                                                  |is visible on page                                         |${zender2}                            |
 |ensure                                                  |is visible on page                                         |$starttijd2                           |
-|Npo poms Zoeken Dubbelklik op kanaal                    |${zender2}                                                                                        |
+|Npo poms Tabblad object Dubbelklik op kanaal            |${zender2}                                                                                        |
 |wait for visible                                        |Bewaar                                                                                            |
 |Npo poms Tabblad object Detailscherm Check dropdown     |Kanaal:                                                    |heeft waarde |${zender2}              |
 |Npo poms Tabblad object Detailscherm Check datepicker   |Starttijd:                                                 |heeft waarde |$starttijd2             |
@@ -76,7 +76,7 @@ Test
 |Npo poms Zoeken Open eerste object                                                                                                                         |
 |Npo poms Tabblad object Druk op link                    |Uitzendingen                                               |in sidebar                            |
 |Npo poms Tabblad object Wacht tot scrollen klaar is                                                                                                        |
-|Npo poms Zoeken Dubbelklik op kanaal                    |${zender2}                                                                                        |
+|Npo poms Tabblad object Dubbelklik op kanaal            |${zender2}                                                                                        |
 |wait for visible                                        |Bewaar                                                                                            |
 |Npo poms Tabblad object Detailscherm Selecteer optie    |${zender1}                                                 |in dropdown  |Kanaal:                 |
 |Npo poms Tabblad object Detailscherm Vul                |$starttijd1                                                |in datepicker|Starttijd:              |

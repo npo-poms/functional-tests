@@ -2,6 +2,13 @@
 Suites: MT
 Test
 ---
+!*> Lokale variabelen
+
+!define zender1 {Nederland 2}
+!define zender2 {Nederland 1}
+
+*!
+
 !*> Lokale scenario's
 
 |scenario                                                                 |Sla huidige waardes uit Detailscherm op                        |
@@ -60,7 +67,7 @@ Test
 
 |scenario                                               |Controleer de nieuwe waardes in detailscherm                         |
 |Npo poms Tabblad object Detailscherm Check dat checkbox|Herhaling:                |waarde      |true          |heeft         |
-|Npo poms Tabblad object Detailscherm Check dropdown    |Kanaal:                   |heeft waarde|Nederland 1                  |
+|Npo poms Tabblad object Detailscherm Check dropdown    |Kanaal:                   |heeft waarde|${zender2}                   |
 |Npo poms Tabblad object Detailscherm Check dropdown    |Net:                      |heeft waarde|Zapp 24                      |
 |Npo poms Tabblad object Detailscherm Check datepicker  |Starttijd:                |heeft waarde|$nieuwstarttijd              |
 |Npo poms Tabblad object Detailscherm Check datepicker  |Stoptijd:                 |heeft waarde|$nieuwstoptijd               |
@@ -76,23 +83,22 @@ Test
 *!
 
 
-|script                                                                                  |
-|Open Npo poms website                                                                   |
-|Npo poms Inlogscherm Log in met admin                                                   |
-|click                                                   |ZOEKEN                         |
-|Npo poms Hoofdscherm Wacht tot tabblad Zoeken geopend                                   |
-|Npo poms Zoeken Selecteer optie                         |Nederland 2|in dropdown|Zenders|
-|Npo poms Zoeken Druk knop                               |Zoeken                         |
-|Npo poms Zoeken Wacht tot zoekopdracht met Gezocht naar:|Nederland 2|klaar is           |
-|Npo poms Zoeken Open object nummer                      |10                             |
-|Npo poms zoeken Klik op uitzendingen in linkermenu                                      |
-|Npo poms zoeken Selecteer eerste uitzending                                             |
-|Sla huidige waardes uit Detailscherm op                                                 |
-|Vul nieuwe waardes in in het detailscherm                                               |
-|click                                                   |Bewaar                         |
-|wait for visible                                        |is nu Wordt gepubliceerd       |
-|Npo poms zoeken Selecteer eerste uitzending                                             |
-|Controleer de nieuwe waardes in detailscherm                                            |
-|Zet originele waardes terug in het detailscherm                                         |
-|click                                                   |Bewaar                         |
-|Npo poms Hoofdscherm Sluit laatste tab                                                  |
+|script                                                                                   |
+|Open Npo poms website                                                                    |
+|Npo poms Inlogscherm Log in met admin                                                    |
+|Npo poms Zoeken Selecteer optie                         |${zender1}  |in dropdown|Zenders|
+|Npo poms Zoeken Druk knop                               |Zoeken                          |
+|Npo poms Zoeken Wacht tot zoekopdracht met Gezocht naar:|${zender1}  |klaar is           |
+|Npo poms Zoeken Open object nummer                      |10                              |
+|Npo poms Tabblad object Druk op link                    |Uitzendingen|in sidebar         |
+|Npo poms Tabblad object Wacht tot scrollen klaar is                                      |
+|Npo poms Tabblad object Dubbelklik op uitzending        |${zender1}                      |
+|Sla huidige waardes uit Detailscherm op                                                  |
+|Vul nieuwe waardes in in het detailscherm                                                |
+|click                                                   |Bewaar                          |
+|wait for visible                                        |is nu Wordt gepubliceerd        |
+|Npo poms Tabblad object Dubbelklik op uitzending        |${zender2}                      |
+|Controleer de nieuwe waardes in detailscherm                                             |
+|Zet originele waardes terug in het detailscherm                                          |
+|click                                                   |Bewaar                          |
+|Npo poms Hoofdscherm Sluit laatste tab                                                   |
