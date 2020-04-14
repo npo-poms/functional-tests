@@ -6,62 +6,46 @@ Test
 
 !define mediatype1 {Archief}
 !define omroep1 {VPRO}
+!define mid {POMS_S_VPRO_191797}
 !define mediatype2 {Clip}
 !define omroep2 {AVRO}
 !define objectNummer {2}
 
 *!
 
-!*> Lokale scenario's
-
-|scenario|Klik om alle onderdelen te laten zien|
-|click   |xpath=//div[@class='show-all-rows']  |
-
-*!
-
-|script                                                                                                           |
-|Open Npo poms website                                                                                            |
-|Npo poms Inlogscherm Log in met standaard-gebruiker                                                              |
-|Npo poms Zoeken Selecteer optie                           |${mediatype1}     |in dropdown|!-MediaType-!          |
-|Npo poms Zoeken Selecteer optie                           |${omroep1}        |in dropdown|Omroepen               |
-|wait for visible                                          |Gezocht naar: ${mediatype1}, ${omroep1}               |
-|Npo poms Zoeken Sla hoofdtitel van object nummer          |4                 |op in var  |titelVanObject         |
-|Npo poms Zoeken Sla type van object nummer                |4                 |op in var  |typeVanObject          |
-|Npo poms Zoeken Dubbelklik op hoofdtitel van object nummer|4                                                     |
-|Npo poms Hoofdscherm Wacht tot tabblad                    |$titelVanObject   |geopend                            |
-|Npo poms Hoofdscherm Check titel van laatste tab          |$titelVanObject                                       |
-|Npo poms Hoofdscherm Check subtitel van laatste tab       |$typeVanObject                                        |
-|Npo poms Tabblad object Sla mid of urn op in var          |mid                                                   |
-|Npo poms Tabblad object Druk op link                      |Onderdelen        |in sidebar                         |
-|Npo poms Tabblad object Wacht tot scrollen klaar is                                                              |
-|Npo poms Tabblad object Sla aantal in veld                |Onderdelen        |op in var  |aantalOnderdelen       |
-|set search context to                                     |xpath=//poms-members                                  |
-|click                                                     |Onderdeel toevoegen                                   |
-|clear search context                                                                                             |
-|Npo poms Zoeken Selecteer optie                           |${mediatype2}     |in dropdown|!-MediaType-!          |
-|Npo poms Zoeken Selecteer optie                           |${omroep2}        |in dropdown|Omroepen               |
-|wait for visible                                          |Gezocht naar: ${mediatype2}, ${omroep2}, niet: $mid   |
-|Npo poms Zoeken Sla hoofdtitel van object nummer          |${objectNummer}   |op in var  |titelVanOnderdeel      |
-|Npo poms Zoeken Sla type van object nummer                |${objectNummer}   |op in var  |typeVanOnderdeel       |
-|Npo poms Zoeken Vink checkbox aan bij object nummer       |${objectNummer}   |in zoekresultaten                  |
-|click                                                     |Kies                                                  |
-|wait for not visible                                      |Kies                                                  |
-|Klik om alle onderdelen te laten zien                                                                            |
-|set search context to                                     |xpath=//poms-members                                  |
-|Npo poms Tabblad object Check item                        |$titelVanOnderdeel|zichtbaar                          |
-|Npo poms Tabblad object Check onderdeel                   |$titelVanOnderdeel|heeft type |$typeVanOnderdeel      |
-|Npo poms Tabblad object Check aantal in veld              |Onderdelen        |is var     |aantalOnderdelen|plus|1|
-|Npo poms Tabblad object Hover over item                   |$titelVanOnderdeel                                    |
-|Npo poms Tabblad object Druk op verwijderknop bij item    |$titelVanOnderdeel                                    |
-|clear search context                                                                                             |
-|wait for visible                                          |verwijderen?                                          |
-|click                                                     |xpath=//button[text()="verwijderen"]                  |
-|wait for not visible                                      |verwijderen?                                          |
-|Wacht tot Angular requests klaar zijn                                                                            |
-|Npo poms Tabblad object Check aantal in veld              |Onderdelen        |is var     |aantalOnderdelen       |
-|set search context to                                     |xpath=//poms-members                                  |
-|Npo poms Tabblad object Check item                        |$titelVanOnderdeel|niet zichtbaar                     |
-|clear search context                                                                                             |
-|Npo poms Hoofdscherm Sluit laatste tab                                                                           |
-|Npo poms Hoofdscherm Sluit laatste tab                                                                           |
-|Npo poms Hoofdscherm Log uit                                                                                     |
+|script                                                                                                       |
+|Open Npo poms website                                                                                        |
+|Npo poms Inlogscherm Log in met standaard-gebruiker                                                          |
+|Npo poms Tabblad object Open                          |${mid}                                                |
+|Npo poms Tabblad object Druk op link                  |Onderdelen        |in sidebar                         |
+|Npo poms Tabblad object Wacht tot scrollen klaar is                                                          |
+|Npo poms Tabblad object Sla aantal in veld            |Onderdelen        |op in var  |aantalOnderdelen       |
+|set search context to                                 |xpath=//poms-members                                  |
+|click                                                 |Onderdeel toevoegen                                   |
+|clear search context                                                                                         |
+|Npo poms Zoeken Selecteer optie                       |${mediatype2}     |in dropdown|!-MediaType-!          |
+|Npo poms Zoeken Selecteer optie                       |${omroep2}        |in dropdown|Omroepen               |
+|wait for visible                                      |Gezocht naar: ${mediatype2}, ${omroep2}, niet: ${mid} |
+|Npo poms Zoeken Sla hoofdtitel van object nummer      |${objectNummer}   |op in var  |titelVanOnderdeel      |
+|Npo poms Zoeken Sla type van object nummer            |${objectNummer}   |op in var  |typeVanOnderdeel       |
+|Npo poms Zoeken Vink checkbox aan bij object nummer   |${objectNummer}   |in zoekresultaten                  |
+|click                                                 |Kies                                                  |
+|wait for not visible                                  |Kies                                                  |
+|set search context to                                 |xpath=//poms-members                                  |
+|Npo poms Tabblad object Check item                    |$titelVanOnderdeel|zichtbaar                          |
+|Npo poms Tabblad object Check onderdeel               |$titelVanOnderdeel|heeft type |$typeVanOnderdeel      |
+|Npo poms Tabblad object Check aantal in veld          |Onderdelen        |is var     |aantalOnderdelen|plus|1|
+|Npo poms Tabblad object Hover over item               |$titelVanOnderdeel                                    |
+|Npo poms Tabblad object Druk op verwijderknop bij item|$titelVanOnderdeel                                    |
+|clear search context                                                                                         |
+|wait for visible                                      |verwijderen?                                          |
+|click                                                 |xpath=//button[text()="verwijderen"]                  |
+|wait for not visible                                  |verwijderen?                                          |
+|Wacht tot Angular requests klaar zijn                                                                        |
+|Npo poms Tabblad object Check aantal in veld          |Onderdelen        |is var     |aantalOnderdelen       |
+|set search context to                                 |xpath=//poms-members                                  |
+|Npo poms Tabblad object Check item                    |$titelVanOnderdeel|niet zichtbaar                     |
+|clear search context                                                                                         |
+|Npo poms Hoofdscherm Sluit laatste tab                                                                       |
+|Npo poms Hoofdscherm Sluit laatste tab                                                                       |
+|Npo poms Hoofdscherm Log uit                                                                                 |
