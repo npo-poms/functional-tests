@@ -29,6 +29,11 @@
 |scenario        |Npo poms Hoofdscherm Wacht tot titel van laatste tab                       |titel                       |
 |wait for visible|xpath=//ul[@class="nav nav-tabs"]/li[last()-1]//span[@class="tab-title" and normalize-space(.)="@titel"]|
 
+|scenario              |Npo poms Hoofdscherm Check titel van laatste tab begint met|titel                                                                                                                |
+|seconds before timeout|3                                                                                                                                                                                |
+|ensure                |is visible on page                                         |xpath=//ul[@class="nav nav-tabs"]/li[last()-1]//span[@class="tab-title" and starts-with(normalize-space(.),"@titel")]|
+|seconds before timeout|${secondsBeforeTimeout}                                                                                                                                                          |
+
 |scenario             |Npo poms Hoofdscherm Check subtitel van laatste tab|subtitel                                                                                        |
 |$subtitelInUpperCase=|convert to upper case                              |@subtitel                                                                  |                    |
 |check                |value of                                           |xpath=//ul[@class="nav nav-tabs"]/li[last()-1]//span[@class="tab-subtitle"]|$subtitelInUpperCase|

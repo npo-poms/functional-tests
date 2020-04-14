@@ -24,4 +24,8 @@ public class ExtendedStringFixture {
 	protected Matcher getMatcher(String regEx, String value) {
         return Pattern.compile(regEx, Pattern.DOTALL).matcher(value);
     }
+
+    public boolean stringStartsWith(String haystack, String needle) {
+	    return haystack.startsWith(needle);
+    }
 }
