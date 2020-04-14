@@ -21,6 +21,8 @@
 |Npo poms Zoeken Druk knop             |Zoeken                                                                                |
 |double click                          |@titel                                                                                |
 |Npo poms Hoofdscherm Wacht tot tabblad|@titel                                      |geopend                                  |
+|Npo poms Tabblad object Druk op link  |Afbeeldingen                                |in sidebar                               |
+|Npo poms Tabblad object Wacht tot scrollen klaar is                                                                          |
 
 
 |scenario                                                  |Zoek clip met objectnummer|nummer                     |en druk op link afbeelding toevoegen|
