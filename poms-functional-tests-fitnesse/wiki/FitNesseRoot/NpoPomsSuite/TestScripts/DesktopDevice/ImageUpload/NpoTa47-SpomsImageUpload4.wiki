@@ -11,6 +11,7 @@ Test
 |Zoek clip met titel en mediatype en omroep;|!-De radio-5 documentaire-!|Clip     |!-VPRO-!           |
 |set search context to                      |xpath=//poms-images                                      |
 |Npo poms Tabblad object Sla aantal in veld |Afbeeldingen               |op in var|aantalAfbeeldingen |
+|clear search context                                                                                 |
 |Voeg afbeelding met titel                  |${titel}1                  |toe aan clip                 |
 |Voeg afbeelding met titel                  |${titel}2                  |toe aan clip                 |
 |Voeg afbeelding met titel                  |${titel}3                  |toe aan clip                 |

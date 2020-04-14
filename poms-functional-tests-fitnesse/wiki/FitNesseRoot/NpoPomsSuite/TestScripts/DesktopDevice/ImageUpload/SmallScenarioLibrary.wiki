@@ -41,6 +41,7 @@
 
 
 |scenario                                            |Voeg afbeelding met titel|titel                              |toe aan clip                |
+|set search context to                               |xpath=//poms-images                                                                       |
 |click                                               |Afbeelding toevoegen                                                                      |
 |clear search context                                                                                                                           |
 |select file                                         |${plaatje}               |for                                |css=input[id=inputFile]     |
