@@ -2,17 +2,22 @@
 Suites: MT
 Test
 ---
+!*> Lokale variabelen
+
+!define zender {Nederland 2}
+
+*!
+
 |script                                                                                                                  |
 |Open Npo poms website                                                                                                   |
 |Npo poms Inlogscherm Log in met npo                                                                                     |
-|click                                                                            |ZOEKEN                                |
-|Npo poms Hoofdscherm Wacht tot tabblad Zoeken geopend                                                                   |
-|Npo poms Zoeken Selecteer optie                                                  |Nederland 2       |in dropdown|Zenders|
+|Npo poms Zoeken Selecteer optie                                                  |${zender}         |in dropdown|Zenders|
 |Npo poms Zoeken Druk knop                                                        |Zoeken                                |
-|Npo poms Zoeken Wacht tot zoekopdracht met Gezocht naar:                         |Nederland 2       |klaar is           |
+|Npo poms Zoeken Wacht tot zoekopdracht met Gezocht naar:                         |${zender}         |klaar is           |
 |Npo poms Zoeken Open object nummer                                               |10                                    |
-|Npo poms zoeken Klik op uitzendingen in linkermenu                                                                      |
-|Npo poms zoeken Selecteer eerste uitzending                                                                             |
+|Npo poms Tabblad object Druk op link                                             |Uitzendingen      |in sidebar         |
+|Npo poms Tabblad object Wacht tot scrollen klaar is                                                                     |
+|Npo poms Tabblad object Dubbelklik op uitzending                                 |${zender}                             |
 |Npo poms Tabblad object Detailscherm controleer aanwezigheid dropdown met titel  |Kanaal:                               |
 |Npo poms Tabblad object Detailscherm controleer aanwezigheid dropdown met titel  |Net:                                  |
 |Npo poms Tabblad object Detailscherm controleer aanwezigheid input veld met titel|Starttijd:                            |

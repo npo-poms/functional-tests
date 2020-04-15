@@ -193,15 +193,20 @@
 |wait for visible|@objectType verwijderen?                         |in|${dialogSelector}|
 |click           |verwijder                                        |in|${dialogSelector}|
 
-|scenario             |Npo poms Zoeken Dubbelklik op kanaal|kanaal|
-|set search context to|xpath=//poms-scheduleevents                |
-|double click         |@kanaal                                    |
-|clear search context                                             |
+|scenario             |Npo poms Tabblad object Dubbelklik op kanaal|kanaal|
+|set search context to|xpath=//poms-scheduleevents                        |
+|double click         |@kanaal                                            |
+|clear search context                                                     |
 
-|scenario             |Npo poms Zoeken Dubbelklik op platform|platform|
-|set search context to|xpath=//poms-predictions                       |
-|double click         |@platform                                      |
-|clear search context                                                 |
+|scenario             |Npo poms Tabblad object Dubbelklik op platform|platform|
+|set search context to|xpath=//poms-predictions                               |
+|double click         |@platform                                              |
+|clear search context                                                         |
+
+|scenario             |Npo poms Tabblad object Dubbelklik op uitzending|uitzending|
+|set search context to|xpath=//poms-scheduleevents                                |
+|double click         |@uitzending                                                |
+|clear search context                                                             |
 
 |scenario|Npo poms Tabblad object Sla aantal in veld|veld |op in var|var                          |
 |$@var=  |value of                                  |xpath=.//div/h1[contains(text(), "@veld")]   |

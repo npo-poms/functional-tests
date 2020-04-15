@@ -66,11 +66,11 @@
 |Npo poms Nieuw object toevoegen Check optie|van: @publicatieStart                               |als optie nummer|1                |geselecteerd in dropdown|Publicatiestart|
 |Npo poms Nieuw object toevoegen Check optie|tot: @publicatieStop                                |als optie nummer|2                |geselecteerd in dropdown|Publicatiestart|
 
-|scenario                                           |Npo poms Nieuw object toevoegen Maak aan en controleer tabblad met media type|mediaType|en titel|titel|
-|click                                              |Maak aan                                                                                              |
-|Npo poms Hoofdscherm Wacht tot tabblad             |@titel                                                                       |geopend                 |
-|Npo poms Hoofdscherm Check titel van laatste tab   |@titel                                                                                                |
-|Npo poms Hoofdscherm Check subtitel van laatste tab|@mediaType                                                                                            |
+|scenario                                                   |Npo poms Nieuw object toevoegen Maak aan en controleer tabblad met media type|mediaType|en titel|titel|
+|click                                                      |Maak aan                                                                                              |
+|Npo poms Hoofdscherm Wacht tot tabblad                     |@titel                                                                       |geopend                 |
+|Npo poms Hoofdscherm Check titel van laatste tab begint met|@titel                                                                                                |
+|Npo poms Hoofdscherm Check subtitel van laatste tab        |@mediaType                                                                                            |
 
 |scenario              |Npo poms Nieuw object toevoegen Verwijder eventuele voorgeselecteerde omroep|
 |seconds before timeout|5                                                                           |
