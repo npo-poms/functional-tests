@@ -5,7 +5,7 @@ Test
 !include -c <ImageUpload.SmallScenarioLibrary
 
 
-|script                                                                                               |
+|storyboard                                                                                               |
 |Open Npo poms website                                                                                |
 |Npo poms Inlogscherm Log in met standaard-gebruiker                                                  |
 |Zoek clip met titel en mediatype en omroep;|!-De radio-5 documentaire-!|Clip     |!-VPRO-!           |
