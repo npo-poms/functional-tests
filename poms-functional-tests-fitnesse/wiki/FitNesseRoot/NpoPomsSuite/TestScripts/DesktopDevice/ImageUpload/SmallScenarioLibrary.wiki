@@ -56,6 +56,7 @@
 |check                                               |value of                 |xpath=//div[@class="modal-message"]|${waarschuwingFotosUploaden}|
 |click                                               |begrepen                                                                                  |
 |wait for not visible                                |begrepen                                                                                  |
+|wait for not visible                                |Maak aan                                                                                  |
 
 |scenario                                    |Controleer dat er|aantal|afbeeldingen toegevoegd zijn   |
 |set search context to                       |xpath=//poms-images                                     |
@@ -70,6 +71,7 @@
 |wait for visible                                            |Afbeelding verwijderen?             |
 |click                                                       |xpath=//button[text()="verwijderen"]|
 |wait for not visible                                        |Afbeelding verwijderen?             |
+
 
 |scenario|Controleer status clip is wordt gepubliceerd                                                        |
 |ensure  |is visible on page|xpath=//h2[normalize-space(.)='Status']/following::p[@title='Wordt gepubliceerd']|
