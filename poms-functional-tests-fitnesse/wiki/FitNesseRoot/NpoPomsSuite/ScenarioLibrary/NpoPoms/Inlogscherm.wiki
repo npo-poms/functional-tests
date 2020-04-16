@@ -19,3 +19,6 @@
 
 |scenario                                 |Npo poms Inlogscherm Log in met admin              |
 |Npo poms Inlogscherm Log in met gebruiker|$adminGebruikersnaam|en wachtwoord|$adminWachtwoord|
+
+|scenario                                 |Npo poms Inlogscherm Log in met omroep-uploader                      |
+|Npo poms Inlogscherm Log in met gebruiker|$omroepUploaderGebruikersnaam|en wachtwoord|$omroepUploaderWachtwoord|

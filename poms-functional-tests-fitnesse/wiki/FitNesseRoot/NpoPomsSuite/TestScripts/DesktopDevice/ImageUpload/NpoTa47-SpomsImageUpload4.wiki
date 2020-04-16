@@ -11,6 +11,7 @@ Test
 |Zoek clip met titel en mediatype en omroep;|!-De radio-5 documentaire-!|Clip     |!-VPRO-!           |
 |set search context to                      |xpath=//poms-images                                      |
 |Npo poms Tabblad object Sla aantal in veld |Afbeeldingen               |op in var|aantalAfbeeldingen |
+|clear search context                                                                                 |
 |Voeg afbeelding met titel                  |${titel}1                  |toe aan clip                 |
 |Voeg afbeelding met titel                  |${titel}2                  |toe aan clip                 |
 |Voeg afbeelding met titel                  |${titel}3                  |toe aan clip                 |
@@ -20,8 +21,8 @@ Test
 |Npo poms Hoofdscherm Sluit laatste tab                                                               |
 |Npo poms Hoofdscherm Sluit laatste tab                                                               |
 |Zoek clip met titel en mediatype en omroep;|!-De radio-5 documentaire-!|Clip     |!-VPRO-!           |
-|Controleer status clip is wordt gepubliceerd                                                         |
-|scroll to                                  |Afbeelding toevoegen                                     |
+|Npo poms Tabblad object Druk op link       |Afbeeldingen               |in sidebar                   |
+|Npo poms Tabblad object Wacht tot scrollen klaar is                                                  |
 |Controleer volgorde van afbeeldingen;      |$aantalAfbeeldingen        |${titel}1|${titel}3|${titel}2|
 |Verwijder afbeelding met titel             |${titel}2                                                |
 |Verwijder afbeelding met titel             |${titel}3                                                |

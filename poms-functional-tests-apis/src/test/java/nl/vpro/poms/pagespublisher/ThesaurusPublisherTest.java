@@ -47,8 +47,6 @@ class ThesaurusPublisherTest extends AbstractApiTest {
         );
         gtaaId = created.getGtaaUri();
         log.info("Created {}", created);
-
-
     }
 
     @Test
@@ -60,9 +58,6 @@ class ThesaurusPublisherTest extends AbstractApiTest {
         log.info("{}", item);
         assertThat(item).isNotNull();
         assertThat(item.getGivenName()).isEqualTo(givenName);
-
-
-
     }
 
     //Test fails if there is no '.' added after givenName.

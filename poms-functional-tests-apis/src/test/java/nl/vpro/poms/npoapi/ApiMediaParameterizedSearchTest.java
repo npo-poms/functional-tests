@@ -126,7 +126,10 @@ public class ApiMediaParameterizedSearchTest extends AbstractSearchTest<MediaFor
 
         });
 
-        addTester(Version.of(5, 11, 0),"NPA-490.json/null/(xml|json)", sr -> {
+
+
+        addTester(Version.of(5, 12, 0),"NPA-490.json/null/(xml|json)", sr -> {
+            assertThat(sr.getSize()).isEqualTo(0);
             for (SearchResultItem<? extends MediaObject> r : sr) {
                 log.info("{}", r);
             }

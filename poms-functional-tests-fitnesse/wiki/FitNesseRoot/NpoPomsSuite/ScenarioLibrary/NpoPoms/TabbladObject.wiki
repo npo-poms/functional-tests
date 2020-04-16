@@ -5,6 +5,9 @@
 |scenario|Npo poms Tabblad object Open|object|
 |open    |${UrlPoms}/#/edit/@object          |
 
+|scenario|Npo poms Tabblad object Sla hoofdtitel op in var|var                              |
+|$@var=  |value of                                        |xpath=//h1[@class="viewer-title"]|
+
 |scenario|Npo poms Tabblad object Check hoofdtitel|hoofdtitel                                                    |
 |check   |value of                                |xpath=//span[@class="media breadcrumb-link-title"]|@hoofdtitel|
 |check   |value of                                |xpath=//h1[@class="viewer-title"]                 |@hoofdtitel|
@@ -79,6 +82,9 @@
 
 |scenario|Npo poms Tabblad object Sla mid of urn op in var|var                                                                               |
 |$@var=  |value of                                        |xpath=//h2[normalize-space(.)="Mid Urn"]/following-sibling::p/poms-clipboard/input|
+
+|scenario        |Npo poms Tabblad object Wacht tot tabblad met mid|mid|geopend is|
+|wait for visible|css=.tab-pane.active [id="media-general-@mid"]                  |
 
 |scenario|Npo poms Tabblad object Maak tekstveld|tekstveld|leeg|
 |clear   |@tekstveld                                           |
@@ -187,15 +193,20 @@
 |wait for visible|@objectType verwijderen?                         |in|${dialogSelector}|
 |click           |verwijder                                        |in|${dialogSelector}|
 
-|scenario             |Npo poms Zoeken Dubbelklik op kanaal|kanaal|
-|set search context to|xpath=//poms-scheduleevents                |
-|double click         |@kanaal                                    |
-|clear search context                                             |
+|scenario             |Npo poms Tabblad object Dubbelklik op kanaal|kanaal|
+|set search context to|xpath=//poms-scheduleevents                        |
+|double click         |@kanaal                                            |
+|clear search context                                                     |
 
-|scenario             |Npo poms Zoeken Dubbelklik op platform|platform|
-|set search context to|xpath=//poms-predictions                       |
-|double click         |@platform                                      |
-|clear search context                                                 |
+|scenario             |Npo poms Tabblad object Dubbelklik op platform|platform|
+|set search context to|xpath=//poms-predictions                               |
+|double click         |@platform                                              |
+|clear search context                                                         |
+
+|scenario             |Npo poms Tabblad object Dubbelklik op uitzending|uitzending|
+|set search context to|xpath=//poms-scheduleevents                                |
+|double click         |@uitzending                                                |
+|clear search context                                                             |
 
 |scenario|Npo poms Tabblad object Sla aantal in veld|veld |op in var|var                          |
 |$@var=  |value of                                  |xpath=.//div/h1[contains(text(), "@veld")]   |

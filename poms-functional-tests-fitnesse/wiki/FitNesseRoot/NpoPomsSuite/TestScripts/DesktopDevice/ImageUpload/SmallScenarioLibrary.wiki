@@ -10,37 +10,35 @@
 |hover over        |@afbeelding1                                                                                                                                                                                                                               |
 |dragAndDropFromTo;|//tbody[@ui-sortable='sortableOptions']/descendant::span[normalize-space(.)='@afbeelding1']/preceding::span[@class='sort-handle'][1]|//tbody[@ui-sortable='sortableOptions']/descendant::span[normalize-space(.)='@afbeelding2']/parent::td|
 
-|scenario                              |Zoek clip met titel en mediatype en omroep _|titel, mediatype, omroep                 |
-|scroll to                             |!-MediaType-!                                                                         |
-|Npo poms Zoeken Selecteer optie       |@mediatype                                  |zonder controle in dropdown|!-MediaType-!|
-|scroll to                             |!-Omroepen-!                                                                          |
-|Npo poms Zoeken Selecteer optie       |@omroep                                     |zonder controle in dropdown|!-Omroepen-! |
-|wait for visible                      |Gezocht naar: @mediatype, @omroep                                                     |
-|scroll to                             |xpath=//input[@id='query']                                                            |
-|Npo poms Zoeken Vul                   |@titel                                      |in zoekveld                              |
-|Npo poms Zoeken Druk knop             |Zoeken                                                                                |
-|double click                          |@titel                                                                                |
-|Npo poms Hoofdscherm Wacht tot tabblad|@titel                                      |geopend                                  |
+|scenario                                                |Zoek clip met titel en mediatype en omroep _|titel, mediatype, omroep                 |
+|scroll to                                               |!-MediaType-!                                                                         |
+|Npo poms Zoeken Selecteer optie                         |@mediatype                                  |zonder controle in dropdown|!-MediaType-!|
+|scroll to                                               |!-Omroepen-!                                                                          |
+|Npo poms Zoeken Selecteer optie                         |@omroep                                     |zonder controle in dropdown|!-Omroepen-! |
+|Npo poms Zoeken Wacht tot zoekopdracht met Gezocht naar:|@mediatype, @omroep                         |klaar is                                 |
+|Npo poms Zoeken Scroll naar zoekveld                                                                                                           |
+|Npo poms Zoeken Vul                                     |@titel                                      |in zoekveld                              |
+|Npo poms Zoeken Druk knop                               |Zoeken                                                                                |
+|double click                                            |@titel                                                                                |
+|Npo poms Hoofdscherm Wacht tot tabblad                  |@titel                                      |geopend                                  |
+|Npo poms Tabblad object Druk op link                    |Afbeeldingen                                |in sidebar                               |
+|Npo poms Tabblad object Wacht tot scrollen klaar is                                                                                            |
 
 
-|scenario                                                  |Zoek clip met objectnummer|nummer                     |en druk op link afbeelding toevoegen|
-|scroll to                                                 |!-MediaType-!                                                                              |
-|Npo poms Zoeken Selecteer optie                           |Clip                      |zonder controle in dropdown|!-MediaType-!                       |
-|scroll to                                                 |!-Omroepen-!                                                                               |
-|Npo poms Zoeken Selecteer optie                           |VPRO                      |zonder controle in dropdown|!-Omroepen-!                        |
-|wait for visible                                          |Gezocht naar: Clip, VPRO                                                                   |
-|Npo poms Zoeken Sla hoofdtitel van object nummer          |@nummer                   |op in var                  |titelVanObject                      |
-|Npo poms Zoeken Sla type van object nummer                |@nummer                   |op in var                  |typeVanObject                       |
-|Npo poms Zoeken Dubbelklik op hoofdtitel van object nummer|@nummer                                                                                    |
-|Npo poms Hoofdscherm Wacht tot tabblad                    |$titelVanObject           |geopend                                                         |
-|Npo poms Hoofdscherm Check titel van laatste tab          |$titelVanObject                                                                            |
-|Npo poms Hoofdscherm Check subtitel van laatste tab       |$typeVanObject                                                                             |
-|Npo poms Tabblad object Sla mid of urn op in var          |mid                                                                                        |
-|Npo poms Tabblad object Druk op link                      |Afbeeldingen              |in sidebar                                                      |
-|Npo poms Tabblad object Wacht tot scrollen klaar is                                                                                                   |
+|scenario                                                |Zoek clip met objectnummer|nummer                     |en druk op link afbeelding toevoegen|
+|scroll to                                               |!-MediaType-!                                                                              |
+|Npo poms Zoeken Selecteer optie                         |Clip                      |zonder controle in dropdown|!-MediaType-!                       |
+|scroll to                                               |!-Omroepen-!                                                                               |
+|Npo poms Zoeken Selecteer optie                         |VPRO                      |zonder controle in dropdown|!-Omroepen-!                        |
+|Npo poms Zoeken Wacht tot zoekopdracht met Gezocht naar:|Clip, VPRO                |klaar is                                                        |
+|Npo poms Zoeken Open object nummer                      |@nummer                                                                                    |
+|Npo poms Tabblad object Sla mid of urn op in var        |mid                                                                                        |
+|Npo poms Tabblad object Druk op link                    |Afbeeldingen              |in sidebar                                                      |
+|Npo poms Tabblad object Wacht tot scrollen klaar is                                                                                                 |
 
 
 |scenario                                            |Voeg afbeelding met titel|titel                              |toe aan clip                |
+|set search context to                               |xpath=//poms-images                                                                       |
 |click                                               |Afbeelding toevoegen                                                                      |
 |clear search context                                                                                                                           |
 |select file                                         |${plaatje}               |for                                |css=input[id=inputFile]     |

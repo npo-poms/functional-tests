@@ -11,18 +11,13 @@ Test
 
 *!
 
-|script                                                                                              |
-|Open Npo poms website                                                                               |
-|Npo poms Inlogscherm Log in met standaard-gebruiker                                                 |
-|Npo poms Zoeken Selecteer optie                           |${mediatype}   |in dropdown|!-MediaType-!|
-|Npo poms Zoeken Selecteer optie                           |${omroep}      |in dropdown|Omroepen     |
-|wait for visible                                          |Gezocht naar: ${mediatype}, ${omroep}    |
-|Npo poms Zoeken Sla hoofdtitel van eerste object op in var|titelVanObject                           |
-|Npo poms Zoeken Sla type van eerste object op in var      |typeVanObject                            |
-|Npo poms Zoeken Dubbelklik op hoofdtitel van eerste object                                          |
-|Npo poms Hoofdscherm Wacht tot tabblad                    |$titelVanObject|geopend                  |
-|Npo poms Hoofdscherm Check titel van laatste tab          |$titelVanObject                          |
-|Npo poms Hoofdscherm Check subtitel van laatste tab       |$typeVanObject                           |
+|script                                                                                                    |
+|Open Npo poms website                                                                                     |
+|Npo poms Inlogscherm Log in met standaard-gebruiker                                                       |
+|Npo poms Zoeken Selecteer optie                         |${mediatype}           |in dropdown|!-MediaType-!|
+|Npo poms Zoeken Selecteer optie                         |${omroep}              |in dropdown|Omroepen     |
+|Npo poms Zoeken Wacht tot zoekopdracht met Gezocht naar:|${mediatype}, ${omroep}|klaar is                 |
+|Npo poms Zoeken Open eerste object                                                                        |
 
 |Npo poms Tabblad object Check veld niet te bewerken en niet te verwijderen|
 |veld                       |heeft slotje? |kan bewerken? |kan verwijderen?|
@@ -69,7 +64,7 @@ Test
 
 |script                                                                   |
 |Npo poms Tabblad object Check checkbox              |Embedbaar   |actief |
-|Npo poms Zoeken Dubbelklik op platform              |${platform}         |
+|Npo poms Tabblad object Dubbelklik op platform      |${platform}         |
 |wait for visible                                    |Sla op              |
 |Npo poms Tabblad object Detailscherm Check checkbox |Beschikbaar |actief |
 |Npo poms Tabblad object Detailscherm Check dropdown |Encryptie   |actief |
