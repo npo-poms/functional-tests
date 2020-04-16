@@ -32,9 +32,11 @@
 |clear search context                                               |
 |Npo poms Tabblad object Segment wacht tot video ingeladen is       |
 
-|scenario        |Npo poms Tabblad object Segment wacht tot video ingeladen is|
-|wait for visible|xpath=//*[@id="videoDuration" and .!="00:00:00"]            |
-|wait for visible|css=.icon-play                                              |
+|scenario              |Npo poms Tabblad object Segment wacht tot video ingeladen is|
+|seconds before timeout|180                                                         |
+|wait for visible      |xpath=//*[@id="videoDuration" and .!="00:00:00"]            |
+|seconds before timeout|${secondsBeforeTimeout}                                     |
+|wait for visible      |css=.icon-play                                              |
 
 |scenario|Npo poms Tabblad object Segment Speel video voor|sec|sec|
 |click   |css=#iconPlayPause                                      |
