@@ -9,3 +9,12 @@
 |note    |Klik in het invoerveld zodat de press enter ook werkt als we geen tekst invoeren                                                                                          |
 |click   |xpath=//poms-editable[@field="lexicoTitle"]//input[@name="editvalue"]                                                                                                     |
 |press enter                                                                                                                                                                        |
+
+|scenario|Npo poms Tabblad object Annuleer wijzigen Lexicografische titel                 |
+|click   |xpath=//poms-editable[@field="lexicoTitle"]//button[normalize-space(.)="cancel"]|
+
+|scenario                                                                  |Npo poms Tabblad object Verander hoofdtitel naar|hoofdTitel|en check dat voorgestelde Lexicografische titel|lexicografischeTitel|is|
+|Npo poms Tabblad object Verander hoofdtitel naar                          |@hoofdTitel                                                                                                                        |
+|Npo poms Tabblad object Start met bewerken Lexicografische titel                                                                                                                                              |
+|Npo poms Tabblad object Check tekst in invoerveld Lexicografische titel is|@lexicografischeTitel                                                                                                              |
+|Npo poms Tabblad object Annuleer wijzigen Lexicografische titel                                                                                                                                               |
