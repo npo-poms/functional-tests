@@ -10,6 +10,7 @@
     <version>1.0-SNAPSHOT</version>
   </parent>
   <artifactId>poms-functional-tests-selenium</artifactId>
+  <description>Deprecated, Specialistteren restarted in ../poms-functional-tests-fitnesse</description>
   <dependencies>
     <dependency>
       <groupId>org.projectlombok</groupId>
