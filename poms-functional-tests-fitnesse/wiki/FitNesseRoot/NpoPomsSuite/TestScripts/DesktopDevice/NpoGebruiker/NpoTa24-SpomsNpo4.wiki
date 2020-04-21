@@ -18,87 +18,74 @@ Test
 
 *!
 
-|script                                                                                                                                                     |
-|Open Npo poms website                                                                                                                                      |
-|Npo poms Inlogscherm Log in met npo                                                                                                                        |
-|Npo poms Zoeken Selecteer optie                         |${mediatype}                                               |in dropdown  |!-MediaType-!           |
-|Npo poms Zoeken Selecteer optie                         |${criteria1}                                               |in dropdown  |Criteria                |
-|Npo poms Zoeken Selecteer optie                         |${avType}                                                  |in dropdown  |!-avType-!              |
-|Npo poms Zoeken Selecteer optie                         |${zender1}                                                 |in dropdown  |Zenders                 |
-|Npo poms Zoeken Wacht tot zoekopdracht met Gezocht naar:|${mediatype}, ${zender1}, ${avType}, ${criteria1}          |klaar is                              |
-|Npo poms Zoeken Open object nummer                      |${objectNummer}                                                                                   |
-|Npo poms Tabblad object Sla veldtype 2                  |Uitzending (1)                                             |op in var    |uitzending              |
-|Npo poms Tabblad object Sla mid of urn op in var        |mid                                                                                               |
-|Npo poms Tabblad object Druk op link                    |Uitzendingen                                               |in sidebar                            |
-|Npo poms Tabblad object Wacht tot scrollen klaar is                                                                                                        |
-|Npo poms Tabblad object Dubbelklik op kanaal            |${zender1}                                                                                        |
-|wait for visible                                        |Bewaar                                                                                            |
-|Npo poms Tabblad object Detailscherm Selecteer optie    |${zender2}                                                 |in dropdown  |Kanaal:                 |
-|Npo poms Tabblad object Detailscherm Sla datepicker     |Starttijd:                                                 |op in var    |starttijd1              |
-|$starttijd2=                                            |increase date                                              |$starttijd1  |with hours      |-1     |
-|Npo poms Tabblad object Detailscherm Sla textarea       |Beschrijving                                               |op in var    |beschrijving1           |
-|Npo poms Tabblad object Detailscherm Sla textarea       |Korte beschrijving                                         |op in var    |korteBeschrijving1      |
-|Npo poms Tabblad object Detailscherm Vul                |$starttijd2                                                |in datepicker|Starttijd:              |
-|Npo poms Tabblad object Detailscherm Vul                |${beschrijving2}                                           |in textarea  |Beschrijving            |
-|Npo poms Tabblad object Detailscherm Vul                |${korteBeschrijving2}                                      |in textarea  |Korte beschrijving      |
-|scroll to                                               |Originele titel                                                                                   |
-|Npo poms Tabblad object Detailscherm Sla tekstveld      |Originele titel                                            |op in var    |origineleTitel1         |
-|Npo poms Tabblad object Detailscherm Vul                |${origineleTitel2}                                         |in tekstveld |Originele titel         |
-|click                                                   |Bewaar                                                                                            |
-|wait for not visible                                    |Bewaar                                                                                            |
-|Npo poms Tabblad object Druk op link                    |Algemeen                                                   |in sidebar                            |
-|wait for visible                                        |Sorteerdatum                                                                                      |
-|Npo poms Tabblad object Check veldtype 2                |Uitzending (1)                                             |heeft waarde |$starttijd2 (${zender2})|
-|Npo poms Tabblad object Check veldtype 2                |Sorteerdatum                                               |heeft waarde |$starttijd2             |
-|Npo poms Tabblad object Druk op link                    |Uitzendingen                                               |in sidebar                            |
-|Npo poms Tabblad object Wacht tot scrollen klaar is                                                                                                        |
-|ensure                                                  |is visible on page                                         |${zender2}                            |
-|ensure                                                  |is visible on page                                         |$starttijd2                           |
-|Npo poms Tabblad object Dubbelklik op kanaal            |${zender2}                                                                                        |
-|wait for visible                                        |Bewaar                                                                                            |
-|Npo poms Tabblad object Detailscherm Check dropdown     |Kanaal:                                                    |heeft waarde |${zender2}              |
-|Npo poms Tabblad object Detailscherm Check datepicker   |Starttijd:                                                 |heeft waarde |$starttijd2             |
-|Npo poms Tabblad object Detailscherm Check textarea     |Beschrijving                                               |heeft waarde |${beschrijving2}        |
-|Npo poms Tabblad object Detailscherm Check textarea     |Korte beschrijving                                         |heeft waarde |${korteBeschrijving2}   |
-|scroll to                                               |Originele titel                                                                                   |
-|Npo poms Tabblad object Detailscherm Check tekstveld    |Originele titel                                            |heeft waarde |${origineleTitel2}      |
-|Npo poms Tabblad object Detailscherm Druk op kruisje om pop-up te sluiten                                                                                  |
-|Npo poms Hoofdscherm Sluit laatste tab                                                                                                                     |
-|Npo poms Zoeken Scroll naar zoekveld                                                                                                                       |
-|Npo poms Zoeken Vul                                     |$mid                                                       |in zoekveld                           |
-|Npo poms Zoeken Druk knop                               |Zoeken                                                                                            |
-|Npo poms Zoeken Wacht tot zoekopdracht met Gezocht naar:|'$mid' in ${mediatype}, ${zender1}, ${avType}, ${criteria1}|klaar is                              |
-|Npo poms Zoeken Check aantal zoekresultaten             |0                                                                                                 |
-|Npo poms Hoofdscherm Sluit laatste tab                                                                                                                     |
-|Npo poms Zoeken Vul                                     |$mid                                                       |in zoekveld                           |
-|Npo poms Zoeken Druk knop                               |Zoeken                                                                                            |
-|Npo poms Zoeken Wacht tot zoekopdracht met Gezocht naar:|'$mid'                                                     |klaar is                              |
-|Npo poms Zoeken Open eerste object                                                                                                                         |
-|Npo poms Tabblad object Druk op link                    |Uitzendingen                                               |in sidebar                            |
-|Npo poms Tabblad object Wacht tot scrollen klaar is                                                                                                        |
-|Npo poms Tabblad object Dubbelklik op kanaal            |${zender2}                                                                                        |
-|wait for visible                                        |Bewaar                                                                                            |
-|Npo poms Tabblad object Detailscherm Selecteer optie    |${zender1}                                                 |in dropdown  |Kanaal:                 |
-|Npo poms Tabblad object Detailscherm Vul                |$starttijd1                                                |in datepicker|Starttijd:              |
-|Npo poms Tabblad object Detailscherm Vul                |$beschrijving1                                             |in textarea  |Beschrijving            |
-|Npo poms Tabblad object Detailscherm Vul                |$korteBeschrijving1                                        |in textarea  |Korte beschrijving      |
-|scroll to                                               |Originele titel                                                                                   |
-|Npo poms Tabblad object Detailscherm Vul                |$origineleTitel1                                           |in tekstveld |Originele titel         |
-|click                                                   |Bewaar                                                                                            |
-|wait for not visible                                    |Bewaar                                                                                            |
-|Npo poms Tabblad object Druk op link                    |Algemeen                                                   |in sidebar                            |
-|wait for visible                                        |Sorteerdatum                                                                                      |
-|Npo poms Tabblad object Check veldtype 2                |Uitzending (1)                                             |heeft waarde |$uitzending             |
-|Npo poms Hoofdscherm Sluit laatste tab                                                                                                                     |
-|Npo poms Hoofdscherm Sluit laatste tab                                                                                                                     |
-|Npo poms Zoeken Selecteer optie                         |${mediatype}                                               |in dropdown  |!-MediaType-!           |
-|Npo poms Zoeken Selecteer optie                         |${criteria1}                                               |in dropdown  |Criteria                |
-|Npo poms Zoeken Selecteer optie                         |${avType}                                                  |in dropdown  |!-avType-!              |
-|Npo poms Zoeken Selecteer optie                         |${zender1}                                                 |in dropdown  |Zenders                 |
-|Npo poms Zoeken Vul                                     |$mid                                                       |in zoekveld                           |
-|Npo poms Zoeken Druk knop                               |Zoeken                                                                                            |
-|Npo poms Zoeken Wacht tot zoekopdracht met Gezocht naar:|'$mid' in ${mediatype}, ${zender1}, ${avType}, ${criteria1}|klaar is                              |
-|Npo poms Zoeken Check aantal zoekresultaten             |1                                                                                                 |
-|Npo poms Hoofdscherm Sluit laatste tab                                                                                                                     |
-|Npo poms Hoofdscherm Sluit laatste tab                                                                                                                     |
-|Npo poms Hoofdscherm Log uit                                                                                                                               |
+|script                                                                                                                                                  |
+|Open Npo poms website                                                                                                                                   |
+|Npo poms Inlogscherm Log in met npo                                                                                                                     |
+|Npo poms Zoeken Selecteer optie                         |${mediatype}                                               |in dropdown  |!-MediaType-!        |
+|Npo poms Zoeken Selecteer optie                         |${criteria1}                                               |in dropdown  |Criteria             |
+|Npo poms Zoeken Selecteer optie                         |${avType}                                                  |in dropdown  |!-avType-!           |
+|Npo poms Zoeken Selecteer optie                         |${zender1}                                                 |in dropdown  |Zenders              |
+|Npo poms Zoeken Wacht tot zoekopdracht met Gezocht naar:|${mediatype}, ${zender1}, ${avType}, ${criteria1}          |klaar is                           |
+|Npo poms Zoeken Open object nummer                      |${objectNummer}                                                                                |
+|Npo poms Tabblad object Sla veldtype 2                  |Uitzending (1)                                             |op in var    |uitzending           |
+|Npo poms Tabblad object Sla mid of urn op in var        |mid                                                                                            |
+|Npo poms Tabblad object Druk op link                    |Uitzendingen                                               |in sidebar                         |
+|Npo poms Tabblad object Wacht tot scrollen klaar is                                                                                                     |
+|Npo poms Tabblad object Dubbelklik op kanaal            |${zender1}                                                                                     |
+|wait for visible                                        |Bewaar                                                                                         |
+|Npo poms Tabblad object Detailscherm Selecteer optie    |${zender2}                                                 |in dropdown  |Kanaal:              |
+|Npo poms Tabblad object Detailscherm Sla datepicker     |Starttijd:                                                 |op in var    |starttijd1           |
+|$starttijd2=                                            |increase date                                              |$starttijd1  |with hours    |-1    |
+|Npo poms Tabblad object Detailscherm Sla textarea       |Beschrijving                                               |op in var    |beschrijving1        |
+|Npo poms Tabblad object Detailscherm Sla textarea       |Korte beschrijving                                         |op in var    |korteBeschrijving1   |
+|Npo poms Tabblad object Detailscherm Vul                |$starttijd2                                                |in datepicker|Starttijd:           |
+|Npo poms Tabblad object Detailscherm Vul                |${beschrijving2}                                           |in textarea  |Beschrijving         |
+|Npo poms Tabblad object Detailscherm Vul                |${korteBeschrijving2}                                      |in textarea  |Korte beschrijving   |
+|scroll to                                               |Originele titel                                                                                |
+|Npo poms Tabblad object Detailscherm Sla tekstveld      |Originele titel                                            |op in var    |origineleTitel1      |
+|Npo poms Tabblad object Detailscherm Vul                |${origineleTitel2}                                         |in tekstveld |Originele titel      |
+|click                                                   |Bewaar                                                                                         |
+|wait for not visible                                    |Bewaar                                                                                         |
+|Npo poms Tabblad object Druk op link                    |Algemeen                                                   |in sidebar                         |
+|wait for visible                                        |Sorteerdatum                                                                                   |
+|Npo poms Tabblad object Druk op link                    |Uitzendingen                                               |in sidebar                         |
+|Npo poms Tabblad object Wacht tot scrollen klaar is                                                                                                     |
+|ensure                                                  |is visible on page                                         |${zender2}                         |
+|ensure                                                  |is visible on page                                         |$starttijd2                        |
+|Npo poms Tabblad object Dubbelklik op kanaal            |${zender2}                                                                                     |
+|wait for visible                                        |Bewaar                                                                                         |
+|Npo poms Tabblad object Detailscherm Check dropdown     |Kanaal:                                                    |heeft waarde |${zender2}           |
+|Npo poms Tabblad object Detailscherm Check datepicker   |Starttijd:                                                 |heeft waarde |$starttijd2          |
+|Npo poms Tabblad object Detailscherm Check textarea     |Beschrijving                                               |heeft waarde |${beschrijving2}     |
+|Npo poms Tabblad object Detailscherm Check textarea     |Korte beschrijving                                         |heeft waarde |${korteBeschrijving2}|
+|scroll to                                               |Originele titel                                                                                |
+|Npo poms Tabblad object Detailscherm Check tekstveld    |Originele titel                                            |heeft waarde |${origineleTitel2}   |
+|Npo poms Tabblad object Detailscherm Druk op kruisje om pop-up te sluiten                                                                               |
+|Npo poms Hoofdscherm Sluit laatste tab                                                                                                                  |
+|Npo poms Zoeken Scroll naar zoekveld                                                                                                                    |
+|Npo poms Zoeken Vul                                     |$mid                                                       |in zoekveld                        |
+|Npo poms Zoeken Druk knop                               |Zoeken                                                                                         |
+|Npo poms Zoeken Wacht tot zoekopdracht met Gezocht naar:|'$mid' in ${mediatype}, ${zender1}, ${avType}, ${criteria1}|klaar is                           |
+|Npo poms Zoeken Check aantal zoekresultaten             |0                                                                                              |
+|Npo poms Hoofdscherm Sluit laatste tab                                                                                                                  |
+|Npo poms Zoeken Vul                                     |$mid                                                       |in zoekveld                        |
+|Npo poms Zoeken Druk knop                               |Zoeken                                                                                         |
+|Npo poms Zoeken Wacht tot zoekopdracht met Gezocht naar:|'$mid'                                                     |klaar is                           |
+|Npo poms Zoeken Open eerste object                                                                                                                      |
+|Npo poms Tabblad object Druk op link                    |Uitzendingen                                               |in sidebar                         |
+|Npo poms Tabblad object Wacht tot scrollen klaar is                                                                                                     |
+|Npo poms Tabblad object Dubbelklik op kanaal            |${zender2}                                                                                     |
+|wait for visible                                        |Bewaar                                                                                         |
+|Npo poms Tabblad object Detailscherm Selecteer optie    |${zender1}                                                 |in dropdown  |Kanaal:              |
+|Npo poms Tabblad object Detailscherm Vul                |$starttijd1                                                |in datepicker|Starttijd:           |
+|Npo poms Tabblad object Detailscherm Vul                |$beschrijving1                                             |in textarea  |Beschrijving         |
+|Npo poms Tabblad object Detailscherm Vul                |$korteBeschrijving1                                        |in textarea  |Korte beschrijving   |
+|scroll to                                               |Originele titel                                                                                |
+|Npo poms Tabblad object Detailscherm Vul                |$origineleTitel1                                           |in tekstveld |Originele titel      |
+|click                                                   |Bewaar                                                                                         |
+|wait for not visible                                    |Bewaar                                                                                         |
+|Npo poms Tabblad object Druk op link                    |Algemeen                                                   |in sidebar                         |
+|wait for visible                                        |Sorteerdatum                                                                                   |
+|Npo poms Hoofdscherm Sluit laatste tab                                                                                                                  |
+|Npo poms Hoofdscherm Sluit laatste tab                                                                                                                  |
+|Npo poms Hoofdscherm Log uit                                                                                                                            |

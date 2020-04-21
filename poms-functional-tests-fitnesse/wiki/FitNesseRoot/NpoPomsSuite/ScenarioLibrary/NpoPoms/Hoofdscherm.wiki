@@ -23,10 +23,11 @@
 |scenario|Npo poms Hoofdscherm Vul|tekst|in zoekveld  |
 |enter   |@tekst                  |as   |xpath=//input|
 
-|scenario              |Npo poms Hoofdscherm Check titel van laatste tab begint met|titel                                                                                |
-|seconds before timeout|3                                                                                                                                                |
-|check                 |value of                                                   |xpath=//ul[@class="nav nav-tabs"]/li[last()-1]//span[@class="tab-title"]|=~/@titel*+/|
-|seconds before timeout|${secondsBeforeTimeout}                                                                                                                          |
+|scenario              |Npo poms Hoofdscherm Check titel van laatste tab begint met|titel                                                                                       |
+|seconds before timeout|3                                                                                                                                                       |
+|$titel=               |replace all                                                |\?                                                                      |in|@titel|with|\\\?|
+|check                 |value of                                                   |xpath=//ul[@class="nav nav-tabs"]/li[last()-1]//span[@class="tab-title"]|=~/$titel*+/       |
+|seconds before timeout|${secondsBeforeTimeout}                                                                                                                                 |
 
 |scenario             |Npo poms Hoofdscherm Check subtitel van laatste tab|subtitel                                                                                        |
 |$subtitelInUpperCase=|convert to upper case                              |@subtitel                                                                  |                    |
