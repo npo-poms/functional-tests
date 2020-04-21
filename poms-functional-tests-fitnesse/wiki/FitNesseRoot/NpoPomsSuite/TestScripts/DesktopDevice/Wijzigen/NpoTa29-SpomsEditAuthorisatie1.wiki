@@ -60,7 +60,7 @@ Test
 |Tags                   |true           |false          |false             |
 |Doelgroep              |true           |false          |false             |
 |Intenties              |true           |false          |false             |
-|Personen               |true           |false          |false             |
+|Naamsvermeldingen      |true           |false          |false             |
 |Geografische locaties  |true           |false          |false             |
 |Websites               |true           |false          |false             |
 |Twitter                |true           |false          |false             |
