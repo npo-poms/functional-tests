@@ -56,6 +56,35 @@
 |scenario|Npo poms Tabblad object Sla veldtype 2|veld              |op in var              |var             |
 |$@var=  |value of                              |xpath=//h2[normalize-space(.)="@veld"]/following-sibling::*|
 
+|scenario             |Npo poms Tabblad object Maak veld                           |veld                           |leeg                          |
+|hover over           |xpath=//h2[normalize-space(.)="@veld"]                                                                                     |
+|set search context to|xpath=//h2[normalize-space(.)="@veld"]/ancestor::div[contains(@class, "editfield-wrapper")]/div[@class="media-field-tools"]|
+|click                |xpath=./div[@class="remove-override-icon"]                                                                                 |
+|wait for visible     |xpath=//button[text()="verwijderen"]                                                                                       |
+|click                |xpath=//button[text()="verwijderen"]                                                                                       |
+|Wacht tot Angular requests klaar zijn                                                                                                            |
+
+|scenario                                |Npo poms Tabblad object Vul|waarde      |in textarea                              |textarea                              |
+|click                                   |xpath=//h2[normalize-space(.)="@textarea"]                                                                               |
+|enter                                   |@waarde                    |as          |xpath=//h2[normalize-space(.)="@textarea"]/following-sibling::form/span/textarea|
+|click                                   |xpath=//h2[normalize-space(.)="@textarea"]/following-sibling::form/span/span/button[text()="save"]                       |
+|Wacht tot Angular requests klaar zijn                                                                                                                             |
+|Npo poms Tabblad object Check veldtype 2|@textarea                  |heeft waarde|@waarde                                                                         |
+
+|scenario                                |Npo poms Tabblad object Maak textarea|textarea    |leeg|
+|Npo poms Tabblad object Maak veld       |@textarea                            |leeg             |
+|Npo poms Tabblad object Check veldtype 2|@textarea                            |heeft waarde|    |
+
+|scenario                                      |Npo poms Tabblad object Voeg tag|tag         |toe |
+|Npo poms Tabblad object Klik op wijzig tags icoon                                                |
+|Npo poms Tabblad object Kies een tag met tekst|@tag                                              |
+|Wacht tot Angular requests klaar zijn                                                            |
+|Npo poms Tabblad object Check veldtype 1      |Tags                            |heeft waarde|@tag|
+
+|scenario                                |Npo poms Tabblad object Verwijder alle tags|
+|Npo poms Tabblad object Maak veld       |Tags         |leeg                         |
+|Npo poms Tabblad object Check veldtype 1|Tags         |heeft waarde        |        |
+
 |scenario        |Npo poms Tabblad object Wacht tot status zichtbaar|
 |wait for visible|xpath=//h2[text()="Status"]/following-sibling::*/p|
 
@@ -219,11 +248,11 @@
 |$nieuwAantal=|add                                         |$@var                                     |and   |@optellenMetGetal        |
 |check        |value of                                    |xpath=.//div/h1[contains(text(), "@veld")]|@veld ($nieuwAantal)            |
 
-|scenario  |Npo poms Tabblad object Klik op wijzig tags icoon                |
-|hover over|Tags                                                             |
-|click     |xpath=(//h2[text()="Tags"]/following::div[@class="edit-icon"])[1]|
+|scenario  |Npo poms Tabblad object Klik op wijzig tags icoon                                                   |
+|hover over|xpath=//h2[text()="Tags"]                                                                           |
+|click     |xpath=//h2[text()="Tags"]/following-sibling::div[@class="media-field-tools"]/div[@class="edit-icon"]|
 
 
-|scenario|Npo poms Tabblad object Kies een tag met tekst|tekst                                             |
-|enter   |@tekst                                        |as|xpath=(//h2[text()="Tags"]/following::input)[1]|
-|click   |xpath=//button[@class="button-save"]                                                             |
+|scenario|Npo poms Tabblad object Kies een tag met tekst|tekst                                                                   |
+|enter   |@tekst                                        |as|xpath=//span[@placeholder="Kies een tag..."]/following-sibling::input|
+|click   |xpath=//button[@class="button-save"]                                                                                   |
