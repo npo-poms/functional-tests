@@ -68,6 +68,17 @@
 |click                |xpath=//button[text()="verwijderen"]                                                                                       |
 |Wacht tot Angular requests klaar zijn                                                                                                            |
 
+|scenario                                |Npo poms Tabblad object Vul|waarde      |in tekstveld                            |tekstveld                            |
+|click                                   |xpath=//h2[normalize-space(.)="@tekstveld"]                                                                            |
+|enter                                   |@waarde                    |as          |xpath=//h2[normalize-space(.)="@tekstveld"]/following-sibling::form/span/input|
+|click                                   |xpath=//h2[normalize-space(.)="@tekstveld"]/following-sibling::form/span/span/button[text()="save"]                    |
+|Wacht tot Angular requests klaar zijn                                                                                                                           |
+|Npo poms Tabblad object Check veldtype 2|@tekstveld                 |heeft waarde|@waarde                                                                       |
+
+|scenario                                |Npo poms Tabblad object Maak tekstveld|tekstveld   |leeg|
+|Npo poms Tabblad object Maak veld       |@tekstveld                            |leeg             |
+|Npo poms Tabblad object Check veldtype 2|@tekstveld                            |heeft waarde|    |
+
 |scenario                                |Npo poms Tabblad object Vul|waarde      |in textarea                              |textarea                              |
 |click                                   |xpath=//h2[normalize-space(.)="@textarea"]                                                                               |
 |enter                                   |@waarde                    |as          |xpath=//h2[normalize-space(.)="@textarea"]/following-sibling::form/span/textarea|
@@ -201,6 +212,9 @@
 
 |scenario|Npo poms Tabblad object Druk op verwijderknop bij segment                                                        |segment                                                        |
 |click   |xpath=//poms-segments/div/table/tbody/tr[./td[@class="column-mainTitle"]/span[normalize-space(.)="@segment"]]/td[@class="column-tools-xl"]/div/button[@title="verwijder segment"]|
+
+|scenario|Npo poms Tabblad object Druk op editknop bij segment                                                        |segment                                                        |
+|click   |xpath=//poms-segments/div/table/tbody/tr[./td[@class="column-mainTitle"]/span[normalize-space(.)="@segment"]]/td[@class="column-tools-xl"]/div/button[@title="edit segment"]|
 
 |table template        |Npo poms Tabblad object Check veld niet te bewerken en niet te verwijderen                                                                 |
 |hover over            |xpath=//h2[starts-with(normalize-space(.), "@{veld}")]                                                                                     |
