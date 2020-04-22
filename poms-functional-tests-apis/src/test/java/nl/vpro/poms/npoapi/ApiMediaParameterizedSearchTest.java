@@ -184,7 +184,9 @@ public class ApiMediaParameterizedSearchTest extends AbstractSearchTest<MediaFor
     <T extends MediaObject> GenericMediaSearchResult<T> test(MediaForm form, String name, GenericMediaSearchResult<T> object) throws Exception {
         if (form  != null) {
             for (SearchResultItem<? extends T> re : object) {
-                assertThat(form.test(re.getResult())).isTrue();
+                MediaObject mo = re.getResult();
+                MediaSearch.TestResult testResult = form.getSearches().getTestResult(mo);
+                assertThat(testResult.test()).withFailMessage(testResult.getDescription()).isTrue();
 
             }
         }
