@@ -25,10 +25,10 @@ import static org.junit.jupiter.api.Assumptions.assumeTrue;
  */
 @Log4j2
 public abstract class AbstractSearchTest<T, S> extends AbstractApiTest {
-    private Map<Pattern, Function<S, Boolean>> TESTERS = new HashMap<>();
-    private static Map<String, AtomicInteger> USED = new HashMap<>();
-    private static Set<String> AVAILABLE = new HashSet<>();
-    private Map<Pattern, Supplier<Boolean>> ASSUMERS =  new HashMap<>();
+    private final Map<Pattern, Function<S, Boolean>> TESTERS = new HashMap<>();
+    private static final Map<String, AtomicInteger> USED = new HashMap<>();
+    private static final Set<String> AVAILABLE = new HashSet<>();
+    private final Map<Pattern, Supplier<Boolean>> ASSUMERS =  new HashMap<>();
 
     Function<S, Boolean> tester;
 

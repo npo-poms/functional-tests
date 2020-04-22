@@ -16,11 +16,11 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
 import nl.vpro.api.client.frontend.NpoApiClients;
-import nl.vpro.domain.api.SearchResultItem;
-import nl.vpro.domain.api.TermFacetResultItem;
+import nl.vpro.domain.api.*;
 import nl.vpro.domain.api.media.*;
 import nl.vpro.domain.media.*;
 import nl.vpro.poms.ApiSearchTestHelper;
+import nl.vpro.test.util.jackson2.Jackson2TestUtil;
 import nl.vpro.util.IntegerVersion;
 import nl.vpro.util.Version;
 
@@ -43,6 +43,7 @@ public class ApiMediaParameterizedSearchTest extends AbstractSearchTest<MediaFor
         addTester("clips.json/null/(xml|json)", sr -> {
             for (SearchResultItem<? extends MediaObject> m : sr.getItems()) {
                 assertThat(m.getResult().getMediaType()).isEqualTo(MediaType.CLIP);
+
             }
         });
         addTester("facet-relations-and-filter.json/null/(xml|json)", sr -> {
@@ -157,7 +158,7 @@ public class ApiMediaParameterizedSearchTest extends AbstractSearchTest<MediaFor
     void search(String name, MediaForm form, NpoApiClients clients) throws Exception {
         MediaSearchResult searchResultItems = clients.getMediaService().find(form, null, null, 0L, 10);
         assumeTrue(tester.apply(searchResultItems));
-        test(name, searchResultItems);
+        test(form, name, searchResultItems);
     }
 
 
@@ -167,7 +168,7 @@ public class ApiMediaParameterizedSearchTest extends AbstractSearchTest<MediaFor
         log.info(DASHES.substring(0, 30 - "searchMembers".length()) + name);
         MediaSearchResult searchResultItems = clients.getMediaService().findMembers(form, "POMS_S_VPRO_417550", null, null, 0L, 10);
         assumeTrue(tester.apply(searchResultItems));
-        test(name + ".members.json", searchResultItems);
+        test(form, name + ".members.json", searchResultItems);
     }
 
 
@@ -176,7 +177,19 @@ public class ApiMediaParameterizedSearchTest extends AbstractSearchTest<MediaFor
     void searchEpisodes(String name, MediaForm form, NpoApiClients clients) throws Exception {
         log.info(DASHES.substring(0, 30 - "searchEpisodes".length()) + name);
         ProgramSearchResult searchResultItems = clients.getMediaService().findEpisodes(form, "AVRO_1656037",  null, null, 0L, 10);
-        test(name + ".episodes.json", searchResultItems);
+        test(form, name + ".episodes.json", searchResultItems);
+    }
+
+
+    <T extends MediaObject> GenericMediaSearchResult<T> test(MediaForm form, String name, GenericMediaSearchResult<T> object) throws Exception {
+        if (form  != null) {
+            for (SearchResultItem<? extends T> re : object) {
+                assertThat(form.test(re.getResult())).isTrue();
+
+            }
+        }
+        return Jackson2TestUtil.roundTrip(object);
+
     }
 
 }
