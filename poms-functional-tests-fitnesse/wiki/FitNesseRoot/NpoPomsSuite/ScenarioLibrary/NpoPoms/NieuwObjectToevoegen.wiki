@@ -74,5 +74,5 @@
 
 |scenario              |Npo poms Nieuw object toevoegen Verwijder eventuele voorgeselecteerde omroep|
 |seconds before timeout|5                                                                           |
-|click if available    |xpath=//*[@ng-if="media.broadcasters"]                                      |
+|$RESULTAVAILABLE=     |click if available          |xpath=//*[@ng-if="media.broadcasters"]         |
 |seconds before timeout|${secondsBeforeTimeout}                                                     |
