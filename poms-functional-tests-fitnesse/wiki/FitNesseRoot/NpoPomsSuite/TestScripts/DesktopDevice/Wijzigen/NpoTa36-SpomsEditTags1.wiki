@@ -30,7 +30,7 @@ Test
 
 *!
 
-|script                                                                                                                                                   |
+|storyboard                                                                                                                                                   |
 |Open Npo poms website                                                                                                                                    |
 |Npo poms Inlogscherm Log in met npo                                                                                                                      |
 |Npo poms Nieuw object toevoegen Start met toevoegen           |${MEDIATYPE}|met titel|${TITEL}|en omroep|${OMROEP}|en AV Type|${AVTYPE}|en genre|${GENRE}|
