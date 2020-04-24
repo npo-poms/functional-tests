@@ -9,7 +9,7 @@ Test
 |Npo poms Nieuw object toevoegen Wacht tot popup geladen                                                             |
 |                                                                                                                    |
 |Npo poms Nieuw object toevoegen Selecteer optie  |Clip                        |in dropdown             |Media Type *|
-|Npo poms Nieuw object toevoegen Check optie      |NPS                         |geselecteerd in dropdown|Omroep *    |
+|Npo poms Nieuw object toevoegen Check optie      |VPRO                        |geselecteerd in dropdown|Omroep *    |
 |Npo poms Nieuw object toevoegen Selecteer optie  |Audio                       |in dropdown             |AV Type *   |
 |Npo poms Nieuw object toevoegen Selecteer optie  |Jeugd                       |in dropdown             |Genre *     |
 |Npo poms Nieuw object toevoegen Check bericht    |Nog in te vullen: Hoofdtitel|in footer                            |
@@ -21,11 +21,11 @@ Test
 |Npo poms Nieuw object toevoegen Check knop       |Maak aan                    |in footer inactief                   |
 |                                                                                                                    |
 |Npo poms Nieuw object toevoegen Selecteer optie  |Clip                        |in dropdown             |Media Type *|
-|Npo poms Nieuw object toevoegen Deselecteer optie|NPS                         |in dropdown             |Omroep *    |
+|Npo poms Nieuw object toevoegen Deselecteer optie|VPRO                        |in dropdown             |Omroep *    |
 |Npo poms Nieuw object toevoegen Check bericht    |Nog in te vullen: Omroep    |in footer                            |
 |Npo poms Nieuw object toevoegen Check knop       |Maak aan                    |in footer inactief                   |
 |                                                                                                                    |
-|Npo poms Nieuw object toevoegen Selecteer optie  |NPS                         |in dropdown             |Omroep *    |
+|Npo poms Nieuw object toevoegen Selecteer optie  |VPRO                        |in dropdown             |Omroep *    |
 |Npo poms Nieuw object toevoegen Deselecteer optie|Audio                       |in dropdown             |AV Type *   |
 |Npo poms Nieuw object toevoegen Check bericht    |Nog in te vullen: AV Type   |in footer                            |
 |Npo poms Nieuw object toevoegen Check knop       |Maak aan                    |in footer inactief                   |
