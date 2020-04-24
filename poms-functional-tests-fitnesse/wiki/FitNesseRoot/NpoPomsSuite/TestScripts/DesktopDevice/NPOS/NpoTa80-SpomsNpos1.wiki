@@ -8,7 +8,7 @@ Test
 
 *!
 
-|storyboard                                                                                                                  |
+|script                                                                                                                  |
 |Open Npo poms website                                                                                                   |
 |Npo poms Inlogscherm Log in met npo                                                                                     |
 |Npo poms Zoeken Selecteer optie                                                  |${zender}         |in dropdown|Zenders|
