@@ -96,7 +96,11 @@ Test
 |Sla huidige waardes uit Detailscherm op                                                  |
 |Vul nieuwe waardes in in het detailscherm                                                |
 |click                                                   |Bewaar                          |
-|wait for visible                                        |is nu Wordt gepubliceerd        |
+|Npo poms Tabblad object Druk op link                    |Algemeen    |in sidebar         |
+|Npo poms Tabblad object Wacht tot status zichtbaar                                       |
+|Npo poms Tabblad object Druk op status om te publiceren                                  |
+|Npo poms Tabblad object Druk op link                    |Uitzendingen|in sidebar         |
+|Npo poms Tabblad object Wacht tot scrollen klaar is                                      |
 |Npo poms Tabblad object Dubbelklik op uitzending        |${zender2}                      |
 |Controleer de nieuwe waardes in detailscherm                                             |
 |Zet originele waardes terug in het detailscherm                                          |

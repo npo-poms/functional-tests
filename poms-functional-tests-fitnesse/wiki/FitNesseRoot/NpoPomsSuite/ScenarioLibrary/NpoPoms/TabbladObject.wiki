@@ -5,8 +5,11 @@
 |scenario|Npo poms Tabblad object Open|object|
 |open    |${UrlPoms}/#/edit/@object          |
 
+|scenario|Npo poms Tabblad object Druk op status om deze te wijzigen|
+|click   |xpath=//h2[text()="Status"]/following-sibling::*/p        |
+
 |scenario                            |Npo poms Tabblad object Druk op status om te publiceren|
-|click                               |xpath=//h2[text()="Status"]/following-sibling::*/p     |
+|Npo poms Tabblad object Druk op status om deze te wijzigen                                  |
 |Npo poms Tabblad object Check status|Gepubliceerd                                           |
 
 |scenario|Npo poms Tabblad object Sla hoofdtitel op in var|var                              |

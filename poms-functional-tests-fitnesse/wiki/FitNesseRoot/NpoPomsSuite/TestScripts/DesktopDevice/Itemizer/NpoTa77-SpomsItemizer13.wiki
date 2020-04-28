@@ -28,20 +28,12 @@ Test
 |Npo poms Tabblad object Voeg tag        |${tag}                |toe                               |
 |Npo poms Tabblad object Druk op link    |Algemeen              |in sidebar                        |
 |Npo poms Tabblad object Wacht tot status zichtbaar                                                |
-|seconds before timeout                  |600                                                      |
-|start timer                             |timer                                                    |
-|Npo poms Tabblad object Wacht tot status|Gepubliceerd                                             |
-|$wachttijd=                             |time on timer         |timer                             |
-|$wachttijd=                             |format timestamp      |$wachttijd   |as       |m:ss      |
-|stop timer                              |timer                                                    |
-|seconds before timeout                  |${secondsBeforeTimeout}                                  |
-|Npo poms Hoofdscherm Sluit laatste tab                                                            |
-|Npo poms Tabblad object Check status    |Gepubliceerd                                             |
-|Npo poms Hoofdscherm Sluit laatste tab                                                            |
+|Npo poms Tabblad object Druk op status om te publiceren                                           |
 |open                                    |!-http://embed-acc.vpro.nl/player/?src=-!${midVanSegment}|
 |wait for page                           |500 Internal Server Error                                |
 |Npo poms Tabblad object Open            |${midVanSegment}                                         |
 |Npo poms Tabblad object Maak textarea   |Korte beschrijving    |leeg                              |
 |Npo poms Tabblad object Verwijder alle tags                                                       |
+|Npo poms Hoofdscherm Sluit laatste tab                                                            |
 |Npo poms Hoofdscherm Sluit laatste tab                                                            |
 |Npo poms Hoofdscherm Log uit                                                                      |
