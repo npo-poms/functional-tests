@@ -16,23 +16,27 @@ Test
 |Open Npo poms website                                                                             |
 |Npo poms Inlogscherm Log in met standaard-gebruiker                                               |
 |Npo poms Tabblad object Open            |${midVanUitzending}                                      |
-|Npo poms Tabblad object Druk op link    |Segmenten             |in sidebar                        |
+|Npo poms Tabblad object Druk op link    |Segmenten            |in sidebar                         |
 |Npo poms Tabblad object Wacht tot scrollen klaar is                                               |
 |set search context to                   |xpath=//poms-segments                                    |
 |double click                            |${segment}                                               |
 |clear search context                                                                              |
 |Wacht tot Angular requests klaar zijn                                                             |
 |Npo poms Tabblad object Check mid of urn|${midVanSegment}                                         |
-|Npo poms Tabblad object Vul             |${korteBeschrijving}  |in textarea  |Korte beschrijving  |
+|Npo poms Tabblad object Vul             |${korteBeschrijving} |in textarea   |Korte beschrijving  |
 |Wacht tot Angular requests klaar zijn                                                             |
-|Npo poms Tabblad object Voeg tag        |${tag}                |toe                               |
-|Npo poms Tabblad object Druk op link    |Algemeen              |in sidebar                        |
+|Npo poms Tabblad object Druk op link    |Labels               |in sidebar                         |
+|Npo poms Tabblad object Wacht tot scrollen klaar is                                               |
+|Npo poms Tabblad object Voeg tag        |${tag}               |toe                                |
+|Npo poms Tabblad object Druk op link    |Algemeen             |in sidebar                         |
 |Npo poms Tabblad object Wacht tot status zichtbaar                                                |
 |Npo poms Tabblad object Druk op status om te publiceren                                           |
 |open                                    |!-http://embed-acc.vpro.nl/player/?src=-!${midVanSegment}|
-|wait for page                           |500 Internal Server Error                                |
+|ensure                                  |is visible on page   |Deze uitzending is niet beschikbaar|
 |Npo poms Tabblad object Open            |${midVanSegment}                                         |
-|Npo poms Tabblad object Maak textarea   |Korte beschrijving    |leeg                              |
+|Npo poms Tabblad object Druk op link    |Labels               |in sidebar                         |
+|Npo poms Tabblad object Wacht tot scrollen klaar is                                               |
+|Npo poms Tabblad object Maak textarea   |Korte beschrijving   |leeg                               |
 |Npo poms Tabblad object Verwijder alle tags                                                       |
 |Npo poms Hoofdscherm Sluit laatste tab                                                            |
 |Npo poms Hoofdscherm Sluit laatste tab                                                            |
