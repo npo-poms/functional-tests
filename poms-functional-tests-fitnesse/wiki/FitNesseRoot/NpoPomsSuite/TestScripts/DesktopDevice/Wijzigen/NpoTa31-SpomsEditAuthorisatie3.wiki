@@ -19,27 +19,34 @@ Test
 |Npo poms Zoeken Wacht tot zoekopdracht met Gezocht naar:|${mediatype}, ${omroep}|klaar is                 |
 |Npo poms Zoeken Open eerste object                                                                        |
 
-|Npo poms Tabblad object Check veld niet te bewerken en niet te verwijderen|
-|veld                       |heeft slotje? |kan bewerken? |kan verwijderen?|
-|Type                       |false         |true          |false           |
-|Titel                      |false         |true          |true            |
-|Afleveringtitel / Subtitel |false         |true          |true            |
-|Korte titel                |false         |true          |false           |
-|Afkorting                  |false         |true          |false           |
-|Werktitel                  |false         |true          |false           |
-|Originele titel            |false         |true          |false           |
-|Lexicografische titel      |false         |true          |false           |
-|Beschrijving               |false         |true          |true            |
-|Korte beschrijving         |false         |true          |true            |
-|Eenregelige beschrijving   |true          |false         |false           |
-|Datum online / offline     |false         |true          |false           |
-|Jaar                       |false         |true          |false           |
-|Speelduur (hh:mm:ss)       |false         |true          |false           |
-|AV-Type                    |false         |true          |false           |
-|Omroepen                   |false         |true          |false           |
-|Portals                    |false         |true          |false           |
-|Landen                     |false         |true          |false           |
-|Talen                      |false         |true          |false           |
+|Npo poms Tabblad object Check permissies van veld                      |
+|veld                      |heeft slotje?|kan bewerken?|kan verwijderen?|
+|Titel                     |false        |true         |true            |
+|Afleveringtitel / Subtitel|false        |true         |true            |
+|Korte titel               |false        |true         |false           |
+|Afkorting                 |false        |true         |false           |
+|Werktitel                 |false        |true         |false           |
+|Originele titel           |false        |true         |false           |
+|Lexicografische titel     |false        |true         |false           |
+|Beschrijving              |false        |true         |true            |
+|Korte beschrijving        |false        |true         |true            |
+|Eenregelige beschrijving  |true         |false        |false           |
+
+|script                                                  |
+|Npo poms Tabblad object Druk op link|Algemeen|in sidebar|
+|Npo poms Tabblad object Wacht tot scrollen klaar is     |
+
+|Npo poms Tabblad object Check permissies van veld                  |
+|veld                  |heeft slotje?|kan bewerken?|kan verwijderen?|
+|Type                  |false        |true         |false           |
+|Datum online / offline|false        |true         |false           |
+|Jaar                  |false        |true         |false           |
+|Speelduur (hh:mm:ss)  |false        |true         |false           |
+|AV-Type               |false        |true         |false           |
+|Omroepen              |false        |true         |false           |
+|Portals               |false        |true         |false           |
+|Landen                |false        |true         |false           |
+|Talen                 |false        |true         |false           |
 
 |script                                                                                           |
 |Npo poms Tabblad object Check checkbox|Nagesynchroniseerd          |actief                       |
@@ -47,20 +54,20 @@ Test
 |ensure                                |is present on page          |Ondertitel toevoegen         |
 |clear search context                                                                             |
 
-|Npo poms Tabblad object Check veld niet te bewerken en niet te verwijderen|
-|veld                   |heeft slotje?  |kan bewerken?  |kan verwijderen?  |
-|Genres                 |false          |true           |false             |
-|Tags                   |false          |true           |false             |
-|Doelgroep              |false          |true           |false             |
-|Intenties              |false          |true           |false             |
-|Naamsvermeldingen      |false          |false          |true              |
-|Geografische locaties  |false          |false          |false             |
-|Websites               |false          |true           |true              |
-|Twitter                |false          |true           |false             |
-|Kijkwijzer: leeftijd   |false          |true           |false             |
-|Kijkwijzer: inhoud     |false          |true           |false             |
-|Georestricties         |false          |true           |false             |
-|Portalrestricties      |false          |true           |false             |
+|Npo poms Tabblad object Check permissies van veld                 |
+|veld                 |heeft slotje?|kan bewerken?|kan verwijderen?|
+|Genres               |false        |true         |false           |
+|Tags                 |false        |true         |false           |
+|Doelgroep            |false        |true         |false           |
+|Intenties            |false        |true         |false           |
+|Naamsvermeldingen    |false        |false        |true            |
+|Geografische locaties|false        |false        |false           |
+|Websites             |false        |true         |true            |
+|Twitter              |false        |true         |false           |
+|Kijkwijzer: leeftijd |false        |true         |false           |
+|Kijkwijzer: inhoud   |false        |true         |false           |
+|Georestricties       |false        |true         |false           |
+|Portalrestricties    |false        |true         |false           |
 
 |script                                                                   |
 |Npo poms Tabblad object Check checkbox              |Embedbaar   |actief |

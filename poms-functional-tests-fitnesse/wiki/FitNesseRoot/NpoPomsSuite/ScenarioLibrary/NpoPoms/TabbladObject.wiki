@@ -219,7 +219,7 @@
 |scenario|Npo poms Tabblad object Druk op editknop bij segment                                                        |segment                                                        |
 |click   |xpath=//poms-segments/div/table/tbody/tr[./td[@class="column-mainTitle"]/span[normalize-space(.)="@segment"]]/td[@class="column-tools-xl"]/div/button[@title="edit segment"]|
 
-|table template        |Npo poms Tabblad object Check veld niet te bewerken en niet te verwijderen                                                                 |
+|table template        |Npo poms Tabblad object Check permissies van veld                                                                                          |
 |hover over            |xpath=//h2[starts-with(normalize-space(.), "@{veld}")]                                                                                     |
 |set search context to |xpath=//h2[starts-with(normalize-space(.), "@{veld}")]/ancestor::div[contains(@class, "editfield-wrapper")]/div[@class="media-field-tools"]|
 |seconds before timeout|1                                                                                                                                          |
