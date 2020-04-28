@@ -53,7 +53,7 @@ Test
 |Tags                   |false          |true           |false             |
 |Doelgroep              |false          |true           |false             |
 |Intenties              |false          |true           |false             |
-|Personen               |false          |false          |true              |
+|Naamsvermeldingen      |false          |false          |true              |
 |Geografische locaties  |false          |false          |false             |
 |Websites               |false          |true           |true              |
 |Twitter                |false          |true           |false             |
