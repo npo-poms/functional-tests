@@ -80,7 +80,7 @@ Test
 |Npo poms Tabblad object Sla mid of urn op in var         |midVanSegment                                                       |
 |Npo poms Tabblad object Druk op status om te publiceren                                                                       |
 |open                                                     |!-http://embed-acc.vpro.nl/player/?src=-!$midVanSegment             |
-|wait for page                                            |500 Internal Server Error                                           |
+|ensure                                                   |is visible on page      |Deze uitzending is niet beschikbaar        |
 |Npo poms Tabblad object Open                             |$midVanSegment                                                      |
 |Npo poms Tabblad object Druk op link                     |Relaties                |in sidebar                                 |
 |Npo poms Tabblad object Wacht tot scrollen klaar is                                                                           |
