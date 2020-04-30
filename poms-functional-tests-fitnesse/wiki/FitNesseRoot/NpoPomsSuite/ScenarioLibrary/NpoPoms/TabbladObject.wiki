@@ -78,10 +78,6 @@
 |Wacht tot Angular requests klaar zijn                                                                                                                           |
 |Npo poms Tabblad object Check veldtype 2|@tekstveld                 |heeft waarde|@waarde                                                                       |
 
-|scenario                                |Npo poms Tabblad object Maak tekstveld|tekstveld   |leeg|
-|Npo poms Tabblad object Maak veld       |@tekstveld                            |leeg             |
-|Npo poms Tabblad object Check veldtype 2|@tekstveld                            |heeft waarde|    |
-
 |scenario                                |Npo poms Tabblad object Vul|waarde      |in textarea                              |textarea                              |
 |click                                   |xpath=//h2[normalize-space(.)="@textarea"]                                                                               |
 |enter                                   |@waarde                    |as          |xpath=//h2[normalize-space(.)="@textarea"]/following-sibling::form/span/textarea|
@@ -132,9 +128,6 @@
 
 |scenario        |Npo poms Tabblad object Wacht tot tabblad met mid|mid|geopend is|
 |wait for visible|css=.tab-pane.active [id="media-general-@mid"]                  |
-
-|scenario|Npo poms Tabblad object Maak tekstveld|tekstveld|leeg|
-|clear   |@tekstveld                                           |
 
 |scenario             |Npo poms Tabblad object Druk op link|link|in sidebar|
 |set search context to|css=[id=sidebar]                                    |
