@@ -64,7 +64,9 @@
 |$@var=  |value of                              |xpath=//h2[normalize-space(.)="@veld"]/following-sibling::*|
 
 |scenario             |Npo poms Tabblad object Maak veld                           |veld                           |leeg                          |
+|scroll to            |xpath=//h2[normalize-space(.)="@veld"]                                                                                     |
 |hover over           |xpath=//h2[normalize-space(.)="@veld"]                                                                                     |
+|wait for visible     |xpath=//h2[normalize-space(.)="@veld"]/ancestor::div[contains(@class, "editfield-wrapper")]/div[@class="media-field-tools"]|
 |set search context to|xpath=//h2[normalize-space(.)="@veld"]/ancestor::div[contains(@class, "editfield-wrapper")]/div[@class="media-field-tools"]|
 |click                |xpath=./div[@class="remove-override-icon"]                                                                                 |
 |wait for visible     |xpath=//button[text()="verwijderen"]                                                                                       |
