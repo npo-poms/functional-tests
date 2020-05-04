@@ -7,7 +7,6 @@ import java.util.stream.Collectors;
 
 import javax.ws.rs.core.Response;
 
-import org.assertj.core.api.Assumptions;
 import org.assertj.core.api.Fail;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -19,7 +18,6 @@ import com.google.common.collect.Lists;
 import nl.vpro.domain.api.media.RedirectEntry;
 import nl.vpro.domain.api.media.RedirectList;
 import nl.vpro.poms.AbstractApiTest;
-import nl.vpro.util.IntegerVersion;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -75,23 +73,15 @@ class ApiMediaRedirectsTest extends AbstractApiTest {
                 .getMid()
             ).isEqualTo(entry.getUltimate());
         } catch (javax.ws.rs.NotFoundException nfe) {
-            if (! Objects.equals(entry.getTo(), entry.getUltimate())) {
-                Assumptions.assumeThat(apiVersionNumber)
-                    .withFailMessage("Known to fail before 5.12. See NPA-533/ %s", entry)
-                    .isGreaterThanOrEqualTo(IntegerVersion.of(5, 12, 2));
-            } else {
-                try {
-                    clients.getMediaService().load(entry.getUltimate(), null, null);
+            try {
+                clients.getMediaService().load(entry.getTo(), null, null);
 
-                    Fail.fail("Destination should give 404 too %s", entry);
-                } catch (javax.ws.rs.NotFoundException unfe) {
-                    //  https://jira.vpro.nl/browse/NPA-535
+                Fail.fail("Destination should give 404 too %s", entry);
+            } catch (javax.ws.rs.NotFoundException unfe) {
+                //  https://jira.vpro.nl/browse/NPA-535
 
-                    // OK destination is deleted
-                }
+                log.info("OK destination {} is gives 404 too", entry.getTo());
             }
-            Fail.fail("Could not resolve %s: %s", entry, nfe.getMessage(),  nfe);
-
         }
     }
 }
