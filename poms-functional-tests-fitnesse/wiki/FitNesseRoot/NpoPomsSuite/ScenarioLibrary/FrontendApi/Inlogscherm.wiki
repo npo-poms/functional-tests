@@ -1,12 +1,14 @@
+!include -c >Variabelen
+
 |scenario|Open Frontend api website|
-|open    |${UrlFrontendApi}        |
+|open    |${urlFrontendApi}        |
 
 |scenario        |Frontend api Inlogscherm Wacht tot pagina geladen|
-|wait for visible|POMS Test-omgeving                               |
+|wait for visible|${frontendApiInlogscherm_titel}                  |
 
-|scenario|Frontend api Inlogscherm Log in met standaard-gebruiker|
-|Frontend api Inlogscherm Wacht tot pagina geladen               |
-|enter   |$standaardGebruikersnaam      |as     |id=username     |
-|enter   |$standaardWachtwoord          |as     |id=password     |
-|click   |id=kc-login                                            |
-|Frontend api Hoofdscherm Wacht tot pagina geladen               |
+|scenario|Frontend api Inlogscherm Log in met standaard-gebruiker                   |
+|Frontend api Inlogscherm Wacht tot pagina geladen                                  |
+|enter   |$standaardGebruikersnaam|as|${frontendApiInlogscherm_idVeldGebruikersnaam}|
+|enter   |$standaardWachtwoord    |as|${frontendApiInlogscherm_idVeldWachtwoord}    |
+|click   |${frontendApiInlogscherm_idKnopInloggen}                                  |
+|Frontend api Hoofdscherm Wacht tot pagina geladen                                  |

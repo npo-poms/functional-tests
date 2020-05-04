@@ -1,9 +1,6 @@
 !contents -R2 -g -p -f -h
 
-!*> Herbruikbare selectoren
-!define dialogSelector {xpath=//div[@role="dialog"]}
-*!
-
+!include NpoPoms.Algemeen
 !include NpoPoms.Inlogscherm
 !include NpoPoms.Hoofdscherm
 !include NpoPoms.NieuwObjectToevoegen

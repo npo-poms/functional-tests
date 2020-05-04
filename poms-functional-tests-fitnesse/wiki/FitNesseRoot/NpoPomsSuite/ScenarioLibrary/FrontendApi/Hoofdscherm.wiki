@@ -1,5 +1,5 @@
 |scenario        |Frontend api Hoofdscherm Wacht tot pagina geladen|
-|wait for visible|NPO Frontend API                                 |
+|wait for visible|${frontendApiHoofdscherm_titel}                  |
 
 |scenario     |Frontend api Hoofdscherm Log uit|
 |scroll to    |logout                          |

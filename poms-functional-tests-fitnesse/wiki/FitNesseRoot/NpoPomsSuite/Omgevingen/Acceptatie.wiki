@@ -5,15 +5,23 @@ SymbolicLinks
 ---
 !*** Gegevens
 !*> Defines
-!define UrlPoms {!-https://poms-test.omroep.nl-!}
-!define UrlFrontendApi {!-https://rs-test.poms.omroep.nl/v1/docs/api-!}
+
+!define urlPoms {!-https://poms-test.omroep.nl-!}
+!define npoPomsInlogscherm_titel {POMS Test-omgeving}
+!define npoPomsHoofdscherm_titel {POMS - @tabblad}
+
+!define urlFrontendApi {!-https://rs-test.poms.omroep.nl/v1/docs/api-!}
+!define frontendApiInlogscherm_titel {POMS Test-omgeving}
+!define frontendApiHoofdscherm_titel {NPO Frontend API}
+
 !define secondsBeforeTimeout {30}
 
 *!
 
-|'''URL's                          '''|
-|POMS            |${UrlPoms}          |
-|Frontend API    |${UrlFrontendApi}   |
+|                       |'''Npo Poms                          '''|'''Frontend Api                         '''|
+|'''Url'''              |${urlPoms}                              |${urlFrontendApi}                          |
+|'''Titel inlogscherm'''|${npoPomsInlogscherm_titel}             |${frontendApiInlogscherm_titel}            |
+|'''Titel hoofdscherm'''|${npoPomsHoofdscherm_titel}             |${frontendApiHoofdscherm_titel}            |
 
 *!
 

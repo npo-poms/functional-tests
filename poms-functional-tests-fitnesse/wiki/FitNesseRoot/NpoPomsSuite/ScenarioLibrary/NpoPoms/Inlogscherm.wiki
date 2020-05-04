@@ -1,15 +1,17 @@
+!include -c >Variabelen
+
 |scenario|Open Npo poms website|
-|open    |${UrlPoms}           |
+|open    |${urlPoms}           |
 
 |scenario        |Npo poms Inlogscherm Wacht tot pagina geladen|
-|wait for visible|POMS Test-omgeving                           |
+|wait for visible|${npoPomsInlogscherm_titel}                  |
 
-|scenario|Npo poms Inlogscherm Log in met gebruiker|gebruiker|en wachtwoord|wachtwoord|
-|Npo poms Inlogscherm Wacht tot pagina geladen                                        |
-|enter   |@gebruiker                               |as       |id=username             |
-|enter   |@wachtwoord                              |as       |id=password             |
-|click   |id=kc-login                                                                 |
-|Npo poms Hoofdscherm Wacht tot tabblad Zoeken geopend                                |
+|scenario|Npo poms Inlogscherm Log in met gebruiker|gebruiker|en wachtwoord         |wachtwoord         |
+|Npo poms Inlogscherm Wacht tot pagina geladen                                                          |
+|enter   |@gebruiker                               |as       |${npoPomsInlogscherm_idVeldGebruikersnaam}|
+|enter   |@wachtwoord                              |as       |${npoPomsInlogscherm_idVeldWachtwoord}    |
+|click   |${npoPomsInlogscherm_idKnopInloggen}                                                          |
+|Npo poms Hoofdscherm Wacht tot tabblad Zoeken geopend                                                  |
 
 |scenario                                 |Npo poms Inlogscherm Log in met standaard-gebruiker        |
 |Npo poms Inlogscherm Log in met gebruiker|$standaardGebruikersnaam|en wachtwoord|$standaardWachtwoord|

@@ -1,0 +1,11 @@
+!define npoPomsHoofdscherm_cssHuidigeGebruiker {!-css=span[id=currentUser]-!}
+!define npoPomsHoofdscherm_labelAccountInstellingen {account-instellingen}
+!define npoPomsHoofdscherm_labelLogUit {log uit}
+!define npoPomsHoofdscherm_xpathZoekveld {!-xpath=//input-!}
+!define npoPomsHoofdscherm_xpathTitelVanLaatsteTab {!-xpath=//ul[@class="nav nav-tabs"]/li[last()-1]//span[@class="tab-title"]-!}
+!define npoPomsHoofdscherm_xpathSubtitelVanLaatsteTab1 {!-xpath=//ul[@class="nav nav-tabs"]/li[last()-1]//span[@class="tab-subtitle"]-!}
+!define npoPomsHoofdscherm_xpathSubtitelVanLaatsteTab2 {!-xpath=//ul[@class="nav nav-tabs"]/li[last()-1]//span[@class="tab-subtitle" and normalize-space(.)="@subtitel"]-!}
+!define npoPomsHoofdscherm_xpathKruisjeOmLaatsteTabbladTeSluiten {!-xpath=//ul[@class="nav nav-tabs"]/li[last()-1]//span[text()="close"]-!}
+!define npoPomsHoofdscherm_xpathKruisjeOmTabbladTeSluiten {!-xpath=//*[contains(@class,"nav-link") and contains(.,"@tekst")]-!}
+
+!define npoPomsHoofdscherm_sectieNotificaties {!-xpath=//poms-notifications-!}
