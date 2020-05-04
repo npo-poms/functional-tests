@@ -80,8 +80,15 @@ class ApiMediaRedirectsTest extends AbstractApiTest {
                     .withFailMessage("Known to fail before 5.12. See NPA-533/ %s", entry)
                     .isGreaterThanOrEqualTo(IntegerVersion.of(5, 12, 2));
             } else {
-                // TODO: Still suffering https://jira.vpro.nl/browse/NPA-535
-                log.info("NPA-535");
+                try {
+                    clients.getMediaService().load(entry.getUltimate(), null, null);
+
+                    Fail.fail("Destination should give 404 too %s", entry);
+                } catch (javax.ws.rs.NotFoundException unfe) {
+                    //  https://jira.vpro.nl/browse/NPA-535
+
+                    // OK destination is deleted
+                }
             }
             Fail.fail("Could not resolve %s: %s", entry, nfe.getMessage(),  nfe);
 
