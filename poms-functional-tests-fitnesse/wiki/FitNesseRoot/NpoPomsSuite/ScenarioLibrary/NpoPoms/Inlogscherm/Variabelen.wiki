@@ -1,0 +1,3 @@
+!define npoPomsInlogscherm_idVeldGebruikersnaam {id=username}
+!define npoPomsInlogscherm_idVeldWachtwoord {id=password}
+!define npoPomsInlogscherm_idKnopInloggen {id=kc-login}

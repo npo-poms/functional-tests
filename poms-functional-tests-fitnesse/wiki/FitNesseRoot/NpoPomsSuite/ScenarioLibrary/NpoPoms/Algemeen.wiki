@@ -1,0 +1,3 @@
+Herbruikbare selectoren
+
+!define dialogSelector {xpath=//div[@role="dialog"]}
