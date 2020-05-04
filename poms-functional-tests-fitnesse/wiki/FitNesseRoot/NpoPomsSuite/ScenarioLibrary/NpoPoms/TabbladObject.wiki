@@ -64,7 +64,9 @@
 |$@var=  |value of                              |xpath=//h2[normalize-space(.)="@veld"]/following-sibling::*|
 
 |scenario             |Npo poms Tabblad object Maak veld                           |veld                           |leeg                          |
+|scroll to            |xpath=//h2[normalize-space(.)="@veld"]                                                                                     |
 |hover over           |xpath=//h2[normalize-space(.)="@veld"]                                                                                     |
+|wait for visible     |xpath=//h2[normalize-space(.)="@veld"]/ancestor::div[contains(@class, "editfield-wrapper")]/div[@class="media-field-tools"]|
 |set search context to|xpath=//h2[normalize-space(.)="@veld"]/ancestor::div[contains(@class, "editfield-wrapper")]/div[@class="media-field-tools"]|
 |click                |xpath=./div[@class="remove-override-icon"]                                                                                 |
 |wait for visible     |xpath=//button[text()="verwijderen"]                                                                                       |
@@ -77,10 +79,6 @@
 |click                                   |xpath=//h2[normalize-space(.)="@tekstveld"]/following-sibling::form/span/span/button[text()="save"]                    |
 |Wacht tot Angular requests klaar zijn                                                                                                                           |
 |Npo poms Tabblad object Check veldtype 2|@tekstveld                 |heeft waarde|@waarde                                                                       |
-
-|scenario                                |Npo poms Tabblad object Maak tekstveld|tekstveld   |leeg|
-|Npo poms Tabblad object Maak veld       |@tekstveld                            |leeg             |
-|Npo poms Tabblad object Check veldtype 2|@tekstveld                            |heeft waarde|    |
 
 |scenario                                |Npo poms Tabblad object Vul|waarde      |in textarea                              |textarea                              |
 |click                                   |xpath=//h2[normalize-space(.)="@textarea"]                                                                               |
@@ -132,9 +130,6 @@
 
 |scenario        |Npo poms Tabblad object Wacht tot tabblad met mid|mid|geopend is|
 |wait for visible|css=.tab-pane.active [id="media-general-@mid"]                  |
-
-|scenario|Npo poms Tabblad object Maak tekstveld|tekstveld|leeg|
-|clear   |@tekstveld                                           |
 
 |scenario             |Npo poms Tabblad object Druk op link|link|in sidebar|
 |set search context to|css=[id=sidebar]                                    |
