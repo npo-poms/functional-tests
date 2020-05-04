@@ -4,10 +4,12 @@ import lombok.extern.log4j.Log4j2;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
+import org.assertj.core.api.Fail;
 import org.junit.jupiter.api.*;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.EnumSource;
 
 import nl.vpro.domain.api.ApiScheduleEvent;
 import nl.vpro.domain.api.SearchResultItem;
@@ -16,6 +18,7 @@ import nl.vpro.domain.media.*;
 import nl.vpro.domain.user.Broadcaster;
 import nl.vpro.poms.AbstractApiTest;
 
+import static nl.vpro.domain.media.Channel.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
 
@@ -68,7 +71,7 @@ class ApiScheduleTest extends AbstractApiTest {
         ScheduleResult o = clients.getScheduleService().listChannel("NED1", today, null, null, null, "ASC", 0L, 240);
         assertThat(o.getSize()).isGreaterThan(10);
         for (ApiScheduleEvent item : o.getItems()) {
-            assertThat(item.getChannel()).isEqualTo(Channel.NED1);
+            assertThat(item.getChannel()).isEqualTo(NED1);
         }
     }
 
@@ -129,7 +132,7 @@ class ApiScheduleTest extends AbstractApiTest {
         try {
             ApiScheduleEvent o = clients.getScheduleService().nowForChannel("NED1", null, null);
             log.info("{}", o);
-            assertThat(o.getChannel()).isEqualTo(Channel.NED1);
+            assertThat(o.getChannel()).isEqualTo(NED1);
         } catch (javax.ws.rs.NotFoundException nfe) {
             log.warn("Ok, no current schedule for NED1");
         }
@@ -149,7 +152,7 @@ class ApiScheduleTest extends AbstractApiTest {
     void nextForChannel() {
         ApiScheduleEvent o = clients.getScheduleService().nextForChannel("NED1", null, null);
         log.info("{}", o);
-        assertThat(o.getChannel()).isEqualTo(Channel.NED1);
+        assertThat(o.getChannel()).isEqualTo(NED1);
 
 
     }
@@ -165,6 +168,65 @@ class ApiScheduleTest extends AbstractApiTest {
             // NCRV_1347071 is descendant!
             assertThat(e.getResult().getParent().getDescendantOf()).isNotEmpty();
         }
+    }
+
+
+    /**
+     * NPA-537 For all poms supported channels we should find a valid 'now for channel'.
+     */
+    @ParameterizedTest
+    @EnumSource
+    void nowForChannel(Channel channel) {
+        Set<Channel> knownsChannels = new HashSet<>(Arrays.asList(
+            NED1,
+            NED2,
+            NED3,
+            RAD1,
+            RAD2,
+            RAD3,
+            RAD4,
+            RAD5,
+            RAD6,
+
+            OFRY,
+            NOOR,
+            //RTVD, // zeker TVDR geworden?
+            OOST,
+            GELD,
+            FLEV,
+            BRAB,
+            REGU,
+            NORH,
+            WEST,
+            RIJN,
+            L1TV,
+            OZEE,
+            TVDR,
+
+            BVNT,
+
+            NOSJ,
+            CULT,
+            _101_,
+            PO24,
+            // HOLL, BESTAAT NIET MEER?
+            // GESC, Bestaat niet meer?
+            OPVO,
+            FUNX
+        ));
+        try {
+            ApiScheduleEvent o = clients.getScheduleService().nowForChannel(
+                channel.name(), null, null);
+            log.info("{}", o);
+            assertThat(o.getChannel()).isEqualTo(channel);
+        } catch (javax.ws.rs.NotFoundException nfe) {
+            if (knownsChannels.contains(channel)) {
+                Fail.fail("No current broadcaster found for %s (%s)", channel, channel.name());
+            } else {
+                log.warn("Ok, no current schedule for " + channel);
+            }
+        }
+
     }
 
 
