@@ -64,7 +64,14 @@ public abstract class AbstractSearchTest<T, S> extends AbstractApiTest {
 
     @BeforeEach
     public void setUp(TestInfo testInfo) {
-        String name = testInfo.getDisplayName().split("[, ]", 3)[1].split("=", 2)[1];
+        String[] split = testInfo.getDisplayName().split("[, ]", 3);
+        String name;
+        if (split.length > 1) {
+            String[] kv = split[1].split("=", 2);
+            name = kv.length > 1 ? kv[1] : kv[0];
+        } else {
+            name = testInfo.getDisplayName();
+        }
         for (Map.Entry<Pattern, Supplier<Boolean>> e : ASSUMERS.entrySet()) {
             if (e.getKey().matcher(name).matches()) {
                 assumeTrue(e.getValue().get(), "Skipping in " + this + " because of " + e);

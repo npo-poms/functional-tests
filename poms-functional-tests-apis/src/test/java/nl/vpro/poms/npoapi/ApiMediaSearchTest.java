@@ -61,6 +61,9 @@ public class ApiMediaSearchTest extends AbstractApiTest {
         log.info("{} -> {}", withoutProfile, withProfile);
     }
 
+
+
+
     @Test
     void moreFacets() throws JsonProcessingException {
         LocalDateTime until = LocalDateTime.of(2019, 1, 1, 12, 0);
