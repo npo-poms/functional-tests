@@ -9,16 +9,19 @@ import java.util.*;
 import org.assertj.core.api.Fail;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.EnumSource;
+import org.junit.jupiter.params.provider.MethodSource;
 
+import nl.vpro.api.client.utils.Config;
 import nl.vpro.domain.api.ApiScheduleEvent;
 import nl.vpro.domain.api.SearchResultItem;
 import nl.vpro.domain.api.media.*;
 import nl.vpro.domain.media.*;
 import nl.vpro.domain.user.Broadcaster;
 import nl.vpro.poms.AbstractApiTest;
+import nl.vpro.util.Env;
 
 import static nl.vpro.domain.media.Channel.*;
+import static nl.vpro.util.Env.PROD;
 import static org.assertj.core.api.Assertions.assertThat;
 
 
@@ -170,61 +173,87 @@ class ApiScheduleTest extends AbstractApiTest {
         }
     }
 
+    static List<Channel> getChannelsWithCurrentBroadcasts() {
+          List<Channel> knownsChannels = Arrays.asList(
+              NED1,
+              NED2,
+              NED3,
+              RAD1,
+              RAD2,
+              RAD3,
+              RAD4,
+              RAD5,
+              RAD6,
+
+              BVNT,
+
+              NOSJ,
+              CULT,
+              _101_,
+              PO24,
+              // HOLL, BESTAAT NIET MEER?
+              // GESC, Bestaat niet meer?
+              OPVO,
+              FUNX
+          );
+        if (CONFIG.env() == PROD || Env.valueOf(CONFIG.requiredOption(Config.Prefix.npo_api, "es_env").toUpperCase()) == PROD) {
+            // these come from imports which are not necessarly present on other environments then prod
+            knownsChannels.addAll(Arrays.asList(
+
+                OFRY,
+                NOOR,
+                //RTVD, // zeker TVDR geworden?
+                OOST,
+                GELD,
+                FLEV,
+                BRAB,
+                REGU,
+                NORH,
+                WEST,
+                RIJN,
+                L1TV,
+                OZEE,
+                TVDR
+
+            ));
+
+        }
+        return knownsChannels;
+
+    }
 
     /**
      * NPA-537 For all poms supported channels we should find a valid 'now for channel'.
      */
     @ParameterizedTest
-    @EnumSource
+    @MethodSource("getChannelsWithCurrentBroadcasts")
     void nowForChannel(Channel channel) {
-        Set<Channel> knownsChannels = new HashSet<>(Arrays.asList(
-            NED1,
-            NED2,
-            NED3,
-            RAD1,
-            RAD2,
-            RAD3,
-            RAD4,
-            RAD5,
-            RAD6,
 
-            OFRY,
-            NOOR,
-            //RTVD, // zeker TVDR geworden?
-            OOST,
-            GELD,
-            FLEV,
-            BRAB,
-            REGU,
-            NORH,
-            WEST,
-            RIJN,
-            L1TV,
-            OZEE,
-            TVDR,
-
-            BVNT,
-
-            NOSJ,
-            CULT,
-            _101_,
-            PO24,
-            // HOLL, BESTAAT NIET MEER?
-            // GESC, Bestaat niet meer?
-            OPVO,
-            FUNX
-        ));
         try {
             ApiScheduleEvent o = clients.getScheduleService().nowForChannel(
                 channel.name(), null, null);
             log.info("{}", o);
             assertThat(o.getChannel()).isEqualTo(channel);
         } catch (javax.ws.rs.NotFoundException nfe) {
-            if (knownsChannels.contains(channel)) {
-                Fail.fail("No current broadcaster found for %s (%s)", channel, channel.name());
-            } else {
-                log.warn("Ok, no current schedule for " + channel);
-            }
+            Fail.fail("No current broadcast found for %s (%s)", channel, channel.name());
+        }
+
+    }
+
+     /**
+     * NPA-537 For all poms supported channels we should find a valid 'now for channel'.
+     */
+    @ParameterizedTest
+    @MethodSource("getChannelsWithCurrentBroadcasts")
+    void nowForChannelAt(Channel channel) {
+
+        try {
+            ApiScheduleEvent o = clients.getScheduleService().nowForChannel(
+                channel.name(), null, LocalDateTime.of(2017, 5, 1, 20, 30).atZone(Schedule.ZONE_ID).toInstant());
+            log.info("{}", o);
+            assertThat(o.getChannel()).isEqualTo(channel);
+        } catch (javax.ws.rs.NotFoundException nfe) {
+            Fail.fail("No current broadcast found for %s (%s)", channel, channel.name());
         }
 
     }
