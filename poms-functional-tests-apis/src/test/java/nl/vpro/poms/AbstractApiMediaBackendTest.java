@@ -80,6 +80,7 @@ public abstract class AbstractApiMediaBackendTest extends AbstractApiTest {
             .connectionRequestTimeout(BACKEND_CONNECTIONREQUEST_TIMEOUT)
             .warnThreshold(Duration.ofSeconds(10))
             .errors(errorMail)
+            .publishImmediately(true)
             //.version("5.7")
             .build();
     private static final String backendVersion = backend.getVersion();
