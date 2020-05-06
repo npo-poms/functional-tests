@@ -142,10 +142,11 @@ public abstract class AbstractApiMediaBackendTest extends AbstractApiTest {
         backend.setAccept(MediaType.APPLICATION_XML_TYPE); // e.g. subtitels are more completely represented in XML (including metadata like last modified and creation dates)
     }
 
+    private static boolean needsCheck = true;
     @BeforeAll
     public static void checkMids() {
         try {
-            {
+            if (needsCheck) {
                 log.info("Checking {}", MID);
                 MediaUpdate<?> mediaUpdate = backend.get(MID);
                 boolean needSet = false;
@@ -172,7 +173,7 @@ public abstract class AbstractApiMediaBackendTest extends AbstractApiTest {
                     backend.set(mediaUpdate);
                 }
             }
-            {
+            if (needsCheck) {
                 log.info("Checking {}", MID_WITH_LOCATIONS);
                 MediaUpdate<?> mediaUpdate = backend.get(MID_WITH_LOCATIONS);
                 if (mediaUpdate == null) {
@@ -202,20 +203,23 @@ public abstract class AbstractApiMediaBackendTest extends AbstractApiTest {
                     backend.set(mediaUpdate);
                 }
             }
-            ProgramUpdate anotherProgramUpdate = backend.get(ANOTHER_MID);
-            if (anotherProgramUpdate == null) {
-                log.info("No media found {}. Now creating", ANOTHER_MID);
-                log.info(
-                    backend.set(
-                        ProgramUpdate.create(program()
-                            .broadcasters("VPRO")
-                            .mid(ANOTHER_MID)
-                            .avType(AVType.VIDEO)
-                            .type(ProgramType.CLIP)
-                            .mainTitle("test"))
-                    )
-                );
+            if (needsCheck) {
+                ProgramUpdate anotherProgramUpdate = backend.get(ANOTHER_MID);
+                if (anotherProgramUpdate == null) {
+                    log.info("No media found {}. Now creating", ANOTHER_MID);
+                    log.info(
+                        backend.set(
+                            ProgramUpdate.create(program()
+                                .broadcasters("VPRO")
+                                .mid(ANOTHER_MID)
+                                .avType(AVType.VIDEO)
+                                .type(ProgramType.CLIP)
+                                .mainTitle("test"))
+                        )
+                    );
+                }
             }
+            needsCheck = false;
         } catch (Exception e) {
             log.error(e.getMessage(), e);
         }
