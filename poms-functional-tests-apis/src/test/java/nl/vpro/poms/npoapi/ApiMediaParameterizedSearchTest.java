@@ -185,7 +185,9 @@ public class ApiMediaParameterizedSearchTest extends AbstractSearchTest<MediaFor
     <T extends MediaObject> GenericMediaSearchResult<T> test(MediaForm form, String name, GenericMediaSearchResult<T> object) throws Exception {
         if (form  != null) {
             Map<String, String> redirected = getRedirector().redirectMediaSearch(form.getSearches());
-            log.info("changes in form {}", redirected);
+            if (! redirected.isEmpty()) {
+                log.info("changes in form {}", redirected);
+            }
 
             for (SearchResultItem<? extends T> re : object) {
                 MediaObject mo = re.getResult();
