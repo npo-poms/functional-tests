@@ -1,7 +1,7 @@
 ---
 Suite
 SymbolicLinks
-  TestScripts: <NpoPomsSuite.TestScripts
+  TestScripts: .NpoPoms.TestScripts
 ---
 !*** Gegevens
 !*> Defines
