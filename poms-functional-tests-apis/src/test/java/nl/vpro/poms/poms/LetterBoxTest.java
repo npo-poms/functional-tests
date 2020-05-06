@@ -42,7 +42,7 @@ class LetterBoxTest {
      */
     @BeforeAll
     static void getList() {
-
+        log.info("Getting {}@{}", USERNAME, IMPORT_URL);
         String s =
             given()
                 .auth().basic(USERNAME, PASSWORD)
