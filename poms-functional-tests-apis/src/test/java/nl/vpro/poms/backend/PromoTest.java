@@ -48,6 +48,11 @@ class PromoTest extends AbstractApiMediaBackendTest {
     private static final String PRODUCTCODE = "1P0203MO_JOCHEMMY_" + today.toString().replace('-','_');
 
     private static final String PARKPOST = CONFIG.url(npo_backend_api, "parkpost/");
+
+    private static final String USERNAME = CONFIG.configOption(parkpost, "user")
+                    .orElse("vpro-cms");
+    private static final String PASSWORD = CONFIG.requiredOption(parkpost, "password");
+
     private static final String PROMOTED_MID = MID;
     private static String promotionTitle;
     private static Program result;
@@ -125,7 +130,7 @@ class PromoTest extends AbstractApiMediaBackendTest {
     void setUp() {
         RestAssured.useRelaxedHTTPSValidation();
         RestAssured.urlEncodingEnabled = false;
-        log.info("Testing with " + PARKPOST);
+        log.info("Testing with {}@{}", USERNAME, PARKPOST);
     }
 
 
@@ -249,10 +254,7 @@ class PromoTest extends AbstractApiMediaBackendTest {
         log.info("Sending {}", xml);
         String resultString =
             given()
-                .auth().basic(
-                CONFIG.configOption(parkpost, "user")
-                    .orElse("vpro-cms"),
-                CONFIG.requiredOption(parkpost, "password"))
+                .auth().basic(USERNAME, PASSWORD)
                 .contentType(ContentType.XML.withCharset(Charset.defaultCharset()))
                 .accept(ContentType.XML)
                 .body(xml)
