@@ -1,3 +1,0 @@
-!define frontendApiInlogscherm_idVeldGebruikersnaam {id=username}
-!define frontendApiInlogscherm_idVeldWachtwoord {id=password}
-!define frontendApiInlogscherm_idKnopInloggen {id=kc-login}

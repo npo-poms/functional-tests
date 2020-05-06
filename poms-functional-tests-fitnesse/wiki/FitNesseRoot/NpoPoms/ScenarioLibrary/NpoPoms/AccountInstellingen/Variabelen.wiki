@@ -1,4 +1,0 @@
-!define npoPomsAccountInstellingen_xpathNpoPomsAccountInstellingenDropdownOptie {!-xpath=//span[normalize-space(.)="@dropdown"]/../following-sibling::div/div[normalize-space(.)="@optie"]-!}
-!define npoPomsAccountInstellingen_xpathNpoPomsAccountInstellingenDropdownGeenOpties {!-xpath=//span[normalize-space(.)="@dropdown"]/../following-sibling::div[not(./div)]-!}
-!define npoPomsAccountInstellingen_xpathKruisjeOmPopUpTeSluiten {!-xpath=//div[@class="modal-close-button"]-!}
-!define npoPomsAccountInstellingen_xpathVeldwaarde {!-xpath=//h4[normalize-space(.)="@veld"]/following-sibling::p-!}

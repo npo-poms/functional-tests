@@ -1,26 +1,24 @@
-!include -c >Variabelen
-
 |scenario        |Npo poms Account instellingen Wacht tot popup geladen|
 |wait for visible|Account                                              |
 
-|scenario|Npo poms Account instellingen Check optie|optie            |geselecteerd in dropdown            |dropdown           |
-|ensure  |is visible on page                       |${npoPomsAccountInstellingen_xpathNpoPomsAccountInstellingenDropdownOptie}|
+|scenario|Npo poms Account instellingen Check optie|optie                      |geselecteerd in dropdown                     |dropdown                     |
+|ensure  |is visible on page                       |xpath=//span[normalize-space(.)="@dropdown"]/../following-sibling::div/div[normalize-space(.)="@optie"]|
 
 |scenario                                 |Npo poms Account instellingen Selecteer optie|optie                   |in dropdown|dropdown|
 |click                                    |@dropdown                                                                                  |
 |click                                    |@optie                                                                                     |
 |Npo poms Account instellingen Check optie|@optie                                       |geselecteerd in dropdown|@dropdown           |
 
-|scenario|Npo poms Account instellingen Check geen optie geselecteerd in dropdown|dropdown                                                                       |
-|ensure  |is visible on page                                                     |${npoPomsAccountInstellingen_xpathNpoPomsAccountInstellingenDropdownGeenOpties}|
+|scenario|Npo poms Account instellingen Check geen optie geselecteerd in dropdown|dropdown                                                                          |
+|ensure  |is visible on page                                                     |xpath=//span[normalize-space(.)="@dropdown"]/../following-sibling::div[not(./div)]|
 
 |scenario                                                               |Npo poms Account instellingen Deselecteer optie|optie                   |in dropdown|dropdown|
 |Npo poms Account instellingen Check optie                              |@optie                                         |geselecteerd in dropdown|@dropdown           |
 |click                                                                  |@optie                                                                                       |
 |Npo poms Account instellingen Check geen optie geselecteerd in dropdown|@dropdown                                                                                    |
 
-|scenario|Npo poms Account instellingen Check veld|veld                                         |heeft waarde|waarde|
-|check   |value of                                |${npoPomsAccountInstellingen_xpathVeldwaarde}|@waarde            |
+|scenario|Npo poms Account instellingen Check veld|veld                                                       |heeft waarde|waarde|
+|check   |value of                                |xpath=//h4[normalize-space(.)="@veld"]/following-sibling::p|@waarde            |
 
 |scenario|Npo poms Account instellingen Druk op kruisje om pop-up te sluiten|
-|click   |${npoPomsAccountInstellingen_xpathKruisjeOmPopUpTeSluiten}        |
+|click   |xpath=//div[@class="modal-close-button"]                          |
