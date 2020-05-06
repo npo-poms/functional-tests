@@ -222,39 +222,41 @@ class ApiScheduleTest extends AbstractApiTest {
         return knownsChannels;
 
     }
-
+    static Set<Channel> channelsNotSupported = null;
     static Set<Channel> getChannelsNotSupported() {
-         if (CONFIG.env() == PROD || Env.valueOf(CONFIG.requiredOption(Config.Prefix.npo_api, "es_env").toUpperCase()) == PROD) {
-             return Collections.emptySet();
-         } else {
-             return new HashSet<>(Arrays.asList(
-            // these come from imports which are not necessarly present on other environments then prod
-                // I don't know why
-                NOSJ,
-                _101_,
-                PO24,
+        if (channelsNotSupported == null) {
+
+            if (CONFIG.env() == PROD || Env.valueOf(CONFIG.requiredOption(Config.Prefix.npo_api, "es_env").toUpperCase()) == PROD) {
+                channelsNotSupported =  Collections.emptySet();
+            } else {
+                channelsNotSupported = new HashSet<>(Arrays.asList(
+                    // these come from imports which are not necessarly present on other environments then prod
+                    // I don't know why
+                    NOSJ,
+                    _101_,
+                    PO24,
 
 
-                // xml's not shipped to dev/test
-                OFRY,
-                NOOR,
-                //RTVD, // zeker TVDR geworden?
-                OOST,
-                GELD,
-                FLEV,
-                BRAB,
-                REGU,
-                NORH,
-                WEST,
-                RIJN,
-                L1TV,
-                OZEE,
-                TVDR
+                    // xml's not shipped to dev/test
+                    OFRY,
+                    NOOR,
+                    //RTVD, // zeker TVDR geworden?
+                    OOST,
+                    GELD,
+                    FLEV,
+                    BRAB,
+                    REGU,
+                    NORH,
+                    WEST,
+                    RIJN,
+                    L1TV,
+                    OZEE,
+                    TVDR
 
-            ));
-
+                ));
+            }
         }
-
+        return channelsNotSupported;
     }
 
 
@@ -284,6 +286,9 @@ class ApiScheduleTest extends AbstractApiTest {
                 channel.name(), null, instant);
             log.info("{}", o);
             assertThat(o.getChannel()).isEqualTo(channel);
+            if (getChannelsNotSupported().contains(channel)) {
+                throw new IllegalArgumentException("This unexpectedly didn't fail. Change assumption?");
+            }
         } catch (javax.ws.rs.NotFoundException nfe) {
             if (getChannelsNotSupported().contains(channel)) {
                 throw new TestAbortedException("Channel " + channel + " is known not to work at " + CONFIG.env());
