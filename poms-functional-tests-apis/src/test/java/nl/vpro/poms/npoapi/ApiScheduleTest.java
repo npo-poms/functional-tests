@@ -2,14 +2,15 @@ package nl.vpro.poms.npoapi;
 
 import lombok.extern.log4j.Log4j2;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.time.*;
 import java.util.*;
 
 import org.assertj.core.api.Fail;
+import org.checkerframework.checker.nullness.qual.Nullable;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
+import org.opentest4j.TestAbortedException;
 
 import nl.vpro.api.client.utils.Config;
 import nl.vpro.domain.api.ApiScheduleEvent;
@@ -194,12 +195,47 @@ class ApiScheduleTest extends AbstractApiTest {
               // HOLL, BESTAAT NIET MEER?
               // GESC, Bestaat niet meer?
               OPVO,
-              FUNX
-          );
-        if (CONFIG.env() == PROD || Env.valueOf(CONFIG.requiredOption(Config.Prefix.npo_api, "es_env").toUpperCase()) == PROD) {
-            // these come from imports which are not necessarly present on other environments then prod
-            knownsChannels.addAll(Arrays.asList(
+              FUNX,
 
+
+              // I don't know why
+              NOSJ,
+              _101_,
+              PO24,
+
+              OFRY,
+              NOOR,
+              //RTVD, // zeker TVDR geworden?
+              OOST,
+              GELD,
+              FLEV,
+              BRAB,
+              REGU,
+              NORH,
+              WEST,
+              RIJN,
+                L1TV,
+              OZEE,
+              TVDR
+          );
+
+        return knownsChannels;
+
+    }
+
+    static Set<Channel> getChannelsNotSupported() {
+         if (CONFIG.env() == PROD || Env.valueOf(CONFIG.requiredOption(Config.Prefix.npo_api, "es_env").toUpperCase()) == PROD) {
+             return Collections.emptySet();
+         } else {
+             return new HashSet<>(Arrays.asList(
+            // these come from imports which are not necessarly present on other environments then prod
+                // I don't know why
+                NOSJ,
+                _101_,
+                PO24,
+
+
+                // xml's not shipped to dev/test
                 OFRY,
                 NOOR,
                 //RTVD, // zeker TVDR geworden?
@@ -218,9 +254,10 @@ class ApiScheduleTest extends AbstractApiTest {
             ));
 
         }
-        return knownsChannels;
 
     }
+
+
 
     /**
      * NPA-537 For all poms supported channels we should find a valid 'now for channel'.
@@ -228,16 +265,7 @@ class ApiScheduleTest extends AbstractApiTest {
     @ParameterizedTest
     @MethodSource("getChannelsWithCurrentBroadcasts")
     void nowForChannel(Channel channel) {
-
-        try {
-            ApiScheduleEvent o = clients.getScheduleService().nowForChannel(
-                channel.name(), null, null);
-            log.info("{}", o);
-            assertThat(o.getChannel()).isEqualTo(channel);
-        } catch (javax.ws.rs.NotFoundException nfe) {
-            Fail.fail("No current broadcast found for %s (%s)", channel, channel.name());
-        }
-
+        nowForChannelAt(channel, null);
     }
 
      /**
@@ -246,14 +274,22 @@ class ApiScheduleTest extends AbstractApiTest {
     @ParameterizedTest
     @MethodSource("getChannelsWithCurrentBroadcasts")
     void nowForChannelAt(Channel channel) {
+        Instant instant = LocalDateTime.of(2020, 5, 1, 20, 30).atZone(Schedule.ZONE_ID).toInstant();
+        nowForChannelAt(channel, instant);
+    }
 
+     void nowForChannelAt(Channel channel, @Nullable Instant instant) {
         try {
             ApiScheduleEvent o = clients.getScheduleService().nowForChannel(
-                channel.name(), null, LocalDateTime.of(2017, 5, 1, 20, 30).atZone(Schedule.ZONE_ID).toInstant());
+                channel.name(), null, instant);
             log.info("{}", o);
             assertThat(o.getChannel()).isEqualTo(channel);
         } catch (javax.ws.rs.NotFoundException nfe) {
-            Fail.fail("No current broadcast found for %s (%s)", channel, channel.name());
+            if (getChannelsNotSupported().contains(channel)) {
+                throw new TestAbortedException("Channel " + channel + " is known not to work at " + CONFIG.env());
+            } else {
+                Fail.fail("No current broadcast found for %s (%s) at %s", channel, channel.name(), instant);
+            }
         }
 
     }
