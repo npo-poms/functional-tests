@@ -186,7 +186,7 @@ public class ApiMediaParameterizedSearchTest extends AbstractSearchTest<MediaFor
             for (SearchResultItem<? extends T> re : object) {
                 MediaObject mo = re.getResult();
                 MediaSearch.TestResult testResult = form.getTestResult(mo);
-                assertThat(testResult.test()).withFailMessage(testResult.getDescription()).isTrue();
+                assertThat(testResult.test().getAsBoolean()).withFailMessage(testResult.getDescription()).isEqualTo(true);
 
             }
         }
