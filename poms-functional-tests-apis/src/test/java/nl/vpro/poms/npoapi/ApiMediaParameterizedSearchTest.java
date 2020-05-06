@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.time.Instant;
+import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -183,6 +184,9 @@ public class ApiMediaParameterizedSearchTest extends AbstractSearchTest<MediaFor
 
     <T extends MediaObject> GenericMediaSearchResult<T> test(MediaForm form, String name, GenericMediaSearchResult<T> object) throws Exception {
         if (form  != null) {
+            Map<String, String> redirected = getRedirector().redirectMediaSearch(form.getSearches());
+            log.info("changes in form {}", redirected);
+
             for (SearchResultItem<? extends T> re : object) {
                 MediaObject mo = re.getResult();
                 MediaSearch.TestResult testResult = form.getTestResult(mo);

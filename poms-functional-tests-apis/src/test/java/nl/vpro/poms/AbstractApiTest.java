@@ -7,6 +7,7 @@ import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -14,7 +15,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import nl.vpro.api.client.frontend.NpoApiClients;
 import nl.vpro.api.client.utils.*;
 import nl.vpro.domain.api.Constants;
-import nl.vpro.domain.api.media.Compatibility;
+import nl.vpro.domain.api.media.*;
 import nl.vpro.domain.classification.CachedURLClassificationServiceImpl;
 import nl.vpro.domain.classification.ClassificationServiceLocator;
 import nl.vpro.domain.media.Schedule;
@@ -24,6 +25,8 @@ import nl.vpro.testutils.AbstractTest;
 import nl.vpro.testutils.Utils;
 import nl.vpro.util.IntegerVersion;
 import nl.vpro.util.Version;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * @author Michiel Meeuwissen
@@ -90,6 +93,7 @@ public abstract class AbstractApiTest extends AbstractTest  {
     private static final String apiVersion = clients.getVersion();
     protected static IntegerVersion apiVersionNumber;
 
+    private static Redirector redirector;
     /**
      * TODO: can't we determin this automaticly?
      */
@@ -115,5 +119,21 @@ public abstract class AbstractApiTest extends AbstractTest  {
         LOG.info("Image server: {}", imageUtil);
     }
 
+    public static RedirectList getRedirectsList() {
+        try (Response response = clients.getMediaService().redirects(null)) {
+            assertThat(response.getStatus()).isEqualTo(200);
+            RedirectList list = response.readEntity(RedirectList.class);
+            assertThat(list).isNotEmpty();
+            return list;
+        }
+    }
+
+    public static Redirector getRedirector() {
+        if (redirector == null) {
+            RedirectList list = getRedirectsList();
+            redirector = () ->  list;
+        }
+        return redirector;
+    }
 
 }

@@ -5,8 +5,6 @@ import lombok.extern.log4j.Log4j2;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import javax.ws.rs.core.Response;
-
 import org.assertj.core.api.Fail;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -38,14 +36,7 @@ class ApiMediaRedirectsTest extends AbstractApiTest {
             .collect(Collectors.toList());
     }
 
-    static RedirectList getRedirectsList() {
-        try (Response response = clients.getMediaService().redirects(null)) {
-            assertThat(response.getStatus()).isEqualTo(200);
-            RedirectList list = response.readEntity(RedirectList.class);
-            assertThat(list).isNotEmpty();
-            return list;
-        }
-    }
+
 
     @Test
     @Disabled("Used to find a the mids to republish to fix NPA-535 (for tests)")
