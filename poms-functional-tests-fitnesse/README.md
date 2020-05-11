@@ -1,41 +1,51 @@
-This testing project uses the FitNesse baseline provided by [hsac-fitnesse-fixtures](https://github.com/fhoeben/hsac-fitnesse-fixtures).
-It offers a web environment (wiki) to define and run tests.
+Dit is het testautomatiseringsproject van [Specialisterren](https://www.specialisterren.nl/) voor [de testomgeving van NPO POMS](https://poms-test.omroep.nl/). Het project maakt gebruik van [HSAC](https://github.com/fhoeben/hsac-fitnesse-fixtures/) in [FitNesse](http://fitnesse.org/).
 
-## Running Locally
-To start the wiki locally execute: `mvn clean compile exec:exec` or `start.bat`, it can then be accessed at [http://localhost:9090/](http://localhost:9090/).
+## Lokaal draaien
 
-More details on the features of hsac-fitnesse-fixtures, and example tests, can then be accessed at 
-[http://localhost:9090/HsacExamples](http://localhost:9090/HsacExamples).
+Om toegang te krijgen tot de geautomatiseerde scripts in FitNesse, moet `start.bat` uitgevoerd worden, dat in [/poms-functional-tests-fitnesse](/poms-functional-tests-fitnesse) staat. Dan verschijnt er een opdrachtprompt. Wacht tot er staat: `Starting FitNesse on port: 9090`. 
 
-## Run from maven
+De FitNesse-omgeving kan dan bekeken worden door te browsen naar: [http://localhost:9090/NpoPoms](http://localhost:9090/NpoPoms).
 
-### headless
-`mvn test-compile failsafe:integration-test -DseleniumBrowser=chrome "-DseleniumJsonProfile={'args':['headless', 'disable-gpu', 'window-size=1366x768']}" -DfitnesseSuiteToRun=ExampleSuite.Omgevingen.Test.TestScripts.DesktopDevice.ExampleTest`
+De testscripts van de acceptatie-omgeving staan in: [http://localhost:9090/NpoPoms.Omgevingen.Acceptatie.TestScripts.Gui](http://localhost:9090/NpoPoms.Omgevingen.Acceptatie.TestScripts.Gui).
 
-### Selenium Grid Chrome
-`mvn test-compile failsafe:integration-test -DseleniumBrowser=chrome -DseleniumGridUrl=http://<ip>:4444/wb/hub -DfitnesseSuiteToRun=ExampleSuite.Omgevingen.Test.TestScripts.DesktopDevice.ExampleTest`
+De testscripts maken gebruik van scenario's in de scenario library. Die staan hier: [http://localhost:9090/NpoPoms.ScenarioLibrary](http://localhost:9090/NpoPoms.ScenarioLibrary).
 
-### Selenium Grid Firefox
-`mvn test-compile failsafe:integration-test -DseleniumBrowser=firefox -DseleniumGridUrl=http://<ip>:4444/wb/hub "-DseleniumJsonProfile={'args':['headless', 'disable-gpu', 'window-size=1366x768']}" -DfitnesseSuiteToRun=ExampleSuite.Omgevingen.Test.TestScripts.DesktopDevice.ExampleTest`
+Om de testscripts lokaal te kunnen draaien, moet een map `fileFixture` aangemaakt worden in [/poms-functional-tests-fitnesse/wiki/FitNesseRoot/files](/poms-functional-tests-fitnesse/wiki/FitNesseRoot/files). Het tekstbestand `accounts.properties`, dat apart geleverd wordt door Specialisterren, moet dan naar deze map worden gekopieerd.
 
+## Draaien in Jenkins
 
-## creating allure report
+Om de scripts te kunnen draaien in Jenkins, moet de configuratie als volgt worden ingesteld:
 
-`mvn site -Pallure`
+### Broncodebeheer (SCM)
 
+![Npo-poms-jenkins-configuratie1](/poms-functional-tests-fitnesse/wiki/FitNesseRoot/files/images/Npo-poms-jenkins-configuratie1.png)
 
-## Upgrading
+### Bouwstappen
 
-To upgrade to newer version of the hsac-fitnesse-fixtures project:
+![Npo-poms-jenkins-configuratie2](/poms-functional-tests-fitnesse/wiki/FitNesseRoot/files/images/Npo-poms-jenkins-configuratie2.png)
 
-* stop FitNesse
-* stop all selenium webdrivers that might be running
-* upgrade `hsac.fixtures.version` property in `pom.xml`
-* run `mvn clean -Pdelete-hsac-fitnesse-fixtures`
-* start as normal
+`Commando` is gebaseerd op de inhoud van het tekstbestand `accounts.properties`. Stel dat dit de inhoud is:
+```
+email1=email_of_user1
+password1=password_of_user1
+email2=email_of_user2
+password2=password_of_user2
+email3=email_of_user3
+password4=password_of_user3
+```
 
-Upgrade FitNesse version used:
+Dan moet dit bij `Commando` staan:
 
-* stop FitNesse
-* upgrade `fitnesse.version` property in `pom.xml`
-* start as normal
+```
+cd poms-functional-tests-fitnesse
+mvn clean test-compile
+
+mkdir -p target/fitnesse-results/files/fileFixture
+(echo email1=email_of_user1 & echo password1=password_of_user1 & echo email2=email_of_user2 & echo password2=password_of_user2 & echo email3=email_of_user3 & echo password3=password_of_user3) > target/fitnesse-results/files/fileFixture/accounts.properties
+
+mvn failsafe:integration-test -DfitnesseSuiteToRun=NpoPoms.Omgevingen.Acceptatie.TestScripts.Gui "-DseleniumJsonProfile={'args':['headless','disable-gpu']}"
+```
+
+### Acties die na de bouwpoging uitgevoerd worden
+
+![Npo-poms-jenkins-configuratie3](/poms-functional-tests-fitnesse/wiki/FitNesseRoot/files/images/Npo-poms-jenkins-configuratie3.png)
