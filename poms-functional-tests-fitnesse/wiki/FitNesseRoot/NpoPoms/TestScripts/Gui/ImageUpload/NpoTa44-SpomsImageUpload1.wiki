@@ -2,7 +2,7 @@
 Suites: MT
 Test
 ---
-!include -c <ImageUpload.SmallScenarioLibrary
+!include -c <TestScripts.Gui.ImageUpload.SmallScenarioLibrary
 
 |script                                                                                                                                 |
 |Open Npo poms website                                                                                                                  |

@@ -2,8 +2,8 @@
 Suites: MT
 Test
 ---
-!include -c <CmsSelector.Variabelen
-!include -c <CmsSelector.Scenarios
+!include -c <TestScripts.Gui.CmsSelector.Variabelen
+!include -c <TestScripts.Gui.CmsSelector.Scenarios
 
 !*> Lokale scenario's
 |table template                                     |Controleer CMS selector                             |
