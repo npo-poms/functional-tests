@@ -1,2 +1,0 @@
-|scenario|plaats een bericht|
-|note    |plaats bericht    |

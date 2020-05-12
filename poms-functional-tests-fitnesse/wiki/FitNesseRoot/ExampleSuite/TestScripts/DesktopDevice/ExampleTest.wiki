@@ -1,9 +1,0 @@
-|scenario|print hello world|
-|note    |hello world      |
-
-|script                          |
-|open |${URL}                    |
-|enter|Dress     |as   |Search   |
-|click|css=.button-search        |
-|wait |5         |seconds        |
-|check|page title|!-Search - FashionShop-!|
