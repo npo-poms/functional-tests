@@ -1,0 +1,7 @@
+|script                                |
+|get from|${urlApi}/media              |
+|check   |json path count|$.items.*|10 |
+|get from|${urlApi}/media?max=1        |
+|check   |json path count|$.items.*|1  |
+|get from|${urlApi}/media?max=240      |
+|check   |json path count|$.items.*|240|
