@@ -1,6 +1,5 @@
 target
 *.iml
-api
 .idea
 /.metadata/
 .recommenders/
