@@ -46,6 +46,12 @@
               <version>1.0.3</version>
               <scope>test</scope>
           </dependency>
+
+          <dependency>
+              <groupId>nl.vpro.poms.api-clients</groupId>
+              <artifactId>frontend-api-client</artifactId>
+              <version>5.12.3</version>
+          </dependency>
           
           <!-- Testing -->
           <dependency>

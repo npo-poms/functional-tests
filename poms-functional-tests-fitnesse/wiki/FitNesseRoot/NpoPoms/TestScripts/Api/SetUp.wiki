@@ -1,0 +1,8 @@
+|script             |properties file fixture|
+|load values from   |accounts.properties    |
+|show               |values                 |
+|$frontEndApiKey=   |value|frontEndApiKey   |
+|$frontEndApiSecret=|value|frontEndApiSecret|
+|$frontEndApiOrigin=|value|frontEndApiOrigin|
+
+|script|npo json http test|$frontEndApiKey|$frontEndApiSecret|$frontEndApiOrigin|
