@@ -1,0 +1,8 @@
+|scenario|Check main property|property     |heeft|aantalWaarden|waarden|
+|check   |json path count    |$.@property.*|@aantalWaarden             |
+
+|scenario|Sla aantal main properties op in var|var|
+|$@var=  |json path count                     |$.*|
+
+|scenario|Laat aantal waarden van main property|property|zien|
+|show    |json path count                      |$.@property.*|
