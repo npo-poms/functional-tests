@@ -13,7 +13,7 @@ Test
 *!
 
 |script                                                                                          |
-|open                                                    |${UrlPoms}/${affixCmsSelector}         |
+|open                                                    |${urlPoms}/${affixCmsSelector}         |
 |click                                                   |Select                                 |
 |switch to next tab                                                                              |
 |Npo poms Inlogscherm Log in met standaard-gebruiker                                             |

@@ -7,7 +7,7 @@ Test
 
 !*> Lokale scenario's
 |table template                                     |Controleer CMS selector                             |
-|open                                               |${UrlPoms}/${affixCmsSelector}                      |
+|open                                               |${urlPoms}/${affixCmsSelector}                      |
 |click                                              |@{filtertype}                                       |
 |click                                              |Select                                              |
 |switch to next tab                                                                                      |
