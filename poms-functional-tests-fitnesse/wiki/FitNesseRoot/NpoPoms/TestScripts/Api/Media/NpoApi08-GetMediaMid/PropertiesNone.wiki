@@ -1,0 +1,11 @@
+---
+Test
+---
+!*> Lokale variabelen
+!define mid {!-VPWON_1272435-!}
+*!
+|script                                         |
+|get from|${urlApi}/media/${mid}?properties=none|
+|check   |response status    |200               |
+|check   |json path          |mid    |${mid}    |
+|View response                                  |

@@ -1,7 +1,0 @@
-|script                                     |
-|get from           |${urlApi}/media        |
-|Check main property|items|heeft|10 |waarden|
-|get from           |${urlApi}/media?max=1  |
-|Check main property|items|heeft|1  |waarden|
-|get from           |${urlApi}/media?max=240|
-|Check main property|items|heeft|240|waarden|

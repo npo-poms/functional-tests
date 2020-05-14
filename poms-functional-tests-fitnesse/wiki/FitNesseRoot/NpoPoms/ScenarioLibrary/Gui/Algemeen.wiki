@@ -1,3 +1,6 @@
+Herbruikbare selectoren
+!define dialogSelector {xpath=//div[@role="dialog"]}
+
 |scenario|Wacht tot Angular requests klaar zijn|
 |push fixture                                  |
 |start   |ng browser test                      |
