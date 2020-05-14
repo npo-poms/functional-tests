@@ -1,0 +1,45 @@
+---
+Static
+---
+|script                                                                                                                   |
+|get from                      |${urlApi}/media/${mid}?properties=none                                                    |
+|$aantalPropsBijPropertiesNone=|json path count|*                                                                         |
+|ensure                        |value          |$aantalPropsBijPropertiesNone|is smaller than|$aantalPropsBijPropertiesAll|
+|check                         |json path count|titles.*                     |1                                           |
+|check                         |json path count|broadcasters.*               |1                                           |
+
+|Is single-value property|
+|property                |
+|avType                  |
+|publishDate             |
+|mid                     |
+|sortDate                |
+|type                    |
+|creationDate            |
+|objectType              |
+|urn                     |
+|lastModified            |
+|embeddable              |
+
+!*> Sla alle waarden van alle properties op
+
+|Sla property op|
+|property       |
+|avType         |
+|languages      |
+|publishDate    |
+|mid            |
+|sortDate       |
+|broadcasters   |
+|titles         |
+|countries      |
+|type           |
+|creationDate   |
+|objectType     |
+|urn            |
+|genres         |
+|locations      |
+|lastModified   |
+|embeddable     |
+
+*!

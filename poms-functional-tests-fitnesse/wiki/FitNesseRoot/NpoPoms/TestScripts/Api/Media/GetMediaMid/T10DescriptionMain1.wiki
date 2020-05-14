@@ -1,0 +1,12 @@
+---
+Static
+---
+Check dat hetzelfde resultaat gegeven wordt als bij Properties None + !-1-! extra main property 'descriptions'
+
+|script                                                                                                                    |
+|get from                              |${urlApi}/media/${mid}?properties=description%3Amain%3A1                           |
+|$aantalPropsBijPropertiesDescriptions=|add            |$aantalPropsBijPropertiesNone|and                |1                |
+|check                                 |json path count|*                            |$aantalPropsBijPropertiesDescriptions|
+|check                                 |json path count|descriptions.*               |1                                    |
+
+!include -c <GetMediaMid.CheckAllePropsBijPropertiesNoneAanwezigMetDezelfdeWaarden

@@ -1,0 +1,18 @@
+|Property heeft dezelfde waarde|
+|property                      |
+|avType                        |
+|languages                     |
+|publishDate                   |
+|mid                           |
+|sortDate                      |
+|broadcasters                  |
+|titles                        |
+|countries                     |
+|type                          |
+|creationDate                  |
+|objectType                    |
+|urn                           |
+|genres                        |
+|locations                     |
+|lastModified                  |
+|embeddable                    |

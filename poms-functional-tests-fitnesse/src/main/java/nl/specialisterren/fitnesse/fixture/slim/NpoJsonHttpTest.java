@@ -31,4 +31,8 @@ public class NpoJsonHttpTest extends JsonHttpTest {
 
         return super.getImpl(serviceUrl, followRedirect);
     }
+
+	public boolean isSingleValue(Object object) {
+		return (object != null && !(object instanceof net.minidev.json.JSONArray));
+	}
 }

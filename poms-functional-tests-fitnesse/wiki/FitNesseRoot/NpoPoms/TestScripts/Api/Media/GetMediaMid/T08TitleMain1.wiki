@@ -1,0 +1,8 @@
+---
+Static
+---
+Check dat er maar !-1-! main title is.
+
+|script                                                     |
+|get from|${urlApi}/media/${mid}?properties=title%3Amain%3A1|
+|check   |json path count        |titles.*        |1        |

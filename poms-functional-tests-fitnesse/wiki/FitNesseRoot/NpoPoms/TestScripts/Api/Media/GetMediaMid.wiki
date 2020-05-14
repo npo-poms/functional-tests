@@ -1,8 +1,17 @@
 ---
 Help: NPOAPI-8
-Suite
 Suites: RG
+Test
 ---
-!define mid {VPWON_1272435}
+!include -c >Variabelen
 
-!contents -R2 -g -p -f -h
+!include >T01GeenAndereVereisteParameters
+!include >T02All
+!include >T03None
+!include >T04Image
+!include >T05Image3
+!include >T06Image3Broadcasters
+!include >T07Title
+!include >T08TitleMain1
+!include >T09TitleMain
+!include >T10DescriptionMain1

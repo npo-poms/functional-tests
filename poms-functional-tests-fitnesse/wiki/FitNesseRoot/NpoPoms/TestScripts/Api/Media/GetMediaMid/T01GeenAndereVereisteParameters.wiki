@@ -1,0 +1,5 @@
+---
+Static
+---
+|script                                |
+|ensure|get from|${urlApi}/media/${mid}|

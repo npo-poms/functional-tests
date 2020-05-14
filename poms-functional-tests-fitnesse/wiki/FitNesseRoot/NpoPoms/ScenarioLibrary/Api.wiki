@@ -13,3 +13,13 @@
 |table template|Get value at path|
 |get from      |${urlApi}/@{get} |
 |$value=       |json path|@{path}|
+
+|table template|Is single-value property   |
+|$waarde=      |json path      |@{property}|
+|ensure        |is single value|$waarde    |
+
+|table template|Sla property op      |
+|$@property=   |json path|@{property}|
+
+|table template|Property heeft dezelfde waarde    |
+|check         |json path|@{property}|$@{property}|

@@ -1,6 +1,0 @@
----
-Test
----
-|Get value at path                       |
-|get                         |path|value?|
-|media/${mid}?properties=none|mid |${mid}|

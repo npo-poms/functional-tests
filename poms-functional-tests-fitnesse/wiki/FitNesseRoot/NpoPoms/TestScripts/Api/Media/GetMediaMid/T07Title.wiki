@@ -1,0 +1,10 @@
+---
+Static
+---
+Check dat er !-2-! titels zijn, waarvan de ene type MAIN heeft en de andere type SUB.
+
+|script                                              |
+|get from|${urlApi}/media/${mid}?properties=title%3A1|
+|check   |json path count   |$..titles.*      |2     |
+|check   |json path         |titles[0].type   |MAIN  |
+|check   |json path         |titles[1].type   |SUB   |
