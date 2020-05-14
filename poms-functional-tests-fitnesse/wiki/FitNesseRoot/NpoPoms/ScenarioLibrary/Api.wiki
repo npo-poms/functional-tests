@@ -1,6 +1,3 @@
-|scenario|View response|
-|show    |response     |
-
 |scenario|Check main property|property   |heeft|aantalWaarden|waarden|
 |check   |json path count    |@property.*|@aantalWaarden             |
 

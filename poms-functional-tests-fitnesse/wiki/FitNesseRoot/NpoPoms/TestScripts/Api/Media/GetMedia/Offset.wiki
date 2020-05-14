@@ -1,0 +1,10 @@
+---
+Test
+---
+|script                                 |
+|get from|${urlApi}/media?sort=asc&max=2|
+|$item2= |json path    |items[1].mid    |
+
+|script                                          |
+|get from|${urlApi}/media?sort=asc&offset=1&max=2|
+|check   |json path    |items[0].mid   |$item2   |

@@ -2,6 +2,7 @@
 Suite
 SymbolicLinks
   TestScripts: .NpoPoms.TestScripts
+Test: no
 ---
 !*** Gegevens
 !*> Defines
