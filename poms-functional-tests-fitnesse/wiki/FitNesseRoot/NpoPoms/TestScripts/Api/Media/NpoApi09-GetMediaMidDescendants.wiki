@@ -1,6 +1,4 @@
 ---
-Test
+Suite
 ---
-!include >NpoApi68-Sort
-!include >NpoApi69-Offset
-!include >NpoApi70-Max
+!contents -R2 -g -p -f -h

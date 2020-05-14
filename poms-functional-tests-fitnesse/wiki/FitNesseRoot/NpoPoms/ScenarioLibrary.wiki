@@ -1,6 +1,2 @@
-!contents -R2 -g -p -f -h
-
-!include ScenarioLibrary.Algemeen
-!include ScenarioLibrary.FrontendApi
-!include ScenarioLibrary.NpoPoms
 !include ScenarioLibrary.Api
+!include ScenarioLibrary.Gui

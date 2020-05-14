@@ -1,23 +1,11 @@
-!***> Start Desktop
+!***> Start & setup ${BROWSER}
 |script          |selenium driver setup|
 |start driver for|${BROWSER}           |
 |show            |driver description   |
-*!
-
-|script                        |properties file fixture           |
-|load values from              |accounts.properties               |
-|show                          |values                            |
-|$standaardGebruikersnaam=     |value|standaardGebruikersnaam     |
-|$standaardWachtwoord=         |value|standaardWachtwoord         |
-|$npoGebruikersnaam=           |value|npoGebruikersnaam           |
-|$npoWachtwoord=               |value|npoWachtwoord               |
-|$adminGebruikersnaam=         |value|adminGebruikersnaam         |
-|$adminWachtwoord=             |value|adminWachtwoord             |
-|$omroepUploaderGebruikersnaam=|value|omroepUploaderGebruikersnaam|
-|$omroepUploaderWachtwoord=    |value|omroepUploaderWachtwoord    |
 
 |script                          |extended browser test  |
 |delete all cookies                                      |
 |set browser size to maximum                             |
 |seconds before timeout          |${secondsBeforeTimeout}|
 |seconds before page load timeout|${secondsBeforeTimeout}|
+*!

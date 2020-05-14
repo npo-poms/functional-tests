@@ -1,0 +1,11 @@
+!include Gui.Algemeen
+!include Gui.Inlogscherm
+!include Gui.Hoofdscherm
+!include Gui.NieuwObjectToevoegen
+!include Gui.Zoeken
+!include Gui.TabbladObject
+!include Gui.TabbladObject.Detailscherm
+!include Gui.TabbladObject.LexicografischeTitel
+!include Gui.TabbladObject.Segment
+!include Gui.AccountInstellingen
+!include Gui.PreviewschermObject
