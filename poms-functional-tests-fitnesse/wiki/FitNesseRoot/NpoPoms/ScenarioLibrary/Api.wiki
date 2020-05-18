@@ -1,8 +1,15 @@
-|scenario|Check main property|property   |heeft|aantalWaarden|waarden|
-|check   |json path count    |@property.*|@aantalWaarden             |
+|scenario |Get      |action|and save value at|path|as|alias|
+|get from |${urlApi}/@{action}                             |
+|@{alias}=|json path|@{path}                               |
 
-|scenario|Sla aantal main properties op in var|var|
-|$@var=  |json path count                     |*  |
+|scenario|Get      |action |and check value at|path|is|value|
+|get from|${urlApi}/@{action}                               |
+|check   |json path|@{path}|@{value}                        |
 
-|scenario|Laat aantal waarden van main property|property|zien|
-|show    |json path count                      |@property.*  |
+|table template|Get count at path        |
+|get from      |${urlApi}/@{get}         |
+|$count=       |json path count|@{path}.*|
+
+|table template|Get value at path|
+|get from      |${urlApi}/@{get} |
+|$value=       |json path|@{path}|

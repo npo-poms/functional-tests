@@ -1,10 +1,6 @@
 ---
 Test
 ---
-!*> Lokale variabelen
-!define mid {!-VPWON_1272435-!}
-*!
-
-|script                                         |
-|get from|${urlApi}/media/${mid}?properties=none|
-|check   |json path      |mid      |${mid}      |
+|Get value at path                       |
+|get                         |path|value?|
+|media/${mid}?properties=none|mid |${mid}|

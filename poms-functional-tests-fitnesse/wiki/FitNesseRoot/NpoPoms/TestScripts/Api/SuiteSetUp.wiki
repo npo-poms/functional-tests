@@ -1,10 +1,9 @@
-!***> Fixture code locations
+!***> Setup
 |Import                                  |
 |nl.hsac.fitnesse.fixture                |
 |nl.hsac.fitnesse.fixture.slim           |
 |nl.specialisterren.fitnesse.fixture.slim|
-*!
-!***> Libraries
+
 |Library                |
 |string fixture         |
 |extended string fixture|
@@ -13,8 +12,7 @@
 |timer fixture          |
 |date format fixture    |
 |script language fixture|
-*!
-!***> API setup
+
 |script             |properties file fixture|
 |load values from   |accounts.properties    |
 |show               |values                 |
