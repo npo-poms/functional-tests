@@ -1,10 +1,9 @@
 ---
 Test
 ---
-|script                                                                                                     |
-|get from|${urlApi}/media?sort=asc&offset=0&max=2                                                           |
-|check   |json path|items[0].titles[0].value|Liedje: Claudia de Breij - My Favorite Things  (Sound of Music)|
+!define firstTitle {items[0].titles[0].value}
 
-|script                                                |
-|get from|${urlApi}/media?sort=desc&offset=0&max=2     |
-|check   |json path|items[0].titles[0].value|NTR Podium|
+|Get value at path                                                                                           |
+|get                           |path         |value?                                                         |
+|media?sort=asc&offset=0&max=2 |${firstTitle}|Liedje: Claudia de Breij - My Favorite Things  (Sound of Music)|
+|media?sort=desc&offset=0&max=2|${firstTitle}|NTR Podium                                                     |

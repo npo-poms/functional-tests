@@ -3,4 +3,6 @@ Help: NPOAPI-9
 Suite
 Suites: RG
 ---
+!define mid {14Jeugd0845geb}
+
 !contents -R2 -g -p -f -h

@@ -1,10 +1,6 @@
 ---
 Test
 ---
-|script                                                   |
-|get from|${urlApi}/media/14Jeugd0845geb/descendants?max=2|
-|$item2= |json path             |items[1].mid             |
-
-|script                                                            |
-|get from|${urlApi}/media/14Jeugd0845geb/descendants?offset=1&max=2|
-|check   |json path          |items[0].mid         |$item2         |
+|script                                                                                 |
+|Get|media/${mid}/descendants?max=2         |and save value at |items[1].mid|as|$itemTwo|
+|Get|media/${mid}/descendants?offset=1&max=2|and check value at|items[0].mid|is|$itemTwo|

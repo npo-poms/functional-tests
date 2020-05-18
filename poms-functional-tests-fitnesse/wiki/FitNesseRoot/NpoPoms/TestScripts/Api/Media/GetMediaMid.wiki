@@ -3,4 +3,6 @@ Help: NPOAPI-8
 Suite
 Suites: RG
 ---
+!define mid {VPWON_1272435}
+
 !contents -R2 -g -p -f -h
