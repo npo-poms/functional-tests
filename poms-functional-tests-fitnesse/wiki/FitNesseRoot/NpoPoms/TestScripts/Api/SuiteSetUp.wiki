@@ -20,5 +20,7 @@
 |$frontEndApiSecret=|value|frontEndApiSecret|
 |$frontEndApiOrigin=|value|frontEndApiOrigin|
 
-|script|npo json http test|$frontEndApiKey|$frontEndApiSecret|$frontEndApiOrigin|
+|script          |npo json http test           |$frontEndApiKey          |$frontEndApiSecret          |$frontEndApiOrigin          |
+|note            |HSAC uses application/x-www-form-urlencoded as the default Content-Type, but the NPO API expects application/json|
+|set content type|application/json; charset=UTF-8                                                                                  |
 *!
