@@ -6,7 +6,7 @@ Om toegang te krijgen tot de geautomatiseerde scripts in FitNesse, moet `start.b
 
 De FitNesse-omgeving kan dan bekeken worden door te browsen naar: [http://localhost:9090/NpoPoms](http://localhost:9090/NpoPoms).
 
-De testscripts van de acceptatie-omgeving staan in: [http://localhost:9090/NpoPoms.Omgevingen.Acceptatie.TestScripts](http://localhost:9090/NpoPoms.Omgevingen.Acceptatie.TestScripts).
+De testscripts van de acceptatie-omgeving staan in: [http://localhost:9090/NpoPoms.Omgevingen.Test.TestScripts](http://localhost:9090/NpoPoms.Omgevingen.Test.TestScripts).
 
 De testscripts maken gebruik van scenario's in de scenario library. Die staan hier: [http://localhost:9090/NpoPoms.ScenarioLibrary](http://localhost:9090/NpoPoms.ScenarioLibrary).
 
@@ -43,7 +43,7 @@ mvn clean test-compile
 mkdir -p target/fitnesse-results/files/fileFixture
 (echo email1=email_of_user1 & echo password1=password_of_user1 & echo email2=email_of_user2 & echo password2=password_of_user2 & echo email3=email_of_user3 & echo password3=password_of_user3) > target/fitnesse-results/files/fileFixture/accounts.properties
 
-mvn failsafe:integration-test -DfitnesseSuiteToRun=NpoPoms.Omgevingen.Acceptatie.TestScripts "-DseleniumJsonProfile={'args':['headless','disable-gpu']}"
+mvn failsafe:integration-test -DfitnesseSuiteToRun=NpoPoms.Omgevingen.Test.TestScripts "-DseleniumJsonProfile={'args':['headless','disable-gpu']}"
 ```
 
 ### Acties die na de bouwpoging uitgevoerd worden
