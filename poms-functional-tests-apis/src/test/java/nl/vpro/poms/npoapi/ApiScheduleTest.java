@@ -4,6 +4,7 @@ import lombok.extern.log4j.Log4j2;
 
 import java.time.*;
 import java.util.*;
+import java.util.function.BiFunction;
 
 import org.assertj.core.api.Fail;
 import org.checkerframework.checker.nullness.qual.Nullable;
@@ -263,13 +264,23 @@ class ApiScheduleTest extends AbstractApiTest {
 
 
     /**
-     * NPA-537 For all poms supported channels we should find a valid 'now for channel'.
+     * NPA-537 For all poms supported channels we should find a valid 'next for channel'.
      */
     @ParameterizedTest
     @MethodSource("getChannelsWithCurrentBroadcasts")
-    void nowForChannel(Channel channel) {
-        nowForChannelAt(channel, null);
+    void nextForChannel(Channel channel) {
+        ApiScheduleEvent apiScheduleEvent = nextForChannelAt(channel, null);
     }
+
+    @ParameterizedTest
+    @MethodSource("getChannelsWithCurrentBroadcasts")
+    void nextForChannelAt(Channel channel) {
+        Instant instant = LocalDateTime.of(2020, 5, 19, 9, 15).atZone(Schedule.ZONE_ID).toInstant();
+        ApiScheduleEvent apiScheduleEvent = nextForChannelAt(channel, instant);
+
+    }
+
+
 
      /**
      * NPA-537 For all poms supported channels we should find a valid 'now for channel'.
@@ -281,24 +292,38 @@ class ApiScheduleTest extends AbstractApiTest {
         nowForChannelAt(channel, instant);
     }
 
-     void nowForChannelAt(Channel channel, @Nullable Instant instant) {
-        try {
-            ApiScheduleEvent o = clients.getScheduleService().nowForChannel(
-                channel.name(), null, instant);
-            log.info("{}", o);
-            assertThat(o.getChannel()).isEqualTo(channel);
-            if (getChannelsNotSupported().contains(channel)) {
-                log.warn("This unexpectedly didn't fail. Change assumption?");
-            }
-        } catch (javax.ws.rs.NotFoundException nfe) {
-            if (getChannelsNotSupported().contains(channel)) {
-                throw new TestAbortedException("Channel " + channel + " is known not to work at " + CONFIG.env());
-            } else {
-                Fail.fail("No current broadcast found for %s (%s) at %s", channel, channel.name(), instant);
-            }
-        }
+    ApiScheduleEvent forChannelAt(Channel channel, @Nullable Instant instant, BiFunction<Channel, Instant, ApiScheduleEvent> getter) {
+         try {
+             ApiScheduleEvent o = getter.apply(channel, instant);
+             log.info("{}", o);
+             assertThat(o.getChannel()).isEqualTo(channel);
+             if (getChannelsNotSupported().contains(channel)) {
+                 log.warn("This unexpectedly didn't fail. Change assumption?");
+             }
+             return o;
+         } catch (javax.ws.rs.NotFoundException nfe) {
+             if (getChannelsNotSupported().contains(channel)) {
+                 throw new TestAbortedException("Channel " + channel + " is known not to work at " + CONFIG.env());
+             } else {
+                 Fail.fail("No current broadcast found for %s (%s) at %s", channel, channel.name(), instant);
+                 return null;
+             }
+         }
+     }
 
+
+    ApiScheduleEvent nowForChannelAt(Channel channel, @Nullable Instant instant) {
+        return forChannelAt(channel, instant, (c, i) -> clients.getScheduleService().nowForChannel(
+            channel.name(), null, instant));
     }
 
 
+    ApiScheduleEvent nextForChannelAt(Channel channel, @Nullable Instant instant) {
+        ApiScheduleEvent result = forChannelAt(channel, instant, (c, i) -> clients.getScheduleService().nextForChannel(
+            channel.name(), null, instant));
+        Duration future = Duration.between(instant, result.getStartInstant());
+        assertThat(future).isPositive();
+        assertThat(future).isLessThan(Duration.ofHours(5));
+        return result;
+    }
 }
