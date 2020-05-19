@@ -2,5 +2,5 @@
 Test
 ---
 |script                                                                                 |
-|Get|media/${mid}/descendants?max=2         |and save value at |items[1].mid|as|$itemTwo|
+|Get|media/${mid}/descendants?max=2         |and save value at |items[1].mid|as|itemTwo |
 |Get|media/${mid}/descendants?offset=1&max=2|and check value at|items[0].mid|is|$itemTwo|

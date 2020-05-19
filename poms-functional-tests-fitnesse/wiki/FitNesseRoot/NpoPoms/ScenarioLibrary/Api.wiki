@@ -1,6 +1,6 @@
-|scenario |Get      |action|and save value at|path|as|alias|
-|get from |${urlApi}/@{action}                             |
-|@{alias}=|json path|@{path}                               |
+|scenario  |Get      |action|and save value at|path|as|alias|
+|get from  |${urlApi}/@{action}                             |
+|$@{alias}=|json path|@{path}                               |
 
 |scenario|Get      |action |and check value at|path|is|value|
 |get from|${urlApi}/@{action}                               |
@@ -10,9 +10,17 @@
 |get from      |${urlApi}/@{get}         |
 |$count=       |json path count|@{path}.*|
 
+|table template|Check count at path               |
+|get from      |${urlApi}/@{get}                  |
+|check         |json path count|@{path}.*|@{count}|
+
 |table template|Get value at path|
 |get from      |${urlApi}/@{get} |
 |$value=       |json path|@{path}|
+
+|table template|Check value at path       |
+|get from      |${urlApi}/@{get}          |
+|check         |json path|@{path}|@{value}|
 
 |table template|Is single-value property   |
 |$waarde=      |json path      |@{property}|
