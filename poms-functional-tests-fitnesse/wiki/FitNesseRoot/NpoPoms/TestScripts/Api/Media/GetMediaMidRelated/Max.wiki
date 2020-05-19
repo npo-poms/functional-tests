@@ -1,0 +1,8 @@
+---
+Test
+---
+|Get count at path                       |
+|get                        |path |count?|
+|media/${mid}/related       |items|10    |
+|media/${mid}/related?max=10|items|10    |
+|media/${mid}/related?max=1 |items|1     |
