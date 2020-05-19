@@ -10,6 +10,10 @@
 |get from      |${urlApi}/@{get}         |
 |$count=       |json path count|@{path}.*|
 
+|table template|Check count at path               |
+|get from      |${urlApi}/@{get}                  |
+|check         |json path count|@{path}.*|@{count}|
+
 |table template|Get value at path|
 |get from      |${urlApi}/@{get} |
 |$value=       |json path|@{path}|
