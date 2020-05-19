@@ -1,6 +1,4 @@
 ---
-Help: NPOAPI-17
 Suite
-Suites: RG
 ---
 !contents -R2 -g -p -f -h

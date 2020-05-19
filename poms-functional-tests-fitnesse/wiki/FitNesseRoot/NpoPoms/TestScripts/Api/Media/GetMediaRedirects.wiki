@@ -1,5 +1,0 @@
----
-Suites: RG
-Test
----
-<test page>
