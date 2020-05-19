@@ -1,6 +1,6 @@
-|scenario |Get      |action|and save value at|path|as|alias|
-|get from |${urlApi}/@{action}                             |
-|@{alias}=|json path|@{path}                               |
+|scenario  |Get      |action|and save value at|path|as|alias|
+|get from  |${urlApi}/@{action}                             |
+|$@{alias}=|json path|@{path}                               |
 
 |scenario|Get      |action |and check value at|path|is|value|
 |get from|${urlApi}/@{action}                               |
