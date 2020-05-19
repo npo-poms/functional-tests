@@ -1,0 +1,10 @@
+---
+Help: NPOAPI-29
+Suites: RG
+Test
+---
+|Get count at path                            |
+|get                             |path |count?|
+|schedule/broadcaster/NOS        |items|10    |
+|schedule/broadcaster/NOS?max=1  |items|1     |
+|schedule/broadcaster/NOS?max=240|items|240   |
