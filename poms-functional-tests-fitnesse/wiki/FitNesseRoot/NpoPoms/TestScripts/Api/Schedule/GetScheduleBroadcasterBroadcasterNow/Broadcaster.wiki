@@ -1,0 +1,9 @@
+---
+Help: NPOAPI-30
+Suites: RG
+Test
+---
+|Check value at path                                           |
+|get                         |path                       |value|
+|schedule/broadcaster/NPO/now|media.broadcasters[0].value|NPO  |
+|schedule/broadcaster/NTR/now|media.broadcasters[0].value|NTR  |
