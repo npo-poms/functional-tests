@@ -18,6 +18,10 @@
 |get from      |${urlApi}/@{get} |
 |$value=       |json path|@{path}|
 
+|table template|Check value at path       |
+|get from      |${urlApi}/@{get}          |
+|check         |json path|@{path}|@{value}|
+
 |table template|Is single-value property   |
 |$waarde=      |json path      |@{property}|
 |ensure        |is single value|$waarde    |
