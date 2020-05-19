@@ -1,0 +1,24 @@
+---
+Test
+---
+!***> Local table template
+|table template|Check properties of related items       |
+|get from      |${urlApi}/@{get}                        |
+|$titles=      |json path count|items[24].titles.*      |
+|$title_type=  |json path      |items[24].titles[0].type|
+|$descriptions=|json path count|items[24].descriptions.*|
+|$images=      |json path count|items[24].images.*      |
+*!
+
+|Check properties of related items                                                                   |
+|get                                                       |titles?|title_type?|descriptions?|images?|
+|media/${mid}/related?max=240&properties=all               |5      |MAIN       |5            |4      |
+|media/${mid}/related?max=240&properties=none              |1      |MAIN       |0            |0      |
+|media/${mid}/related?max=240&properties=image             |1      |MAIN       |0            |1      |
+|media/${mid}/related?max=240&properties=image:2           |1      |MAIN       |0            |2      |
+|media/${mid}/related?max=240&properties=image:3           |1      |MAIN       |0            |3      |
+|media/${mid}/related?max=240&properties=title:1           |3      |MAIN       |0            |0      |
+|media/${mid}/related?max=240&properties=title:main:1      |1      |MAIN       |0            |0      |
+|media/${mid}/related?max=240&properties=title:main:       |1      |MAIN       |0            |0      |
+|media/${mid}/related?max=240&properties=titles:main:      |2      |MAIN       |0            |0      |
+|media/${mid}/related?max=240&properties=description:main:1|1      |MAIN       |1            |0      |
