@@ -1,0 +1,10 @@
+---
+Help: NPOAPI-34
+Suites: RG
+Test
+---
+|Get count at path                     |
+|get                      |path |count?|
+|schedule/net/ZAPP        |items|10    |
+|schedule/net/ZAPP?max=1  |items|1     |
+|schedule/net/ZAPP?max=240|items|240   |
