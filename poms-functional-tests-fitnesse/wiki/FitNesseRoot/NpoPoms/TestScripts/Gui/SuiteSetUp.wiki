@@ -1,31 +1,38 @@
 !***> Fixture code locations
-|Import                                      |
-|nl.hsac.fitnesse.fixture                    |
-|nl.hsac.fitnesse.fixture.slim               |
-|nl.hsac.fitnesse.fixture.slim.web           |
-|nl.specialisterren.fitnesse.fixture.slim    |
-|nl.specialisterren.fitnesse.fixture.slim.web|
+
+| Import |
+| nl.hsac.fitnesse.fixture |
+| nl.hsac.fitnesse.fixture.slim |
+| nl.hsac.fitnesse.fixture.slim.web |
+| nl.specialisterren.fitnesse.fixture.slim |
+| nl.specialisterren.fitnesse.fixture.slim.web |
+
 *!
 !***> Libraries
-|Library                |
-|string fixture         |
-|extended string fixture|
-|integer fixture        |
-|calendar fixture       |
-|timer fixture          |
-|date format fixture    |
-|script language fixture|
+
+| Library |
+| string fixture |
+| extended string fixture |
+| integer fixture |
+| calendar fixture |
+| timer fixture |
+| date format fixture |
+| script language fixture |
+
 *!
 !***> Load account properties
-|script                        |properties file fixture           |
-|load values from              |accounts.properties               |
-|show                          |values                            |
-|$standaardGebruikersnaam=     |value|standaardGebruikersnaam     |
-|$standaardWachtwoord=         |value|standaardWachtwoord         |
-|$npoGebruikersnaam=           |value|npoGebruikersnaam           |
-|$npoWachtwoord=               |value|npoWachtwoord               |
-|$adminGebruikersnaam=         |value|adminGebruikersnaam         |
-|$adminWachtwoord=             |value|adminWachtwoord             |
-|$omroepUploaderGebruikersnaam=|value|omroepUploaderGebruikersnaam|
-|$omroepUploaderWachtwoord=    |value|omroepUploaderWachtwoord    |
+
+| script | properties file fixture |
+| load values from | ${user.home}/conf/poms-fitnesse-accounts.properties |
+| load values from | accounts.properties |
+| show | values |
+| $standaardGebruikersnaam= | value | standaardGebruikersnaam |
+| $standaardWachtwoord= | value | standaardWachtwoord |
+| $npoGebruikersnaam= | value | npoGebruikersnaam |
+| $npoWachtwoord= | value | npoWachtwoord |
+| $adminGebruikersnaam= | value | adminGebruikersnaam |
+| $adminWachtwoord= | value | adminWachtwoord |
+| $omroepUploaderGebruikersnaam= | value | omroepUploaderGebruikersnaam |
+| $omroepUploaderWachtwoord= | value | omroepUploaderWachtwoord |
+
 *!
