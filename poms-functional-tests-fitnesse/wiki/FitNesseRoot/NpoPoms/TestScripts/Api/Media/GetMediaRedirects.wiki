@@ -5,17 +5,17 @@ Test
 ---
 !*> Local table templates
 
-|table template|Check maps                   |
-|check         |json path|map.@{map}|@{value}|
+|table template|Check maps          |
+|$value=       |json path|map.@{map}|
 
 *!
 
-|Check value at path                                     |
-|get            |path      |value                        |
+|Get value at path                                       |
+|get            |path      |value?                       |
 |media/redirects|lastUpdate|2020-05-08T10:43:46.081+02:00|
 
 |Check maps                                                       |
-|map                             |value                           |
+|map                             |value?                          |
 |POMS_S_AVRO_120020              |POMS_S_AVRO_120022              |
 |POMS_S_NTR_630715               |VPWON_1260898                   |
 |POMS_S_AVRO_120023              |POMS_S_AT_1759846               |

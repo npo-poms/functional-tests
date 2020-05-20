@@ -3,7 +3,7 @@ Help: NPOAPI-28
 Suites: RG
 Test
 ---
-|Check value at path                                             |
-|get                           |path                       |value|
-|schedule/broadcaster/VPRO/next|media.broadcasters[0].value|VPRO |
-|schedule/broadcaster/NPO/next |media.broadcasters[0].value|NPO  |
+|Get value at path                                                |
+|get                           |path                       |value?|
+|schedule/broadcaster/VPRO/next|media.broadcasters[0].value|VPRO  |
+|schedule/broadcaster/NPO/next |media.broadcasters[0].value|NPO   |

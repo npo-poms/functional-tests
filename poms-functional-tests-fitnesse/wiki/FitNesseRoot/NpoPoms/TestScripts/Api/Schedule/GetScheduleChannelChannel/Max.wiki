@@ -1,0 +1,10 @@
+---
+Help: NPOAPI-31
+Suites: RG
+Test
+---
+|Get count at path                         |
+|get                          |path |count?|
+|schedule/channel/NED1        |items|10    |
+|schedule/channel/NED1?max=1  |items|1     |
+|schedule/channel/NED1?max=240|items|240   |
