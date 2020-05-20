@@ -1,12 +1,12 @@
 ---
 Static
 ---
-Check dat hetzelfde resultaat gegeven wordt als bij Properties None + ten hoogste !-3-! extra properties 'images'.
+Check same result as the result at Properties None + at most !-3-! extra properties 'images'.
 
-|script                                                                                                          |
-|get from                         |${urlApi}/media/${mid}?properties=image%3A3                                   |
-|$aantalPropsBijPropertiesImages3=|add            |$aantalPropsBijPropertiesNone|and              |1             |
-|check                            |json path count|*                            |$aantalPropsBijPropertiesImages3|
-|check                            |json path count|$..images.*                  |3                               |
+|script                                                                                                             |
+|get from                          |${urlApi}/media/${mid}?properties=image%3A3                                     |
+|$numberOfPropsAtPropertiesImages3=|add            |$numberOfPropsAtPropertiesNone|and              |1              |
+|check                             |json path count|*                             |$numberOfPropsAtPropertiesImages3|
+|check                             |json path count|$..images.*                   |3                                |
 
-!include -c <GetMediaMid.CheckAllePropsBijPropertiesNoneAanwezigMetDezelfdeWaarden
+!include -c <GetMediaMid.CheckAllPropsAtPropertiesNonePresentWithSameValues

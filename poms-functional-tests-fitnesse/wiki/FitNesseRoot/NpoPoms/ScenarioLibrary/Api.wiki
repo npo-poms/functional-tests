@@ -10,24 +10,16 @@
 |get from      |${urlApi}/@{get}         |
 |$count=       |json path count|@{path}.*|
 
-|table template|Check count at path               |
-|get from      |${urlApi}/@{get}                  |
-|check         |json path count|@{path}.*|@{count}|
-
 |table template|Get value at path|
 |get from      |${urlApi}/@{get} |
 |$value=       |json path|@{path}|
-
-|table template|Check value at path       |
-|get from      |${urlApi}/@{get}          |
-|check         |json path|@{path}|@{value}|
 
 |table template|Is single-value property   |
 |$waarde=      |json path      |@{property}|
 |ensure        |is single value|$waarde    |
 
-|table template|Sla property op      |
+|table template|Save property        |
 |$@property=   |json path|@{property}|
 
-|table template|Property heeft dezelfde waarde    |
+|table template|Property has same value           |
 |check         |json path|@{property}|$@{property}|
