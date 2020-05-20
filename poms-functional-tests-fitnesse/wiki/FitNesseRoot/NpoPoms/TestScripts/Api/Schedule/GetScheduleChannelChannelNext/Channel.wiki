@@ -1,0 +1,9 @@
+---
+Help: NPOAPI-32
+Suites: RG
+Test
+---
+|Get value at path                        |
+|get                       |path   |value?|
+|schedule/channel/NED1/next|channel|NED1  |
+|schedule/channel/RAD2/next|channel|RAD2  |
