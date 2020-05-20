@@ -2,6 +2,7 @@ package nl.vpro.poms.npoapi;
 
 import lombok.extern.log4j.Log4j2;
 
+import java.lang.annotation.*;
 import java.time.*;
 import java.util.*;
 import java.util.function.BiFunction;
@@ -34,6 +35,14 @@ class ApiScheduleTest extends AbstractApiTest {
 
 
     private static final LocalDate today = LocalDate.now(Schedule.ZONE_ID);
+
+    @Documented
+    @Target(ElementType.METHOD)
+    @Retention(RetentionPolicy.RUNTIME)
+    @ValueSource(strings = {"VPRO", "BNVA", "EO", "BNVA", "AVTR", "KRNC", /*"HUMA", has a bit too few broadcasts*/ "MAX"})
+    @interface Broadcasters {
+
+    }
 
     static {
         log.info("Today : " + today);
@@ -106,7 +115,7 @@ class ApiScheduleTest extends AbstractApiTest {
     }
 
     @ParameterizedTest
-    @ValueSource(strings = {"VPRO", "BNVA", "EO"})
+    @Broadcasters
     void nowForBroadcasterAt(String broadcaster) {
 
         ApiScheduleEvent o = clients.getScheduleService().nowForBroadcaster(broadcaster, null, false, LocalDateTime.of(2020, 1, 13, 0, 35).atZone(Schedule.ZONE_ID).toInstant());
@@ -122,7 +131,7 @@ class ApiScheduleTest extends AbstractApiTest {
     }
 
     @ParameterizedTest
-    @ValueSource(strings = {"VPRO", "BNVA", "EO"})
+    @Broadcasters
     void nextForBroadcaster(String broadcaster) {
         ApiScheduleEvent o = nextForAt(null, (i) -> clients.getScheduleService().nextForBroadcaster(broadcaster, null, i));
         log.info("{}", o);
@@ -247,7 +256,6 @@ class ApiScheduleTest extends AbstractApiTest {
                     L1TV,
                     OZEE,
                     TVDR
-
                 ));
             }
         }
@@ -322,7 +330,7 @@ class ApiScheduleTest extends AbstractApiTest {
         return result;
     }
     ApiScheduleEvent nextForChannelAt(Channel channel, @Nullable Instant instant) {
-        return nextForAt(instant,
-            (i) -> clients.getScheduleService().nextForChannel(channel.name(), null, instant));
+        return forChannelAt(channel, instant,
+            (c, i) -> clients.getScheduleService().nextForChannel(c.name(), null, instant));
     }
 }
