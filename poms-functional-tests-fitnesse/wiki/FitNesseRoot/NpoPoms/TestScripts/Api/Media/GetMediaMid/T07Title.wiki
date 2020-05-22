@@ -1,7 +1,7 @@
 ---
 Static
 ---
-Check dat er !-2-! titels zijn, waarvan de ene type MAIN heeft en de andere type SUB.
+Check there are !-2-! titles, from which one of them has type MAIN and the other one has type SUB.
 
 |script                                              |
 |get from|${urlApi}/media/${mid}?properties=title%3A1|

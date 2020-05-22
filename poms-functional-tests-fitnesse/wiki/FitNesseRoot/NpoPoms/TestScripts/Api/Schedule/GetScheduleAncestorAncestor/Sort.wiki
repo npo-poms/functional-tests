@@ -3,7 +3,7 @@ Help: NPOAPI-25
 Suites: RG
 Test
 ---
-|Check value at path                                                                           |
-|get                                                         |path           |value            |
+|Get value at path                                                                             |
+|get                                                         |path           |value?           |
 |schedule/ancestor/044411213?properties=none&sort=asc&max=1  |items[0].midRef|PRIDFIX2013_00001|
 |schedule/ancestor/044411213?properties=none&sort=desc&max=10|items[0].midRef|PRIDFIX2013_00015|

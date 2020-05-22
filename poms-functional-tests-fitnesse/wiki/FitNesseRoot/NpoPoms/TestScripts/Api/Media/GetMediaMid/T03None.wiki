@@ -1,12 +1,12 @@
 ---
 Static
 ---
-|script                                                                                                                   |
-|get from                      |${urlApi}/media/${mid}?properties=none                                                    |
-|$aantalPropsBijPropertiesNone=|json path count|*                                                                         |
-|ensure                        |value          |$aantalPropsBijPropertiesNone|is smaller than|$aantalPropsBijPropertiesAll|
-|check                         |json path count|titles.*                     |1                                           |
-|check                         |json path count|broadcasters.*               |1                                           |
+|script                                                                                                                      |
+|get from                       |${urlApi}/media/${mid}?properties=none                                                      |
+|$numberOfPropsAtPropertiesNone=|json path count|*                                                                           |
+|ensure                         |value          |$numberOfPropsAtPropertiesNone|is smaller than|$numberOfPropsAtPropertiesAll|
+|check                          |json path count|titles.*                      |1                                            |
+|check                          |json path count|broadcasters.*                |1                                            |
 
 |Is single-value property|
 |property                |
@@ -21,25 +21,25 @@ Static
 |lastModified            |
 |embeddable              |
 
-!*> Sla alle waarden van alle properties op
+!*> Save all values of all properties
 
-|Sla property op|
-|property       |
-|avType         |
-|languages      |
-|publishDate    |
-|mid            |
-|sortDate       |
-|broadcasters   |
-|titles         |
-|countries      |
-|type           |
-|creationDate   |
-|objectType     |
-|urn            |
-|genres         |
-|locations      |
-|lastModified   |
-|embeddable     |
+|Save property|
+|property     |
+|avType       |
+|languages    |
+|publishDate  |
+|mid          |
+|sortDate     |
+|broadcasters |
+|titles       |
+|countries    |
+|type         |
+|creationDate |
+|objectType   |
+|urn          |
+|genres       |
+|locations    |
+|lastModified |
+|embeddable   |
 
 *!

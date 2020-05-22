@@ -2,14 +2,18 @@ package nl.vpro.poms.npoapi;
 
 import lombok.extern.log4j.Log4j2;
 
+import java.lang.annotation.*;
 import java.time.*;
 import java.util.*;
+import java.util.function.BiFunction;
+import java.util.function.Function;
 
 import org.assertj.core.api.Fail;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.opentest4j.TestAbortedException;
 
 import nl.vpro.api.client.utils.Config;
@@ -30,7 +34,15 @@ import static org.assertj.core.api.Assertions.assertThat;
 class ApiScheduleTest extends AbstractApiTest {
 
 
-    private static LocalDate today = LocalDate.now(Schedule.ZONE_ID);
+    private static final LocalDate today = LocalDate.now(Schedule.ZONE_ID);
+
+    @Documented
+    @Target(ElementType.METHOD)
+    @Retention(RetentionPolicy.RUNTIME)
+    @ValueSource(strings = {"VPRO", "BNVA", "EO", "BNVA", "AVTR", "KRNC", /*"HUMA", has a bit too few broadcasts*/ "MAX"})
+    @interface Broadcasters {
+
+    }
 
     static {
         log.info("Today : " + today);
@@ -102,15 +114,12 @@ class ApiScheduleTest extends AbstractApiTest {
         }
     }
 
-    @Test
-    void nowForBroadcasterAt() {
-        try {
-            // Reproduces an issue when it ran at the given time (solution, set the properties!)
-            ApiScheduleEvent o = clients.getScheduleService().nowForBroadcaster("VPRO", "broadcasters", true, LocalDateTime.of(2020, 1, 13, 0, 35).atZone(Schedule.ZONE_ID).toInstant());
-            assertThat(o.getParent().getBroadcasters()).contains(new Broadcaster("VPRO"));
-        } catch (javax.ws.rs.NotFoundException nfe) {
-            log.info("Ok, no current schedule for VPRO");
-        }
+    @ParameterizedTest
+    @Broadcasters
+    void nowForBroadcasterAt(String broadcaster) {
+
+        ApiScheduleEvent o = clients.getScheduleService().nowForBroadcaster(broadcaster, null, false, LocalDateTime.of(2020, 1, 13, 0, 35).atZone(Schedule.ZONE_ID).toInstant());
+        assertThat(o.getParent().getBroadcasters()).contains(new Broadcaster(broadcaster));
     }
 
     @Test
@@ -121,11 +130,12 @@ class ApiScheduleTest extends AbstractApiTest {
         });
     }
 
-    @Test
-    void nextForBroadcaster() {
-        ApiScheduleEvent o = clients.getScheduleService().nextForBroadcaster("VPRO", null, null);
+    @ParameterizedTest
+    @Broadcasters
+    void nextForBroadcaster(String broadcaster) {
+        ApiScheduleEvent o = nextForAt(null, (i) -> clients.getScheduleService().nextForBroadcaster(broadcaster, null, i));
         log.info("{}", o);
-        assertThat(o.getParent().getBroadcasters()).contains(new Broadcaster("VPRO"));
+        assertThat(o.getParent().getBroadcasters()).contains(new Broadcaster(broadcaster));
 
 
     }
@@ -133,20 +143,15 @@ class ApiScheduleTest extends AbstractApiTest {
 
     @Test
     void nowForChannel() {
-        try {
-            ApiScheduleEvent o = clients.getScheduleService().nowForChannel("NED1", null, null);
-            log.info("{}", o);
-            assertThat(o.getChannel()).isEqualTo(NED1);
-        } catch (javax.ws.rs.NotFoundException nfe) {
-            log.warn("Ok, no current schedule for NED1");
-        }
-
+        ApiScheduleEvent o = clients.getScheduleService().nowForChannel("NED1", null, false, null);
+        log.info("{}", o);
+        assertThat(o.getChannel()).isEqualTo(NED1);
     }
 
     @Test
     void nowForChannelNotFound() {
         Assertions.assertThrows(javax.ws.rs.NotFoundException.class, () -> {
-            ApiScheduleEvent o = clients.getScheduleService().nowForChannel("H1NL", null, null);
+            ApiScheduleEvent o = clients.getScheduleService().nowForChannel("H1NL", null, false, null);
             log.error("Found {}", o);
         });
 
@@ -154,11 +159,9 @@ class ApiScheduleTest extends AbstractApiTest {
 
     @Test
     void nextForChannel() {
-        ApiScheduleEvent o = clients.getScheduleService().nextForChannel("NED1", null, null);
+        ApiScheduleEvent o =  clients.getScheduleService().nextForChannel("NED1", null, null);
         log.info("{}", o);
         assertThat(o.getChannel()).isEqualTo(NED1);
-
-
     }
 
     @Test
@@ -253,7 +256,6 @@ class ApiScheduleTest extends AbstractApiTest {
                     L1TV,
                     OZEE,
                     TVDR
-
                 ));
             }
         }
@@ -263,13 +265,24 @@ class ApiScheduleTest extends AbstractApiTest {
 
 
     /**
-     * NPA-537 For all poms supported channels we should find a valid 'now for channel'.
+     * NPA-537 For all poms supported channels we should find a valid 'next for channel'.
      */
     @ParameterizedTest
     @MethodSource("getChannelsWithCurrentBroadcasts")
-    void nowForChannel(Channel channel) {
-        nowForChannelAt(channel, null);
+    void nextForChannel(Channel channel) {
+        ApiScheduleEvent apiScheduleEvent = nextForChannelAt(channel, null);
     }
+
+    @ParameterizedTest
+    @MethodSource("getChannelsWithCurrentBroadcasts")
+    void nextForChannelAt(Channel channel) {
+        Instant instant = LocalDateTime.of(2020, 5, 19, 9, 15).atZone(Schedule.ZONE_ID).toInstant();
+        ApiScheduleEvent apiScheduleEvent = nextForChannelAt(channel, instant);
+        log.info("First broadcast on {} after {}: {}", channel, instant.atZone(Schedule.ZONE_ID), apiScheduleEvent);
+
+    }
+
+
 
      /**
      * NPA-537 For all poms supported channels we should find a valid 'now for channel'.
@@ -278,27 +291,46 @@ class ApiScheduleTest extends AbstractApiTest {
     @MethodSource("getChannelsWithCurrentBroadcasts")
     void nowForChannelAt(Channel channel) {
         Instant instant = LocalDateTime.of(2020, 5, 1, 20, 30).atZone(Schedule.ZONE_ID).toInstant();
-        nowForChannelAt(channel, instant);
+        nowForChannelAt(channel, instant, false);
     }
 
-     void nowForChannelAt(Channel channel, @Nullable Instant instant) {
-        try {
-            ApiScheduleEvent o = clients.getScheduleService().nowForChannel(
-                channel.name(), null, instant);
-            log.info("{}", o);
-            assertThat(o.getChannel()).isEqualTo(channel);
-            if (getChannelsNotSupported().contains(channel)) {
-                log.warn("This unexpectedly didn't fail. Change assumption?");
-            }
-        } catch (javax.ws.rs.NotFoundException nfe) {
-            if (getChannelsNotSupported().contains(channel)) {
-                throw new TestAbortedException("Channel " + channel + " is known not to work at " + CONFIG.env());
-            } else {
-                Fail.fail("No current broadcast found for %s (%s) at %s", channel, channel.name(), instant);
-            }
-        }
+    ApiScheduleEvent forChannelAt(Channel channel, @Nullable Instant instant, BiFunction<Channel, Instant, ApiScheduleEvent> getter) {
+         try {
+             ApiScheduleEvent o = getter.apply(channel, instant);
+             log.info("{}", o);
+             assertThat(o.getChannel()).isEqualTo(channel);
+             if (getChannelsNotSupported().contains(channel)) {
+                 log.warn("This unexpectedly didn't fail. Change assumption?");
+             }
+             return o;
+         } catch (javax.ws.rs.NotFoundException nfe) {
+             if (getChannelsNotSupported().contains(channel)) {
+                 throw new TestAbortedException("Channel " + channel + " is known not to work at " + CONFIG.env());
+             } else {
+                 Fail.fail("No  broadcast found for %s (%s) at %s", channel, channel.name(), instant);
+                 return null;
+             }
+         }
+     }
 
+
+
+    ApiScheduleEvent nowForChannelAt(Channel channel, @Nullable Instant instant, boolean mustBeRunning) {
+        return forChannelAt(channel, instant, (c, i) -> clients.getScheduleService().nowForChannel(
+            channel.name(), null, mustBeRunning, instant));
     }
 
 
+
+    ApiScheduleEvent nextForAt(@Nullable Instant instant, Function<Instant, ApiScheduleEvent> getter) {
+        ApiScheduleEvent result = getter.apply(instant);
+        Duration future = Duration.between(instant == null ?Instant.now() : instant, result.getStartInstant());
+        assertThat(future).isGreaterThanOrEqualTo(Duration.ZERO);
+        assertThat(future).isLessThan(Duration.ofHours(12));
+        return result;
+    }
+    ApiScheduleEvent nextForChannelAt(Channel channel, @Nullable Instant instant) {
+        return forChannelAt(channel, instant,
+            (c, i) -> clients.getScheduleService().nextForChannel(c.name(), null, instant));
+    }
 }

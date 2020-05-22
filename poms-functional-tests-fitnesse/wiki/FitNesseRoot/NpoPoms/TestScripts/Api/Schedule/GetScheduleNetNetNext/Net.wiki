@@ -1,0 +1,9 @@
+---
+Help: NPOAPI-35
+Suites: RG
+Test
+---
+|Get value at path                  |
+|get                    |path|value?|
+|schedule/net/ZAPP/next |net |ZAPP  |
+|schedule/net/ZAPPE/next|net |ZAPPE |

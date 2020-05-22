@@ -2,7 +2,7 @@ Dit is het testautomatiseringsproject van [Specialisterren](https://www.speciali
 
 ## Lokaal draaien
 
-Om toegang te krijgen tot de geautomatiseerde scripts in FitNesse, moet `start.bat` uitgevoerd worden, dat in [/poms-functional-tests-fitnesse](/poms-functional-tests-fitnesse) staat. Dan verschijnt er een opdrachtprompt. Wacht tot er staat: `Starting FitNesse on port: 9090`. 
+Om toegang te krijgen tot de geautomatiseerde scripts in FitNesse, moet `start.bat` (of `start.sh`) uitgevoerd worden, dat in [/poms-functional-tests-fitnesse](/poms-functional-tests-fitnesse) staat. Dan verschijnt er een opdrachtprompt. Wacht tot er staat: `Starting FitNesse on port: 9090`. 
 
 De FitNesse-omgeving kan dan bekeken worden door te browsen naar: [http://localhost:9090/NpoPoms](http://localhost:9090/NpoPoms).
 
@@ -24,24 +24,30 @@ Om de scripts te kunnen draaien in Jenkins, moet de configuratie als volgt worde
 
 ![Npo-poms-jenkins-configuratie2](/poms-functional-tests-fitnesse/wiki/FitNesseRoot/files/images/Npo-poms-jenkins-configuratie2.png)
 
-`Commando` is gebaseerd op de inhoud van het tekstbestand `accounts.properties`. Stel dat dit de inhoud is:
+`Commando` is gebaseerd op de inhoud van het tekstbestand `poms-fitnesse-accounts.properties`. Stel dat dit de inhoud is:
 ```
-email1=email_of_user1
-password1=password_of_user1
-email2=email_of_user2
-password2=password_of_user2
-email3=email_of_user3
-password4=password_of_user3
+standaardGebruikersnaam=gebruikersnaam
+standaardWachtwoord=wachtwoord
+npoGebruikersnaam=gebruikersnaam
+npoWachtwoord=wachtwoord
+adminGebruikersnaam=gebruikersnaam
+adminWachtwoord=wachtwoord
+omroepUploaderGebruikersnaam=gebruikersnaam
+omroepUploaderWachtwoord=wachtwoord
+
+frontEndApiKey=apiKey
+frontEndApiSecret=secret
+frontEndApiOrigin=https://poms.testomgeving.example.com/
 ```
+
+Dit bestand word ingeladen vanuit `~/conf/poms-fitnesse-accounts.properties`
 
 Dan moet dit bij `Commando` staan:
 
 ```
 cd poms-functional-tests-fitnesse
 mvn clean test-compile
-
 mkdir -p target/fitnesse-results/files/fileFixture
-(echo email1=email_of_user1 & echo password1=password_of_user1 & echo email2=email_of_user2 & echo password2=password_of_user2 & echo email3=email_of_user3 & echo password3=password_of_user3) > target/fitnesse-results/files/fileFixture/accounts.properties
 
 mvn failsafe:integration-test -DfitnesseSuiteToRun=NpoPoms.Omgevingen.Test.TestScripts "-DseleniumJsonProfile={'args':['headless','disable-gpu']}"
 ```

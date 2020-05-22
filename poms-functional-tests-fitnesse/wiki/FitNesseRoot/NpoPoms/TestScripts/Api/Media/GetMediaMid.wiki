@@ -3,9 +3,9 @@ Help: NPOAPI-8
 Suites: RG
 Test
 ---
-!include -c >Variabelen
+!include -c >Variables
 
-!include >T01GeenAndereVereisteParameters
+!include >T01NoOtherRequiredParameters
 !include >T02All
 !include >T03None
 !include >T04Image
