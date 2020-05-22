@@ -3,7 +3,7 @@ Help: NPOAPI-17
 Suites: RG
 Test
 ---
-|Check count at path                                                                                                                        |
-|get                                                                                                                          |path   |count|
-|media/changes?publishedSince=2020-03-14T10%3A15%3A30.000Z%2CRBX_BNN_3498239&order=asc&max=1&checkProfile=true&deletes=ID_ONLY|changes|1    |
-|media/changes?publishedSince=2020-03-14T10%3A15%3A30.000Z%2CRBX_BNN_3498239&order=asc&max=2&checkProfile=true&deletes=ID_ONLY|changes|2    |
+|Check count at path              |
+|get                |path   |count|
+|media/changes?max=1|changes|1    |
+|media/changes?max=2|changes|2    |
