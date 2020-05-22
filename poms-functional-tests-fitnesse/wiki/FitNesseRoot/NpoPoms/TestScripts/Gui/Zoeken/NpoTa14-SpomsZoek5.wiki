@@ -27,8 +27,7 @@ Test
 |Npo poms Zoeken Sla aantal zoekresultaten op in var     |aantalZoekresultaten1                                                                                                                               |
 |click                                                   |Datum & Persoon                                                                                                                                     |
 |click                                                   |Afgelopen maand                                                                                                                                     |
-|$vorigeMaand=                                           |decrease today with months                                          |1                     |with format    |dd-MM-yyyy              |with local |nl |
-|Npo poms Zoeken Check tekstveld                         |van:                                                                |heeft waarde          |$vorigeMaand                                            |
+|Npo poms Zoeken Check tekstveld                         |van:                                                                |heeft waarde          |!monthsFromToday (dd-MM-yyyy) -1                        |
 |Npo poms Zoeken Check tekstveld                         |t/m                                                                 |heeft waarde          |${datumvandaag}                                         |
 |click                                                   |Zoek                                                                                                                                                |
 |Controleer weergegeven datumrange voor zoeken;          |$vorigeMaand                                                        |${datumvandaag}       |                                                        |
