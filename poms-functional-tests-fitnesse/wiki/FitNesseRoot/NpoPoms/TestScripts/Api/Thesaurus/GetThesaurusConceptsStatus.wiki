@@ -1,0 +1,11 @@
+---
+Help: NPOAPI-57
+Suites: RG
+Test
+---
+|Get values at path                                                                                                                                   |
+|get                                                                             |path1|value1?                                      |path2 |value2?  |
+|thesaurus/concepts/status?id=http%3A%2F%2Fdata.beeldengeluid.nl%2Fgtaa%2F1714609|id   |!-http://data.beeldengeluid.nl/gtaa/1714609-!|status|candidate|
+|thesaurus/concepts/status?id=1714609                                            |id   |!-http://data.beeldengeluid.nl/gtaa/1714609-!|status|candidate|
+|thesaurus/concepts/status?id=http%3A%2F%2Fdata.beeldengeluid.nl%2Fgtaa%2F30271  |id   |!-http://data.beeldengeluid.nl/gtaa/30271-!  |status|approved |
+|thesaurus/concepts/status?id=30271                                              |id   |!-http://data.beeldengeluid.nl/gtaa/30271-!  |status|approved |
