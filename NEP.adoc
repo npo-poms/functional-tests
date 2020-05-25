@@ -2,7 +2,7 @@
 
 :toc:
 
-NEP provides two environments of (most?) of their APIs (See also https://github.com/npo-poms/poms-shared/tree/master/media-nep[the code we use for it]), which we will refer to as 'NEP staging' and 'NEP production'.
+NEP provides two environments of (most?) of their APIs (See also https://github.com/npo-poms/poms-shared/tree/master/media-nep[the code we use for it]), which we will refer to as 'NEP staging' and 'NEP production' (set via setting `nep.env=[prd|stg]`)
 
 The POMS environments are referred to as 'production', 'test' and 'development'
 
@@ -12,7 +12,7 @@ Under the link 'Liveknipper' a tool is found to make MP4 and screen shots for se
 
 The live itemizer should work in all circumstances. Though I'm not sure if in NEP staging all channels are working.
 
-It can be configured on any poms environment with NEP production or NEP staging, and that should not make any difference, since the live itemizer in the current situation does not produce any real data.
+It can be configured on any poms environment (via `nep.live.env=[prd|stg]`) with NEP production or NEP staging, and that should not make any difference, since the live itemizer in the current situation does not produce any real data.
 
 == MediaObject Itemizer
 
