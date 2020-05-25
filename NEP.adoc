@@ -16,7 +16,7 @@ It can be configured on any poms environment with NEP production or NEP staging,
 
 == MediaObject Itemizer
 
-Via the link 'Segment toevoegen met speler' you can do two things:
+Via the link 'Segment toevoegen met speler' you can do three things:
 
 - Use the player to make new 'segments'
 - Use the player to create an MP4 for download
