@@ -6,4 +6,4 @@ Test
 |Get value at path                                              |
 |get                         |path                       |value?|
 |schedule/broadcaster/NPO/now|media.broadcasters[0].value|NPO   |
-|schedule/broadcaster/NTR/now|media.broadcasters[0].value|NTR   |
+|schedule/broadcaster/NOS/now|media.broadcasters[0].value|NOS   |
