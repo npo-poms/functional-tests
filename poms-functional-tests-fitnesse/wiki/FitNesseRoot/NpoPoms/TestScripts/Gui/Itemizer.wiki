@@ -1,4 +1,6 @@
 ---
 Suite
 ---
+!note These tests are failing. See https://github.com/npo-poms/functional-tests/blob/master/NEP.adoc for help on getting them useful
+
 !contents -R2 -g -p -f -h
