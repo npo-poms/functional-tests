@@ -1,0 +1,38 @@
+= Testing NEP integration
+
+:toc:
+
+NEP provides two environments of (most?) of their APIs (See also https://github.com/npo-poms/poms-shared/tree/master/media-nep[the code we use for it]), which we will refer to as 'NEP staging' and 'NEP production'.
+
+The POMS environments are referred to as 'production', 'test' and 'development'
+
+== Live Itemizer and Screen Grabber
+
+Under the link 'Liveknipper' a tool is found to make MP4 and screen shots for several channels.
+
+The live itemizer should work in all circumstances. Though I'm not sure if in NEP staging all channels are working.
+
+It can be configured on any poms environment with NEP production or NEP staging, and that should not make any difference, since the live itemizer in the current situation does not produce any real data.
+
+== MediaObject Itemizer
+
+Via the link 'Segment toevoegen met speler' you can do two things:
+
+- Use the player to make new 'segments'
+- Use the player to create an MP4 for download
+- Use the player to make a screenshot for download
+
+For the first function it is only needed that the player actually works. AFAIK the player is only using production data, so all this can only be tested on a MID that plays on production.
+
+To create an MP4 or image via the NEP staging environment, the object must also be known there. I don't know how to know that.
+
+== Upload
+
+Via the link Bronnen -> Upload you can upload a new movie. This link is only available for web only content of avtype 'VIDEO'.
+
+It will only work if the MID is available on either poms production (if NEP production) or poms test (if NEP staging). So to test it on poms development you must use a MID that exists on poms test (if configured with NEP staging).
+
+The NEP notification will always go to POMS production or POMS test. So, this cannot be fully tested on e.g. POMS dev. Via JMX the online notification can be simulated.
+
+When the notification arrives (and the object has planned platforms) the mediaobject will receive actual locations ('bronnen'). Note that only on poms production this means that the mediaobject is also playable, because the player always communicates with production data.
+
