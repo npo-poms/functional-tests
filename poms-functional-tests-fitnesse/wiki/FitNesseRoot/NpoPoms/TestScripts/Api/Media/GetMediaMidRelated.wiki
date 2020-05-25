@@ -4,5 +4,6 @@ Suite
 Suites: DV
 ---
 !define mid {AUTO_TOPPOPGOLDENYEARSFUNK}
+!define itemMid {VPWON_1227075}
 
 !contents -R2 -g -p -f -h

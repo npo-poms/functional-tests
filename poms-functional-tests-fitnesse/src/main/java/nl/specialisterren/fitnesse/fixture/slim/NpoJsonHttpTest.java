@@ -61,4 +61,12 @@ public class NpoJsonHttpTest extends JsonHttpTest {
     public boolean isSingleValue(Object object) {
 		return (object != null && !(object instanceof net.minidev.json.JSONArray));
 	}
+
+    public Object elementOfJsonPathDefault(int index, String path, Object defaultValue) {
+        try {
+            return elementOfJsonPath(index, path);
+        } catch (IndexOutOfBoundsException e) {
+            return defaultValue;
+        }
+    }
 }
