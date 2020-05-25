@@ -32,7 +32,10 @@ Via the link Bronnen -> Upload you can upload a new movie. This link is only ava
 
 It will only work if the MID is available on either poms production (if NEP production) or poms test (if NEP staging). So to test it on poms development you must use a MID that exists on poms test (if configured with NEP staging).
 
-The NEP notification will always go to POMS production or POMS test. So, this cannot be fully tested on e.g. POMS dev. Via JMX the online notification can be simulated.
+The NEP notification will always go to POMS production or POMS test. So, this cannot be fully tested on e.g. POMS dev. Via JMX the online notification can be simulated, which would more or less complete the process then.
 
 When the notification arrives (and the object has planned platforms) the mediaobject will receive actual locations ('bronnen'). Note that only on poms production this means that the mediaobject is also playable, because the player always communicates with production data.
+
+So, I think testing all functionality on one object (create object, upload a
+source, and itemize it that) can only be done at poms production.
 
