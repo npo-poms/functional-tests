@@ -14,6 +14,8 @@ This is currently split up in 3 modules
 and checks whether those changes arrive correctly in the frontend API.
 This in many cases also uses java clients which are implemented using the actual domain objects.
 
+TODO: somebody decided that the fitnesse tests also are testing API's. Now I don't know any more what is what. This is getting chaotic.
+
 These tests are automatically run every day on a https://jenkins.vpro.nl/job/POMS%20Functional%20Tests/[jenkins server]
 (requires login) on the 'dev' environments. At request the tests can also be run on the 'test' environment or even on production.
 
