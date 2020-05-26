@@ -3,11 +3,7 @@ Help: NPOAPI-11
 Suites: RG
 Test
 ---
-!*> Lokale variabelen
-
 !define mid {14Jnl0700n1}
-
-*!
 
 |script                                                 |
 |get from|${urlApi}/media/${mid}/episodes?sort=asc&max=1|

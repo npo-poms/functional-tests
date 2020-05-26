@@ -3,6 +3,6 @@ Help: NPOAPI-60
 Suites: RG
 Test
 ---
-|Get value at path                                                                               |
-|get                                                                              |path   |value?|
-|thesaurus/persons/updates?from=2000-01-01T07%3A30%3A00&to=2020-04-30T19%3A30%3A00|changes|[]    |
+|Get value at path                                                                       |
+|get                                                                      |path   |value?|
+|thesaurus/persons/updates?from=2000-01-01T07:30:00&to=2020-04-30T19:30:00|changes|[]    |

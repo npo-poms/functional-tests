@@ -18,14 +18,14 @@
 |get from      |${urlApi}/@{get} |
 |$value=       |json path|@{path}|
 
-|table template|Get values at path|
-|get from      |${urlApi}/@{get}  |
-|$value1=      |json path|@{path1}|
-|$value2=      |json path|@{path2}|
+|table template|Get values at two paths|
+|get from      |${urlApi}/@{get}       |
+|$value1=      |json path   |@{path1}  |
+|$value2=      |json path   |@{path2}  |
 
-|table template|Is single-value property   |
-|$waarde=      |json path      |@{property}|
-|ensure        |is single value|$waarde    |
+|table template|Is single-value property     |
+|$single_value=|json path      |@{property}  |
+|ensure        |is single value|$single_value|
 
 |table template|Save property        |
 |$@property=   |json path|@{property}|
