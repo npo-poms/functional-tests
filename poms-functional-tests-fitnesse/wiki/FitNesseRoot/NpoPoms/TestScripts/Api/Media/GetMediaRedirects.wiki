@@ -3,16 +3,16 @@ Help: NPOAPI-21
 Suites: RG
 Test
 ---
-!*> Local table templates
+!*> Test specific items
+!define datetimeRegex {!-\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}\+02:00-!}
 
 |table template|Check maps          |
 |$value=       |json path|map.@{map}|
-
 *!
 
-|Get value at path                                       |
-|get            |path      |value?                       |
-|media/redirects|lastUpdate|2020-05-08T10:43:46.081+02:00|
+|Get value at path                              |
+|get            |path      |value?              |
+|media/redirects|lastUpdate|=~/${datetimeRegex}/|
 
 |Check maps                                                       |
 |map                             |value?                          |

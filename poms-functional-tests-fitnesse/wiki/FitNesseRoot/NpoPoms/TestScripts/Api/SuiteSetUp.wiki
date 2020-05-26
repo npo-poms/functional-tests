@@ -1,4 +1,4 @@
-!***> Setup
+!***> Initialize
 |Import                                  |
 |nl.hsac.fitnesse.fixture                |
 |nl.hsac.fitnesse.fixture.slim           |
@@ -13,14 +13,10 @@
 |date format fixture    |
 |script language fixture|
 
-|script             |properties file fixture|
-| load values from | ${user.home}/conf/poms-fitnesse-accounts.properties |
-|show               |values                 |
-|$frontEndApiKey=   |value|frontEndApiKey   |
-|$frontEndApiSecret=|value|frontEndApiSecret|
-|$frontEndApiOrigin=|value|frontEndApiOrigin|
-
-|script          |npo json http test           |$frontEndApiKey          |$frontEndApiSecret          |$frontEndApiOrigin          |
-|note            |HSAC uses application/x-www-form-urlencoded as the default Content-Type, but the NPO API expects application/json|
-|set content type|application/json; charset=UTF-8                                                                                  |
+|script             |properties file fixture                            |
+|load values from   |${user.home}/conf/poms-fitnesse-accounts.properties|
+|show               |values                                             |
+|$frontEndApiKey=   |value              |frontEndApiKey                 |
+|$frontEndApiSecret=|value              |frontEndApiSecret              |
+|$frontEndApiOrigin=|value              |frontEndApiOrigin              |
 *!
