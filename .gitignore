@@ -15,3 +15,4 @@ poms-functional-tests/.project
 poms-functional-tests/.settings/
 npo-browser-tests.properties
 poms-functional-tests-fitnesse/wiki/FitNesseRoot/RerunLastFailures.wiki
+poms-functional-tests-fitnesse/wiki/FitNesseRoot/NpoPoms/SetUp.wiki

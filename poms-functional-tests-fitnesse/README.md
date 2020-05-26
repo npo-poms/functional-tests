@@ -1,8 +1,20 @@
 Dit is het testautomatiseringsproject van [Specialisterren](https://www.specialisterren.nl/) voor [de testomgeving van NPO POMS](https://poms-test.omroep.nl/). Het project maakt gebruik van [HSAC](https://github.com/fhoeben/hsac-fitnesse-fixtures/) in [FitNesse](http://fitnesse.org/).
 
-## poms-fitnesse-accounts.properties
+## Properties file
 
-Om de testscripts lokaal of in Jenkins te kunnen draaien, moet er een tekstbestand `poms-fitnesse-accounts.properties` staan in `~/conf` (Linux/macOS) of `%userprofile%\conf` (Windows). Dit bestand wordt apart geleverd door Specialisterren. Als de map `conf` nog niet bestaat, moet deze eerst aangemaakt worden.
+Om de testscripts lokaal of in Jenkins te kunnen draaien, moet er een properties file aanwezig zijn. Standaard is de naam van de properties file `poms-fitnesse-accounts.properties` en staat deze in `~/conf` (Linux/macOS) of `%userprofile%\conf` (Windows). Deze file wordt apart geleverd door Specialisterren.
+
+De locatie en de naam van de properties file kunnen overschreven worden in: [http://localhost:9090/NpoPoms.SetUp](http://localhost:9090/NpoPoms.SetUp).
+
+Stel dat je de properties file `properties.txt` wil noemen en in `C:\npo-poms` wil zetten, dan moet je in de genoemde pagina dit toevoegen:
+```
+!define propertiesFile {C:\npo-poms\properties.txt}
+```
+
+En moet dit eenmalig uitgevoerd worden, zodat git de pagina niet meer trackt:
+```
+git update-index --assume-unchanged poms-functional-tests-fitnesse/wiki/FitNesseRoot/NpoPoms/SetUp.wiki
+```
 
 ## Lokaal draaien
 

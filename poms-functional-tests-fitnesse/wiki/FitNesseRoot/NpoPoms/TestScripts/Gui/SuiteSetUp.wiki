@@ -23,7 +23,7 @@
 !***> Load account properties
 
 | script | properties file fixture |
-| load values from | ${user.home}/conf/poms-fitnesse-accounts.properties |
+| load values from | ${propertiesFile} |
 | show | values |
 | $standaardGebruikersnaam= | value | standaardGebruikersnaam |
 | $standaardWachtwoord= | value | standaardWachtwoord |
