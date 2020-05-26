@@ -1,8 +1,0 @@
----
-Static
----
-Check there is just !-1-! main title.
-
-|Get count at path                                     |
-|get                                     |path  |count?|
-|media/${mid}?properties=title%3Amain%3A1|titles|1     |

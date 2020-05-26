@@ -1,7 +1,7 @@
 ---
 Test
 ---
-!***> Local table template
+!***> Test-specific items
 |table template|Check properties of related items                                                                                         |
 |get from      |${urlApi}/@{get}                                                                                                          |
 |note          |Check if the response contains the expected item                                                                          |

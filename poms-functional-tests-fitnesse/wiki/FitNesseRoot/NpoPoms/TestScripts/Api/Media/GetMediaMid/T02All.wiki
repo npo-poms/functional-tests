@@ -1,8 +1,0 @@
----
-Static
----
-|script                                                              |
-|get from                      |${urlApi}/media/${mid}?properties=all|
-|$numberOfPropsAtPropertiesAll=|json path count    |*                |
-|show                          |json path count    |titles.*         |
-|show                          |json path count    |broadcasters.*   |
