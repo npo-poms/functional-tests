@@ -13,10 +13,10 @@
 |date format fixture    |
 |script language fixture|
 
-|script             |properties file fixture                            |
-|load values from   |${user.home}/conf/poms-fitnesse-accounts.properties|
-|show               |values                                             |
-|$frontEndApiKey=   |value              |frontEndApiKey                 |
-|$frontEndApiSecret=|value              |frontEndApiSecret              |
-|$frontEndApiOrigin=|value              |frontEndApiOrigin              |
+|script             |properties file fixture|
+|load values from   |${propertiesFile}      |
+|show               |values                 |
+|$frontEndApiKey=   |value|frontEndApiKey   |
+|$frontEndApiSecret=|value|frontEndApiSecret|
+|$frontEndApiOrigin=|value|frontEndApiOrigin|
 *!
