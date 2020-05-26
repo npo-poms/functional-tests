@@ -1,0 +1,10 @@
+---
+Help: NPOAPI-59
+Suites: RG
+Test
+---
+|Get count at path                     |
+|get                      |path |count?|
+|thesaurus/persons        |items|10    |
+|thesaurus/persons?max=1  |items|1     |
+|thesaurus/persons?max=500|items|500   |
