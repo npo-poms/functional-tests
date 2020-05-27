@@ -4,19 +4,21 @@
 |nl.hsac.fitnesse.fixture.slim           |
 |nl.specialisterren.fitnesse.fixture.slim|
 
-|Library                |
-|string fixture         |
-|extended string fixture|
-|integer fixture        |
-|calendar fixture       |
-|timer fixture          |
-|date format fixture    |
-|script language fixture|
+|Library                         |
+|string fixture                  |
+|extended string fixture         |
+|integer fixture                 |
+|calendar fixture                |
+|timer fixture                   |
+|date format fixture             |
+|script language fixture         |
+|extended properties file fixture|
 
-|script             |properties file fixture|
-|load values from   |${propertiesFile}      |
-|show               |values                 |
-|$frontEndApiKey=   |value|frontEndApiKey   |
-|$frontEndApiSecret=|value|frontEndApiSecret|
-|$frontEndApiOrigin=|value|frontEndApiOrigin|
+|script             |extended properties file fixture  |
+|$loadSucceeded=    |load values from|${apiKeysFile1}  |
+|$loadSucceeded=    |load values from|${apiKeysFile2}  |
+|show               |values                            |
+|$frontEndApiKey=   |value           |frontEndApiKey   |
+|$frontEndApiSecret=|value           |frontEndApiSecret|
+|$frontEndApiOrigin=|value           |frontEndApiOrigin|
 *!

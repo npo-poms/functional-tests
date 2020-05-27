@@ -1,1 +1,0 @@
-You can overwrite $propertiesFile here if desired. This page is included in .gitignore.
