@@ -1,0 +1,22 @@
+---
+Help: NPOAPI-24
+Suites: RG
+Test
+---
+!*> Test-specific items
+!define body {!-<pre>{
+  "searches": {
+    "scheduleEvents" : {
+      "channel" : "NED3",
+      "net" : "ZAPP",
+      "begin" : 1393459200000,
+      "end" : 1393516800000,
+      "rerun": false
+    }
+  }
+}</pre>-!}
+*!
+
+|Post count at path           |
+|body   |post    |path |count?|
+|${body}|schedule|items|10    |
