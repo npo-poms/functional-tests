@@ -43,14 +43,14 @@ MOZ_HEADLESS=1
 mvn clean test-compile failsafe:integration-test -DfitnesseSuiteToRun=NpoPoms.Omgevingen.Test.TestScripts.Api
 ```
 
-Als de properties files in [wiki/FitNesseRoot/files/fileFixture](wiki/FitNesseRoot/files/fileFixture) zitten, dan is `Commando` gebaseerd op de inhoud van het tekstbestand `apiKeys.txt`. Stel dat dit de inhoud is:
+Als dit niet zo is, dan moet deze properties file `apiKeys.txt` gegenereerd worden via `Commando`:
 ```
 frontEndApiKey=apiKey
 frontEndApiSecret=secret
 frontEndApiOrigin=https://poms.testomgeving.example.com/
 ```
 
-Dan moet dit er bij `Commando` staan:
+Dit moet er dan bij `Commando` staan:
 
 ```
 cd poms-functional-tests-fitnesse
@@ -61,6 +61,8 @@ mkdir -p target/fitnesse-results/files/fileFixture
 
 mvn failsafe:integration-test -DfitnesseSuiteToRun=NpoPoms.Omgevingen.Test.TestScripts.Api "-DseleniumJsonProfile={'args':['headless','disable-gpu']}"
 ```
+
+De waarden achter `=` moeten vervangen worden door de werkelijke waarden.
 
 ### NPO_gui
 
@@ -73,7 +75,7 @@ MOZ_HEADLESS=1
 mvn clean test-compile failsafe:integration-test -DfitnesseSuiteToRun=NpoPoms.Omgevingen.Test.TestScripts.Gui
 ```
 
-Als de properties files in [wiki/FitNesseRoot/files/fileFixture](wiki/FitNesseRoot/files/fileFixture) zitten, dan is `Commando` gebaseerd op de inhoud van het tekstbestand `accounts.txt`. Stel dat dit de inhoud is:
+Als dit niet zo is, dan moet deze properties file `accounts.txt` gegenereerd worden via `Commando`:
 ```
 standaardGebruikersnaam=gebruikersnaam
 standaardWachtwoord=wachtwoord
@@ -85,7 +87,7 @@ omroepUploaderGebruikersnaam=gebruikersnaam
 omroepUploaderWachtwoord=wachtwoord
 ```
 
-Dan moet dit er bij `Commando` staan:
+Dit moet er dan bij `Commando` staan:
 
 ```
 cd poms-functional-tests-fitnesse
@@ -96,3 +98,5 @@ mkdir -p target/fitnesse-results/files/fileFixture
 
 mvn failsafe:integration-test -DfitnesseSuiteToRun=NpoPoms.Omgevingen.Test.TestScripts.Gui "-DseleniumJsonProfile={'args':['headless','disable-gpu']}"
 ```
+
+De waarden achter `=` moeten vervangen worden door de werkelijke waarden.
