@@ -3,7 +3,7 @@ Help: NPOAPI-30
 Suites: RG
 Test
 ---
-|Get value at path                                              |
-|get                         |path                       |value?|
-|schedule/broadcaster/NPO/now|media.broadcasters[0].value|NPO   |
-|schedule/broadcaster/NOS/now|media.broadcasters[0].value|NOS   |
+|Get value at path                                                                           |
+|get                                                      |path                       |value?|
+|schedule/broadcaster/NPO/now?now=2020-05-26T15:00:00.000Z|media.broadcasters[0].value|NPO   |
+|schedule/broadcaster/NOS/now?now=2020-05-26T15:00:00.000Z|media.broadcasters[0].value|NOS   |
