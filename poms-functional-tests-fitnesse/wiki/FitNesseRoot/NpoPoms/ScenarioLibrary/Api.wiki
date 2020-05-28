@@ -32,3 +32,6 @@
 
 |table template|Property has same value           |
 |check         |json path|@{property}|$@{property}|
+
+|scenario|Ensure one and only one result by counting the number of poProgID keys|
+|check   |json path count              |$..poProgID              |1             |
