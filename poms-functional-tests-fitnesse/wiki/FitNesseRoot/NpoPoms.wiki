@@ -5,7 +5,11 @@ Suite
 
 !define TEST_SYSTEM {slim}
 !define BROWSER {firefox}
-!define propertiesFile {${user.home}/conf/poms-fitnesse-accounts.properties} 
+!define propertiesFileDir {${user.home}/conf}
+!define accountsFile1 {${propertiesFileDir}/poms-fitnesse-accounts.properties} 
+!define apiKeysFile1 {${propertiesFileDir}/poms-fitnesse-accounts.properties} 
+!define accountsFile2 {accounts.txt}
+!define apiKeysFile2 {apiKeys.txt}
 
 !*> The location when working standalone:
 !path fixtures
@@ -14,5 +18,3 @@ Suite
 When developing and changing the fixtures, we will work based on the pom.xml:
 !pomFile ../pom.xml@compile
 *!
-
-!include -c >SetUp

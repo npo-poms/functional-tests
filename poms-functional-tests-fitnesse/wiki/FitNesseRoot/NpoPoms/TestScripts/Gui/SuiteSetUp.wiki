@@ -18,12 +18,14 @@
 | timer fixture |
 | date format fixture |
 | script language fixture |
+| extended properties file fixture |
 
 *!
 !***> Load account properties
 
-| script | properties file fixture |
-| load values from | ${propertiesFile} |
+| script | extended properties file fixture |
+| $loadSucceeded= | load values from | ${accountsFile1} |
+| $loadSucceeded= | load values from | ${accountsFile2} |
 | show | values |
 | $standaardGebruikersnaam= | value | standaardGebruikersnaam |
 | $standaardWachtwoord= | value | standaardWachtwoord |
