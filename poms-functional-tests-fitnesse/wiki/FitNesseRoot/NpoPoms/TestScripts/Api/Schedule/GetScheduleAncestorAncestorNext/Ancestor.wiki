@@ -3,5 +3,6 @@ Help: NPOAPI-26
 Suites: RG
 Test
 ---
-|script                                                                                         |
-|ensure|get from|https://rs-test.poms.omroep.nl/v1/api/schedule/ancestor/POMS_S_NPO_8138042/next|
+|script                                                      |
+|get from|${urlApi}/schedule/ancestor/POMS_S_NPO_8138042/next|
+|check   |json path count         |poProgID        |1        |
