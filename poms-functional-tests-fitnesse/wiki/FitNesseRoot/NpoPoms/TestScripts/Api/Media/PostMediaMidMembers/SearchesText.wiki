@@ -9,9 +9,9 @@ Test
 !define body1 {!-<pre>{
   "searches": {
     "text": {
-        "value": "Golden Earring",
-        "matchType": "TEXT",
-        "match": "MUST"
+      "value": "Golden Earring",
+      "matchType": "TEXT",
+      "match": "MUST"
     }
   }
 }</pre>-!}
@@ -19,9 +19,9 @@ Test
 !define body2 {!-<pre>{
   "searches": {
     "text": {
-        "value": "Arwin van Buuren",
-        "matchType": "TEXT",
-        "match": "MUST"
+      "value": "Armin van Buuren",
+      "matchType": "TEXT",
+      "match": "MUST"
     }
   }
 }</pre>-!}
