@@ -5,4 +5,4 @@ Test
 ---
 |script                                                      |
 |get from|${urlApi}/schedule/ancestor/POMS_S_NPO_8138042/next|
-|check   |json path count         |poProgID        |1        |
+|check   |json path count        |$..poProgID       |1       |
