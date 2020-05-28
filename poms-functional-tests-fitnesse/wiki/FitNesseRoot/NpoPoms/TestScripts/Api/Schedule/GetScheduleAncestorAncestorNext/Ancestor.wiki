@@ -3,6 +3,7 @@ Help: NPOAPI-26
 Suites: RG
 Test
 ---
-|script                                                      |
-|get from|${urlApi}/schedule/ancestor/POMS_S_NPO_8138042/next|
-|check   |json path count        |$..poProgID       |1       |
+|script                                                                                  |
+|get from|${urlApi}/schedule/ancestor/POMS_S_NPO_8138042/next                            |
+|note    |Ensure there is one and only one result by counting the number of poProgID keys|
+|check   |json path count                 |$..poProgID                 |1                |
