@@ -3,6 +3,8 @@ Help: NPOAPI-58
 Suites: RG
 Test
 ---
-|Get count at path                                                                        |
-|get                                                                       |path   |count?|
-|thesaurus/concepts/updates?from=2020-01-01T07:30:00&to=2020-01-31T19:30:00|changes|5     |
+|script                                                                                                         |
+|get from|${urlApi}/thesaurus/concepts/updates?from=2020-01-01T07:30:00&to=2020-01-31T19:30:00                  |
+|note    |The response contains an array of changes plus one status object. Use filters to count them separately|
+|check   |json path count                      |changes[?(@.id)]                         |4                     |
+|check   |json path count                      |changes[?(@.status)]                     |1                     |
