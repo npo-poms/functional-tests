@@ -1,0 +1,31 @@
+---
+Help: NPOAPI-18
+Suites: RG
+Test
+---
+!*> Test-specific items
+!define body1 {!-<pre>{
+  "searches": {
+    "text": {
+      "value": "melkunie",
+      "matchType": "TEXT",
+      "match": "MUST"
+    }
+  }
+}</pre>-!}
+
+!define body2 {!-<pre>{
+  "searches": {
+    "text": {
+      "value": "leerdammer",
+      "matchType": "TEXT",
+      "match": "MUST"
+    }
+  }
+}</pre>-!}
+*!
+
+|Post count at path                        |
+|body    |post         |path        |count?|
+|${body1}|media/iterate|mediaobjects|2     |
+|${body2}|media/iterate|mediaobjects|109   |
