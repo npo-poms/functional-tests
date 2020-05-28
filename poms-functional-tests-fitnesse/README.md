@@ -34,7 +34,7 @@ In Jenkins moeten er 2 projecten komen:
 
 De configuratie van `NPO_api` moet als volgt worden ingesteld:
 
-![Npo-poms-api-jenkins-configuration](/poms-functional-tests-fitnesse/wiki/FitNesseRoot/files/images/Npo-poms-api-jenkins-configuration.png)
+![Npo-poms-api-jenkins-configuration](wiki/FitNesseRoot/files/images/Npo-poms-api-jenkins-configuration.png)
 
 Als de properties files in `~/conf` (Linux/macOS) of `%userprofile%\conf` (Windows) zitten, dan moet er dit bij `Commando` staan:
 ```
