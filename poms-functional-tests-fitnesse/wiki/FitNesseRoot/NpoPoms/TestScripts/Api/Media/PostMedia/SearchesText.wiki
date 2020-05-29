@@ -1,0 +1,20 @@
+---
+Help: NPOAPI-7
+Suites: RG
+Test
+---
+!*> Test-specific items
+!define body {!-<pre>{
+  "searches": {
+    "text": {
+      "value": "Barney",
+      "matchType": "TEXT",
+      "match": "MUST"
+    }
+  }
+}</pre>-!}
+*!
+
+|Post count at path        |
+|body   |post |path |count?|
+|${body}|media|items|10    |
