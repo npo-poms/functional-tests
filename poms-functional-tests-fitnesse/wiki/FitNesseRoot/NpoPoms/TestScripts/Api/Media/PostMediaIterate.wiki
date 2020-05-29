@@ -10,6 +10,12 @@ Test
       "value": "melkunie",
       "matchType": "TEXT",
       "match": "MUST"
+    },
+    "scheduleEvents": {
+      "channel": "NED1",
+      "begin": 1198265400000,
+      "end": 1229887807000,
+      "rerun": false
     }
   }
 }</pre>-!}
@@ -20,6 +26,12 @@ Test
       "value": "leerdammer",
       "matchType": "TEXT",
       "match": "MUST"
+    },
+    "scheduleEvents": {
+      "channel": "REGU",
+      "begin": 1578460500000,
+      "end": 1578627300000,
+      "rerun": false
     }
   }
 }</pre>-!}
@@ -27,5 +39,5 @@ Test
 
 |Post count at path                        |
 |body    |post         |path        |count?|
-|${body1}|media/iterate|mediaobjects|2     |
-|${body2}|media/iterate|mediaobjects|109   |
+|${body1}|media/iterate|mediaobjects|1     |
+|${body2}|media/iterate|mediaobjects|18    |
