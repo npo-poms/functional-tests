@@ -29,6 +29,7 @@ import nl.vpro.util.IntegerVersion;
 import nl.vpro.util.Version;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
+import static nl.vpro.api.client.Utils.*;
 import static nl.vpro.domain.media.MediaBuilder.program;
 
 /**
@@ -56,6 +57,7 @@ public abstract class AbstractApiMediaBackendTest extends AbstractApiTest {
         errorMail =  subst.replace(CONFIG.getProperties(Config.Prefix.npo_backend_api).get("errors"));
         log.info("Mailing errors to {}", errorMail);
     }
+    protected static final Set<String> logged = new HashSet<>();
 
     protected static final MediaRestClient backend =
         MediaRestClient.configured(CONFIG.env(), CONFIG.getProperties(Config.Prefix.npo_backend_api))
@@ -67,7 +69,7 @@ public abstract class AbstractApiMediaBackendTest extends AbstractApiTest {
             .warnThreshold(Duration.ofSeconds(10))
             .errors(errorMail)
             .publishImmediately(true)
-            .headerLevel(Level.INFO)
+            .headerLevel((m, a) -> logged.add(methodCall(m, a)) ? Level.INFO : Level.DEBUG)
             //.version("5.7")
             .build();
 
