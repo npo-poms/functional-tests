@@ -18,6 +18,7 @@ import nl.vpro.poms.AbstractApiMediaBackendTest;
 import nl.vpro.util.Version;
 
 import static nl.vpro.testutils.Utils.waitUntil;
+import static nl.vpro.testutils.Utils.waitUntilNotNull;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assumptions.assumeThat;
 
@@ -262,6 +263,40 @@ class MediaBackendTest extends AbstractApiMediaBackendTest {
             (Predicate<MediaUpdate<?>>) u -> u != null && !u.getCrids().contains(CRID));
 
         Assertions.assertThat((Object) backend.get(againMidWithCrid)).isNull();
+    }
+
+    private static String midForPortal;
+
+    @Test
+    @Order(9)
+    public void createObjectForPortal() {
+        ProgramUpdate clip = ProgramUpdate.create(
+            backend.getVersionNumber(),
+            MediaTestDataBuilder.clip()
+                //.ageRating(AgeRating.ALL)
+                .title(title)
+                .portals("NETINNL")
+                .predictions(Prediction.builder().platform(Platform.INTERNETVOD).encryption(Encryption.NONE).plannedAvailability(true).build())
+                .constrainedNew()
+                .clearBroadcasters()
+                .broadcasters("NOS")
+                .build()
+        );
+
+        JAXB.marshal(clip, System.out);
+        midForPortal = backend.set(clip);
+        assertThat(midForPortal).isNotEmpty();
+
+        log.info("Created {}", midForPortal);
+
+    }
+    @Test
+    @Order(10)
+    public void checkObjectForPortal() {
+        assumeThat(midForPortal).isNotNull();
+        waitUntilNotNull(ACCEPTABLE_DURATION,
+            CRID + " exists ",
+            () -> backend.get(midForPortal));
     }
 
     @Test
