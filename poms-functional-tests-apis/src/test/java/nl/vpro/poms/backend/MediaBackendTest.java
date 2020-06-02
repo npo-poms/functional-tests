@@ -273,7 +273,7 @@ class MediaBackendTest extends AbstractApiMediaBackendTest {
         ProgramUpdate clip = ProgramUpdate.create(
             backend.getVersionNumber(),
             MediaTestDataBuilder.clip()
-                //.ageRating(AgeRating.ALL)
+                .ageRating(AgeRating.ALL)
                 .title(title)
                 .portals("NETINNL")
                 .predictions(Prediction.builder().platform(Platform.INTERNETVOD).encryption(Encryption.NONE).plannedAvailability(true).build())
@@ -295,7 +295,7 @@ class MediaBackendTest extends AbstractApiMediaBackendTest {
     public void checkObjectForPortal() {
         assumeThat(midForPortal).isNotNull();
         waitUntilNotNull(ACCEPTABLE_DURATION,
-            CRID + " exists ",
+            midForPortal + " exists ",
             () -> backend.get(midForPortal));
     }
 
