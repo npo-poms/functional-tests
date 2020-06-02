@@ -12,6 +12,7 @@ import javax.ws.rs.core.MediaType;
 
 import org.apache.commons.text.StringSubstitutor;
 import org.junit.jupiter.api.*;
+import org.slf4j.event.Level;
 
 import nl.vpro.api.client.media.MediaRestClient;
 import nl.vpro.api.client.utils.Config;
@@ -66,6 +67,7 @@ public abstract class AbstractApiMediaBackendTest extends AbstractApiTest {
             .warnThreshold(Duration.ofSeconds(10))
             .errors(errorMail)
             .publishImmediately(true)
+            .headerLevel(Level.INFO)
             //.version("5.7")
             .build();
 
