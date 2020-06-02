@@ -2,14 +2,15 @@ Dit is het testautomatiseringsproject van [Specialisterren](https://www.speciali
 
 ## Properties files
 
-Om de testscripts lokaal of in Jenkins te kunnen draaien, moeten er properties files aanwezig zijn waarin alle accounts en api-keys staan.
+Om de testscripts lokaal of in Jenkins te kunnen draaien, moeten deze properties files aanwezig zijn:
 
-* Optie 1: Zet 1 properties file `poms-fitnesse-accounts.properties` met daarin alle accounts en api-keys in `~/conf` (Linux/macOS) of `%userprofile%\conf` (Windows).
+  * `poms-fitnesse-accounts.properties`
+  * `poms-fitnesse-apikeys.properties`
+  
+Beide properties files moeten in één van deze mappen zitten:
 
-* Optie 2: Maak een map `fileFixture` aan in [wiki/FitNesseRoot/files](wiki/FitNesseRoot/files) als deze nog niet bestaat en zet daarin deze properties files:
-
-  * accounts.txt
-  * apiKeys.txt
+  * `~/conf` (Linux/macOS) of `%userprofile%\conf` (Windows)
+  * [wiki/FitNesseRoot/files/fileFixture](wiki/FitNesseRoot/files/fileFixture)
 
 De properties files worden apart geleverd door Specialisterren.
 
@@ -25,10 +26,10 @@ De testscripts maken gebruik van scenario's in de scenario library. Die staan hi
 
 ## Draaien in Jenkins
 
-In Jenkins moeten er 2 projecten komen:
+In Jenkins moeten er twee projecten zijn:
 
-* NPO_api
-* NPO_gui
+* `NPO_api`
+* `NPO_gui`
 
 ### NPO_api
 
@@ -43,26 +44,26 @@ MOZ_HEADLESS=1
 mvn clean test-compile failsafe:integration-test -DfitnesseSuiteToRun=NpoPoms.Omgevingen.Test.TestScripts.Api
 ```
 
-Als dit niet zo is, dan moet deze properties file `apiKeys.txt` gegenereerd worden via `Commando`:
+Als dit niet zo is, dan moet de properties file `poms-fitnesse-apikeys.properties` gegenereerd worden via `Commando`. Deze file heeft een dergelijke inhoud:
 ```
 frontEndApiKey=apiKey
 frontEndApiSecret=secret
 frontEndApiOrigin=https://poms.testomgeving.example.com/
 ```
 
-Dit moet er dan bij `Commando` staan:
+Dit moet er bij `Commando` staan:
 
 ```
 cd poms-functional-tests-fitnesse
 mvn clean test-compile
 mkdir -p target/fitnesse-results/files/fileFixture
 
-(echo frontEndApiKey=apiKey & echo frontEndApiSecret=secret & echo frontEndApiOrigin=https://poms.testomgeving.example.com/) > target/fitnesse-results/files/fileFixture/apiKeys.txt
+(echo frontEndApiKey=apiKey & echo frontEndApiSecret=secret & echo frontEndApiOrigin=https://poms.testomgeving.example.com/) > target/fitnesse-results/files/fileFixture/poms-fitnesse-apikeys.properties
 
 mvn failsafe:integration-test -DfitnesseSuiteToRun=NpoPoms.Omgevingen.Test.TestScripts.Api "-DseleniumJsonProfile={'args':['headless','disable-gpu']}"
 ```
 
-De waarden achter `=` moeten vervangen worden door de werkelijke waarden.
+waarbij de waarden achter `=` vervangen moeten worden door de werkelijke waarden.
 
 ### NPO_gui
 
@@ -73,9 +74,10 @@ Als de properties files in `~/conf` (Linux/macOS) of `%userprofile%\conf` (Windo
 cd poms-functional-tests-fitnesse
 MOZ_HEADLESS=1
 mvn clean test-compile failsafe:integration-test -DfitnesseSuiteToRun=NpoPoms.Omgevingen.Test.TestScripts.Gui
+mvn clean test-compile failsafe:integration-test -DfitnesseSuiteToRun=NpoPoms.Omgevingen.Dev.TestScripts.Gui
 ```
 
-Als dit niet zo is, dan moet deze properties file `accounts.txt` gegenereerd worden via `Commando`:
+Als dit niet zo is, dan moet de properties file `poms-fitnesse-accounts.properties` gegenereerd worden via `Commando`. Deze file heeft een dergelijke inhoud:
 ```
 standaardGebruikersnaam=gebruikersnaam
 standaardWachtwoord=wachtwoord
@@ -87,16 +89,17 @@ omroepUploaderGebruikersnaam=gebruikersnaam
 omroepUploaderWachtwoord=wachtwoord
 ```
 
-Dit moet er dan bij `Commando` staan:
+Dit moet er bij `Commando` staan:
 
 ```
 cd poms-functional-tests-fitnesse
 mvn clean test-compile
 mkdir -p target/fitnesse-results/files/fileFixture
 
-(echo standaardGebruikersnaam=gebruikersnaam & echo standaardWachtwoord=wachtwoord & echo npoGebruikersnaam=gebruikersnaam & echo npoWachtwoord=wachtwoord & echo adminGebruikersnaam=gebruikersnaam & echo adminWachtwoord=wachtwoord & echo omroepUploaderGebruikersnaam=gebruikersnaam & echo omroepUploaderWachtwoord=wachtwoord) > target/fitnesse-results/files/fileFixture/accounts.txt
+(echo standaardGebruikersnaam=gebruikersnaam & echo standaardWachtwoord=wachtwoord & echo npoGebruikersnaam=gebruikersnaam & echo npoWachtwoord=wachtwoord & echo adminGebruikersnaam=gebruikersnaam & echo adminWachtwoord=wachtwoord & echo omroepUploaderGebruikersnaam=gebruikersnaam & echo omroepUploaderWachtwoord=wachtwoord) > target/fitnesse-results/files/fileFixture/poms-fitnesse-accounts.properties
 
 mvn failsafe:integration-test -DfitnesseSuiteToRun=NpoPoms.Omgevingen.Test.TestScripts.Gui "-DseleniumJsonProfile={'args':['headless','disable-gpu']}"
+mvn failsafe:integration-test -DfitnesseSuiteToRun=NpoPoms.Omgevingen.Dev.TestScripts.Gui "-DseleniumJsonProfile={'args':['headless','disable-gpu']}"
 ```
 
-De waarden achter `=` moeten vervangen worden door de werkelijke waarden.
+waarbij de waarden achter `=` vervangen moeten worden door de werkelijke waarden.
