@@ -2,7 +2,7 @@
 Help: NPOAPI-20
 Test
 ---
-!***> Local variables
+!***> Test-specific items
 !define id1 {AVRO_1656037}
 !define id2 {POW_00716986}
 !define result {!-<div><ul><li>-!${id1}!-</li><li>-!${id2}!-</li></ul></div>-!}

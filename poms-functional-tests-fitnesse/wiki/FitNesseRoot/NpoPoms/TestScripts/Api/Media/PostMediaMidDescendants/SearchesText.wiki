@@ -1,0 +1,20 @@
+---
+Help: NPOAPI-10
+Suites: RG
+Test
+---
+!*> Test-specific items
+!define body {!-<pre>{
+  "searches": {
+    "text": {
+      "value": "Barney",
+      "matchType": "TEXT",
+      "match": "MUST"
+    }
+  }
+}</pre>-!}
+*!
+
+|Post count at path                                  |
+|body   |post                           |path |count?|
+|${body}|media/VPWON_1304075/descendants|items|1     |

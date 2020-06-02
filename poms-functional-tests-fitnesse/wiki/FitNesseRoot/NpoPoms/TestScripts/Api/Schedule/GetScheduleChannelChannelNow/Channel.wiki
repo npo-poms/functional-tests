@@ -5,5 +5,5 @@ Test
 ---
 |Get value at path                       |
 |get                      |path   |value?|
-|schedule/channel/NED1/now|channel|NED1  |
-|schedule/channel/RAD2/now|channel|RAD2  |
+|schedule/channel/NED2/now|channel|NED2  |
+|schedule/channel/RAD3/now|channel|RAD3  |

@@ -22,9 +22,11 @@ Via the link 'Segment toevoegen met speler' you can do three things:
 - Use the player to create an MP4 for download
 - Use the player to make a screenshot for download
 
-For the first function it is only needed that the player actually works. AFAIK the player is only using production data, so all this can only be tested on a MID that plays on production.
+For the first function it is only needed that the player actually works. AFAIK the player is only using production data, so all this can only be tested on a MID that plays on production. 
 
 To create an MP4 or image via the NEP staging environment, the object must also be known there. I don't know how to know that.
+
+This is a MID that might work: WO_VPRO_043878
 
 == Upload
 

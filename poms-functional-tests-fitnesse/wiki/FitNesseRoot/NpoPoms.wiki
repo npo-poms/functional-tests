@@ -6,6 +6,12 @@ Suite
 !define TEST_SYSTEM {slim}
 !define BROWSER {firefox}
 
+!define propertiesFileDir {${user.home}/conf}
+!define accountsFile1 {${propertiesFileDir}/poms-fitnesse-accounts.properties} 
+!define apiKeysFile1 {${propertiesFileDir}/poms-fitnesse-apikeys.properties} 
+!define accountsFile2 {poms-fitnesse-accounts.properties}
+!define apiKeysFile2 {poms-fitnesse-apikeys.properties}
+
 !*> The location when working standalone:
 !path fixtures
 !path fixtures/*.jar

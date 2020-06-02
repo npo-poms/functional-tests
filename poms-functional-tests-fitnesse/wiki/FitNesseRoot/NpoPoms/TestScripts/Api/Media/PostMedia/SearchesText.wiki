@@ -1,0 +1,25 @@
+---
+Help: NPOAPI-7
+Suites: RG
+Test
+---
+!*> Test-specific items
+!define body {!-<pre>{
+  "searches": {
+    "text": {
+      "value": "Barney",
+      "matchType": "TEXT",
+      "match": "MUST"
+    },
+    "scheduleEvents": {
+      "begin": 1427981700000,
+      "end": 1540763400000,
+      "rerun": false
+    }
+  }
+}</pre>-!}
+*!
+
+|Post count at path        |
+|body   |post |path |count?|
+|${body}|media|items|7     |

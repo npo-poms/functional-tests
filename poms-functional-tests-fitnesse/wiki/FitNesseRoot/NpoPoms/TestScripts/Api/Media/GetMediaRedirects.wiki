@@ -3,17 +3,18 @@ Help: NPOAPI-21
 Suites: RG
 Test
 ---
-!*> Local table templates
+!*> Test-specific items
+!define datetimeRegex {!-\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}\+02:00-!}
 
 |table template|Check maps          |
 |$value=       |json path|map.@{map}|
-
 *!
-
-|Get value at path                                       |
-|get            |path      |value?                       |
-|media/redirects|lastUpdate|2020-05-08T10:43:46.081+02:00|
-
+!*> Test 01: Check datetime format of lastUpdate
+|Get value at path                              |
+|get            |path      |value?              |
+|media/redirects|lastUpdate|=~/${datetimeRegex}/|
+*!
+!*> Test 02: Check all map values in the same response
 |Check maps                                                       |
 |map                             |value?                          |
 |POMS_S_AVRO_120020              |POMS_S_AVRO_120022              |
@@ -801,3 +802,4 @@ Test
 |POMS_S_AVRO_2269730             |POW_02944527                    |
 |AUTO_AVROARBEIDSVITAMINEN       |AUTO_ARBEIDSVITAMINEN           |
 |POMS_S_VPRO_765161              |VPWON_1261033                   |
+*!

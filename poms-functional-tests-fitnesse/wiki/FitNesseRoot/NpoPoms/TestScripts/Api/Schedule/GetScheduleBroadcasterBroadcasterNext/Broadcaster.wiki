@@ -3,7 +3,13 @@ Help: NPOAPI-28
 Suites: RG
 Test
 ---
-|Get value at path                                                |
-|get                           |path                       |value?|
-|schedule/broadcaster/VPRO/next|media.broadcasters[0].value|VPRO  |
-|schedule/broadcaster/NPO/next |media.broadcasters[0].value|NPO   |
+!*> Test-specific items
+!note Sometimes the requested broadcaster is not the primary broadcaster of the upcoming item and is therefore not listed in the result
+!note To avoid this, use a now parameter with a value that does not trigger this edge case
+!define broadcasterNextNow {2020-05-26T09:00:00.000Z}
+*!
+
+|Get value at path                                                                          |
+|get                                                     |path                       |value?|
+|schedule/broadcaster/VPRO/next?now=${broadcasterNextNow}|media.broadcasters[0].value|VPRO  |
+|schedule/broadcaster/NPO/next?now=${broadcasterNextNow} |media.broadcasters[0].value|NPO   |

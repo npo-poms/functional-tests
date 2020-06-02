@@ -1,0 +1,3 @@
+|script          |npo json http test |$frontEndApiKey |$frontEndApiSecret |$frontEndApiOrigin |
+|note            |application/x-www-form-urlencoded is the http test default, NPO API expects:|
+|set content type|application/json; charset=UTF-8                                             |
