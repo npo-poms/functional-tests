@@ -13,6 +13,7 @@ import org.junit.jupiter.api.*;
 
 import nl.vpro.api.client.media.ResponseError;
 import nl.vpro.domain.media.*;
+import nl.vpro.domain.media.support.TextualType;
 import nl.vpro.domain.media.update.*;
 import nl.vpro.poms.AbstractApiMediaBackendTest;
 import nl.vpro.util.Version;
@@ -266,7 +267,12 @@ class MediaBackendTest extends AbstractApiMediaBackendTest {
     }
 
     private static String midForPortal;
+    private static String midForPortalChangedTitle;
 
+
+    /**
+     * The user use use has rights on the portal, but not on NOS
+     */
     @Test
     @Order(9)
     public void createObjectForPortal() {
@@ -292,11 +298,24 @@ class MediaBackendTest extends AbstractApiMediaBackendTest {
     }
     @Test
     @Order(10)
-    public void checkObjectForPortal() {
+    public void checkObjectForPortalAndChangeTitle() {
         assumeThat(midForPortal).isNotNull();
-        waitUntilNotNull(ACCEPTABLE_DURATION,
+        MediaUpdate<?> o = waitUntilNotNull(ACCEPTABLE_DURATION,
             midForPortal + " exists ",
             () -> backend.get(midForPortal));
+        o.setTitle(title, TextualType.MAIN);
+        backend.set(o);
+        midForPortalChangedTitle = title;
+    }
+    @Test
+    @Order(11)
+    public void checkObjectForPortalChangedTitle() {
+        assumeThat(midForPortalChangedTitle).isNotNull();
+        waitUntil(ACCEPTABLE_DURATION,
+            midForPortal + " exists and title is " + midForPortalChangedTitle,
+            () -> backend.get(midForPortal),
+            (Predicate<MediaUpdate<?>>) ((o) -> midForPortalChangedTitle.equals(o.getMainTitle())));
+
     }
 
     @Test
