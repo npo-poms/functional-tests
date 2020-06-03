@@ -1,0 +1,21 @@
+---
+Help: NPOAPI-39
+Suites: RG
+Test
+---
+!*> Table template
+
+|table template|Get count at path   |
+|get from      |${urlApi}/@{get}    |
+|$count=       |xPath|count(@{path})|
+
+*!
+
+|script                                             |
+|register prefix|api|for namespace|urn:vpro:api:2013|
+
+|Get count at path                     |
+|get                 |path      |count?|
+|profiles/list?max=1 |//api:item|1     |
+|profiles/list?max=10|//api:item|10    |
+|profiles/list       |//api:item|34    |
