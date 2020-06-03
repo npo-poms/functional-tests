@@ -6,7 +6,8 @@ Test
 !*> Test-specific items
 !define mid {POMS_S_VPRO_218686}
 
-!define body1 {!-<pre>{
+!define body1 { {{{
+{
   "searches": {
     "text": {
       "value": "Golden Earring",
@@ -14,9 +15,11 @@ Test
       "match": "MUST"
     }
   }
-}</pre>-!}
+}
+}}} }
 
-!define body2 {!-<pre>{
+!define body2 { {{{
+{
   "searches": {
     "text": {
       "value": "Armin van Buuren",
@@ -24,7 +27,8 @@ Test
       "match": "MUST"
     }
   }
-}</pre>-!}
+}
+}}} }
 *!
 
 |Post count at path                        |

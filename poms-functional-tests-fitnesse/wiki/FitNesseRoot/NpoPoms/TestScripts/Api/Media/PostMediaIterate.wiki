@@ -4,7 +4,8 @@ Suites: RG
 Test
 ---
 !*> Test-specific items
-!define body1 {!-<pre>{
+!define body1 { {{{
+{
   "searches": {
     "text": {
       "value": "melkunie",
@@ -18,9 +19,11 @@ Test
       "rerun": false
     }
   }
-}</pre>-!}
+}
+}}} }
 
-!define body2 {!-<pre>{
+!define body2 { {{{
+{
   "searches": {
     "text": {
       "value": "leerdammer",
@@ -34,7 +37,8 @@ Test
       "rerun": false
     }
   }
-}</pre>-!}
+}
+}}} }
 *!
 
 |Post count at path                        |
