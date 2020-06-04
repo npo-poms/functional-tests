@@ -3,11 +3,9 @@ Help: NPOAPI-38
 Suites: RG
 Test
 ---
-!*> Variables
-
+!***> Test-specific items
 !define platforms {!-<div><ul><li>INTERNETVOD</li><li>NONE</li></ul></div>-!}
 !define mediaTypes {!-<div><ul><li>SERIES</li><li>SEASON</li><li>ARCHIVE</li><li>COLLECTION</li><li>PLAYLIST</li><li>STRAND</li></ul></div>-!}
-
 *!
 
 |script                                                                           |
