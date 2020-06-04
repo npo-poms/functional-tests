@@ -1,0 +1,14 @@
+---
+Help: NPOAPI-96
+Suites: RG
+Test
+---
+!*> Test-specific items
+!define mid {VPWON_1282187}
+*!
+
+|script                                                                                 |
+|register prefix|             |for namespace          |urn:vpro:media:update:2009       |
+|get from       |${urlBackendApi}/media/media/${mid}?followMerges=true&owner=BROADCASTER|
+|check          |xPath        |count(/:program)       |1                                |
+|check          |xPath        |/:program/@mid         |${mid}                           |
