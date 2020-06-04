@@ -10,7 +10,7 @@ Test
 
 |script                                                                           |
 |register prefix|page |for namespace            |urn:vpro:api:constraint:page:2013|
-|get from       |${urlApi}/profiles/vpro                                          |
+|get from       |${urlFrontendApi}/profiles/vpro                                  |
 |check          |xPath|//page:filter/page:portal|VPRONL                           |
 
 |script                                                                                                                                               |

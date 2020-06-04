@@ -18,9 +18,6 @@
 |$loadSucceeded=     |load values from|${apiKeysFile1}   |
 |$loadSucceeded=     |load values from|${apiKeysFile2}   |
 |show                |values                             |
-|$frontEndApiKey=    |value           |frontEndApiKey    |
-|$frontEndApiSecret= |value           |frontEndApiSecret |
-|$frontEndApiOrigin= |value           |frontEndApiOrigin |
 |$backEndApiUsername=|value           |backEndApiUsername|
 |$backEndApiPassword=|value           |backEndApiPassword|
 *!

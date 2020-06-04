@@ -3,7 +3,7 @@ Test
 ---
 !***> Test-specific items
 |table template|Check properties of related items                                                                                         |
-|get from      |${urlApi}/@{get}                                                                                                          |
+|get from      |${urlFrontendApi}/@{get}                                                                                                  |
 |note          |Check if the response contains the expected item                                                                          |
 |check         |json path count|items[?(@.mid=='@{item_mid}')]|>0                                                                         |
 |note          |All results are returned twice in the response, so use a filter expression and consider only the first match              |

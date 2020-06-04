@@ -1,27 +1,27 @@
 |scenario  |Get      |action|and save value at|path|as|alias|
-|get from  |${urlApi}/@{action}                             |
+|get from  |${urlFrontendApi}/@{action}                     |
 |$@{alias}=|json path|@{path}                               |
 
 |scenario|Get      |action |and check value at|path|is|value|
-|get from|${urlApi}/@{action}                               |
+|get from|${urlFrontendApi}/@{action}                       |
 |check   |json path|@{path}|@{value}                        |
 
 |table template|Get count at path        |
-|get from      |${urlApi}/@{get}         |
+|get from      |${urlFrontendApi}/@{get} |
 |$count=       |json path count|@{path}.*|
 
-|table template|Post count at path                  |
-|post          |@{body}        |to|${urlApi}/@{post}|
-|$count=       |json path count|@{path}.*           |
+|table template|Post count at path                          |
+|post          |@{body}        |to|${urlFrontendApi}/@{post}|
+|$count=       |json path count|@{path}.*                   |
 
-|table template|Get value at path|
-|get from      |${urlApi}/@{get} |
-|$value=       |json path|@{path}|
+|table template|Get value at path       |
+|get from      |${urlFrontendApi}/@{get}|
+|$value=       |json path    |@{path}   |
 
-|table template|Get values at two paths|
-|get from      |${urlApi}/@{get}       |
-|$value1=      |json path   |@{path1}  |
-|$value2=      |json path   |@{path2}  |
+|table template|Get values at two paths |
+|get from      |${urlFrontendApi}/@{get}|
+|$value1=      |json path   |@{path1}   |
+|$value2=      |json path   |@{path2}   |
 
 |table template|Is single-value property     |
 |$single_value=|json path      |@{property}  |

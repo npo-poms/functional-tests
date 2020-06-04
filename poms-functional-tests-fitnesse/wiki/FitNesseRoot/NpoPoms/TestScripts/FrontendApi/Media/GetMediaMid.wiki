@@ -6,19 +6,19 @@ Test
 !define mid {VPWON_1272435}
 
 !***> Test 01: The only required parameter is 'mid'
-|script                                |
-|ensure|get from|${urlApi}/media/${mid}|
+|script                                        |
+|ensure|get from|${urlFrontendApi}/media/${mid}|
 *!
 !***> Test 02: Properties all
-|script                                                              |
-|get from                      |${urlApi}/media/${mid}?properties=all|
-|$numberOfPropsAtPropertiesAll=|json path count    |*                |
-|show                          |json path count    |titles.*         |
-|show                          |json path count    |broadcasters.*   |
+|script                                                                      |
+|get from                      |${urlFrontendApi}/media/${mid}?properties=all|
+|$numberOfPropsAtPropertiesAll=|json path count        |*                    |
+|show                          |json path count        |titles.*             |
+|show                          |json path count        |broadcasters.*       |
 *!
 !***> Test 03: Properties none
 |script                                                                                                                      |
-|get from                       |${urlApi}/media/${mid}?properties=none                                                      |
+|get from                       |${urlFrontendApi}/media/${mid}?properties=none                                              |
 |$numberOfPropsAtPropertiesNone=|json path count|*                                                                           |
 |ensure                         |value          |$numberOfPropsAtPropertiesNone|is smaller than|$numberOfPropsAtPropertiesAll|
 |check                          |json path count|titles.*                      |1                                            |
@@ -62,7 +62,7 @@ Test
 Check same result as the result at Properties None + !-1-! extra property 'images'.
 
 |script                                                                                                           |
-|get from                         |${urlApi}/media/${mid}?properties=image                                        |
+|get from                         |${urlFrontendApi}/media/${mid}?properties=image                                |
 |$numberOfPropsAtPropertiesImages=|add            |$numberOfPropsAtPropertiesNone|and              |1             |
 |check                            |json path count|*                             |$numberOfPropsAtPropertiesImages|
 |check                            |json path count|$..images.*                   |1                               |
@@ -73,7 +73,7 @@ Check same result as the result at Properties None + !-1-! extra property 'image
 Check same result as the result at Properties None + at most !-3-! extra properties 'images'.
 
 |script                                                                                                             |
-|get from                          |${urlApi}/media/${mid}?properties=image:3                                       |
+|get from                          |${urlFrontendApi}/media/${mid}?properties=image:3                               |
 |$numberOfPropsAtPropertiesImages3=|add            |$numberOfPropsAtPropertiesNone|and              |1              |
 |check                             |json path count|*                             |$numberOfPropsAtPropertiesImages3|
 |check                             |json path count|$..images.*                   |3                                |
@@ -84,7 +84,7 @@ Check same result as the result at Properties None + at most !-3-! extra propert
 Check same result as the result at Properties None + at most !-3-! extra properties 'images' + all properties 'broadcasters' present.
 
 |script                                                                                                                                             |
-|get from                                          |${urlApi}/media/${mid}?properties=image:3,broadcasters                                          |
+|get from                                          |${urlFrontendApi}/media/${mid}?properties=image:3,broadcasters                                  |
 |$numberOfPropsAtPropertiesImages3PlusBroadcasters=|add            |$numberOfPropsAtPropertiesNone|and                      |1                      |
 |check                                             |json path count|*                             |$numberOfPropsAtPropertiesImages3PlusBroadcasters|
 |check                                             |json path count|$..images.*                   |3                                                |
@@ -95,11 +95,11 @@ Check same result as the result at Properties None + at most !-3-! extra propert
 !***> Test 07: Properties title:1
 Check there are !-2-! titles, from which one of them has type MAIN and the other one has type SUB.
 
-|script                                            |
-|get from|${urlApi}/media/${mid}?properties=title:1|
-|check   |json path count  |$..titles.*     |2     |
-|check   |json path        |titles[0].type  |MAIN  |
-|check   |json path        |titles[1].type  |SUB   |
+|script                                                    |
+|get from|${urlFrontendApi}/media/${mid}?properties=title:1|
+|check   |json path count     |$..titles.*        |2       |
+|check   |json path           |titles[0].type     |MAIN    |
+|check   |json path           |titles[1].type     |SUB     |
 *!
 !***> Test 08: Properties title:main:1
 Expected: Just one main title
@@ -119,7 +119,7 @@ Expected: Just one main title
 Check same result as the result at Properties None + !-1-! extra main property 'descriptions'
 
 |script                                                                                                                       |
-|get from                               |${urlApi}/media/${mid}?properties=description:main:1                                 |
+|get from                               |${urlFrontendApi}/media/${mid}?properties=description:main:1                         |
 |$numberOfPropsAtPropertiesDescriptions=|add            |$numberOfPropsAtPropertiesNone|and                 |1                |
 |check                                  |json path count|*                             |$numberOfPropsAtPropertiesDescriptions|
 |check                                  |json path count|descriptions.*                |1                                     |

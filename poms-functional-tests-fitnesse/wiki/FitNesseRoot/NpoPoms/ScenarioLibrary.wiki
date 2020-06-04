@@ -1,2 +1,2 @@
-!include ScenarioLibrary.Api
+!include ScenarioLibrary.FrontendApi
 !include ScenarioLibrary.Gui

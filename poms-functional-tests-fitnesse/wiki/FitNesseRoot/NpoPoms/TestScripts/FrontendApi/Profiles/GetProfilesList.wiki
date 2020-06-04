@@ -5,9 +5,9 @@ Test
 ---
 !*> Table template
 
-|table template|Get count at path   |
-|get from      |${urlApi}/@{get}    |
-|$count=       |xPath|count(@{path})|
+|table template|Get count at path       |
+|get from      |${urlFrontendApi}/@{get}|
+|$count=       |xPath  |count(@{path})  |
 
 *!
 

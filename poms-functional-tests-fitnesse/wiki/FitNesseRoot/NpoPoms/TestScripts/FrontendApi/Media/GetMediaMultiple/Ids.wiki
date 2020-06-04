@@ -8,6 +8,6 @@ Test
 !define result {!-<div><ul><li>-!${id1}!-</li><li>-!${id2}!-</li></ul></div>-!}
 *!
 
-|script                                              |
-|get from|${urlApi}/media/multiple?ids=${id1},${id2} |
-|check   |all json path matches|items[*].id|${result}|
+|script                                                     |
+|get from|${urlFrontendApi}/media/multiple?ids=${id1},${id2}|
+|check   |all json path matches   |items[*].id  |${result}  |
