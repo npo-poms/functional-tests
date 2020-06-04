@@ -13,11 +13,13 @@ import org.junit.jupiter.api.*;
 
 import nl.vpro.api.client.media.ResponseError;
 import nl.vpro.domain.media.*;
+import nl.vpro.domain.media.support.TextualType;
 import nl.vpro.domain.media.update.*;
 import nl.vpro.poms.AbstractApiMediaBackendTest;
 import nl.vpro.util.Version;
 
 import static nl.vpro.testutils.Utils.waitUntil;
+import static nl.vpro.testutils.Utils.waitUntilNotNull;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assumptions.assumeThat;
 
@@ -262,6 +264,58 @@ class MediaBackendTest extends AbstractApiMediaBackendTest {
             (Predicate<MediaUpdate<?>>) u -> u != null && !u.getCrids().contains(CRID));
 
         Assertions.assertThat((Object) backend.get(againMidWithCrid)).isNull();
+    }
+
+    private static String midForPortal;
+    private static String midForPortalChangedTitle;
+
+
+    /**
+     * The user use use has rights on the portal, but not on NOS
+     */
+    @Test
+    @Order(9)
+    public void createObjectForPortal() {
+        ProgramUpdate clip = ProgramUpdate.create(
+            backend.getVersionNumber(),
+            MediaTestDataBuilder.clip()
+                .ageRating(AgeRating.ALL)
+                .title(title)
+                .portals("NETINNL")
+                .predictions(Prediction.builder().platform(Platform.INTERNETVOD).encryption(Encryption.NONE).plannedAvailability(true).build())
+                .constrainedNew()
+                .clearBroadcasters()
+                .broadcasters("NOS")
+                .build()
+        );
+
+        JAXB.marshal(clip, System.out);
+        midForPortal = backend.set(clip);
+        assertThat(midForPortal).isNotEmpty();
+
+        log.info("Created {}", midForPortal);
+
+    }
+    @Test
+    @Order(10)
+    public void checkObjectForPortalAndChangeTitle() {
+        assumeThat(midForPortal).isNotNull();
+        MediaUpdate<?> o = waitUntilNotNull(ACCEPTABLE_DURATION,
+            midForPortal + " exists ",
+            () -> backend.get(midForPortal));
+        o.setTitle(title, TextualType.MAIN);
+        backend.set(o);
+        midForPortalChangedTitle = title;
+    }
+    @Test
+    @Order(11)
+    public void checkObjectForPortalChangedTitle() {
+        assumeThat(midForPortalChangedTitle).isNotNull();
+        waitUntil(ACCEPTABLE_DURATION,
+            midForPortal + " exists and title is " + midForPortalChangedTitle,
+            () -> backend.get(midForPortal),
+            (Predicate<MediaUpdate<?>>) ((o) -> midForPortalChangedTitle.equals(o.getMainTitle())));
+
     }
 
     @Test

@@ -4,7 +4,8 @@ Suites: RG
 Test
 ---
 !*> Test-specific items
-!define body {!-<pre>{
+!define body { {{{
+{
   "searches": {
     "text": {
       "value": "Barney",
@@ -12,7 +13,8 @@ Test
       "match": "MUST"
     }
   }
-}</pre>-!}
+}
+}}} }
 *!
 
 |Post count at path                               |
