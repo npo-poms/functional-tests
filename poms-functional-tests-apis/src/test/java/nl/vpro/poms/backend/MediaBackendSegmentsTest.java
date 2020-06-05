@@ -54,6 +54,7 @@ class MediaBackendSegmentsTest extends AbstractApiMediaBackendTest {
                 .broadcasters("VPRO")
                 .midRef(MID)
                 .start(Duration.ofMillis(0))
+                .duration(Duration.ofMinutes((int) (Math.random() * 10)))
                 .ageRating(AgeRating.ALL)
                 .mainTitle(segmentTitle));
         JAXB.marshal(update, System.out);
@@ -114,6 +115,7 @@ class MediaBackendSegmentsTest extends AbstractApiMediaBackendTest {
             MediaBuilder.segment()
                 .avType(AVType.VIDEO)
                 .start(Duration.ofMillis(0))
+                .duration(Duration.ofMinutes((int) (Math.random() * 10)))
                 .mainTitle("Segment for " + title)
                 .ageRating(AgeRating.ALL)
                 .build();
