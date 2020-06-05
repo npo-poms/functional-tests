@@ -3,12 +3,10 @@ Help: NPOAPI-39
 Suites: RG
 Test
 ---
-!*> Table template
-
+!***> Test-specific items
 |table template|Get count at path       |
 |get from      |${urlFrontendApi}/@{get}|
 |$count=       |xPath  |count(@{path})  |
-
 *!
 
 |script                                                     |
