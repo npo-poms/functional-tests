@@ -1,0 +1,25 @@
+---
+Help: NPOAPI-38
+Suites: RG
+Test
+---
+!***> Test-specific items
+!define platforms {!-<div><ul><li>INTERNETVOD</li><li>NONE</li></ul></div>-!}
+!define mediaTypes {!-<div><ul><li>SERIES</li><li>SEASON</li><li>ARCHIVE</li><li>COLLECTION</li><li>PLAYLIST</li><li>STRAND</li></ul></div>-!}
+*!
+
+|script                                                                                                                                             |
+|register prefix|                 |for namespace                                                                 |urn:vpro:api:profile:2013         |
+|register prefix|p                |for namespace                                                                 |urn:vpro:api:constraint:page:2013 |
+|register prefix|m                |for namespace                                                                 |urn:vpro:api:constraint:media:2013|
+|get from       |${urlFrontendApi}/profiles/vpro                                                                                                    |
+|check          |xPath            |/:profile/:pageProfile/p:filter/p:portal                                      |VPRONL                            |
+|check          |xPath            |/:profile/:mediaProfile/m:filter/m:and/m:broadcaster                          |VPRO                              |
+|check          |xPath            |/:profile/:mediaProfile/m:filter/m:and/m:not/m:descendantOf                   |POMS_S_VPRO_3711853               |
+|check          |xPath            |boolean(/:profile/:mediaProfile/m:filter/m:and/m:or/m:not/m:isExclusive)      |true                              |
+|check          |xPath            |/:profile/:mediaProfile/m:filter/m:and/m:or/m:exclusive                       |VPRONL                            |
+|check          |xPath            |boolean(/:profile/:mediaProfile/m:filter/m:and/m:or/m:and/m:hasImage)         |true                              |
+|check          |xPath            |/:profile/:mediaProfile/m:filter/m:and/m:or/m:and/m:or/m:type                 |SEGMENT                           |
+|check          |all xPath matches|/:profile/:mediaProfile/m:filter/m:and/m:or/m:and/m:or/m:hasLocation/@platform|${platforms}                      |
+|check          |xPath            |/:profile/:mediaProfile/m:filter/m:and/m:or/m:and/m:not/m:type                |TRACK                             |
+|check          |all xPath matches|/:profile/:mediaProfile/m:filter/m:and/m:or/m:or/m:type/text()                |${mediaTypes}                     |

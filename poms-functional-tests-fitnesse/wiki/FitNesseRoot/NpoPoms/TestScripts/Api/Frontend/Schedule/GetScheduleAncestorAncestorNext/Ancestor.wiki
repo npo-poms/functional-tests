@@ -1,0 +1,8 @@
+---
+Help: NPOAPI-26
+Suites: RG
+Test
+---
+|script                                                                |
+|get from |${urlFrontendApi}/schedule/ancestor/POMS_S_NPO_8138042/next |
+|Ensure one and only one result by counting the number of poProgID keys|

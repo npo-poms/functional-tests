@@ -10,8 +10,10 @@ Test: no
 !define npoPomsInlogscherm_titel {POMS Test-omgeving}
 !define npoPomsHoofdscherm_titel {POMS - @tabblad}
 
-!define urlApi {!-https://rs-test.poms.omroep.nl/v1/api-!}
-!define apiDocs {!-https://rs-test.poms.omroep.nl/v1/docs/api-!}
+!define urlFrontendApi {!-https://rs-test.poms.omroep.nl/v1/api-!}
+!define frontendApiDocs {!-https://rs-test.poms.omroep.nl/v1/docs/api-!}
+
+!define urlBackendApi {!-https://api-test.poms.omroep.nl-!}
 
 !define secondsBeforeTimeout {30}
 *!
@@ -20,8 +22,11 @@ Test: no
 |'''Titel inlogscherm'''|${npoPomsInlogscherm_titel}             |
 |'''Titel hoofdscherm'''|${npoPomsHoofdscherm_titel}             |
 
-|'''Frontend API'''           |
-|'''Url'''         |${urlApi} |
-|'''Documentatie'''|${apiDocs}|
+|'''Frontend API'''                   |
+|'''Url'''         |${urlFrontendApi} |
+|'''Documentatie'''|${frontendApiDocs}|
+
+|'''Backend API'''         |
+|'''Url'''|${urlBackendApi}|
 *!
 !contents -R2 -g -p -f -h

@@ -1,0 +1,19 @@
+---
+Help: NPOAPI-13
+Suites: RG
+Test
+---
+|script                                                                           |
+|get from|${urlFrontendApi}/media/POMS_S_TVGELDERLAND_133433/members              |
+|check   |json path|items[0].memberOf[0].urnRef     |urn:vpro:media:group:21868172|
+|check   |json path|items[0].memberOf[0].added      |1499722335002                |
+|check   |json path|items[0].memberOf[0].highlighted|false                        |
+|check   |json path|items[0].memberOf[0].index      |3                            |
+|check   |json path|items[0].memberOf[0].type       |SERIES                       |
+|check   |json path|items[0].memberOf[0].midRef     |POMS_S_TVGELDERLAND_133433   |
+
+|Get count at path                                  |
+|get                                   |path |count?|
+|media/POMS_S_BNN_097259/members       |items|10    |
+|media/POMS_S_BNN_097259/members?max=1 |items|1     |
+|media/POMS_S_BNN_097259/members?max=17|items|17    |

@@ -1,0 +1,19 @@
+---
+Help: NPOAPI-98
+Suites: DV
+Test
+---
+!*> Test-specific items
+!define mid {NCRV_1495483}
+*!
+
+|script                                                                    |
+|register prefix|       |for namespace                |urn:vpro:media:2009 |
+|get from       |${urlBackendApi}/media/group/${mid}/full?followMerges=true|
+|check          |xPath  |count(/:group)               |1                   |
+|check          |xPath  |/:group/@mid                 |${mid}              |
+|check          |xPath  |/:group/@type                |SEASON              |
+|check          |xPath  |/:group/:broadcaster         |NCRV                |
+|check          |xPath  |count(/:group/:title)        |5                   |
+|check          |xPath  |count(/:group/:description ) |1                   |
+|check          |xPath  |count(/:group/:images/*)     |2                   |
