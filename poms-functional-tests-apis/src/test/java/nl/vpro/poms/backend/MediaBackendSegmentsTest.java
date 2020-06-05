@@ -27,6 +27,10 @@ import static org.assertj.core.api.Assumptions.assumeThat;
  * 2018-08-20
  * 5.9-SNAPSHOT @ dev : allemaal ok
 
+*
+* Clean up segments sometimes: select delete_object(id) from segment where parent_id  = id('WO_VPRO_025057');
+*
+* Otherwise test object gets used of all (deleted) segments
  */
 /**
  * @author Michiel Meeuwissen
