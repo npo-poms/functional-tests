@@ -1,0 +1,9 @@
+---
+Help: NPOAPI-107
+Suites: RG
+Test
+---
+|script                                                                      |
+|get from|${urlBackendApi}/media/media/POW_00038757/memberOfs                |
+|check   |xPath|count(/media:update:list/media:update:item)|1                |
+|check   |xPath|/media:update:list/media:update:item       |POMS_S_BNN_097259|
