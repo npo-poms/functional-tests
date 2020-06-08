@@ -9,16 +9,12 @@ Test
 |$count=       |xPath  |count(@{path})  |
 *!
 
-|script                                                     |
-|register prefix|   |for namespace|urn:vpro:api:profile:2013|
-|register prefix|api|for namespace|urn:vpro:api:2013        |
-
 |Get count at path                    |
 |get                |path      |count?|
 |profiles/list?max=1|//api:item|1     |
 
-|script                              |
-|$total=|xPath|/:profileResult/@total|
+|script                                         |
+|$total=|xPath|/api:profile:profileResult/@total|
 
 |Get count at path                     |
 |get                 |path      |count?|
