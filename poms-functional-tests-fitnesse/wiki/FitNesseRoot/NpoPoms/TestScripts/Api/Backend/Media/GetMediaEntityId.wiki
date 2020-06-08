@@ -7,8 +7,7 @@ Test
 !define mid {VPWON_1282187}
 *!
 
-|script                                                                                 |
-|register prefix|             |for namespace          |urn:vpro:media:update:2009       |
-|get from       |${urlBackendApi}/media/media/${mid}?followMerges=true&owner=BROADCASTER|
-|check          |xPath        |count(/:program)       |1                                |
-|check          |xPath        |/:program/@mid         |${mid}                           |
+|script                                           |
+|get from|${urlBackendApi}/media/media/${mid}     |
+|check   |xPath|count(media:update:program)|1     |
+|check   |xPath|/media:update:program/@mid |${mid}|

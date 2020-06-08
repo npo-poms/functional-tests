@@ -22,3 +22,8 @@
 |$frontEndApiSecret=|value           |frontEndApiSecret|
 |$frontEndApiOrigin=|value           |frontEndApiOrigin|
 *!
+!***> Register namespace prefixes
+|script         |xml http test                                      |
+|register prefix|api:profile|for namespace|urn:vpro:api:profile:2013|
+|register prefix|api        |for namespace|urn:vpro:api:2013        |
+*!
