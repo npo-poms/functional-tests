@@ -1,0 +1,8 @@
+---
+Help: NPOAPI-104
+Suites: RG
+Test
+---
+|script                                                                                            |
+|get from|${urlBackendApi}/media/media/mbh_20141118_reactiehester_video/locations?owner=BROADCASTER|
+|check   |xPath              |count(/collection/media:update:location)              |2             |
