@@ -41,8 +41,7 @@ Als de properties files in `~/conf` (Linux/macOS) of `%userprofile%\conf` (Windo
 ```
 cd poms-functional-tests-fitnesse
 MOZ_HEADLESS=1
-mvn clean test-compile failsafe:integration-test -DfitnesseSuiteToRun=NpoPoms.Omgevingen.Test.TestScripts.BackendApi
-mvn clean test-compile failsafe:integration-test -DfitnesseSuiteToRun=NpoPoms.Omgevingen.Test.TestScripts.FrontendApi
+mvn clean test-compile failsafe:integration-test -DfitnesseSuiteToRun=NpoPoms.Omgevingen.Test.TestScripts.Api
 ```
 
 Als dit niet zo is, dan moet de properties file `poms-fitnesse-apikeys.properties` gegenereerd worden via `Commando`. Deze file heeft een dergelijke inhoud:
@@ -64,8 +63,7 @@ mkdir -p target/fitnesse-results/files/fileFixture
 
 (echo frontEndApiKey='apiKey' & echo frontEndApiSecret='secret' & echo frontEndApiOrigin='https://poms.testomgeving.example.com/' & echo backEndApiKey='apiKey' & echo backEndApiSecret='secret' & echo backEndApiOrigin='https://poms.testomgeving.example.com/') > target/fitnesse-results/files/fileFixture/poms-fitnesse-apikeys.properties
 
-mvn failsafe:integration-test -DfitnesseSuiteToRun=NpoPoms.Omgevingen.Test.TestScripts.BackendApi "-DseleniumJsonProfile={'args':['headless','disable-gpu']}"
-mvn failsafe:integration-test -DfitnesseSuiteToRun=NpoPoms.Omgevingen.Test.TestScripts.FrontendApi "-DseleniumJsonProfile={'args':['headless','disable-gpu']}"
+mvn failsafe:integration-test -DfitnesseSuiteToRun=NpoPoms.Omgevingen.Test.TestScripts.Api "-DseleniumJsonProfile={'args':['headless','disable-gpu']}"
 ```
 
 waarbij de waarden achter `=` vervangen moeten worden door de werkelijke waarden.
