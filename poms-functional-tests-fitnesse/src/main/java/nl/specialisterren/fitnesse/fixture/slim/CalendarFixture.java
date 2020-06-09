@@ -8,62 +8,43 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 
-// TODO useless use of  boxing
 public class CalendarFixture {
-	public String decreaseTodayWithMonthsWithFormatWithLocal(String months, String format, String local) throws ParseException {
-        Calendar cal = Calendar.getInstance();
-        Locale loc = new Locale(local);
-
-        Integer intMonths = Integer.valueOf(months);
-        cal.add(Calendar.DAY_OF_YEAR, -intMonths*30);
-
-		int currentMonth = cal.get(Calendar.MONTH);
-		int currentYear = cal.get(Calendar.YEAR);
-		if (currentYear % 4 == 0 && currentMonth == 3)
-		    cal.add(Calendar.DAY_OF_YEAR, -1);
-
-		return new SimpleDateFormat(format,loc).format(cal.getTime());
-    }
-
+	private Calendar stringToCalendar(String date, SimpleDateFormat sdf) {
+		Calendar c = Calendar.getInstance();
+		
+		try {
+			c.setTime(sdf.parse(date));
+		} catch(ParseException e) {
+			e.printStackTrace();
+		}
+		
+		return c;
+	}
+	
+	public String decreaseDateByOneDayIfMarchOnALeapYear(String date) {
+		SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+		Calendar c = stringToCalendar(date, sdf);   
+		int month = c.get(Calendar.MONTH);
+		int year = c.get(Calendar.YEAR);
+		if (year % 4 == 0 && month == 3)
+		    c.add(Calendar.DAY_OF_YEAR, -1);
+		
+		return sdf.format(c.getTime());  
+	}
+	
 	public String increaseDateWithHours(String datetime, int hours) {
-		String regex = "(?<day>\\d{2})-(?<month>\\d{2})-(?<year>\\d{4}) (?<hour>\\d{2}):(?<minute>\\d{2})";
-		Pattern p = Pattern.compile(regex);
-		Matcher m = p.matcher(datetime);
-
-		if (!m.find())
-			return "";
-
-		int day = Integer.valueOf(m.group("day"));
-		int month = Integer.valueOf(m.group("month"));
-		int year = Integer.valueOf(m.group("year"));
-		int hour = Integer.valueOf(m.group("hour"));
-		int minute = Integer.valueOf(m.group("minute"));
-
-        Calendar cal = Calendar.getInstance();
-		cal.set(year, month-1, day, hour, minute);
-		cal.add(Calendar.HOUR, hours);
-
-		return new SimpleDateFormat("dd-MM-yyyy HH:mm", new Locale("nl")).format(cal.getTime());
+		SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm");
+		Calendar c = stringToCalendar(datetime, sdf);
+		c.add(Calendar.HOUR, hours);
+		
+		return sdf.format(c.getTime());  
 	}
 
 	public String increaseDateWithMinutes(String datetime, int minutes) {
-		String regex = "(?<day>\\d{2})-(?<month>\\d{2})-(?<year>\\d{4}) (?<hour>\\d{2}):(?<minute>\\d{2})";
-		Pattern p = Pattern.compile(regex);
-		Matcher m = p.matcher(datetime);
-
-		if (!m.find())
-			return "";
-
-		int day = Integer.valueOf(m.group("day"));
-		int month = Integer.valueOf(m.group("month"));
-		int year = Integer.valueOf(m.group("year"));
-		int hour = Integer.valueOf(m.group("hour"));
-		int minute = Integer.valueOf(m.group("minute"));
-
-		Calendar cal = Calendar.getInstance();
-		cal.set(year, month-1, day, hour, minute);
-		cal.add(Calendar.MINUTE, minutes);
-
-		return new SimpleDateFormat("dd-MM-yyyy HH:mm", new Locale("nl")).format(cal.getTime());
+		SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm");
+		Calendar c = stringToCalendar(datetime, sdf);   
+		c.add(Calendar.MINUTE, minutes);
+		
+		return sdf.format(c.getTime());  
 	}
 }
