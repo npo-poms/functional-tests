@@ -1,0 +1,8 @@
+---
+Help: NPOAPI-111
+Suites: DV
+Test
+---
+|script                                                         |
+|get from|${urlBackendApi}/media/media/VPWON_1272435/predictions|
+|check   |xPath    |count(/collection/update:prediction)   |3   |
