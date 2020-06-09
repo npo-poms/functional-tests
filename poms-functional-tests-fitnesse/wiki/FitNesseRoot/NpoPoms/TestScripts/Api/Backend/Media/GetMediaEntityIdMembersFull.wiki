@@ -1,0 +1,8 @@
+---
+Help: NPOAPI-110
+Suites: DV
+Test
+---
+|script                                                          |
+|get from|${urlBackendApi}/media/group/VPWON_1256002/members/full|
+|check   |xPath     |count(/search:list/search:item)     |20     |
