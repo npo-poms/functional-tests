@@ -255,12 +255,14 @@
 |$@var=  |value of                                  |xpath=.//div/h1[contains(text(), "@veld")]   |
 |$@var=  |extract string                            |$@var|from     |@veld \((\d+)\)|using group|1|
 
-|scenario|Npo poms Tabblad object Check aantal in veld|veld                                      |is var  |var |
-|check   |value of                                    |xpath=.//div/h1[contains(text(), "@veld")]|@veld ($@var)|
+|scenario                                    |Npo poms Tabblad object Check aantal in veld|veld  |is var|var   |
+|Npo poms Tabblad object Check aantal in veld|@veld                                       |is var|@var  |plus|0|
 
-|scenario     |Npo poms Tabblad object Check aantal in veld|veld                                      |is var|var|plus|optellenMetGetal|
-|$nieuwAantal=|add                                         |$@var                                     |and   |@optellenMetGetal        |
-|check        |value of                                    |xpath=.//div/h1[contains(text(), "@veld")]|@veld ($nieuwAantal)            |
+|scenario     |Npo poms Tabblad object Check aantal in veld|veld     |is var    |var    |plus    |optellenMetGetal    |
+|$nieuwAantal=|add                                         |$@var    |and       |@optellenMetGetal                    |
+|ensure       |is visible on page                          |xpath=.//div/h1[normalize-space(.)="@veld ($nieuwAantal)"]|
+|note         |Toon de waarde van het bedoelde veld voor het geval de regel hierboven faalt                           |
+|show         |value of                                    |xpath=.//div/h1[contains(text(), "@veld")]                |
 
 |scenario  |Npo poms Tabblad object Klik op wijzig tags icoon                                                              |
 |hover over|xpath=//h2[text()="Tags"]                                                                                      |
