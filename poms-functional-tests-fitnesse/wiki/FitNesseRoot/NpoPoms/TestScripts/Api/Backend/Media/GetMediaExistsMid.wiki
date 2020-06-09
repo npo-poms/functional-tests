@@ -1,0 +1,12 @@
+---
+Help: NPOAPI-118
+Suites: DV
+Test
+---
+|script                                                            |
+|show |get from       |${urlBackendApi}/media/exists/VARA_101372600|
+|check|response       |true                                        |
+|check|response status|200                                         |
+|show |get from       |${urlBackendApi}/media/exists/NONE_10137260X|
+|check|response       |false                                       |
+|check|response status|404                                         |
