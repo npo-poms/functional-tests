@@ -1,4 +1,5 @@
 ---
+Prune
 Suites: RG
 Test
 ---
