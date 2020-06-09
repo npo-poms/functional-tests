@@ -22,9 +22,11 @@
 |$backEndApiPassword=|value           |backEndApiPassword|
 *!
 !***> Register namespace prefixes
-|script         |xml http test                                  |
-|register prefix|shared|for namespace|urn:vpro:shared:2009      |
-|register prefix|media |for namespace|urn:vpro:media:2009       |
-|register prefix|search|for namespace|urn:vpro:media:search:2012|
-|register prefix|update|for namespace|urn:vpro:media:update:2009|
+|script         |xml http test                                               |
+|register prefix|xml      |for namespace|http://www.w3.org/XML/1998/namespace|
+|register prefix|shared   |for namespace|urn:vpro:shared:2009                |
+|register prefix|media    |for namespace|urn:vpro:media:2009                 |
+|register prefix|search   |for namespace|urn:vpro:media:search:2012          |
+|register prefix|subtitles|for namespace|urn:vpro:media:subtitles:2009       |
+|register prefix|update   |for namespace|urn:vpro:media:update:2009          |
 *!

@@ -4,10 +4,12 @@ Suites: RG
 Test
 ---
 !***> Test-specific items
-!define id {POMS_S_BNN_097259}
-!define memberOfs {<div><ul><li>${id}</li><li>${id}</li><li>${id}</li><li>${id}</li><li>${id}</li><li>${id}</li><li>${id}</li><li>${id}</li><li>${id}</li><li>${id}</li><li>${id}</li><li>${id}</li><li>${id}</li><li>${id}</li><li>${id}</li><li>${id}</li><li>${id}</li></ul></div>}
+!define mid {POMS_S_BNN_097259}
+!define i {!-<li>-!${mid}!-</li>-!}
+!define memberOfs {!-<div><ul>-!${i}${i}${i}${i}${i}${i}${i}${i}${i}${i}${i}${i}${i}${i}${i}${i}${i}!-</ul></div>-!}
 *!
+
 |script                                                                                                    |
-|get from|${urlBackendApi}/media/media/${id}/members?owner=BROADCASTER                                     |
+|get from|${urlBackendApi}/media/media/${mid}/members?owner=BROADCASTER                                    |
 |check   |xPath            |count(/update:list/update:item)                                   |17          |
 |check   |all xPath matches|/update:list/update:item/update:mediaUpdate/update:memberOf/text()|${memberOfs}|
