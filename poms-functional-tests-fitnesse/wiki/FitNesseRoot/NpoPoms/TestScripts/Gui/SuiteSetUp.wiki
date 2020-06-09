@@ -19,6 +19,7 @@
 | date format fixture |
 | script language fixture |
 | extended properties file fixture |
+| boolean fixture |
 
 *!
 !***> Load account properties
