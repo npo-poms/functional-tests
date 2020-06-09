@@ -14,5 +14,5 @@ Test
 |check   |xPath|/media:group/@type                           |SEASON|
 |check   |xPath|/media:group/media:broadcaster               |NCRV  |
 |check   |xPath|count(/media:group/media:title)              |5     |
-|check   |xPath|count(/media:group/media:description )       |1     |
+|check   |xPath|count(/media:group/media:description)        |1     |
 |check   |xPath|count(/media:group/media:images/shared:image)|2     |
