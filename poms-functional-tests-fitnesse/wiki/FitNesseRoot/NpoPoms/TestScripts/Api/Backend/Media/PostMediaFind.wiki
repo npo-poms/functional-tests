@@ -1,0 +1,28 @@
+---
+Help: NPOAPI-119
+Suites: DV
+Test
+---
+!*> Test-specific items
+!define body { {{{
+<mediaForm xmlns="urn:vpro:media:search:2012">
+  <pager>
+    <offset>1</offset>
+      <max>3</max>
+      <sort>sortTitle</sort>
+    <order>ASC</order>
+  </pager>
+  <broadcaster>NOS</broadcaster>
+  <text>Journaal</text>
+  <type>BROADCAST</type>
+  <sortRange>
+    <start>2012-07-22T06:00:00.000Z</start>
+    <stop>2012-07-22T18:00:00.000Z</stop>
+  </sortRange>
+</mediaForm>
+}}} }
+*!
+
+|script                                                                   |
+|post |${body}|to                             |${urlBackendApi}/media/find|
+|check|xPath  |count(/search:list/search:item)|2                          |
