@@ -1,0 +1,15 @@
+---
+Help: NPOAPI-126
+Suites: DV
+Test
+---
+|script                                                        |
+|get from|${urlBackendApi}/media/streamingstatus/VPWON_1272435 |
+|check   |xPath  |/media:streamingStatus/@withDrm     |ONLINE  |
+|check   |xPath  |/media:streamingStatus/@withoutDrm  |OFFLINE |
+|get from|${urlBackendApi}/media/streamingstatus/VARA_101372600|
+|check   |xPath  |/media:streamingStatus/@withDrm     |OFFLINE |
+|check   |xPath  |/media:streamingStatus/@withoutDrm  |ONLINE  |
+|get from|${urlBackendApi}/media/streamingstatus/AT_2096496    |
+|check   |xPath  |/media:streamingStatus/@withDrm     |OFFLINE |
+|check   |xPath  |/media:streamingStatus/@withoutDrm  |OFFLINE |
