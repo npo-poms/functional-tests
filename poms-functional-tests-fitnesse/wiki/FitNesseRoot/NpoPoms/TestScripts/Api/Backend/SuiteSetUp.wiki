@@ -22,8 +22,8 @@
 |$backEndApiPassword=|value           |backEndApiPassword|
 *!
 !***> Register namespace prefixes
-|script         |xml http test                                        |
-|register prefix|media       |for namespace|urn:vpro:media:2009       |
-|register prefix|media:update|for namespace|urn:vpro:media:update:2009|
-|register prefix|shared      |for namespace|urn:vpro:shared:2009      |
+|script         |xml http test                                  |
+|register prefix|media |for namespace|urn:vpro:media:2009       |
+|register prefix|update|for namespace|urn:vpro:media:update:2009|
+|register prefix|shared|for namespace|urn:vpro:shared:2009      |
 *!

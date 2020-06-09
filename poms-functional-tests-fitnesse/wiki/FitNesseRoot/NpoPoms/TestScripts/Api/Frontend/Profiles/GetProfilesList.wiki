@@ -13,8 +13,8 @@ Test
 |get                |path      |count?|
 |profiles/list?max=1|//api:item|1     |
 
-|script                                         |
-|$total=|xPath|/api:profile:profileResult/@total|
+|script                                     |
+|$total=|xPath|/profile:profileResult/@total|
 
 |Get count at path                     |
 |get                 |path      |count?|

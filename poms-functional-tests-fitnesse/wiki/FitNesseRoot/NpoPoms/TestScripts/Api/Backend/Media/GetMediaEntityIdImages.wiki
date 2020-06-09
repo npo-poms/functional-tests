@@ -9,8 +9,8 @@ Test
 
 |script                                                               |
 |get from|${urlBackendApi}/media/group/${mid}/images                  |
-|check   |xPath     |count(/collection/media:update:image)     |4     |
+|check   |xPath       |count(/collection/update:image)       |4       |
 |get from|${urlBackendApi}/media/group/${mid}/images?owner=BROADCASTER|
-|check   |xPath     |count(/collection/media:update:image)     |1     |
+|check   |xPath       |count(/collection/update:image)       |1       |
 |get from|${urlBackendApi}/media/group/${mid}/images?owner=NEBO       |
-|check   |xPath     |count(/collection/media:update:image)     |3     |
+|check   |xPath       |count(/collection/update:image)       |3       |
