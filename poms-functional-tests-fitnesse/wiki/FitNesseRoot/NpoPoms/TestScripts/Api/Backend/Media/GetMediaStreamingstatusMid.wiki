@@ -3,13 +3,14 @@ Help: NPOAPI-126
 Suites: DV
 Test
 ---
-|script                                                        |
-|get from|${urlBackendApi}/media/streamingstatus/VPWON_1272435 |
-|check   |xPath  |/media:streamingStatus/@withDrm     |ONLINE  |
-|check   |xPath  |/media:streamingStatus/@withoutDrm  |OFFLINE |
-|get from|${urlBackendApi}/media/streamingstatus/VARA_101372600|
-|check   |xPath  |/media:streamingStatus/@withDrm     |OFFLINE |
-|check   |xPath  |/media:streamingStatus/@withoutDrm  |ONLINE  |
-|get from|${urlBackendApi}/media/streamingstatus/AT_2096496    |
-|check   |xPath  |/media:streamingStatus/@withDrm     |OFFLINE |
-|check   |xPath  |/media:streamingStatus/@withoutDrm  |OFFLINE |
+!*> Test-specific items
+|table template|Check streaming status                                 |
+|get from      |${urlBackendApi}/media/streamingstatus/@{mid}          |
+|check         |xPath|/media:streamingStatus/@withDrm   |@{with_drm}   |
+|check         |xPath|/media:streamingStatus/@withoutDrm|@{without_drm}|
+*!
+|Check streaming status             |
+|mid           |with_drm|without_drm|
+|VPWON_1272435 |ONLINE  |OFFLINE    |
+|VARA_101372600|OFFLINE |ONLINE     |
+|AT_2096496    |OFFLINE |OFFLINE    |
