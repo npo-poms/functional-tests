@@ -3,10 +3,13 @@ Help: NPOAPI-118
 Suites: DV
 Test
 ---
-|script                                                            |
-|show |get from       |${urlBackendApi}/media/exists/VARA_101372600|
-|check|response       |true                                        |
-|check|response status|200                                         |
-|show |get from       |${urlBackendApi}/media/exists/NONE_10137260X|
-|check|response       |false                                       |
-|check|response status|404                                         |
+!*> Test-specific items
+|table template|Check response                                      |
+|show          |get from       |${urlBackendApi}/media/exists/@{mid}|
+|check         |response       |@{responseBody}                     |
+|check         |response status|@{responseCode}                     |
+*!
+|Check response                            |
+|mid           |response body|response code|
+|VARA_101372600|true         |200          |
+|NONE_10137260X|false        |404          |
