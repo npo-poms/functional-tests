@@ -1,0 +1,37 @@
+|scenario  |Get      |action|and save value at|path|as|alias|
+|get from  |${urlFrontendApi}/@{action}                     |
+|$@{alias}=|json path|@{path}                               |
+
+|scenario|Get      |action |and check value at|path|is|value|
+|get from|${urlFrontendApi}/@{action}                       |
+|check   |json path|@{path}|@{value}                        |
+
+|table template|Get count at path        |
+|get from      |${urlFrontendApi}/@{get} |
+|$count=       |json path count|@{path}.*|
+
+|table template|Post count at path                          |
+|post          |@{body}        |to|${urlFrontendApi}/@{post}|
+|$count=       |json path count|@{path}.*                   |
+
+|table template|Get value at path       |
+|get from      |${urlFrontendApi}/@{get}|
+|$value=       |json path    |@{path}   |
+
+|table template|Get values at two paths |
+|get from      |${urlFrontendApi}/@{get}|
+|$value1=      |json path   |@{path1}   |
+|$value2=      |json path   |@{path2}   |
+
+|table template|Is single-value property     |
+|$single_value=|json path      |@{property}  |
+|ensure        |is single value|$single_value|
+
+|table template|Save property        |
+|$@property=   |json path|@{property}|
+
+|table template|Property has same value           |
+|check         |json path|@{property}|$@{property}|
+
+|scenario|Ensure one and only one result by counting the number of poProgID keys|
+|check   |json path count              |$..poProgID              |1             |

@@ -1,0 +1,14 @@
+---
+Help: NPOAPI-127
+Suites: DV
+Test
+---
+!*> Test-specific items
+!define mid {VARA_101372600}
+*!
+
+|script                                          |
+|get from|${urlBackendApi}/media/subtitles/${mid}|
+|check   |xPath |//subtitles:id/@mid     |${mid} |
+|check   |xPath |//subtitles:id/@type    |CAPTION|
+|check   |xPath |//subtitles:id/@xml:lang|nl     |

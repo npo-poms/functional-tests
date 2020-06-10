@@ -3,8 +3,8 @@
 |scenario|Npo poms Tabblad object Open|object|
 |open    |${urlPoms}/#/edit/@object          |
 
-|scenario|Npo poms Tabblad object Druk op status om deze te wijzigen|
-|click   |xpath=//h2[text()="Status"]/following-sibling::*/p        |
+|scenario|Npo poms Tabblad object Druk op status om deze te wijzigen                |
+|click   |xpath=//h2[text()="Status"]/following-sibling::*/p|in|css=.tab-pane.active|
 
 |scenario                            |Npo poms Tabblad object Druk op status om te publiceren|
 |Npo poms Tabblad object Druk op status om deze te wijzigen                                  |
@@ -71,19 +71,20 @@
 |click                |xpath=//button[text()="verwijderen"]                                                                                       |
 |Wacht tot Angular requests klaar zijn                                                                                                            |
 
-|scenario                                |Npo poms Tabblad object Vul|waarde      |in tekstveld                            |tekstveld                            |
-|click                                   |xpath=//h2[normalize-space(.)="@tekstveld"]                                                                            |
-|enter                                   |@waarde                    |as          |xpath=//h2[normalize-space(.)="@tekstveld"]/following-sibling::form/span/input|
-|click                                   |xpath=//h2[normalize-space(.)="@tekstveld"]/following-sibling::form/span/span/button[text()="save"]                    |
-|Wacht tot Angular requests klaar zijn                                                                                                                           |
-|Npo poms Tabblad object Check veldtype 2|@tekstveld                 |heeft waarde|@waarde                                                                       |
+|scenario                                |Npo poms Tabblad object Vul   |waarde         |in veld met type             |type            |en label           |label           |
+|note                                    |Dit scenario gaf soms onnodige failures doordat click niet automatisch scrollde naar het betreffende veld; scroll daarom expliciet|
+|scroll to                               |xpath=//h2[normalize-space(.)="@label"]                                                                                           |
+|click                                   |xpath=//h2[normalize-space(.)="@label"]                                                                                           |
+|enter                                   |@waarde                       |as             |xpath=//h2[normalize-space(.)="@label"]/following-sibling::form/span/@type         |
+|click                                   |xpath=//h2[normalize-space(.)="@label"]/following-sibling::form/span/span/button[text()="save"]                                   |
+|Wacht tot Angular requests klaar zijn                                                                                                                                      |
+|Npo poms Tabblad object Check veldtype 2|@label                        |heeft waarde   |@waarde                                                                            |
 
-|scenario                                |Npo poms Tabblad object Vul|waarde      |in textarea                              |textarea                              |
-|click                                   |xpath=//h2[normalize-space(.)="@textarea"]                                                                               |
-|enter                                   |@waarde                    |as          |xpath=//h2[normalize-space(.)="@textarea"]/following-sibling::form/span/textarea|
-|click                                   |xpath=//h2[normalize-space(.)="@textarea"]/following-sibling::form/span/span/button[text()="save"]                       |
-|Wacht tot Angular requests klaar zijn                                                                                                                             |
-|Npo poms Tabblad object Check veldtype 2|@textarea                  |heeft waarde|@waarde                                                                         |
+|scenario                   |Npo poms Tabblad object Vul|waarde          |in tekstveld|tekstveld          |
+|Npo poms Tabblad object Vul|@waarde                    |in veld met type|input       |en label|@tekstveld|
+
+|scenario                   |Npo poms Tabblad object Vul|waarde          |in textarea|textarea          |
+|Npo poms Tabblad object Vul|@waarde                    |in veld met type|textarea   |en label|@textarea|
 
 |scenario                                |Npo poms Tabblad object Maak textarea|textarea    |leeg|
 |Npo poms Tabblad object Maak veld       |@textarea                            |leeg             |
@@ -102,8 +103,10 @@
 |scenario        |Npo poms Tabblad object Wacht tot status zichtbaar|
 |wait for visible|xpath=//h2[text()="Status"]/following-sibling::*/p|
 
-|scenario|Npo poms Tabblad object Check status|status                                                    |
-|check   |value of                            |xpath=//h2[text()="Status"]/following-sibling::*/p|@status|
+|scenario|Npo poms Tabblad object Check status|status                                                                          |
+|ensure  |is visible on page                  |xpath=//h2[text()="Status"]/following-sibling::*/p[normalize-space(.)="@status"]|
+|note    |Toon de status voor het geval de regel hierboven faalt                                                               |
+|show    |value of                            |xpath=//h2[text()="Status"]/following-sibling::*/p                              |
 
 |scenario        |Npo poms Tabblad object Wacht tot status                 |status                |
 |wait for visible|xpath=//h2[text()="Status"]/following-sibling::*/p[normalize-space(.)="@status"]|
@@ -212,15 +215,18 @@
 |scenario|Npo poms Tabblad object Druk op editknop bij segment                                                        |segment                                                        |
 |click   |xpath=//poms-segments/div/table/tbody/tr[./td[@class="column-mainTitle"]/span[normalize-space(.)="@segment"]]/td[@class="column-tools-xl"]/div/button[@title="edit segment"]|
 
-|table template       |Npo poms Tabblad object Check permissies van veld                                                                                          |
-|scroll to            |xpath=//h2[starts-with(normalize-space(.), "@{veld}")]                                                                                     |
-|hover over           |xpath=//h2[starts-with(normalize-space(.), "@{veld}")]                                                                                     |
-|wait for visible     |xpath=//h2[starts-with(normalize-space(.), "@{veld}")]/ancestor::div[contains(@class, "editfield-wrapper")]/div[@class="media-field-tools"]|
-|set search context to|xpath=//h2[starts-with(normalize-space(.), "@{veld}")]/ancestor::div[contains(@class, "editfield-wrapper")]/div[@class="media-field-tools"]|
-|$heeftSlotje=        |is present on page                                       |xpath=./div[@class="forbidden-icon"]                                             |
-|$kanBewerken=        |is present on page                                       |xpath=./div[@class="edit-icon"]                                                  |
-|$kanVerwijderen=     |is present on page                                       |xpath=./div[@class="remove-override-icon"]                                       |
-|clear search context                                                                                                                                             |
+|table template                                                    |Npo poms Tabblad object Check permissies van veld                                                                                                     |
+|scroll to                                                         |xpath=//h2[starts-with(normalize-space(.), "@{veld}")]                                                                                                |
+|hover over                                                        |xpath=//h2[starts-with(normalize-space(.), "@{veld}")]                                                                                                |
+|wait for visible                                                  |xpath=//h2[starts-with(normalize-space(.), "@{veld}")]/ancestor::div[contains(@class, "editfield-wrapper")]/div[@class="media-field-tools"]           |
+|set search context to                                             |xpath=//h2[starts-with(normalize-space(.), "@{veld}")]/ancestor::div[contains(@class, "editfield-wrapper")]/div[@class="media-field-tools"]           |
+|$heeftSlotje=                                                     |is present on page                                                        |xpath=./div[@class="forbidden-icon"]                                       |
+|$kanBewerken=                                                     |is present on page                                                        |xpath=./div[@class="edit-icon"]                                            |
+|$kanVerwijderen=                                                  |is present on page                                                        |xpath=./div[@class="remove-override-icon"]                                 |
+|$veldwaarde=                                                      |value of                                                                  |xpath=//h2[starts-with(normalize-space(.), "@{veld}")]/following-sibling::*|
+|$isVeldLeeg=                                                      |value                                                                     |$veldwaarde              |equals              |                            |
+|$kanVerwijderenAlsVeldNietLeegIsEnKanNietVerwijderenAlsVeldLeegIs=|check can delete if field is not empty and cannot delete if field is empty|$isVeldLeeg              |                    |$kanVerwijderen             |
+|clear search context                                                                                                                                                                                                     |
 
 |scenario|Npo poms Tabblad object Check checkbox|checkbox                                   |actief                                  |
 |ensure  |is visible on page                    |xpath=//h2[text()="@checkbox"]/following-sibling::p/input[not(@disabled="disabled")]|
@@ -255,12 +261,14 @@
 |$@var=  |value of                                  |xpath=.//div/h1[contains(text(), "@veld")]   |
 |$@var=  |extract string                            |$@var|from     |@veld \((\d+)\)|using group|1|
 
-|scenario|Npo poms Tabblad object Check aantal in veld|veld                                      |is var  |var |
-|check   |value of                                    |xpath=.//div/h1[contains(text(), "@veld")]|@veld ($@var)|
+|scenario                                    |Npo poms Tabblad object Check aantal in veld|veld  |is var|var   |
+|Npo poms Tabblad object Check aantal in veld|@veld                                       |is var|@var  |plus|0|
 
-|scenario     |Npo poms Tabblad object Check aantal in veld|veld                                      |is var|var|plus|optellenMetGetal|
-|$nieuwAantal=|add                                         |$@var                                     |and   |@optellenMetGetal        |
-|check        |value of                                    |xpath=.//div/h1[contains(text(), "@veld")]|@veld ($nieuwAantal)            |
+|scenario     |Npo poms Tabblad object Check aantal in veld|veld     |is var    |var    |plus    |optellenMetGetal    |
+|$nieuwAantal=|add                                         |$@var    |and       |@optellenMetGetal                    |
+|ensure       |is visible on page                          |xpath=.//div/h1[normalize-space(.)="@veld ($nieuwAantal)"]|
+|note         |Toon de waarde van het bedoelde veld voor het geval de regel hierboven faalt                           |
+|show         |value of                                    |xpath=.//div/h1[contains(text(), "@veld")]                |
 
 |scenario  |Npo poms Tabblad object Klik op wijzig tags icoon                                                              |
 |hover over|xpath=//h2[text()="Tags"]                                                                                      |

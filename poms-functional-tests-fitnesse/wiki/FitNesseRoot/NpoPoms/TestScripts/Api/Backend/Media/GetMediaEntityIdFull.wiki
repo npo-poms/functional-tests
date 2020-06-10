@@ -1,0 +1,18 @@
+---
+Help: NPOAPI-98
+Suites: DV
+Test
+---
+!*> Test-specific items
+!define mid {NCRV_1495483}
+*!
+
+|script                                                             |
+|get from|${urlBackendApi}/media/group/${mid}/full                  |
+|check   |xPath|count(/media:group)                          |1     |
+|check   |xPath|/media:group/@mid                            |${mid}|
+|check   |xPath|/media:group/@type                           |SEASON|
+|check   |xPath|/media:group/media:broadcaster               |NCRV  |
+|check   |xPath|count(/media:group/media:title)              |5     |
+|check   |xPath|count(/media:group/media:description)        |1     |
+|check   |xPath|count(/media:group/media:images/shared:image)|2     |

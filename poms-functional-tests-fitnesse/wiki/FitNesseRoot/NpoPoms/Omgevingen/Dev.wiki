@@ -9,8 +9,10 @@ SymbolicLinks
 !define npoPomsInlogscherm_titel {POMS Test-omgeving}
 !define npoPomsHoofdscherm_titel {POMS - @tabblad}
 
-!define urlApi {!-https://rs-dev.poms.omroep.nl/v1/api-!}
-!define apiDocs {!-https://rs-dev.poms.omroep.nl/v1/docs/api-!}
+!define urlFrontendApi {!-https://rs-dev.poms.omroep.nl/v1/api-!}
+!define frontendApiDocs {!-https://rs-dev.poms.omroep.nl/v1/docs/api-!}
+
+!define urlBackendApi {!-https://api-dev.poms.omroep.nl-!}
 
 !define secondsBeforeTimeout {30}
 *!
@@ -19,8 +21,11 @@ SymbolicLinks
 |'''Titel inlogscherm'''|${npoPomsInlogscherm_titel}             |
 |'''Titel hoofdscherm'''|${npoPomsHoofdscherm_titel}             |
 
-|'''Frontend API'''           |
-|'''Url'''         |${urlApi} |
-|'''Documentatie'''|${apiDocs}|
+|'''Frontend API'''                   |
+|'''Url'''         |${urlFrontendApi} |
+|'''Documentatie'''|${frontendApiDocs}|
+
+|'''Backend API'''         |
+|'''Url'''|${urlBackendApi}|
 *!
 !contents -R2 -g -p -f -h

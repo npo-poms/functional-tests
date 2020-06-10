@@ -1,0 +1,37 @@
+---
+Help: NPOAPI-14
+Suites: RG
+Test
+---
+!*> Test-specific items
+!define mid {POMS_S_VPRO_218686}
+
+!define body1 { {{{
+{
+  "searches": {
+    "text": {
+      "value": "Golden Earring",
+      "matchType": "TEXT",
+      "match": "MUST"
+    }
+  }
+}
+}}} }
+
+!define body2 { {{{
+{
+  "searches": {
+    "text": {
+      "value": "Armin van Buuren",
+      "matchType": "TEXT",
+      "match": "MUST"
+    }
+  }
+}
+}}} }
+*!
+
+|Post count at path                        |
+|body    |post                |path |count?|
+|${body1}|media/${mid}/members|items|8     |
+|${body2}|media/${mid}/members|items|3     |

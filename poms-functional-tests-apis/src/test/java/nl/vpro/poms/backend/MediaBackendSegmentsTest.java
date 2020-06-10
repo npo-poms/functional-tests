@@ -27,6 +27,10 @@ import static org.assertj.core.api.Assumptions.assumeThat;
  * 2018-08-20
  * 5.9-SNAPSHOT @ dev : allemaal ok
 
+*
+* Clean up segments sometimes: select delete_object(id) from segment where parent_id  = id('WO_VPRO_025057');
+*
+* Otherwise test object gets used of all (deleted) segments
  */
 /**
  * @author Michiel Meeuwissen
@@ -54,6 +58,7 @@ class MediaBackendSegmentsTest extends AbstractApiMediaBackendTest {
                 .broadcasters("VPRO")
                 .midRef(MID)
                 .start(Duration.ofMillis(0))
+                .duration(Duration.ofMinutes((int) (Math.random() * 10)))
                 .ageRating(AgeRating.ALL)
                 .mainTitle(segmentTitle));
         JAXB.marshal(update, System.out);
@@ -114,6 +119,7 @@ class MediaBackendSegmentsTest extends AbstractApiMediaBackendTest {
             MediaBuilder.segment()
                 .avType(AVType.VIDEO)
                 .start(Duration.ofMillis(0))
+                .duration(Duration.ofMinutes((int) (Math.random() * 10)))
                 .mainTitle("Segment for " + title)
                 .ageRating(AgeRating.ALL)
                 .build();

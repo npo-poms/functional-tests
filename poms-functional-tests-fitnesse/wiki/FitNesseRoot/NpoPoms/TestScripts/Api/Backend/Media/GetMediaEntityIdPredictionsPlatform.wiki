@@ -1,0 +1,9 @@
+---
+Help: NPOAPI-113
+Suites: DV
+Test
+---
+|script                                                               |
+|get from|${urlBackendApi}/media/media/VPWON_1272435/predictions/TVVOD|
+|check   |xPath        |count(/update:prediction)        |1           |
+|check   |xPath        |/update:prediction               |TVVOD       |

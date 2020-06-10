@@ -1,0 +1,10 @@
+---
+Help: NPOAPI-11
+Suites: RG
+Test
+---
+!define mid {14Jnl0700n1}
+
+|Get values at two paths                                                                                         |
+|get                                 |path1                       |value1?    |path2                     |value2?|
+|media/${mid}/episodes?sort=asc&max=1|items[0].episodeOf[0].midRef|14Jnl0700n1|items[0].episodeOf[0].type|SEASON |

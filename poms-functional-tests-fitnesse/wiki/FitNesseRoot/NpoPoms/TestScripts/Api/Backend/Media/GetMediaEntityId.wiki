@@ -1,0 +1,13 @@
+---
+Help: NPOAPI-96
+Suites: RG
+Test
+---
+!*> Test-specific items
+!define mid {VPWON_1282187}
+*!
+
+|script                                      |
+|get from|${urlBackendApi}/media/media/${mid}|
+|check   |xPath|count(/update:program)|1     |
+|check   |xPath|/update:program/@mid  |${mid}|

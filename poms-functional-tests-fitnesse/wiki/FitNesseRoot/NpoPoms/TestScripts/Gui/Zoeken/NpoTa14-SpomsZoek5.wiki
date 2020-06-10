@@ -12,7 +12,7 @@ Test
 !define datumEnPersoon2 {aangemaakt door:}
 
 !define datumvandaag {!today (dd-MM-yyyy)}
-!define maandgeleden {!monthsFromToday (dd-MM-yyyy) -1}
+!define maandgeleden {!today (dd-MM-yyyy) -30}
 *!
 
 !*> Lokale scenario's
@@ -22,32 +22,35 @@ Test
 |ensure  |is visible on page                             |xpath=//span[normalize-space(.)='uitzend-/sorteerdatum:']/following::a[normalize-space(.)='tot en met: @eind']|
 *!
 
-|script                                                                                                                                                                                                          |
-|Open Npo poms website                                                                                                                                                                                           |
-|Npo poms Inlogscherm Log in met standaard-gebruiker                                                                                                                                                             |
-|Npo poms Zoeken Sla aantal zoekresultaten op in var     |aantalZoekresultaten1                                                                                                                                  |
-|click                                                   |Datum & Persoon                                                                                                                                        |
-|click                                                   |Afgelopen maand                                                                                                                                        |
-|Npo poms Zoeken Check tekstveld                         |van:                                                                   |heeft waarde          |${maandgeleden}                                         |
-|Npo poms Zoeken Check tekstveld                         |t/m                                                                    |heeft waarde          |${datumvandaag}                                         |
-|click                                                   |Zoek                                                                                                                                                   |
-|Controleer weergegeven datumrange voor zoeken;          |${maandgeleden}                                                        |${datumvandaag}       |                                                        |
-|Npo poms Zoeken Wacht tot zoekopdracht met Gezocht naar:|uitzend-/sorteerdatum: vanaf ${maandgeleden} tot en met ${datumvandaag}|klaar is                                                                       |
-|Npo poms Zoeken Sla aantal zoekresultaten op in var     |aantalZoekresultaten2                                                                                                                                  |
-|ensure                                                  |value                                                                  |$aantalZoekresultaten2|is smaller than|$aantalZoekresultaten1                  |
-|Npo poms Zoeken Open eerste object                                                                                                                                                                              |
-|Npo poms Hoofdscherm Sluit laatste tab                                                                                                                                                                          |
-|Npo poms Hoofdscherm Sluit laatste tab                                                                                                                                                                          |
-|Npo poms Zoeken Sla aantal zoekresultaten op in var     |aantalZoekresultaten1                                                                                                                                  |
-|click                                                   |Datum & Persoon                                                                                                                                        |
-|click                                                   |Aangemaakt door                                                                                                                                        |
-|Npo poms Zoeken Selecteer persoon                       |${persoon}                                                                                                                                             |
-|click                                                   |Zoek                                                                                                                                                   |
-|Npo poms Zoeken Check optie                             |${datumEnPersoon2}                                                     |is                    |${persoon}     |geselecteerd in dropdown|Datum & Persoon|
-|Npo poms Zoeken Wacht tot zoekopdracht met Gezocht naar:|gemaakt door: ${persoon}                                               |klaar is                                                                       |
-|Npo poms Zoeken Sla aantal zoekresultaten op in var     |aantalZoekresultaten2                                                                                                                                  |
-|ensure                                                  |value                                                                  |$aantalZoekresultaten2|is smaller than|$aantalZoekresultaten1                  |
-|Npo poms Zoeken Open eerste object                                                                                                                                                                              |
-|Npo poms Hoofdscherm Sluit laatste tab                                                                                                                                                                          |
-|Npo poms Hoofdscherm Sluit laatste tab                                                                                                                                                                          |
-|Npo poms Hoofdscherm Log uit                                                                                                                                                                                    |
+|script                                                                         |
+|$maandGeleden=|decrease date by one day if March on a leap year|${maandgeleden}|
+
+|script                                                                                                                                                                                                        |
+|Open Npo poms website                                                                                                                                                                                         |
+|Npo poms Inlogscherm Log in met standaard-gebruiker                                                                                                                                                           |
+|Npo poms Zoeken Sla aantal zoekresultaten op in var     |aantalZoekresultaten1                                                                                                                                |
+|click                                                   |Datum & Persoon                                                                                                                                      |
+|click                                                   |Afgelopen maand                                                                                                                                      |
+|Npo poms Zoeken Check tekstveld                         |van:                                                                 |heeft waarde          |$maandGeleden                                           |
+|Npo poms Zoeken Check tekstveld                         |t/m                                                                  |heeft waarde          |${datumvandaag}                                         |
+|click                                                   |Zoek                                                                                                                                                 |
+|Controleer weergegeven datumrange voor zoeken;          |$maandGeleden                                                        |${datumvandaag}       |                                                        |
+|Npo poms Zoeken Wacht tot zoekopdracht met Gezocht naar:|uitzend-/sorteerdatum: vanaf $maandGeleden tot en met ${datumvandaag}|klaar is                                                                       |
+|Npo poms Zoeken Sla aantal zoekresultaten op in var     |aantalZoekresultaten2                                                                                                                                |
+|ensure                                                  |value                                                                |$aantalZoekresultaten2|is smaller than|$aantalZoekresultaten1                  |
+|Npo poms Zoeken Open eerste object                                                                                                                                                                            |
+|Npo poms Hoofdscherm Sluit laatste tab                                                                                                                                                                        |
+|Npo poms Hoofdscherm Sluit laatste tab                                                                                                                                                                        |
+|Npo poms Zoeken Sla aantal zoekresultaten op in var     |aantalZoekresultaten1                                                                                                                                |
+|click                                                   |Datum & Persoon                                                                                                                                      |
+|click                                                   |Aangemaakt door                                                                                                                                      |
+|Npo poms Zoeken Selecteer persoon                       |${persoon}                                                                                                                                           |
+|click                                                   |Zoek                                                                                                                                                 |
+|Npo poms Zoeken Check optie                             |${datumEnPersoon2}                                                   |is                    |${persoon}     |geselecteerd in dropdown|Datum & Persoon|
+|Npo poms Zoeken Wacht tot zoekopdracht met Gezocht naar:|gemaakt door: ${persoon}                                             |klaar is                                                                       |
+|Npo poms Zoeken Sla aantal zoekresultaten op in var     |aantalZoekresultaten2                                                                                                                                |
+|ensure                                                  |value                                                                |$aantalZoekresultaten2|is smaller than|$aantalZoekresultaten1                  |
+|Npo poms Zoeken Open eerste object                                                                                                                                                                            |
+|Npo poms Hoofdscherm Sluit laatste tab                                                                                                                                                                        |
+|Npo poms Hoofdscherm Sluit laatste tab                                                                                                                                                                        |
+|Npo poms Hoofdscherm Log uit                                                                                                                                                                                  |
