@@ -1,0 +1,14 @@
+---
+Help: NPOAPI-132
+Suites: DV
+Test
+---
+!*> Test-specific items
+!define mid {VPWON_1282187}
+*!
+
+|script                                                                  |
+|get from|${urlBackendApi}/media/subtitles/${mid}/nl/CAPTION/28          |
+|check   |xPath|/subtitles:standaloneCue/@parent  |${mid}                |
+|check   |xPath|/subtitles:standaloneCue/@sequence|28                    |
+|check   |xPath|/subtitles:standaloneCue/text()   |Gebruik toch een vork.|
