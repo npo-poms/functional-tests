@@ -4,16 +4,16 @@ Suites: DV
 Test
 ---
 !*> Test-specific items
-!define regexStart {WEBVTT\n\n}
-!define regexIndexNumber {\d+\n}
-!define regexTimeSpan {!-\d{2}:\d{2}:\d{2}\.\d{3} --> \d{2}:\d{2}:\d{2}\.\d{3}\n-!}
-!define regexText {(.+?\n)}
-!define regexSection {${regexIndexNumber}${regexTimeSpan}${regexText}+?\n}
+Regex components for verifying [[WebVTT][https://developer.mozilla.org/en-US/docs/Web/API/WebVTT_API]]:
+!define header {WEBVTT\n\n}
+!define id {\d+\n}
+!define timing {!-\d{2}:\d{2}:\d{2}\.\d{3} --> \d{2}:\d{2}:\d{2}\.\d{3}\n-!}
+!define cue {(.+\n)+\n}
 
 |scenario|check subtitle |mid       |counts      |count      |sections      |
 |show    |get from       |${urlBackendApi}/media/subtitles/@{mid}/nl/CAPTION|
 |check   |response status|200                                               |
-|check   |response       |=~/^${regexStart}(${regexSection}){@count}$/      |
+|check   |response       |=~/^${header}(${id}${timing}${cue}){@count}$/     |
 *!
 
 |script                                         |
