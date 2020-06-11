@@ -6,12 +6,19 @@ Test
 !include -c <TestScripts.Gui.CmsSelector.Scenarios
 
 !*> Lokale scenario's
+# Dit table template gebruikt harde waits om een meer menselijk klikgedrag te simuleren
+# Zonder deze waits laadt de pop-up niet altijd goed, maar dit is met de hand niet te reproduceren
+# Een dynamische wait lijkt niet haalbaar omdat er geen visuele indicatie is dat de pagina klaar is voor de volgende klik
+# Ook gebeuren er geen AJAX requests op de achtergrond en is dit geen Angular-pagina
 |table template                                     |Controleer CMS selector                             |
 |open                                               |${urlPoms}/${affixCmsSelector}                      |
+|wait                                               |1            |seconds                               |
 |click                                              |@{filtertype}                                       |
+|wait                                               |1            |seconds                               |
 |click                                              |Select                                              |
 |switch to next tab                                                                                      |
 |Npo poms Inlogscherm Log in met admin                                                                   |
+|Npo poms Zoeken Wacht tot zoeken klaar is                                                               |
 |Npo poms Zoeken Check optie                        |@{filtertype}|geselecteerd in dropdown|!-MediaType-!|
 |Npo poms Zoeken Druk op tandwieltje                                                                     |
 |set search context to                              |xpath=//poms-search-columns                         |
@@ -48,4 +55,3 @@ Test
 |Visual radio           |
 |Opname                 |
 |Promo                  |
-
