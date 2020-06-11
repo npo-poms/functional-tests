@@ -1,6 +1,5 @@
 ---
 Help: NPOAPI-130
-Prune
 Test
 ---
 !*> Test-specific items
@@ -36,7 +35,7 @@ Test
 }
 }}} }
 *!
-|script                                                                                          |
-|show |post           |${body}     |to    |${urlBackendApi}/media/subtitles/${mid}/nl/CAPTION    |
-|check|response status|202                                                                       |
-|check|response       |Subtitles (4 cues, 569 bytes) provisionally accepted for ${mid} CAPTION nl|
+|script                                                                                                   |
+|show |post           |${body}        |to       |${urlBackendApi}/media/subtitles/${mid}/nl/CAPTION       |
+|check|response status|202                                                                                |
+|check|response       |=~/^Subtitles \(4 cues, \d+? bytes\) provisionally accepted for ${mid}	CAPTION	nl$/|
