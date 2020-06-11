@@ -1,0 +1,42 @@
+---
+Help: NPOAPI-130
+Prune
+Test
+---
+!*> Test-specific items
+!define mid {POMS_VPRO_3339239}
+!define body { {{{
+{ 
+  "mid": "${mid}",
+  "content": {
+    "format": "WEBVTT",
+    "value": [
+      "1
+       19:01:06.920 --> 19:01:07.960
+       888
+       
+       2
+       19:01:08.800 --> 19:01:10.200
+       Ondertitels van dit object
+       
+       3
+       19:01:10.200 --> 19:01:12.760
+       Soms is lezen beter dan luisteren
+       
+       4
+       19:01:12.760 --> 19:01:15.800
+       En soms is luisteren beter"
+    ], 
+  },
+  "type": "CAPTION",
+  "owner": "BROADCASTER",
+  "workflow": "IGNORE",
+  "creationDate": "2020-06-08T06:48:38.836Z",
+  "lastModified": "2020-06-08T06:48:38.836Z"
+}
+}}} }
+*!
+|script                                                                                          |
+|show |post           |${body}     |to    |${urlBackendApi}/media/subtitles/${mid}/nl/CAPTION    |
+|check|response status|202                                                                       |
+|check|response       |Subtitles (4 cues, 569 bytes) provisionally accepted for ${mid} CAPTION nl|
