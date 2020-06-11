@@ -1,0 +1,12 @@
+---
+Help: NPOAPI-128
+Suites: RG
+Test
+---
+!*> Test-specific items
+!define mid {POMS_VPRO_3339239}
+*!
+|script                                                                  |
+|show |delete         |${urlBackendApi}/media/subtitles/${mid}/nl/CAPTION|
+|check|response status|202                                               |
+|check|response       |Subtitles deletion accepted for ${mid}	CAPTION	nl |
