@@ -6,9 +6,9 @@ Test
 !*> Test-specific items
 !define regexStart {WEBVTT\n\n}
 !define regexIndexNumber {\d+\n}
-!define regexTimes {!-\d{2}:\d{2}:\d{2}\.\d{3} --> \d{2}:\d{2}:\d{2}\.\d{3}\n-!}
+!define regexTimeSpan {!-\d{2}:\d{2}:\d{2}\.\d{3} --> \d{2}:\d{2}:\d{2}\.\d{3}\n-!}
 !define regexText {(.+?\n)}
-!define regexSection {${regexIndexNumber}${regexTimes}${regexText}+?\n}
+!define regexSection {${regexIndexNumber}${regexTimeSpan}${regexText}+?\n}
 
 |scenario|check subtitle |mid       |counts      |count      |sections      |
 |show    |get from       |${urlBackendApi}/media/subtitles/@{mid}/nl/CAPTION|
