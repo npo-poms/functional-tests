@@ -1,0 +1,22 @@
+---
+Help: NPOAPI-101
+Suites: RG
+Test
+---
+!*> Test-specific items
+!define id {POMS_VPRO_3339239}
+!define body { {{{
+<?xml version="1.0"?>
+<location xmlns="urn:vpro:media:update:2009">
+  <programUrl>http://radiobox2.omroep.nl/audiofragment/file/106470/fragment.mp3</programUrl>
+    <avAttributes>
+      <avFileFormat>MP3</avFileFormat>
+    </avAttributes>
+  <duration>P0DT0H10M2.000S</duration>
+</location>
+}}} }
+*!
+|script                                                                      |
+|show |post           |${body}|to|${urlBackendApi}/media/media/${id}/location|
+|check|response status|202                                                   |
+|check|response       |Location accepted for ${id}.                          |

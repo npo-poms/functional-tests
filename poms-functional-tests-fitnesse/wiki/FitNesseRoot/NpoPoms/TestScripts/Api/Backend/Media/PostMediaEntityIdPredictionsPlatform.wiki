@@ -1,0 +1,17 @@
+---
+Help: NPOAPI-114
+Suites: RG
+Test
+---
+!*> Test-specific items
+!define id {POMS_VPRO_3339239}
+!define body { {{{
+<?xml version="1.0"?>
+<prediction xmlns="urn:vpro:media:update:2009" publishStart="2017-01-01T00:00:00.001Z" publishStop="2018-01-01T00:00:00.001Z" encryption="NONE">
+  <platform>INTERNETVOD</platform>
+</prediction>
+}}} }
+*!
+|script                                                                                     |
+|show |post           |${body}|to|${urlBackendApi}/media/media/${id}/predictions/INTERNETVOD|
+|check|response status|204                                                                  |
