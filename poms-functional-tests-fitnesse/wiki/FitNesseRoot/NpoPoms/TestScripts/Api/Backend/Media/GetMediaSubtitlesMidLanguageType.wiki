@@ -1,0 +1,17 @@
+---
+Help: NPOAPI-129
+Suites: DV
+Test
+---
+!*> Test-specific items
+!define regexStart {.+\n+}
+!define regexSection {\d+\n(.+\n)+\n}
+
+|scenario|check subtitle |mid       |counts      |count      |sections      |
+|show    |get from       |${urlBackendApi}/media/subtitles/@{mid}/nl/CAPTION|
+|check   |response status|200                                               |
+|check   |response       |=~/^${regexStart}(${regexSection}){@count}$/      |
+*!
+
+|script                                         |
+|check subtitle|VPWON_1282187|counts|90|sections|
