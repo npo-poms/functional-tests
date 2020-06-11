@@ -218,7 +218,8 @@ class PromoTest extends AbstractApiMediaBackendTest {
     }
 
     @Test
-    void test999cleanup() {
+    @Order(999)
+    void cleanup() {
         MediaUpdateList<MemberUpdate> promos = backend.getGroupMembers(PROMOTED_MID);
         int count = 0;
         for(MemberUpdate mu :promos) {
