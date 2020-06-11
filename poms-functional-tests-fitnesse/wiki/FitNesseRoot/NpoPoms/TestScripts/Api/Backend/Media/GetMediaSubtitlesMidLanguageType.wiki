@@ -4,8 +4,11 @@ Suites: DV
 Test
 ---
 !*> Test-specific items
-!define regexStart {.+\n+}
-!define regexSection {\d+\n(.+\n)+\n}
+!define regexStart {WEBVTT\n\n}
+!define regexIndexNumber {\d+\n}
+!define regexTimes {!-\d{2}:\d{2}:\d{2}\.\d{3} --> \d{2}:\d{2}:\d{2}\.\d{3}\n-!}
+!define regexText {(.+\n)}
+!define regexSection {${regexIndexNumber}${regexTimes}(${regexText})+\n}
 
 |scenario|check subtitle |mid       |counts      |count      |sections      |
 |show    |get from       |${urlBackendApi}/media/subtitles/@{mid}/nl/CAPTION|
