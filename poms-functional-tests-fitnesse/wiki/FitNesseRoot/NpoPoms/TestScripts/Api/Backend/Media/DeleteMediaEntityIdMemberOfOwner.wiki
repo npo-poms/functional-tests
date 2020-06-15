@@ -1,0 +1,8 @@
+---
+Help: NPOAPI-106
+Suites: RG
+Test
+---
+|script                                                                                         |
+|show |delete         |${urlBackendApi}/media/media/POMS_VPRO_3339238/memberOf/POMS_VPRO_3339239|
+|check|response status|202                                                                      |
