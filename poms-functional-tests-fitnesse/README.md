@@ -26,48 +26,13 @@ De testscripts maken gebruik van scenario's in de scenario library. Die staan hi
 
 ## Draaien in Jenkins
 
-In Jenkins moeten er aparte projecten zijn voor `api` en `gui` en voor elke omgeving.
-
-### Api
-
-De configuratie van de testomgeving van `api` moet als volgt worden ingesteld:
-
-![Npo-poms-api-jenkins-configuration](wiki/FitNesseRoot/files/images/Npo-poms-api-jenkins-configuration.png)
-
-Als de properties files in `~/conf` (Linux/macOS) of `%userprofile%\conf` (Windows) zitten, dan moet er dit bij `Commando` staan:
-```
-cd poms-functional-tests-fitnesse
-MOZ_HEADLESS=1
-mvn clean test-compile failsafe:integration-test -DfitnesseSuiteToRun=NpoPoms.Omgevingen.Test.TestScripts.Api
-```
-
-Als dit niet zo is, dan moet de properties file `poms-fitnesse-apikeys.properties` gegenereerd worden via `Commando`. Deze file heeft een dergelijke inhoud:
-```
-frontEndApiKey=apiKey
-frontEndApiSecret=secret
-frontEndApiOrigin=https://poms.testomgeving.example.com/
-backEndApiKey=apiKey
-backEndApiSecret=secret
-backEndApiOrigin=https://poms.testomgeving.example.com/
-```
-
-Dit moet er bij `Commando` staan:
-
-```
-cd poms-functional-tests-fitnesse
-mvn clean test-compile
-mkdir -p target/fitnesse-results/files/fileFixture
-
-(echo frontEndApiKey='apiKey' & echo frontEndApiSecret='secret' & echo frontEndApiOrigin='https://poms.testomgeving.example.com/' & echo backEndApiKey='apiKey' & echo backEndApiSecret='secret' & echo backEndApiOrigin='https://poms.testomgeving.example.com/') > target/fitnesse-results/files/fileFixture/poms-fitnesse-apikeys.properties
-
-mvn failsafe:integration-test -DfitnesseSuiteToRun=NpoPoms.Omgevingen.Test.TestScripts.Api "-DseleniumJsonProfile={'args':['headless','disable-gpu']}"
-```
-
-waarbij de waarden achter `=` vervangen moeten worden door de werkelijke waarden.
+In Jenkins moeten er aparte projecten zijn voor `gui` en `api` en voor elke omgeving.
 
 ### Gui
 
-De configuratie van de testomgeving van `gui` moet ingesteld worden zoals die van `api`, maar zonder de laatste actie `Bouw ander project` en er komen andere commando's in `Commando`.
+De configuratie van de testomgeving van `gui` moet als volgt worden ingesteld:
+
+![Npo-poms-api-jenkins-configuration](wiki/FitNesseRoot/files/images/Npo-poms-gui-jenkins-configuration.png)
 
 Als de properties files in `~/conf` (Linux/macOS) of `%userprofile%\conf` (Windows) zitten, dan moet er dit bij `Commando` staan:
 ```
@@ -98,6 +63,41 @@ mkdir -p target/fitnesse-results/files/fileFixture
 (echo standaardGebruikersnaam='gebruikersnaam' & echo standaardWachtwoord='wachtwoord' & echo npoGebruikersnaam='gebruikersnaam' & echo npoWachtwoord='wachtwoord' & echo adminGebruikersnaam='gebruikersnaam' & echo adminWachtwoord='wachtwoord' & echo omroepUploaderGebruikersnaam='gebruikersnaam' & echo omroepUploaderWachtwoord='wachtwoord') > target/fitnesse-results/files/fileFixture/poms-fitnesse-accounts.properties
 
 mvn failsafe:integration-test -DfitnesseSuiteToRun=NpoPoms.Omgevingen.Test.TestScripts.Gui "-DseleniumJsonProfile={'args':['headless','disable-gpu']}"
+```
+
+waarbij de waarden achter `=` vervangen moeten worden door de werkelijke waarden.
+
+### Api
+
+De configuratie van de testomgeving van `api` moet ingesteld worden zoals die van `gui` met uitzondering van het veld `Commando`.
+
+Als de properties files in `~/conf` (Linux/macOS) of `%userprofile%\conf` (Windows) zitten, dan moet er dit bij `Commando` staan:
+```
+cd poms-functional-tests-fitnesse
+MOZ_HEADLESS=1
+mvn clean test-compile failsafe:integration-test -DfitnesseSuiteToRun=NpoPoms.Omgevingen.Test.TestScripts.Api
+```
+
+Als dit niet zo is, dan moet de properties file `poms-fitnesse-apikeys.properties` gegenereerd worden via `Commando`. Deze file heeft een dergelijke inhoud:
+```
+frontEndApiKey=apiKey
+frontEndApiSecret=secret
+frontEndApiOrigin=https://poms.testomgeving.example.com/
+backEndApiKey=apiKey
+backEndApiSecret=secret
+backEndApiOrigin=https://poms.testomgeving.example.com/
+```
+
+Dit moet er bij `Commando` staan:
+
+```
+cd poms-functional-tests-fitnesse
+mvn clean test-compile
+mkdir -p target/fitnesse-results/files/fileFixture
+
+(echo frontEndApiKey='apiKey' & echo frontEndApiSecret='secret' & echo frontEndApiOrigin='https://poms.testomgeving.example.com/' & echo backEndApiKey='apiKey' & echo backEndApiSecret='secret' & echo backEndApiOrigin='https://poms.testomgeving.example.com/') > target/fitnesse-results/files/fileFixture/poms-fitnesse-apikeys.properties
+
+mvn failsafe:integration-test -DfitnesseSuiteToRun=NpoPoms.Omgevingen.Test.TestScripts.Api "-DseleniumJsonProfile={'args':['headless','disable-gpu']}"
 ```
 
 waarbij de waarden achter `=` vervangen moeten worden door de werkelijke waarden.
