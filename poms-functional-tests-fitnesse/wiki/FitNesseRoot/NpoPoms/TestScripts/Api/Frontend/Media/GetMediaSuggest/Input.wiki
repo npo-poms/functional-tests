@@ -3,6 +3,6 @@ Help: NPOAPI-22
 Suites: RG
 Test
 ---
-|Get count at path                   |
-|get                    |path |count?|
-|media/suggest?input=npo|items|5     |
+|Get count at path                         |
+|get                          |path |count?|
+|media/suggest?input=npo&max=1|items|1     |
