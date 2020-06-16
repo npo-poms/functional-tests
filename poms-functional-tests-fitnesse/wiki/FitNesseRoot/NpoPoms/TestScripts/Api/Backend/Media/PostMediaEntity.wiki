@@ -6,7 +6,7 @@ Test
 !*> Test-specific items
 !define body { {{{
 <program xmlns="urn:vpro:media:update:2009" type="CLIP" avType="VIDEO" embeddable="true">
-  <broadcaster>VPRO</broadcaster>
+  <broadcaster>NPO</broadcaster>
   <title type="MAIN">Specialisterren 202008060917</title>
   <title type="SUB">Testsubtitle</title>
   <title type="ORIGINAL">Original title</title>
@@ -16,14 +16,39 @@ Test
   <description type="EPISODE">Nieuwe Clip van vandaag.</description>
   <credits/>
   <locations/>
+  <scheduleEvents/>
   <images/>
   <segments/>
 </program>
 }}} }
 *!
 
+!4 Create
 |script                                                                         |
 |show |post           |${body}|to|${urlBackendApi}/media/media?owner=BROADCASTER|
 |check|response status|202                                                      |
-|check|response       |=~/^POMS_VPRO_\d{7}$/                                    |
+|check|response       |=~/^POMS_NPO_\d{7}$/                                     |
 |$mid=|response                                                                 |
+
+!4 Read (verify creation)
+Todo: bepalen of we zo lang (1-3 minuten) hierop willen wachten?!
+#|script                                                                    |
+#|show                           |get from|${urlBackendApi}/media/media/$mid|
+#|set repeat interval to         |1000    |milliseconds                     |
+#|repeat at most                 |180     |times                            |
+#|repeat until response status is|200                                       |
+#|show                           |time spent repeating                      |
+#|check                          |xPath   |/update:program/@mid    |$mid    |
+
+!4 Delete
+#|script                                                 |
+#|show |delete         |${urlBackendApi}/media/media/$mid|
+#|check|response status|202                              |
+
+!4 Read (verify deletion)
+Todo: Héél lang wachten?! of werkt delete niet?? (na minutenlang wachten nog steeds response met volledig item)
+#|script                                                                    |
+#|show                           |get from|${urlBackendApi}/media/media/$mid|
+#|repeat until response status is|404                                       |
+#|show                           |time spent repeating                      |
+#|show                           |response                                  |
