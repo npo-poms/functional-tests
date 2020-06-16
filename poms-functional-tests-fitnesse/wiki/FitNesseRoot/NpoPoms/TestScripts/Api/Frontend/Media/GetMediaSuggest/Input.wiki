@@ -5,4 +5,4 @@ Test
 ---
 |Get count at path                   |
 |get                    |path |count?|
-|media/suggest?input=npo|items|1     |
+|media/suggest?input=npo|items|5     |

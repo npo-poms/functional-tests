@@ -5,4 +5,4 @@ Test
 ---
 |Get value at path                                                              |
 |get                                               |path          |value?       |
-|schedule?start=2020-01-01T07:00:00Z&sort=asc&max=1|items[0].start|1577862000000|
+|schedule?start=2020-01-01T07:00:00Z&sort=asc&max=1|items[0].start|1578237900000|
