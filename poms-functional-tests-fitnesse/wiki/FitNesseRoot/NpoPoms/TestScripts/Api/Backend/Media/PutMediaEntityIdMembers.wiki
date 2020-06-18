@@ -11,23 +11,23 @@ Test
   <to>1</to>
 </move>
 }}} }
-!define id {POMS_S_NPO_780683}
+!define id {POMS_S_NPO_11226816}
 !define responseStatus {202}
 !define response {Move accepted for ${id}.}
 *!
-|script                                                                                                                     |
-|get from|${urlBackendApi}/media/group/POMS_S_NPO_11226816/members?max=2                                                    |
-|$mid1=  |xPath          |/update:list/update:item[1]/update:mediaUpdate/@mid                                               |
-|$mid2=  |xPath          |/update:list/update:item[2]/update:mediaUpdate/@mid                                               |
-|show    |put            |${body}                                            |to|${urlBackendApi}/media/group/${id}/episodes|
-|check   |response status|${responseStatus}                                                                                 |
-|check   |response       |${response}                                                                                       |
-|get from|${urlBackendApi}/media/group/POMS_S_NPO_11226816/members?max=2                                                    |
-|check   |xPath          |/update:list/update:item[1]/update:mediaUpdate/@mid|$mid2                                         |
-|check   |xPath          |/update:list/update:item[2]/update:mediaUpdate/@mid|$mid1                                         |
-|show    |put            |${body}                                            |to|${urlBackendApi}/media/group/${id}/episodes|
-|check   |response status|${responseStatus}                                                                                 |
-|check   |response       |${response}                                                                                       |
-|get from|${urlBackendApi}/media/group/POMS_S_NPO_11226816/members?max=2                                                    |
-|check   |xPath          |/update:list/update:item[1]/update:mediaUpdate/@mid|$mid1                                         |
-|check   |xPath          |/update:list/update:item[2]/update:mediaUpdate/@mid|$mid2                                         |
+|script                                                                                                                    |
+|get from|${urlBackendApi}/media/media/${id}/members?max=2                                                                 |
+|$mid1=  |xPath          |/update:list/update:item[1]/update:mediaUpdate/@mid                                              |
+|$mid2=  |xPath          |/update:list/update:item[2]/update:mediaUpdate/@mid                                              |
+|show    |put            |${body}                                            |to|${urlBackendApi}/media/media/${id}/members|
+|check   |response status|${responseStatus}                                                                                |
+|check   |response       |${response}                                                                                      |
+|get from|${urlBackendApi}/media/media/${id}/members?max=2                                                                 |
+|check   |xPath          |/update:list/update:item[1]/update:mediaUpdate/@mid|$mid2                                        |
+|check   |xPath          |/update:list/update:item[2]/update:mediaUpdate/@mid|$mid1                                        |
+|show    |put            |${body}                                            |to|${urlBackendApi}/media/media/${id}/members|
+|check   |response status|${responseStatus}                                                                                |
+|check   |response       |${response}                                                                                      |
+|get from|${urlBackendApi}/media/media/${id}/members?max=2                                                                 |
+|check   |xPath          |/update:list/update:item[1]/update:mediaUpdate/@mid|$mid1                                        |
+|check   |xPath          |/update:list/update:item[2]/update:mediaUpdate/@mid|$mid2                                        |
