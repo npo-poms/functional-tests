@@ -133,7 +133,7 @@ public class SubtitlesIntegrationTest extends AbstractApiMediaBackendTest {
 
         waitUntil(ACCEPTABLE_DURATION_BACKEND,
             MID_WITH_LOCATIONS + " has no publishable locations",
-            () -> backend.getFull(MID_WITH_LOCATIONS).getLocations().stream().noneMatch(TrackableObject::isPublishable));
+            () -> backend.getFull(MID_WITH_LOCATIONS).getLocations().stream().noneMatch((t) -> t.isPublishable(Instant.now())));
     }
 
     @Test
