@@ -1,0 +1,8 @@
+---
+Help: NPOAPI-23
+Suites: RG
+Test
+---
+|Get value at path                                                          |
+|get                                        |path             |value?       |
+|schedule?guideDay=2017-07-04&sort=asc&max=1|items[0].guideDay|1499119200000|

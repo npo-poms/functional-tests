@@ -1,0 +1,11 @@
+---
+Help: NPOAPI-124
+Suites: RG
+Test
+---
+!*> Test-specific items
+!define id {POW_00457214}
+*!
+|script                                                  |
+|get from|${urlBackendApi}/media/program/${id}/episodeOfs|
+|check   |xPath  |/update:list/update:item |POW_00457191 |
