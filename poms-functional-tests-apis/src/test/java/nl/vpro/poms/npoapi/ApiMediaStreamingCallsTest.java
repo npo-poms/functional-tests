@@ -84,9 +84,7 @@ class ApiMediaStreamingCallsTest extends AbstractApiTest {
 
     @Test
     public void testIterateMissingProfile() {
-        assertThrows(javax.ws.rs.NotFoundException.class, () -> {
-            testIterate("bestaatniet", CHANGES_MAX);
-        });
+        assertThrows(javax.ws.rs.NotFoundException.class, () -> testIterate("bestaatniet", CHANGES_MAX));
     }
 
     @Test
@@ -125,7 +123,7 @@ class ApiMediaStreamingCallsTest extends AbstractApiTest {
         List<MediaChange> foundWithMaxOne = new ArrayList<>();
         while (i.getAndIncrement() < toFind) {
             InputStream inputStream = mediaUtil.getClients().getMediaServiceNoTimeout()
-                .changes("vpro", null,null, sinceString(start, mid), null, 1, false, Deletes.EXCLUDE).readEntity(InputStream.class);
+                .changes("vpro", null,null, sinceString(start, mid), null, 1, false, Deletes.EXCLUDE, null).readEntity(InputStream.class);
 
             try (JsonArrayIterator<MediaChange> changes = new JsonArrayIterator<>(inputStream, MediaChange.class, () -> IOUtils.closeQuietly(inputStream))) {
                 MediaChange change = changes.next();
@@ -167,7 +165,7 @@ class ApiMediaStreamingCallsTest extends AbstractApiTest {
         //https://rs.poms.omroep.nl/v1/api/media/changes?profile=bnnvara&publishedSince=2015-03-22T03%3A43%3A05Z%2CRBX_EO_667486&order=asc&max=100&checkProfile=true&deletes=INCLUDE
         Instant start = Instant.parse("2015-03-22T03:43:05Z");
         InputStream inputStream = MediaRestClientUtils.toInputStream(mediaUtil.getClients().getMediaServiceNoTimeout()
-            .changes("bnnvara", null,null, sinceString(start, "RBX_EO_667486"), "asc", 100, true, Deletes.INCLUDE));
+            .changes("bnnvara", null,null, sinceString(start, "RBX_EO_667486"), "asc", 100, true, Deletes.INCLUDE, Tail.IF_EMPTY));
 
         try (JsonArrayIterator<MediaChange> changes = new JsonArrayIterator<>(inputStream,
             MediaChange.class, () -> IOUtils.closeQuietly(inputStream))) {

@@ -47,8 +47,6 @@ public class AddFrameTest extends AbstractApiMediaBackendTest {
     }
 
 
-
-
     @Test
     @Order(1)
     public void addFrame() {
