@@ -3,17 +3,17 @@
    <Appenders>
     <Console name="console" target="SYSTEM_OUT" >
       <PatternLayout pattern="%d{ISO8601}&#009;%4.4p&#009;%X{testNumber}%X{currentTest}&#009;%m%n" charset="UTF-8" />
-
     </Console>
   </Appenders>
   <Loggers>
     <Root level="INFO">
       <AppenderRef ref="console"/>
     </Root>
-    <Logger name="nl.vpro.api.client.resteasy.AbstractApiClient.4" level="WARN" />
-    <Logger name="nl.vpro.api.client.frontend.NpoApiClients.4" level="WARN" />
-    <Logger name="nl.vpro.api.client.media.MediaRestClient.4" level="DEBUG" />
-    <logger name="nl.vpro.util" level="WARN" />
-    <Logger name="com.joestelmach.natty" level="WARN" />
+    <Logger name="nl.vpro.api.client.resteasy.AbstractApiClient.4" level="WARN"  />
+    <Logger name="nl.vpro.api.client.frontend.NpoApiClients.4"     level="WARN"  />
+    <Logger name="nl.vpro.api.client.media.MediaRestClient.4"      level="DEBUG" />
+    <logger name="nl.vpro.util"                                    level="WARN"  />
+    <logger name="org.meeuw"                                       level="TRACE" />
+    <Logger name="com.joestelmach.natty"                           level="WARN"  />
   </Loggers>
 </Configuration>
