@@ -1,5 +1,4 @@
 = Testing NEP integration
-
 :toc:
 
 NEP provides two environments of (most?) of their APIs (See also https://github.com/npo-poms/poms-shared/tree/master/media-nep[the code we use for it]), which we will refer to as 'NEP staging' and 'NEP production' (set via setting `nep.env=[prd|stg]`)
