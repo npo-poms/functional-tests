@@ -6,6 +6,21 @@ NEP provides two environments of (most?) of their APIs (See also https://github.
 
 The POMS environments are referred to as 'production', 'test' and 'development'
 
+== Player
+
+The authentication of the player requires the IP of the client. POMS uses for that the request the client is doing, and sends it to the NEP so called 'SAM' services.
+
+The thing is that it seems that this doesn't work if this is an IP v6 address, which you may or may not have.
+
+This can be avoided by putting the ip v4 address of the poms-servers in your /etc/hosts
+
+----
+145.58.73.57 poms-dev.omroep.nl
+145.58.73.41 poms-test.omroep.nl
+----
+
+NOTE: It works on production, probably because the poms.omroep.nl domain _has no_ ipv6 adress
+
 == Live Itemizer and Screen Grabber
 
 Under the link 'Liveknipper' a tool is found to make MP4 and screen shots for several channels.
@@ -22,7 +37,7 @@ Via the link 'Segment toevoegen met speler' you can do three things:
 - Use the player to create an MP4 for download
 - Use the player to make a screenshot for download
 
-For the first function it is only needed that the player actually works. AFAIK the player is only using production data, so all this can only be tested on a MID that plays on production. 
+For the first function it is only needed that the player actually works. AFAIK the player is only using production data, so all this can only be tested on a MID that plays on production.
 
 To create an MP4 or image via the NEP staging environment, the object must also be known there. I don't know how to know that.
 
