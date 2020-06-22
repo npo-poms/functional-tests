@@ -20,6 +20,8 @@ This can be avoided by putting the ip v4 address of the poms-servers in your /et
 
 NOTE: It works on production, probably because the poms.omroep.nl domain _has no_ ipv6 adress
 
+#NOTE: Also, it seems that the player won't (auto?)play in a headless browser. This needs to be explored#
+
 == Live Itemizer and Screen Grabber
 
 Under the link 'Liveknipper' a tool is found to make MP4 and screen shots for several channels.
