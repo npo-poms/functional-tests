@@ -7,11 +7,11 @@ The POMS environments are referred to as 'production', 'test' and 'development'
 
 == Player
 
-The authentication of the player requires the IP of the client. POMS uses for that the request the client is doing, and sends it to the NEP so called 'SAM' services.
+The authentication of the player requires the IP of the client. POMS uses for that the request the browser is doing, and sends it to the so called 'SAM' services of NEP.
 
 The thing is that it seems that this doesn't work if this is an IP v6 address, which you may or may not have.
 
-This can be avoided by putting the ip v4 address of the poms-servers in your /etc/hosts
+This can be avoided by putting the ip v4 address of the poms-servers in your /etc/hosts. So this _may_ be needed if you want to test functionality involving the player.
 
 ----
 145.58.73.57 poms-dev.omroep.nl
