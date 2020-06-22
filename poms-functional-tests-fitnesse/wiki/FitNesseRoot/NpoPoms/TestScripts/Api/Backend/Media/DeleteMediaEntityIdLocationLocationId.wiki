@@ -25,17 +25,17 @@ Test
 </program>
 }}} }
 *!
-|script                                                                                                             |
-|show        |post           |${body}                           |to  |${urlBackendApi}/media/media?owner=BROADCASTER|
-|$id=        |response                                                                                              |
-|wait        |60             |seconds                                                                               |
-|get from    |${urlBackendApi}/media/media/$id/locations?owner=BROADCASTER                                          |
-|check       |xPath          |count(/collection/update:location)|1                                                  |
-|$urn=       |xPath          |/collection/update:location/@urn                                                      |
-|$locationId=|extract string |$urn                              |from|^urn:vpro:media:location:(\d+)$ |using group|1|
-|show        |delete         |${urlBackendApi}/media/media/$id/location/$locationId                                 |
-|check       |response status|202                                                                                   |
-|check       |response       |Location delete submitted to $id.                                                     |
-|get from    |${urlBackendApi}/media/media/$id/locations?owner=BROADCASTER                                          |
-|check       |xPath          |count(/collection/update:location)|0                                                  |
-|show        |delete         |${urlBackendApi}/media/media/$id                                                      |
+|script                                                                                                                                |
+|show                           |post           |${body}                           |to  |${urlBackendApi}/media/media?owner=BROADCASTER|
+|$id=                           |response                                                                                              |
+|show                           |get from       |${urlBackendApi}/media/media/$id/locations?owner=BROADCASTER                          |
+|repeat until response status is|200                                                                                                   |
+|check                          |xPath          |count(/collection/update:location)|1                                                  |
+|$urn=                          |xPath          |/collection/update:location/@urn                                                      |
+|$locationId=                   |extract string |$urn                              |from|^urn:vpro:media:location:(\d+)$ |using group|1|
+|show                           |delete         |${urlBackendApi}/media/media/$id/location/$locationId                                 |
+|check                          |response status|202                                                                                   |
+|check                          |response       |Location delete submitted to $id.                                                     |
+|get from                       |${urlBackendApi}/media/media/$id/locations?owner=BROADCASTER                                          |
+|check                          |xPath          |count(/collection/update:location)|0                                                  |
+|show                           |delete         |${urlBackendApi}/media/media/$id                                                      |
