@@ -127,18 +127,18 @@ public class MediaIntegrationTest extends AbstractApiMediaBackendTest {
                     .broadcasters("VPRO")
                     .build()
             ));
-        MediaObject foundClip = waitUntilNotNull(Duration.ofMinutes(2),
+        MediaObject foundClip = waitUntilNotNull(ACCEPTABLE_DURATION,
             "clip:" + clipMid + " available",
             () -> backend.getFull(clipMid));
 
         assertThat(foundClip.getImages()).withFailMessage("%s doesn't have 2 images", foundClip).hasSize(2);
 
-        waitUntil(Duration.ofMinutes(2),
+        waitUntil(ACCEPTABLE_DURATION,
             () -> "group:" + groupMid + " available",
             () -> backend.getFull(groupMid) != null);
 
 
-        waitUntil(Duration.ofMinutes(2),
+        waitUntil(ACCEPTABLE_DURATION,
             () -> "group:" + offlineGroup + " available",
             () -> backend.getFull(offlineGroup) != null);
 
@@ -151,7 +151,7 @@ public class MediaIntegrationTest extends AbstractApiMediaBackendTest {
     @Order(2)
     void checkNewObjectInFrontendApi() {
         assumeThat(clipMid).isNotNull();
-        Program clip = waitUntil(Duration.ofMinutes(10),
+        Program clip = waitUntil(ACCEPTABLE_DURATION_FRONTEND,
             () -> mediaUtil.findByMid(clipMid),
             Check.<Program>builder()
                 .description("has {}", clipMid)
@@ -198,7 +198,7 @@ public class MediaIntegrationTest extends AbstractApiMediaBackendTest {
         //clipMid = "POMS_VPRO_3322744";
         assumeThat(clipMid).isNotNull();
         assumeThat(clipTitle).isNotNull();
-        waitUntil(Duration.ofMinutes(2),
+        waitUntil(ACCEPTABLE_DURATION,
             clipMid + " has title " + clipTitle,
             () -> backend.getFullProgram(clipMid),
             (c) -> c.getMainTitle().equals(clipTitle));
@@ -209,7 +209,7 @@ public class MediaIntegrationTest extends AbstractApiMediaBackendTest {
     void checkUpdateTitleInFrontendApi() {
         assumeThat(clipMid).isNotNull();
         assumeThat(clipTitle).isNotNull();
-        Program clip = waitUntil(Duration.ofMinutes(10),
+        Program clip = waitUntil(ACCEPTABLE_DURATION_FRONTEND,
             clipMid + " has title " + clipTitle,
             () -> mediaUtil.findByMid(clipMid),
             (c) -> c.getMainTitle().equals(clipTitle));
@@ -241,7 +241,7 @@ public class MediaIntegrationTest extends AbstractApiMediaBackendTest {
     void checkUpdateDescriptionInBackend() {
         assumeThat(clipMid).isNotNull();
         assumeThat(clipDescription).isNotNull();
-        waitUntil(Duration.ofMinutes(2),
+        waitUntil(ACCEPTABLE_DURATION,
             clipMid + " has description " + clipDescription,
             () -> backend.getFullProgram(clipMid),
             (c) -> c.getMainDescription().equals(clipDescription));
@@ -253,7 +253,7 @@ public class MediaIntegrationTest extends AbstractApiMediaBackendTest {
     void checkUpdateDescriptionInFrontendApi() {
         assumeThat(clipMid).isNotNull();
         assumeThat(clipDescription).isNotNull();
-        Program clip = waitUntil(Duration.ofMinutes(10),
+        Program clip = waitUntil(ACCEPTABLE_DURATION_FRONTEND,
             clipMid + " has description " + clipDescription,
             () -> mediaUtil.findByMid(clipMid),
             (c) -> Objects.equals(c.getMainDescription(), clipDescription));
@@ -270,7 +270,7 @@ public class MediaIntegrationTest extends AbstractApiMediaBackendTest {
     @Order(30)
     void waitForImageRevocation() {
         assumeThat(clipMid).isNotNull();
-        Program clip = waitUntil(Duration.ofMinutes(20),
+        Program clip = waitUntil(ACCEPTABLE_DURATION_FRONTEND.plus(Duration.ofMinutes(10)),
             clipMid + " has no images any more",
             () -> mediaUtil.findByMid(clipMid),
             (c) -> c.getImages().isEmpty());
@@ -286,7 +286,7 @@ public class MediaIntegrationTest extends AbstractApiMediaBackendTest {
     @Order(40)
     void waitForSegmentRevocation() {
         assumeThat(clipMid).isNotNull();
-        Program clip = waitUntil(Duration.ofMinutes(20),
+        Program clip = waitUntil(ACCEPTABLE_DURATION_FRONTEND.plus(Duration.ofMinutes(10)),
             clipMid + " has no segments any more",
             () -> mediaUtil.findByMid(clipMid),
             (c) -> c.getSegments().isEmpty());
@@ -302,7 +302,7 @@ public class MediaIntegrationTest extends AbstractApiMediaBackendTest {
     @Order(40)
     void waitForLocationsRevocation() {
         assumeThat(clipMid).isNotNull();
-        Program clip = waitUntil(Duration.ofMinutes(20),
+        Program clip = waitUntil(ACCEPTABLE_DURATION_FRONTEND.plus(Duration.ofMinutes(10)),
             clipMid + " has no locations any more",
             () -> mediaUtil.findByMid(clipMid),
             (c) -> c.getLocations().isEmpty());
@@ -338,7 +338,7 @@ public class MediaIntegrationTest extends AbstractApiMediaBackendTest {
             clipMid = "POMS_VPRO_3324281";
         }
         assumeThat(clipMid).isNotNull();
-        waitUntil(Duration.ofMinutes(3),
+        waitUntil(ACCEPTABLE_DURATION,
             () -> backend.getFull(clipMid),
             Check.<Program>builder()
                 .failureDescription(c -> "Workflow is now " + c.getWorkflow())
@@ -362,7 +362,7 @@ public class MediaIntegrationTest extends AbstractApiMediaBackendTest {
             //clipMid = "POMS_VPRO_3324155";
         }
         assumeThat(clipMid).isNotNull();
-        waitUntil(Duration.ofMinutes(20),
+        waitUntil(ACCEPTABLE_DURATION_FRONTEND,
             () -> clipMid + " disappeared",
             () -> mediaUtil.findByMid(clipMid) == null
         );
