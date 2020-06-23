@@ -30,7 +30,7 @@ Test
 |$id=                           |response                                                                                               |
 |show                           |get from        |${urlBackendApi}/media/media/$id/locations?owner=BROADCASTER                          |
 |repeat until response status is|200                                                                                                    |
-|show                           |repeat count                                                                                           |
+|$repeatCount=                  |repeat count                                                                                           |
 |$timeSpentRepeating=           |time spent repeating                                                                                   |
 |$timeSpentRepeating=           |format timestamp|$timeSpentRepeating               |as  |m:ss                                          |
 |check                          |xPath           |count(/collection/update:location)|1                                                  |
