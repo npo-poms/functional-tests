@@ -42,6 +42,7 @@ public abstract class AbstractApiTest extends AbstractTest  {
     public static final Config CONFIG = new Config("npo-functional-tests.properties");
 
     protected static final OffsetDateTime NOW = ZonedDateTime.now(Schedule.ZONE_ID).toOffsetDateTime();
+    protected static final Instant NOWI = NOW.toInstant();
     protected static final String NOWSTRING = NOW.toString();
     private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("yyyyMMdd'T'HHmm");
     protected static final String SIMPLE_NOWSTRING = FORMATTER.format(NOW);

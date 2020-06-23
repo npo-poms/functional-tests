@@ -125,7 +125,7 @@ public class SubtitlesIntegrationTest extends AbstractApiMediaBackendTest {
     @Test
     @Order(5)
     void revokeLocations() {
-        Instant now = Instant.now();
+        Instant now = NOWI;
         ProgramUpdate o = backend.get(MID_WITH_LOCATIONS);
         o.getLocations().forEach(l -> l.setPublishStopInstant(now));
         o.getPredictions().forEach(pu -> pu.setPublishStop(now));
@@ -133,7 +133,7 @@ public class SubtitlesIntegrationTest extends AbstractApiMediaBackendTest {
 
         waitUntil(ACCEPTABLE_DURATION_BACKEND,
             MID_WITH_LOCATIONS + " has no publishable locations",
-            () -> backend.getFull(MID_WITH_LOCATIONS).getLocations().stream().noneMatch((t) -> t.isPublishable(Instant.now())));
+            () -> backend.getFull(MID_WITH_LOCATIONS).getLocations().stream().noneMatch((t) -> t.isPublishable(NOWI)));
     }
 
     @Test

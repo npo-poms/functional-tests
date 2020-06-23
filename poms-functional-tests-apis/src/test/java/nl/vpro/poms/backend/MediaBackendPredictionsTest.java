@@ -15,8 +15,10 @@ import org.junit.jupiter.api.*;
 import nl.vpro.domain.media.Encryption;
 import nl.vpro.domain.media.Platform;
 import nl.vpro.domain.media.update.PredictionUpdate;
+import nl.vpro.domain.media.update.TranscodeRequest;
 import nl.vpro.domain.media.update.collections.XmlCollection;
 import nl.vpro.poms.AbstractApiMediaBackendTest;
+import nl.vpro.test.jupiter.AbortOnException;
 import nl.vpro.testutils.Utils;
 import nl.vpro.testutils.Utils.Check;
 
@@ -32,7 +34,6 @@ import static org.assertj.core.api.Assumptions.assumeThat;
 @Log4j2
 class MediaBackendPredictionsTest extends AbstractApiMediaBackendTest {
 
-    private static final Duration ACCEPTABLE_DURATION = Duration.ofMinutes(3);
 
     @BeforeEach
     public void setup() {
@@ -45,6 +46,13 @@ class MediaBackendPredictionsTest extends AbstractApiMediaBackendTest {
     @Tag("prediction")
     @Order(1)
     public void setPrediction() throws IOException {
+        TranscodeRequest request = TranscodeRequest.builder()
+            .encryption(Encryption.NONE)
+            .mid(MID)
+            .fileName("bla.mp4")
+            .build();
+
+        log.info("Setting predictionw ith publish start {}", NOW);
         try (Response response =
                  backend.getBackendRestService().setPrediction(
                      null,
@@ -55,10 +63,12 @@ class MediaBackendPredictionsTest extends AbstractApiMediaBackendTest {
                      PredictionUpdate.builder()
                          .encryption(Encryption.NONE)
                          .publishStart(NOW.toInstant())
-                         .build())
+                         .build());
+             Response trancodeResponse = backend.getBackendRestService()
+                 .transcode(null, request)
         ) {
 
-            log.info("{}", response.getEntity());
+            log.info("{} / {} ", response.getEntity(), trancodeResponse);
         }
     }
 
@@ -115,6 +125,33 @@ class MediaBackendPredictionsTest extends AbstractApiMediaBackendTest {
     @Tag("predictions")
     @Order(4)
     public void checkSetPredictions() {
+        waitUntil(ACCEPTABLE_DURATION,
+            () -> getPredictions(MID),
+            Check.<XmlCollection<PredictionUpdate>>builder()
+                .description("prediction of " + MID + " has publishStart " + OTHERTIME)
+                .predicate((l) ->
+                        l.stream()
+                            .map(e -> e.getPlatform() == Platform.INTERNETVOD && e.getPublishStart().equals(OTHERTIME))
+                            .findFirst().isPresent())
+                .build(),
+            Check.<XmlCollection<PredictionUpdate>>builder()
+                .description("prediction of " + MID + " has encryption DRM")
+                .predicate((l) ->
+                    l.stream()
+                        .map(e -> e.getPlatform() == Platform.INTERNETVOD && Objects.equals(e.getEncryption(), Encryption.DRM))
+                        .findFirst().isPresent())
+                .build()
+        );
+    }
+
+      /**
+     * Reproduces MSE-4674
+     */
+    @Test
+    @Tag("predictions")
+    @Order(100)
+    @AbortOnException.NoAbort
+    public void deletePredictions() {
         waitUntil(ACCEPTABLE_DURATION,
             () -> getPredictions(MID),
             Check.<XmlCollection<PredictionUpdate>>builder()

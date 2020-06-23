@@ -505,8 +505,8 @@ class PagesPublisherTest extends AbstractApiMediaBackendTest {
                     .crids(CREATED_CRIDS[i])
                     .title(title)
                     .tags(TAG)
-                    .creationDate(Instant.now())
-                    .lastModified(Instant.now())
+                    .creationDate(NOWI)
+                    .lastModified(NOWI)
                     .build();
             Result<Void> result = pageUpdateApiUtil.saveAndWait(article);
             assertThat(result.getStatus()).isEqualTo(Result.Status.SUCCESS);
@@ -613,8 +613,8 @@ class PagesPublisherTest extends AbstractApiMediaBackendTest {
                     .crids(crid)
                     .title(title + " (modified)")
                     .tags(TAG)
-                    .creationDate(Instant.now())
-                    .lastModified(Instant.now())
+                    .creationDate(NOWI)
+                    .lastModified(NOWI)
                     .build();
             Result<Void> result = pageUpdateApiUtil.saveAndWait(article);
             assertThat(result.getStatus()).isEqualTo(Result.Status.SUCCESS);

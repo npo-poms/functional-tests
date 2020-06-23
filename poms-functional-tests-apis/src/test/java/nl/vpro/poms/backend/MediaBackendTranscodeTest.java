@@ -112,7 +112,7 @@ class MediaBackendTranscodeTest extends AbstractApiMediaBackendTest {
     @Tag("manual")
     @Tag("absolute")
     void transcodeWithAbsolutePathAfterManualUpload() {
-        transcodeAbsoluteStart = Instant.now();
+        transcodeAbsoluteStart = NOWI;
         TranscodeRequest request =
             TranscodeRequest.builder()
                 .mid(MID)
@@ -143,7 +143,7 @@ class MediaBackendTranscodeTest extends AbstractApiMediaBackendTest {
     @Tag("manual")
     @Tag("relative")
     void transcodeWithRelativePathAfterManualUpload() {
-        transcodeRelativeStart = Instant.now();
+        transcodeRelativeStart = NOWI;
         TranscodeRequest request =
             TranscodeRequest.builder()
                 .mid(MID)

@@ -192,7 +192,7 @@ public class MediaBackendImagesTest extends AbstractApiMediaBackendTest {
     void test21updateImageInObject() {
         final ProgramUpdate[] update = new ProgramUpdate[1];
         update[0] = backend.get(MID);
-        Instant yesterday = Instant.now().minus(Duration.ofDays(1)).truncatedTo(ChronoUnit.MINUTES);
+        Instant yesterday = NOWI.minus(Duration.ofDays(1)).truncatedTo(ChronoUnit.MINUTES);
 
         ImageUpdate image = update[0].getImages().get(0);
         String urn = image.getUrn();

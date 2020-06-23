@@ -44,7 +44,7 @@ class ApiMediaStreamingCallsTest extends AbstractApiTest {
         switch(CONFIG.env()) {
             case DEV:
                 couchdbSince = 25387000;
-                FROM = Instant.now().minus(Duration.ofDays(100));
+                FROM = NOWI.minus(Duration.ofDays(100));
                 break;
             case TEST:
                 couchdbSince = 19831435;
@@ -179,7 +179,7 @@ class ApiMediaStreamingCallsTest extends AbstractApiTest {
 
     @SuppressWarnings("deprecation")
     protected void testChanges(String profile, Instant from, Integer max) throws Exception {
-        Instant start = Instant.now();
+        Instant start = NOWI;
         final AtomicInteger i = new AtomicInteger();
         Instant prev = from;
         try(CloseableIterator<MediaChange> changes = mediaUtil.changes(profile, false,  from, null, Order.ASC, max, Deletes.ID_ONLY)) {

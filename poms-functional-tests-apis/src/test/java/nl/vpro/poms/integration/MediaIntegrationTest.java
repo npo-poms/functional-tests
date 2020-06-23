@@ -3,7 +3,6 @@ package nl.vpro.poms.integration;
 import lombok.extern.log4j.Log4j2;
 
 import java.time.Duration;
-import java.time.Instant;
 import java.util.Objects;
 
 import javax.xml.bind.JAXB;
@@ -52,25 +51,25 @@ public class MediaIntegrationTest extends AbstractApiMediaBackendTest {
         clipTitle = title;
         Image expiredImage = createImage("OFFLINE ");
         expiredImage.setTitle("OFFLINE " + title);
-        expiredImage.setPublishStopInstant(Instant.now().minus(Duration.ofMinutes(1)));
+        expiredImage.setPublishStopInstant(NOWI.minus(Duration.ofMinutes(1)));
 
         Image publishedImage = createImage("PUBLISHED ");
         publishedImage.setTitle("PUBLISHED " + title);
-        publishedImage.setPublishStopInstant(Instant.now().plus(Duration.ofMinutes(10)));
+        publishedImage.setPublishStopInstant(NOWI.plus(Duration.ofMinutes(10)));
 
         Segment expiredSegment= createSegment(1);
         expiredSegment.setMainTitle("OFFLINE " + title);
-        expiredSegment.setPublishStopInstant(Instant.now().minus(Duration.ofMinutes(1)));
+        expiredSegment.setPublishStopInstant(NOWI.minus(Duration.ofMinutes(1)));
 
         Segment publishedSegment = createSegment(2);
         publishedSegment.setMainTitle("PUBLISHED " + title);
-        publishedSegment.setPublishStopInstant(Instant.now().plus(Duration.ofMinutes(10)));
+        publishedSegment.setPublishStopInstant(NOWI.plus(Duration.ofMinutes(10)));
 
         Location expiredLocation = createLocation(1);
-        expiredLocation.setPublishStopInstant(Instant.now().minus(Duration.ofMinutes(1)));
+        expiredLocation.setPublishStopInstant(NOWI.minus(Duration.ofMinutes(1)));
 
         Location publishedLocation = createLocation(2);
-        publishedLocation.setPublishStopInstant(Instant.now().plus(Duration.ofMinutes(10)));
+        publishedLocation.setPublishStopInstant(NOWI.plus(Duration.ofMinutes(10)));
 
         ProgramUpdate clip = ProgramUpdate
             .create(
@@ -121,7 +120,7 @@ public class MediaIntegrationTest extends AbstractApiMediaBackendTest {
                     .playlist()
                     .constrainedNew()
                     .mainTitle(title + " offline")
-                    .publishStop(Instant.now().minus(Duration.ofMinutes(5)))
+                    .publishStop(NOWI.minus(Duration.ofMinutes(5)))
                     .clearBroadcasters()
                     .withAgeRating()
                     .broadcasters("VPRO")

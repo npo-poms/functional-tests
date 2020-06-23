@@ -4,14 +4,8 @@ import java.text.Format;
 import java.text.SimpleDateFormat;
 import java.time.Duration;
 import java.time.Instant;
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
-import java.time.format.FormatStyle;
-import java.time.temporal.TemporalAmount;
-import java.time.temporal.TemporalUnit;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Locale;
 
 public class DateFactory {
 	private static final Format SDF =
@@ -26,7 +20,7 @@ public class DateFactory {
 		Date now = Calendar.getInstance().getTime();
 		return SDF.format(now);
 	}
-	
+
 	public static String getToday() {
 		Date today = Calendar.getInstance().getTime();
 		return TODAY_FORMAT.format(today);

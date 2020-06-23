@@ -324,7 +324,7 @@ class ApiScheduleTest extends AbstractApiTest {
 
     ApiScheduleEvent nextForAt(@Nullable Instant instant, Function<Instant, ApiScheduleEvent> getter) {
         ApiScheduleEvent result = getter.apply(instant);
-        Duration future = Duration.between(instant == null ?Instant.now() : instant, result.getStartInstant());
+        Duration future = Duration.between(instant == null ? NOWI : instant, result.getStartInstant());
         assertThat(future).isGreaterThanOrEqualTo(Duration.ZERO);
         assertThat(future).isLessThan(Duration.ofHours(12));
         return result;

@@ -225,7 +225,7 @@ class PromoTest extends AbstractApiMediaBackendTest {
         for(MemberUpdate mu :promos) {
             if (mu.getMediaUpdate().getType().getMediaType() == MediaType.PROMO) {
                 Program program = backend.getFullProgram(mu.getMediaUpdate().getMid());
-                if (program.getCreationInstant().isBefore(Instant.now().minus(Duration.ofDays(3)))) {
+                if (program.getCreationInstant().isBefore(NOWI.minus(Duration.ofDays(3)))) {
                     log.info("Deleting {}", program);
                     backend.removeMember(PROMOTED_MID, mu.getMediaUpdate().getMid(), mu.getPosition());
                     count++;
