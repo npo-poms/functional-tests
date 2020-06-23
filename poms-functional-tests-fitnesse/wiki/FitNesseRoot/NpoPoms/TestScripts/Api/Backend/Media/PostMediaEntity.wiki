@@ -33,8 +33,6 @@ Test
 !4 Read (verify creation)
 |script                                                                    |
 |show                           |get from|${urlBackendApi}/media/media/$mid|
-|set repeat interval to         |10000   |milliseconds                     |
-|repeat at most                 |30      |times                            |
 |repeat until response status is|200                                       |
 |show                           |time spent repeating                      |
 |check                          |xPath   |/update:program/@mid    |$mid    |
