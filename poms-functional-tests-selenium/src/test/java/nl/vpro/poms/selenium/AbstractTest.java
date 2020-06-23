@@ -15,6 +15,7 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.logging.LogEntries;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.LoggerFactory;
 
@@ -61,6 +62,8 @@ public abstract class AbstractTest {
     protected static Map<Class<?>, Boolean> loggedAboutSetupEach = new HashMap<>();
     protected boolean setupEach = true;
 
+    protected LogEntries browserLogs;
+
     @Rule
     public DoAfterException doAfterException = new DoAfterException((t) -> {
         if (! (t instanceof AssumptionViolatedException)) {
@@ -92,6 +95,7 @@ public abstract class AbstractTest {
             log.info("\nRunning" + getClass() + " with fixed method order, so keeping the driver between the tests");
             loggedAboutSetupEach.put(getClass(), true);
         }
+
     }
 
     @Before
@@ -101,6 +105,7 @@ public abstract class AbstractTest {
         } else {
             driver = staticDrivers.computeIfAbsent(browser, AbstractTest::createDriver);
         }
+        browserLogs = driver.manage().logs().get("browser");
         webDriverUtil  = new WebDriverUtil(driver, log);
         wait = webDriverUtil.w();
     }
@@ -120,6 +125,8 @@ public abstract class AbstractTest {
 
     @After
     public void tearDown() {
+        log.info("{}", browserLogs.getAll());
+
         if (setupEach) {
             if (driver != null) {
                 /*
@@ -142,6 +149,7 @@ public abstract class AbstractTest {
             for (WebDriver wd : staticDrivers.values()) {
                 wd.close();
                 wd.quit();
+
             }
             staticDrivers.clear();
             loggedAboutSetupEach.clear();
