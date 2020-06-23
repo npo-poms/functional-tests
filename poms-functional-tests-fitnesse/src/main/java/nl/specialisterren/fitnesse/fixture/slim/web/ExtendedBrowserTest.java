@@ -223,6 +223,11 @@ public class ExtendedBrowserTest extends BrowserTest {
     @WaitUntil
     public boolean waitUntilPropertyOfElementIsStable(String property, String place) {
         WebElement e = getSeleniumHelper().findElement(TechnicalSelectorBy.forPlace(place));
+        if (e == null) {
+            // If the element is not there (yet), just return false so we keep waiting
+            return false;
+        }
+
         String currentValue = getSeleniumHelper().executeJavascript("return arguments[0][arguments[1]]", e, property).toString();
 
         if (previousPropertyValues.size() == 2
