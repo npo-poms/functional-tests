@@ -14,7 +14,7 @@ The POMS environments are referred to as 'production', 'test' and 'development'
 
 == Player
 
-The authentication of the player requires the IP of the client. POMS uses for that the request the browser is doing, and sends it to the so called 'SAM' services of NEP.
+The authentication of the player requires the IP of the client. POMS uses for that the request the browser is doing, and sends it to the so called 'player token' services of NEP, of which the result is needed for their SAM services.
 
 The thing is that it seems that this doesn't work if this is an IP v6 address, which you may or may not have.
 
