@@ -18,7 +18,6 @@ Test
 |click                                              |Select                                              |
 |switch to next tab                                                                                      |
 |Npo poms Inlogscherm Log in met admin                                                                   |
-|Npo poms Zoeken Wacht tot zoeken klaar is                                                               |
 |Npo poms Zoeken Check optie                        |@{filtertype}|geselecteerd in dropdown|!-MediaType-!|
 |Npo poms Zoeken Druk op tandwieltje                                                                     |
 |set search context to                              |xpath=//poms-search-columns                         |

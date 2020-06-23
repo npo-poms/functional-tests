@@ -12,6 +12,7 @@
 |enter   |@wachtwoord                              |as       |id=password             |
 |click   |id=kc-login                                                                 |
 |Npo poms Hoofdscherm Wacht tot tabblad Zoeken geopend                                |
+|Npo poms Zoeken Wacht tot zoeken klaar is                                            |
 
 |scenario                                 |Npo poms Inlogscherm Log in met standaard-gebruiker        |
 |Npo poms Inlogscherm Log in met gebruiker|$standaardGebruikersnaam|en wachtwoord|$standaardWachtwoord|
