@@ -47,7 +47,7 @@ Test
 |Npo poms Zoeken Wacht tot zoekopdracht met Gezocht naar:    |'$mid'         |klaar is                                    |
 |Npo poms Zoeken Open eerste object                                                                                       |
 |Npo poms Tabblad object Druk op link                        |Afbeeldingen   |in sidebar                                  |
-|wait for visible                                            |Afbeelding toevoegen                                        |
+|Npo poms Tabblad object Wacht tot scrollen klaar is                                                                      |
 |Npo poms Tabblad object Check afbeelding                    |${titel}       |zichtbaar                                   |
 |Npo poms Tabblad object Check afbeelding                    |${titel}       |heeft beschrijving|${beschrijving}          |
 |Npo poms Tabblad object Wacht tot preview afbeelding van    |${titel}       |zichtbaar                                   |
