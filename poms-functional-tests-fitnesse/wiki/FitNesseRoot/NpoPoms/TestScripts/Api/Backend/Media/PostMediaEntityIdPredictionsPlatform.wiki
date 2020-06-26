@@ -12,6 +12,7 @@ Test
 </prediction>
 }}} }
 *!
-|script                                                                                     |
-|show |post           |${body}|to|${urlBackendApi}/media/media/${id}/predictions/INTERNETVOD|
-|check|response status|204                                                                  |
+
+|script                                                                             |
+|post |${body}        |to|${urlBackendApi}/media/media/${id}/predictions/INTERNETVOD|
+|check|response status|204                                                          |

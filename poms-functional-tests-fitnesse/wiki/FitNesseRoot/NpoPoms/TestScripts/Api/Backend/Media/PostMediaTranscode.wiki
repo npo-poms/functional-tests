@@ -14,7 +14,8 @@ Test
 </transcode>
 }}} }
 *!
+
 |script                                                                                  |
-|show |post           |${body}        |to        |${urlBackendApi}/media/transcode       |
+|post |${body}        |to                |${urlBackendApi}/media/transcode               |
 |check|response status|202                                                               |
 |check|response       |Transcoding job accepted for mid ${mid} errors are mailed to: null|

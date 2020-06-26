@@ -23,21 +23,18 @@ Test
 </program>
 }}} }
 *!
-|script                                                                                                                                                       |
-|show                           |post            |${body}                                                 |to|${urlBackendApi}/media/program?owner=BROADCASTER|
-|$itemId=                       |response                                                                                                                     |
-|show                           |get from        |${urlBackendApi}/media/program/$itemId/full                                                                 |
-|repeat until response status is|200                                                                                                                          |
-|$repeatCount=                  |repeat count                                                                                                                 |
-|$timeSpentRepeating=           |time spent repeating                                                                                                         |
-|$timeSpentRepeating=           |format timestamp|$timeSpentRepeating                                     |as|m:ss                                            |
-|$segmentId=                    |xPath           |/media:program/media:segments/media:segment[1]/@midRef                                                      |
-|show                           |delete          |${urlBackendApi}/media/program/$itemId/segment/$segmentId                                                   |
-|check                          |response status |202                                                                                                         |
-|check                          |response        |Removed accepted for $segmentId of $itemId.                                                                 |
-|get from                       |${urlBackendApi}/media/program/$itemId/full                                                                                  |
-|check                          |xPath           |/media:program/media:segments/media:segment[1]/@workflow|FOR DELETION                                       |
-|show                           |delete          |${urlBackendApi}/media/program/$itemId                                                                      |
-|get from                       |${urlBackendApi}/media/program/$itemId/full                                                                                  |
-|check                          |xPath           |/media:program/media:segments/media:segment[1]/@workflow|FOR DELETION                                       |
-|check                          |xPath           |/media:program/@workflow                                |FOR DELETION                                       |
+
+|script                                                                                                                                                               |
+|post           |${body}                                    |to                                                      |${urlBackendApi}/media/program?owner=BROADCASTER|
+|$itemId=       |response                                                                                                                                             |
+|repeat get from|${urlBackendApi}/media/program/$itemId/full|until response status is                                |200                                             |
+|$segmentId=    |xPath                                      |/media:program/media:segments/media:segment[1]/@midRef                                                   |
+|delete         |${urlBackendApi}/media/program/$itemId/segment/$segmentId                                                                                            |
+|check          |response status                            |202                                                                                                      |
+|check          |response                                   |Removed accepted for $segmentId of $itemId.                                                              |
+|get from       |${urlBackendApi}/media/program/$itemId/full                                                                                                          |
+|check          |xPath                                      |/media:program/media:segments/media:segment[1]/@workflow|FOR DELETION                                    |
+|delete         |${urlBackendApi}/media/program/$itemId                                                                                                               |
+|get from       |${urlBackendApi}/media/program/$itemId/full                                                                                                          |
+|check          |xPath                                      |/media:program/media:segments/media:segment[1]/@workflow|FOR DELETION                                    |
+|check          |xPath                                      |/media:program/@workflow                                |FOR DELETION                                    |

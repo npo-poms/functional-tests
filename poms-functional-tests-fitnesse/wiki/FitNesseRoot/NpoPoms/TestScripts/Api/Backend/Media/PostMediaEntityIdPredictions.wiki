@@ -12,6 +12,7 @@ Test
 </collection>
 }}} }
 *!
-|script                                                                         |
-|show |post           |${body}|to|${urlBackendApi}/media/media/${id}/predictions|
-|check|response status|204                                                      |
+
+|script                                                                 |
+|post |${body}        |to|${urlBackendApi}/media/media/${id}/predictions|
+|check|response status|204                                              |

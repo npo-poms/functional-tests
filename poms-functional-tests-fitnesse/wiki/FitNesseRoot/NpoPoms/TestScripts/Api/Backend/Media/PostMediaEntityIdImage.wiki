@@ -16,6 +16,7 @@ Test
 </image>
 }}} }
 *!
-|script                                                                                     |
-|show |post           |${body}|to|${urlBackendApi}/media/media/${id}/image?owner=BROADCASTER|
-|check|response status|202                                                                  |
+
+|script                                                                             |
+|post |${body}        |to|${urlBackendApi}/media/media/${id}/image?owner=BROADCASTER|
+|check|response status|202                                                          |

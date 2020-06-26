@@ -16,7 +16,8 @@ Test
 </location>
 }}} }
 *!
-|script                                                                      |
-|show |post           |${body}|to|${urlBackendApi}/media/media/${id}/location|
-|check|response status|202                                                   |
-|check|response       |Location accepted for ${id}.                          |
+
+|script                                                              |
+|post |${body}        |to|${urlBackendApi}/media/media/${id}/location|
+|check|response status|202                                           |
+|check|response       |Location accepted for ${id}.                  |

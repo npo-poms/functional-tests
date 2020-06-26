@@ -10,10 +10,9 @@ Regex components for verifying [[WebVTT][https://developer.mozilla.org/en-US/doc
 !define timing {!-\d{2}:\d{2}:\d{2}\.\d{3} --> \d{2}:\d{2}:\d{2}\.\d{3}\n-!}
 !define cue {(.+\n)+\n}
 
-|scenario|check subtitle |mid       |counts      |count      |sections      |
-|show    |get from       |${urlBackendApi}/media/subtitles/@{mid}/nl/CAPTION|
-|check   |response status|200                                               |
-|check   |response       |=~/^${header}(${id}${timing}${cue}){@count}$/     |
+|scenario|check subtitle|mid     |counts     |count     |sections     |
+|get from|${urlBackendApi}/media/subtitles/@{mid}/nl/CAPTION          |
+|check   |response      |=~/^${header}(${id}${timing}${cue}){@count}$/|
 *!
 
 |script                                         |

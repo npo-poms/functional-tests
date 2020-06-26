@@ -39,6 +39,6 @@ Test
 
 |script                                                                                                     |
 |set content type|text/vtt                                                                                  |
-|show            |post           |${body}     |to    |${urlBackendApi}/media/subtitles/${mid}/nl/CAPTION    |
+|post            |${body}        |to           |${urlBackendApi}/media/subtitles/${mid}/nl/CAPTION          |
 |check           |response status|202                                                                       |
 |check           |response       |Subtitles (4 cues, 569 bytes) provisionally accepted for ${mid}	CAPTION	nl|

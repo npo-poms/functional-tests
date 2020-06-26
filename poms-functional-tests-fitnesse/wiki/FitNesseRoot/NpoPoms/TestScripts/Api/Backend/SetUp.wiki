@@ -1,6 +1,9 @@
-|script                                 |xml http test                                                               |
-|set basic authorization header for user|$backEndApiUsername        |and password        |$backEndApiPassword        |
-|note                                   |application/x-www-form-urlencoded is the http test default, NPO API expects:|
-|set content type                       |application/xml; charset=UTF-8                                              |
-|set repeat interval to                 |10000                      |milliseconds                                    |
-|repeat at most                         |30                         |times                                           |
+!note The backend API returns both xml and non-xml responses, so use a custom hybrid class
+!note This way, we retain access to all methods of xml http test, but don't have to work around tests failing on non-xml responses
+|script                                 |hybrid xml http test                                                  |
+|accept non-xml responses in subsequent requests                                                               |
+|set basic authorization header for user|$backEndApiUsername      |and password      |$backEndApiPassword      |
+|note                                   |text/xml; charset=UTF-8 is the xml http test default, NPO API expects:|
+|set content type                       |application/xml; charset=UTF-8                                        |
+|set repeat interval to                 |10000                    |milliseconds                                |
+|repeat at most                         |30                       |times                                       |

@@ -24,23 +24,21 @@ Test
 *!
 
 !4 Create
-|script                                                                         |
-|show |post           |${body}|to|${urlBackendApi}/media/media?owner=BROADCASTER|
-|check|response status|202                                                      |
-|check|response       |=~/^POMS_NPO_\d{7}$/                                     |
-|$mid=|response                                                                 |
+|script                                                                 |
+|post |${body}        |to|${urlBackendApi}/media/media?owner=BROADCASTER|
+|check|response status|202                                              |
+|check|response       |=~/^POMS_NPO_\d{7}$/                             |
+|$mid=|response                                                         |
 
 !4 Read (verify creation)
-|script                                                                    |
-|show                           |get from|${urlBackendApi}/media/media/$mid|
-|repeat until response status is|200                                       |
-|show                           |time spent repeating                      |
-|check                          |xPath   |/update:program/@mid    |$mid    |
+|script                                                                         |
+|repeat get from|${urlBackendApi}/media/media/$mid|until response status is|200 |
+|check          |xPath                            |/update:program/@mid    |$mid|
 
 !4 Delete
-|script                                                 |
-|show |delete         |${urlBackendApi}/media/media/$mid|
-|check|response status|202                              |
+|script                                  |
+|delete|${urlBackendApi}/media/media/$mid|
+|check |response status       |202       |
 
 !4 Read (verify deletion)
 |script                                              |

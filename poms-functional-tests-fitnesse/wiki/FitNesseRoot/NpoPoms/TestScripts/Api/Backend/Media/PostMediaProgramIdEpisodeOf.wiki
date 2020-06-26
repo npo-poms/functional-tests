@@ -10,6 +10,7 @@ Test
 <memberRef xmlns="urn:vpro:media:update:2009" position="1" highlighted="true">${id}</memberRef>
 }}} }
 *!
-|script                                                                         |
-|show |post           |${body}|to|${urlBackendApi}/media/program/${id}/episodeOf|
-|check|response status|202                                                      |
+
+|script                                                                 |
+|post |${body}        |to|${urlBackendApi}/media/program/${id}/episodeOf|
+|check|response status|202                                              |

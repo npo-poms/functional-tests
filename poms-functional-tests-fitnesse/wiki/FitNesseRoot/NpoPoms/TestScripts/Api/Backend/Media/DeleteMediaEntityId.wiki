@@ -3,6 +3,6 @@ Help: NPOAPI-95
 Suites: RG
 Test
 ---
-|script                                                            |
-|show |delete         |${urlBackendApi}/media/media/WO_VPRO_3338447|
-|check|response status|202                                         |
+|script                                             |
+|delete|${urlBackendApi}/media/media/WO_VPRO_3338447|
+|check |response status             |202            |
