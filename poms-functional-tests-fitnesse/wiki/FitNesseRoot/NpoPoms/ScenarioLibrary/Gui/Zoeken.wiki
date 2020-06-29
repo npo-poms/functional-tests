@@ -99,6 +99,7 @@
 
 |scenario                   |Npo poms Zoeken Selecteer optie|optie                   |in dropdown|dropdown|
 |click                      |@dropdown                                                                    |
+|wait for visible           |xpath=//*[contains(@repeat, "item in options")]                              |
 |set search context to      |xpath=//*[contains(@repeat, "item in options")]                              |
 |scroll to                  |@optie                                                                       |
 |click                      |@optie                                                                       |
@@ -107,6 +108,7 @@
 
 |scenario             |Npo poms Zoeken Selecteer optie|optie|zonder controle in dropdown|dropdown|
 |click                |@dropdown                                                                 |
+|wait for visible     |xpath=//*[contains(@repeat, "item in options")]                           |
 |set search context to|xpath=//*[contains(@repeat, "item in options")]                           |
 |scroll to            |@optie                                                                    |
 |click                |@optie                                                                    |
