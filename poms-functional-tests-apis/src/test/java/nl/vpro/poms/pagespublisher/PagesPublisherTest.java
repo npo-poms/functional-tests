@@ -725,7 +725,7 @@ class PagesPublisherTest extends AbstractApiMediaBackendTest {
             .build();
 
         Utils.waitUntil(ACCEPTABLE_PAGE_PUBLISHED_DURATION,
-            () -> "Has no pages with tag",
+            () -> "Has no pages with tag " + TAG,
             () -> {
                 PageSearchResult searchResultItems = pageUtil.find(form, null, 0L, 11);
                 log.info("Found {}", searchResultItems);
