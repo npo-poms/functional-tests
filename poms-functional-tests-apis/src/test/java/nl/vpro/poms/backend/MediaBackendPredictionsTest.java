@@ -77,7 +77,7 @@ class MediaBackendPredictionsTest extends AbstractApiMediaBackendTest {
     @Tag("prediction")
     @Order(2)
     public void checkSetPrediction() {
-        Utils.waitUntil(ACCEPTABLE_DURATION,
+        Utils.waitUntil(ACCEPTABLE_DURATION_BACKEND,
             () -> getPredictions(MID),
             Check.<XmlCollection<PredictionUpdate>>description("prediction of {} has publishStart {}", MID, NOW)
                 .predicate((l) ->
@@ -125,7 +125,7 @@ class MediaBackendPredictionsTest extends AbstractApiMediaBackendTest {
     @Tag("predictions")
     @Order(4)
     public void checkSetPredictions() {
-        waitUntil(ACCEPTABLE_DURATION,
+        waitUntil(ACCEPTABLE_DURATION_BACKEND,
             () -> getPredictions(MID),
             Check.<XmlCollection<PredictionUpdate>>builder()
                 .description("prediction of " + MID + " has publishStart " + OTHERTIME)
@@ -152,7 +152,7 @@ class MediaBackendPredictionsTest extends AbstractApiMediaBackendTest {
     @Order(100)
     @AbortOnException.NoAbort
     public void deletePredictions() {
-        waitUntil(ACCEPTABLE_DURATION,
+        waitUntil(ACCEPTABLE_DURATION_BACKEND,
             () -> getPredictions(MID),
             Check.<XmlCollection<PredictionUpdate>>builder()
                 .description("prediction of " + MID + " has publishStart " + OTHERTIME)

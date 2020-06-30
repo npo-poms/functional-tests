@@ -126,18 +126,18 @@ public class MediaIntegrationTest extends AbstractApiMediaBackendTest {
                     .broadcasters("VPRO")
                     .build()
             ));
-        MediaObject foundClip = waitUntilNotNull(ACCEPTABLE_DURATION,
+        MediaObject foundClip = waitUntilNotNull(ACCEPTABLE_DURATION_BACKEND,
             "clip:" + clipMid + " available",
             () -> backend.getFull(clipMid));
 
         assertThat(foundClip.getImages()).withFailMessage("%s doesn't have 2 images", foundClip).hasSize(2);
 
-        waitUntil(ACCEPTABLE_DURATION,
+        waitUntil(ACCEPTABLE_DURATION_BACKEND,
             () -> "group:" + groupMid + " available",
             () -> backend.getFull(groupMid) != null);
 
 
-        waitUntil(ACCEPTABLE_DURATION,
+        waitUntil(ACCEPTABLE_DURATION_BACKEND,
             () -> "group:" + offlineGroup + " available",
             () -> backend.getFull(offlineGroup) != null);
 
@@ -197,7 +197,7 @@ public class MediaIntegrationTest extends AbstractApiMediaBackendTest {
         //clipMid = "POMS_VPRO_3322744";
         assumeThat(clipMid).isNotNull();
         assumeThat(clipTitle).isNotNull();
-        waitUntil(ACCEPTABLE_DURATION,
+        waitUntil(ACCEPTABLE_DURATION_BACKEND,
             clipMid + " has title " + clipTitle,
             () -> backend.getFullProgram(clipMid),
             (c) -> c.getMainTitle().equals(clipTitle));
@@ -240,7 +240,7 @@ public class MediaIntegrationTest extends AbstractApiMediaBackendTest {
     void checkUpdateDescriptionInBackend() {
         assumeThat(clipMid).isNotNull();
         assumeThat(clipDescription).isNotNull();
-        waitUntil(ACCEPTABLE_DURATION,
+        waitUntil(ACCEPTABLE_DURATION_BACKEND,
             clipMid + " has description " + clipDescription,
             () -> backend.getFullProgram(clipMid),
             (c) -> c.getMainDescription().equals(clipDescription));
@@ -337,7 +337,7 @@ public class MediaIntegrationTest extends AbstractApiMediaBackendTest {
             clipMid = "POMS_VPRO_3324281";
         }
         assumeThat(clipMid).isNotNull();
-        waitUntil(ACCEPTABLE_DURATION,
+        waitUntil(ACCEPTABLE_DURATION_BACKEND,
             () -> backend.getFull(clipMid),
             Check.<Program>builder()
                 .failureDescription(c -> "Workflow is now " + c.getWorkflow())
