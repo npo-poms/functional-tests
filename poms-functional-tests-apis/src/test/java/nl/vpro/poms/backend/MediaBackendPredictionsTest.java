@@ -65,7 +65,7 @@ class MediaBackendPredictionsTest extends AbstractApiMediaBackendTest {
                          .publishStart(NOW.toInstant())
                          .build());
              Response trancodeResponse = backend.getBackendRestService()
-                 .transcode(null, request)
+                 .transcode(null, null, request)
         ) {
 
             log.info("{} / {} ", response.getEntity(), trancodeResponse);
