@@ -131,7 +131,7 @@ class MediaBackendTranscodeTest extends AbstractApiMediaBackendTest {
     @Tag("check")
     void checkStatusAfterManualUploadAndTranscodeWithAbsolutePath() {
         XmlCollection<TranscodeStatus> vpro = backend.getBackendRestService().getTranscodeStatusForBroadcaster(
-            NOW.toInstant().minus(Duration.ofDays(3)), /*TranscodeStatus.Status.RUNNING* doesn't work on acc*/ null, null);
+            NOW.toInstant().minus(Duration.ofDays(3)), /*TranscodeStatus.Status.RUNNING* doesn't work on acc*/ null, null, null);
         log.info("{}", vpro);
 
         check(transcodeAbsoluteStart, COMPLETED);
@@ -216,7 +216,7 @@ class MediaBackendTranscodeTest extends AbstractApiMediaBackendTest {
     protected  XmlCollection<TranscodeStatus>  check(Instant after, TranscodeStatus.Status expectedStatus) {
         XmlCollection<TranscodeStatus> transcodeStatus = waitUntil(Duration.ofMinutes(20),
             () -> backend.getBackendRestService()
-                .getTranscodeStatus(EntityType.NoGroups.media, MID),
+                .getTranscodeStatus(EntityType.NoGroups.media, MID, null),
             Utils.Check.<XmlCollection<TranscodeStatus>>builder()
                 .description(MID + " has transcodestatuses")
                 .predicate((list) -> list.iterator().hasNext())
