@@ -40,7 +40,7 @@ import static nl.vpro.domain.media.MediaBuilder.program;
 @Timeout(value = 15, unit = TimeUnit.MINUTES)
 public abstract class AbstractApiMediaBackendTest extends AbstractApiTest {
 
-    public static final Duration ACCEPTABLE_DURATION_BACKEND = Duration.ofMinutes(10);
+    public static final Duration ACCEPTABLE_DURATION_BACKEND = Duration.ofMinutes(5);
 
 
     public static final String    MID                = "WO_VPRO_025057";

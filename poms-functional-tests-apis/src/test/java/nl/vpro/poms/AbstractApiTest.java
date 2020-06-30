@@ -37,6 +37,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 @AbortOnException.OnlyIfOrdered
 public abstract class AbstractApiTest extends AbstractTest  {
 
+    protected static final Duration ACCEPTABLE_DURATION_FRONTEND = Duration.ofMinutes(15);
+
     protected static final String DASHES = new String(new char[100]).replace('\0', '-');
 
     public static final Config CONFIG = new Config("npo-functional-tests.properties");
@@ -77,7 +79,8 @@ public abstract class AbstractApiTest extends AbstractTest  {
         mediaUtil.clearCache();
     }
 
-    protected static final Duration ACCEPTABLE_DURATION_FRONTEND = Duration.ofMinutes(10);
+
+
     protected static final NpoApiClients clients =
         NpoApiClients.configured(CONFIG.env(), CONFIG.getProperties(Config.Prefix.npo_api))
             .warnThreshold(Duration.ofMillis(500))

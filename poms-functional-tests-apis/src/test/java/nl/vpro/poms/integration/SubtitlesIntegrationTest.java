@@ -38,7 +38,6 @@ import static org.junit.jupiter.api.Assumptions.assumeTrue;
 @Log4j2
 public class SubtitlesIntegrationTest extends AbstractApiMediaBackendTest {
 
-    private static final Duration ACCEPTABLE_DURATION_FRONTEND = Duration.ofMinutes(15);
 
     private static final AvailableSubtitles JAPANESE_TRANSLATION = AvailableSubtitles.published(JAPANESE, TRANSLATION);
     private static final AvailableSubtitles CHINESE_TRANSLATION = AvailableSubtitles.published(CHINESE, TRANSLATION);
