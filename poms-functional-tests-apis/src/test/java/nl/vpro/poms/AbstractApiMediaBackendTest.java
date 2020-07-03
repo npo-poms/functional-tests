@@ -29,7 +29,7 @@ import nl.vpro.util.IntegerVersion;
 import nl.vpro.util.Version;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
-import static nl.vpro.api.client.Utils.*;
+import static nl.vpro.api.client.Utils.methodCall;
 import static nl.vpro.domain.media.MediaBuilder.program;
 
 /**
@@ -148,12 +148,17 @@ public abstract class AbstractApiMediaBackendTest extends AbstractApiTest {
         backend.setValidateInput(true);
         backend.setStealCrids(AssemblageConfig.Steal.IF_DELETED);
         backend.setLookupCrids(true);
+
         backend.setAccept(MediaType.APPLICATION_XML_TYPE); // e.g. subtitels are more completely represented in XML (including metadata like last modified and creation dates)
     }
 
     private static boolean needsCheck = true;
-    @BeforeAll
-    public static void checkMids() {
+    @BeforeEach
+    public void checkMids() {
+
+        // TODO
+        //Set<String> neededObjects = extensionContext.getStore(ExtensionContext.Namespace.GLOBAL).getOrComputeIfAbsent(NEEDED, (k) -> new HashSet<String>(), Set.class);
+
         try {
             if (needsCheck) {
                 log.info("Checking {}", MID);

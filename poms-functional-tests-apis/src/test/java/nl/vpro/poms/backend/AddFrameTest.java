@@ -14,6 +14,7 @@ import nl.vpro.domain.media.Program;
 import nl.vpro.domain.media.support.OwnerType;
 import nl.vpro.domain.media.update.*;
 import nl.vpro.poms.AbstractApiMediaBackendTest;
+import nl.vpro.poms.Require;
 import nl.vpro.test.jupiter.AbortOnException;
 import nl.vpro.testutils.Utils.Check;
 
@@ -49,6 +50,7 @@ public class AddFrameTest extends AbstractApiMediaBackendTest {
 
     @Test
     @Order(1)
+    @Require.Needs(MID)
     public void addFrame() {
         Program fullProgram = backend.getFullProgram(MID);
         if (fullProgram.getImage(ImageType.PICTURE) == null) {
