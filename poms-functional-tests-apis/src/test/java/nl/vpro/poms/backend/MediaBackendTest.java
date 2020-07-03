@@ -2,6 +2,7 @@ package nl.vpro.poms.backend;
 
 import lombok.extern.log4j.Log4j2;
 
+import java.io.IOException;
 import java.time.Duration;
 import java.util.*;
 import java.util.function.Predicate;
@@ -13,6 +14,7 @@ import org.junit.jupiter.api.*;
 
 import nl.vpro.api.client.media.ResponseError;
 import nl.vpro.domain.media.*;
+import nl.vpro.domain.media.search.MediaList;
 import nl.vpro.domain.media.support.TextualType;
 import nl.vpro.domain.media.update.*;
 import nl.vpro.poms.AbstractApiMediaBackendTest;
@@ -46,6 +48,7 @@ class MediaBackendTest extends AbstractApiMediaBackendTest {
 
 
     private static String newMid;
+    private static String memberMid;
 
     @Test
     @Order(1)
@@ -53,7 +56,7 @@ class MediaBackendTest extends AbstractApiMediaBackendTest {
         ProgramUpdate clip = ProgramUpdate.create(
             backend.getVersionNumber(),
             MediaTestDataBuilder.clip()
-                //.ageRating(AgeRating.ALL)
+                .ageRating(AgeRating.ALL)
                 .title(title)
                 .broadcasters("VPRO")
                 .portals("NETINNL")
@@ -78,7 +81,7 @@ class MediaBackendTest extends AbstractApiMediaBackendTest {
                     .build());
 
         // TODO: this will happen via queue in ImportRoute
-        String memberMid = backend.set(member);
+        memberMid = backend.set(member);
         log.info("Created {} too", memberMid);
 
 
@@ -95,6 +98,8 @@ class MediaBackendTest extends AbstractApiMediaBackendTest {
     @Order(2)
     public void checkArrivedCreateObjectWithMembers() {
         assumeThat(newMid).isNotNull();
+        assumeThat(memberMid).isNotNull();
+
 
         ProgramUpdate u = waitUntil(
             ACCEPTABLE_DURATION,
@@ -114,10 +119,45 @@ class MediaBackendTest extends AbstractApiMediaBackendTest {
             (groupMembers) -> groupMembers.size() == 1
         );
         assertThat(memberUpdates).hasSize(1);
-
-
+        assertThat(memberUpdates.getList().get(0).getMediaUpdate().getMid()).isEqualTo(memberMid);
 
     }
+
+    @Test
+    @Order(3)
+    public void deleteMember() {
+        assumeThat(memberMid).isNotNull();
+        backend.delete(memberMid);
+    }
+
+
+    @Test
+    @Order(4)
+    public void checkDelete() throws IOException {
+        assumeThat(memberMid).isNotNull();
+        waitUntil(
+            ACCEPTABLE_DURATION,
+            memberMid + " isDeleted ",
+            () -> backend.get(memberMid),
+                new Predicate<MediaUpdate>() {
+                    @Override
+                    public boolean test(MediaUpdate mediaUpdate) {
+                        return mediaUpdate != null && mediaUpdate.isDeleted();
+
+                    }
+                }
+        );
+
+        assertThat(backend.getBackendRestService()
+            .getFullGroupMembers(null, memberMid, 0L, 10, null, null, false)).hasSize(0);
+
+        MediaList<Member> fullGroupMembers = backend.getBackendRestService()
+            .getFullGroupMembers(null, memberMid, 0L, 10, null, null, true);
+        assertThat(fullGroupMembers).hasSize(1);
+        assertThat(fullGroupMembers.getList().get(0).getMember().isDeleted()).isTrue();
+    }
+
+
 
    /* @Test
     public void test03UpdateClip() {
@@ -143,10 +183,10 @@ class MediaBackendTest extends AbstractApiMediaBackendTest {
 
 
     /**
-     * It should simple provisionlly accept.
+     * It should simple provisionally accept.
      */
     @Test
-    @Order(3)
+    @Order(10)
     public void createObjectWithoutBroadcaster() {
         backend.setValidateInput(false);
         ProgramUpdate clip = ProgramUpdate.create(
@@ -171,7 +211,7 @@ class MediaBackendTest extends AbstractApiMediaBackendTest {
     private static final String CRID = "crid://test.poms/1";
 
     @Test
-    @Order(4)
+    @Order(11)
     public void deleteForCridIfExists() {
         log.info("{}", backend.deleteIfExists(CRID));
         Optional<ProgramUpdate> pu = waitUntil(
@@ -192,7 +232,7 @@ class MediaBackendTest extends AbstractApiMediaBackendTest {
 
 
     @Test
-    @Order(5)
+    @Order(20)
     public void createObjectWithCrids() {
         backend.setLookupCrids(false);
         ProgramUpdate clip = ProgramUpdate.create(
@@ -213,7 +253,7 @@ class MediaBackendTest extends AbstractApiMediaBackendTest {
     }
 
     @Test
-    @Order(6)
+    @Order(21)
     public void createObjectWithCridsAgain() {
         backend.setLookupCrids(false);
         ProgramUpdate clip = ProgramUpdate.create(
@@ -229,7 +269,7 @@ class MediaBackendTest extends AbstractApiMediaBackendTest {
     }
 
     @Test
-    @Order(7)
+    @Order(30)
     public void createObjectWithStolenCrids() {
         backend.setLookupCrids(false);
         backend.setStealCrids(AssemblageConfig.Steal.YES);
@@ -253,7 +293,7 @@ class MediaBackendTest extends AbstractApiMediaBackendTest {
 
 
     @Test
-    @Order(8)
+    @Order(31)
     public void checkObjectsWithCrids() {
         assumeThat(midWithCrid).isNotNull();
         assumeThat(againMidWithCrid).isNotNull();
@@ -274,7 +314,7 @@ class MediaBackendTest extends AbstractApiMediaBackendTest {
      * The user use use has rights on the portal, but not on NOS
      */
     @Test
-    @Order(9)
+    @Order(40)
     public void createObjectForPortal() {
         ProgramUpdate clip = ProgramUpdate.create(
             backend.getVersionNumber(),
@@ -297,7 +337,7 @@ class MediaBackendTest extends AbstractApiMediaBackendTest {
 
     }
     @Test
-    @Order(10)
+    @Order(41)
     public void checkObjectForPortalAndChangeTitle() {
         assumeThat(midForPortal).isNotNull();
         MediaUpdate<?> o = waitUntilNotNull(ACCEPTABLE_DURATION,
@@ -308,7 +348,7 @@ class MediaBackendTest extends AbstractApiMediaBackendTest {
         midForPortalChangedTitle = title;
     }
     @Test
-    @Order(11)
+    @Order(42)
     public void checkObjectForPortalChangedTitle() {
         assumeThat(midForPortalChangedTitle).isNotNull();
         waitUntil(ACCEPTABLE_DURATION,
@@ -318,15 +358,6 @@ class MediaBackendTest extends AbstractApiMediaBackendTest {
 
     }
 
-    @Test
-    @Disabled
-    public void tryToPinDownDamnServerErrorsOnDev() throws InterruptedException {
-        for (int i = 0 ; i < 100; i++) {
-            ProgramUpdate update = backend_authority.get(MID);
-            assertThat(update).isNotNull();
-            log.info("{}: {}", i, update);
-            Thread.sleep(1000);
-        }
-    }
+
 
 }
