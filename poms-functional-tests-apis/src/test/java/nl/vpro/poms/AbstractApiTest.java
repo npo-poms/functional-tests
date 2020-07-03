@@ -32,7 +32,7 @@ import static org.assertj.core.api.Assertions.assertThat;
  * @author Michiel Meeuwissen
  * @since 1.0
  */
-@ExtendWith({AllowUnavailable.class, AllowNotImplemented.class, AbortOnException.class, TestMDC.class})
+@ExtendWith({AllowUnavailable.class, AllowNotImplemented.class, AbortOnException.class, TestMDC.class, Require.class})
 @Timeout(value = 30, unit = TimeUnit.MINUTES)
 @AbortOnException.OnlyIfOrdered
 public abstract class AbstractApiTest extends AbstractTest  {
