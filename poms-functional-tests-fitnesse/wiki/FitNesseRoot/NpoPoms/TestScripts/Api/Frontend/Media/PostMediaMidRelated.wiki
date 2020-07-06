@@ -1,0 +1,40 @@
+---
+Help: NPOAPI-16
+Suites: RG
+Test
+---
+!*> Test-specific items
+!define mid {14Jeugd0845geb}
+!define numberOfItems {10}
+!define firstBody {!-{}-!}
+!define firstBroadcasterAfterFirstPost {NPS}
+!define secondBody { {{{
+{
+  "searches": {
+    "broadcasters": [
+      {
+        "match": "NOT",
+        "value": "${firstBroadcasterAfterFirstPost}"
+      }
+    ]
+  }
+}
+}}} }
+!define b {!-<li>-!Omroep Zeeland!-</li>-!}
+!define broadcastersAfterSecondPost {!-<div><ul>-!${b}${b}${b}${b}${b}${b}${b}${b}${b}${b}!-</ul></div>-!}
+
+|scenario|Post |body                                            |
+|post    |@body|to|${urlFrontendApi}/media/${mid}/related?max=10|
+*!
+|script                                                                                                                              |
+|Post                  |${firstBody}                                                                                                 |
+|set repeat interval to|10000                                |milliseconds                                                           |
+|repeat at most        |30                                   |times                                                                  |
+|repeat until json path|items[0].result.broadcasters[0].value|is                                   |${firstBroadcasterAfterFirstPost}|
+|$repeatCount=         |repeat count                                                                                                 |
+|$timeSpentRepeating=  |time spent repeating                                                                                         |
+|$timeSpentRepeating=  |format timestamp                     |$timeSpentRepeating                  |as             |m:ss             |
+|check                 |json path                            |total                                |${numberOfItems}                 |
+|check                 |json path count                      |items.*                              |${numberOfItems}                 |
+|Post                  |${secondBody}                                                                                                |
+|check                 |all json path matches                |items[*].result.broadcasters[0].value|${broadcastersAfterSecondPost}   |
