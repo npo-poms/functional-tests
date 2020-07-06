@@ -14,7 +14,6 @@ import org.junit.jupiter.api.*;
 
 import nl.vpro.api.client.media.ResponseError;
 import nl.vpro.domain.media.*;
-import nl.vpro.domain.media.search.MediaList;
 import nl.vpro.domain.media.support.TextualType;
 import nl.vpro.domain.media.update.*;
 import nl.vpro.poms.AbstractApiMediaBackendTest;
@@ -148,13 +147,14 @@ class MediaBackendTest extends AbstractApiMediaBackendTest {
                 }
         );
 
-        assertThat(backend.getBackendRestService()
-            .getFullGroupMembers(null, memberMid, 0L, 10, null, null, false)).hasSize(0);
+        MediaUpdateList<MemberUpdate> fullGroupMembers1 = backend.getBackendRestService()
+            .getGroupMembers(null, newMid, 0L, 10, null, null, null, false);
+        assertThat(fullGroupMembers1).hasSize(0);
 
-        MediaList<Member> fullGroupMembers = backend.getBackendRestService()
-            .getFullGroupMembers(null, memberMid, 0L, 10, null, null, true);
+        MediaUpdateList<MemberUpdate> fullGroupMembers = backend.getBackendRestService()
+            .getGroupMembers(null, newMid, 0L, 10, null, null, null, true);
         assertThat(fullGroupMembers).hasSize(1);
-        assertThat(fullGroupMembers.getList().get(0).getMember().isDeleted()).isTrue();
+        assertThat(fullGroupMembers.getList().get(0).getMediaUpdate().isDeleted()).isTrue();
     }
 
 
