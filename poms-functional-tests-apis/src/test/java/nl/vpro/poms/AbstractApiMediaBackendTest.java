@@ -29,7 +29,6 @@ import nl.vpro.util.IntegerVersion;
 import nl.vpro.util.Version;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
-import static nl.vpro.api.client.Utils.methodCall;
 import static nl.vpro.domain.media.MediaBuilder.program;
 
 /**
@@ -72,7 +71,7 @@ public abstract class AbstractApiMediaBackendTest extends AbstractApiTest {
             .warnThreshold(Duration.ofSeconds(10))
             .errors(errorMail)
             .publishImmediately(true)
-            .headerLevel((m, a) -> logged.add(methodCall(m, a)) ? Level.INFO : Level.DEBUG)
+            .headerLevel((m, a, c) -> logged.add(c) ? Level.INFO : Level.DEBUG)
             //.version("5.7")
             .build();
 
