@@ -19,6 +19,7 @@
 |Npo poms Zoeken Scroll naar zoekveld                                                                                                           |
 |Npo poms Zoeken Vul                                     |@titel                                      |in zoekveld                              |
 |Npo poms Zoeken Druk knop                               |Zoeken                                                                                |
+|Npo poms Zoeken Wacht tot zoeken klaar is                                                                                                      |
 |double click                                            |@titel                                                                                |
 |Npo poms Hoofdscherm Wacht tot tabblad                  |@titel                                      |geopend                                  |
 |Npo poms Tabblad object Druk op link                    |Afbeeldingen                                |in sidebar                               |
