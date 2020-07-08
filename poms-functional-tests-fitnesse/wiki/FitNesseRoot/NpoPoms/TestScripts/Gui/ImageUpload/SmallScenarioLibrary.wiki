@@ -22,6 +22,7 @@
 |Npo poms Zoeken Wacht tot zoeken klaar is                                                                                                      |
 |double click                                            |@titel                                                                                |
 |Npo poms Hoofdscherm Wacht tot tabblad                  |@titel                                      |geopend                                  |
+|Npo poms Tabblad object Sla mid of urn op in var        |mid                                                                                   |
 |Npo poms Tabblad object Druk op link                    |Afbeeldingen                                |in sidebar                               |
 |Npo poms Tabblad object Wacht tot scrollen klaar is                                                                                            |
 
