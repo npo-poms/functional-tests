@@ -278,13 +278,12 @@
 |note         |Toon de waarde van het bedoelde veld voor het geval de regel hierboven faalt                           |
 |show         |value of                                    |xpath=.//div/h1[contains(text(), "@veld")]                |
 
-|scenario  |Npo poms Tabblad object Klik op wijzig tags icoon                                                              |
-|hover over|xpath=//h2[text()="Tags"]                                                                                      |
-|note      |Als het edit-icoon wat traag is in verschijnen na de hover probeert click ernaar te scrollen                   |
-|note      |Dit verschuift de pagina t.o.v. de cursor en maakt dus dat het edit-icoon niet meer verschijnt                 |
-|note      |Wacht daarom totdat het edit-icoon zichtbaar is (niet met wait for visible, die scrollt ook)                   |
-|ensure    |is visible|xpath=//h2[text()="Tags"]/following-sibling::div[@class="media-field-tools"]/div[@class="edit-icon"]|
-|click     |xpath=//h2[text()="Tags"]/following-sibling::div[@class="media-field-tools"]/div[@class="edit-icon"]           |
+|scenario             |Npo poms Tabblad object Klik op wijzig tags icoon              |
+|hover over           |xpath=//h2[text()="Tags"]                                      |
+|set search context to|xpath=//h2[text()="Tags"]/..                                   |
+|wait for visible     |xpath=./div[@class="media-field-tools"]/div[@class="edit-icon"]|
+|click                |xpath=./div[@class="media-field-tools"]/div[@class="edit-icon"]|
+|clear search context                                                                 |
 
 
 |scenario|Npo poms Tabblad object Kies een tag met tekst|tekst                                                                   |
