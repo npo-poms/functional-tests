@@ -97,9 +97,20 @@
 |check           |value of                   |xpath=//span[normalize-space(.)="@dropdown"]/../following-sibling::span|@optieDeel1                                    |
 |check           |value of                   |xpath=//span[normalize-space(.)="@dropdown"]/../following-sibling::a   |@optieDeel2                                    |
 
+|scenario                       |Npo poms Zoeken Selecteer optie|optie                                   |in single-optie dropdown|dropdown|
+|Npo poms Zoeken Selecteer optie|@optie                         |zonder controle in single-optie dropdown|@dropdown                        |
+|Npo poms Zoeken Check optie    |@optie                         |geselecteerd in dropdown                |@dropdown                        |
+
 |scenario                       |Npo poms Zoeken Selecteer optie|optie                      |in dropdown|dropdown|
 |Npo poms Zoeken Selecteer optie|@optie                         |zonder controle in dropdown|@dropdown           |
 |Npo poms Zoeken Check optie    |@optie                         |geselecteerd in dropdown   |@dropdown           |
+
+|scenario             |Npo poms Zoeken Selecteer optie|optie|zonder controle in single-optie dropdown|dropdown|
+|click                |@dropdown                                                                              |
+|set search context to|xpath=//poms-ui-select[@name="@dropdown"]                                              |
+|wait for visible     |@optie                                                                                 |
+|click                |@optie                                                                                 |
+|remove last search context                                                                                   |
 
 |scenario             |Npo poms Zoeken Selecteer optie|optie|zonder controle in dropdown|dropdown|
 |click                |@dropdown                                                                 |

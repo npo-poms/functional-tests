@@ -6,11 +6,8 @@ Test
 
 !*> Lokale variabelen
 
-!define avtype {Video}
 !define persoon {Paul Koster}
-
 !define datumEnPersoon2 {aangemaakt door:}
-
 !define datumvandaag {!today (dd-MM-yyyy)}
 !define maandgeleden {!today (dd-MM-yyyy) -30}
 *!
