@@ -12,19 +12,19 @@ Test
 
 *!
 
-|script                                                                                                     |
-|open                                                    |${urlPoms}/${affixCmsSelector}                    |
-|click                                                   |Select                                            |
-|switch to next tab                                                                                         |
-|Npo poms Inlogscherm Log in met standaard-gebruiker                                                        |
-|Npo poms Zoeken Selecteer optie                         |${mediatype}|in multi-optie dropdown|!-MediaType-!|
-|Npo poms Zoeken Wacht tot zoekopdracht met Gezocht naar:|${mediatype}|klaar is                             |
-|Npo poms Zoeken Druk op tandwieltje                                                                        |
-|set search context to                                   |xpath=//poms-search-columns                       |
-|click                                                   |${kolomMid}                                       |
-|clear search context                                                                                       |
-|Npo poms Zoeken Druk op tandwieltje                                                                        |
-|Npo poms Zoeken Sla mid bij eerste object op in var     |mid                                               |
-|Npo poms Zoeken Dubbelklik op hoofdtitel van eerste object                                                 |
-|switch to previous tab                                                                                     |
-|Check tekstveld                                         |Result:     |heeft waarde           |$mid         |
+|script                                                                                          |
+|open                                                    |${urlPoms}/${affixCmsSelector}         |
+|click                                                   |Select                                 |
+|switch to next tab                                                                              |
+|Npo poms Inlogscherm Log in met standaard-gebruiker                                             |
+|Npo poms Zoeken Selecteer optie                         |${mediatype}|in dropdown |!-MediaType-!|
+|Npo poms Zoeken Wacht tot zoekopdracht met Gezocht naar:|${mediatype}|klaar is                  |
+|Npo poms Zoeken Druk op tandwieltje                                                             |
+|set search context to                                   |xpath=//poms-search-columns            |
+|click                                                   |${kolomMid}                            |
+|clear search context                                                                            |
+|Npo poms Zoeken Druk op tandwieltje                                                             |
+|Npo poms Zoeken Sla mid bij eerste object op in var     |mid                                    |
+|Npo poms Zoeken Dubbelklik op hoofdtitel van eerste object                                      |
+|switch to previous tab                                                                          |
+|Check tekstveld                                         |Result:     |heeft waarde|$mid         |
