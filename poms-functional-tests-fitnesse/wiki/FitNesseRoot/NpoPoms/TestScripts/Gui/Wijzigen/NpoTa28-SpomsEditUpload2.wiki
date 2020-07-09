@@ -10,6 +10,9 @@ Test
 
 *!
 
+|script                                   |
+|$timestamp=|store|!today (yyyyMMddHHmmss)|
+
 |script                                                                                                                                           |
 |Open Npo poms website                                                                                                                            |
 |Npo poms Inlogscherm Log in met standaard-gebruiker                                                                                              |
@@ -26,8 +29,8 @@ Test
 |clear search context                                                                                                                             |
 |select file                                             |${plaatje}             |for                                |css=input[id=inputFile]     |
 |wait for visible                                        |css=img                                                                                 |
-|show                                                    |take screenshot        |${screenshot}_!today (yyyyMMddHHmmss)                           |
-|Npo poms Tabblad object Detailscherm Vul                |${titel}               |in tekstveld                       |Titel *                     |
+|show                                                    |take screenshot        |${screenshot}_$timestamp_1                                      |
+|Npo poms Tabblad object Detailscherm Vul                |${titel} $timestamp    |in tekstveld                       |Titel *                     |
 |Npo poms Tabblad object Detailscherm Vul                |${beschrijving}        |in textarea                        |Beschrijving *              |
 |scroll to                                               |Afbeeldingstype *                                                                       |
 |Npo poms Tabblad object Detailscherm Selecteer optie    |Afbeelding             |in selecteerbare tekstveld         |Afbeeldingstype *           |
@@ -40,36 +43,36 @@ Test
 |Npo poms Hoofdscherm Log uit                                                                                                                     |
 
 
-|script                                                                                                                   |
-|Npo poms Inlogscherm Log in met admin                                                                                    |
-|Npo poms Zoeken Vul                                         |$mid           |in zoekveld                                 |
-|Npo poms Zoeken Druk knop                                   |Zoeken                                                      |
-|Npo poms Zoeken Wacht tot zoekopdracht met Gezocht naar:    |'$mid'         |klaar is                                    |
-|Npo poms Zoeken Open eerste object                                                                                       |
-|Npo poms Tabblad object Druk op link                        |Afbeeldingen   |in sidebar                                  |
-|Npo poms Tabblad object Wacht tot scrollen klaar is                                                                      |
-|Npo poms Tabblad object Check afbeelding                    |${titel}       |zichtbaar                                   |
-|Npo poms Tabblad object Check afbeelding                    |${titel}       |heeft beschrijving|${beschrijving}          |
-|Npo poms Tabblad object Wacht tot preview afbeelding van    |${titel}       |zichtbaar                                   |
-|set search context to                                       |xpath=//poms-images                                         |
-|Npo poms Tabblad object Check aantal in veld                |Afbeeldingen   |is var            |aantalAfbeeldingen|plus|1|
-|clear search context                                                                                                     |
-|show                                                        |take screenshot|${screenshot}_!today (yyyyMMddHHmmss)       |
-|Npo poms Tabblad object Druk op preview afbeelding van      |${titel}                                                    |
-|switch to next tab                                                                                                       |
-|wait for visible                                            |css=img                                                     |
-|show                                                        |take screenshot|${screenshot}_!today (yyyyMMddHHmmss)       |
-|close tab                                                                                                                |
-|Npo poms Tabblad object Hover over afbeelding               |${titel}                                                    |
-|Npo poms Tabblad object Druk op verwijderknop bij afbeelding|${titel}                                                    |
-|wait for visible                                            |Afbeelding verwijderen?                                     |
-|click                                                       |xpath=//button[text()="verwijderen"]                        |
-|wait for not visible                                        |Afbeelding verwijderen?                                     |
-|set search context to                                       |xpath=//poms-images                                         |
-|Npo poms Tabblad object Check aantal in veld                |Afbeeldingen   |is var            |aantalAfbeeldingen       |
-|Npo poms Tabblad object Check afbeelding                    |${titel}       |niet zichtbaar                              |
-|clear search context                                                                                                     |
-|show                                                        |take screenshot|${screenshot}_!today (yyyyMMddHHmmss)       |
-|Npo poms Hoofdscherm Sluit laatste tab                                                                                   |
-|Npo poms Hoofdscherm Sluit laatste tab                                                                                   |
-|Npo poms Hoofdscherm Log uit                                                                                             |
+|script                                                                                                                       |
+|Npo poms Inlogscherm Log in met admin                                                                                        |
+|Npo poms Zoeken Vul                                         |$mid               |in zoekveld                                 |
+|Npo poms Zoeken Druk knop                                   |Zoeken                                                          |
+|Npo poms Zoeken Wacht tot zoekopdracht met Gezocht naar:    |'$mid'             |klaar is                                    |
+|Npo poms Zoeken Open eerste object                                                                                           |
+|Npo poms Tabblad object Druk op link                        |Afbeeldingen       |in sidebar                                  |
+|Npo poms Tabblad object Wacht tot scrollen klaar is                                                                          |
+|Npo poms Tabblad object Check afbeelding                    |${titel} $timestamp|zichtbaar                                   |
+|Npo poms Tabblad object Check afbeelding                    |${titel} $timestamp|heeft beschrijving|${beschrijving}          |
+|Npo poms Tabblad object Wacht tot preview afbeelding van    |${titel} $timestamp|zichtbaar                                   |
+|set search context to                                       |xpath=//poms-images                                             |
+|Npo poms Tabblad object Check aantal in veld                |Afbeeldingen       |is var            |aantalAfbeeldingen|plus|1|
+|clear search context                                                                                                         |
+|show                                                        |take screenshot    |${screenshot}_$timestamp_2                  |
+|Npo poms Tabblad object Druk op preview afbeelding van      |$titel                                                          |
+|switch to next tab                                                                                                           |
+|wait for visible                                            |css=img                                                         |
+|show                                                        |take screenshot    |${screenshot}_$timestamp_3                  |
+|close tab                                                                                                                    |
+|Npo poms Tabblad object Hover over afbeelding               |$titel                                                          |
+|Npo poms Tabblad object Druk op verwijderknop bij afbeelding|$titel                                                          |
+|wait for visible                                            |Afbeelding verwijderen?                                         |
+|click                                                       |xpath=//button[text()="verwijderen"]                            |
+|wait for not visible                                        |Afbeelding verwijderen?                                         |
+|set search context to                                       |xpath=//poms-images                                             |
+|Npo poms Tabblad object Check aantal in veld                |Afbeeldingen       |is var            |aantalAfbeeldingen       |
+|Npo poms Tabblad object Check afbeelding                    |${titel} $timestamp|niet zichtbaar                              |
+|clear search context                                                                                                         |
+|show                                                        |take screenshot    |${screenshot}_$timestamp_4                  |
+|Npo poms Hoofdscherm Sluit laatste tab                                                                                       |
+|Npo poms Hoofdscherm Sluit laatste tab                                                                                       |
+|Npo poms Hoofdscherm Log uit                                                                                                 |

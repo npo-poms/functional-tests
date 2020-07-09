@@ -11,30 +11,33 @@ Test
 
 *!
 
-|script                                                                                                                                                                                                              |
-|Open Npo poms website                                                                                                                                                                                               |
-|Npo poms Inlogscherm Log in met standaard-gebruiker                                                                                                                                                                 |
-|Npo poms Nieuw object toevoegen Start met toevoegen                          |${mediaType}   |met titel                   |${clipTitel}|en omroep          |${standaardOmroep}|en AV Type|Afwisselend|en genre|Jeugd|
-|Npo poms Nieuw object toevoegen Maak aan en controleer tabblad met media type|${mediaType}   |en titel                    |${clipTitel}                                                                             |
-|Npo poms Tabblad object Druk op link                                         |Segmenten      |in sidebar                                                                                                            |
-|Npo poms Tabblad object Wacht tot scrollen klaar is                                                                                                                                                                 |
-|$aantalSegmenten1=                                                           |value of       |xpath=//poms-segments/div/h1                                                                                          |
-|$aantalSegmenten1=                                                           |extract string |$aantalSegmenten1           |from        |Segmenten \((\d+)\)|using group       |1                                    |
-|set search context to                                                        |xpath=//poms-segments                                                                                                                 |
-|note                                                                         |Er zit een dubbele spatie in "Segment toevoegen  zonder speler", gebruik daarom een xpath die hiervoor compenseert                    |
-|note                                                                         |Zo breekt dit testscript niet als de dubbele spatie ooit wordt aangepast                                                              |
-|click                                                                        |${segmentToevoegenSelector}                                                                                                           |
-|clear search context                                                                                                                                                                                                |
-|Npo poms Tabblad object Detailscherm Vul                                     |${segmentTitel}|in tekstveld                |Titel *                                                                                  |
-|click                                                                        |Bewaar en sluit                                                                                                                       |
-|Npo poms Tabblad object Check segment                                        |${segmentTitel}|zichtbaar                                                                                                             |
-|$aantalSegmenten2=                                                           |add            |$aantalSegmenten1           |and         |1                                                                           |
-|check                                                                        |value of       |xpath=//poms-segments/div/h1|Segmenten ($aantalSegmenten2)                                                            |
-|Npo poms Tabblad object Hover over segment                                   |${segmentTitel}                                                                                                                       |
-|Npo poms Tabblad object Druk op verwijderknop bij segment                    |${segmentTitel}                                                                                                                       |
-|Npo poms Tabblad object Bevestig verwijdering van                            |Segment                                                                                                                               |
-|wait for visible                                                             |xpath=//poms-segments/div/h1[normalize-space(.)="Segmenten ($aantalSegmenten1)"]                                                      |
-|Npo poms Tabblad object Check segment                                        |${segmentTitel}|niet zichtbaar                                                                                                        |
-|Npo poms Hoofdscherm Sluit laatste tab                                                                                                                                                                              |
-|Npo poms Hoofdscherm Sluit laatste tab                                                                                                                                                                              |
-|Npo poms Hoofdscherm Log uit                                                                                                                                                                                        |
+|script                                   |
+|$timestamp=|store|!today (yyyyMMddHHmmss)|
+
+|script                                                                                                                                                                                                                         |
+|Open Npo poms website                                                                                                                                                                                                          |
+|Npo poms Inlogscherm Log in met standaard-gebruiker                                                                                                                                                                            |
+|Npo poms Nieuw object toevoegen Start met toevoegen                          |${mediaType}              |met titel                   |${clipTitel}|en omroep          |${standaardOmroep}|en AV Type|Afwisselend|en genre|Jeugd|
+|Npo poms Nieuw object toevoegen Maak aan en controleer tabblad met media type|${mediaType}              |en titel                    |${clipTitel}                                                                             |
+|Npo poms Tabblad object Druk op link                                         |Segmenten                 |in sidebar                                                                                                            |
+|Npo poms Tabblad object Wacht tot scrollen klaar is                                                                                                                                                                            |
+|$aantalSegmenten1=                                                           |value of                  |xpath=//poms-segments/div/h1                                                                                          |
+|$aantalSegmenten1=                                                           |extract string            |$aantalSegmenten1           |from        |Segmenten \((\d+)\)|using group       |1                                    |
+|set search context to                                                        |xpath=//poms-segments                                                                                                                            |
+|note                                                                         |Er zit een dubbele spatie in "Segment toevoegen  zonder speler", gebruik daarom een xpath die hiervoor compenseert                               |
+|note                                                                         |Zo breekt dit testscript niet als de dubbele spatie ooit wordt aangepast                                                                         |
+|click                                                                        |${segmentToevoegenSelector}                                                                                                                      |
+|clear search context                                                                                                                                                                                                           |
+|Npo poms Tabblad object Detailscherm Vul                                     |${segmentTitel} $timestamp|in tekstveld                |Titel *                                                                                  |
+|click                                                                        |Bewaar en sluit                                                                                                                                  |
+|Npo poms Tabblad object Check segment                                        |${segmentTitel} $timestamp|zichtbaar                                                                                                             |
+|$aantalSegmenten2=                                                           |add                       |$aantalSegmenten1           |and         |1                                                                           |
+|check                                                                        |value of                  |xpath=//poms-segments/div/h1|Segmenten ($aantalSegmenten2)                                                            |
+|Npo poms Tabblad object Hover over segment                                   |${segmentTitel} $timestamp                                                                                                                       |
+|Npo poms Tabblad object Druk op verwijderknop bij segment                    |${segmentTitel} $timestamp                                                                                                                       |
+|Npo poms Tabblad object Bevestig verwijdering van                            |Segment                                                                                                                                          |
+|wait for visible                                                             |xpath=//poms-segments/div/h1[normalize-space(.)="Segmenten ($aantalSegmenten1)"]                                                                 |
+|Npo poms Tabblad object Check segment                                        |${segmentTitel} $timestamp|niet zichtbaar                                                                                                        |
+|Npo poms Hoofdscherm Sluit laatste tab                                                                                                                                                                                         |
+|Npo poms Hoofdscherm Sluit laatste tab                                                                                                                                                                                         |
+|Npo poms Hoofdscherm Log uit                                                                                                                                                                                                   |
