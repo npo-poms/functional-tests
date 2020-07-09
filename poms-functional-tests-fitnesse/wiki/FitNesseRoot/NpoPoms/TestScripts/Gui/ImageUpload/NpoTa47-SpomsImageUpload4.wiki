@@ -14,25 +14,25 @@ Test
 |set search context to                      |xpath=//poms-images                                                                          |
 |Npo poms Tabblad object Sla aantal in veld |Afbeeldingen               |op in var            |aantalAfbeeldingen                         |
 |clear search context                                                                                                                     |
-|Voeg afbeelding met titel                  |${titel} $timestamp_1      |toe aan clip                                                     |
-|Voeg afbeelding met titel                  |${titel} $timestamp_2      |toe aan clip                                                     |
-|Voeg afbeelding met titel                  |${titel} $timestamp_3      |toe aan clip                                                     |
+|Voeg afbeelding met titel                  |${titel} $timestamp-1      |toe aan clip                                                     |
+|Voeg afbeelding met titel                  |${titel} $timestamp-2      |toe aan clip                                                     |
+|Voeg afbeelding met titel                  |${titel} $timestamp-3      |toe aan clip                                                     |
 |Controleer dat er                          |3                          |afbeeldingen toegevoegd zijn                                     |
-|Controleer volgorde van afbeeldingen;      |$aantalAfbeeldingen        |${titel} $timestamp_1|${titel} $timestamp_2|${titel} $timestamp_3|
-|Klik en sleep                              |${titel} $timestamp_3      |boven                |${titel} $timestamp_2                      |
+|Controleer volgorde van afbeeldingen;      |$aantalAfbeeldingen        |${titel} $timestamp-1|${titel} $timestamp-2|${titel} $timestamp-3|
+|Klik en sleep                              |${titel} $timestamp-3      |boven                |${titel} $timestamp-2                      |
 |Npo poms Hoofdscherm Sluit laatste tab                                                                                                   |
 |Npo poms Hoofdscherm Sluit laatste tab                                                                                                   |
 |Zoek clip met titel en mediatype en omroep;|!-De radio-5 documentaire-!|Clip                 |!-VPRO-!                                   |
 |Npo poms Tabblad object Druk op link       |Afbeeldingen               |in sidebar                                                       |
 |Npo poms Tabblad object Wacht tot scrollen klaar is                                                                                      |
-|Controleer volgorde van afbeeldingen;      |$aantalAfbeeldingen        |${titel} $timestamp_1|${titel} $timestamp_3|${titel} $timestamp_2|
-|Verwijder afbeelding met titel             |${titel} $timestamp_2                                                                        |
-|Verwijder afbeelding met titel             |${titel} $timestamp_3                                                                        |
-|Verwijder afbeelding met titel             |${titel} $timestamp_1                                                                        |
+|Controleer volgorde van afbeeldingen;      |$aantalAfbeeldingen        |${titel} $timestamp-1|${titel} $timestamp-3|${titel} $timestamp-2|
+|Verwijder afbeelding met titel             |${titel} $timestamp-2                                                                        |
+|Verwijder afbeelding met titel             |${titel} $timestamp-3                                                                        |
+|Verwijder afbeelding met titel             |${titel} $timestamp-1                                                                        |
 |set search context to                      |xpath=//poms-images                                                                          |
-|Npo poms Tabblad object Check afbeelding   |${titel} $timestamp_1      |niet zichtbaar                                                   |
-|Npo poms Tabblad object Check afbeelding   |${titel} $timestamp_2      |niet zichtbaar                                                   |
-|Npo poms Tabblad object Check afbeelding   |${titel} $timestamp_3      |niet zichtbaar                                                   |
+|Npo poms Tabblad object Check afbeelding   |${titel} $timestamp-1      |niet zichtbaar                                                   |
+|Npo poms Tabblad object Check afbeelding   |${titel} $timestamp-2      |niet zichtbaar                                                   |
+|Npo poms Tabblad object Check afbeelding   |${titel} $timestamp-3      |niet zichtbaar                                                   |
 |clear search context                                                                                                                     |
 |Controleer dat er                          |0                          |afbeeldingen toegevoegd zijn                                     |
 |Npo poms Hoofdscherm Sluit laatste tab                                                                                                   |

@@ -29,7 +29,7 @@ Test
 |clear search context                                                                                                                             |
 |select file                                             |${plaatje}             |for                                |css=input[id=inputFile]     |
 |wait for visible                                        |css=img                                                                                 |
-|show                                                    |take screenshot        |${screenshot}_$timestamp_1                                      |
+|show                                                    |take screenshot        |${screenshot}-$timestamp-1                                      |
 |Npo poms Tabblad object Detailscherm Vul                |${titel} $timestamp    |in tekstveld                       |Titel *                     |
 |Npo poms Tabblad object Detailscherm Vul                |${beschrijving}        |in textarea                        |Beschrijving *              |
 |scroll to                                               |Afbeeldingstype *                                                                       |
@@ -57,11 +57,11 @@ Test
 |set search context to                                       |xpath=//poms-images                                             |
 |Npo poms Tabblad object Check aantal in veld                |Afbeeldingen       |is var            |aantalAfbeeldingen|plus|1|
 |clear search context                                                                                                         |
-|show                                                        |take screenshot    |${screenshot}_$timestamp_2                  |
+|show                                                        |take screenshot    |${screenshot}-$timestamp-2                  |
 |Npo poms Tabblad object Druk op preview afbeelding van      |$titel                                                          |
 |switch to next tab                                                                                                           |
 |wait for visible                                            |css=img                                                         |
-|show                                                        |take screenshot    |${screenshot}_$timestamp_3                  |
+|show                                                        |take screenshot    |${screenshot}-$timestamp-3                  |
 |close tab                                                                                                                    |
 |Npo poms Tabblad object Hover over afbeelding               |$titel                                                          |
 |Npo poms Tabblad object Druk op verwijderknop bij afbeelding|$titel                                                          |
@@ -72,7 +72,7 @@ Test
 |Npo poms Tabblad object Check aantal in veld                |Afbeeldingen       |is var            |aantalAfbeeldingen       |
 |Npo poms Tabblad object Check afbeelding                    |${titel} $timestamp|niet zichtbaar                              |
 |clear search context                                                                                                         |
-|show                                                        |take screenshot    |${screenshot}_$timestamp_4                  |
+|show                                                        |take screenshot    |${screenshot}-$timestamp-4                  |
 |Npo poms Hoofdscherm Sluit laatste tab                                                                                       |
 |Npo poms Hoofdscherm Sluit laatste tab                                                                                       |
 |Npo poms Hoofdscherm Log uit                                                                                                 |

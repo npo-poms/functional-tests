@@ -49,14 +49,14 @@ Test
 |click                                                    |Segment toevoegen zonder speler                                     |
 |clear search context                                                                                                          |
 |wait for visible                                         |Annuleer                                                            |
-|Npo poms Tabblad object Detailscherm Vul                 |${titel} $timestamp_1   |in tekstveld |Titel *                      |
+|Npo poms Tabblad object Detailscherm Vul                 |${titel} $timestamp-1   |in tekstveld |Titel *                      |
 |Npo poms Tabblad object Detailscherm Vul                 |${beschrijving1}        |in textarea  |Beschrijving                 |
 |hover over                                               |Bewaar en nieuw                                                     |
 |click                                                    |Bewaar en nieuw                                                     |
 |set search context to                                    |xpath=//div[@class="required-feedback footer-message"]              |
 |wait for visible                                         |xpath=./span[text()="Nog in te vullen:"]                            |
 |clear search context                                                                                                          |
-|Npo poms Tabblad object Detailscherm Vul                 |${titel} $timestamp_2   |in tekstveld |Titel *                      |
+|Npo poms Tabblad object Detailscherm Vul                 |${titel} $timestamp-2   |in tekstveld |Titel *                      |
 |Npo poms Tabblad object Detailscherm Vul                 |${beschrijving2}        |in textarea  |Beschrijving                 |
 |Npo poms Tabblad object Detailscherm Vul                 |${starttijd}            |in tekstveld |Starttijd *                  |
 |Npo poms Tabblad object Detailscherm Vul                 |${eindtijd}             |in tekstveld |Eindtijd                     |
@@ -68,10 +68,10 @@ Test
 |click                                                    |Bewaar en sluit                                                     |
 |wait for visible                                         |Segmenten                                                           |
 |Npo poms Tabblad object Check aantal in veld             |Segmenten               |is var       |aantalSegmenten   |plus  |2  |
-|Npo poms Tabblad object Check segment                    |${titel} $timestamp_1   |zichtbaar                                  |
-|Npo poms Tabblad object Check segment                    |${titel} $timestamp_2   |zichtbaar                                  |
-|Npo poms Tabblad object Hover over segment               |${titel} $timestamp_2                                               |
-|Npo poms Tabblad object Druk op editknop bij segment     |${titel} $timestamp_2                                               |
+|Npo poms Tabblad object Check segment                    |${titel} $timestamp-1   |zichtbaar                                  |
+|Npo poms Tabblad object Check segment                    |${titel} $timestamp-2   |zichtbaar                                  |
+|Npo poms Tabblad object Hover over segment               |${titel} $timestamp-2                                               |
+|Npo poms Tabblad object Druk op editknop bij segment     |${titel} $timestamp-2                                               |
 |Wacht tot Angular requests klaar zijn                                                                                         |
 |Npo poms Tabblad object Vul                              |${afleveringtitel}      |in tekstveld |Afleveringtitel / Subtitel   |
 |Npo poms Tabblad object Vul                              |${korteTitel}           |in tekstveld |Korte titel                  |
@@ -101,16 +101,16 @@ Test
 |Npo poms Tabblad object Druk op link                     |Segmenten               |in sidebar                                 |
 |Npo poms Tabblad object Wacht tot scrollen klaar is                                                                           |
 |Npo poms Tabblad object Check aantal in veld             |Segmenten               |is var       |aantalSegmenten   |plus  |1  |
-|Npo poms Tabblad object Check segment                    |${titel} $timestamp_1   |zichtbaar                                  |
-|Npo poms Tabblad object Check segment                    |${titel} $timestamp_2   |niet zichtbaar                             |
-|Npo poms Tabblad object Hover over segment               |${titel} $timestamp_1                                               |
-|Npo poms Tabblad object Druk op verwijderknop bij segment|${titel} $timestamp_1                                               |
+|Npo poms Tabblad object Check segment                    |${titel} $timestamp-1   |zichtbaar                                  |
+|Npo poms Tabblad object Check segment                    |${titel} $timestamp-2   |niet zichtbaar                             |
+|Npo poms Tabblad object Hover over segment               |${titel} $timestamp-1                                               |
+|Npo poms Tabblad object Druk op verwijderknop bij segment|${titel} $timestamp-1                                               |
 |wait for visible                                         |Segment verwijderen?                                                |
 |click                                                    |xpath=//button[text()="verwijderen"]                                |
 |Wacht tot Angular requests klaar zijn                                                                                         |
 |Npo poms Tabblad object Check aantal in veld             |Segmenten               |is var       |aantalSegmenten              |
-|Npo poms Tabblad object Check segment                    |${titel} $timestamp_1   |niet zichtbaar                             |
-|Npo poms Tabblad object Check segment                    |${titel} $timestamp_2   |niet zichtbaar                             |
+|Npo poms Tabblad object Check segment                    |${titel} $timestamp-1   |niet zichtbaar                             |
+|Npo poms Tabblad object Check segment                    |${titel} $timestamp-2   |niet zichtbaar                             |
 |Npo poms Hoofdscherm Sluit laatste tab                                                                                        |
 |Npo poms Hoofdscherm Sluit laatste tab                                                                                        |
 |Npo poms Hoofdscherm Log uit                                                                                                  |
