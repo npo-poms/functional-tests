@@ -49,18 +49,22 @@ Test
 |wait for visible                                         |Annuleer                                                            |
 |Npo poms Tabblad object Detailscherm Vul                 |${titel1}               |in tekstveld |Titel *                      |
 |Npo poms Tabblad object Detailscherm Vul                 |${beschrijving1}        |in textarea  |Beschrijving                 |
+|hover over                                               |Bewaar en nieuw                                                     |
 |click                                                    |Bewaar en nieuw                                                     |
-|wait for not visible                                     |${titel1}                                                           |
+|set search context to                                    |xpath=//div[@class="required-feedback footer-message"]              |
+|wait for visible                                         |xpath=./span[text()="Nog in te vullen:"]                            |
+|clear search context                                                                                                          |
 |Npo poms Tabblad object Detailscherm Vul                 |${titel2}               |in tekstveld |Titel *                      |
 |Npo poms Tabblad object Detailscherm Vul                 |${beschrijving2}        |in textarea  |Beschrijving                 |
 |Npo poms Tabblad object Detailscherm Vul                 |${starttijd}            |in tekstveld |Starttijd *                  |
 |Npo poms Tabblad object Detailscherm Vul                 |${eindtijd}             |in tekstveld |Eindtijd                     |
+|hover over                                               |Bewaar en sluit                                                     |
 |click                                                    |Bewaar en sluit                                                     |
 |ensure                                                   |is visible on page      |De stop-tijd moet voor de start-tijd liggen|
 |Npo poms Tabblad object Detailscherm Vul                 |                        |in tekstveld |Eindtijd                     |
 |Npo poms Tabblad object Detailscherm Check tekstveld     |Duur                    |heeft waarde |${duur}                      |
 |click                                                    |Bewaar en sluit                                                     |
-|wait for not visible                                     |Bewaar en sluit                                                     |
+|wait for visible                                         |Segmenten                                                           |
 |Npo poms Tabblad object Check aantal in veld             |Segmenten               |is var       |aantalSegmenten   |plus  |2  |
 |Npo poms Tabblad object Check segment                    |${titel1}               |zichtbaar                                  |
 |Npo poms Tabblad object Check segment                    |${titel2}               |zichtbaar                                  |
