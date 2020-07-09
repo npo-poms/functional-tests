@@ -58,13 +58,13 @@ Test
 |Npo poms Tabblad object Check aantal in veld                |Afbeeldingen       |is var            |aantalAfbeeldingen|plus|1|
 |clear search context                                                                                                         |
 |show                                                        |take screenshot    |${screenshot}-$timestamp-2                  |
-|Npo poms Tabblad object Druk op preview afbeelding van      |$titel                                                          |
+|Npo poms Tabblad object Druk op preview afbeelding van      |${titel} $timestamp                                             |
 |switch to next tab                                                                                                           |
 |wait for visible                                            |css=img                                                         |
 |show                                                        |take screenshot    |${screenshot}-$timestamp-3                  |
 |close tab                                                                                                                    |
-|Npo poms Tabblad object Hover over afbeelding               |$titel                                                          |
-|Npo poms Tabblad object Druk op verwijderknop bij afbeelding|$titel                                                          |
+|Npo poms Tabblad object Hover over afbeelding               |${titel} $timestamp                                             |
+|Npo poms Tabblad object Druk op verwijderknop bij afbeelding|${titel} $timestamp                                             |
 |wait for visible                                            |Afbeelding verwijderen?                                         |
 |click                                                       |xpath=//button[text()="verwijderen"]                            |
 |wait for not visible                                        |Afbeelding verwijderen?                                         |

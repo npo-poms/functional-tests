@@ -31,7 +31,7 @@ Test
 |Npo poms Tabblad object Druk op status om te publiceren                                                                                   |
 |open                                    |!-http://embed-acc.vpro.nl/player/?src=-!${midVanSegment}                                        |
 |ensure                                  |is visible on page    |Deze uitzending is niet beschikbaar                                       |
-|Npo poms Tabblad object Open            |${midVanSegment}                                                                                 |
+|back                                                                                                                                      |
 |Npo poms Tabblad object Vul             |$oudeBeschrijving     |in textarea|Beschrijving                                                  |
 |Npo poms Tabblad object Vul             |$oudeKorteBeschrijving|in textarea|Korte beschrijving                                            |
 |Wacht tot Angular requests klaar zijn                                                                                                     |

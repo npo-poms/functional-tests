@@ -14,6 +14,7 @@ Test
 |script                                                                                                                          |
 |Open Npo poms website                                                                                                           |
 |Npo poms Inlogscherm Log in met standaard-gebruiker                                                                             |
+|Npo poms Zoeken Wacht tot zoeken klaar is                                                                                       |
 |Npo poms Zoeken Sla aantal zoekresultaten op in var     |aantalZoekresultaten1                                                  |
 |Npo poms Zoeken Selecteer optie                         |${omroep}|in dropdown           |Omroepen                              |
 |Npo poms Zoeken Wacht tot zoekopdracht met Gezocht naar:|${omroep}|klaar is                                                     |
