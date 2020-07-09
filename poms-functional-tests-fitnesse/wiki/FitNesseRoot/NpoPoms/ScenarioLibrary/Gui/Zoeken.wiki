@@ -105,6 +105,10 @@
 |Npo poms Zoeken Selecteer optie|@optie                         |zonder controle in dropdown|@dropdown           |
 |Npo poms Zoeken Check optie    |@optie                         |geselecteerd in dropdown   |@dropdown           |
 
+|scenario                             |Npo poms Zoeken Popup Selecteer optie|optie                      |in dropdown|dropdown|
+|Npo poms Zoeken Popup Selecteer optie|@optie                               |zonder controle in dropdown|@dropdown           |
+|Npo poms Zoeken Check optie          |@optie                               |geselecteerd in dropdown   |@dropdown           |
+
 |scenario             |Npo poms Zoeken Selecteer optie|optie|zonder controle in single-optie dropdown|dropdown|
 |click                |@dropdown                                                                              |
 |set search context to|xpath=//poms-ui-select[@name="@dropdown"]                                              |
@@ -119,6 +123,14 @@
 |scroll to            |@optie                                                                    |
 |click                |@optie                                                                    |
 |remove last search context                                                                      |
+
+|scenario             |Npo poms Zoeken Popup Selecteer optie|optie|zonder controle in dropdown|dropdown|
+|click                |@dropdown                                                                       |
+|set search context to|xpath=//div[@class="modal-body"]//poms-ui-select-multi[@name="@dropdown"]       |
+|wait for visible     |xpath=./div/ul/li/div                                                           |
+|scroll to            |@optie                                                                          |
+|click                |@optie                                                                          |
+|remove last search context                                                                            |
 
 |scenario|Npo poms Zoeken Klik op|selector|in geopende dropdown                   |dropdown                  |
 |click   |@selector              |in      |xpath=.//span[normalize-space(.)="@dropdown"]/following-sibling::*|
