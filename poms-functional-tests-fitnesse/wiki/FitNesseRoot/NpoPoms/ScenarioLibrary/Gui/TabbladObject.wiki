@@ -94,20 +94,6 @@
 |Wacht tot Angular requests klaar zijn                                                                                                                                      |
 |Npo poms Tabblad object Check veldtype 2|@textarea                           |heeft waarde|$@var-@waarde                                                                   |
 
-|scenario                                      |Npo poms Tabblad object Voeg tag|tag|toe|
-|Npo poms Tabblad object Klik op wijzig tags icoon                                      |
-|Npo poms Tabblad object Kies een tag met tekst|@tag                                    |
-|Wacht tot Angular requests klaar zijn                                                  |
-
-|scenario             |Npo poms Tabblad object Verwijder tag        |tag       |
-|Npo poms Tabblad object Klik op wijzig tags icoon                             |
-|set search context to|xpath=//span[@placeholder="Kies een tag..."]            |
-|wait for visible     |xpath=./span/span/span[2]/span[text()="@tag"]           |
-|click                |xpath=./span/span[./span[2]/span[text()="@tag"]]/span[1]|
-|clear search context                                                          |
-|click                |xpath=//button[@class="button-save"]                    |
-|Wacht tot Angular requests klaar zijn                                         |
-
 |scenario        |Npo poms Tabblad object Wacht tot status zichtbaar|
 |wait for visible|xpath=//h2[text()="Status"]/following-sibling::*/p|
 
@@ -285,7 +271,9 @@
 |click                |xpath=./div[@class="media-field-tools"]/div[@class="edit-icon"]|
 |clear search context                                                                 |
 
-
-|scenario|Npo poms Tabblad object Kies een tag met tekst|tekst                                                                   |
-|enter   |@tekst                                        |as|xpath=//span[@placeholder="Kies een tag..."]/following-sibling::input|
-|click   |xpath=//button[@class="button-save"]                                                                                   |
+|scenario             |Npo poms Tabblad object Kies een tag met tekst|tekst                                                                   |
+|enter                |@tekst                                        |as|xpath=//span[@placeholder="Kies een tag..."]/following-sibling::input|
+|click                |xpath=//button[@class="button-save"]                                                                                   |
+|set search context to|xpath=//h2[text()="Tags"]/..                                                                                           |
+|wait for not visible |xpath=./div[@class="ui-select"]                                                                                        |
+|clear search context                                                                                                                         |
