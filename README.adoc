@@ -9,14 +9,15 @@ This is used to test actual deployments of https://poms.omroep.nl/[POMS], the ht
 and the https://rs.poms.omroep.nl[POMS Frontend API]
 
 This is currently split up in 2 sub projects
-* 'API' tests. Maintained by VPRO
-* 'Fitnesse' tests. Maintained by Specialisterren.
 
+* link:api-tests[] 'API' tests. Maintained by VPRO
+* link:poms-functional-tests-fitnesse[] Fitnesse' tests. Maintained by Specialisterren.
 
 
 == API Tests
 
 This itself has several sub module
+
 * a shared module, this contains only code which is shared by the other modules but no actual tests
 * a selenium module. These are pure frontend tests, and will use a headless browser. The idea was that this would  be replaced by tests via 'fitnesse'
 * the other functional tests use API's only, and e.g. create or change data using the backend api
