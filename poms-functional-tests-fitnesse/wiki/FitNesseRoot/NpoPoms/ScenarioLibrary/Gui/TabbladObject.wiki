@@ -127,6 +127,7 @@
 |wait for visible|css=.tab-pane.active [id="media-general-@mid"]                  |
 
 |scenario             |Npo poms Tabblad object Druk op link|link|in sidebar|
+|wait for visible     |css=[id=sidebar]                                    |
 |set search context to|css=[id=sidebar]                                    |
 |click                |@link                                               |
 |clear search context                                                      |
@@ -147,6 +148,11 @@
 |seconds before timeout|3                                                                                                                                               |
 |reject                |is visible on page                      |xpath=//poms-images/div/table/tbody/tr/td[@class="column-title"]/span[normalize-space(.)="@afbeelding"]|
 |seconds before timeout|${secondsBeforeTimeout}                                                                                                                         |
+
+|scenario             |Npo poms Tabblad object Wacht tot afbeelding|afbeelding|niet zichtbaar|
+|set search context to|xpath=//poms-images                                                   |
+|wait for not visible |@afbeelding                                                           |
+|clear search context                                                                        |
 
 |scenario|Npo poms Tabblad object Check afbeelding|afbeelding                                                                                                                                     |heeft beschrijving|beschrijving|
 |check   |value of                                |xpath=//poms-images/div/table/tbody/tr[./td[@class="column-title"]/span[normalize-space(.)="@afbeelding"]]/td[@class="column-description"]/span|@beschrijving                  |

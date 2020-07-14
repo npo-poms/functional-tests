@@ -29,11 +29,6 @@ Test
 |Verwijder afbeelding met titel             |${titel} $timestamp-2                                                                        |
 |Verwijder afbeelding met titel             |${titel} $timestamp-3                                                                        |
 |Verwijder afbeelding met titel             |${titel} $timestamp-1                                                                        |
-|set search context to                      |xpath=//poms-images                                                                          |
-|Npo poms Tabblad object Check afbeelding   |${titel} $timestamp-1      |niet zichtbaar                                                   |
-|Npo poms Tabblad object Check afbeelding   |${titel} $timestamp-2      |niet zichtbaar                                                   |
-|Npo poms Tabblad object Check afbeelding   |${titel} $timestamp-3      |niet zichtbaar                                                   |
-|clear search context                                                                                                                     |
 |Controleer dat er                          |0                          |afbeeldingen toegevoegd zijn                                     |
 |Npo poms Hoofdscherm Sluit laatste tab                                                                                                   |
 |Npo poms Hoofdscherm Sluit laatste tab                                                                                                   |
