@@ -153,15 +153,11 @@ public abstract class AbstractApiMediaBackendTest extends AbstractApiTest {
         backend.setAccept(MediaType.APPLICATION_XML_TYPE); // e.g. subtitels are more completely represented in XML (including metadata like last modified and creation dates)
     }
 
-    private static final Set<String> checked = new HashSet<>();
     @BeforeEach
     public void checkMids() {
 
-        Set<String> neededObjects = Require.REQUIRED;
-
         try {
-            if (neededObjects.contains(MID) && ! checked.contains(MID)) {
-                checked.add(MID);
+            if (Require.needsCheck(MID)) {
                 log.info("Checking {}", MID);
                 MediaUpdate<?> mediaUpdate = backend.get(MID);
                 boolean needSet = false;
@@ -188,8 +184,7 @@ public abstract class AbstractApiMediaBackendTest extends AbstractApiTest {
                     backend.set(mediaUpdate);
                 }
             }
-            if (neededObjects.contains(MID_WITH_LOCATIONS) && ! checked.contains(MID_WITH_LOCATIONS)) {
-                checked.add(MID_WITH_LOCATIONS);
+            if (Require.needsCheck(MID_WITH_LOCATIONS)) {
                 log.info("Checking {}", MID_WITH_LOCATIONS);
                 MediaUpdate<?> mediaUpdate = backend.get(MID_WITH_LOCATIONS);
                 if (mediaUpdate == null) {
@@ -219,8 +214,7 @@ public abstract class AbstractApiMediaBackendTest extends AbstractApiTest {
                     backend.set(mediaUpdate);
                 }
             }
-            if (neededObjects.contains(ANOTHER_MID) && ! checked.contains(ANOTHER_MID)) {
-                checked.add(ANOTHER_MID);
+            if (Require.needsCheck(ANOTHER_MID)) {
                 ProgramUpdate anotherProgramUpdate = backend.get(ANOTHER_MID);
                 if (anotherProgramUpdate == null) {
                     log.info("No media found {}. Now creating", ANOTHER_MID);

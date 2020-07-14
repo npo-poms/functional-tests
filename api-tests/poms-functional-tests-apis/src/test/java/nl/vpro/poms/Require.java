@@ -22,6 +22,17 @@ public class Require  implements InvocationInterceptor {
 
     public static final Set<String> REQUIRED = new HashSet<>();
 
+    private static final Set<String> checked = new HashSet<>();
+
+    public static boolean needsCheck(String id) {
+        if (REQUIRED.contains(id) && ! checked.contains(id)) {
+            checked.add(id);
+            return true;
+        }
+        return false;
+    }
+
+
     @Override
     public void interceptTestMethod(
         Invocation<Void> invocation,
