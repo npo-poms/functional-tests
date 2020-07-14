@@ -1,0 +1,2 @@
+!include <TestScripts.Gui.SuiteSetUp
+!include <TestScripts.Gui.SetUp
