@@ -13,6 +13,11 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
+ * Some tests require some mids to exists. These tests can be annotated with {@link Needs}.
+ *
+ * This is currently used in {@link AbstractApiMediaBackendTest} to detect that the said mids are needs, and it checks whether they
+ * exist, and if not, tries to create them first.
+ **
  * @author Michiel Meeuwissen
  */
 @Log4j2
@@ -44,7 +49,9 @@ public class Require  implements InvocationInterceptor {
         Needs annotation = invocationContext.getExecutable().getAnnotation(Needs.class);
         read(annotation, extensionContext);
 
-
+        if (! REQUIRED.isEmpty() && checked.size() < REQUIRED.size()) {
+            log.info("Needed objects {}", REQUIRED);
+        }
         invocation.proceed();
     }
 
@@ -53,7 +60,6 @@ public class Require  implements InvocationInterceptor {
         if (annotation != null) {
             Set<String> neededObjects = (Set<String>) extensionContext.getStore(ExtensionContext.Namespace.GLOBAL).getOrComputeIfAbsent(NEEDED, (k) -> REQUIRED);
             neededObjects.addAll(Arrays.asList(annotation.value()));
-            log.info("Needed objects {}", neededObjects);
         }
     }
 
