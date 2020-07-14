@@ -220,13 +220,13 @@ class MediaBackendSegmentsTest extends AbstractApiMediaBackendTest {
     @AbortOnException.NoAbort
     @Order(100)
     void cleanup() {
-        Program program = backend.getFullProgram(MID);
+        ProgramUpdate program = backend.getProgram(MID);
         assumeThat(program).isNotNull();
         log.info("Found {} with {} segments", program, program.getSegments().size());
-        Iterator<Segment> segments = program.getSegments().iterator();
+        Iterator<SegmentUpdate> segments = program.getSegments().iterator();
         int count = 0;
         while(segments.hasNext()) {
-            Segment segment = segments.next();
+            SegmentUpdate segment = segments.next();
             if (!segment.isDeleted()) {
                 log.info("Deleting {}", segment);
                 count++;
@@ -243,7 +243,7 @@ class MediaBackendSegmentsTest extends AbstractApiMediaBackendTest {
     @AbortOnException.NoAbort
     @Order(101)
     void checkCleanup() {
-        Program program = backend.getFullProgram(MID);
+        ProgramUpdate program = backend.getProgram(MID);
         assertThat(program.getSegments()).filteredOn(s -> ! s.isDeleted()).isEmpty();
     }
 
