@@ -66,13 +66,16 @@
 |clear search context                                                                                 |
 |show                                        |take screenshot  |${screenshot}_!today (yyyyMMddHHmmss) |
 
-|scenario                                                    |Verwijder afbeelding met titel|titel|
-|scroll to                                                   |Afbeelding toevoegen                |
-|hover over                                                  |@titel                              |
-|Npo poms Tabblad object Druk op verwijderknop bij afbeelding|@titel                              |
-|wait for visible                                            |Afbeelding verwijderen?             |
-|click                                                       |xpath=//button[text()="verwijderen"]|
-|wait for not visible                                        |Afbeelding verwijderen?             |
+|scenario                                                    |Verwijder afbeelding met titel|titel         |
+|scroll to                                                   |Afbeelding toevoegen                         |
+|hover over                                                  |@titel                                       |
+|Npo poms Tabblad object Druk op verwijderknop bij afbeelding|@titel                                       |
+|wait for visible                                            |Afbeelding verwijderen?                      |
+|click                                                       |xpath=//button[text()="verwijderen"]         |
+|wait for not visible                                        |Afbeelding verwijderen?                      |
+|set search context to                                       |xpath=//poms-images                          |
+|Npo poms Tabblad object Wacht tot afbeelding                |@titel                        |niet zichtbaar|
+|clear search context                                                                                      |
 
 
 |scenario|Controleer status clip is wordt gepubliceerd                                                        |
