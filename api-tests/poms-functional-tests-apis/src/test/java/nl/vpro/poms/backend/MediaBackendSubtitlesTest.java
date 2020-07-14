@@ -1,28 +1,25 @@
 package nl.vpro.poms.backend;
 
 
-import lombok.extern.log4j.Log4j2;
-
-import java.io.*;
-import java.time.Duration;
-import java.time.Instant;
-import java.util.Locale;
-
-import nl.vpro.poms.Require;
-import org.apache.commons.io.IOUtils;
-import org.junit.jupiter.api.*;
-
 import com.google.common.collect.Iterators;
 import com.google.common.collect.PeekingIterator;
-
+import lombok.extern.log4j.Log4j2;
 import nl.vpro.api.rs.subtitles.Constants;
 import nl.vpro.domain.media.AVType;
 import nl.vpro.domain.media.MediaTestDataBuilder;
 import nl.vpro.domain.media.update.ProgramUpdate;
 import nl.vpro.domain.subtitles.*;
 import nl.vpro.poms.AbstractApiMediaBackendTest;
+import nl.vpro.poms.Require.Needs;
 import nl.vpro.test.jupiter.AbortOnException;
 import nl.vpro.util.Version;
+import org.apache.commons.io.IOUtils;
+import org.junit.jupiter.api.*;
+
+import java.io.*;
+import java.time.Duration;
+import java.time.Instant;
+import java.util.Locale;
 
 import static io.restassured.RestAssured.given;
 import static java.nio.charset.StandardCharsets.UTF_8;
@@ -52,7 +49,7 @@ public class MediaBackendSubtitlesTest extends AbstractApiMediaBackendTest {
 
     @Test
     @Order(1)
-    @Require.Needs(MID)
+    @Needs(MID)
     public void addSubtitles() {
         assumeThat(backendVersionNumber).isGreaterThanOrEqualTo(Version.of(5, 1));
 

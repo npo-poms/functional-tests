@@ -31,6 +31,7 @@ import java.util.concurrent.TimeUnit;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static nl.vpro.domain.media.MediaBuilder.program;
+import static nl.vpro.poms.Require.needsCheck;
 
 /**
  * @author Michiel Meeuwissen
@@ -157,8 +158,7 @@ public abstract class AbstractApiMediaBackendTest extends AbstractApiTest {
     public void checkMids() {
 
         try {
-            if (Require.needsCheck(MID)) {
-                log.info("Checking {}", MID);
+            if (needsCheck(MID)) {
                 MediaUpdate<?> mediaUpdate = backend.get(MID);
                 boolean needSet = false;
                 if (mediaUpdate == null) {
@@ -184,8 +184,7 @@ public abstract class AbstractApiMediaBackendTest extends AbstractApiTest {
                     backend.set(mediaUpdate);
                 }
             }
-            if (Require.needsCheck(MID_WITH_LOCATIONS)) {
-                log.info("Checking {}", MID_WITH_LOCATIONS);
+            if (needsCheck(MID_WITH_LOCATIONS)) {
                 MediaUpdate<?> mediaUpdate = backend.get(MID_WITH_LOCATIONS);
                 if (mediaUpdate == null) {
                     mediaUpdate = ProgramUpdate.create();
@@ -214,7 +213,7 @@ public abstract class AbstractApiMediaBackendTest extends AbstractApiTest {
                     backend.set(mediaUpdate);
                 }
             }
-            if (Require.needsCheck(ANOTHER_MID)) {
+            if (needsCheck(ANOTHER_MID)) {
                 ProgramUpdate anotherProgramUpdate = backend.get(ANOTHER_MID);
                 if (anotherProgramUpdate == null) {
                     log.info("No media found {}. Now creating", ANOTHER_MID);

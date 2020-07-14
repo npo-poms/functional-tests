@@ -31,6 +31,7 @@ public class Require  implements InvocationInterceptor {
 
     public static boolean needsCheck(String id) {
         if (REQUIRED.contains(id) && ! checked.contains(id)) {
+            log.info("Checking {}", id);
             checked.add(id);
             return true;
         }

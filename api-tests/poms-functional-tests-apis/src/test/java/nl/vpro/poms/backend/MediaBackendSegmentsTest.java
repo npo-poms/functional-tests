@@ -6,7 +6,7 @@ import nl.vpro.domain.media.support.Workflow;
 import nl.vpro.domain.media.update.ProgramUpdate;
 import nl.vpro.domain.media.update.SegmentUpdate;
 import nl.vpro.poms.AbstractApiMediaBackendTest;
-import nl.vpro.poms.Require;
+import nl.vpro.poms.Require.Needs;
 import nl.vpro.test.jupiter.AbortOnException;
 import org.junit.jupiter.api.*;
 
@@ -36,7 +36,7 @@ import static org.assertj.core.api.Assumptions.assumeThat;
  */
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @Log4j2
-@Require.Needs(MID)
+@Needs(MID)
 class MediaBackendSegmentsTest extends AbstractApiMediaBackendTest {
 
     private static final Duration ACCEPTABLE_DURATION = Duration.ofMinutes(3);
@@ -228,9 +228,13 @@ class MediaBackendSegmentsTest extends AbstractApiMediaBackendTest {
         int count = 0;
         while(segments.hasNext()) {
             Segment segment = segments.next();
-            log.info("Deleting {}", segment);
-            count++;
-            backend.removeSegment(MID, segment.getMid());
+            if (!segment.isDeleted()) {
+                log.info("Deleting {}", segment);
+                count++;
+                backend.removeSegment(MID, segment.getMid());
+            } else {
+                log.info("Segment {} is deleted already", segment);
+            }
         }
         log.info("Deleted {} segments for {}", count, MID);
     }

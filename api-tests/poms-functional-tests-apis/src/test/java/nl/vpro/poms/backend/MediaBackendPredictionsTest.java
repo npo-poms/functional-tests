@@ -8,7 +8,7 @@ import nl.vpro.domain.media.update.PredictionUpdate;
 import nl.vpro.domain.media.update.TranscodeRequest;
 import nl.vpro.domain.media.update.collections.XmlCollection;
 import nl.vpro.poms.AbstractApiMediaBackendTest;
-import nl.vpro.poms.Require;
+import nl.vpro.poms.Require.Needs;
 import nl.vpro.test.jupiter.AbortOnException;
 import nl.vpro.testutils.Utils;
 import nl.vpro.testutils.Utils.Check;
@@ -43,7 +43,7 @@ class MediaBackendPredictionsTest extends AbstractApiMediaBackendTest {
     @Test
     @Tag("prediction")
     @Order(1)
-    @Require.Needs(MID)
+    @Needs(MID)
     public void setPrediction() throws IOException {
         TranscodeRequest request = TranscodeRequest.builder()
             .encryption(Encryption.NONE)

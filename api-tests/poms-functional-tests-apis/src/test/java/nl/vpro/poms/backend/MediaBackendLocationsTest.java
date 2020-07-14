@@ -6,7 +6,7 @@ import nl.vpro.domain.media.update.ProgramUpdate;
 import nl.vpro.domain.media.update.collections.XmlCollection;
 import nl.vpro.logging.Log4j2OutputStream;
 import nl.vpro.poms.AbstractApiMediaBackendTest;
-import nl.vpro.poms.Require;
+import nl.vpro.poms.Require.Needs;
 import nl.vpro.test.jupiter.AbortOnException;
 import org.junit.jupiter.api.*;
 
@@ -59,7 +59,7 @@ class MediaBackendLocationsTest extends AbstractApiMediaBackendTest {
 
     @Test
     @Order(1)
-    @Require.Needs(MID)
+    @Needs(MID)
     void addLocation() {
         titles.add(title);
         firstTitle = title;
