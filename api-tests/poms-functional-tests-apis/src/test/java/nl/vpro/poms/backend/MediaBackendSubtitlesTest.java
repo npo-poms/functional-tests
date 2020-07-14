@@ -8,6 +8,7 @@ import java.time.Duration;
 import java.time.Instant;
 import java.util.Locale;
 
+import nl.vpro.poms.Require;
 import org.apache.commons.io.IOUtils;
 import org.junit.jupiter.api.*;
 
@@ -51,6 +52,7 @@ public class MediaBackendSubtitlesTest extends AbstractApiMediaBackendTest {
 
     @Test
     @Order(1)
+    @Require.Needs(MID)
     public void addSubtitles() {
         assumeThat(backendVersionNumber).isGreaterThanOrEqualTo(Version.of(5, 1));
 

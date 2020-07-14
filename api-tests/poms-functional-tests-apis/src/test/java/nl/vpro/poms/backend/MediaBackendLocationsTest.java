@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
 
 import javax.xml.bind.JAXB;
 
+import nl.vpro.poms.Require;
 import org.junit.jupiter.api.*;
 
 import nl.vpro.domain.media.update.LocationUpdate;
@@ -61,6 +62,7 @@ class MediaBackendLocationsTest extends AbstractApiMediaBackendTest {
 
     @Test
     @Order(1)
+    @Require.Needs(MID)
     void addLocation() {
         titles.add(title);
         firstTitle = title;

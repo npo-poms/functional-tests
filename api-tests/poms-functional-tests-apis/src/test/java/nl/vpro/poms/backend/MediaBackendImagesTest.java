@@ -1,28 +1,28 @@
 package nl.vpro.poms.backend;
 
 import lombok.extern.log4j.Log4j2;
-
-import java.net.URLEncoder;
-import java.time.Duration;
-import java.time.Instant;
-import java.time.temporal.ChronoUnit;
-import java.util.*;
-import java.util.function.Function;
-import java.util.function.Predicate;
-import java.util.stream.Collectors;
-
-import javax.xml.bind.JAXB;
-
-import org.junit.jupiter.api.*;
-
 import nl.vpro.api.client.media.ResponseError;
 import nl.vpro.domain.image.ImageType;
 import nl.vpro.domain.media.update.ImageUpdate;
 import nl.vpro.domain.media.update.ProgramUpdate;
 import nl.vpro.logging.Log4j2OutputStream;
 import nl.vpro.poms.AbstractApiMediaBackendTest;
+import nl.vpro.poms.Require;
 import nl.vpro.test.jupiter.AbortOnException;
 import nl.vpro.util.Version;
+import org.junit.jupiter.api.*;
+
+import javax.xml.bind.JAXB;
+import java.net.URLEncoder;
+import java.time.Duration;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+import java.util.function.Function;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static nl.vpro.testutils.Utils.waitUntil;
@@ -59,6 +59,7 @@ public class MediaBackendImagesTest extends AbstractApiMediaBackendTest {
     }
 
     @Test
+    @Require.Needs(MID)
     void test01addRedirectingImage() {
         assumeThat(backendVersionNumber).isGreaterThanOrEqualTo(Version.of(5));
         titles.add(title);
@@ -260,6 +261,7 @@ public class MediaBackendImagesTest extends AbstractApiMediaBackendTest {
 
 
     @Test
+    @Require.Needs(ANOTHER_MID)
     void test30copyImageToOtherObject() {
         final ProgramUpdate[] updates = new ProgramUpdate[2];
         updates[0] = backend.get(MID);

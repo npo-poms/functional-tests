@@ -1,20 +1,22 @@
 package nl.vpro.poms.client;
 
 import lombok.extern.log4j.Log4j2;
+import nl.vpro.domain.media.update.MediaUpdate;
+import nl.vpro.poms.AbstractApiMediaBackendTest;
+import nl.vpro.poms.Require;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.core.LogEvent;
+import org.apache.logging.log4j.core.LoggerContext;
+import org.apache.logging.log4j.core.appender.AbstractAppender;
+import org.apache.logging.log4j.core.config.Configuration;
+import org.apache.logging.log4j.core.config.Property;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
-
-import org.apache.logging.log4j.Level;
-import org.apache.logging.log4j.core.*;
-import org.apache.logging.log4j.core.appender.AbstractAppender;
-import org.apache.logging.log4j.core.config.Configuration;
-import org.apache.logging.log4j.core.config.Property;
-import org.junit.jupiter.api.*;
-
-import nl.vpro.domain.media.update.MediaUpdate;
-import nl.vpro.poms.AbstractApiMediaBackendTest;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -46,6 +48,7 @@ class BackendApiClientTest extends AbstractApiMediaBackendTest  {
     }
 
     @Test
+    @Require.Needs("crid://tmp.fragment.mmbase.vpro.nl/43084334")
     void getByCrid() {
         MediaUpdate<?> mediaUpdate = backend.get("crid://tmp.fragment.mmbase.vpro.nl/43084334");
         assertThat(mediaUpdate).isNotNull();

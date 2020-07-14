@@ -1,26 +1,31 @@
 package nl.vpro.poms.integration;
 
+import com.google.common.collect.Iterators;
+import com.google.common.collect.PeekingIterator;
 import lombok.extern.log4j.Log4j2;
+import nl.vpro.api.client.utils.MediaRestClientUtils;
+import nl.vpro.domain.media.AvailableSubtitles;
+import nl.vpro.domain.media.Location;
+import nl.vpro.domain.media.MediaObject;
+import nl.vpro.domain.media.update.ProgramUpdate;
+import nl.vpro.domain.subtitles.StandaloneCue;
+import nl.vpro.domain.subtitles.Subtitles;
+import nl.vpro.domain.subtitles.SubtitlesUtil;
+import nl.vpro.domain.subtitles.SubtitlesWorkflow;
+import nl.vpro.poms.AbstractApiMediaBackendTest;
+import nl.vpro.poms.Require;
+import nl.vpro.test.jupiter.AbortOnException;
+import nl.vpro.util.Version;
+import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.Order;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 
+import javax.ws.rs.core.Response;
 import java.io.IOException;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.*;
-
-import javax.ws.rs.core.Response;
-
-import org.junit.jupiter.api.*;
-
-import com.google.common.collect.Iterators;
-import com.google.common.collect.PeekingIterator;
-
-import nl.vpro.api.client.utils.MediaRestClientUtils;
-import nl.vpro.domain.media.*;
-import nl.vpro.domain.media.update.ProgramUpdate;
-import nl.vpro.domain.subtitles.*;
-import nl.vpro.poms.AbstractApiMediaBackendTest;
-import nl.vpro.test.jupiter.AbortOnException;
-import nl.vpro.util.Version;
 
 import static java.time.Duration.ZERO;
 import static java.util.Locale.*;
@@ -48,6 +53,7 @@ public class SubtitlesIntegrationTest extends AbstractApiMediaBackendTest {
 
     @Test
     @Order(1)
+    @Require.Needs(MID_WITH_LOCATIONS)
     void addSubtitles() {
         assumeThat(backendVersionNumber).isGreaterThanOrEqualTo(Version.of(5, 1));
         assumeThat(backend.getFullProgram(MID_WITH_LOCATIONS).getLocations()).isNotEmpty();
@@ -84,7 +90,6 @@ public class SubtitlesIntegrationTest extends AbstractApiMediaBackendTest {
     @Order(2)
     void checkArrivedInBackend() {
         assumeThat(backendVersionNumber).isGreaterThanOrEqualTo(Version.of(5, 3));
-
 
         waitUntil(ACCEPTABLE_DURATION_BACKEND,
             MID_WITH_LOCATIONS + " has " + JAPANESE_TRANSLATION + " and " + CHINESE_TRANSLATION,

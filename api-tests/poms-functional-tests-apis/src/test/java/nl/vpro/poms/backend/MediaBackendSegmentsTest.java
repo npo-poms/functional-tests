@@ -1,22 +1,21 @@
 package nl.vpro.poms.backend;
 
 import lombok.extern.log4j.Log4j2;
-
-import java.time.Duration;
-import java.time.Instant;
-import java.util.Iterator;
-
-import javax.xml.bind.JAXB;
-
-import org.junit.jupiter.api.*;
-
 import nl.vpro.domain.media.*;
 import nl.vpro.domain.media.support.Workflow;
 import nl.vpro.domain.media.update.ProgramUpdate;
 import nl.vpro.domain.media.update.SegmentUpdate;
 import nl.vpro.poms.AbstractApiMediaBackendTest;
+import nl.vpro.poms.Require;
 import nl.vpro.test.jupiter.AbortOnException;
+import org.junit.jupiter.api.*;
 
+import javax.xml.bind.JAXB;
+import java.time.Duration;
+import java.time.Instant;
+import java.util.Iterator;
+
+import static nl.vpro.poms.AbstractApiMediaBackendTest.MID;
 import static nl.vpro.testutils.Utils.waitUntil;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assumptions.assumeThat;
@@ -37,6 +36,7 @@ import static org.assertj.core.api.Assumptions.assumeThat;
  */
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @Log4j2
+@Require.Needs(MID)
 class MediaBackendSegmentsTest extends AbstractApiMediaBackendTest {
 
     private static final Duration ACCEPTABLE_DURATION = Duration.ofMinutes(3);
