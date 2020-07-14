@@ -2,7 +2,6 @@ package nl.vpro.poms.backend;
 
 import lombok.extern.log4j.Log4j2;
 import nl.vpro.domain.media.*;
-import nl.vpro.domain.media.support.Workflow;
 import nl.vpro.domain.media.update.ProgramUpdate;
 import nl.vpro.domain.media.update.SegmentUpdate;
 import nl.vpro.poms.AbstractApiMediaBackendTest;
@@ -245,7 +244,7 @@ class MediaBackendSegmentsTest extends AbstractApiMediaBackendTest {
     @Order(101)
     void checkCleanup() {
         Program program = backend.getFullProgram(MID);
-        assertThat(program.getSegments()).filteredOn(s -> !Workflow.DELETES.contains(s.getWorkflow())).isEmpty();
+        assertThat(program.getSegments()).filteredOn(s -> ! s.isDeleted()).isEmpty();
     }
 
 
