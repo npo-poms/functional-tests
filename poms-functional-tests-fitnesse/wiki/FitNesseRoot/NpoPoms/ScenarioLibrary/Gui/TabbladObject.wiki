@@ -261,10 +261,10 @@
 |$@var=  |value of                                  |xpath=.//div/h1[contains(text(), "@veld")]   |
 |$@var=  |extract string                            |$@var|from     |@veld \((\d+)\)|using group|1|
 
-|scenario|Npo poms Tabblad object Check aantal in veld|veld            |is var            |var           |
-|ensure  |is visible on page                          |xpath=.//div/h1[normalize-space(.)="@veld (@var)"]|
-|note    |Toon de waarde van het bedoelde veld voor het geval de regel hierboven faalt                   |
-|show    |value of                                    |xpath=.//div/h1[contains(text(), "@veld")]        |
+|scenario|Npo poms Tabblad object Check aantal in veld|veld            |is var            |var            |
+|ensure  |is visible on page                          |xpath=.//div/h1[normalize-space(.)="@veld ($@var)"]|
+|note    |Toon de waarde van het bedoelde veld voor het geval de regel hierboven faalt                    |
+|show    |value of                                    |xpath=.//div/h1[contains(text(), "@veld")]         |
 
 |scenario     |Npo poms Tabblad object Check aantal in veld|veld     |is var    |var    |plus    |optellenMetGetal    |
 |$nieuwAantal=|add                                         |$@var    |and       |@optellenMetGetal                    |
@@ -273,12 +273,12 @@
 |show         |value of                                    |xpath=.//div/h1[contains(text(), "@veld")]                |
 
 |scenario        |Npo poms Tabblad object Wacht tot aantal in veld|veld         |is var         |var         |
-|wait for visible|xpath=.//div/h1[normalize-space(.)="@veld (@var)"]                                         |
+|wait for visible|xpath=.//div/h1[normalize-space(.)="@veld ($@var)"]                                        |
 |note            |Toon de waarde van het bedoelde veld voor het geval de regel hierboven faalt               |
 |show            |value of                                        |xpath=.//div/h1[contains(text(), "@veld")]|
 
-|scenario        |Npo poms Tabblad object Wacht tot aantal in veld|veld     |is var    |var                  |
-|$nieuwAantal=   |add                                             |$@var    |and       |@optellenMetGetal    |
+|scenario        |Npo poms Tabblad object Wacht tot aantal in veld|veld  |is var |var |plus |optellenMetGetal|
+|$nieuwAantal=   |add                                             |$@var |and    |@optellenMetGetal          |
 |wait for visible|xpath=.//div/h1[normalize-space(.)="@veld ($nieuwAantal)"]                                 |
 |note            |Toon de waarde van het bedoelde veld voor het geval de regel hierboven faalt               |
 |show            |value of                                        |xpath=.//div/h1[contains(text(), "@veld")]|
