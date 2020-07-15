@@ -10,22 +10,26 @@ Test
 
 *!
 
-|script                                                                                            |
-|Open Npo poms website                                                                             |
-|Npo poms Inlogscherm Log in met standaard-gebruiker                                               |
-|Zoek clip met objectnummer                  |${objectNummer}|en druk op link afbeelding toevoegen |
-|set search context to                       |xpath=//poms-images                                  |
-|Npo poms Tabblad object Sla aantal in veld  |Afbeeldingen   |op in var     |aantalAfbeeldingen    |
-|Voeg afbeelding met titel                   |${titel}1      |toe aan clip                         |
-|Voeg afbeelding met titel                   |${titel}2      |toe aan clip                         |
-|Controleer dat er                           |2              |afbeeldingen toegevoegd zijn         |
-|Verwijder afbeelding met titel              |${titel}2                                            |
-|Verwijder afbeelding met titel              |${titel}1                                            |
-|set search context to                       |xpath=//poms-images                                  |
-|Npo poms Tabblad object Check aantal in veld|Afbeeldingen   |is var        |aantalAfbeeldingen    |
-|Npo poms Tabblad object Check afbeelding    |${titel}       |niet zichtbaar                       |
-|clear search context                                                                              |
-|show                                        |take screenshot|${screenshot}_!today (yyyyMMddHHmmss)|
-|Npo poms Hoofdscherm Sluit laatste tab                                                            |
-|Npo poms Hoofdscherm Sluit laatste tab                                                            |
-|Npo poms Hoofdscherm Log uit                                                                      |
+|script                                   |
+|$timestamp=|store|!today (yyyyMMddHHmmss)|
+
+|script                                                                                                 |
+|Open Npo poms website                                                                                  |
+|Npo poms Inlogscherm Log in met standaard-gebruiker                                                    |
+|Zoek clip met objectnummer                  |${objectNummer}      |en druk op link afbeelding toevoegen|
+|set search context to                       |xpath=//poms-images                                       |
+|Npo poms Tabblad object Sla aantal in veld  |Afbeeldingen         |op in var    |aantalAfbeeldingen    |
+|Voeg afbeelding met titel                   |${titel} $timestamp-1|toe aan clip                        |
+|Voeg afbeelding met titel                   |${titel} $timestamp-2|toe aan clip                        |
+|Controleer dat er                           |2                    |afbeeldingen toegevoegd zijn        |
+|Verwijder afbeelding met titel              |${titel} $timestamp-2                                     |
+|Verwijder afbeelding met titel              |${titel} $timestamp-1                                     |
+|set search context to                       |xpath=//poms-images                                       |
+|Npo poms Tabblad object Check aantal in veld|Afbeeldingen         |is var       |aantalAfbeeldingen    |
+|Npo poms Tabblad object Check afbeelding    |${titel} $timestamp-1|niet zichtbaar                      |
+|Npo poms Tabblad object Check afbeelding    |${titel} $timestamp-2|niet zichtbaar                      |
+|clear search context                                                                                   |
+|show                                        |take screenshot      |${screenshot}-$timestamp            |
+|Npo poms Hoofdscherm Sluit laatste tab                                                                 |
+|Npo poms Hoofdscherm Sluit laatste tab                                                                 |
+|Npo poms Hoofdscherm Log uit                                                                           |

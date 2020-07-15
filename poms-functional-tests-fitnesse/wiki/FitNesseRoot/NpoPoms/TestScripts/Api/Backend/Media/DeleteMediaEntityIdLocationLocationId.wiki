@@ -1,0 +1,44 @@
+---
+Help: NPOAPI-103
+Suites: RG
+Test
+---
+!*> Test-specific items
+!define body { {{{
+<?xml version="1.0"?>
+<program avType="VIDEO" embeddable="true" type="CLIP" xmlns="urn:vpro:media:update:2009">
+  <broadcaster>NPO</broadcaster>
+  <title type="MAIN">Speciaal Clip</title>
+  <credits/>
+  <locations>
+    <location>
+      <programUrl>http://radiobox2.omroep.nl/audiofragment/file/106470/fragment.mp3</programUrl>
+      <avAttributes>
+        <avFileFormat>MP3</avFileFormat>
+      </avAttributes>
+      <duration>P0DT0H10M2.000S</duration>
+    </location>
+  </locations>
+  <scheduleEvents/>
+  <images/>
+  <segments/>
+</program>
+}}} }
+*!
+|script                                                                                                                                 |
+|show                           |post            |${body}                           |to  |${urlBackendApi}/media/media?owner=BROADCASTER|
+|$id=                           |response                                                                                               |
+|show                           |get from        |${urlBackendApi}/media/media/$id/locations?owner=BROADCASTER                          |
+|repeat until response status is|200                                                                                                    |
+|$repeatCount=                  |repeat count                                                                                           |
+|$timeSpentRepeating=           |time spent repeating                                                                                   |
+|$timeSpentRepeating=           |format timestamp|$timeSpentRepeating               |as  |m:ss                                          |
+|check                          |xPath           |count(/collection/update:location)|1                                                  |
+|$urn=                          |xPath           |/collection/update:location/@urn                                                      |
+|$locationId=                   |extract string  |$urn                              |from|^urn:vpro:media:location:(\d+)$ |using group|1|
+|show                           |delete          |${urlBackendApi}/media/media/$id/location/$locationId                                 |
+|check                          |response status |202                                                                                   |
+|check                          |response        |Location delete submitted to $id.                                                     |
+|get from                       |${urlBackendApi}/media/media/$id/locations?owner=BROADCASTER                                           |
+|check                          |xPath           |count(/collection/update:location)|0                                                  |
+|show                           |delete          |${urlBackendApi}/media/media/$id                                                      |

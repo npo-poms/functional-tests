@@ -1,10 +1,33 @@
+ifdef::env-github[]
+:tip-caption: :bulb:
+:note-caption: :information_source:
+:important-caption: :heavy_exclamation_mark:
+:caution-caption: :fire:
+:warning-caption: :warning:
+endif::[]
 = Testing NEP integration
-
 :toc:
 
 NEP provides two environments of (most?) of their APIs (See also https://github.com/npo-poms/poms-shared/tree/master/media-nep[the code we use for it]), which we will refer to as 'NEP staging' and 'NEP production' (set via setting `nep.env=[prd|stg]`)
 
 The POMS environments are referred to as 'production', 'test' and 'development'
+
+== Player
+
+The authentication of the player requires the IP of the client. POMS uses for that the request the browser is doing, and sends it to the so called 'player token' services of NEP, of which the result is needed for their SAM services.
+
+The thing is that it seems that this doesn't work if this is an IP v6 address, which you may or may not have.
+
+This can be avoided by putting the ip v4 address of the poms-servers in your /etc/hosts. So this _may_ be needed if you want to test functionality involving the player.
+
+----
+145.58.73.57 poms-dev.omroep.nl
+145.58.73.41 poms-test.omroep.nl
+----
+
+NOTE: It works on production, probably because the poms.omroep.nl domain _has no_ ipv6 adress
+
+CAUTION: Also, it seems that the player won't (auto?)play in a headless browser. This needs to be explored
 
 == Live Itemizer and Screen Grabber
 
@@ -22,7 +45,7 @@ Via the link 'Segment toevoegen met speler' you can do three things:
 - Use the player to create an MP4 for download
 - Use the player to make a screenshot for download
 
-For the first function it is only needed that the player actually works. AFAIK the player is only using production data, so all this can only be tested on a MID that plays on production. 
+For the first function it is only needed that the player actually works. AFAIK the player is only using production data, so all this can only be tested on a MID that plays on production.
 
 To create an MP4 or image via the NEP staging environment, the object must also be known there. I don't know how to know that.
 

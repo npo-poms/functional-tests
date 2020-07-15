@@ -10,6 +10,9 @@ Test
 
 *!
 
+|script                                   |
+|$timestamp=|store|!today (yyyyMMddHHmmss)|
+
 |script                                                                                                                                               |
 |Open Npo poms website                                                                                                                                |
 |Npo poms Inlogscherm Log in met standaard-gebruiker                                                                                                  |
@@ -26,9 +29,9 @@ Test
 |clear search context                                                                                                                                 |
 |select file                                                 |${plaatje}             |for                                |css=input[id=inputFile]     |
 |wait for visible                                            |css=img                                                                                 |
-|show                                                        |take screenshot        |${screenshot}_!today (yyyyMMddHHmmss)                           |
+|show                                                        |take screenshot        |${screenshot}-$timestamp-1                                      |
 |Npo poms Tabblad object Detailscherm Check knop             |Maak aan               |in footer inactief                                              |
-|Npo poms Tabblad object Detailscherm Vul                    |${titel}               |in tekstveld                       |Titel *                     |
+|Npo poms Tabblad object Detailscherm Vul                    |${titel} $timestamp    |in tekstveld                       |Titel *                     |
 |Npo poms Tabblad object Detailscherm Check knop             |Maak aan               |in footer inactief                                              |
 |Npo poms Tabblad object Detailscherm Vul                    |${beschrijving}        |in textarea                        |Beschrijving *              |
 |Npo poms Tabblad object Detailscherm Check knop             |Maak aan               |in footer inactief                                              |
@@ -39,28 +42,28 @@ Test
 |check                                                       |value of               |xpath=//div[@class="modal-message"]|${waarschuwingFotosUploaden}|
 |click                                                       |begrepen                                                                                |
 |wait for not visible                                        |begrepen                                                                                |
-|Npo poms Tabblad object Check afbeelding                    |${titel}               |zichtbaar                                                       |
-|Npo poms Tabblad object Check afbeelding                    |${titel}               |heeft beschrijving                 |${beschrijving}             |
-|Npo poms Tabblad object Wacht tot preview afbeelding van    |${titel}               |zichtbaar                                                       |
+|Npo poms Tabblad object Check afbeelding                    |${titel} $timestamp    |zichtbaar                                                       |
+|Npo poms Tabblad object Check afbeelding                    |${titel} $timestamp    |heeft beschrijving                 |${beschrijving}             |
+|Npo poms Tabblad object Wacht tot preview afbeelding van    |${titel} $timestamp    |zichtbaar                                                       |
 |set search context to                                       |xpath=//poms-images                                                                     |
 |Npo poms Tabblad object Check aantal in veld                |Afbeeldingen           |is var                             |aantalAfbeeldingen |plus |1 |
 |clear search context                                                                                                                                 |
-|show                                                        |take screenshot        |${screenshot}_!today (yyyyMMddHHmmss)                           |
-|Npo poms Tabblad object Druk op preview afbeelding van      |${titel}                                                                                |
+|show                                                        |take screenshot        |${screenshot}-$timestamp-2                                      |
+|Npo poms Tabblad object Druk op preview afbeelding van      |${titel} $timestamp                                                                     |
 |switch to next tab                                                                                                                                   |
 |wait for visible                                            |css=img                                                                                 |
-|show                                                        |take screenshot        |${screenshot}_!today (yyyyMMddHHmmss)                           |
+|show                                                        |take screenshot        |${screenshot}-$timestamp-3                                      |
 |close tab                                                                                                                                            |
-|Npo poms Tabblad object Hover over afbeelding               |${titel}                                                                                |
-|Npo poms Tabblad object Druk op verwijderknop bij afbeelding|${titel}                                                                                |
+|Npo poms Tabblad object Hover over afbeelding               |${titel} $timestamp                                                                     |
+|Npo poms Tabblad object Druk op verwijderknop bij afbeelding|${titel} $timestamp                                                                     |
 |wait for visible                                            |Afbeelding verwijderen?                                                                 |
 |click                                                       |xpath=//button[text()="verwijderen"]                                                    |
 |wait for not visible                                        |Afbeelding verwijderen?                                                                 |
 |set search context to                                       |xpath=//poms-images                                                                     |
 |Npo poms Tabblad object Check aantal in veld                |Afbeeldingen           |is var                             |aantalAfbeeldingen          |
-|Npo poms Tabblad object Check afbeelding                    |${titel}               |niet zichtbaar                                                  |
+|Npo poms Tabblad object Check afbeelding                    |${titel} $timestamp    |niet zichtbaar                                                  |
 |clear search context                                                                                                                                 |
-|show                                                        |take screenshot        |${screenshot}_!today (yyyyMMddHHmmss)                           |
+|show                                                        |take screenshot        |${screenshot}-$timestamp-4                                      |
 |Npo poms Hoofdscherm Sluit laatste tab                                                                                                               |
 |Npo poms Hoofdscherm Sluit laatste tab                                                                                                               |
 |Npo poms Hoofdscherm Log uit                                                                                                                         |

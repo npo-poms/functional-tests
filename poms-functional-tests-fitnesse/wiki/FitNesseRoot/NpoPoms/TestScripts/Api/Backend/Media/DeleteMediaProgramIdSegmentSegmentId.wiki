@@ -1,0 +1,43 @@
+---
+Help: NPOAPI-125
+Suites: RG
+Test
+---
+!*> Test-specific items
+!define body { {{{
+<program avType="VIDEO" embeddable="true" type="CLIP" xmlns="urn:vpro:media:update:2009">
+  <broadcaster>NPO</broadcaster>
+  <title type="MAIN">Speciaal Clip</title>
+  <credits/>
+  <locations/>
+  <scheduleEvents/>
+  <images/>
+  <segments>
+    <segment avType="VIDEO" publishStop="2012-01-11T18:16:01.271+01:00" publishStart="2012-01-11T16:16:01.271+01:00" embeddable="true">
+      <broadcaster>NPO</broadcaster>
+      <title type="MAIN">Specialisterren segment</title>
+      <duration>P0DT0H1M40.000S</duration>
+      <start>P0DT2H23M0.000S</start>
+    </segment>
+  </segments>
+</program>
+}}} }
+*!
+|script                                                                                                                                                       |
+|show                           |post            |${body}                                                 |to|${urlBackendApi}/media/program?owner=BROADCASTER|
+|$itemId=                       |response                                                                                                                     |
+|show                           |get from        |${urlBackendApi}/media/program/$itemId/full                                                                 |
+|repeat until response status is|200                                                                                                                          |
+|$repeatCount=                  |repeat count                                                                                                                 |
+|$timeSpentRepeating=           |time spent repeating                                                                                                         |
+|$timeSpentRepeating=           |format timestamp|$timeSpentRepeating                                     |as|m:ss                                            |
+|$segmentId=                    |xPath           |/media:program/media:segments/media:segment[1]/@mid                                                         |
+|show                           |delete          |${urlBackendApi}/media/program/$itemId/segment/$segmentId                                                   |
+|check                          |response status |202                                                                                                         |
+|check                          |response        |Removed accepted for $segmentId of $itemId.                                                                 |
+|get from                       |${urlBackendApi}/media/program/$itemId/full                                                                                  |
+|check                          |xPath           |/media:program/media:segments/media:segment[1]/@workflow|FOR DELETION                                       |
+|show                           |delete          |${urlBackendApi}/media/program/$itemId                                                                      |
+|get from                       |${urlBackendApi}/media/program/$itemId/full                                                                                  |
+|check                          |xPath           |/media:program/media:segments/media:segment[1]/@workflow|FOR DELETION                                       |
+|check                          |xPath           |/media:program/@workflow                                |FOR DELETION                                       |

@@ -19,8 +19,10 @@
 |Npo poms Zoeken Scroll naar zoekveld                                                                                                           |
 |Npo poms Zoeken Vul                                     |@titel                                      |in zoekveld                              |
 |Npo poms Zoeken Druk knop                               |Zoeken                                                                                |
+|Npo poms Zoeken Wacht tot zoeken klaar is                                                                                                      |
 |double click                                            |@titel                                                                                |
 |Npo poms Hoofdscherm Wacht tot tabblad                  |@titel                                      |geopend                                  |
+|Npo poms Tabblad object Sla mid of urn op in var        |mid                                                                                   |
 |Npo poms Tabblad object Druk op link                    |Afbeeldingen                                |in sidebar                               |
 |Npo poms Tabblad object Wacht tot scrollen klaar is                                                                                            |
 
@@ -64,13 +66,16 @@
 |clear search context                                                                                 |
 |show                                        |take screenshot  |${screenshot}_!today (yyyyMMddHHmmss) |
 
-|scenario                                                    |Verwijder afbeelding met titel|titel|
-|scroll to                                                   |Afbeelding toevoegen                |
-|hover over                                                  |@titel                              |
-|Npo poms Tabblad object Druk op verwijderknop bij afbeelding|@titel                              |
-|wait for visible                                            |Afbeelding verwijderen?             |
-|click                                                       |xpath=//button[text()="verwijderen"]|
-|wait for not visible                                        |Afbeelding verwijderen?             |
+|scenario                                                    |Verwijder afbeelding met titel|titel         |
+|scroll to                                                   |Afbeelding toevoegen                         |
+|hover over                                                  |@titel                                       |
+|Npo poms Tabblad object Druk op verwijderknop bij afbeelding|@titel                                       |
+|wait for visible                                            |Afbeelding verwijderen?                      |
+|click                                                       |xpath=//button[text()="verwijderen"]         |
+|wait for not visible                                        |Afbeelding verwijderen?                      |
+|set search context to                                       |xpath=//poms-images                          |
+|Npo poms Tabblad object Wacht tot afbeelding                |@titel                        |niet zichtbaar|
+|clear search context                                                                                      |
 
 
 |scenario|Controleer status clip is wordt gepubliceerd                                                        |

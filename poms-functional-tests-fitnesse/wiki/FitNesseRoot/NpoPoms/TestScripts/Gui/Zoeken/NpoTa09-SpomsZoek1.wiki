@@ -19,8 +19,11 @@ Test
 |Npo poms Zoeken Druk knop  |Zoeken                                                 |
 |Npo poms Zoeken Open object|${objectNaam}  |met mediatype|${mediatype1}|als preview|
 |click                      |Sluit                                                  |
+|wait for not visible       |Sluit                                                  |
 |Npo poms Zoeken Open object|${objectNaam}  |met mediatype|${mediatype2}|als preview|
 |click                      |Sluit                                                  |
+|wait for not visible       |Sluit                                                  |
 |Npo poms Zoeken Open object|${objectNaam}  |met mediatype|${mediatype3}|als preview|
 |click                      |Sluit                                                  |
+|wait for not visible       |Sluit                                                  |
 |Npo poms Hoofdscherm Log uit                                                       |

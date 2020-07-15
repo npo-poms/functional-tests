@@ -12,13 +12,10 @@ Test
 # Ook gebeuren er geen AJAX requests op de achtergrond en is dit geen Angular-pagina
 |table template                                     |Controleer CMS selector                             |
 |open                                               |${urlPoms}/${affixCmsSelector}                      |
-|wait                                               |1            |seconds                               |
+|wait for page                                      |POMS Media selector                                 |
 |click                                              |@{filtertype}                                       |
-|wait                                               |1            |seconds                               |
 |click                                              |Select                                              |
 |switch to next tab                                                                                      |
-|Npo poms Inlogscherm Log in met admin                                                                   |
-|Npo poms Zoeken Wacht tot zoeken klaar is                                                               |
 |Npo poms Zoeken Check optie                        |@{filtertype}|geselecteerd in dropdown|!-MediaType-!|
 |Npo poms Zoeken Druk op tandwieltje                                                                     |
 |set search context to                              |xpath=//poms-search-columns                         |
@@ -29,9 +26,11 @@ Test
 |Npo poms Zoeken Dubbelklik op hoofdtitel van eerste object                                              |
 |switch to next tab                                                                                      |
 |Check tekstveld                                    |Result:      |heeft waarde            |$mid         |
-|Open Npo poms website                                                                                   |
-|Npo poms Hoofdscherm Log uit                                                                            |
 *!
+
+|script                               |
+|Open Npo poms website                |
+|Npo poms Inlogscherm Log in met admin|
 
 |Controleer CMS selector|
 |filtertype             |

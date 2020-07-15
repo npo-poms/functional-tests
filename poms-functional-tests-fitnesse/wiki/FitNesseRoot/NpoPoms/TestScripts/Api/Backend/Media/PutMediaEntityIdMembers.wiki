@@ -1,0 +1,33 @@
+---
+Help: NPOAPI-109
+Suites: RG
+Test
+---
+!*> Test-specific items
+!define body { {{{
+<?xml version="1.0" encoding="utf-8"?>
+<move xmlns="urn:vpro:media:update:2009">
+  <from>0</from>
+  <to>1</to>
+</move>
+}}} }
+!define id {POMS_S_NPO_11226816}
+!define responseStatus {202}
+!define response {Move accepted for ${id}.}
+*!
+|script                                                                                                                    |
+|get from|${urlBackendApi}/media/media/${id}/members?max=2                                                                 |
+|$mid1=  |xPath          |/update:list/update:item[1]/update:mediaUpdate/@mid                                              |
+|$mid2=  |xPath          |/update:list/update:item[2]/update:mediaUpdate/@mid                                              |
+|show    |put            |${body}                                            |to|${urlBackendApi}/media/media/${id}/members|
+|check   |response status|${responseStatus}                                                                                |
+|check   |response       |${response}                                                                                      |
+|get from|${urlBackendApi}/media/media/${id}/members?max=2                                                                 |
+|check   |xPath          |/update:list/update:item[1]/update:mediaUpdate/@mid|$mid2                                        |
+|check   |xPath          |/update:list/update:item[2]/update:mediaUpdate/@mid|$mid1                                        |
+|show    |put            |${body}                                            |to|${urlBackendApi}/media/media/${id}/members|
+|check   |response status|${responseStatus}                                                                                |
+|check   |response       |${response}                                                                                      |
+|get from|${urlBackendApi}/media/media/${id}/members?max=2                                                                 |
+|check   |xPath          |/update:list/update:item[1]/update:mediaUpdate/@mid|$mid1                                        |
+|check   |xPath          |/update:list/update:item[2]/update:mediaUpdate/@mid|$mid2                                        |

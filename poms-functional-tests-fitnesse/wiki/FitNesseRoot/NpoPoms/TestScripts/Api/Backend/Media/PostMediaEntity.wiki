@@ -1,13 +1,13 @@
 ---
 Help: NPOAPI-94
-Suites: DV
+Suites: JF, slow
 Test
 ---
 !*> Test-specific items
 !define body { {{{
 <program xmlns="urn:vpro:media:update:2009" type="CLIP" avType="VIDEO" embeddable="true">
   <broadcaster>NPO</broadcaster>
-  <title type="MAIN">Specialisterren 202008060917</title>
+  <title type="MAIN">Specialisterren !today (yyyyMMddHHmm)</title>
   <title type="SUB">Testsubtitle</title>
   <title type="ORIGINAL">Original title</title>
   <description type="MAIN">Deze clip is aangemaakt door Specialisterren.</description>
@@ -31,24 +31,19 @@ Test
 |$mid=|response                                                                 |
 
 !4 Read (verify creation)
-Todo: bepalen of we zo lang (1-3 minuten) hierop willen wachten?!
-#|script                                                                    |
-#|show                           |get from|${urlBackendApi}/media/media/$mid|
-#|set repeat interval to         |1000    |milliseconds                     |
-#|repeat at most                 |180     |times                            |
-#|repeat until response status is|200                                       |
-#|show                           |time spent repeating                      |
-#|check                          |xPath   |/update:program/@mid    |$mid    |
+|script                                                                    |
+|show                           |get from|${urlBackendApi}/media/media/$mid|
+|repeat until response status is|200                                       |
+|show                           |time spent repeating                      |
+|check                          |xPath   |/update:program/@mid    |$mid    |
 
 !4 Delete
-#|script                                                 |
-#|show |delete         |${urlBackendApi}/media/media/$mid|
-#|check|response status|202                              |
+|script                                                 |
+|show |delete         |${urlBackendApi}/media/media/$mid|
+|check|response status|202                              |
 
 !4 Read (verify deletion)
-Todo: Héél lang wachten?! of werkt delete niet?? (na minutenlang wachten nog steeds response met volledig item)
-#|script                                                                    |
-#|show                           |get from|${urlBackendApi}/media/media/$mid|
-#|repeat until response status is|404                                       |
-#|show                           |time spent repeating                      |
-#|show                           |response                                  |
+|script                                              |
+|get from          |${urlBackendApi}/media/media/$mid|
+|repeat until xPath|/update:program/@deleted |is|true|
+|show              |time spent repeating             |

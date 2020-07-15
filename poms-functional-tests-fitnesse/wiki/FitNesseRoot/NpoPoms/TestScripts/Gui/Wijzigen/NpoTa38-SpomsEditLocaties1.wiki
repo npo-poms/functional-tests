@@ -34,7 +34,10 @@ Test
 |Npo poms Tabblad object Hover over bron                 |${url}                                                                                             |
 |Npo poms Tabblad object Druk op verwijderknop bij bron  |${url}                                                                                             |
 |Npo poms Tabblad object Bevestig verwijdering van       |Bron                                                                                               |
-|wait for visible                                        |xpath=//poms-locations/div/h1[normalize-space(.)="Bronnen ($aantalBronnen1)"]                      |
+|wait for visible                                        |xpath=//poms-locations                                                                             |
+|set search context to                                   |xpath=//poms-locations                                                                             |
+|wait for visible                                        |Bronnen ($aantalBronnen1)                                                                          |
+|clear search context                                                                                                                                        |
 |Npo poms Tabblad object Check bron                      |${url}                          |niet zichtbaar                                                    |
 |Npo poms Hoofdscherm Sluit laatste tab                                                                                                                      |
 |Npo poms Hoofdscherm Sluit laatste tab                                                                                                                      |

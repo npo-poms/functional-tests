@@ -9,39 +9,32 @@ Test
 !define midVanSegment {POMS_NCRV_114173}
 !define beschrijving {TEST BESCHRIJVING}
 !define korteBeschrijving {TEST KORTE BESCHRIJVING}
-!define tag {Spelformat}
 
 *!
 
-|script                                                                                                                                                     |
-|Open Npo poms website                                                                                                                                      |
-|Npo poms Inlogscherm Log in met standaard-gebruiker                                                                                                        |
-|Npo poms Tabblad object Open              |${midVanUitzending}                                                                                             |
-|Npo poms Tabblad object Druk op link      |Segmenten             |in sidebar                                                                               |
-|Npo poms Tabblad object Wacht tot scrollen klaar is                                                                                                        |
-|set search context to                     |xpath=//poms-segments                                                                                           |
-|double click                              |${segment}                                                                                                      |
-|clear search context                                                                                                                                       |
-|Wacht tot Angular requests klaar zijn                                                                                                                      |
-|Npo poms Tabblad object Check mid of urn  |${midVanSegment}                                                                                                |
-|Npo poms Tabblad object Sla textarea      |Beschrijving          |op in var                 |oudeBeschrijving     |en vul deze aan met|${beschrijving}     |
-|Npo poms Tabblad object Sla textarea      |Korte beschrijving    |op in var                 |oudeKorteBeschrijving|en vul deze aan met|${korteBeschrijving}|
-|Wacht tot Angular requests klaar zijn                                                                                                                      |
-|Npo poms Tabblad object Druk op link      |Labels                |in sidebar                                                                               |
-|Npo poms Tabblad object Wacht tot scrollen klaar is                                                                                                        |
-|Npo poms Tabblad object Sla tags op in var|bestaandeTags         |en voeg tag               |${tag}               |toe                                     |
-|Npo poms Tabblad object Druk op link      |Algemeen              |in sidebar                                                                               |
-|Npo poms Tabblad object Wacht tot status zichtbaar                                                                                                         |
-|Npo poms Tabblad object Druk op status om te publiceren                                                                                                    |
-|open                                      |!-http://embed-acc.vpro.nl/player/?src=-!${midVanSegment}                                                       |
-|ensure                                    |is visible on page    |Deze uitzending is niet beschikbaar                                                      |
-|Npo poms Tabblad object Open              |${midVanSegment}                                                                                                |
-|Npo poms Tabblad object Vul               |$oudeBeschrijving     |in textarea               |Beschrijving                                                  |
-|Npo poms Tabblad object Vul               |$oudeKorteBeschrijving|in textarea               |Korte beschrijving                                            |
-|Wacht tot Angular requests klaar zijn                                                                                                                      |
-|Npo poms Tabblad object Druk op link      |Labels                |in sidebar                                                                               |
-|Npo poms Tabblad object Wacht tot scrollen klaar is                                                                                                        |
-|Npo poms Tabblad object Verwijder tag     |${tag}                |en check overgebleven tags|$bestaandeTags                                                |
-|Npo poms Hoofdscherm Sluit laatste tab                                                                                                                     |
-|Npo poms Hoofdscherm Sluit laatste tab                                                                                                                     |
-|Npo poms Hoofdscherm Log uit                                                                                                                               |
+|script                                                                                                                                    |
+|Open Npo poms website                                                                                                                     |
+|Npo poms Inlogscherm Log in met standaard-gebruiker                                                                                       |
+|Npo poms Tabblad object Open            |${midVanUitzending}                                                                              |
+|Npo poms Tabblad object Druk op link    |Segmenten             |in sidebar                                                                |
+|Npo poms Tabblad object Wacht tot scrollen klaar is                                                                                       |
+|set search context to                   |xpath=//poms-segments                                                                            |
+|double click                            |${segment}                                                                                       |
+|clear search context                                                                                                                      |
+|Wacht tot Angular requests klaar zijn                                                                                                     |
+|Npo poms Tabblad object Check mid of urn|${midVanSegment}                                                                                 |
+|Npo poms Tabblad object Sla textarea    |Beschrijving          |op in var  |oudeBeschrijving     |en vul deze aan met|${beschrijving}     |
+|Npo poms Tabblad object Sla textarea    |Korte beschrijving    |op in var  |oudeKorteBeschrijving|en vul deze aan met|${korteBeschrijving}|
+|Wacht tot Angular requests klaar zijn                                                                                                     |
+|Npo poms Tabblad object Druk op link    |Algemeen              |in sidebar                                                                |
+|Npo poms Tabblad object Wacht tot status zichtbaar                                                                                        |
+|Npo poms Tabblad object Druk op status om te publiceren                                                                                   |
+|open                                    |!-http://embed-acc.vpro.nl/player/?src=-!${midVanSegment}                                        |
+|ensure                                  |is visible on page    |Deze uitzending is niet beschikbaar                                       |
+|back                                                                                                                                      |
+|Npo poms Tabblad object Vul             |$oudeBeschrijving     |in textarea|Beschrijving                                                  |
+|Npo poms Tabblad object Vul             |$oudeKorteBeschrijving|in textarea|Korte beschrijving                                            |
+|Wacht tot Angular requests klaar zijn                                                                                                     |
+|Npo poms Hoofdscherm Sluit laatste tab                                                                                                    |
+|Npo poms Hoofdscherm Sluit laatste tab                                                                                                    |
+|Npo poms Hoofdscherm Log uit                                                                                                              |
