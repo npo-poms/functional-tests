@@ -5,6 +5,10 @@
       <PatternLayout pattern="%d{ISO8601}&#009;%4.4p&#009;%X{testNumber}%X{currentTest}&#009;%m%n" charset="UTF-8" />
 
     </Console>
+     <File name="console" target="SYSTEM_OUT" >
+      <PatternLayout pattern="%d{ISO8601}&#009;%4.4p&#009;%X{testNumber}%X{currentTest}&#009;%m%n" charset="UTF-8" />
+
+    </File>
   </Appenders>
   <Loggers>
     <Root level="INFO">
