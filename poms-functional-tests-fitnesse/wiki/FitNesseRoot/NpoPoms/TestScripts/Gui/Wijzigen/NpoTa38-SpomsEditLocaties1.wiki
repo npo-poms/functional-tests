@@ -28,7 +28,7 @@ Test
 |Npo poms Tabblad object Detailscherm Selecteer optie    |${bronType}                     |in selecteerbare tekstveld   |Type *                              |
 |click                                                   |Maak aan                                                                                           |
 |Npo poms Tabblad object Check bron                      |${url}                          |zichtbaar                                                         |
-|Npo poms Tabblad object Check bron                      |${url}                          |heeft type                   |${bronType}                         |
+|Npo poms Tabblad object Check bron                      |${url}                          |heeft formaat                |${bronType}                         |
 |$aantalBronnen2=                                        |add                             |$aantalBronnen1              |and |1                              |
 |check                                                   |value of                        |xpath=//poms-locations/div/h1|Bronnen ($aantalBronnen2)           |
 |Npo poms Tabblad object Hover over bron                 |${url}                                                                                             |
