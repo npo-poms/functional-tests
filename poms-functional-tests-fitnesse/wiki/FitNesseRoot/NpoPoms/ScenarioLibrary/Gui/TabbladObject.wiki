@@ -94,20 +94,6 @@
 |Wacht tot Angular requests klaar zijn                                                                                                                                      |
 |Npo poms Tabblad object Check veldtype 2|@textarea                           |heeft waarde|$@var-@waarde                                                                   |
 
-|scenario                                      |Npo poms Tabblad object Voeg tag|tag|toe|
-|Npo poms Tabblad object Klik op wijzig tags icoon                                      |
-|Npo poms Tabblad object Kies een tag met tekst|@tag                                    |
-|Wacht tot Angular requests klaar zijn                                                  |
-
-|scenario             |Npo poms Tabblad object Verwijder tag        |tag       |
-|Npo poms Tabblad object Klik op wijzig tags icoon                             |
-|set search context to|xpath=//span[@placeholder="Kies een tag..."]            |
-|wait for visible     |xpath=./span/span/span[2]/span[text()="@tag"]           |
-|click                |xpath=./span/span[./span[2]/span[text()="@tag"]]/span[1]|
-|clear search context                                                          |
-|click                |xpath=//button[@class="button-save"]                    |
-|Wacht tot Angular requests klaar zijn                                         |
-
 |scenario        |Npo poms Tabblad object Wacht tot status zichtbaar|
 |wait for visible|xpath=//h2[text()="Status"]/following-sibling::*/p|
 
@@ -141,6 +127,7 @@
 |wait for visible|css=.tab-pane.active [id="media-general-@mid"]                  |
 
 |scenario             |Npo poms Tabblad object Druk op link|link|in sidebar|
+|wait for visible     |css=[id=sidebar]                                    |
 |set search context to|css=[id=sidebar]                                    |
 |click                |@link                                               |
 |clear search context                                                      |
@@ -161,6 +148,11 @@
 |seconds before timeout|3                                                                                                                                               |
 |reject                |is visible on page                      |xpath=//poms-images/div/table/tbody/tr/td[@class="column-title"]/span[normalize-space(.)="@afbeelding"]|
 |seconds before timeout|${secondsBeforeTimeout}                                                                                                                         |
+
+|scenario             |Npo poms Tabblad object Wacht tot afbeelding|afbeelding|niet zichtbaar|
+|set search context to|xpath=//poms-images                                                   |
+|wait for not visible |@afbeelding                                                           |
+|clear search context                                                                        |
 
 |scenario|Npo poms Tabblad object Check afbeelding|afbeelding                                                                                                                                     |heeft beschrijving|beschrijving|
 |check   |value of                                |xpath=//poms-images/div/table/tbody/tr[./td[@class="column-title"]/span[normalize-space(.)="@afbeelding"]]/td[@class="column-description"]/span|@beschrijving                  |
@@ -269,14 +261,27 @@
 |$@var=  |value of                                  |xpath=.//div/h1[contains(text(), "@veld")]   |
 |$@var=  |extract string                            |$@var|from     |@veld \((\d+)\)|using group|1|
 
-|scenario                                    |Npo poms Tabblad object Check aantal in veld|veld  |is var|var   |
-|Npo poms Tabblad object Check aantal in veld|@veld                                       |is var|@var  |plus|0|
+|scenario|Npo poms Tabblad object Check aantal in veld|veld            |is var            |var            |
+|ensure  |is visible on page                          |xpath=.//div/h1[normalize-space(.)="@veld ($@var)"]|
+|note    |Toon de waarde van het bedoelde veld voor het geval de regel hierboven faalt                    |
+|show    |value of                                    |xpath=.//div/h1[contains(text(), "@veld")]         |
 
 |scenario     |Npo poms Tabblad object Check aantal in veld|veld     |is var    |var    |plus    |optellenMetGetal    |
 |$nieuwAantal=|add                                         |$@var    |and       |@optellenMetGetal                    |
 |ensure       |is visible on page                          |xpath=.//div/h1[normalize-space(.)="@veld ($nieuwAantal)"]|
 |note         |Toon de waarde van het bedoelde veld voor het geval de regel hierboven faalt                           |
 |show         |value of                                    |xpath=.//div/h1[contains(text(), "@veld")]                |
+
+|scenario        |Npo poms Tabblad object Wacht tot aantal in veld|veld         |is var         |var         |
+|wait for visible|xpath=.//div/h1[normalize-space(.)="@veld ($@var)"]                                        |
+|note            |Toon de waarde van het bedoelde veld voor het geval de regel hierboven faalt               |
+|show            |value of                                        |xpath=.//div/h1[contains(text(), "@veld")]|
+
+|scenario        |Npo poms Tabblad object Wacht tot aantal in veld|veld  |is var |var |plus |optellenMetGetal|
+|$nieuwAantal=   |add                                             |$@var |and    |@optellenMetGetal          |
+|wait for visible|xpath=.//div/h1[normalize-space(.)="@veld ($nieuwAantal)"]                                 |
+|note            |Toon de waarde van het bedoelde veld voor het geval de regel hierboven faalt               |
+|show            |value of                                        |xpath=.//div/h1[contains(text(), "@veld")]|
 
 |scenario             |Npo poms Tabblad object Klik op wijzig tags icoon              |
 |hover over           |xpath=//h2[text()="Tags"]                                      |
@@ -285,7 +290,9 @@
 |click                |xpath=./div[@class="media-field-tools"]/div[@class="edit-icon"]|
 |clear search context                                                                 |
 
-
-|scenario|Npo poms Tabblad object Kies een tag met tekst|tekst                                                                   |
-|enter   |@tekst                                        |as|xpath=//span[@placeholder="Kies een tag..."]/following-sibling::input|
-|click   |xpath=//button[@class="button-save"]                                                                                   |
+|scenario             |Npo poms Tabblad object Kies een tag met tekst|tekst                                                                   |
+|enter                |@tekst                                        |as|xpath=//span[@placeholder="Kies een tag..."]/following-sibling::input|
+|click                |xpath=//button[@class="button-save"]                                                                                   |
+|set search context to|xpath=//h2[text()="Tags"]/..                                                                                           |
+|wait for not visible |xpath=./div[@class="ui-select"]                                                                                        |
+|clear search context                                                                                                                         |

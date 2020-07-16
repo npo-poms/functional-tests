@@ -2,18 +2,6 @@ package nl.vpro.poms;
 
 import lombok.SneakyThrows;
 import lombok.extern.log4j.Log4j2;
-
-import java.net.URLEncoder;
-import java.time.Duration;
-import java.util.*;
-import java.util.concurrent.TimeUnit;
-
-import javax.ws.rs.core.MediaType;
-
-import org.apache.commons.text.StringSubstitutor;
-import org.junit.jupiter.api.*;
-import org.slf4j.event.Level;
-
 import nl.vpro.api.client.media.MediaRestClient;
 import nl.vpro.api.client.utils.Config;
 import nl.vpro.domain.Embargo;
@@ -27,15 +15,30 @@ import nl.vpro.junit.extensions.TestMDC;
 import nl.vpro.testutils.Utils;
 import nl.vpro.util.IntegerVersion;
 import nl.vpro.util.Version;
+import org.apache.commons.text.StringSubstitutor;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.Assumptions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Timeout;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.slf4j.event.Level;
+
+import javax.ws.rs.core.MediaType;
+import java.net.URLEncoder;
+import java.time.Duration;
+import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static nl.vpro.domain.media.MediaBuilder.program;
+import static nl.vpro.poms.Require.needsCheck;
 
 /**
  * @author Michiel Meeuwissen
  * @since 1.0
  */
 @Log4j2
+@ExtendWith({Require.class})
 @Timeout(value = 15, unit = TimeUnit.MINUTES)
 public abstract class AbstractApiMediaBackendTest extends AbstractApiTest {
 
@@ -151,16 +154,11 @@ public abstract class AbstractApiMediaBackendTest extends AbstractApiTest {
         backend.setAccept(MediaType.APPLICATION_XML_TYPE); // e.g. subtitels are more completely represented in XML (including metadata like last modified and creation dates)
     }
 
-    private static boolean needsCheck = true;
     @BeforeEach
     public void checkMids() {
 
-        // TODO
-        //Set<String> neededObjects = extensionContext.getStore(ExtensionContext.Namespace.GLOBAL).getOrComputeIfAbsent(NEEDED, (k) -> new HashSet<String>(), Set.class);
-
         try {
-            if (needsCheck) {
-                log.info("Checking {}", MID);
+            if (needsCheck(MID)) {
                 MediaUpdate<?> mediaUpdate = backend.get(MID);
                 boolean needSet = false;
                 if (mediaUpdate == null) {
@@ -186,8 +184,7 @@ public abstract class AbstractApiMediaBackendTest extends AbstractApiTest {
                     backend.set(mediaUpdate);
                 }
             }
-            if (needsCheck) {
-                log.info("Checking {}", MID_WITH_LOCATIONS);
+            if (needsCheck(MID_WITH_LOCATIONS)) {
                 MediaUpdate<?> mediaUpdate = backend.get(MID_WITH_LOCATIONS);
                 if (mediaUpdate == null) {
                     mediaUpdate = ProgramUpdate.create();
@@ -216,7 +213,7 @@ public abstract class AbstractApiMediaBackendTest extends AbstractApiTest {
                     backend.set(mediaUpdate);
                 }
             }
-            if (needsCheck) {
+            if (needsCheck(ANOTHER_MID)) {
                 ProgramUpdate anotherProgramUpdate = backend.get(ANOTHER_MID);
                 if (anotherProgramUpdate == null) {
                     log.info("No media found {}. Now creating", ANOTHER_MID);
@@ -232,7 +229,6 @@ public abstract class AbstractApiMediaBackendTest extends AbstractApiTest {
                     );
                 }
             }
-            needsCheck = false;
         } catch (Exception e) {
             log.error(e.getMessage(), e);
         }

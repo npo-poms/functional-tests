@@ -1,22 +1,21 @@
 package nl.vpro.poms.backend;
 
 import lombok.extern.log4j.Log4j2;
-
-import java.io.IOException;
-import java.time.Duration;
-import java.util.*;
-import java.util.stream.Collectors;
-
-import javax.xml.bind.JAXB;
-
-import org.junit.jupiter.api.*;
-
 import nl.vpro.domain.media.update.LocationUpdate;
 import nl.vpro.domain.media.update.ProgramUpdate;
 import nl.vpro.domain.media.update.collections.XmlCollection;
 import nl.vpro.logging.Log4j2OutputStream;
 import nl.vpro.poms.AbstractApiMediaBackendTest;
+import nl.vpro.poms.Require.Needs;
 import nl.vpro.test.jupiter.AbortOnException;
+import org.junit.jupiter.api.*;
+
+import javax.xml.bind.JAXB;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import static nl.vpro.testutils.Utils.waitUntil;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -38,7 +37,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 @Log4j2
 class MediaBackendLocationsTest extends AbstractApiMediaBackendTest {
 
-    private static final Duration ACCEPTABLE_DURATION = Duration.ofMinutes(3);
     private static final List<String> titles = new ArrayList<>();
 
     private static String firstTitle;
@@ -61,6 +59,7 @@ class MediaBackendLocationsTest extends AbstractApiMediaBackendTest {
 
     @Test
     @Order(1)
+    @Needs(MID)
     void addLocation() {
         titles.add(title);
         firstTitle = title;
@@ -75,7 +74,7 @@ class MediaBackendLocationsTest extends AbstractApiMediaBackendTest {
     @Order(2)
     void checkArrivedLocation() {
         List<String> currentLocations = new ArrayList<>();
-        waitUntil(ACCEPTABLE_DURATION,
+        waitUntil(ACCEPTABLE_DURATION_BACKEND,
             MID + " in backend with location " + titles,
             () -> {
                 ProgramUpdate update = backend.get(MID);
@@ -91,7 +90,7 @@ class MediaBackendLocationsTest extends AbstractApiMediaBackendTest {
     @Order(3)
     void checkArrivedViaGetLocations() {
         List<String> currentLocations = new ArrayList<>();
-        waitUntil(ACCEPTABLE_DURATION,
+        waitUntil(ACCEPTABLE_DURATION_BACKEND,
             MID + " in backend with location " + titles,
             () -> {
                 XmlCollection<LocationUpdate> update = backend.getBackendRestService().getLocations(null, MID, true, null);
@@ -143,7 +142,7 @@ class MediaBackendLocationsTest extends AbstractApiMediaBackendTest {
     @Order(20)
     void addLocationToObjectCheck() {
         List<String> currentLocations = new ArrayList<>();
-        waitUntil(ACCEPTABLE_DURATION,
+        waitUntil(ACCEPTABLE_DURATION_BACKEND,
             MID + " in backend with location " + titles,
             () -> {
                     XmlCollection<LocationUpdate> update = backend.getBackendRestService().getLocations(null, MID, true, null);
@@ -187,7 +186,7 @@ class MediaBackendLocationsTest extends AbstractApiMediaBackendTest {
     @Test
     void test99CleanupCheck() {
         final ProgramUpdate[] update = new ProgramUpdate[1];
-        waitUntil(ACCEPTABLE_DURATION,
+        waitUntil(ACCEPTABLE_DURATION_BACKEND,
             MID + " has no locations any more",
             () -> {
                 update[0] = backend.get(MID);

@@ -3,6 +3,7 @@ package nl.vpro.poms.poms;
 import io.restassured.RestAssured;
 import lombok.extern.log4j.Log4j2;
 
+import nl.vpro.poms.Require;
 import org.junit.jupiter.api.*;
 
 import static io.restassured.RestAssured.given;
@@ -104,6 +105,7 @@ class LetterBoxTest {
     @Test
     @Order(2)
     @Tag("nep")
+    @Require.Needs(MID)
     void postToNEP() {
         String result = given()
             .auth()

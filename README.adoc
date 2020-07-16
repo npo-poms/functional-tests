@@ -1,5 +1,6 @@
 = POMS functional tests
 :toc:
+:toclevels: 5
 
 == Introduction
 These are functional integration tests for POMS and the NPO Frontend and Backend API.
@@ -7,14 +8,21 @@ These are functional integration tests for POMS and the NPO Frontend and Backend
 This is used to test actual deployments of https://poms.omroep.nl/[POMS], the https://api.poms.omroep.nl[POMS Backend API],
 and the https://rs.poms.omroep.nl[POMS Frontend API]
 
-This is currently split up in 3 modules
+This is currently split up in 2 sub projects
+
+* link:api-tests[] 'API' tests. Maintained by VPRO
+* link:poms-functional-tests-fitnesse[] Fitnesse' tests. Maintained by Specialisterren.
+
+
+== API Tests
+
+This itself has several sub module
+
 * a shared module, this contains only code which is shared by the other modules but no actual tests
-* a selenium module. These are pure frontend tests, and will use a headless browser. This is beging replaced by tests via 'fitnesse'
+* a selenium module. These are pure frontend tests, and will use a headless browser. The idea was that this would  be replaced by tests via 'fitnesse'
 * the other functional tests use API's only, and e.g. create or change data using the backend api
 and checks whether those changes arrive correctly in the frontend API.
 This in many cases also uses java clients which are implemented using the actual domain objects.
-
-TODO: somebody decided that the fitnesse tests also are testing API's. Now I don't know any more what is what. This is getting chaotic.
 
 These tests are automatically run every day on a https://jenkins.vpro.nl/job/POMS%20Functional%20Tests/[jenkins server]
 (requires login) on the 'dev' environments. At request the tests can also be run on the 'test' environment or even on production.
@@ -28,9 +36,9 @@ Also you need to set your email in the _npo-backend-api.errors_ property.
 
 _Note:_ By default the `test` environment properties will be used. If you want to change that just specify your own env=[local, dev, prod] property in the file.
 
-== Remarks
+=== Remarks
 
-=== Externals
+==== Externals
 
 If you want to run all tests, you need to check out this including git submodules.
 One of things which are tests is whether all examples of https://github.com/npo-poms/api/tree/master/examples execute without errors
@@ -41,12 +49,17 @@ One of things which are tests is whether all examples of https://github.com/npo-
 git clone --recurse-submodules https://github.com/npo-poms/functional-tests.git
 ----
 
-=== Lombok
+==== Lombok
 
 We use https://projectlombok.org[lombok] to avoid boiler plate code.
 The maven build is aware of this but your IDE may need help.
 E.g. for intellij: https://plugins.jetbrains.com/plugin/6317-lombok-plugin
 
-== JUNIT 5
+==== JUNIT 5
 
 We upgraded to junit 5 for the API functional tests. I tried to do the selenium tests too, but that would be quite cumbersome. We'll wait for a solution for https://github.com/junit-team/junit5/issues/878[junit5 #878], which would make it better. Unless plans changes and we're not going to do it this way at all any more.
+
+== Fitnesse Tests
+
+See readme in its directory
+

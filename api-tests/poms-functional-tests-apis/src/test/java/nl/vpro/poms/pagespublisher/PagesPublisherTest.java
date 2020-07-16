@@ -1,37 +1,42 @@
 package nl.vpro.poms.pagespublisher;
 
-import lombok.extern.log4j.Log4j2;
-
-import java.net.URLEncoder;
-import java.time.*;
-import java.util.*;
-import java.util.stream.Collectors;
-
-import javax.validation.constraints.NotNull;
-import javax.ws.rs.NotFoundException;
-
-import org.junit.jupiter.api.Order;
-import org.junit.jupiter.api.*;
-
 import com.fasterxml.jackson.core.JsonProcessingException;
-
+import lombok.extern.log4j.Log4j2;
 import nl.vpro.api.client.pages.PageUpdateApiClient;
+import nl.vpro.api.client.utils.PageUpdateApiUtil;
+import nl.vpro.api.client.utils.PageUpdateRateLimiter;
 import nl.vpro.api.client.utils.Result;
-import nl.vpro.api.client.utils.*;
-import nl.vpro.domain.api.*;
-import nl.vpro.domain.api.page.*;
+import nl.vpro.domain.api.IdList;
+import nl.vpro.domain.api.MultipleEntry;
+import nl.vpro.domain.api.SearchResultItem;
+import nl.vpro.domain.api.page.PageForm;
+import nl.vpro.domain.api.page.PageSearchResult;
+import nl.vpro.domain.api.page.PageSortField;
 import nl.vpro.domain.media.MediaObject;
 import nl.vpro.domain.media.Schedule;
 import nl.vpro.domain.media.update.MediaUpdate;
-import nl.vpro.domain.page.*;
+import nl.vpro.domain.page.LinkType;
+import nl.vpro.domain.page.Page;
+import nl.vpro.domain.page.Referral;
+import nl.vpro.domain.page.Section;
 import nl.vpro.domain.page.update.*;
 import nl.vpro.jackson2.Jackson2Mapper;
 import nl.vpro.poms.AbstractApiMediaBackendTest;
+import nl.vpro.poms.Require;
 import nl.vpro.test.jupiter.AbortOnException;
 import nl.vpro.testutils.Utils;
 import nl.vpro.testutils.Utils.Check;
 import nl.vpro.util.Version;
 import nl.vpro.validation.URI;
+import org.junit.jupiter.api.*;
+
+import javax.validation.constraints.NotNull;
+import javax.ws.rs.NotFoundException;
+import java.net.URLEncoder;
+import java.time.Duration;
+import java.time.LocalDate;
+import java.util.*;
+import java.util.stream.Collectors;
 
 import static io.restassured.RestAssured.given;
 import static java.nio.charset.StandardCharsets.UTF_8;
@@ -98,6 +103,7 @@ class PagesPublisherTest extends AbstractApiMediaBackendTest {
     @Test
     @Order(1)
     @Tag("embeddedmedia")
+    @Require.Needs({MID, ANOTHER_MID})
     public void createOrUpdatePage(TestInfo testInfo) {
 
         String methodName = testInfo.getTestMethod().get().getName();

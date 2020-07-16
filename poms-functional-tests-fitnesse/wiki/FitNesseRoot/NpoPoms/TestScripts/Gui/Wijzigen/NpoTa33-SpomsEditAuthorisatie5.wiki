@@ -34,9 +34,9 @@ Test
 |click                                                     |Kies                                                                     |
 |wait for not visible                                      |Kies                                                                     |
 |set search context to                                     |xpath=//poms-members                                                     |
+|Npo poms Tabblad object Wacht tot aantal in veld          |Onderdelen                           |is var     |aantalOnderdelen|plus|1|
 |Npo poms Tabblad object Check item                        |$titelVanOnderdeel                   |zichtbaar                          |
 |Npo poms Tabblad object Check onderdeel                   |$titelVanOnderdeel                   |heeft type |$typeVanOnderdeel      |
-|Npo poms Tabblad object Check aantal in veld              |Onderdelen                           |is var     |aantalOnderdelen|plus|1|
 |Npo poms Tabblad object Hover over item                   |$titelVanOnderdeel                                                       |
 |Npo poms Tabblad object Druk op verwijderknop bij item    |$titelVanOnderdeel                                                       |
 |clear search context                                                                                                                |

@@ -2,25 +2,23 @@ package nl.vpro.poms.backend;
 
 import lombok.SneakyThrows;
 import lombok.extern.log4j.Log4j2;
-
-import java.io.IOException;
-import java.time.Duration;
-import java.time.Instant;
-import java.util.Objects;
-
-import javax.ws.rs.core.Response;
-
-import org.junit.jupiter.api.*;
-
 import nl.vpro.domain.media.Encryption;
 import nl.vpro.domain.media.Platform;
 import nl.vpro.domain.media.update.PredictionUpdate;
 import nl.vpro.domain.media.update.TranscodeRequest;
 import nl.vpro.domain.media.update.collections.XmlCollection;
 import nl.vpro.poms.AbstractApiMediaBackendTest;
+import nl.vpro.poms.Require.Needs;
 import nl.vpro.test.jupiter.AbortOnException;
 import nl.vpro.testutils.Utils;
 import nl.vpro.testutils.Utils.Check;
+import org.junit.jupiter.api.*;
+
+import javax.ws.rs.core.Response;
+import java.io.IOException;
+import java.time.Duration;
+import java.time.Instant;
+import java.util.Objects;
 
 import static nl.vpro.testutils.Utils.waitUntil;
 import static org.assertj.core.api.Assumptions.assumeThat;
@@ -45,6 +43,7 @@ class MediaBackendPredictionsTest extends AbstractApiMediaBackendTest {
     @Test
     @Tag("prediction")
     @Order(1)
+    @Needs(MID)
     public void setPrediction() throws IOException {
         TranscodeRequest request = TranscodeRequest.builder()
             .encryption(Encryption.NONE)
