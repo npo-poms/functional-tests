@@ -192,6 +192,15 @@
 |scenario|Npo poms Tabblad object Check bron|url                                                                                                                                 |heeft formaat|formaat|
 |check   |value of                          |xpath=//poms-locations/div/table/tbody/tr[./td[@class="column-url"]/span[normalize-space(.)="@url"]]/td[@class="column-format"]/span|@formaat             |
 
+|scenario|Npo poms Tabblad object Check bron|url                                                                                                                                |heeft online offline|onlineOffline|
+|check   |value of                          |xpath=//poms-locations/div/table/tbody/tr[./td[@class="column-url"]/span[normalize-space(.)="@url"]]/td[@class="column-dates"]/span|@onlineOffline                    |
+
+|scenario                          |Npo poms Tabblad object Check bron|url                 |online sinds|start|
+|Npo poms Tabblad object Check bron|@url                              |heeft online offline|van: @start       |
+
+|scenario                          |Npo poms Tabblad object Check bron|url                 |online van|start|tot|stop|
+|Npo poms Tabblad object Check bron|@url                              |heeft online offline|van: @start tot: @stop   |
+
 |scenario  |Npo poms Tabblad object Hover over bron                           |url                           |
 |hover over|xpath=//poms-locations/div/table/tbody/tr/td[@class="column-url"]/span[normalize-space(.)="@url"]|
 
@@ -256,6 +265,9 @@
 |set search context to|xpath=//poms-scheduleevents                                |
 |double click         |@uitzending                                                |
 |clear search context                                                             |
+
+|scenario|Npo poms Tabblad object Check aantal in veld|veld             |is             |aantal             |
+|ensure  |is visible on page                          |xpath=.//div/h1[normalize-space(.)="@veld (@aantal)"]|
 
 |scenario|Npo poms Tabblad object Sla aantal in veld|veld |op in var|var                          |
 |$@var=  |value of                                  |xpath=.//div/h1[contains(text(), "@veld")]   |
