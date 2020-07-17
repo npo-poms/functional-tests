@@ -4,7 +4,7 @@ Test
 ---
 !*> Lokale variabelen
 
-!define media {POW_00587306}
+!define media {WO_VPRO_043878}
 !define titel1 {testA_!today (yyMMddHHmmss)}
 !define titel2 {testB_!today (yyMMddHHmmss)}
 !define beschrijving1 {De test met de Itemizer}
@@ -24,15 +24,15 @@ Test
 |script                                                           |
 |Npo poms Tabblad object Segment Speel video voor       |1  |sec  |
 |Npo poms Tabblad object Segment Zet huidige positie als|starttijd|
-|Npo poms Tabblad object Segment Speel video voor       |2  |sec  |
+|Npo poms Tabblad object Segment Speel video voor       |3  |sec  |
 |Npo poms Tabblad object Segment Zet huidige positie als|stoptijd |
 
 Controleer verwacht resultaat:
 Door het zetten van start- en stop tijd, worden de start- en stop tijden ingevuld en wordt de speelduur berekend.
-*Let op:* Onderstaande checks op tijd gaan ervan uit dat alle kliks op play/pauze binnen een seconde zijn uitgevoerd,
+'''Let op:''' Onderstaande checks op tijd gaan ervan uit dat alle kliks op play/pauze binnen een seconde zijn uitgevoerd,
 op hele trage PC's zou dit tot onterechte fouten kunnen leiden: dan is de stoptijd (evt. ook de speelduur/starttijd) hoger dan verwacht.
 |script                                                                                                              |
-|Npo poms Tabblad object Segment Controleer start |00:00:01 |stop        |00:00:03        |en speelduur     |00:00:02|
+|Npo poms Tabblad object Segment Controleer start |00:00:01 |stop        |00:00:04        |en speelduur     |00:00:03|
 |Npo poms Tabblad object Segment opslaan met titel|${titel1}|beschrijving|${beschrijving1}|en knop Bewaar en|nieuw   |
 |click                                            |Annuleer                                                          |
 TODO: Zodra de onderstaande bug is opgelost: 'click Annuleer'-regel hierboven VERWIJDEREN!
@@ -52,15 +52,14 @@ TODO: De stappen uit alle comments hieronder toevoegen, zodra bug NPOTA-99 is op
 #|Npo poms Tabblad object Segment opslaan met titel|${titel2}|beschrijving|${beschrijving2}|en knop Bewaar en|sluit|
 
 Controleer verwacht resultaat:
-Terug in het deel van de segmenten zijn er de twee aangemaakte segmenten toegevoegd. De teller bij “Segmenten” is met *één* opgehoogd.
-TODO: Zodra de bug is opgelost: verwachte toename wijzigen van een naar twee, ik tekst hierboven en laatste cel in de tabel hieronder:
+Terug in het deel van de segmenten: De teller bij “Segmenten” is met '''één''' opgehoogd.
+TODO: Zodra de bug is opgelost: verwachte toename wijzigen van een naar twee, in tekst hierboven en laatste cel in de tabel hieronder:
 |script                                                                                  |
 |Npo poms Tabblad object Segment Bewaar aantal segmenten op id|2                         |
 |Npo poms Tabblad object Segment Controleer aantal tussen id  |1|en|2|is toegenomen met|1|
 
-|script                                                                                                        |
-|Npo poms Tabblad object Segment Verwijder en verwacht|$segmentCount1|segmenten met andere titels dan|${titel1}|
-#|Npo poms Tabblad object Segment Verwijder en verwacht|$segmentCount1|segmenten met andere titels dan|${titel2}|
+|script                                             |
+|Npo poms Tabblad object Segment Verwijder|${titel1}|
+#|Npo poms Tabblad object Segment Verwijder|${titel2}|
 TODO: Zodra de bug is opgelost: regel hierboven ACTIVEREN!
-
 

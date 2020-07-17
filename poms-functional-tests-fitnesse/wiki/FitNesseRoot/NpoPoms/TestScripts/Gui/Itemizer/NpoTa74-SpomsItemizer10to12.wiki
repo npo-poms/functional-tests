@@ -4,7 +4,7 @@ Test
 ---
 !*> Lokale variabelen
 
-!define media {POW_00587306}
+!define media {WO_VPRO_043878}
 !define titel {testE_!today (yyMMddHHmmss)}
 !define beschrijving {Test toevoegen segment 1}
 
@@ -31,13 +31,13 @@ Test
 
 #|script                                                           |
 #|Npo poms Tabblad object Segment Zet huidige positie als|starttijd|
-#|Npo poms Tabblad object Segment Speel video voor       |1  |sec  |
+#|Npo poms Tabblad object Segment Speel video voor       |3  |sec  |
 #|Npo poms Tabblad object Segment Zet huidige positie als|stoptijd |
 #
 #Controleer verwacht resultaat:
 #Door het zetten van start- en stop tijd, worden de start- en stop tijden ingevuld en wordt de speelduur berekend.
 #|script                                                                                                            |
-#|Npo poms Tabblad object Segment Controleer start |00:00:00|stop        |00:00:01       |en speelduur     |00:00:01|
+#|Npo poms Tabblad object Segment Controleer start |00:00:00|stop        |00:00:03       |en speelduur     |00:00:03|
 #|Npo poms Tabblad object Segment opslaan met titel|${titel}|beschrijving|${beschrijving}|en knop Bewaar en|nieuw   |
 
 |script                                                                                                                                                         |
@@ -92,5 +92,5 @@ Test
 |Npo poms Hoofdscherm Sluit tab met tekst|Segment ${titel}|
 
 
-|script                                                                                                       |
-|Npo poms Tabblad object Segment Verwijder en verwacht|$segmentCount1|segmenten met andere titels dan|${titel}|
+|script                                            |
+|Npo poms Tabblad object Segment Verwijder|${titel}|
