@@ -11,7 +11,7 @@ Test
   <title>Test1</title>
   <description>Specialisterren Test</description>
   <imageLocation>
-    <url>http://radiobox2.omroep.nl/image/file/15/villa_vpro.jpg</url>
+    <url>http://images.poms.omroep.nl/image/494930.jpg</url>
   </imageLocation>
 </image>
 }}} }
