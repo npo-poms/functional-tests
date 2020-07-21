@@ -2,7 +2,9 @@ package nl.vpro.poms.backend;
 
 import lombok.extern.log4j.Log4j2;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.time.Duration;
 import java.util.*;
 import java.util.function.Predicate;
@@ -145,6 +147,11 @@ class MediaBackendTest extends AbstractApiMediaBackendTest {
             Utils.Check.<MediaUpdate<?>>builder()
                 .predicate(MediaUpdate::isDeleted)
                 .description(memberMid + " is deleted")
+                .failureDescription((mu) -> {
+                    ByteArrayOutputStream out = new ByteArrayOutputStream();
+                    JAXB.marshal(mu, out);
+                    return "Not deleted : " + new String(out.toByteArray(), StandardCharsets.UTF_8);
+                })
                 .build()
         );
 
