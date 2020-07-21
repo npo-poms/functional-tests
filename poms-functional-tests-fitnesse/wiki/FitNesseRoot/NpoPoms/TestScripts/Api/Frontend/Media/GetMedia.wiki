@@ -1,6 +1,6 @@
 ---
-Help: NPOAPI-6
+Help: GET /media
 Suite
-Suites: RG
+Suites: NPOAPI-6, RG
 ---
 !contents -R2 -g -p -f -h

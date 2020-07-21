@@ -1,6 +1,6 @@
 ---
-Help: NPOAPI-20
 Test
+Suites: DV, NPOAPI-20
 ---
 !***> Test-specific items
 !define id1 {AVRO_1656037}

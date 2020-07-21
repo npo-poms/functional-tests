@@ -1,6 +1,6 @@
 ---
-Help: NPOAPI-124
-Suites: RG
+Help: GET /media/program/{id}/episodeOfs
+Suites: NPOAPI-124, RG
 Test
 ---
 !*> Test-specific items

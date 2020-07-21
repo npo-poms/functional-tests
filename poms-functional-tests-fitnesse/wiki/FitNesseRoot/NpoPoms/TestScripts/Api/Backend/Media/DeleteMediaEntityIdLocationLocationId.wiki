@@ -1,6 +1,6 @@
 ---
-Help: NPOAPI-103
-Suites: RG
+Help: DELETE /media/{entity}/{id}/location/{locationId}
+Suites: NPOAPI-103, RG
 Test
 ---
 !*> Test-specific items

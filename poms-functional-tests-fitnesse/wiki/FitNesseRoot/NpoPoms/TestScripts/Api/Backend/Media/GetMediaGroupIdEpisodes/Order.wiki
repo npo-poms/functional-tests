@@ -1,6 +1,5 @@
 ---
-Help: NPOAPI-120
-Suites: DV
+Suites: NPOAPI-120, DV
 Test
 ---
 !*> Test-specific items

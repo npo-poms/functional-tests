@@ -1,7 +1,7 @@
 ---
-Help: NPOAPI-15
+Help: GET /media/{mid}/related
 Suite
-Suites: DV
+Suites: NPOAPI-15, DV
 ---
 !define mid {AUTO_TOPPOPGOLDENYEARSFUNK}
 !define itemMid {VPWON_1227075}

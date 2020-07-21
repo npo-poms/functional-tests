@@ -1,6 +1,5 @@
 ---
-Help: NPOAPI-36
-Suites: RG
+Suites: NPOAPI-36, RG
 Test
 ---
 |Get value at path                                             |

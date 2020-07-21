@@ -1,6 +1,6 @@
 ---
-Help: NPOAPI-60
-Suites: RG
+Help: GET /thesaurus/persons/updates
+Suites: NPOAPI-60, RG
 Test
 ---
 |Get value at path                                                                       |

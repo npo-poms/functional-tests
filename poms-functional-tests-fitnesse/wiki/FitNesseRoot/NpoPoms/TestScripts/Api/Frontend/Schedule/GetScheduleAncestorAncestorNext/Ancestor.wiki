@@ -1,6 +1,5 @@
 ---
-Help: NPOAPI-26
-Suites: RG
+Suites: NPOAPI-26, RG
 Test
 ---
 |script                                                                |

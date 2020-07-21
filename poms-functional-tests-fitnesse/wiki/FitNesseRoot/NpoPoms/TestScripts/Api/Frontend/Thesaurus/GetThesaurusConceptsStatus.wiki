@@ -1,6 +1,6 @@
 ---
-Help: NPOAPI-57
-Suites: RG
+Help: GET /thesaurus/concepts/status
+Suites: NPOAPI-57, RG
 Test
 ---
 |Get values at two paths                                                                                                                        |

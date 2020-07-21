@@ -1,6 +1,6 @@
 ---
-Help: NPOAPI-113
-Suites: DV
+Help: GET /media/{entity}/{id}/predictions/{platform}
+Suites: NPOAPI-113, DV
 Test
 ---
 |script                                                               |

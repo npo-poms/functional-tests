@@ -1,6 +1,6 @@
 ---
-Help: NPOAPI-114
-Suites: RG
+Help: POST /media/{entity}/{id}/predictions/{platform}
+Suites: NPOAPI-114, RG
 Test
 ---
 !*> Test-specific items

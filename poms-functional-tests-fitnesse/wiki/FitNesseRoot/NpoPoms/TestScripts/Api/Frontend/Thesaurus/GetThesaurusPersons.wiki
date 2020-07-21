@@ -1,6 +1,6 @@
 ---
-Help: NPOAPI-59
+Help: GET /thesaurus/persons
 Suite
-Suites: RG
+Suites: NPOAPI-59, RG
 ---
 !contents -R2 -g -p -f -h

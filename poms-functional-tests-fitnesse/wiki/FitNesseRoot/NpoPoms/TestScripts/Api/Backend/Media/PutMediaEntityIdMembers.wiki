@@ -1,6 +1,6 @@
 ---
-Help: NPOAPI-109
-Suites: RG
+Help: PUT /media/{entity}/{id}/members
+Suites: NPOAPI-109, RG
 Test
 ---
 !*> Test-specific items

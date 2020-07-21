@@ -1,6 +1,6 @@
 ---
-Help: NPOAPI-132
-Suites: DV
+Help: GET /media/subtitles/{mid}/{language}/{type}/{seq}
+Suites: NPOAPI-132, DV
 Test
 ---
 !*> Test-specific items

@@ -1,6 +1,6 @@
 ---
-Help: NPOAPI-115
-Suites: RG
+Help: POST /media/{entity}/{mid}/itemize
+Suites: NPOAPI-115, RG
 Test
 ---
 !*> Test-specific items

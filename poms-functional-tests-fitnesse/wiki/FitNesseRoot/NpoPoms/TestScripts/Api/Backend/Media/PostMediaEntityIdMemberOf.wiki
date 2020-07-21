@@ -1,6 +1,6 @@
 ---
-Help: NPOAPI-105
-Suites: RG
+Help: POST /media/{entity}/{id}/memberOf
+Suites: NPOAPI-105, RG
 Test
 ---
 !*> Test-specific items
