@@ -17,6 +17,7 @@ import nl.vpro.domain.media.*;
 import nl.vpro.domain.media.support.TextualType;
 import nl.vpro.domain.media.update.*;
 import nl.vpro.poms.AbstractApiMediaBackendTest;
+import nl.vpro.testutils.Utils;
 import nl.vpro.util.Version;
 
 import static nl.vpro.testutils.Utils.waitUntil;
@@ -136,15 +137,12 @@ class MediaBackendTest extends AbstractApiMediaBackendTest {
         assumeThat(memberMid).isNotNull();
         waitUntil(
             ACCEPTABLE_DURATION,
-            memberMid + " isDeleted ",
             () -> backend.get(memberMid),
-                new Predicate<MediaUpdate>() {
-                    @Override
-                    public boolean test(MediaUpdate mediaUpdate) {
-                        return mediaUpdate != null && mediaUpdate.isDeleted();
-
-                    }
-                }
+            Utils.Check.notNull(memberMid),
+            Utils.Check.<MediaUpdate<?>>builder()
+                .predicate(MediaUpdate::isDeleted)
+                .description(memberMid + " is deleted")
+                .build()
         );
 
         MediaUpdateList<MemberUpdate> fullGroupMembers1 = backend.getBackendRestService()

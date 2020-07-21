@@ -231,6 +231,12 @@ public class Utils {
             return Optional.ofNullable(failureDescription);
         }
 
+        public static <T> Check<T> notNull(String what) {
+            return Check.<T>builder()
+                .predicate(Objects::nonNull)
+                .description(what + " is not null")
+                .build();
+        }
 
         public static <T> Check.Builder<T> description(String description, Object... args) {
             return Check
