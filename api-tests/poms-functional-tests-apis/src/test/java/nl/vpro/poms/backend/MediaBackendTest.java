@@ -136,8 +136,11 @@ class MediaBackendTest extends AbstractApiMediaBackendTest {
     public void checkDelete() throws IOException {
         assumeThat(memberMid).isNotNull();
         waitUntil(
-            ACCEPTABLE_DURATION,
-            () -> backend.get(memberMid),
+            Duration.ofMinutes(10),
+            () -> {
+                backend.getBrowserCache().clear();
+                return backend.get(memberMid);
+            },
             Utils.Check.notNull(memberMid),
             Utils.Check.<MediaUpdate<?>>builder()
                 .predicate(MediaUpdate::isDeleted)
