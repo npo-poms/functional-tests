@@ -1,0 +1,185 @@
+---
+Suites: NPOAPI-156, RG
+Test
+---
+!*> Test-specific items
+!define gebruiker {standaard-gebruiker}
+
+!define bodySerie { {{{
+<group avType="VIDEO" embeddable="true" type="SERIES" xmlns="urn:vpro:media:update:2009">
+  <broadcaster>NPO</broadcaster>
+  <title type="MAIN">Speciaal Serie</title>
+  <description type="MAIN">Serie Specialisterren.</description>
+  <credits/>
+  <locations/>
+  <scheduleEvents/>
+  <images/>
+</group>
+}}} }
+
+!define titel1 {Speciaal Clip 1}
+!define subtitel1 {Sub title 1}
+
+!define bodyClip1 { {{{
+<program avType="AUDIO" embeddable="true" type="CLIP" xmlns="urn:vpro:media:update:2009">
+  <broadcaster>NPO</broadcaster>
+  <title type="MAIN">${titel1}</title>
+  <title type="SUB">${subtitel1}</title>
+  <genre>3.0.1.7.21</genre>
+  <credits/>
+  <locations/>
+  <scheduleEvents/>
+  <images/>
+  <segments/>
+</program>
+}}} }
+
+!define titel2 {Speciaal Clip 2}
+!define subtitel2 {Sub title 2}
+
+!define bodyClip2 { {{{
+<program avType="AUDIO" embeddable="true" type="CLIP" xmlns="urn:vpro:media:update:2009">
+  <broadcaster>NPO</broadcaster>
+  <title type="MAIN">${titel2}</title>
+  <title type="SUB">${subtitel2}</title>
+  <genre>3.0.1.7.21</genre>
+  <credits/>
+  <locations/>
+  <scheduleEvents/>
+  <images/>
+  <segments/>
+</program>
+}}} }
+
+!define bodyMemberRef { {{{
+<?xml version="1.0"?>
+<memberRef xmlns="urn:vpro:media:update:2009" position="@pos" highlighted="true">$midSerie</memberRef>
+}}} }
+
+|scenario|Post member ref with position|pos             |and mid clip|midClip                                       |
+|show    |post                         |${bodyMemberRef}|to          |${urlBackendApi}/media/media/@midClip/memberOf|
+
+!define bodyMove { {{{
+<?xml version="1.0"?>
+<move xmlns="urn:vpro:media:update:2009">
+  <from>0</from>
+  <to>1</to>
+</move>
+}}} }
+*!
+
+!include -c <E2E.ApiBackendSetUp
+
+|script                                                                                                                               |
+|show                           |post                    |${bodySerie}            |to|${urlBackendApi}/media/group?owner=BROADCASTER  |
+|$midSerie=                     |response                                                                                             |
+|show                           |post                    |${bodyClip1}            |to|${urlBackendApi}/media/program?owner=BROADCASTER|
+|$midClip1=                     |response                                                                                             |
+|show                           |post                    |${bodyClip2}            |to|${urlBackendApi}/media/program?owner=BROADCASTER|
+|$midClip2=                     |response                                                                                             |
+|show                           |get from                |${urlBackendApi}/media/program/$midClip2/full                               |
+|repeat until response status is|200                                                                                                  |
+|$repeatCount=                  |repeat count                                                                                         |
+|$timeSpentRepeating=           |time spent repeating                                                                                 |
+|$timeSpentRepeating=           |format timestamp        |$timeSpentRepeating     |as|m:ss                                            |
+|check                          |xPath                   |/media:program/@workflow|FOR PUBLICATION                                    |
+|Post member ref with position  |1                       |and mid clip            |$midClip1                                          |
+|Post member ref with position  |2                       |and mid clip            |$midClip2                                          |
+|get from                       |${urlBackendApi}/media/program/$midClip2/full                                                        |
+|repeat until xPath             |/media:program/@workflow|is                      |FOR PUBLICATION                                    |
+|$repeatCount=                  |repeat count                                                                                         |
+|$timeSpentRepeating=           |time spent repeating                                                                                 |
+|$timeSpentRepeating=           |format timestamp        |$timeSpentRepeating     |as|m:ss                                            |
+|check                          |xPath                   |/media:program/@workflow|FOR PUBLICATION                                    |
+
+!include -c <E2E.GuiSetUp
+
+|script                                                                                                                                           |
+|Open Npo poms website                                                                                                                            |
+|Npo poms Inlogscherm Log in met ${gebruiker}                                                                                                     |
+|Npo poms Zoeken Vul                                     |$midSerie         |in zoekveld                                                          |
+|Npo poms Zoeken Druk knop                               |Zoeken                                                                                  |
+|Npo poms Zoeken Wacht tot zoekopdracht met Gezocht naar:|'$midSerie'       |klaar is                                                             |
+|Npo poms Zoeken Check aantal zoekresultaten             |1                                                                                       |
+|Npo poms Zoeken Open eerste object                                                                                                               |
+|set search context to                                   |css=[id=sidebar]                                                                        |
+|ensure                                                  |is visible on page|Onderdelen (2)                                                       |
+|clear search context                                                                                                                             |
+|Npo poms Tabblad object Check onderdeel nummer          |1                 |heeft titel|${titel1}|en subtitel|${subtitel1}|en status|Gepubliceerd|
+|Npo poms Tabblad object Check onderdeel nummer          |2                 |heeft titel|${titel2}|en subtitel|${subtitel2}|en status|Gepubliceerd|
+
+!include -c <E2E.GuiTearDown
+!include -c <E2E.ApiBackendSetUp
+
+|script                                                                |
+|show|put|${bodyMove}|to|${urlBackendApi}/media/group/$midSerie/members|
+
+!include -c <E2E.GuiSetUp
+
+|script                                                                                                                                                 |
+|Open Npo poms website                                                                                                                                  |
+|Npo poms Inlogscherm Log in met ${gebruiker}                                                                                                           |
+|Npo poms Zoeken Vul                                     |$midSerie         |in zoekveld                                                                |
+|Npo poms Zoeken Druk knop                               |Zoeken                                                                                        |
+|Npo poms Zoeken Wacht tot zoekopdracht met Gezocht naar:|'$midSerie'       |klaar is                                                                   |
+|Npo poms Zoeken Check aantal zoekresultaten             |1                                                                                             |
+|Npo poms Zoeken Open eerste object                                                                                                                     |
+|set search context to                                   |css=[id=sidebar]                                                                              |
+|ensure                                                  |is visible on page|Onderdelen (2)                                                             |
+|clear search context                                                                                                                                   |
+|Npo poms Tabblad object Check onderdeel nummer          |1                 |heeft titel|${titel2}|en subtitel|${subtitel2}|en status|Wordt gepubliceerd|
+|Npo poms Tabblad object Check onderdeel nummer          |2                 |heeft titel|${titel1}|en subtitel|${subtitel1}|en status|Wordt gepubliceerd|
+
+!include -c <E2E.GuiTearDown
+!include -c <E2E.ApiBackendSetUp
+
+|script                                                                                                 |
+|show                |delete                  |${urlBackendApi}/media/group/$midSerie/memberOf/$midClip1|
+|show                |delete                  |${urlBackendApi}/media/group/$midSerie/memberOf/$midClip2|
+|get from            |${urlBackendApi}/media/program/$midClip2/full                                     |
+|repeat until xPath  |/media:program/@workflow|is                              |PUBLISHED               |
+|$repeatCount=       |repeat count                                                                      |
+|$timeSpentRepeating=|time spent repeating                                                              |
+|$timeSpentRepeating=|format timestamp        |$timeSpentRepeating             |as         |m:ss        |
+|check               |xPath                   |/media:program/@workflow        |PUBLISHED               |
+
+!include -c <E2E.GuiSetUp
+
+|script                                                                                    |
+|Open Npo poms website                                                                     |
+|Npo poms Inlogscherm Log in met ${gebruiker}                                              |
+|Npo poms Zoeken Vul                                     |$midSerie         |in zoekveld   |
+|Npo poms Zoeken Druk knop                               |Zoeken                           |
+|Npo poms Zoeken Wacht tot zoekopdracht met Gezocht naar:|'$midSerie'       |klaar is      |
+|Npo poms Zoeken Check aantal zoekresultaten             |1                                |
+|Npo poms Zoeken Open eerste object                                                        |
+|set search context to                                   |css=[id=sidebar]                 |
+|ensure                                                  |is visible on page|Onderdelen (2)|
+|clear search context                                                                      |
+
+!include -c <E2E.GuiTearDown
+!include -c <E2E.ApiBackendSetUp
+
+|script                                              |
+|show|delete|${urlBackendApi}/media/program/$midClip1|
+|show|delete|${urlBackendApi}/media/program/$midClip2|
+
+!include -c <E2E.GuiSetUp
+
+|script                                                                                    |
+|Open Npo poms website                                                                     |
+|Npo poms Inlogscherm Log in met ${gebruiker}                                              |
+|Npo poms Zoeken Vul                                     |$midSerie         |in zoekveld   |
+|Npo poms Zoeken Druk knop                               |Zoeken                           |
+|Npo poms Zoeken Wacht tot zoekopdracht met Gezocht naar:|'$midSerie'       |klaar is      |
+|Npo poms Zoeken Check aantal zoekresultaten             |1                                |
+|Npo poms Zoeken Open eerste object                                                        |
+|set search context to                                   |css=[id=sidebar]                 |
+|ensure                                                  |is visible on page|Onderdelen (0)|
+|clear search context                                                                      |
+
+!include -c <E2E.GuiTearDown
+!include -c <E2E.ApiBackendSetUp
+
+|script                                            |
+|show|delete|${urlBackendApi}/media/group/$midSerie|
