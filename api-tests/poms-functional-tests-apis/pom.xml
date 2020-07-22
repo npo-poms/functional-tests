@@ -103,7 +103,11 @@
       <artifactId>media-nep</artifactId>
       <scope>test</scope>
     </dependency>
-
+   <!-- <dependency>
+      <groupId>org.apache.tomcat</groupId>
+      <artifactId>tomcat-catalina-jmx-remote</artifactId>
+      <version>9.0.14</version>
+    </dependency>-->
   </dependencies>
 
 
