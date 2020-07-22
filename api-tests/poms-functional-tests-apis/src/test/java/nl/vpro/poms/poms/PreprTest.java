@@ -5,14 +5,15 @@ import lombok.extern.log4j.Log4j2;
 
 import java.io.IOException;
 import java.security.Permission;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Predicate;
 
 import javax.management.*;
 import javax.management.remote.*;
 
 import org.junit.jupiter.api.*;
+
+import com.sun.tools.attach.*;
 
 import nl.vpro.api.client.utils.Config;
 import nl.vpro.domain.media.MediaObject;
@@ -50,15 +51,47 @@ public class PreprTest  extends AbstractApiMediaBackendTest {
 
             }
         });
-        JMXServiceURL url = new JMXServiceURL(CONFIG.getProperties(Config.Prefix.poms).get("jmx-url"));
+        String jmxUrl = CONFIG.getProperties(Config.Prefix.poms).get("jmx-url");
+        JMXServiceURL url = jmxUrl.startsWith("localhost:") ? localhost(jmxUrl.substring("localhost:".length())) : new JMXServiceURL(jmxUrl);
         Map<String, Object> env = new HashMap<>();
-        String[] credentials = {"admin", CONFIG.getProperties(Config.Prefix.poms).get("jmx-password") };
+        String[] credentials = {
+            CONFIG.getProperties(Config.Prefix.poms).get("jmx-username"),
+            CONFIG.getProperties(Config.Prefix.poms).get("jmx-password")
+        };
         env.put(JMXConnector.CREDENTIALS, credentials);
         JMXConnector jmxc = JMXConnectorFactory.connect(url, env);
         jmxc.connect();
         mBeanServerConnection = jmxc.getMBeanServerConnection();
-
     }
+
+    public static JMXServiceURL localhost(String pid) throws IOException {
+        List<VirtualMachineDescriptor> vms = VirtualMachine.list();
+        for (VirtualMachineDescriptor desc : vms) {
+            VirtualMachine vm;
+            try {
+                vm = VirtualMachine.attach(desc);
+            } catch (AttachNotSupportedException e) {
+                log.info("Attach not supported for {}", desc);
+                continue;
+            } catch (IOException ioe) {
+                log.info("IO {}", desc);
+                continue;
+            }
+            if (!vm.id().equals(pid)) {
+                continue;
+            }
+            Properties props = vm.getAgentProperties();
+            String connectorAddress =
+                props.getProperty("com.sun.management.jmxremote.localConnectorAddress");
+            if (connectorAddress == null) {
+                continue;
+            }
+            JMXServiceURL url = new JMXServiceURL(connectorAddress);
+            return url;
+        }
+        return null;
+    }
+
 
     @Test
     @Order(1)
