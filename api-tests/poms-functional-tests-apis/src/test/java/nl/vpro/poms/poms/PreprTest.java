@@ -7,6 +7,8 @@ import java.io.IOException;
 import java.security.Permission;
 import java.time.Duration;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicLong;
+import java.util.function.Consumer;
 import java.util.function.Predicate;
 
 import javax.management.*;
@@ -21,6 +23,8 @@ import nl.vpro.api.client.utils.Config;
 import nl.vpro.domain.media.MediaObject;
 import nl.vpro.poms.AbstractApiMediaBackendTest;
 import nl.vpro.testutils.Utils;
+import nl.vpro.util.CommandExecutor;
+import nl.vpro.util.CommandExecutorImpl;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -45,9 +49,39 @@ public class PreprTest  extends AbstractApiMediaBackendTest {
     }
 
     static MBeanServerConnection mBeanServerConnection;
+    static AtomicLong pid = new AtomicLong(0);
 
     @BeforeAll
-    public static void initJMX() throws IOException {
+    public static void initJMX() throws IOException, InterruptedException {
+        String ssh = CONFIG.getProperties(Config.Prefix.poms).get("ssh-host");
+        String host = CONFIG.getProperties(Config.Prefix.poms).get("jmx-host");
+
+        CommandExecutorImpl tunnel = CommandExecutorImpl.builder()
+            .executablesPaths("/usr/bin/ssh")
+            .build();
+
+        Consumer<Integer> ready = (i) -> {
+            log.info("Finished {}", i);
+        };
+        Consumer<Process> consumer = (p) -> {
+            synchronized (pid) {
+                pid.set(p.pid());
+                pid.notifyAll();
+            }
+        };
+        CommandExecutor.Executor.builder()
+            .args("-L", "8686:" + host +":8686", "-L", "8687:" + host + ":8687", ssh)
+            .consumer(consumer)
+            .submit(ready, tunnel);
+
+        log.info("Waiting for pid");
+        synchronized (pid) {
+            while (pid.get() == 0) {
+                pid.wait();
+            }
+        }
+        Thread.sleep(1000);
+
         System.setSecurityManager(new SecurityManager() {
             @Override
             public void checkPermission(Permission perm) {
@@ -65,6 +99,18 @@ public class PreprTest  extends AbstractApiMediaBackendTest {
         JMXConnector jmxc = JMXConnectorFactory.connect(url, env);
         jmxc.connect();
         mBeanServerConnection = jmxc.getMBeanServerConnection();
+    }
+
+    @AfterAll
+    public static void killTunnel() {
+        if (pid.get() > 0) {
+            log.info("Killing {}", pid.get());
+            CommandExecutorImpl.builder()
+                .executablesPaths("/bin/kill")
+                .build()
+                .execute(String.valueOf(pid.get()));
+        }
+
     }
 
     public static JMXServiceURL localhost(String pid) throws IOException {
@@ -155,7 +201,6 @@ public class PreprTest  extends AbstractApiMediaBackendTest {
         );
 
     }
-
 
     @Test
     @Order(20)
