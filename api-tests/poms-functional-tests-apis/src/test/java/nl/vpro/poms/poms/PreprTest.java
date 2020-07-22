@@ -69,7 +69,7 @@ public class PreprTest  extends AbstractApiMediaBackendTest {
                 pid.notifyAll();
             }
         };
-        CommandExecutor.Executor.builder()
+        CommandExecutor.Parameters.builder()
             .args("-L", "8686:" + host +":8686", "-L", "8687:" + host + ":8687", ssh)
             .consumer(consumer)
             .submit(ready, tunnel);
