@@ -14,6 +14,7 @@ import javax.management.remote.*;
 
 import org.junit.jupiter.api.*;
 
+import nl.vpro.api.client.utils.Config;
 import nl.vpro.domain.media.MediaObject;
 import nl.vpro.poms.AbstractApiMediaBackendTest;
 import nl.vpro.testutils.Utils;
@@ -49,9 +50,9 @@ public class PreprTest  extends AbstractApiMediaBackendTest {
 
             }
         });
-        JMXServiceURL url = new JMXServiceURL("service:jmx:rmi://pomz4aas:48113/jndi/rmi://pomz4aas:38113/jmxrmi");
+        JMXServiceURL url = new JMXServiceURL(CONFIG.getProperties(Config.Prefix.poms).get("jmx-url"));
         Map<String, Object> env = new HashMap<>();
-        String[] credentials = {"admin", CONFIG.getProperty("jmx.password") };
+        String[] credentials = {"admin", CONFIG.getProperties(Config.Prefix.poms).get("jmx-password") };
         env.put(JMXConnector.CREDENTIALS, credentials);
         JMXConnector jmxc = JMXConnectorFactory.connect(url, env);
         jmxc.connect();
@@ -80,7 +81,7 @@ public class PreprTest  extends AbstractApiMediaBackendTest {
 
     @Test
     @Order(9) // TODO, on dev's gives unique constraint
-    public void resyncBroadcast() throws IOException, MalformedObjectNameException, MBeanException, InstanceNotFoundException, ReflectionException, InterruptedException {
+    public void resyncBroadcast() throws IOException, MBeanException, InstanceNotFoundException, ReflectionException, InterruptedException {
 
 
         Object syncBroadcast = mBeanServerConnection.invoke(PREPR, "syncBroadcast",
@@ -92,7 +93,7 @@ public class PreprTest  extends AbstractApiMediaBackendTest {
 
     @Test
     @Order(10)
-    public void resyncDay() throws IOException, MalformedObjectNameException, MBeanException, InstanceNotFoundException, ReflectionException, InterruptedException {
+    public void resyncDay() throws IOException, MBeanException, InstanceNotFoundException, ReflectionException, InterruptedException {
 
         Object syncDay = mBeanServerConnection.invoke(PREPR, "sync",
             new Object[]{"RAD3", "2020-02-15", null}, new String[] {
@@ -108,7 +109,7 @@ public class PreprTest  extends AbstractApiMediaBackendTest {
 
     @Test
     @Order(20)
-    public void stillEsureGroup() {
+    public void stillEnsureGroup() {
         MediaObject series= backend.getFull(SERIES);
         assertThat(CORRECT.test(series)).isTrue();
     }
