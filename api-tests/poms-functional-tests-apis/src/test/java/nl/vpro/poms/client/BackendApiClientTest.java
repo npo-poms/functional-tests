@@ -1,22 +1,22 @@
 package nl.vpro.poms.client;
 
 import lombok.extern.log4j.Log4j2;
-import nl.vpro.domain.media.update.MediaUpdate;
-import nl.vpro.poms.AbstractApiMediaBackendTest;
-import nl.vpro.poms.Require;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.core.LogEvent;
 import org.apache.logging.log4j.core.LoggerContext;
 import org.apache.logging.log4j.core.appender.AbstractAppender;
 import org.apache.logging.log4j.core.config.Configuration;
 import org.apache.logging.log4j.core.config.Property;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
+import nl.vpro.domain.media.update.MediaUpdate;
+import nl.vpro.poms.AbstractApiMediaBackendTest;
+import nl.vpro.poms.Require;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -64,7 +64,8 @@ class BackendApiClientTest extends AbstractApiMediaBackendTest  {
          List<LogEvent> info =
              logging.list.stream().filter((l) -> l.getLevel().isLessSpecificThan(Level.INFO)).collect(Collectors.toList());
         assertThat(info).hasSizeGreaterThan(0);
-        assertThat(info.get(0).getMessage().toString()).hasLineCount(6);
+        assertThat(info.get(0).getMessage().toString())
+            .withFailMessage(info.get(0).getMessage().toString()).hasLineCount(6);
     }
 
     public static class ListAppender extends AbstractAppender {
