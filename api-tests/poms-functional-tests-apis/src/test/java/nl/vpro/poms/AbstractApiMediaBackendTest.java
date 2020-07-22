@@ -74,6 +74,7 @@ public abstract class AbstractApiMediaBackendTest extends AbstractApiTest {
             .warnThreshold(Duration.ofSeconds(10))
             .errors(errorMail)
             .publishImmediately(true)
+            .registerMBean(false)
             .headerLevel((m, a, c) -> logged.add(c) ? Level.INFO : Level.DEBUG)
             //.deletes(true)
             //.version("5.7")
@@ -91,6 +92,7 @@ public abstract class AbstractApiMediaBackendTest extends AbstractApiTest {
             .warnThreshold(Duration.ofSeconds(10))
             .errors(errorMail)
             .publishImmediately(true)
+            .registerMBean(false)
             //.version("5.7")
             .build();
     private static final String backendVersion = backend.getVersion();

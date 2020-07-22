@@ -1,41 +1,30 @@
 package nl.vpro.poms;
 
+import java.lang.reflect.Method;
+import java.time.*;
+import java.time.format.DateTimeFormatter;
+import java.util.Objects;
+import java.util.concurrent.TimeUnit;
+
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+
+import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.extension.ExtendWith;
+
 import nl.vpro.api.client.frontend.NpoApiClients;
-import nl.vpro.api.client.utils.Config;
-import nl.vpro.api.client.utils.NpoApiImageUtil;
-import nl.vpro.api.client.utils.NpoApiMediaUtil;
-import nl.vpro.api.client.utils.NpoApiPageUtil;
+import nl.vpro.api.client.utils.*;
 import nl.vpro.domain.api.Constants;
-import nl.vpro.domain.api.media.Compatibility;
-import nl.vpro.domain.api.media.RedirectList;
-import nl.vpro.domain.api.media.Redirector;
+import nl.vpro.domain.api.media.*;
 import nl.vpro.domain.classification.CachedURLClassificationServiceImpl;
 import nl.vpro.domain.classification.ClassificationServiceLocator;
 import nl.vpro.domain.media.Schedule;
-import nl.vpro.junit.extensions.AllowNotImplemented;
-import nl.vpro.junit.extensions.AllowUnavailable;
-import nl.vpro.junit.extensions.TestMDC;
+import nl.vpro.junit.extensions.*;
 import nl.vpro.test.jupiter.AbortOnException;
 import nl.vpro.testutils.AbstractTest;
 import nl.vpro.testutils.Utils;
 import nl.vpro.util.IntegerVersion;
 import nl.vpro.util.Version;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.TestInfo;
-import org.junit.jupiter.api.Timeout;
-import org.junit.jupiter.api.extension.ExtendWith;
-
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-import java.lang.reflect.Method;
-import java.time.Duration;
-import java.time.Instant;
-import java.time.OffsetDateTime;
-import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.Objects;
-import java.util.concurrent.TimeUnit;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -99,6 +88,7 @@ public abstract class AbstractApiTest extends AbstractTest  {
             .socketTimeout(Duration.ofSeconds(60))
             .accept(MediaType.APPLICATION_XML_TYPE)
             .properties(Constants.PROPERTIES_ALL)
+            .registerMBean(false)
             .build();
 
     protected static final NpoApiMediaUtil mediaUtil = new NpoApiMediaUtil(clients);
