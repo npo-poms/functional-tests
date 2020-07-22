@@ -1,5 +1,6 @@
 package nl.vpro.poms.poms;
 
+import lombok.SneakyThrows;
 import lombok.extern.log4j.Log4j2;
 
 import java.io.IOException;
@@ -29,6 +30,14 @@ public class PreprTest  extends AbstractApiMediaBackendTest {
     static final String SERIES = "RBX_S_VPRO_13100068";
     static final String GROUP = "POMS_S_VPRO_6022303";
     static final Predicate<MediaObject> CORRECT = (mo)-> mo.getMemberOf().stream().anyMatch(r -> r.getMediaRef().equals(GROUP));
+
+
+    static final ObjectName PREPR = getObjectName("nl.vpro.media:name=prepr");
+
+    @SneakyThrows
+    static ObjectName getObjectName(String objectName) {
+         return new ObjectName(objectName);
+    }
 
     static MBeanServerConnection mBeanServerConnection;
 
@@ -68,17 +77,29 @@ public class PreprTest  extends AbstractApiMediaBackendTest {
 
     }
 
+
     @Test
-    @Order(2)
+    @Order(9) // TODO, on dev's gives unique constraint
+    public void resyncBroadcast() throws IOException, MalformedObjectNameException, MBeanException, InstanceNotFoundException, ReflectionException, InterruptedException {
+
+
+        Object syncBroadcast = mBeanServerConnection.invoke(PREPR, "syncBroadcast",
+            new Object[]{"PREPR_VPRO_15979404"}, new String[]{
+                String.class.getName()
+            });
+        log.info("{}", syncBroadcast);
+    }
+
+    @Test
+    @Order(10)
     public void resyncDay() throws IOException, MalformedObjectNameException, MBeanException, InstanceNotFoundException, ReflectionException, InterruptedException {
 
-        Object sync = mBeanServerConnection.invoke(new ObjectName("nl.vpro.media:name=prepr"), "sync",
-
+        Object syncDay = mBeanServerConnection.invoke(PREPR, "sync",
             new Object[]{"RAD3", "2020-02-15", null}, new String[] {
                 String.class.getName(),
                 String.class.getName(),
                 String.class.getName()});
-        log.info("{}", sync);
+        log.info("{}", syncDay);
 
         // wait, may be do something with events.
         Thread.sleep(10000L);
@@ -86,7 +107,7 @@ public class PreprTest  extends AbstractApiMediaBackendTest {
 
 
     @Test
-    @Order(4)
+    @Order(20)
     public void stillEsureGroup() {
         MediaObject series= backend.getFull(SERIES);
         assertThat(CORRECT.test(series)).isTrue();
