@@ -103,7 +103,7 @@
       <artifactId>media-nep</artifactId>
       <scope>test</scope>
     </dependency>
-    <dependency>
+        <dependency>
       <groupId>com.google.api-client</groupId>
       <artifactId>google-api-client</artifactId>
       <version>1.30.9</version>
@@ -118,6 +118,12 @@
       <artifactId>google-api-services-gmail</artifactId>
       <version>v1-rev110-1.25.0</version>
     </dependency>
+   <!-- <dependency>
+      <groupId>org.apache.tomcat</groupId>
+      <artifactId>tomcat-catalina-jmx-remote</artifactId>
+      <version>9.0.14</version>
+    </dependency>-->
   </dependencies>
+
 
 </project>
