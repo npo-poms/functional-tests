@@ -1,6 +1,6 @@
 ---
-Help: NPOAPI-94
-Suites: JF, slow
+Help: POST /media/{entity}
+Suites: NPOAPI-94, JF
 Test
 ---
 !*> Test-specific items

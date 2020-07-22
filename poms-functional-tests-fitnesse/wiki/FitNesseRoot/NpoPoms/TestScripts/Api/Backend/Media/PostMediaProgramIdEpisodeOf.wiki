@@ -1,6 +1,6 @@
 ---
-Help: NPOAPI-122
-Suites: RG
+Help: POST /media/program/{id}/episodeOf
+Suites: NPOAPI-122, RG
 Test
 ---
 !*> Test-specific items

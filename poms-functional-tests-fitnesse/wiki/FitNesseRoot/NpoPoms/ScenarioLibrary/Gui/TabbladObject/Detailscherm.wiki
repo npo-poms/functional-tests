@@ -27,6 +27,9 @@
 |scenario|Npo poms Tabblad object Detailscherm Check dropdown|dropdown                                                        |heeft waarde|waarde|
 |check   |value of                                           |xpath=//label[text()="@dropdown"]/following-sibling::span/select|@waarde            |
 
+|scenario|Npo poms Tabblad object Detailscherm Check bewerkbare dropdown|dropdown                                                             |heeft waarde|waarde|
+|check   |value of                                                      |xpath=//label[text()="@dropdown"]/following-sibling::div/div/div/span|@waarde            |
+
 |scenario|Npo poms Tabblad object Detailscherm Vul|tekst|in datepicker                      |datepicker                     |
 |enter   |@tekst                                  |as   |xpath=//label[text()="@datepicker"]/../following-sibling::div/input|
 
@@ -68,6 +71,23 @@
 
 |scenario|Npo poms Tabblad object Detailscherm Check knop|knop                                           |in footer inactief                                           |
 |ensure  |is visible on page                             |xpath=//div[contains(@class, "footer-container")]/div/button[normalize-space()="@knop"][@disabled="disabled"]|
+
+|scenario|Npo poms Tabblad object Detailscherm Check bron online van|start                                                                                           |
+|check   |value of                                                  |xpath=//span[normalize-space(.)="Online / Offline"]/../div[contains(@if, "start")]|start: @start|
+
+|scenario|Npo poms Tabblad object Detailscherm Check bron online tot|stop                                                                                         |
+|check   |value of                                                  |xpath=//span[normalize-space(.)="Online / Offline"]/../div[contains(@if, "stop")]|stop: @stop|
+
+|scenario|Npo poms Tabblad object Detailscherm Check bron op dit moment online                            |
+|check   |value of|xpath=//span[normalize-space(.)="Online / Offline"]/../div[contains(@if, "stop")]|stop:|
+
+|scenario                                                  |Npo poms Tabblad object Detailscherm Check bron online sinds|start|
+|Npo poms Tabblad object Detailscherm Check bron online van|@start                                                            |
+|Npo poms Tabblad object Detailscherm Check bron op dit moment online                                                         |
+
+|scenario                                                  |Npo poms Tabblad object Detailscherm Check bron online van|start|tot|stop|
+|Npo poms Tabblad object Detailscherm Check bron online van|@start                                                                   |
+|Npo poms Tabblad object Detailscherm Check bron online tot|@stop                                                                    |
 
 |scenario|Npo poms Tabblad object Detailscherm controleer nog in te vullen melding van veld|veld                                                              |
 |ensure  |is visible on page                                                               |xpath=//span[text()="Nog in te vullen:"]                          |

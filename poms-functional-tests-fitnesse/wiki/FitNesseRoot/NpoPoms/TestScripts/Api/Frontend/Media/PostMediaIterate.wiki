@@ -1,6 +1,6 @@
 ---
-Help: NPOAPI-18
-Suites: RG
+Help: POST /media/iterate
+Suites: NPOAPI-18, RG
 Test
 ---
 !*> Test-specific items

@@ -1,6 +1,6 @@
 ---
-Help: NPOAPI-121
-Suites: RG
+Help: GET /media/group/{id}/episodes/full
+Suites: NPOAPI-121, RG
 Test
 ---
 !*> Test-specific items

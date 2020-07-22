@@ -2,7 +2,9 @@ package nl.vpro.poms.backend;
 
 import lombok.extern.log4j.Log4j2;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.time.Duration;
 import java.util.*;
 import java.util.function.Predicate;
@@ -17,6 +19,7 @@ import nl.vpro.domain.media.*;
 import nl.vpro.domain.media.support.TextualType;
 import nl.vpro.domain.media.update.*;
 import nl.vpro.poms.AbstractApiMediaBackendTest;
+import nl.vpro.testutils.Utils;
 import nl.vpro.util.Version;
 
 import static nl.vpro.testutils.Utils.waitUntil;
@@ -135,16 +138,21 @@ class MediaBackendTest extends AbstractApiMediaBackendTest {
     public void checkDelete() throws IOException {
         assumeThat(memberMid).isNotNull();
         waitUntil(
-            ACCEPTABLE_DURATION,
-            memberMid + " isDeleted ",
-            () -> backend.get(memberMid),
-                new Predicate<MediaUpdate>() {
-                    @Override
-                    public boolean test(MediaUpdate mediaUpdate) {
-                        return mediaUpdate != null && mediaUpdate.isDeleted();
-
-                    }
-                }
+            Duration.ofMinutes(10),
+            () -> {
+                backend.getBrowserCache().clear();
+                return backend.get(memberMid);
+            },
+            Utils.Check.notNull(memberMid),
+            Utils.Check.<MediaUpdate<?>>builder()
+                .predicate(MediaUpdate::isDeleted)
+                .description(memberMid + " is deleted")
+                .failureDescription((mu) -> {
+                    ByteArrayOutputStream out = new ByteArrayOutputStream();
+                    JAXB.marshal(mu, out);
+                    return "Not deleted : " + new String(out.toByteArray(), StandardCharsets.UTF_8);
+                })
+                .build()
         );
 
         MediaUpdateList<MemberUpdate> fullGroupMembers1 = backend.getBackendRestService()

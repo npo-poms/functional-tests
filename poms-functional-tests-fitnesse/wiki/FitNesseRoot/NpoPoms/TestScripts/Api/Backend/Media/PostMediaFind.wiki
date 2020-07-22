@@ -1,6 +1,6 @@
 ---
-Help: NPOAPI-119
-Suites: DV
+Help: POST /media/find
+Suites: NPOAPI-119, DV
 Test
 ---
 !*> Test-specific items

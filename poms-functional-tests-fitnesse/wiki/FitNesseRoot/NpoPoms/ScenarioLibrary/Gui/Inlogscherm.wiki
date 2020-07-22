@@ -3,8 +3,8 @@
 |scenario|Open Npo poms website|
 |open    |${urlPoms}           |
 
-|scenario        |Npo poms Inlogscherm Wacht tot pagina geladen|
-|wait for visible|${npoPomsInlogscherm_titel}                  |
+|scenario|Npo poms Inlogscherm Wacht tot pagina geladen |
+|$tmp=   |is visible on page|${npoPomsInlogscherm_titel}|
 
 |scenario|Npo poms Inlogscherm Log in met gebruiker|gebruiker|en wachtwoord|wachtwoord|
 |Npo poms Inlogscherm Wacht tot pagina geladen                                        |

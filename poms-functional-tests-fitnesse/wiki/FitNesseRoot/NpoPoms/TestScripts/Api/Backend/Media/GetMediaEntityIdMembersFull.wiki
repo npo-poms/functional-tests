@@ -1,6 +1,6 @@
 ---
-Help: NPOAPI-110
-Suites: DV
+Help: GET /media/{entity}/{id}/members/full
+Suites: NPOAPI-110, DV
 Test
 ---
 |script                                                          |

@@ -1,0 +1,148 @@
+---
+Suites: NPOAPI-155, RG
+Test
+---
+!*> Test-specific items
+!define gebruiker {standaard-gebruiker}
+
+!define bodyClip { {{{
+<program avType="AUDIO" embeddable="true" type="CLIP" xmlns="urn:vpro:media:update:2009">
+  <broadcaster>NPO</broadcaster>
+  <title type="MAIN">Speciaal Clip</title>
+  <genre>3.0.1.7.21</genre>
+  <credits/>
+  <locations/>
+  <scheduleEvents/>
+  <images/>
+  <segments/>
+</program>
+}}} }
+
+!define programUrl {!-http://a.omroep.nl/19.mp3-!}
+!define publishStartApi {2012-01-11T16:16:01.287+01:00}
+!define publishStartGui {11-01-2012 16:16}
+
+!define avFileFormat1 {MP3}
+!define bitrate1 {128000}
+
+!define bodyLocation1 { {{{
+<?xml version="1.0" encoding="utf-8"?>
+<location xmlns="urn:vpro:media:update:2009" publishStart="${publishStartApi}">
+  <programUrl>${programUrl}</programUrl>
+  <avAttributes>
+    <bitrate>${bitrate1}</bitrate>
+    <avFileFormat>${avFileFormat1}</avFileFormat>
+    <videoAttributes/>
+  </avAttributes>
+</location>
+}}} }
+
+!define publishStopApi2 {2012-01-11T18:16:01.287+01:00}
+!define publishStopGui2 {11-01-2012 18:16}
+!define avFileFormat2 {MP4}
+!define bitrate2 {6000}
+
+!define bodyLocation2 { {{{
+<?xml version="1.0" encoding="utf-8"?>
+<location xmlns="urn:vpro:media:update:2009" publishStart="${publishStartApi}" publishStop="${publishStopApi2}">
+  <programUrl>${programUrl}</programUrl>
+  <avAttributes>
+    <bitrate>${bitrate2}</bitrate>
+    <avFileFormat>${avFileFormat2}</avFileFormat>
+    <videoAttributes/>
+  </avAttributes>
+</location>
+}}} }
+
+|scenario            |Wacht tot locatie is gepubliceerd                                                    |
+|get from            |${urlBackendApi}/media/program/$mid/full                                             |
+|repeat until xPath  |/media:program/media:locations/media:location/@workflow|is                 |PUBLISHED|
+|$repeatCount=       |repeat count                                                                         |
+|$timeSpentRepeating=|time spent repeating                                                                 |
+|$timeSpentRepeating=|format timestamp                                       |$timeSpentRepeating|as |m:ss |
+*!
+
+!include -c <E2E.ApiBackendSetUp
+
+|script                                                                                                                       |
+|show                           |post            |${bodyClip}             |to|${urlBackendApi}/media/program?owner=BROADCASTER|
+|$mid=                          |response                                                                                     |
+|show                           |get from        |${urlBackendApi}/media/program/$mid/full                                    |
+|repeat until response status is|200                                                                                          |
+|$repeatCount=                  |repeat count                                                                                 |
+|$timeSpentRepeating=           |time spent repeating                                                                         |
+|$timeSpentRepeating=           |format timestamp|$timeSpentRepeating     |as|m:ss                                            |
+|check                          |xPath           |/media:program/@workflow|FOR PUBLICATION                                    |
+|show                           |post            |${bodyLocation1}        |to|${urlBackendApi}/media/program/$mid/location    |
+|Wacht tot locatie is gepubliceerd                                                                                            |
+
+!include -c <E2E.GuiSetUp
+
+|script                                                                                                       |
+|Open Npo poms website                                                                                        |
+|Npo poms Inlogscherm Log in met ${gebruiker}                                                                 |
+|Npo poms Zoeken Vul                                           |$mid         |in zoekveld                     |
+|Npo poms Zoeken Druk knop                                     |Zoeken                                        |
+|Npo poms Zoeken Wacht tot zoekopdracht met Gezocht naar:      |'$mid'       |klaar is                        |
+|Npo poms Zoeken Check aantal zoekresultaten                   |1                                             |
+|Npo poms Zoeken Open eerste object                                                                           |
+|Npo poms Tabblad object Druk op link                          |Bronnen      |in sidebar                      |
+|Npo poms Tabblad object Wacht tot scrollen klaar is                                                          |
+|set search context to                                         |xpath=//poms-locations                        |
+|Npo poms Tabblad object Check aantal in veld                  |Bronnen      |is           |1                 |
+|Npo poms Tabblad object Check bron                            |${programUrl}|zichtbaar                       |
+|Npo poms Tabblad object Check bron                            |${programUrl}|heeft formaat|${avFileFormat1}  |
+|Npo poms Tabblad object Check bron                            |${programUrl}|online sinds |${publishStartGui}|
+|double click                                                  |${programUrl}                                 |
+|clear search context                                                                                         |
+|Npo poms Tabblad object Detailscherm Check tekstveld          |URL *        |heeft waarde |${programUrl}     |
+|Npo poms Tabblad object Detailscherm Check bewerkbare dropdown|Type *       |heeft waarde |${avFileFormat1}  |
+|Npo poms Tabblad object Detailscherm Check tekstveld          |Bitrate      |heeft waarde |${bitrate1}       |
+|Npo poms Tabblad object Detailscherm Check bron online sinds  |${publishStartGui}                            |
+|Npo poms Tabblad object Detailscherm Druk op kruisje om pop-up te sluiten                                    |
+    
+!include -c <E2E.GuiTearDown
+!include -c <E2E.ApiBackendSetUp
+
+|script                                                                    |
+|show|post|${bodyLocation2}|to|${urlBackendApi}/media/program/$mid/location|
+|Wacht tot locatie is gepubliceerd                                         |
+
+!include -c <E2E.GuiSetUp
+
+|script                                                                                                                                   |
+|Open Npo poms website                                                                                                                    |
+|Npo poms Inlogscherm Log in met ${gebruiker}                                                                                             |
+|Npo poms Zoeken Vul                                           |$mid              |in zoekveld                                            |
+|Npo poms Zoeken Druk knop                                     |Zoeken                                                                    |
+|Npo poms Zoeken Wacht tot zoekopdracht met Gezocht naar:      |'$mid'            |klaar is                                               |
+|Npo poms Zoeken Check aantal zoekresultaten                   |1                                                                         |
+|Npo poms Zoeken Open eerste object                                                                                                       |
+|Npo poms Tabblad object Druk op link                          |Bronnen           |in sidebar                                             |
+|Npo poms Tabblad object Wacht tot scrollen klaar is                                                                                      |
+|Npo poms Tabblad object Check aantal in veld                  |Bronnen           |is           |1                                        |
+|Npo poms Tabblad object Check bron                            |${programUrl}     |zichtbaar                                              |
+|Npo poms Tabblad object Check bron                            |${programUrl}     |heeft formaat|${avFileFormat2}                         |
+|Npo poms Tabblad object Check bron                            |${programUrl}     |online van   |${publishStartGui}|tot|${publishStopGui2}|
+|double click                                                  |${programUrl}                                                             |
+|clear search context                                                                                                                     |
+|Npo poms Tabblad object Detailscherm Check tekstveld          |URL *             |heeft waarde |${programUrl}                            |
+|Npo poms Tabblad object Detailscherm Check bewerkbare dropdown|Type *            |heeft waarde |${avFileFormat2}                         |
+|Npo poms Tabblad object Detailscherm Check tekstveld          |Bitrate           |heeft waarde |${bitrate2}                              |
+|Npo poms Tabblad object Detailscherm Check bron online van    |${publishStartGui}|tot          |${publishStopGui2}                       |
+|Npo poms Tabblad object Detailscherm Druk op kruisje om pop-up te sluiten                                                                |
+
+!include -c <E2E.GuiTearDown
+!include -c <E2E.ApiBackendSetUp
+
+|script                                                                                                                                                                      |
+|get from    |${urlBackendApi}/media/program/$mid/locations?owner=BROADCASTER                                                                                                |
+|note        |Save location, like in [[DELETE /media/{entity}/{id}/location/{locationId} (NPOAPI-103)][<TestScripts.Api.Backend.Media.DeleteMediaEntityIdLocationLocationId]]|
+|$urn=       |xPath                        |/collection/update:location/@urn                                                                                                 |
+|$locationId=|extract string               |$urn                |from               |^urn:vpro:media:location:(\d+)$               |using group              |1              |
+|show        |delete                       |${urlBackendApi}/media/program/$mid/location/$locationId                                                                         |
+
+|script                                               |
+|show    |delete|${urlBackendApi}/media/program/$mid  |
+|get from|${urlBackendApi}/media/program/$mid/full    |
+|check   |xPath |/media:program/@workflow|FOR DELETION|

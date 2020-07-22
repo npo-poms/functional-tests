@@ -128,7 +128,7 @@
 |scenario             |Npo poms Zoeken Selecteer optie|optie|zonder controle in dropdown|dropdown|
 |click                |@dropdown                                                                 |
 |set search context to|xpath=//poms-ui-select-multi[@name="@dropdown"]                           |
-|wait for visible     |xpath=./div/ul/li/div[@role="option"]                                     |
+|wait for visible     |@optie                                                                    |
 |scroll to            |@optie                                                                    |
 |click                |@optie                                                                    |
 |remove last search context                                                                      |
@@ -136,7 +136,7 @@
 |scenario             |Npo poms Zoeken Popup Selecteer optie|optie|zonder controle in dropdown|dropdown|
 |click                |@dropdown                                                                       |
 |set search context to|xpath=//div[@class="modal-body"]//poms-ui-select-multi[@name="@dropdown"]       |
-|wait for visible     |xpath=./div/ul/li/div                                                           |
+|wait for visible     |@optie                                                                          |
 |scroll to            |@optie                                                                          |
 |click                |@optie                                                                          |
 |remove last search context                                                                            |

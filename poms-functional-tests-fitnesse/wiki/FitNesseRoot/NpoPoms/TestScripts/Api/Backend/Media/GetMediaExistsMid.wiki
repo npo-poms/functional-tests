@@ -1,6 +1,6 @@
 ---
-Help: NPOAPI-118
-Suites: DV
+Help: GET /media/exists/{mid}
+Suites: NPOAPI-118, DV
 Test
 ---
 !*> Test-specific items

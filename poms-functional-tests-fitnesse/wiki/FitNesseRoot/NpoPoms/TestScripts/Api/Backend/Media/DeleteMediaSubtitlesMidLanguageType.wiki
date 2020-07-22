@@ -1,6 +1,6 @@
 ---
-Help: NPOAPI-128
-Suites: RG
+Help: DELETE /media/subtitles/{mid}/{language}/{type}
+Suites: NPOAPI-128, RG
 Test
 ---
 !*> Test-specific items

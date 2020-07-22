@@ -1,6 +1,5 @@
 ---
-Help: NPOAPI-13
-Suites: RG
+Suites: NPOAPI-13, RG
 Test
 ---
 |script                                                                           |

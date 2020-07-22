@@ -1,6 +1,6 @@
 ---
-Help: NPOAPI-126
-Suites: DV
+Help: GET /media/streamingstatus/{mid}
+Suites: NPOAPI-126, DV
 Test
 ---
 !*> Test-specific items

@@ -1,6 +1,6 @@
 ---
-Help: NPOAPI-16
-Suites: RG
+Help: POST /media/{mid}/related
+Suites: NPOAPI-16, RG
 Test
 ---
 !*> Test-specific items

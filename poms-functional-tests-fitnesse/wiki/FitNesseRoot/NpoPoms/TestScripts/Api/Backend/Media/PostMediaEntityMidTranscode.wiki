@@ -1,6 +1,6 @@
 ---
-Help: NPOAPI-116
-Suites: RG
+Help: POST /media/{entity}/{mid}/transcode
+Suites: NPOAPI-116, RG
 Test
 ---
 !*> Test-specific items

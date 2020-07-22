@@ -1,6 +1,5 @@
 ---
-Help: NPOAPI-28
-Suites: RG
+Suites: NPOAPI-28, RG
 Test
 ---
 !*> Test-specific items

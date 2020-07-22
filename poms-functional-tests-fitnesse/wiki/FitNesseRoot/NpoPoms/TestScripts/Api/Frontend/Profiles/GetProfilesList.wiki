@@ -1,6 +1,6 @@
 ---
-Help: NPOAPI-39
-Suites: RG
+Help: GET /profiles/list
+Suites: NPOAPI-39, RG
 Test
 ---
 !***> Test-specific items

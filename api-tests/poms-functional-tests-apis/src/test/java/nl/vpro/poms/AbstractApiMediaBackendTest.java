@@ -2,6 +2,19 @@ package nl.vpro.poms;
 
 import lombok.SneakyThrows;
 import lombok.extern.log4j.Log4j2;
+
+import java.net.URLEncoder;
+import java.time.Duration;
+import java.util.*;
+import java.util.concurrent.TimeUnit;
+
+import javax.ws.rs.core.MediaType;
+
+import org.apache.commons.text.StringSubstitutor;
+import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.slf4j.event.Level;
+
 import nl.vpro.api.client.media.MediaRestClient;
 import nl.vpro.api.client.utils.Config;
 import nl.vpro.domain.Embargo;
@@ -15,19 +28,6 @@ import nl.vpro.junit.extensions.TestMDC;
 import nl.vpro.testutils.Utils;
 import nl.vpro.util.IntegerVersion;
 import nl.vpro.util.Version;
-import org.apache.commons.text.StringSubstitutor;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.Assumptions;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Timeout;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.slf4j.event.Level;
-
-import javax.ws.rs.core.MediaType;
-import java.net.URLEncoder;
-import java.time.Duration;
-import java.util.*;
-import java.util.concurrent.TimeUnit;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static nl.vpro.domain.media.MediaBuilder.program;
@@ -75,6 +75,7 @@ public abstract class AbstractApiMediaBackendTest extends AbstractApiTest {
             .errors(errorMail)
             .publishImmediately(true)
             .headerLevel((m, a, c) -> logged.add(c) ? Level.INFO : Level.DEBUG)
+            //.deletes(true)
             //.version("5.7")
             .build();
 
