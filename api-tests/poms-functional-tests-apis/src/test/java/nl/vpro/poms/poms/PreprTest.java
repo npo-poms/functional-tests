@@ -14,7 +14,6 @@ import javax.management.remote.*;
 import org.junit.jupiter.api.*;
 
 import nl.vpro.domain.media.MediaObject;
-import nl.vpro.domain.media.support.OwnerType;
 import nl.vpro.poms.AbstractApiMediaBackendTest;
 import nl.vpro.testutils.Utils;
 
@@ -29,7 +28,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class PreprTest  extends AbstractApiMediaBackendTest {
     static final String SERIES = "RBX_S_VPRO_13100068";
     static final String GROUP = "POMS_S_VPRO_6022303";
-    static final Predicate<MediaObject> CORRECT = (mo)-> mo.getMemberOf().stream().anyMatch(r -> r.getOwner() == OwnerType.BROADCASTER && r.getMediaRef().equals(GROUP));
+    static final Predicate<MediaObject> CORRECT = (mo)-> mo.getMemberOf().stream().anyMatch(r -> r.getMediaRef().equals(GROUP));
 
     static MBeanServerConnection mBeanServerConnection;
 
@@ -62,7 +61,7 @@ public class PreprTest  extends AbstractApiMediaBackendTest {
                 () -> backend.getFull(SERIES),
                 Utils.Check.<MediaObject>builder()
                     .predicate(CORRECT)
-                    .description("{} must be in {}", SERIES, GROUP)
+                    .description("{} is in {}", SERIES, GROUP)
                     .build()
             );
         }
