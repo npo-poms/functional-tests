@@ -117,11 +117,11 @@ public class PreprTest  extends AbstractApiMediaBackendTest {
 
     @Test
     @Order(9) // TODO, on dev's gives unique constraint
-    public void resyncBroadcast() throws IOException, MBeanException, InstanceNotFoundException, ReflectionException, InterruptedException {
+    public void resyncBroadcast() throws IOException, MBeanException, InstanceNotFoundException, ReflectionException {
 
 
         Object syncBroadcast = mBeanServerConnection.invoke(PREPR, "syncBroadcast",
-            new Object[]{"PREPR_VPRO_15979825"}, new String[]{
+            new Object[]{"PREPR_VPRO_15979404"}, new String[]{
                 String.class.getName()
             });
         log.info("{}", syncBroadcast);
@@ -129,7 +129,7 @@ public class PreprTest  extends AbstractApiMediaBackendTest {
 
     @Test
     @Order(10)
-    public void resyncDay() throws IOException, MBeanException, InstanceNotFoundException, ReflectionException, InterruptedException, MalformedObjectNameException, AttributeNotFoundException {
+    public void resyncDay() throws IOException, MBeanException, InstanceNotFoundException, ReflectionException {
 
         Object syncDay = mBeanServerConnection.invoke(PREPR, "sync",
             new Object[]{"RAD3", "2020-02-15", null}, new String[] {
