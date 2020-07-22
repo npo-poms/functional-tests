@@ -1,6 +1,6 @@
 ---
-Help: NPOAPI-99
-Suites: RG
+Help: POST /media/{entity}/{id}/image
+Suites: NPOAPI-99, RG
 Test
 ---
 !*> Test-specific items

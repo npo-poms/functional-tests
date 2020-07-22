@@ -1,6 +1,6 @@
 ---
-Help: NPOAPI-106
-Suites: RG
+Help: DELETE /media/{entity}/{id}/memberOf/{owner}
+Suites: NPOAPI-106, RG
 Test
 ---
 |script                                                                                         |

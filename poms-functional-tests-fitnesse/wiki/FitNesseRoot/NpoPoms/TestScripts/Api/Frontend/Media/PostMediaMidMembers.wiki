@@ -1,4 +1,5 @@
 ---
+Help: POST /media/{mid}/members
 Suite
 ---
 !contents -R2 -g -p -f -h

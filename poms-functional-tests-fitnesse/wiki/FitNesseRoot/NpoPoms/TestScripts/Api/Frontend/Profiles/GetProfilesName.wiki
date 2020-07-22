@@ -1,4 +1,5 @@
 ---
+Help: GET /profiles/{name}
 Suite
 ---
 !contents -R2 -g -p -f -h

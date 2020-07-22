@@ -1,6 +1,6 @@
 ---
-Help: NPOAPI-123
-Suites: RG
+Help: DELETE /media/program/{id}/episodeOf/{owner}
+Suites: NPOAPI-123, RG
 Test
 ---
 !*> Test-specific items

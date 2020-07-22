@@ -1,6 +1,6 @@
 ---
-Help: NPOAPI-21
-Suites: RG
+Help: GET /media/redirects
+Suites: NPOAPI-21, RG
 Test
 ---
 !*> Test-specific items

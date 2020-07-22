@@ -1,6 +1,5 @@
 ---
-Help: NPOAPI-31
-Suites: RG
+Suites: NPOAPI-31, RG
 Test
 ---
 |Get count at path                         |

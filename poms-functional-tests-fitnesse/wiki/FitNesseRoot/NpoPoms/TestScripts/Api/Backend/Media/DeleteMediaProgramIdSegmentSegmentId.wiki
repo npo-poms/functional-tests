@@ -1,6 +1,6 @@
 ---
-Help: NPOAPI-125
-Suites: RG
+Help: DELETE /media/program/{id}/segment/{segmentId}
+Suites: NPOAPI-125, RG
 Test
 ---
 !*> Test-specific items

@@ -1,6 +1,6 @@
 ---
-Help: NPOAPI-104
-Suites: RG
+Help: GET /media/{entity}/{id}/locations
+Suites: NPOAPI-104, RG
 Test
 ---
 |script                                                                                            |

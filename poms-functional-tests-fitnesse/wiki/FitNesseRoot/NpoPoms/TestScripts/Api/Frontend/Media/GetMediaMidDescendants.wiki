@@ -1,7 +1,7 @@
 ---
-Help: NPOAPI-9
+Help: GET /media/{mid}/descendants
 Suite
-Suites: RG
+Suites: NPOAPI-9, RG
 ---
 !define mid {14Jeugd0845geb}
 

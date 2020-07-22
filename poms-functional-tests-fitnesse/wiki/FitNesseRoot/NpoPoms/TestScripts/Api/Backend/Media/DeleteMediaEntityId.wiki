@@ -1,6 +1,6 @@
 ---
-Help: NPOAPI-95
-Suites: RG
+Help: DELETE /media/{entity}/{id}
+Suites: NPOAPI-95, RG
 Test
 ---
 |script                                                            |

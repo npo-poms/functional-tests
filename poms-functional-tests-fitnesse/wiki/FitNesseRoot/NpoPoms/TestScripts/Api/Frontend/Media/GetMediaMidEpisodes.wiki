@@ -1,6 +1,6 @@
 ---
-Help: NPOAPI-11
-Suites: RG
+Help: GET /media/{mid}/episodes
+Suites: NPOAPI-11, RG
 Test
 ---
 !define mid {14Jnl0700n1}
