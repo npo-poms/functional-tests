@@ -5,10 +5,12 @@ import lombok.extern.log4j.Log4j2;
 
 import java.io.IOException;
 import java.security.Permission;
+import java.time.Duration;
 import java.util.*;
 import java.util.function.Predicate;
 
 import javax.management.*;
+import javax.management.openmbean.TabularDataSupport;
 import javax.management.remote.*;
 
 import org.junit.jupiter.api.*;
@@ -35,6 +37,7 @@ public class PreprTest  extends AbstractApiMediaBackendTest {
 
 
     static final ObjectName PREPR = getObjectName("nl.vpro.media:name=prepr");
+    static final ObjectName MBEANS = getObjectName("nl.vpro.jmx:name=nl.vpro.jmx.MBeansUtils#0,type=MBeansUtils");
 
     @SneakyThrows
     static ObjectName getObjectName(String objectName) {
@@ -118,7 +121,7 @@ public class PreprTest  extends AbstractApiMediaBackendTest {
 
 
         Object syncBroadcast = mBeanServerConnection.invoke(PREPR, "syncBroadcast",
-            new Object[]{"PREPR_VPRO_15979404"}, new String[]{
+            new Object[]{"PREPR_VPRO_15979825"}, new String[]{
                 String.class.getName()
             });
         log.info("{}", syncBroadcast);
@@ -126,7 +129,7 @@ public class PreprTest  extends AbstractApiMediaBackendTest {
 
     @Test
     @Order(10)
-    public void resyncDay() throws IOException, MBeanException, InstanceNotFoundException, ReflectionException, InterruptedException {
+    public void resyncDay() throws IOException, MBeanException, InstanceNotFoundException, ReflectionException, InterruptedException, MalformedObjectNameException, AttributeNotFoundException {
 
         Object syncDay = mBeanServerConnection.invoke(PREPR, "sync",
             new Object[]{"RAD3", "2020-02-15", null}, new String[] {
@@ -135,8 +138,22 @@ public class PreprTest  extends AbstractApiMediaBackendTest {
                 String.class.getName()});
         log.info("{}", syncDay);
 
-        // wait, may be do something with events.
-        Thread.sleep(10000L);
+        // wait, may be do something with events
+        Utils.waitUntil(
+            Duration.ofMinutes(5),
+            () ->  {
+                try {
+                    return (TabularDataSupport) mBeanServerConnection.getAttribute(MBEANS, "Running");
+                } catch (Exception e) {
+                    log.error(e.getMessage(), e);
+                    return null;
+                }
+            },
+            Utils.Check.<TabularDataSupport>builder()
+                .description("No JMX running any more")
+                .predicate(TabularDataSupport::isEmpty).build()
+        );
+
     }
 
 
