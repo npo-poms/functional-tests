@@ -27,7 +27,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 class BackendApiClientTest extends AbstractApiMediaBackendTest  {
 
 
-    private ListAppender logging = new ListAppender();
+    private final ListAppender logging = new ListAppender();
 
     @BeforeEach
     void initLogging() {
@@ -62,10 +62,13 @@ class BackendApiClientTest extends AbstractApiMediaBackendTest  {
         assertThat(errors).isEmpty();
 
          List<LogEvent> info =
-             logging.list.stream().filter((l) -> l.getLevel().isLessSpecificThan(Level.INFO)).collect(Collectors.toList());
+             logging.list.stream()
+                 .filter((l) -> l.getLoggerName().endsWith(".4.04") && l.getLevel().isLessSpecificThan(Level.INFO))
+                 .collect(Collectors.toList());
         assertThat(info).hasSizeGreaterThan(0);
         assertThat(info.get(0).getMessage().toString())
-            .withFailMessage(info.get(0).getMessage().toString()).hasLineCount(6);
+            .withFailMessage(info.get(0).getMessage().toString())
+            .hasLineCount(6);
     }
 
     public static class ListAppender extends AbstractAppender {
