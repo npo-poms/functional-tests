@@ -86,11 +86,11 @@ Test
 |Post member ref with position  |1                       |and mid clip            |$midClip1                                          |
 |Post member ref with position  |2                       |and mid clip            |$midClip2                                          |
 |get from                       |${urlBackendApi}/media/program/$midClip2/full                                                        |
-|repeat until xPath             |/media:program/@workflow|is                      |FOR PUBLICATION                                    |
+|repeat until xPath             |/media:program/@workflow|is                      |PUBLISHED                                          |
 |$repeatCount=                  |repeat count                                                                                         |
 |$timeSpentRepeating=           |time spent repeating                                                                                 |
 |$timeSpentRepeating=           |format timestamp        |$timeSpentRepeating     |as|m:ss                                            |
-|check                          |xPath                   |/media:program/@workflow|FOR PUBLICATION                                    |
+|check                          |xPath                   |/media:program/@workflow|PUBLISHED                                          |
 
 !include -c <E2E.GuiSetUp
 
