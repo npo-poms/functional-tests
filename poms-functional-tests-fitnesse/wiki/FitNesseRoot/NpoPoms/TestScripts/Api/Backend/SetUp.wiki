@@ -1,4 +1,4 @@
-|script                                 |xml http test                                                               |
+|script                                 |extended xml http test                                                      |
 |set basic authorization header for user|$backEndApiUsername        |and password        |$backEndApiPassword        |
 |note                                   |application/x-www-form-urlencoded is the http test default, NPO API expects:|
 |set content type                       |application/xml; charset=UTF-8                                              |
