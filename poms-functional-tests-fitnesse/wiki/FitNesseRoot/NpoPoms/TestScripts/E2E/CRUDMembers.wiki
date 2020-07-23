@@ -70,27 +70,27 @@ Test
 
 !include -c <E2E.ApiBackendSetUp
 
-|script                                                                                                                               |
-|show                           |post                    |${bodySerie}            |to|${urlBackendApi}/media/group?owner=BROADCASTER  |
-|$midSerie=                     |response                                                                                             |
-|show                           |post                    |${bodyClip1}            |to|${urlBackendApi}/media/program?owner=BROADCASTER|
-|$midClip1=                     |response                                                                                             |
-|show                           |post                    |${bodyClip2}            |to|${urlBackendApi}/media/program?owner=BROADCASTER|
-|$midClip2=                     |response                                                                                             |
-|show                           |get from                |${urlBackendApi}/media/program/$midClip2/full                               |
-|repeat until response status is|200                                                                                                  |
-|$repeatCount=                  |repeat count                                                                                         |
-|$timeSpentRepeating=           |time spent repeating                                                                                 |
-|$timeSpentRepeating=           |format timestamp        |$timeSpentRepeating     |as|m:ss                                            |
-|check                          |xPath                   |/media:program/@workflow|FOR PUBLICATION                                    |
-|Post member ref with position  |1                       |and mid clip            |$midClip1                                          |
-|Post member ref with position  |2                       |and mid clip            |$midClip2                                          |
-|get from                       |${urlBackendApi}/media/program/$midClip2/full                                                        |
-|repeat until xPath             |/media:program/@workflow|is                      |PUBLISHED                                          |
-|$repeatCount=                  |repeat count                                                                                         |
-|$timeSpentRepeating=           |time spent repeating                                                                                 |
-|$timeSpentRepeating=           |format timestamp        |$timeSpentRepeating     |as|m:ss                                            |
-|check                          |xPath                   |/media:program/@workflow|PUBLISHED                                          |
+|script                                                                                                                                      |
+|show                           |post                    |${bodySerie}            |to       |${urlBackendApi}/media/group?owner=BROADCASTER  |
+|$midSerie=                     |response                                                                                                    |
+|show                           |post                    |${bodyClip1}            |to       |${urlBackendApi}/media/program?owner=BROADCASTER|
+|$midClip1=                     |response                                                                                                    |
+|show                           |post                    |${bodyClip2}            |to       |${urlBackendApi}/media/program?owner=BROADCASTER|
+|$midClip2=                     |response                                                                                                    |
+|show                           |get from                |${urlBackendApi}/media/program/$midClip2/full                                      |
+|repeat until response status is|200                                                                                                         |
+|$repeatCount=                  |repeat count                                                                                                |
+|$timeSpentRepeating=           |time spent repeating                                                                                        |
+|$timeSpentRepeating=           |format timestamp        |$timeSpentRepeating     |as       |m:ss                                            |
+|check                          |xPath                   |/media:program/@workflow|FOR PUBLICATION                                           |
+|Post member ref with position  |1                       |and mid clip            |$midClip1                                                 |
+|Post member ref with position  |2                       |and mid clip            |$midClip2                                                 |
+|get from                       |${urlBackendApi}/media/program/$midClip2/full                                                               |
+|repeat until xPath             |/media:program/@workflow|is                      |PUBLISHED|or              |FOR REPUBLICATION              |
+|$repeatCount=                  |repeat count                                                                                                |
+|$timeSpentRepeating=           |time spent repeating                                                                                        |
+|$timeSpentRepeating=           |format timestamp        |$timeSpentRepeating     |as       |m:ss                                            |
+|show                           |xPath                   |/media:program/@workflow                                                           |
 
 !include -c <E2E.GuiSetUp
 
