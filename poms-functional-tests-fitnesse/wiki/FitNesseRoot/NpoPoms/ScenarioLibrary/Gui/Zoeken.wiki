@@ -127,8 +127,6 @@
 
 |scenario             |Npo poms Zoeken Selecteer optie|optie|zonder controle in dropdown|dropdown|
 |click                |@dropdown                                                                 |
-|click                |@dropdown                                                                 |
-|click                |@dropdown                                                                 |
 |set search context to|xpath=//poms-ui-select-multi[@name="@dropdown"]                           |
 |wait for visible     |xpath=./div/ul/li/div[@role="option"]                                     |
 |scroll to            |@optie                                                                    |
