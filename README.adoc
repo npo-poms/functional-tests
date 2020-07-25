@@ -41,7 +41,7 @@ _Note:_ By default the `test` environment properties will be used. If you want t
 ==== Externals
 
 If you want to run all tests, you need to check out this including git submodules.
-One of things which are tests is whether all examples of https://github.com/npo-poms/api/tree/master/examples execute without errors
+One of things which are tested is whether all examples of https://github.com/npo-poms/api/tree/master/examples execute without errors
 (and for a bunch of them extra checks are implemented)
 
 [source,bash]
