@@ -38,6 +38,19 @@ public class JMXSupport {
         String host = properties.get("jmx-host");
         final JMXContainer container = new JMXContainer();
 
+        createTunnel(container, host, ssh);
+
+        String jmxUrl = properties.get("jmx-url");
+        String userName = properties.get("jmx-username");
+        String password = properties.get("jmx-password");
+
+        createMBeanServerConnection(container, userName, password, jmxUrl);
+
+        return container;
+    }
+
+    protected static void createTunnel(JMXContainer container, String host, String ssh) throws InterruptedException {
+
         CommandExecutorImpl tunnel = CommandExecutorImpl.builder()
             .executablesPaths("/usr/bin/ssh")
             .build();
@@ -63,26 +76,27 @@ public class JMXSupport {
             }
         }
         Thread.sleep(1000);
+    }
 
-        System.setSecurityManager(new SecurityManager() {
+    protected static void createMBeanServerConnection(JMXContainer container, String userName, String password, String jmxUrl) throws InterruptedException, IOException {
+
+          System.setSecurityManager(new SecurityManager() {
             @Override
             public void checkPermission(Permission perm) {
 
             }
         });
-        String jmxUrl = properties.get("jmx-url");
         JMXServiceURL url = jmxUrl.startsWith("localhost:") ? localhost(jmxUrl.substring("localhost:".length())) : new JMXServiceURL(jmxUrl);
         Map<String, Object> env = new HashMap<>();
-        String[] credentials = {
-            properties.get("jmx-username"),
-            properties.get("jmx-password")
-        };
+        String[] credentials = { userName, password };
+
         env.put(JMXConnector.CREDENTIALS, credentials);
         container.connector = JMXConnectorFactory.connect(url, env);
         container.connector.connect();
 
         container.connection = container.connector.getMBeanServerConnection();
-        return container;
+
+
     }
 
     @AfterAll
