@@ -25,8 +25,8 @@ Test
 |click   |xpath=(//span[contains(@class,'ui-select-match-close')])[1]|
 |click   |xpath=//button[@class='button-save']                       |
 
-|scenario|Controleer dat eerste tag verdwenen is                      |
-|reject  |is visible on page|xpath=//span[normalize-space(.)='Test1,']|
+|scenario            |Wacht tot eerste tag verdwenen is        |
+|wait for not visible|xpath=//span[normalize-space(.)='Test1,']|
 
 *!
 
@@ -48,7 +48,7 @@ Test
 |Controleer dat de derde tag aanwezig is                                                                                                                  |
 |Npo poms Tabblad object Klik op wijzig tags icoon                                                                                                        |
 |Verwijder de eerste tag                                                                                                                                  |
-|Controleer dat eerste tag verdwenen is                                                                                                                   |
+|Wacht tot eerste tag verdwenen is                                                                                                                        |
 |Controleer dat de tweede tag aanwezig is                                                                                                                 |
 |Controleer dat de derde tag aanwezig is                                                                                                                  |
 |Npo poms Tabblad object Verwijder huidig object met media type|${MEDIATYPE}                                                                              |

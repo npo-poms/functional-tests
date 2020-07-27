@@ -38,4 +38,4 @@
 
 |scenario              |Set default repeat interval and timeout|
 |set repeat interval to|3000           |milliseconds           |
-|repeat at most        |60             |times                  |
+|repeat at most        |120            |times                  |

@@ -11,6 +11,7 @@ Test
 |click                                                                                 |Datum & Persoon                                                                      |
 |Npo poms Zoeken Vul                                                                   |$today                                          |in tekstveld        |van:           |
 |Npo poms Zoeken Klik op                                                               |Zoek                                            |in geopende dropdown|Datum & Persoon|
+|Npo poms Zoeken Wacht tot zoeken klaar is                                                                                                                                   |
 |Npo poms Zoeken Selecteer optie                                                       |Nederland 1                                     |in dropdown         |Zenders        |
 |Npo poms Zoeken Wacht tot zoekopdracht met Gezocht naar:                              |Nederland 1, uitzend-/sorteerdatum: vanaf $today|klaar is                            |
 |Npo poms Zoeken Check of de sorteerdatum van de zoekresultaten gelijk aan of later dan|$today                                          |is                                  |

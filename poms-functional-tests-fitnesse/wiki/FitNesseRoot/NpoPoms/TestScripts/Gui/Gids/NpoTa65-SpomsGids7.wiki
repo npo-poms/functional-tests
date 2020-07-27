@@ -12,6 +12,7 @@ Test
 |Npo poms Zoeken Vul                                     |$today                                                                      |in tekstveld           |van:             |
 |Npo poms Zoeken Vul                                     |$today                                                                      |in tekstveld           |t/m              |
 |Npo poms Zoeken Klik op                                 |Zoek                                                                        |in geopende dropdown   |Datum & Persoon  |
+|Npo poms Zoeken Wacht tot zoeken klaar is                                                                                                                                      |
 |Npo poms Zoeken Selecteer optie                         |Nederland 3 & Zapp                                                          |in dropdown            |Zenders          |
 |Npo poms Zoeken Wacht tot zoekopdracht met Gezocht naar:|Nederland 3 & Zapp, uitzend-/sorteerdatum: vanaf $today tot en met $today   |klaar is                                 |
 |Npo poms Zoeken Druk op tandwieltje                                                                                                                                            |
