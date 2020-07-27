@@ -124,6 +124,7 @@
 |wait for visible     |@optie                                                                                 |
 |click                |@optie                                                                                 |
 |remove last search context                                                                                   |
+|Npo poms Zoeken Wacht tot zoeken klaar is                                                                    |
 
 |scenario             |Npo poms Zoeken Selecteer optie|optie|zonder controle in dropdown|dropdown|
 |click                |@dropdown                                                                 |
@@ -132,6 +133,7 @@
 |scroll to            |@optie                                                                    |
 |click                |@optie                                                                    |
 |remove last search context                                                                      |
+|Npo poms Zoeken Wacht tot zoeken klaar is                                                       |
 
 |scenario             |Npo poms Zoeken Popup Selecteer optie|optie|zonder controle in dropdown|dropdown|
 |click                |@dropdown                                                                       |
@@ -140,6 +142,7 @@
 |scroll to            |@optie                                                                          |
 |click                |@optie                                                                          |
 |remove last search context                                                                            |
+|Npo poms Zoeken Wacht tot zoeken klaar is                                                             |
 
 |scenario|Npo poms Zoeken Klik op|selector|in geopende dropdown                   |dropdown                  |
 |click   |@selector              |in      |xpath=.//span[normalize-space(.)="@dropdown"]/following-sibling::*|
