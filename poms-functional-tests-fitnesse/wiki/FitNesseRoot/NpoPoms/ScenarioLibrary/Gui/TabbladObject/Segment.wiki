@@ -33,15 +33,11 @@
 |clear search context                                               |
 |Npo poms Tabblad object Segment wacht tot video ingeladen is       |
 
-|scenario              |Npo poms Tabblad object Segment wacht tot video ingeladen is|
-|seconds before timeout|180                                                         |
-|wait for visible      |xpath=//*[@id="videoDuration" and .!="00:00:00"]            |
-|seconds before timeout|${secondsBeforeTimeout}                                     |
-|wait for visible      |css=.icon-play                                              |
-|wait                  |1                          |seconds                         |
-|note                  |klikt twee keer op play vanwege traag opstarten video       |
-|click                 |css=#iconPlayPause                                          |
-|click                 |css=#iconPlayPause                                          |
+|scenario              |Npo poms Tabblad object Segment wacht tot video ingeladen is                      |
+|seconds before timeout|180                                                                               |
+|wait for visible      |xpath=//div[@class="modal-body"]//*[@id="videoDuration" and .!="00:00:00"]        |
+|seconds before timeout|${secondsBeforeTimeout}                                                           |
+|wait for visible      |xpath=//div[@class="modal-body"]//span[@id="iconPlayPause" and @class="icon-play"]|
 
 |scenario|Npo poms Tabblad object Segment Speel video voor|sec|sec|
 |click   |css=#iconPlayPause                                      |
@@ -95,17 +91,15 @@
 |$speelduurMs=|replace all                                     |.+\.0*(\d+)       |in  |$speelduur|with        |$1           |
 |check        |evaluate                                        |$stopMs - $startMs|$speelduurMs                              |
 
-|scenario             |Npo poms Tabblad object Segment Verwijder|titel                                                           |
-|set search context to|css=poms-segments                                                                                         |
-|wait for visible     |@titel                                                                                                    |
-|hover over           |css=h1                                                                                                    |
-|hover over           |@titel                                                                                                    |
-|click                |verwijder                                                                                                 |
-|clear search context                                                                                                            |
-|note                 |xpath gebruikt om niet per ongeluk op 'item verwijderen' te klikken en daarmee de hele clip weg te gooien |
-|click                |xpath=//*[.='verwijderen']                                                                                |
-|set search context to|css=poms-segments                                                                                         |
-|ensure               |is visible on page                       |xpath=//*[.="@titel"]/ancestor::tr//*[@title="Wordt verwijderd"]|
-|clear search context                                                                                                            |
+|scenario                                                 |Npo poms Tabblad object Segment Verwijder|titel                                      |
+|set search context to                                    |xpath=//poms-segments                                                                |
+|scroll to                                                |@titel                                                                               |
+|clear search context                                                                                                                           |
+|Npo poms Tabblad object Hover over segment               |@titel                                                                               |
+|Npo poms Tabblad object Druk op verwijderknop bij segment|@titel                                                                               |
+|wait for visible                                         |Segment verwijderen?                                                                 |
+|click                                                    |xpath=//button[text()="verwijderen"]                                                 |
+|Wacht tot Angular requests klaar zijn                                                                                                          |
+|Npo poms Tabblad object Check segment                    |@titel                                   |heeft status|Wordt verwijderd|of|Verwijderd|
 #|execute script       |document.querySelector('.tab-pane.active').querySelector('[title="@titel"]').scrollIntoView()             |
 #|execute script       |document.querySelector('.tab-pane.active').scrollBy(0,-300)                                               |

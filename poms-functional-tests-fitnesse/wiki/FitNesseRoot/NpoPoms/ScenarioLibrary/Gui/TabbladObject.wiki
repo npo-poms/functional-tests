@@ -250,6 +250,13 @@
 |scenario|Npo poms Tabblad object Druk op editknop bij segment                                                        |segment                                                        |
 |click   |xpath=//poms-segments/div/table/tbody/tr[./td[@class="column-mainTitle"]/span[normalize-space(.)="@segment"]]/td[@class="column-tools-xl"]/div/button[@title="edit segment"]|
 
+|scenario|Npo poms Tabblad object Check segment|segment|heeft status|status                                                                                                                                                                 |
+|check   |value of attribute                   |title  |on          |xpath=//poms-segments/div/table/tbody/tr[./td[@class="column-mainTitle"]/span[normalize-space(.)="@segment"]]/td[@class="column-workflow"]/span/poms-workflow/p|@status|
+
+|scenario|Npo poms Tabblad object Check segment|segment|heeft status|status1                                               |of                                               |status2                                               |
+|xpath=//poms-segments/div/table/tbody/tr[./td[@class="column-mainTitle"]/span[normalize-space(.)="@segment"]]/td[@class="column-workflow"]/span/poms-workflow/p[normalize-space(.)="@status1" or normalize-space(.)="@status2"]    |
+|show    |value of attribute                   |title  |on          |xpath=//poms-segments/div/table/tbody/tr[./td[@class="column-mainTitle"]/span[normalize-space(.)="@segment"]]/td[@class="column-workflow"]/span/poms-workflow/p|
+
 |table template                                                    |Npo poms Tabblad object Check permissies van veld                                                                                                     |
 |scroll to                                                         |xpath=//h2[starts-with(normalize-space(.), "@{veld}")]                                                                                                |
 |hover over                                                        |xpath=//h2[starts-with(normalize-space(.), "@{veld}")]                                                                                                |
