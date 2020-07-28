@@ -80,7 +80,9 @@ Test
 |$wachttijd=                                              |format timestamp        |$wachttijd  |as                |m:ss             |
 |stop timer                                               |timer                                                                     |
 |seconds before timeout                                   |${secondsBeforeTimeout}                                                   |
+|set search context to                                    |xpath=//poms-segments                                                     |
 |Npo poms Tabblad object Check aantal in veld             |Segmenten               |is var      |aantalSegmenten   |plus|2           |
+|clear search context                                                                                                                |
 |Npo poms Tabblad object Druk op link                     |Afbeeldingen            |in sidebar                                       |
 |Npo poms Tabblad object Wacht tot scrollen klaar is                                                                                 |
 |Npo poms Tabblad object Check segment                    |${titel} $timestamp-1   |heeft status|Wordt gepubliceerd|of  |Gepubliceerd|
@@ -115,7 +117,9 @@ Test
 |Wacht tot Angular requests klaar zijn                                                                                               |
 |Npo poms Tabblad object Druk op link                     |Segmenten               |in sidebar                                       |
 |Npo poms Tabblad object Wacht tot scrollen klaar is                                                                                 |
+|set search context to                                    |xpath=//poms-segments                                                     |
 |Npo poms Tabblad object Check aantal in veld             |Segmenten               |is var      |aantalSegmenten   |plus|1           |
+|clear search context                                                                                                                |
 |Npo poms Tabblad object Check segment                    |${titel} $timestamp-1   |heeft status|Wordt gepubliceerd|of  |Gepubliceerd|
 |Npo poms Tabblad object Check segment                    |${titel} $timestamp-2   |heeft status|Wordt verwijderd  |of  |Verwijderd  |
 |Npo poms Tabblad object Hover over segment               |${titel} $timestamp-1                                                     |
@@ -123,7 +127,9 @@ Test
 |wait for visible                                         |Segment verwijderen?                                                      |
 |click                                                    |xpath=//button[text()="verwijderen"]                                      |
 |Wacht tot Angular requests klaar zijn                                                                                               |
+|set search context to                                    |xpath=//poms-segments                                                     |
 |Npo poms Tabblad object Check aantal in veld             |Segmenten               |is var      |aantalSegmenten                     |
+|clear search context                                                                                                                |
 |Npo poms Tabblad object Check segment                    |${titel} $timestamp-1   |heeft status|Wordt verwijderd  |of  |Verwijderd  |
 |Npo poms Tabblad object Check segment                    |${titel} $timestamp-2   |heeft status|Wordt verwijderd  |of  |Verwijderd  |
 |Npo poms Hoofdscherm Sluit laatste tab                                                                                              |

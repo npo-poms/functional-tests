@@ -137,6 +137,7 @@
 
 |scenario        |Npo poms Tabblad object Wacht tot tabblad met mid|mid|geopend is|
 |wait for visible|css=.tab-pane.active [id="media-general-@mid"]                  |
+|Npo poms Tabblad object Wacht tot sidebar volledig geladen is                    |
 
 |scenario             |Npo poms Tabblad object Druk op link|link|in sidebar|
 |wait for visible     |css=[id=sidebar]                                    |
@@ -192,19 +193,19 @@
 |Npo poms Tabblad object Check onderdeel nummer|@index                                        |heeft subtitel|@subtitel                                              |
 |Npo poms Tabblad object Check onderdeel nummer|@index                                        |heeft status  |@status                                                |
 
-|scenario              |Npo poms Tabblad object Check item|item                                  |niet zichtbaar                                 |
-|seconds before timeout|3                                                                                                                        |
-|reject                |is visible on page                |xpath=.//div/table/tbody/tr/td[@class="column-title"]/span[normalize-space(.)="@item"]|
-|seconds before timeout|${secondsBeforeTimeout}                                                                                                  |
+|scenario              |Npo poms Tabblad object Check item|item                                 |niet zichtbaar                                 |
+|seconds before timeout|3                                                                                                                       |
+|reject                |is visible on page                |xpath=./div/table/tbody/tr/td[@class="column-title"]/span[normalize-space(.)="@item"]|
+|seconds before timeout|${secondsBeforeTimeout}                                                                                                 |
 
-|scenario|Npo poms Tabblad object Check item|item                                    |zichtbaar                                    |
-|ensure  |is visible on page                |xpath=.//div/table/tbody/tr/td[@class="column-title"]/span[normalize-space(.)="@item"]|
+|scenario|Npo poms Tabblad object Check item|item                                    |zichtbaar                                   |
+|ensure  |is visible on page                |xpath=./div/table/tbody/tr/td[@class="column-title"]/span[normalize-space(.)="@item"]|
 
-|scenario  |Npo poms Tabblad object Hover over item                     |item                     |
-|hover over|xpath=.//div/table/tbody/tr/td[@class="column-title"]/span[normalize-space(.)="@item"]|
+|scenario  |Npo poms Tabblad object Hover over item                     |item                    |
+|hover over|xpath=./div/table/tbody/tr/td[@class="column-title"]/span[normalize-space(.)="@item"]|
 
-|scenario|Npo poms Tabblad object Druk op verwijderknop bij item                                              |item                                              |
-|click   |xpath=.//div/table/tbody/tr[./td[@class="column-title"]/span[normalize-space(.)="@item"]]/td[@class="column-tools"]/div/button[@title="verwijder item"]|
+|scenario|Npo poms Tabblad object Druk op verwijderknop bij item                                              |item                                             |
+|click   |xpath=./div/table/tbody/tr[./td[@class="column-title"]/span[normalize-space(.)="@item"]]/td[@class="column-tools"]/div/button[@title="verwijder item"]|
 
 
 |scenario|Npo poms Tabblad object Check bron|url                                          |zichtbaar                                          |
@@ -316,17 +317,6 @@
 |ensure       |is visible on page                          |xpath=.//div/h1[normalize-space(.)="@veld ($nieuwAantal)"]|
 |note         |Toon de waarde van het bedoelde veld voor het geval de regel hierboven faalt                           |
 |show         |value of                                    |xpath=.//div/h1[contains(text(), "@veld")]                |
-
-|scenario        |Npo poms Tabblad object Wacht tot aantal in veld|veld         |is var         |var         |
-|wait for visible|xpath=.//div/h1[normalize-space(.)="@veld ($@var)"]                                        |
-|note            |Toon de waarde van het bedoelde veld voor het geval de regel hierboven faalt               |
-|show            |value of                                        |xpath=.//div/h1[contains(text(), "@veld")]|
-
-|scenario        |Npo poms Tabblad object Wacht tot aantal in veld|veld  |is var |var |plus |optellenMetGetal|
-|$nieuwAantal=   |add                                             |$@var |and    |@optellenMetGetal          |
-|wait for visible|xpath=.//div/h1[normalize-space(.)="@veld ($nieuwAantal)"]                                 |
-|note            |Toon de waarde van het bedoelde veld voor het geval de regel hierboven faalt               |
-|show            |value of                                        |xpath=.//div/h1[contains(text(), "@veld")]|
 
 |scenario             |Npo poms Tabblad object Klik op wijzig tags icoon              |
 |hover over           |xpath=//h2[text()="Tags"]                                      |

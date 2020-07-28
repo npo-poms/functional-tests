@@ -44,8 +44,8 @@ Test
 |click                                                   |xpath=//button[text()="verwijderen"]                                        |
 |wait for not visible                                    |verwijderen?                                                                |
 |Wacht tot Angular requests klaar zijn                                                                                                |
-|Npo poms Tabblad object Check aantal in veld            |Onderdelen                             |is var      |aantalOnderdelen       |
 |set search context to                                   |xpath=//poms-members                                                        |
+|Npo poms Tabblad object Check aantal in veld            |Onderdelen                             |is var      |aantalOnderdelen       |
 |Npo poms Tabblad object Check item                      |$titelVanOnderdeel                     |niet zichtbaar                      |
 |clear search context                                                                                                                 |
 |Npo poms Hoofdscherm Sluit laatste tab                                                                                               |
