@@ -1,7 +1,15 @@
 !include -c >Variabelen
 
-|scenario|Npo poms Tabblad object Open|object|
-|open    |${urlPoms}/#/edit/@object          |
+|scenario      |Npo poms Tabblad object Open      |object     |
+|open          |${urlPoms}/#/edit/@object                     |
+|Npo poms Tabblad object Wacht tot sidebar volledig geladen is|
+
+|scenario             |Npo poms Tabblad object Wacht tot sidebar volledig geladen is                          |
+|wait for visible     |xpath=//ul[@id="sidebar"]                                                              |
+|set search context to|xpath=//ul[@id="sidebar"]                                                              |
+|wait for not visible |xpath=./li/span[@class="media-item-navigation-text media-item-navigation-text-waiting"]|
+|ensure               |is visible on page        |xpath=./li/span[@class="media-item-navigation-text"]        |
+|clear search context                                                                                         |
 
 |scenario|Npo poms Tabblad object Druk op status om deze te wijzigen                |
 |click   |xpath=//h2[text()="Status"]/following-sibling::*/p|in|css=.tab-pane.active|
