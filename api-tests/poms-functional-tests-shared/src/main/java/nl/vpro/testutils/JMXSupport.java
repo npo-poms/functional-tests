@@ -38,9 +38,15 @@ public class JMXSupport {
         String host = properties.get("jmx-host");
         final JMXContainer container = new JMXContainer();
 
-        createTunnel(container, host, ssh);
 
         String jmxUrl = properties.get("jmx-url");
+        if (jmxUrl == null) {
+            int servicePort = Integer.parseInt(properties.get("jmx-service-port"));
+            int jndiPort  = Integer.parseInt(properties.get("jmx-jndi-port"));
+            jmxUrl = "service:jmx:rmi://" + host +":" + servicePort + "/jndi/rmi://" + host + ":" + jndiPort + "/jmxrmi";
+            log.info("Constructed jmx url: {}", jmxUrl);
+            createTunnel(container, host, ssh, servicePort, jndiPort);
+        }
         String userName = properties.get("jmx-username");
         String password = properties.get("jmx-password");
 
@@ -49,7 +55,7 @@ public class JMXSupport {
         return container;
     }
 
-    protected static void createTunnel(JMXContainer container, String host, String ssh) throws InterruptedException {
+    protected static void createTunnel(JMXContainer container, String host, String ssh, int servicePort, int jndiPort) throws InterruptedException {
 
         CommandExecutorImpl tunnel = CommandExecutorImpl.builder()
             .executablesPaths("/usr/bin/ssh")
@@ -65,7 +71,7 @@ public class JMXSupport {
             }
         };
         CommandExecutor.Parameters.builder()
-            .args("-L", "8686:" + host +":8686", "-L", "8687:" + host + ":8687", ssh)
+            .args("-L", jndiPort + ":" + host +":" + jndiPort, "-L", servicePort + ":" + host + ":" + servicePort, ssh)
             .consumer(consumer)
             .submit(ready, tunnel);
 
@@ -78,7 +84,13 @@ public class JMXSupport {
         Thread.sleep(1000);
     }
 
-    protected static void createMBeanServerConnection(JMXContainer container, String userName, String password, String jmxUrl) throws InterruptedException, IOException {
+    protected static void createMBeanServerConnection(
+        JMXContainer container, String userName, String password,
+        String jmxUrl) throws InterruptedException, IOException {
+
+
+
+
 
           System.setSecurityManager(new SecurityManager() {
             @Override
