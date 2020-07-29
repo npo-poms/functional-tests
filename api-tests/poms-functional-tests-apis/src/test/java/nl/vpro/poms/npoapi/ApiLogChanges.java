@@ -5,6 +5,7 @@ import lombok.extern.log4j.Log4j2;
 import java.time.Duration;
 import java.time.Instant;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import nl.vpro.domain.api.*;
@@ -13,10 +14,9 @@ import nl.vpro.util.CountedIterator;
 
 /**
  * @author Michiel Meeuwissen
- * @since ...
  */
 @Log4j2
-
+@Disabled("This is not an actual test yet, it will simply timeout")
 public class ApiLogChanges extends AbstractApiTest {
 
 
