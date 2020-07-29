@@ -12,12 +12,15 @@ import javax.management.MBeanServerConnection;
 import javax.management.ObjectName;
 import javax.management.remote.*;
 
+import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.AfterAll;
 
 import com.sun.tools.attach.*;
 
 import nl.vpro.util.CommandExecutor;
 import nl.vpro.util.CommandExecutorImpl;
+
+import static java.lang.Integer.parseInt;
 
 /**
  * @author Michiel Meeuwissen
@@ -40,12 +43,16 @@ public class JMXSupport {
 
 
         String jmxUrl = properties.get("jmx-url");
+        String servicePort = properties.get("jmx-service-port");
+        String  jndiPort  = properties.get("jmx-jndi-port");
         if (jmxUrl == null) {
-            int servicePort = Integer.parseInt(properties.get("jmx-service-port"));
-            int jndiPort  = Integer.parseInt(properties.get("jmx-jndi-port"));
-            jmxUrl = "service:jmx:rmi://" + host +":" + servicePort + "/jndi/rmi://" + host + ":" + jndiPort + "/jmxrmi";
+            jmxUrl = "service:jmx:rmi://" + host +":" + parseInt(servicePort) + "/jndi/rmi://" + host + ":" + parseInt(jndiPort) + "/jmxrmi";
             log.info("Constructed jmx url: {}", jmxUrl);
-            createTunnel(container, host, ssh, servicePort, jndiPort);
+        } else {
+            log.info("Found jmx url: {}", jmxUrl);
+        }
+        if (StringUtils.isNotBlank(ssh)) {
+            createTunnel(container, host, ssh, parseInt(servicePort), parseInt(jndiPort));
         }
         String userName = properties.get("jmx-username");
         String password = properties.get("jmx-password");
@@ -55,7 +62,7 @@ public class JMXSupport {
         return container;
     }
 
-    protected static void createTunnel(JMXContainer container, String host, String ssh, int servicePort, int jndiPort) throws InterruptedException {
+    protected static void createTunnel(JMXContainer container, String host, String ssh, int... ports) throws InterruptedException {
 
         CommandExecutorImpl tunnel = CommandExecutorImpl.builder()
             .executablesPaths("/usr/bin/ssh")
@@ -70,12 +77,18 @@ public class JMXSupport {
                 container.notifyAll();
             }
         };
-        CommandExecutor.Parameters.builder()
-            .args("-L", jndiPort + ":" + host +":" + jndiPort, "-L", servicePort + ":" + host + ":" + servicePort, ssh)
-            .consumer(consumer)
-            .submit(ready, tunnel);
+        CommandExecutor.Parameters.Builder builder = CommandExecutor.Parameters.builder()
+            .consumer(consumer);
 
-        log.info("Waiting for pid");
+
+        for (int p : ports) {
+            builder.arg("-L", p + ":" + host + ":" + p);
+        }
+        builder.arg(ssh);
+        builder.submit(ready, tunnel);
+
+
+        log.info("Waiting for pid after sumitting " + builder.toString());
         synchronized (container) {
             while (container.pid == 0) {
                 container.wait();
@@ -86,10 +99,7 @@ public class JMXSupport {
 
     protected static void createMBeanServerConnection(
         JMXContainer container, String userName, String password,
-        String jmxUrl) throws InterruptedException, IOException {
-
-
-
+        String jmxUrl) throws IOException {
 
 
           System.setSecurityManager(new SecurityManager() {
