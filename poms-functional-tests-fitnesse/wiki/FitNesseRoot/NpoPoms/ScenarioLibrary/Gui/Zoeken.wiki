@@ -30,6 +30,7 @@
 |scenario             |Npo poms Zoeken Wacht tot zoeken klaar is                                  |
 |wait for visible     |xpath=//poms-search-result/div[1]                                          |
 |set search context to|xpath=//poms-search-result/div[1]                                          |
+|wait for visible     |xpath=./div[@class="search-result-count"]                                  |
 |wait for not visible |xpath=./div[@class="search-result-count waiting"]                          |
 |wait for not visible |xpath=./div[@class="search-result-count waiting ng-animate waiting-remove"]|
 |ensure               |is visible on page        |xpath=./div[@class="search-result-count"]       |
@@ -42,9 +43,10 @@
 |scenario             |Npo poms Zoeken Popup Wacht tot zoeken klaar is                            |
 |wait for visible     |xpath=//div[@class="modal-body"]//poms-search-result/div[1]                |
 |set search context to|xpath=//div[@class="modal-body"]//poms-search-result/div[1]                |
+|wait for visible     |xpath=./div[@class="search-result-count"]                                  |
 |wait for not visible |xpath=./div[@class="search-result-count waiting"]                          |
 |wait for not visible |xpath=./div[@class="search-result-count waiting ng-animate waiting-remove"]|
-|ensure               |is visible on page       |xpath=.//div[@class="search-result-count"]       |
+|ensure               |is visible on page        |xpath=./div[@class="search-result-count"]       |
 |clear search context                                                                             |
 
 |scenario  |Npo poms Zoeken Hover over object                         |objectNaam                         |met mediatype                        |mediatype                        |
