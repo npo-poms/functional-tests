@@ -36,14 +36,12 @@
 |scenario              |Npo poms Tabblad object Segment wacht tot video ingeladen is|
 |seconds before timeout|180                                                         |
 |wait for visible      |xpath=//*[@id="videoDuration" and .!="00:00:00"]            |
-|wait for visible      |css=.icon-play                                              |
 |seconds before timeout|${secondsBeforeTimeout}                                     |
-|                      |Onderstaande zorgt voor error bij "Npo poms Tabblad object  |
-|                      |Segment Controleer start ... stop ... en speelduur"         |
-|                      |wait  |1                      |seconds                      |
-|                      |note  |klikt twee keer op play vanwege traag opstarten video|
-|                      |click |css=#iconPlayPause                                   |
-|                      |click |css=#iconPlayPause                                   |
+|wait for visible      |css=.icon-play                                              |
+|wait                  |1                          |seconds                         |
+|note                  |klikt twee keer op play vanwege traag opstarten video       |
+|click                 |css=#iconPlayPause                                          |
+|click                 |css=#iconPlayPause                                          |
 
 |scenario|Npo poms Tabblad object Segment Speel video voor|sec|sec|
 |click   |css=#iconPlayPause                                      |
