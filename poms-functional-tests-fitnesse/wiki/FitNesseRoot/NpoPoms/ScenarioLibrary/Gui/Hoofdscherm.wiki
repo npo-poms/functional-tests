@@ -41,3 +41,6 @@
 
 |scenario|Npo poms Hoofdscherm Sluit tab met tekst|tekst                                                             |
 |click   |sluit deze tab                          |in|xpath=//*[contains(@class,"nav-link") and contains(.,"@tekst")]|
+
+|scenario|Npo poms Hoofdscherm Ga naar eerste tab|
+|click   |xpath=//ul[@class="nav nav-tabs"]/li[1]|

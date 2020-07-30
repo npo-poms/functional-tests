@@ -59,6 +59,7 @@
 |click                                               |begrepen                                                                                  |
 |wait for not visible                                |begrepen                                                                                  |
 |wait for not visible                                |Maak aan                                                                                  |
+|Npo poms Tabblad object Wacht tot sidebar volledig geladen is                                                                                  |
 
 |scenario                                    |Controleer dat er|aantal|afbeeldingen toegevoegd zijn   |
 |set search context to                       |xpath=//poms-images                                     |
@@ -73,6 +74,7 @@
 |wait for visible                                            |Afbeelding verwijderen?                      |
 |click                                                       |xpath=//button[text()="verwijderen"]         |
 |wait for not visible                                        |Afbeelding verwijderen?                      |
+|Npo poms Tabblad object Wacht tot sidebar volledig geladen is                                             |
 |set search context to                                       |xpath=//poms-images                          |
 |Npo poms Tabblad object Wacht tot afbeelding                |@titel                        |niet zichtbaar|
 |clear search context                                                                                      |

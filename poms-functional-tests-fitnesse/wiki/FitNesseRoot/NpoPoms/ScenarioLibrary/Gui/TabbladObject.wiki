@@ -4,12 +4,10 @@
 |open          |${urlPoms}/#/edit/@object                     |
 |Npo poms Tabblad object Wacht tot sidebar volledig geladen is|
 
-|scenario             |Npo poms Tabblad object Wacht tot sidebar volledig geladen is                          |
-|wait for visible     |xpath=//ul[@id="sidebar"]                                                              |
-|set search context to|xpath=//ul[@id="sidebar"]                                                              |
-|wait for not visible |xpath=./li/span[@class="media-item-navigation-text media-item-navigation-text-waiting"]|
-|ensure               |is visible on page        |xpath=./li/span[@class="media-item-navigation-text"]        |
-|clear search context                                                                                         |
+|scenario            |Npo poms Tabblad object Wacht tot sidebar volledig geladen is                                            |
+|wait for visible    |xpath=//ul[@id="sidebar"]                                                                                |
+|wait for not visible|xpath=//ul[@id="sidebar"]/li/span[@class="media-item-navigation-text media-item-navigation-text-waiting"]|
+|ensure              |is visible on page        |xpath=//ul[@id="sidebar"]/li/span[@class="media-item-navigation-text"]        |
 
 |scenario|Npo poms Tabblad object Druk op status om deze te wijzigen                |
 |click   |xpath=//h2[text()="Status"]/following-sibling::*/p|in|css=.tab-pane.active|
@@ -251,8 +249,8 @@
 |scenario|Npo poms Tabblad object Druk op editknop bij segment                                                        |segment                                                        |
 |click   |xpath=//poms-segments/div/table/tbody/tr[./td[@class="column-mainTitle"]/span[normalize-space(.)="@segment"]]/td[@class="column-tools-xl"]/div/button[@title="edit segment"]|
 
-|scenario|Npo poms Tabblad object Check segment|segment|heeft status|status                                                                                                                                                                 |
-|check   |value of attribute                   |title  |on          |xpath=//poms-segments/div/table/tbody/tr[./td[@class="column-mainTitle"]/span[normalize-space(.)="@segment"]]/td[@class="column-workflow"]/span/poms-workflow/p|@status|
+|scenario|Npo poms Tabblad object Check segment|segment                                                                                                                                                        |heeft status|status|
+|check   |value of                             |xpath=//poms-segments/div/table/tbody/tr[./td[@class="column-mainTitle"]/span[normalize-space(.)="@segment"]]/td[@class="column-workflow"]/span/poms-workflow/p|@status            |
 
 |table template                                                    |Npo poms Tabblad object Check permissies van veld                                                                                                     |
 |scroll to                                                         |xpath=//h2[starts-with(normalize-space(.), "@{veld}")]                                                                                                |
