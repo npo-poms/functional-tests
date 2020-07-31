@@ -187,7 +187,6 @@ class ApiScheduleTest extends AbstractApiTest {
               RAD3,
               RAD4,
               RAD5,
-              RAD6,
 
               BVNT,
 
