@@ -316,8 +316,9 @@ class ApiScheduleTest extends AbstractApiTest {
 
 
     ApiScheduleEvent nowForChannelAt(Channel channel, @Nullable Instant instant, boolean mustBeRunning) {
-        return forChannelAt(channel, instant, (c, i) -> clients.getScheduleService().nowForChannel(
-            channel.name(), null, mustBeRunning, instant));
+        Instant orNow = instant == null ? Instant.now() : instant;
+        return forChannelAt(channel, orNow, (c, i) -> clients.getScheduleService().nowForChannel(
+            channel.name(), null, mustBeRunning, orNow));
     }
 
 
