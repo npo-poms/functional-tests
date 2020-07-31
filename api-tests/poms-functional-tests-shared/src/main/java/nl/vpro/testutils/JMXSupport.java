@@ -46,7 +46,7 @@ public class JMXSupport {
         String servicePort = properties.get("jmx-service-port");
         String  jndiPort  = properties.get("jmx-jndi-port");
         if (jmxUrl == null) {
-            jmxUrl = "service:jmx:rmi://" + host +":" + parseInt(servicePort) + "/jndi/rmi://" + host + ":" + parseInt(jndiPort) + "/jmxrmi";
+            jmxUrl = String.format("service:jmx:rmi://%s:%d/jndi/rmi://%s:%d/jmxrmi", host, parseInt(servicePort), host, parseInt(jndiPort));
             log.info("Constructed jmx url: {}", jmxUrl);
         } else {
             log.info("Found jmx url: {}", jmxUrl);
