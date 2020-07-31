@@ -1,31 +1,28 @@
 package nl.vpro.poms.integration;
 
-import com.google.common.collect.Iterators;
-import com.google.common.collect.PeekingIterator;
 import lombok.extern.log4j.Log4j2;
-import nl.vpro.api.client.utils.MediaRestClientUtils;
-import nl.vpro.domain.media.AvailableSubtitles;
-import nl.vpro.domain.media.Location;
-import nl.vpro.domain.media.MediaObject;
-import nl.vpro.domain.media.update.ProgramUpdate;
-import nl.vpro.domain.subtitles.StandaloneCue;
-import nl.vpro.domain.subtitles.Subtitles;
-import nl.vpro.domain.subtitles.SubtitlesUtil;
-import nl.vpro.domain.subtitles.SubtitlesWorkflow;
-import nl.vpro.poms.AbstractApiMediaBackendTest;
-import nl.vpro.poms.Require;
-import nl.vpro.test.jupiter.AbortOnException;
-import nl.vpro.util.Version;
-import org.junit.jupiter.api.MethodOrderer;
-import org.junit.jupiter.api.Order;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestMethodOrder;
 
-import javax.ws.rs.core.Response;
 import java.io.IOException;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.*;
+
+import javax.ws.rs.core.Response;
+
+import org.junit.jupiter.api.*;
+
+import com.google.common.collect.Iterators;
+import com.google.common.collect.PeekingIterator;
+
+import nl.vpro.api.client.utils.MediaRestClientUtils;
+import nl.vpro.domain.media.*;
+import nl.vpro.domain.media.update.ProgramUpdate;
+import nl.vpro.domain.subtitles.*;
+import nl.vpro.poms.AbstractApiMediaBackendTest;
+import nl.vpro.poms.Require;
+import nl.vpro.test.jupiter.AbortOnException;
+import nl.vpro.testutils.Utils;
+import nl.vpro.util.Version;
 
 import static java.time.Duration.ZERO;
 import static java.util.Locale.*;
@@ -134,8 +131,13 @@ public class SubtitlesIntegrationTest extends AbstractApiMediaBackendTest {
         backend.set(o);
 
         waitUntil(ACCEPTABLE_DURATION_BACKEND,
-            MID_WITH_LOCATIONS + " has no publishable locations",
-            () -> backend.getFull(MID_WITH_LOCATIONS).getLocations().stream().noneMatch((t) -> t.isPublishable(NOWI)));
+             () -> backend.getFull(MID_WITH_LOCATIONS),
+            Utils.Check.<MediaObject>builder()
+                .description(MID_WITH_LOCATIONS + " has no publishable locations")
+                .failureDescription((mo) -> "Some of the location of " + mo + " are still publishable " + mo.getLocations())
+                .predicate(mo -> mo.getLocations().stream().noneMatch((t) -> t.isPublishable(NOWI)))
+                .build());
+
     }
 
     @Test
