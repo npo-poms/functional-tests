@@ -250,6 +250,9 @@ public class Utils {
                 return this;
             }
 
+            /**
+             * @param params slf4j style parameters ("{}")
+             */
             public Builder<T> description(String description, Object... params) {
                 FormattingTuple ft = MessageFormatter.arrayFormat(description, params);
                 return _description(ft.getMessage());

@@ -133,7 +133,11 @@ public class SubtitlesIntegrationTest extends AbstractApiMediaBackendTest {
         waitUntil(ACCEPTABLE_DURATION_BACKEND,
              () -> backend.getFull(MID_WITH_LOCATIONS),
             Utils.Check.<MediaObject>builder()
-                .description(MID_WITH_LOCATIONS + " has no publishable locations")
+                .description("All locations of {} must be publish stop {}", MID_WITH_LOCATIONS, now)
+                .predicate(mo -> mo.getLocations().stream().allMatch((t) -> Objects.equals(t.getPublishStopInstant(), NOWI)))
+                .build(),
+            Utils.Check.<MediaObject>builder()
+                .description("{} has no publishable locations (they are to be revoked at {})", MID_WITH_LOCATIONS, now)
                 .failureDescription((mo) -> "Some of the location of " + mo + " are still publishable " + mo.getLocations())
                 .predicate(mo -> mo.getLocations().stream().noneMatch((t) -> t.isPublishable(NOWI)))
                 .build());
