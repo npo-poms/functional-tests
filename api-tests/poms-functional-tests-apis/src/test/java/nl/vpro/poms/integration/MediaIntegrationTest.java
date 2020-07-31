@@ -166,7 +166,7 @@ public class MediaIntegrationTest extends AbstractApiMediaBackendTest {
         assertThat(clip.getMemberOf().first().getMediaRef()).isEqualTo(groupMid);
         assertThat(clip.getMemberOf().first().getNumber()).isEqualTo(2);
         assertThat(clip.getMemberOf()).hasSize(1);
-        assertThat(clip.getImages()).withFailMessage("%s doesn't have 1 image", clip).hasSize(1);
+        assertThat(clip.getImages()).withFailMessage("%s doesn't have 1 image (it has: %s)", clip, clip.getImages()).hasSize(1);
         assertThat(clip.getSegments()).hasSize(1);
         assertThat(clip.getLocations()).hasSize(1);
         assertThat(clip.getWorkflow()).isEqualTo(Workflow.PUBLISHED);
