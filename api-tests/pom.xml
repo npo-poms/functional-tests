@@ -17,7 +17,7 @@
 
   <properties>
     <poms.version>5.14-SNAPSHOT</poms.version>
-    <vpro.shared.version>2.13-SNAPSHOT</vpro.shared.version>
+    <vpro.shared.version>2.14-SNAPSHOT</vpro.shared.version>
     <selenium.version>4.0.0-alpha-6</selenium.version>
     <log4j2.version>2.13.3</log4j2.version>
     <surefire.version>3.0.0-M4</surefire.version>
