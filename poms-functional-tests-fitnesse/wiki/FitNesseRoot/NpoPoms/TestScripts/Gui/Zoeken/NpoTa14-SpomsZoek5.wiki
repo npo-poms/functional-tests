@@ -31,6 +31,7 @@ Test
 |Npo poms Zoeken Check tekstveld                         |van:                                                                 |heeft waarde          |$maandGeleden                                           |
 |Npo poms Zoeken Check tekstveld                         |t/m                                                                  |heeft waarde          |${datumvandaag}                                         |
 |click                                                   |Zoek                                                                                                                                                 |
+|Npo poms Zoeken Wacht tot zoeken klaar is                                                                                                                                                                     |
 |Controleer weergegeven datumrange voor zoeken;          |$maandGeleden                                                        |${datumvandaag}       |                                                        |
 |Npo poms Zoeken Wacht tot zoekopdracht met Gezocht naar:|uitzend-/sorteerdatum: vanaf $maandGeleden tot en met ${datumvandaag}|klaar is                                                                       |
 |Npo poms Zoeken Sla aantal zoekresultaten op in var     |aantalZoekresultaten2                                                                                                                                |
@@ -43,6 +44,7 @@ Test
 |click                                                   |Aangemaakt door                                                                                                                                      |
 |Npo poms Zoeken Selecteer persoon                       |${persoon}                                                                                                                                           |
 |click                                                   |Zoek                                                                                                                                                 |
+|Npo poms Zoeken Wacht tot zoeken klaar is                                                                                                                                                                     |
 |Npo poms Zoeken Check optie                             |${datumEnPersoon2}                                                   |is                    |${persoon}     |geselecteerd in dropdown|Datum & Persoon|
 |Npo poms Zoeken Wacht tot zoekopdracht met Gezocht naar:|gemaakt door: ${persoon}                                             |klaar is                                                                       |
 |Npo poms Zoeken Sla aantal zoekresultaten op in var     |aantalZoekresultaten2                                                                                                                                |

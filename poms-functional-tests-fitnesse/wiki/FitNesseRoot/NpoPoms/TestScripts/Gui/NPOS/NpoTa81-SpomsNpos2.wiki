@@ -87,7 +87,6 @@ Test
 |Open Npo poms website                                                                    |
 |Npo poms Inlogscherm Log in met admin                                                    |
 |Npo poms Zoeken Selecteer optie                         |${zender1}  |in dropdown|Zenders|
-|Npo poms Zoeken Druk knop                               |Zoeken                          |
 |Npo poms Zoeken Wacht tot zoekopdracht met Gezocht naar:|${zender1}  |klaar is           |
 |Npo poms Zoeken Open object nummer                      |10                              |
 |Npo poms Tabblad object Druk op link                    |Uitzendingen|in sidebar         |

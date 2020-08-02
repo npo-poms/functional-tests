@@ -16,6 +16,7 @@ Test
 |Npo poms Inlogscherm Log in met standaard-gebruiker                                                                                                      |
 |Npo poms Zoeken Vul                                     |${zoekopdracht}                   |in zoekveld                                                  |
 |Npo poms Zoeken Druk knop                               |Zoeken                                                                                          |
+|Npo poms Zoeken Wacht tot zoeken klaar is                                                                                                                |
 |Npo poms Zoeken Wacht tot zoekopdracht met Gezocht naar:|'${zoekopdracht}'                 |klaar is                                                     |
 |Npo poms Zoeken Sla aantal zoekresultaten op in var     |aantalZoekresultaten1                                                                           |
 |Npo poms Zoeken Selecteer optie                         |${mediatype1}                     |in dropdown           |!-MediaType-!                         |
@@ -27,6 +28,7 @@ Test
 |Npo poms Hoofdscherm Sluit laatste tab                                                                                                                   |
 |Npo poms Zoeken Vul                                     |${zoekopdracht}                   |in zoekveld                                                  |
 |Npo poms Zoeken Druk knop                               |Zoeken                                                                                          |
+|Npo poms Zoeken Wacht tot zoeken klaar is                                                                                                                |
 |Npo poms Zoeken Wacht tot zoekopdracht met Gezocht naar:|'${zoekopdracht}'                 |klaar is                                                     |
 |Npo poms Zoeken Sla aantal zoekresultaten op in var     |aantalZoekresultaten1                                                                           |
 |Npo poms Zoeken Selecteer optie                         |${mediatype2}                     |in dropdown           |!-MediaType-!                         |

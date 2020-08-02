@@ -18,6 +18,7 @@ Test
 |Npo poms Zoeken Wacht tot zoekopdracht met Gezocht naar:      |${mediatype}, ${omroep1} |klaar is                   |
 |click                                                         |Onderdeel van                                        |
 |click                                                         |zoek een item                                        |
+|Npo poms Zoeken Popup Wacht tot zoeken klaar is                                                                     |
 |Npo poms Zoeken Popup Wacht tot zoekopdracht met Gezocht naar:|Groep, niet:             |klaar is                   |
 |Npo poms Zoeken Popup Selecteer optie                         |${omroep2}               |in dropdown |Omroepen      |
 |Npo poms Zoeken Popup Wacht tot zoekopdracht met Gezocht naar:|Groep, ${omroep2}, niet: |klaar is                   |

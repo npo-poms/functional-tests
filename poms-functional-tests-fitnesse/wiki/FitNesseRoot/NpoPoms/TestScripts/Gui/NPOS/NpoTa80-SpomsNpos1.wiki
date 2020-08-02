@@ -12,7 +12,6 @@ Test
 |Open Npo poms website                                                                                                   |
 |Npo poms Inlogscherm Log in met npo                                                                                     |
 |Npo poms Zoeken Selecteer optie                                                  |${zender}         |in dropdown|Zenders|
-|Npo poms Zoeken Druk knop                                                        |Zoeken                                |
 |Npo poms Zoeken Wacht tot zoekopdracht met Gezocht naar:                         |${zender}         |klaar is           |
 |Npo poms Zoeken Open object nummer                                               |10                                    |
 |Npo poms Tabblad object Druk op link                                             |Uitzendingen      |in sidebar         |

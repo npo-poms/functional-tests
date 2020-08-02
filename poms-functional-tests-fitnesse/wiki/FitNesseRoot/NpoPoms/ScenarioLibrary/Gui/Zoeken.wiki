@@ -25,20 +25,30 @@
 |scenario        |Npo poms Zoeken Wacht tot zoekopdracht met Gezocht naar:|gezochtNaar|klaar is|
 |note            |Wacht eerst totdat de juiste "Gezocht naar:"-regel er staat                  |
 |wait for visible|Gezocht naar: @gezochtNaar                                                   |
-|Npo poms Zoeken Wacht tot zoeken klaar is                                                     |
 
-|scenario             |Npo poms Zoeken Wacht tot zoeken klaar is                                  |
-|wait for visible     |xpath=//poms-search-result/div[1]                                          |
-|set search context to|xpath=//poms-search-result/div[1]                                          |
-|wait for visible     |xpath=./div[@class="search-result-count"]                                  |
-|wait for not visible |xpath=./div[@class="search-result-count waiting"]                          |
-|wait for not visible |xpath=./div[@class="search-result-count waiting ng-animate waiting-remove"]|
-|ensure               |is visible on page        |xpath=./div[@class="search-result-count"]       |
-|clear search context                                                                             |
+|scenario                                           |Npo poms Zoeken Wacht tot aantal zoekresultaten is veranderd                              |
+|seconds before timeout                             |180                                                                                       |
+|wait for visible                                   |xpath=./div[@class="search-result-count"]/span[not(text()="$laatsteAantalZoekresultaten")]|
+|seconds before timeout                             |${secondsBeforeTimeout}                                                                   |
+|Npo poms Zoeken Sla aantal zoekresultaten op in var|laatsteAantalZoekresultaten                                                               |
+
+|scenario             |Npo poms Zoeken Wacht tot sorteren klaar is                 |
+|wait for visible     |xpath=//poms-search-result/div[1]                           |
+|set search context to|xpath=//poms-search-result/div[1]                           |
+|wait for not visible |xpath=./div[@class="search-result-count waiting"]           |
+|ensure               |is visible on page|xpath=./div[@class="search-result-count"]|
+|clear search context                                                              |
+
+|scenario             |Npo poms Zoeken Wacht tot zoeken klaar is                   |
+|wait for visible     |xpath=//poms-search-result/div[1]                           |
+|set search context to|xpath=//poms-search-result/div[1]                           |
+|wait for not visible |xpath=./div[@class="search-result-count waiting"]           |
+|ensure               |is visible on page|xpath=./div[@class="search-result-count"]|
+|Npo poms Zoeken Wacht tot aantal zoekresultaten is veranderd                      |
+|clear search context                                                              |
 
 |scenario        |Npo poms Zoeken Popup Wacht tot zoekopdracht met Gezocht naar:|gezochtNaar|klaar is|
 |wait for visible|Gezocht naar: @gezochtNaar                                                         |
-|Npo poms Zoeken Popup Wacht tot zoeken klaar is                                                     |
 
 |scenario             |Npo poms Zoeken Popup Wacht tot zoeken klaar is                            |
 |wait for visible     |xpath=//div[@class="modal-body"]//poms-search-result/div[1]                |
@@ -151,7 +161,7 @@
 |scroll to            |@optie                                                                          |
 |click                |@optie                                                                          |
 |remove last search context                                                                            |
-|Npo poms Zoeken Wacht tot zoeken klaar is                                                             |
+|Npo poms Zoeken Popup Wacht tot zoeken klaar is                                                       |
 
 |scenario|Npo poms Zoeken Klik op|selector|in geopende dropdown                   |dropdown                  |
 |click   |@selector              |in      |xpath=.//span[normalize-space(.)="@dropdown"]/following-sibling::*|

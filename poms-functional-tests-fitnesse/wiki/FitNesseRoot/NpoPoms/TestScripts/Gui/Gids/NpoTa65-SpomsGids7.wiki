@@ -19,9 +19,9 @@ Test
 |set search context to                                   |xpath=//poms-search-columns                                                                                           |
 |click                                                   |Laatste uitzending                                                                                                    |
 |clear search context                                                                                                                                                           |
-|Npo poms Zoeken Wacht tot zoeken klaar is                                                                                                                                      |
+|Npo poms Zoeken Druk op tandwieltje                                                                                                                                            |
 |Npo poms Zoeken Druk op header van kolom                |Laatste uitzending                                                                                                    |
-|Npo poms Zoeken Wacht tot zoeken klaar is                                                                                                                                      |
+|Npo poms Zoeken Wacht tot sorteren klaar is                                                                                                                                    |
 |Npo poms Zoeken Check aantal zoekresultaten             |>0                                                                                                                    |
 |                                                        |Hier faalt het regelmatig in http://files.vpro.nl/specialisterren/.                                                   |
 |                                                        |In de user story in Jira staat: "Verwachte resultaat: Er is een zoekresultaat voor vandaag, voor "Nederland 3 & Zapp".|
