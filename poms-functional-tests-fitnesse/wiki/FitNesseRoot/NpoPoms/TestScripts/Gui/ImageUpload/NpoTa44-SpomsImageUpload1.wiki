@@ -4,22 +4,22 @@ Test
 ---
 !include -c <TestScripts.Gui.ImageUpload.SmallScenarioLibrary
 
-|script                                                                                                                                 |
-|Open Npo poms website                                                                                                                  |
-|Npo poms Inlogscherm Log in met standaard-gebruiker                                                                                    |
-|Npo poms Zoeken Selecteer optie                                                  |Clip           |in dropdown |!-MediaType-!           |
-|Npo poms Zoeken Selecteer optie                                                  |VPRO           |in dropdown |Omroepen                |
-|Npo poms Zoeken Wacht tot zoekopdracht met Gezocht naar:                         |Clip, VPRO     |klaar is                             |
-|Npo poms Zoeken Open object nummer                                               |${objectNummer}                                      |
-|Npo poms Tabblad object Druk op link                                             |Afbeeldingen   |in sidebar                           |
-|wait for visible                                                                 |Afbeelding toevoegen                                 |
-|set search context to                                                            |xpath=//poms-images                                  |
-|click                                                                            |Afbeelding toevoegen                                 |
-|clear search context                                                                                                                   |
-|select file                                                                      |${plaatje}     |for         |css=input[id=inputFile] |
-|wait for visible                                                                 |css=img                                              |
-|show                                                                             |take screenshot|${screenshot}_!today (yyyyMMddHHmmss)|
-|Npo poms Tabblad object Detailscherm Check knop                                  |Maak aan       |in footer inactief                   |
-|Npo poms Tabblad object Detailscherm controleer nog in te vullen melding van veld|Titel                                                |
-|Npo poms Tabblad object Detailscherm controleer nog in te vullen melding van veld|Beschrijving                                         |
-|Npo poms Tabblad object Detailscherm controleer nog in te vullen melding van veld|Afbeeldingtype                                       |
+|script                                                                                                                                    |
+|Open Npo poms website                                                                                                                     |
+|Npo poms Inlogscherm Log in met standaard-gebruiker                                                                                       |
+|Npo poms Zoeken Selecteer optie                                                  |Clip              |in dropdown |!-MediaType-!           |
+|Npo poms Zoeken Selecteer optie                                                  |VPRO              |in dropdown |Omroepen                |
+|ensure                                                                           |is visible on page|Gezocht naar: Clip, VPRO             |
+|Npo poms Zoeken Open object nummer                                               |${objectNummer}                                         |
+|Npo poms Tabblad object Druk op link                                             |Afbeeldingen      |in sidebar                           |
+|wait for visible                                                                 |Afbeelding toevoegen                                    |
+|set search context to                                                            |xpath=//poms-images                                     |
+|click                                                                            |Afbeelding toevoegen                                    |
+|clear search context                                                                                                                      |
+|select file                                                                      |${plaatje}        |for         |css=input[id=inputFile] |
+|wait for visible                                                                 |css=img                                                 |
+|show                                                                             |take screenshot   |${screenshot}_!today (yyyyMMddHHmmss)|
+|Npo poms Tabblad object Detailscherm Check knop                                  |Maak aan          |in footer inactief                   |
+|Npo poms Tabblad object Detailscherm controleer nog in te vullen melding van veld|Titel                                                   |
+|Npo poms Tabblad object Detailscherm controleer nog in te vullen melding van veld|Beschrijving                                            |
+|Npo poms Tabblad object Detailscherm controleer nog in te vullen melding van veld|Afbeeldingtype                                          |

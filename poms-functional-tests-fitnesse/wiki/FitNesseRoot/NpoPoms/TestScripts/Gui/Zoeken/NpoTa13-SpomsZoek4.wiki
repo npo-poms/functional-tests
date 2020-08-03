@@ -11,23 +11,23 @@ Test
 
 *!
 
-|script                                                                                                                          |
-|Open Npo poms website                                                                                                           |
-|Npo poms Inlogscherm Log in met standaard-gebruiker                                                                             |
-|Npo poms Zoeken Sla aantal zoekresultaten op in var     |aantalZoekresultaten1                                                  |
-|Npo poms Zoeken Selecteer optie                         |${omroep}|in dropdown           |Omroepen                              |
-|Npo poms Zoeken Wacht tot zoekopdracht met Gezocht naar:|${omroep}|klaar is                                                     |
-|Npo poms Zoeken Sla aantal zoekresultaten op in var     |aantalZoekresultaten2                                                  |
-|ensure                                                  |value    |$aantalZoekresultaten2|is smaller than|$aantalZoekresultaten1|
-|Npo poms Zoeken Open eerste object                                                                                              |
-|Npo poms Hoofdscherm Sluit laatste tab                                                                                          |
-|Npo poms Hoofdscherm Sluit laatste tab                                                                                          |
-|Npo poms Zoeken Sla aantal zoekresultaten op in var     |aantalZoekresultaten1                                                  |
-|Npo poms Zoeken Selecteer optie                         |${zender}|in dropdown           |Zenders                               |
-|Npo poms Zoeken Wacht tot zoekopdracht met Gezocht naar:|${zender}|klaar is                                                     |
-|Npo poms Zoeken Sla aantal zoekresultaten op in var     |aantalZoekresultaten2                                                  |
-|ensure                                                  |value    |$aantalZoekresultaten2|is smaller than|$aantalZoekresultaten1|
-|Npo poms Zoeken Open eerste object                                                                                              |
-|Npo poms Hoofdscherm Sluit laatste tab                                                                                          |
-|Npo poms Hoofdscherm Sluit laatste tab                                                                                          |
-|Npo poms Hoofdscherm Log uit                                                                                                    |
+|script                                                                                                                              |
+|Open Npo poms website                                                                                                               |
+|Npo poms Inlogscherm Log in met standaard-gebruiker                                                                                 |
+|Npo poms Zoeken Sla aantal zoekresultaten op in var|aantalZoekresultaten1                                                           |
+|Npo poms Zoeken Selecteer optie                    |${omroep}         |in dropdown           |Omroepen                              |
+|ensure                                             |is visible on page|Gezocht naar: ${omroep}                                      |
+|Npo poms Zoeken Sla aantal zoekresultaten op in var|aantalZoekresultaten2                                                           |
+|ensure                                             |value             |$aantalZoekresultaten2|is smaller than|$aantalZoekresultaten1|
+|Npo poms Zoeken Open eerste object                                                                                                  |
+|Npo poms Hoofdscherm Sluit laatste tab                                                                                              |
+|Npo poms Hoofdscherm Sluit laatste tab                                                                                              |
+|Npo poms Zoeken Sla aantal zoekresultaten op in var|aantalZoekresultaten1                                                           |
+|Npo poms Zoeken Selecteer optie                    |${zender}         |in dropdown           |Zenders                               |
+|ensure                                             |is visible on page|Gezocht naar: ${zender}                                      |
+|Npo poms Zoeken Sla aantal zoekresultaten op in var|aantalZoekresultaten2                                                           |
+|ensure                                             |value             |$aantalZoekresultaten2|is smaller than|$aantalZoekresultaten1|
+|Npo poms Zoeken Open eerste object                                                                                                  |
+|Npo poms Hoofdscherm Sluit laatste tab                                                                                              |
+|Npo poms Hoofdscherm Sluit laatste tab                                                                                              |
+|Npo poms Hoofdscherm Log uit                                                                                                        |

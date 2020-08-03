@@ -10,17 +10,17 @@ Test
 
 *!
 
-|script                                                                                                                         |
-|Open Npo poms website                                                                                                          |
-|Npo poms Inlogscherm Log in met standaard-gebruiker                                                                            |
-|Npo poms Zoeken Selecteer optie                         |Trailer |in dropdown                                    |!-MediaType-!|
-|Npo poms Zoeken Wacht tot zoekopdracht met Gezocht naar:|Trailer |klaar is                                                     |
-|Npo poms Zoeken Open object nummer                      |${objectNummer}                                                       |
-|Npo poms Tabblad object Sla hoofdtitel op in var        |titelVanObject                                                        |
-|Npo poms Tabblad object Verander hoofdtitel naar        |De Test |en check dat voorgestelde Lexicografische titel|Test, de  |is|
-|Npo poms Tabblad object Verander hoofdtitel naar        |Het Test|en check dat voorgestelde Lexicografische titel|Test, het |is|
-|Npo poms Tabblad object Verander hoofdtitel naar        |Een Test|en check dat voorgestelde Lexicografische titel|Test, een |is|
-|Npo poms Tabblad object Verander hoofdtitel naar        |$titelVanObject                                                       |
-|Npo poms Hoofdscherm Sluit laatste tab                                                                                         |
-|Npo poms Hoofdscherm Sluit laatste tab                                                                                         |
-|Npo poms Hoofdscherm Log uit                                                                                                   |
+|script                                                                                                                           |
+|Open Npo poms website                                                                                                            |
+|Npo poms Inlogscherm Log in met standaard-gebruiker                                                                              |
+|Npo poms Zoeken Selecteer optie                 |Trailer           |in dropdown                                    |!-MediaType-!|
+|ensure                                          |is visible on page|Gezocht naar: Trailer                                        |
+|Npo poms Zoeken Open object nummer              |${objectNummer}                                                                 |
+|Npo poms Tabblad object Sla hoofdtitel op in var|titelVanObject                                                                  |
+|Npo poms Tabblad object Verander hoofdtitel naar|De Test           |en check dat voorgestelde Lexicografische titel|Test, de  |is|
+|Npo poms Tabblad object Verander hoofdtitel naar|Het Test          |en check dat voorgestelde Lexicografische titel|Test, het |is|
+|Npo poms Tabblad object Verander hoofdtitel naar|Een Test          |en check dat voorgestelde Lexicografische titel|Test, een |is|
+|Npo poms Tabblad object Verander hoofdtitel naar|$titelVanObject                                                                 |
+|Npo poms Hoofdscherm Sluit laatste tab                                                                                           |
+|Npo poms Hoofdscherm Sluit laatste tab                                                                                           |
+|Npo poms Hoofdscherm Log uit                                                                                                     |

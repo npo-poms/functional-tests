@@ -14,7 +14,7 @@ Test
 |Open Npo poms website                                                                                                           |
 |Npo poms Inlogscherm Log in met standaard-gebruiker                                                                             |
 |Npo poms Zoeken Selecteer optie                                                |Trailer              |in dropdown |!-MediaType-!|
-|Npo poms Zoeken Wacht tot zoekopdracht met Gezocht naar:                       |Trailer              |klaar is                  |
+|ensure                                                                         |is visible on page   |Gezocht naar: Trailer     |
 |Npo poms Zoeken Open object nummer                                             |${objectNummer}                                 |
 |Npo poms Tabblad object Sla hoofdtitel op in var                               |titelVanObject                                  |
 |Npo poms Tabblad object Verander hoofdtitel naar                               |TEST                                            |

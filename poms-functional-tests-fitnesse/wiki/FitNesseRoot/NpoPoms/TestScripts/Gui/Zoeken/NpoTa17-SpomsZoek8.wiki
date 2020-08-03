@@ -11,24 +11,24 @@ Test
 
 *!
 
-|script                                                                                                                                                                                  |
-|Open Npo poms website                                                                                                                                                                   |
-|Npo poms Inlogscherm Log in met standaard-gebruiker                                                                                                                                     |
-|Npo poms Zoeken Vul                                     |${zoekopdracht}                                |in zoekveld                                                                    |
-|Npo poms Zoeken Druk knop                               |Zoeken                                                                                                                         |
-|Npo poms Zoeken Wacht tot zoeken klaar is                                                                                                                                               |
-|Npo poms Zoeken Wacht tot zoekopdracht met Gezocht naar:|'${zoekopdracht}'                              |klaar is                                                                       |
-|Npo poms Zoeken Sla aantal zoekresultaten op in var     |aantalZoekresultaten1                                                                                                          |
-|click                                                   |Datum & Persoon                                                                                                                |
-|click                                                   |Gewijzigd door                                                                                                                 |
-|Npo poms Zoeken Selecteer persoon                       |${persoon}                                                                                                                     |
-|click                                                   |Zoek                                                                                                                           |
-|Npo poms Zoeken Wacht tot zoeken klaar is                                                                                                                                               |
-|Npo poms Zoeken Check optie                             |${datumEnPersoon}                              |is                    |${persoon}     |geselecteerd in dropdown|Datum & Persoon|
-|Npo poms Zoeken Wacht tot zoekopdracht met Gezocht naar:|'${zoekopdracht}' in gewijzigd door: ${persoon}|klaar is                                                                       |
-|Npo poms Zoeken Sla aantal zoekresultaten op in var     |aantalZoekresultaten2                                                                                                          |
-|ensure                                                  |value                                          |$aantalZoekresultaten2|is smaller than|$aantalZoekresultaten1                  |
-|Npo poms Zoeken Open eerste object                                                                                                                                                      |
-|Npo poms Hoofdscherm Sluit laatste tab                                                                                                                                                  |
-|Npo poms Hoofdscherm Sluit laatste tab                                                                                                                                                  |
-|Npo poms Hoofdscherm Log uit                                                                                                                                                            |
+|script                                                                                                                                                |
+|Open Npo poms website                                                                                                                                 |
+|Npo poms Inlogscherm Log in met standaard-gebruiker                                                                                                   |
+|Npo poms Zoeken Vul                                |${zoekopdracht}   |in zoekveld                                                                    |
+|Npo poms Zoeken Druk knop                          |Zoeken                                                                                            |
+|Npo poms Zoeken Wacht tot zoeken klaar is                                                                                                             |
+|ensure                                             |is visible on page|Gezocht naar: '${zoekopdracht}'                                                |
+|Npo poms Zoeken Sla aantal zoekresultaten op in var|aantalZoekresultaten1                                                                             |
+|click                                              |Datum & Persoon                                                                                   |
+|click                                              |Gewijzigd door                                                                                    |
+|Npo poms Zoeken Selecteer persoon                  |${persoon}                                                                                        |
+|click                                              |Zoek                                                                                              |
+|Npo poms Zoeken Wacht tot zoeken klaar is                                                                                                             |
+|Npo poms Zoeken Check optie                        |${datumEnPersoon} |is                    |${persoon}     |geselecteerd in dropdown|Datum & Persoon|
+|ensure                                             |is visible on page|Gezocht naar: '${zoekopdracht}' in gewijzigd door: ${persoon}                  |
+|Npo poms Zoeken Sla aantal zoekresultaten op in var|aantalZoekresultaten2                                                                             |
+|ensure                                             |value             |$aantalZoekresultaten2|is smaller than|$aantalZoekresultaten1                  |
+|Npo poms Zoeken Open eerste object                                                                                                                    |
+|Npo poms Hoofdscherm Sluit laatste tab                                                                                                                |
+|Npo poms Hoofdscherm Sluit laatste tab                                                                                                                |
+|Npo poms Hoofdscherm Log uit                                                                                                                          |

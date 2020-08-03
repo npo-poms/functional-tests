@@ -4,15 +4,15 @@ Test
 ---
 !define MIDVALUE {!-POMS_NTR_157704-!}
 
-|script                                                                            |
-|Open Npo poms website                                                             |
-|Npo poms Inlogscherm Log in met npo                                               |
-|click                                                   |Zoeken                   |
-|Npo poms Zoeken Vul                                     |${MIDVALUE}  |in zoekveld|
-|Npo poms Zoeken Druk knop                               |Zoeken                   |
-|Npo poms Zoeken Wacht tot zoeken klaar is                                         |
-|Npo poms Zoeken Wacht tot zoekopdracht met Gezocht naar:|'${MIDVALUE}'|klaar is   |
-|Npo poms Zoeken Check aantal zoekresultaten             |1                        |
-|Npo poms Zoeken Open eerste object                                                |
-|Npo poms Hoofdscherm Sluit laatste tab                                            |
-|Npo poms Hoofdscherm Log uit                                                      |
+|script                                                                                    |
+|Open Npo poms website                                                                     |
+|Npo poms Inlogscherm Log in met npo                                                       |
+|click                                      |Zoeken                                        |
+|Npo poms Zoeken Vul                        |${MIDVALUE}       |in zoekveld                |
+|Npo poms Zoeken Druk knop                  |Zoeken                                        |
+|Npo poms Zoeken Wacht tot zoeken klaar is                                                 |
+|ensure                                     |is visible on page|Gezocht naar: '${MIDVALUE}'|
+|Npo poms Zoeken Check aantal zoekresultaten|1                                             |
+|Npo poms Zoeken Open eerste object                                                        |
+|Npo poms Hoofdscherm Sluit laatste tab                                                    |
+|Npo poms Hoofdscherm Log uit                                                              |

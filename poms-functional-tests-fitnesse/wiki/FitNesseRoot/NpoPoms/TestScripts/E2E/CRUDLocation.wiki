@@ -78,28 +78,29 @@ Test
 
 !include -c <E2E.GuiSetUp
 
-|script                                                                                                       |
-|Open Npo poms website                                                                                        |
-|Npo poms Inlogscherm Log in met ${gebruiker}                                                                 |
-|Npo poms Zoeken Vul                                           |$mid         |in zoekveld                     |
-|Npo poms Zoeken Druk knop                                     |Zoeken                                        |
-|Npo poms Zoeken Wacht tot zoekopdracht met Gezocht naar:      |'$mid'       |klaar is                        |
-|Npo poms Zoeken Check aantal zoekresultaten                   |1                                             |
-|Npo poms Zoeken Open eerste object                                                                           |
-|Npo poms Tabblad object Druk op link                          |Bronnen      |in sidebar                      |
-|Npo poms Tabblad object Wacht tot scrollen klaar is                                                          |
-|set search context to                                         |xpath=//poms-locations                        |
-|Npo poms Tabblad object Check aantal in veld                  |Bronnen      |is           |1                 |
-|Npo poms Tabblad object Check bron                            |${programUrl}|zichtbaar                       |
-|Npo poms Tabblad object Check bron                            |${programUrl}|heeft formaat|${avFileFormat1}  |
-|Npo poms Tabblad object Check bron                            |${programUrl}|online sinds |${publishStartGui}|
-|double click                                                  |${programUrl}                                 |
-|clear search context                                                                                         |
-|Npo poms Tabblad object Detailscherm Check tekstveld          |URL *        |heeft waarde |${programUrl}     |
-|Npo poms Tabblad object Detailscherm Check bewerkbare dropdown|Type *       |heeft waarde |${avFileFormat1}  |
-|Npo poms Tabblad object Detailscherm Check tekstveld          |Bitrate      |heeft waarde |${bitrate1}       |
-|Npo poms Tabblad object Detailscherm Check bron online sinds  |${publishStartGui}                            |
-|Npo poms Tabblad object Detailscherm Druk op kruisje om pop-up te sluiten                                    |
+|script                                                                                                            |
+|Open Npo poms website                                                                                             |
+|Npo poms Inlogscherm Log in met ${gebruiker}                                                                      |
+|Npo poms Zoeken Vul                                           |$mid              |in zoekveld                     |
+|Npo poms Zoeken Druk knop                                     |Zoeken                                             |
+|Npo poms Zoeken Wacht tot zoeken klaar is                                                                         |
+|ensure                                                        |is visible on page|Gezocht naar: '$mid'            |
+|Npo poms Zoeken Check aantal zoekresultaten                   |1                                                  |
+|Npo poms Zoeken Open eerste object                                                                                |
+|Npo poms Tabblad object Druk op link                          |Bronnen           |in sidebar                      |
+|Npo poms Tabblad object Wacht tot scrollen klaar is                                                               |
+|set search context to                                         |xpath=//poms-locations                             |
+|Npo poms Tabblad object Check aantal in veld                  |Bronnen           |is           |1                 |
+|Npo poms Tabblad object Check bron                            |${programUrl}     |zichtbaar                       |
+|Npo poms Tabblad object Check bron                            |${programUrl}     |heeft formaat|${avFileFormat1}  |
+|Npo poms Tabblad object Check bron                            |${programUrl}     |online sinds |${publishStartGui}|
+|double click                                                  |${programUrl}                                      |
+|clear search context                                                                                              |
+|Npo poms Tabblad object Detailscherm Check tekstveld          |URL *             |heeft waarde |${programUrl}     |
+|Npo poms Tabblad object Detailscherm Check bewerkbare dropdown|Type *            |heeft waarde |${avFileFormat1}  |
+|Npo poms Tabblad object Detailscherm Check tekstveld          |Bitrate           |heeft waarde |${bitrate1}       |
+|Npo poms Tabblad object Detailscherm Check bron online sinds  |${publishStartGui}                                 |
+|Npo poms Tabblad object Detailscherm Druk op kruisje om pop-up te sluiten                                         |
     
 !include -c <E2E.GuiTearDown
 !include -c <E2E.ApiBackendSetUp
@@ -115,7 +116,8 @@ Test
 |Npo poms Inlogscherm Log in met ${gebruiker}                                                                                             |
 |Npo poms Zoeken Vul                                           |$mid              |in zoekveld                                            |
 |Npo poms Zoeken Druk knop                                     |Zoeken                                                                    |
-|Npo poms Zoeken Wacht tot zoekopdracht met Gezocht naar:      |'$mid'            |klaar is                                               |
+|Npo poms Zoeken Wacht tot zoeken klaar is                                                                                                |
+|ensure                                                        |is visible on page|Gezocht naar: '$mid'                                   |
 |Npo poms Zoeken Check aantal zoekresultaten                   |1                                                                         |
 |Npo poms Zoeken Open eerste object                                                                                                       |
 |Npo poms Tabblad object Druk op link                          |Bronnen           |in sidebar                                             |

@@ -11,31 +11,31 @@ Test
 
 *!
 
-|script                                                                                                                                                   |
-|Open Npo poms website                                                                                                                                    |
-|Npo poms Inlogscherm Log in met standaard-gebruiker                                                                                                      |
-|Npo poms Zoeken Vul                                     |${zoekopdracht}                   |in zoekveld                                                  |
-|Npo poms Zoeken Druk knop                               |Zoeken                                                                                          |
-|Npo poms Zoeken Wacht tot zoeken klaar is                                                                                                                |
-|Npo poms Zoeken Wacht tot zoekopdracht met Gezocht naar:|'${zoekopdracht}'                 |klaar is                                                     |
-|Npo poms Zoeken Sla aantal zoekresultaten op in var     |aantalZoekresultaten1                                                                           |
-|Npo poms Zoeken Selecteer optie                         |${mediatype1}                     |in dropdown           |!-MediaType-!                         |
-|Npo poms Zoeken Wacht tot zoekopdracht met Gezocht naar:|'${zoekopdracht}' in ${mediatype1}|klaar is                                                     |
-|Npo poms Zoeken Sla aantal zoekresultaten op in var     |aantalZoekresultaten2                                                                           |
-|ensure                                                  |value                             |$aantalZoekresultaten2|is smaller than|$aantalZoekresultaten1|
-|Npo poms Zoeken Open eerste object                                                                                                                       |
-|Npo poms Hoofdscherm Sluit laatste tab                                                                                                                   |
-|Npo poms Hoofdscherm Sluit laatste tab                                                                                                                   |
-|Npo poms Zoeken Vul                                     |${zoekopdracht}                   |in zoekveld                                                  |
-|Npo poms Zoeken Druk knop                               |Zoeken                                                                                          |
-|Npo poms Zoeken Wacht tot zoeken klaar is                                                                                                                |
-|Npo poms Zoeken Wacht tot zoekopdracht met Gezocht naar:|'${zoekopdracht}'                 |klaar is                                                     |
-|Npo poms Zoeken Sla aantal zoekresultaten op in var     |aantalZoekresultaten1                                                                           |
-|Npo poms Zoeken Selecteer optie                         |${mediatype2}                     |in dropdown           |!-MediaType-!                         |
-|Npo poms Zoeken Wacht tot zoekopdracht met Gezocht naar:|'${zoekopdracht}' in ${mediatype2}|klaar is                                                     |
-|Npo poms Zoeken Sla aantal zoekresultaten op in var     |aantalZoekresultaten2                                                                           |
-|ensure                                                  |value                             |$aantalZoekresultaten2|is smaller than|$aantalZoekresultaten1|
-|Npo poms Zoeken Open eerste object                                                                                                                       |
-|Npo poms Hoofdscherm Sluit laatste tab                                                                                                                   |
-|Npo poms Hoofdscherm Sluit laatste tab                                                                                                                   |
-|Npo poms Hoofdscherm Log uit                                                                                                                             |
+|script                                                                                                                              |
+|Open Npo poms website                                                                                                               |
+|Npo poms Inlogscherm Log in met standaard-gebruiker                                                                                 |
+|Npo poms Zoeken Vul                                |${zoekopdracht}   |in zoekveld                                                  |
+|Npo poms Zoeken Druk knop                          |Zoeken                                                                          |
+|Npo poms Zoeken Wacht tot zoeken klaar is                                                                                           |
+|ensure                                             |is visible on page|Gezocht naar: '${zoekopdracht}'                              |
+|Npo poms Zoeken Sla aantal zoekresultaten op in var|aantalZoekresultaten1                                                           |
+|Npo poms Zoeken Selecteer optie                    |${mediatype1}     |in dropdown           |!-MediaType-!                         |
+|ensure                                             |is visible on page|Gezocht naar: '${zoekopdracht}' in ${mediatype1}             |
+|Npo poms Zoeken Sla aantal zoekresultaten op in var|aantalZoekresultaten2                                                           |
+|ensure                                             |value             |$aantalZoekresultaten2|is smaller than|$aantalZoekresultaten1|
+|Npo poms Zoeken Open eerste object                                                                                                  |
+|Npo poms Hoofdscherm Sluit laatste tab                                                                                              |
+|Npo poms Hoofdscherm Sluit laatste tab                                                                                              |
+|Npo poms Zoeken Vul                                |${zoekopdracht}   |in zoekveld                                                  |
+|Npo poms Zoeken Druk knop                          |Zoeken                                                                          |
+|Npo poms Zoeken Wacht tot zoeken klaar is                                                                                           |
+|ensure                                             |is visible on page|Gezocht naar: '${zoekopdracht}'                              |
+|Npo poms Zoeken Sla aantal zoekresultaten op in var|aantalZoekresultaten1                                                           |
+|Npo poms Zoeken Selecteer optie                    |${mediatype2}     |in dropdown           |!-MediaType-!                         |
+|ensure                                             |is visible on page|Gezocht naar: '${zoekopdracht}' in ${mediatype2}             |
+|Npo poms Zoeken Sla aantal zoekresultaten op in var|aantalZoekresultaten2                                                           |
+|ensure                                             |value             |$aantalZoekresultaten2|is smaller than|$aantalZoekresultaten1|
+|Npo poms Zoeken Open eerste object                                                                                                  |
+|Npo poms Hoofdscherm Sluit laatste tab                                                                                              |
+|Npo poms Hoofdscherm Sluit laatste tab                                                                                              |
+|Npo poms Hoofdscherm Log uit                                                                                                        |

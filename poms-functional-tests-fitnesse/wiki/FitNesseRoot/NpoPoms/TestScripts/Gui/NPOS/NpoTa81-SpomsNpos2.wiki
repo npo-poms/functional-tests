@@ -83,25 +83,25 @@ Test
 *!
 
 
-|script                                                                                   |
-|Open Npo poms website                                                                    |
-|Npo poms Inlogscherm Log in met admin                                                    |
-|Npo poms Zoeken Selecteer optie                         |${zender1}  |in dropdown|Zenders|
-|Npo poms Zoeken Wacht tot zoekopdracht met Gezocht naar:|${zender1}  |klaar is           |
-|Npo poms Zoeken Open object nummer                      |10                              |
-|Npo poms Tabblad object Druk op link                    |Uitzendingen|in sidebar         |
-|Npo poms Tabblad object Wacht tot scrollen klaar is                                      |
-|Npo poms Tabblad object Dubbelklik op uitzending        |${zender1}                      |
-|Sla huidige waardes uit Detailscherm op                                                  |
-|Vul nieuwe waardes in in het detailscherm                                                |
-|click                                                   |Bewaar                          |
-|Npo poms Tabblad object Druk op link                    |Algemeen    |in sidebar         |
-|Npo poms Tabblad object Wacht tot status zichtbaar                                       |
-|Npo poms Tabblad object Druk op status om te publiceren                                  |
-|Npo poms Tabblad object Druk op link                    |Uitzendingen|in sidebar         |
-|Npo poms Tabblad object Wacht tot scrollen klaar is                                      |
-|Npo poms Tabblad object Dubbelklik op uitzending        |${zender2}                      |
-|Controleer de nieuwe waardes in detailscherm                                             |
-|Zet originele waardes terug in het detailscherm                                          |
-|click                                                   |Bewaar                          |
-|Npo poms Hoofdscherm Sluit laatste tab                                                   |
+|script                                                                                      |
+|Open Npo poms website                                                                       |
+|Npo poms Inlogscherm Log in met admin                                                       |
+|Npo poms Zoeken Selecteer optie                 |${zender1}        |in dropdown   |Zenders  |
+|ensure                                          |is visible on page|Gezocht naar: ${zender1}|
+|Npo poms Zoeken Open object nummer              |10                                         |
+|Npo poms Tabblad object Druk op link            |Uitzendingen      |in sidebar              |
+|Npo poms Tabblad object Wacht tot scrollen klaar is                                         |
+|Npo poms Tabblad object Dubbelklik op uitzending|${zender1}                                 |
+|Sla huidige waardes uit Detailscherm op                                                     |
+|Vul nieuwe waardes in in het detailscherm                                                   |
+|click                                           |Bewaar                                     |
+|Npo poms Tabblad object Druk op link            |Algemeen          |in sidebar              |
+|Npo poms Tabblad object Wacht tot status zichtbaar                                          |
+|Npo poms Tabblad object Druk op status om te publiceren                                     |
+|Npo poms Tabblad object Druk op link            |Uitzendingen      |in sidebar              |
+|Npo poms Tabblad object Wacht tot scrollen klaar is                                         |
+|Npo poms Tabblad object Dubbelklik op uitzending|${zender2}                                 |
+|Controleer de nieuwe waardes in detailscherm                                                |
+|Zet originele waardes terug in het detailscherm                                             |
+|click                                           |Bewaar                                     |
+|Npo poms Hoofdscherm Sluit laatste tab                                                      |

@@ -72,22 +72,23 @@ Test
 
 !include -c <E2E.GuiSetUp
 
-|script                                                                                      |
-|Open Npo poms website                                                                       |
-|Npo poms Inlogscherm Log in met ${gebruiker}                                                |
-|Npo poms Zoeken Vul                                     |$mid    |in zoekveld               |
-|Npo poms Zoeken Druk knop                               |Zoeken                             |
-|Npo poms Zoeken Wacht tot zoekopdracht met Gezocht naar:|'$mid'  |klaar is                  |
-|Npo poms Zoeken Check aantal zoekresultaten             |1                                  |
-|Npo poms Zoeken Open eerste object                                                          |
-|Npo poms Tabblad object Check status                    |${status1}                         |
-|Npo poms Tabblad object Check veldtype 2                |Type    |heeft waarde|${typeGui1}  |
-|Npo poms Tabblad object Check veldtype 2                |Titel   |heeft waarde|${titel1}    |
-|Npo poms Tabblad object Check veldtype 2                |AV-Type |heeft waarde|${avTypeGui1}|
-|Npo poms Tabblad object Check veldtype 1                |Omroepen|heeft waarde|${omroep1}   |
-|Npo poms Tabblad object Druk op link                    |Labels  |in sidebar                |
-|Npo poms Tabblad object Wacht tot scrollen klaar is                                         |
-|Npo poms Tabblad object Check veldtype 2                |Genres  |heeft waarde|${genreGui1} |
+|script                                                                                   |
+|Open Npo poms website                                                                    |
+|Npo poms Inlogscherm Log in met ${gebruiker}                                             |
+|Npo poms Zoeken Vul                        |$mid              |in zoekveld               |
+|Npo poms Zoeken Druk knop                  |Zoeken                                       |
+|Npo poms Zoeken Wacht tot zoeken klaar is                                                |
+|ensure                                     |is visible on page|Gezocht naar: '$mid'      |
+|Npo poms Zoeken Check aantal zoekresultaten|1                                            |
+|Npo poms Zoeken Open eerste object                                                       |
+|Npo poms Tabblad object Check status       |${status1}                                   |
+|Npo poms Tabblad object Check veldtype 2   |Type              |heeft waarde|${typeGui1}  |
+|Npo poms Tabblad object Check veldtype 2   |Titel             |heeft waarde|${titel1}    |
+|Npo poms Tabblad object Check veldtype 2   |AV-Type           |heeft waarde|${avTypeGui1}|
+|Npo poms Tabblad object Check veldtype 1   |Omroepen          |heeft waarde|${omroep1}   |
+|Npo poms Tabblad object Druk op link       |Labels            |in sidebar                |
+|Npo poms Tabblad object Wacht tot scrollen klaar is                                      |
+|Npo poms Tabblad object Check veldtype 2   |Genres            |heeft waarde|${genreGui1} |
 
 !include -c <E2E.GuiTearDown
 !include -c <E2E.ApiBackendSetUp
@@ -109,6 +110,7 @@ Test
 |Npo poms Inlogscherm Log in met ${gebruiker}                                                                  |
 |Npo poms Zoeken Vul                                     |$mid              |in zoekveld                       |
 |Npo poms Zoeken Druk knop                               |Zoeken                                               |
+|Npo poms Zoeken Wacht tot zoeken klaar is                                                                     |
 |Npo poms Zoeken Wacht tot zoekopdracht met Gezocht naar:|'$mid'            |klaar is                          |
 |Npo poms Zoeken Check aantal zoekresultaten             |1                                                    |
 |Npo poms Zoeken Open eerste object                                                                            |
@@ -143,6 +145,7 @@ Test
 |Npo poms Inlogscherm Log in met admin                                      |
 |Npo poms Zoeken Vul                                     |$mid  |in zoekveld|
 |Npo poms Zoeken Druk knop                               |Zoeken            |
+|Npo poms Zoeken Wacht tot zoeken klaar is                                  |
 |Npo poms Zoeken Wacht tot zoekopdracht met Gezocht naar:|'$mid'|klaar is   |
 |Npo poms Zoeken Check aantal zoekresultaten             |1                 |
 |Npo poms Zoeken Open eerste object                                         |

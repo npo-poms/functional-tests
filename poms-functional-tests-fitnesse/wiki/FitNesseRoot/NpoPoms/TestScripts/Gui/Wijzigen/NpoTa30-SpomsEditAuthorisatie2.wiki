@@ -10,13 +10,13 @@ Test
 
 *!
 
-|script                                                                                                                 |
-|Open Npo poms website                                                                                                  |
-|Npo poms Inlogscherm Log in met standaard-gebruiker                                                                    |
-|Npo poms Zoeken Selecteer optie                         |${mediatype}                        |in dropdown|!-MediaType-!|
-|Npo poms Zoeken Selecteer optie                         |${omroep}                           |in dropdown|Omroepen     |
-|Npo poms Zoeken Selecteer optie                         |${criteria}                         |in dropdown|Criteria     |
-|Npo poms Zoeken Wacht tot zoekopdracht met Gezocht naar:|${mediatype}, ${omroep}, ${criteria}|klaar is                 |
-|Npo poms Zoeken Check aantal zoekresultaten             |0                                                             |
-|Npo poms Hoofdscherm Sluit laatste tab                                                                                 |
-|Npo poms Hoofdscherm Log uit                                                                                           |
+|script                                                                                                           |
+|Open Npo poms website                                                                                            |
+|Npo poms Inlogscherm Log in met standaard-gebruiker                                                              |
+|Npo poms Zoeken Selecteer optie            |${mediatype}      |in dropdown             |!-MediaType-!            |
+|Npo poms Zoeken Selecteer optie            |${omroep}         |in dropdown             |Omroepen                 |
+|Npo poms Zoeken Selecteer optie            |${criteria}       |in dropdown             |Criteria                 |
+|ensure                                     |is visible on page|Gezocht naar: ${mediatype}, ${omroep}, ${criteria}|
+|Npo poms Zoeken Check aantal zoekresultaten|0                                                                    |
+|Npo poms Hoofdscherm Sluit laatste tab                                                                           |
+|Npo poms Hoofdscherm Log uit                                                                                     |

@@ -13,44 +13,45 @@ Test
 
 *!
 
-|script                                                                                                                                |
-|Open Npo poms website                                                                                                                 |
-|Npo poms Inlogscherm Log in met npo                                                                                                   |
-|Npo poms Zoeken Selecteer optie                         |${mediatype1}                         |in dropdown             |!-MediaType-!|
-|Npo poms Zoeken Selecteer optie                         |${criteria1}                          |in dropdown             |Criteria     |
-|Npo poms Zoeken Selecteer optie                         |${avType}                             |in single-optie dropdown|!-avType-!   |
-|Npo poms Zoeken Wacht tot zoekopdracht met Gezocht naar:|${mediatype1}, ${avType}, ${criteria1}|klaar is                              |
-|Npo poms Zoeken Sla aantal zoekresultaten op in var     |aantalZoekresultaten1                                                        |
-|Npo poms Zoeken Open object nummer                      |${objectNummer}                                                              |
-|Npo poms Tabblad object Sla mid of urn op in var        |mid                                                                          |
-|click                                                   |Type                                                                         |
-|set search context to                                   |xpath=//span[@class="editable-controls"]                                     |
-|click                                                   |${mediatype2}                                                                |
-|click                                                   |save                                                                         |
-|clear search context                                                                                                                  |
-|wait for not visible                                    |save                                                                         |
-|Npo poms Tabblad object Check veldtype 2                |Type                                  |heeft waarde            |${mediatype2}|
-|Npo poms Hoofdscherm Sluit laatste tab                                                                                                |
-|Npo poms Hoofdscherm Sluit laatste tab                                                                                                |
-|Npo poms Zoeken Selecteer optie                         |${mediatype1}                         |in dropdown             |!-MediaType-!|
-|Npo poms Zoeken Selecteer optie                         |${criteria1}                          |in dropdown             |Criteria     |
-|Npo poms Zoeken Selecteer optie                         |${avType}                             |in single-optie dropdown|!-avType-!   |
-|Npo poms Zoeken Wacht tot zoekopdracht met Gezocht naar:|${mediatype1}, ${avType}, ${criteria1}|klaar is                              |
-|$aantalZoekresultaten2=                                 |subtract                              |$aantalZoekresultaten1  |and    |1    |
-|Npo poms Zoeken Check aantal zoekresultaten             |$aantalZoekresultaten2                                                       |
-|Npo poms Hoofdscherm Sluit laatste tab                                                                                                |
-|Npo poms Hoofdscherm Sluit laatste tab                                                                                                |
-|Npo poms Zoeken Vul                                     |$mid                                  |in zoekveld                           |
-|Npo poms Zoeken Druk knop                               |Zoeken                                                                       |
-|Npo poms Zoeken Wacht tot zoekopdracht met Gezocht naar:|'$mid'                                |klaar is                              |
-|Npo poms Zoeken Open eerste object                                                                                                    |
-|click                                                   |Type                                                                         |
-|set search context to                                   |xpath=//span[@class="editable-controls"]                                     |
-|click                                                   |${mediatype1}                                                                |
-|click                                                   |save                                                                         |
-|clear search context                                                                                                                  |
-|wait for not visible                                    |save                                                                         |
-|Npo poms Tabblad object Check veldtype 2                |Type                                  |heeft waarde            |${mediatype1}|
-|Npo poms Hoofdscherm Sluit laatste tab                                                                                                |
-|Npo poms Hoofdscherm Sluit laatste tab                                                                                                |
-|Npo poms Hoofdscherm Log uit                                                                                                          |
+|script                                                                                                                     |
+|Open Npo poms website                                                                                                      |
+|Npo poms Inlogscherm Log in met npo                                                                                        |
+|Npo poms Zoeken Selecteer optie                    |${mediatype1}     |in dropdown                  |!-MediaType-!         |
+|Npo poms Zoeken Selecteer optie                    |${criteria1}      |in dropdown                  |Criteria              |
+|Npo poms Zoeken Selecteer optie                    |${avType}         |in single-optie dropdown     |!-avType-!            |
+|ensure                                             |is visible on page|Gezocht naar: ${mediatype1}, ${avType}, ${criteria1}|
+|Npo poms Zoeken Sla aantal zoekresultaten op in var|aantalZoekresultaten1                                                  |
+|Npo poms Zoeken Open object nummer                 |${objectNummer}                                                        |
+|Npo poms Tabblad object Sla mid of urn op in var   |mid                                                                    |
+|click                                              |Type                                                                   |
+|set search context to                              |xpath=//span[@class="editable-controls"]                               |
+|click                                              |${mediatype2}                                                          |
+|click                                              |save                                                                   |
+|clear search context                                                                                                       |
+|wait for not visible                               |save                                                                   |
+|Npo poms Tabblad object Check veldtype 2           |Type              |heeft waarde                 |${mediatype2}         |
+|Npo poms Hoofdscherm Sluit laatste tab                                                                                     |
+|Npo poms Hoofdscherm Sluit laatste tab                                                                                     |
+|Npo poms Zoeken Selecteer optie                    |${mediatype1}     |in dropdown                  |!-MediaType-!         |
+|Npo poms Zoeken Selecteer optie                    |${criteria1}      |in dropdown                  |Criteria              |
+|Npo poms Zoeken Selecteer optie                    |${avType}         |in single-optie dropdown     |!-avType-!            |
+|ensure                                             |is visible on page|${mediatype1}, ${avType}, ${criteria1}              |
+|$aantalZoekresultaten2=                            |subtract          |$aantalZoekresultaten1       |and         |1        |
+|Npo poms Zoeken Check aantal zoekresultaten        |$aantalZoekresultaten2                                                 |
+|Npo poms Hoofdscherm Sluit laatste tab                                                                                     |
+|Npo poms Hoofdscherm Sluit laatste tab                                                                                     |
+|Npo poms Zoeken Vul                                |$mid              |in zoekveld                                         |
+|Npo poms Zoeken Druk knop                          |Zoeken                                                                 |
+|Npo poms Zoeken Wacht tot zoeken klaar is                                                                                  |
+|ensure                                             |is visible on page|Gezocht naar: '$mid'                                |
+|Npo poms Zoeken Open eerste object                                                                                         |
+|click                                              |Type                                                                   |
+|set search context to                              |xpath=//span[@class="editable-controls"]                               |
+|click                                              |${mediatype1}                                                          |
+|click                                              |save                                                                   |
+|clear search context                                                                                                       |
+|wait for not visible                               |save                                                                   |
+|Npo poms Tabblad object Check veldtype 2           |Type              |heeft waarde                 |${mediatype1}         |
+|Npo poms Hoofdscherm Sluit laatste tab                                                                                     |
+|Npo poms Hoofdscherm Sluit laatste tab                                                                                     |
+|Npo poms Hoofdscherm Log uit                                                                                               |

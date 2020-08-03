@@ -8,33 +8,33 @@ Test
 
 *!
 
-|script                                                                                                                  |
-|Open Npo poms website                                                                                                   |
-|Npo poms Inlogscherm Log in met npo                                                                                     |
-|Npo poms Zoeken Selecteer optie                                                  |${zender}         |in dropdown|Zenders|
-|Npo poms Zoeken Wacht tot zoekopdracht met Gezocht naar:                         |${zender}         |klaar is           |
-|Npo poms Zoeken Open object nummer                                               |10                                    |
-|Npo poms Tabblad object Druk op link                                             |Uitzendingen      |in sidebar         |
-|Npo poms Tabblad object Wacht tot scrollen klaar is                                                                     |
-|Npo poms Tabblad object Dubbelklik op uitzending                                 |${zender}                             |
-|Npo poms Tabblad object Detailscherm controleer aanwezigheid dropdown met titel  |Kanaal:                               |
-|Npo poms Tabblad object Detailscherm controleer aanwezigheid dropdown met titel  |Net:                                  |
-|Npo poms Tabblad object Detailscherm controleer aanwezigheid input veld met titel|Starttijd:                            |
-|Npo poms Tabblad object Detailscherm controleer aanwezigheid input veld met titel|Stoptijd:                             |
-|Npo poms Tabblad object Detailscherm controleer aanwezigheid input veld met titel|Titel                                 |
-|Npo poms Tabblad object Detailscherm controleer aanwezigheid input veld met titel|Afleveringtitel / Subtitel            |
-|Npo poms Tabblad object Detailscherm controleer aanwezigheid input veld met titel|Korte titel                           |
-|Npo poms Tabblad object Detailscherm controleer aanwezigheid input veld met titel|Afkorting                             |
-|Npo poms Tabblad object Detailscherm controleer aanwezigheid input veld met titel|Werktitel                             |
-|Npo poms Tabblad object Detailscherm controleer aanwezigheid input veld met titel|Originele titel                       |
-|Npo poms Tabblad object Detailscherm controleer aanwezigheid textarea met titel  |Beschrijving                          |
-|Npo poms Tabblad object Detailscherm controleer aanwezigheid textarea met titel  |Korte beschrijving                    |
-|Npo poms Tabblad object Detailscherm controleer aanwezigheid textarea met titel  |Eenregelige beschrijving              |
-|ensure                                                                           |is visible on page|Bewaar             |
-|ensure                                                                           |is visible on page|Annuleer           |
-|ensure                                                                           |is visible on page|Gidsdatum:         |
-|ensure                                                                           |is visible on page|Teletekstpagina:   |
-|ensure                                                                           |is visible on page|Ondertiteling:     |
-|ensure                                                                           |is visible on page|Herhaling:         |
-|Npo poms Tabblad object Detailscherm Druk op kruisje om pop-up te sluiten                                               |
-|Npo poms Hoofdscherm Sluit laatste tab                                                                                  |
+|script                                                                                                                      |
+|Open Npo poms website                                                                                                       |
+|Npo poms Inlogscherm Log in met npo                                                                                         |
+|Npo poms Zoeken Selecteer optie                                                  |${zender}         |in dropdown  |Zenders  |
+|ensure                                                                           |is visible on page|Gezocht naar: ${zender}|
+|Npo poms Zoeken Open object nummer                                               |10                                        |
+|Npo poms Tabblad object Druk op link                                             |Uitzendingen      |in sidebar             |
+|Npo poms Tabblad object Wacht tot scrollen klaar is                                                                         |
+|Npo poms Tabblad object Dubbelklik op uitzending                                 |${zender}                                 |
+|Npo poms Tabblad object Detailscherm controleer aanwezigheid dropdown met titel  |Kanaal:                                   |
+|Npo poms Tabblad object Detailscherm controleer aanwezigheid dropdown met titel  |Net:                                      |
+|Npo poms Tabblad object Detailscherm controleer aanwezigheid input veld met titel|Starttijd:                                |
+|Npo poms Tabblad object Detailscherm controleer aanwezigheid input veld met titel|Stoptijd:                                 |
+|Npo poms Tabblad object Detailscherm controleer aanwezigheid input veld met titel|Titel                                     |
+|Npo poms Tabblad object Detailscherm controleer aanwezigheid input veld met titel|Afleveringtitel / Subtitel                |
+|Npo poms Tabblad object Detailscherm controleer aanwezigheid input veld met titel|Korte titel                               |
+|Npo poms Tabblad object Detailscherm controleer aanwezigheid input veld met titel|Afkorting                                 |
+|Npo poms Tabblad object Detailscherm controleer aanwezigheid input veld met titel|Werktitel                                 |
+|Npo poms Tabblad object Detailscherm controleer aanwezigheid input veld met titel|Originele titel                           |
+|Npo poms Tabblad object Detailscherm controleer aanwezigheid textarea met titel  |Beschrijving                              |
+|Npo poms Tabblad object Detailscherm controleer aanwezigheid textarea met titel  |Korte beschrijving                        |
+|Npo poms Tabblad object Detailscherm controleer aanwezigheid textarea met titel  |Eenregelige beschrijving                  |
+|ensure                                                                           |is visible on page|Bewaar                 |
+|ensure                                                                           |is visible on page|Annuleer               |
+|ensure                                                                           |is visible on page|Gidsdatum:             |
+|ensure                                                                           |is visible on page|Teletekstpagina:       |
+|ensure                                                                           |is visible on page|Ondertiteling:         |
+|ensure                                                                           |is visible on page|Herhaling:             |
+|Npo poms Tabblad object Detailscherm Druk op kruisje om pop-up te sluiten                                                   |
+|Npo poms Hoofdscherm Sluit laatste tab                                                                                      |

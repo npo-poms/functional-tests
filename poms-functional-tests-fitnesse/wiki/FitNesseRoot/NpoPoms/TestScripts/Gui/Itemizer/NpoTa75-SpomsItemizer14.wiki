@@ -74,7 +74,6 @@ Test
 |Npo poms Tabblad object Detailscherm Check tekstveld|Duur                    |heeft waarde |${duur}                      |
 |hover over                                          |Bewaar en sluit                                                     |
 |click                                               |Bewaar en sluit                                                     |
-|wait for not visible                                |Bewaar en sluit                                                     |
 |Npo poms Tabblad object Wacht tot sidebar volledig geladen is                                                            |
 |set search context to                               |xpath=//poms-segments                                               |
 |Npo poms Tabblad object Check aantal in veld        |Segmenten               |is var       |aantalSegmenten   |plus  |2  |

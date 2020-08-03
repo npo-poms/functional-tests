@@ -11,13 +11,13 @@ Test
 
 *!
 
-|script                                                                                                    |
-|Open Npo poms website                                                                                     |
-|Npo poms Inlogscherm Log in met standaard-gebruiker                                                       |
-|Npo poms Zoeken Selecteer optie                         |${mediatype}           |in dropdown|!-MediaType-!|
-|Npo poms Zoeken Selecteer optie                         |${omroep}              |in dropdown|Omroepen     |
-|Npo poms Zoeken Wacht tot zoekopdracht met Gezocht naar:|${mediatype}, ${omroep}|klaar is                 |
-|Npo poms Zoeken Open eerste object                                                                        |
+|script                                                                                  |
+|Open Npo poms website                                                                   |
+|Npo poms Inlogscherm Log in met standaard-gebruiker                                     |
+|Npo poms Zoeken Selecteer optie|${mediatype}      |in dropdown      |!-MediaType-!      |
+|Npo poms Zoeken Selecteer optie|${omroep}         |in dropdown      |Omroepen           |
+|ensure                         |is visible on page|Gezocht naar: ${mediatype}, ${omroep}|
+|Npo poms Zoeken Open eerste object                                                      |
 
 |Npo poms Tabblad object Check permissies van veld                                                                                     |
 |veld                      |heeft slotje?|kan bewerken?|kan verwijderen als veld niet leeg is en kan niet verwijderen als veld leeg is?|
@@ -58,16 +58,16 @@ Test
 |veld  |heeft slotje?|kan bewerken?|kan verwijderen?|
 |Genres|false        |true         |false           |
 
-|Npo poms Tabblad object Check permissies van veld                                                                                |
-|veld                 |heeft slotje?|kan bewerken?|kan verwijderen als veld niet leeg is en kan niet verwijderen als veld leeg is?|
-|Tags                 |false        |true         |true                                                                           |
-|Doelgroep            |false        |true         |true                                                                           |
-|Intenties            |false        |true         |true                                                                           |
+|Npo poms Tabblad object Check permissies van veld                                                                    |
+|veld     |heeft slotje?|kan bewerken?|kan verwijderen als veld niet leeg is en kan niet verwijderen als veld leeg is?|
+|Tags     |false        |true         |true                                                                           |
+|Doelgroep|false        |true         |true                                                                           |
+|Intenties|false        |true         |true                                                                           |
 
 {{{
-|Npo poms Tabblad object Check permissies van veld                                                                                |
-|veld                 |heeft slotje?|kan bewerken?|kan verwijderen als veld niet leeg is en kan niet verwijderen als veld leeg is?|
-|Naamsvermeldingen    |false        |false        |true                                                                           |
+|Npo poms Tabblad object Check permissies van veld                                                                            |
+|veld             |heeft slotje?|kan bewerken?|kan verwijderen als veld niet leeg is en kan niet verwijderen als veld leeg is?|
+|Naamsvermeldingen|false        |false        |true                                                                           |
 }}}
 
 |Npo poms Tabblad object Check permissies van veld                                                                                |
