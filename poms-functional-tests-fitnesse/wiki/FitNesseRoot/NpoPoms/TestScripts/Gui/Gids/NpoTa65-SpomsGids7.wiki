@@ -8,12 +8,12 @@ Test
 |script                                                                                                                                                                                                       |
 |Open Npo poms website                                                                                                                                                                                        |
 |Npo poms Inlogscherm Log in met standaard-gebruiker                                                                                                                                                          |
+|Npo poms Zoeken Selecteer optie            |Nederland 3 & Zapp                                                       |in dropdown                                   |Zenders                                 |
 |click                                      |Datum & Persoon                                                                                                                                                  |
 |Npo poms Zoeken Vul                        |$today                                                                   |in tekstveld                                  |van:                                    |
 |Npo poms Zoeken Vul                        |$today                                                                   |in tekstveld                                  |t/m                                     |
 |Npo poms Zoeken Klik op                    |Zoek                                                                     |in geopende dropdown                          |Datum & Persoon                         |
 |Npo poms Zoeken Wacht tot zoeken klaar is                                                                                                                                                                    |
-|Npo poms Zoeken Selecteer optie            |Nederland 3 & Zapp                                                       |in dropdown                                   |Zenders                                 |
 |ensure                                     |is visible on page                                                       |Gezocht naar: Nederland 3 & Zapp, uitzend-/sorteerdatum: vanaf $today tot en met $today|
 |Npo poms Zoeken Druk op tandwieltje                                                                                                                                                                          |
 |set search context to                      |xpath=//poms-search-columns                                                                                                                                      |

@@ -10,25 +10,25 @@ Test
 
 *!
 
-|script                                                                                                                  |
-|Open Npo poms website                                                                                                   |
-|Npo poms Inlogscherm Log in met standaard-gebruiker                                                                     |
-|Npo poms Zoeken Selecteer optie                 |${mediatype}      |in dropdown                           |!-MediaType-!|
-|Npo poms Zoeken Selecteer optie                 |${omroep1}        |in dropdown                           |Omroepen     |
-|ensure                                          |is visible on page|Gezocht naar: ${mediatype}, ${omroep1}              |
-|click                                           |Onderdeel van                                                          |
-|click                                           |zoek een item                                                          |
-|Npo poms Zoeken Popup Wacht tot zoeken klaar is                                                                         |
-|ensure                                          |is visible on page|Gezocht naar: Groep, niet:            |klaar is     |
-|Npo poms Zoeken Popup Selecteer optie           |${omroep2}        |in dropdown                           |Omroepen     |
-|ensure                                          |is visible on page|Gezocht naar: Groep, ${omroep2}, niet:|klaar is     |
-|Npo poms Zoeken Druk op tandwieltje                                                                                     |
-|set search context to                           |xpath=//div[@class="modal-body"]//poms-search-columns                  |
-|click                                           |Omroep                                                                 |
-|clear search context                                                                                                    |
-|Npo poms Zoeken Druk op tandwieltje                                                                                     |
-|Npo poms Zoeken Check eerste object heeft omroep|${omroep1}                                                             |
-|Npo poms Zoeken Check eerste object heeft omroep|${omroep2}                                                             |
-|Npo poms Tabblad object Detailscherm Druk op kruisje om pop-up te sluiten                                               |
-|Npo poms Hoofdscherm Sluit laatste tab                                                                                  |
-|Npo poms Hoofdscherm Log uit                                                                                            |
+|script                                                                                                    |
+|Open Npo poms website                                                                                     |
+|Npo poms Inlogscherm Log in met standaard-gebruiker                                                       |
+|Npo poms Zoeken Selecteer optie                 |${mediatype}      |in dropdown       |!-MediaType-!      |
+|Npo poms Zoeken Selecteer optie                 |${omroep1}        |in dropdown       |Omroepen           |
+|ensure                                          |is visible on page|Gezocht naar: ${mediatype}, ${omroep1}|
+|click                                           |Onderdeel van                                            |
+|click                                           |zoek een item                                            |
+|Npo poms Zoeken Popup Wacht tot zoeken klaar is                                                           |
+|ensure                                          |is visible on page|Gezocht naar: Groep, niet:            |
+|Npo poms Zoeken Popup Selecteer optie           |${omroep2}        |in dropdown       |Omroepen           |
+|ensure                                          |is visible on page|Gezocht naar: Groep, ${omroep2}, niet:|
+|Npo poms Zoeken Druk op tandwieltje                                                                       |
+|set search context to                           |xpath=//div[@class="modal-body"]//poms-search-columns    |
+|click                                           |Omroep                                                   |
+|clear search context                                                                                      |
+|Npo poms Zoeken Druk op tandwieltje                                                                       |
+|Npo poms Zoeken Check eerste object heeft omroep|${omroep1}                                               |
+|Npo poms Zoeken Check eerste object heeft omroep|${omroep2}                                               |
+|Npo poms Tabblad object Detailscherm Druk op kruisje om pop-up te sluiten                                 |
+|Npo poms Hoofdscherm Sluit laatste tab                                                                    |
+|Npo poms Hoofdscherm Log uit                                                                              |
