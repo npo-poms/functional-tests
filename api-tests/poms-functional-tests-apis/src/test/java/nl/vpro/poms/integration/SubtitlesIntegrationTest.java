@@ -40,7 +40,6 @@ import static org.junit.jupiter.api.Assumptions.assumeTrue;
 @Log4j2
 public class SubtitlesIntegrationTest extends AbstractApiMediaBackendTest {
 
-
     private static final AvailableSubtitles JAPANESE_TRANSLATION = AvailableSubtitles.published(JAPANESE, TRANSLATION);
     private static final AvailableSubtitles CHINESE_TRANSLATION = AvailableSubtitles.published(CHINESE, TRANSLATION);
 
@@ -98,7 +97,6 @@ public class SubtitlesIntegrationTest extends AbstractApiMediaBackendTest {
                 return availableSubtitles.containsAll(Arrays.asList(JAPANESE_TRANSLATION, CHINESE_TRANSLATION));
             });
         arrivedInBackend = true;
-
     }
 
     @Test
@@ -133,12 +131,13 @@ public class SubtitlesIntegrationTest extends AbstractApiMediaBackendTest {
         waitUntil(ACCEPTABLE_DURATION_BACKEND,
              () -> backend.getFull(MID_WITH_LOCATIONS),
             Utils.Check.<MediaObject>builder()
-                .description("All locations of {} must be publish stop {}", MID_WITH_LOCATIONS, now)
+                .description("All locations of {} must have publish stop {}", MID_WITH_LOCATIONS, now)
+                .failureDescription((mo) -> "Some of the location of " + mo + " " + mo.getLocations() + " don't have expected pubilsh stop " + now)
                 .predicate(mo -> mo.getLocations().stream().allMatch((t) -> Objects.equals(t.getPublishStopInstant(), NOWI)))
                 .build(),
             Utils.Check.<MediaObject>builder()
                 .description("{} has no publishable locations (they are to be revoked at {})", MID_WITH_LOCATIONS, now)
-                .failureDescription((mo) -> "Some of the location of " + mo + " are still publishable " + mo.getLocations())
+                .failureDescription((mo) -> "Some of the locations of " + mo + " are still publishable " + mo.getLocations())
                 .predicate(mo -> mo.getLocations().stream().noneMatch((t) -> t.isPublishable(NOWI)))
                 .build());
 
@@ -314,7 +313,7 @@ public class SubtitlesIntegrationTest extends AbstractApiMediaBackendTest {
      void waitForCuesAvailableInFrontend(Locale... locales) {
          assumeThat(firstTitle).isNotNull();
          assumeTrue(arrivedInBackend);
-         for(Locale locale : locales) {
+         for (Locale locale : locales) {
              PeekingIterator<StandaloneCue> cueIterator = waitUntil(ACCEPTABLE_DURATION_FRONTEND,
                  MID_WITH_LOCATIONS + "/" + locale + "[0]=" + firstTitle,
                  () -> {
@@ -331,7 +330,7 @@ public class SubtitlesIntegrationTest extends AbstractApiMediaBackendTest {
                      }
                  }
                  , (pi) -> {
-                     if (pi == null ||  !pi.hasNext()) {
+                     if (pi == null || !pi.hasNext()) {
                          log.info("No results yet");
                          return false;
                      }
@@ -346,7 +345,5 @@ public class SubtitlesIntegrationTest extends AbstractApiMediaBackendTest {
              );
              assertThat(cueIterator).toIterable().hasSize(3);
          }
-    }
-
-
+     }
 }
