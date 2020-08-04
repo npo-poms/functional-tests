@@ -1,3 +1,11 @@
+|scenario            |Npo poms Tabblad object Wacht tot detailscherm geopend                                                                          |
+|wait for not visible|xpath=//script[@type="text/javascript"]/following-sibling::div[@class="modal-backdrop fade "]                                   |
+|wait for not visible|xpath=//script[@type="text/javascript"]/following-sibling::div[@class="modal-backdrop fade  ng-animate in-add in in-add-active"]|
+|wait for visible    |xpath=//script[@type="text/javascript"]/following-sibling::div[@class="modal-backdrop fade  in"]                                |
+
+|scenario            |Npo poms Tabblad object Wacht tot detailscherm gesloten                                         |
+|wait for not visible|xpath=//script[@type="text/javascript"]/following-sibling::div[@class="modal-backdrop fade  in"]|
+
 |scenario|Npo poms Tabblad object Detailscherm Check checkbox|checkbox                                   |actief                                   |
 |ensure  |is visible on page                                 |xpath=//label[text()="@checkbox"]/following-sibling::input[not(@disabled="disabled")]|
 
