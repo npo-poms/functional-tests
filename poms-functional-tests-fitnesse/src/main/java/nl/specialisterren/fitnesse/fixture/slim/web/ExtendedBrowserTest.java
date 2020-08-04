@@ -18,6 +18,11 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
+import java.util.Calendar;
+import java.util.Date;
+import java.text.SimpleDateFormat;
+import java.text.ParseException;
+
 public class ExtendedBrowserTest extends BrowserTest {
     private LinkedList<String> previousPropertyValues = new LinkedList<>();
 
@@ -269,4 +274,106 @@ public class ExtendedBrowserTest extends BrowserTest {
             return super.switchToPreviousTab();
         }
     }
+	
+	public String getSortDate(WebElement element) {
+		ArrayList<String> values = null;
+		if (element != null) {
+			WebElement item = element.findElement(By.cssSelector(".column-sortDate"));
+			if (item != null)
+				return getElementText(item);
+		}
+		return null;
+	}
+	
+    public ArrayList<String> sortDatesOfIn(String place, String container) {
+        ArrayList<String> values = null;
+        WebElement element = getElementToRetrieveValue(place, container);
+		if (element != null) {
+			element = element.findElement(By.tagName("tbody"));
+			if (element != null) {
+				values = new ArrayList<String>();
+				String tagName = element.getTagName();
+				if ("tbody".equalsIgnoreCase(tagName)) {
+					List<WebElement> items = element.findElements(By.tagName("tr"));
+					for (WebElement item : items) {
+						if (item.isDisplayed()) {
+							values.add(getSortDate(item));
+						}
+					}
+				}
+			}
+		}
+        return values;
+    }
+	
+	public String listAllSortDatesOfIn(String place, String container) {
+        String result = null;
+        List<String> values = sortDatesOfIn(place, container);
+        if (values != null && !values.isEmpty()) {
+            StringBuilder sb = new StringBuilder();
+            sb.append("<div><ul>");
+            for (String value : values) {
+                sb.append("<li>");
+                sb.append(value);
+                sb.append("</li>");
+            }
+            sb.append("</ul></div>");
+            result = sb.toString();
+        }
+        return result;
+    }
+	
+	public String listAllSortDatesOf(String place) {
+		return listAllSortDatesOfIn(place, null);
+	}
+	
+	public ArrayList<String> sortDatesOf(String list) {
+		ArrayList<String> values = new ArrayList<String>();
+		Pattern pattern = Pattern.compile("<li>.+?</li>");
+		Matcher matcher = pattern.matcher(list);
+		while (matcher.find())
+		{
+			String item = matcher.group();
+			Pattern p = Pattern.compile("<li>(\\d{2}-\\d{2}-\\d{4}) .+?(\\n.+?)*?</li>");
+			Matcher m = p.matcher(item);
+			if (m.find())
+				values.add(m.group(1));
+		}
+		return values;
+	}
+	
+	public ArrayList<Boolean> datesAreDate(String list, String comparison, String date2) throws ParseException {
+		ArrayList<Boolean> result = new ArrayList<Boolean>();
+		ArrayList<String> dates = sortDatesOf(list);
+		Date dateToCompare2 = new SimpleDateFormat("dd-MM-yyyy").parse(date2); 
+			
+		for (String date : dates) {
+			Date dateToCompare1 = new SimpleDateFormat("dd-MM-yyyy").parse(date); 
+			
+			switch (comparison) {
+				case ">=":
+					result.add(dateToCompare1.after(dateToCompare2) || dateToCompare1.equals(dateToCompare2));
+					break;
+
+				case "==":
+					result.add(dateToCompare1.equals(dateToCompare2));
+					break;
+					
+				default:
+					result.add(false);
+			}
+			
+		}
+		
+		return result;
+	}
+	
+	public Boolean listAllTrue(ArrayList<Boolean> list) {
+		for (Boolean item : list) {
+			if (!item)
+				return false;
+		}
+		
+		return true;
+	}
 }

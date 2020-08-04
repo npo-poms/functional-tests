@@ -5,14 +5,15 @@ Test
 |script                           |
 |$today=|store|!today (dd-MM-yyyy)|
 
-|script                                                                                                                                                                  |
-|Open Npo poms website                                                                                                                                                   |
-|Npo poms Inlogscherm Log in met standaard-gebruiker                                                                                                                     |
-|Npo poms Zoeken Selecteer optie                                                       |Nederland 1       |in dropdown                      |Zenders                     |
-|click                                                                                 |Datum & Persoon                                                                  |
-|Npo poms Zoeken Vul                                                                   |$today            |in tekstveld                     |van:                        |
-|Npo poms Zoeken Klik op                                                               |Zoek              |in geopende dropdown             |Datum & Persoon             |
-|Npo poms Zoeken Wacht tot zoeken klaar is                                                                                                                               |
-|ensure                                                                                |is visible on page|Gezocht naar: Nederland 1, uitzend-/sorteerdatum: vanaf $today|
-|Npo poms Zoeken Check of de sorteerdatum van de zoekresultaten gelijk aan of later dan|$today            |is                                                            |
-|Npo poms Hoofdscherm Log uit                                                                                                                                            |
+|script                                                                                                                                                                                          |
+|Open Npo poms website                                                                                                                                                                           |
+|Npo poms Inlogscherm Log in met standaard-gebruiker                                                                                                                                             |
+|Npo poms Zoeken Selecteer optie           |Nederland 1                                                                           |in dropdown                      |Zenders                     |
+|click                                     |Datum & Persoon                                                                                                                                      |
+|Npo poms Zoeken Vul                       |$today                                                                                |in tekstveld                     |van:                        |
+|Npo poms Zoeken Klik op                   |Zoek                                                                                  |in geopende dropdown             |Datum & Persoon             |
+|Npo poms Zoeken Wacht tot zoeken klaar is                                                                                                                                                       |
+|ensure                                    |is visible on page                                                                    |Gezocht naar: Nederland 1, uitzend-/sorteerdatum: vanaf $today|
+|Npo poms Zoeken Check dat alle sorteerdata|>=                                                                                    |vandaag                                                       |
+|                                          |Npo poms Zoeken Check of de sorteerdatum van de zoekresultaten gelijk aan of later dan|$today                           |is                          |
+|Npo poms Hoofdscherm Log uit                                                                                                                                                                    |
