@@ -15,6 +15,6 @@ Test
 |Npo poms Zoeken Klik op                   |Zoek                                                                     |in geopende dropdown                      |Datum & Persoon                      |
 |Npo poms Zoeken Wacht tot zoeken klaar is                                                                                                                                                            |
 |ensure                                    |is visible on page                                                       |Gezocht naar: Nederland 1, uitzend-/sorteerdatum: vanaf $today tot en met $today|
-|Npo poms Zoeken Check dat alle sorteerdata|==                                                                       |vandaag                                                                         |
+|Npo poms Zoeken Check dat alle sorteerdata|==                                                                       |datum                                     |$today                               |
 |                                          |Npo poms Zoeken Check of de sorteerdatum van de zoekresultaten gelijk aan|$today                                    |is                                   |
 |Npo poms Hoofdscherm Log uit                                                                                                                                                                         |

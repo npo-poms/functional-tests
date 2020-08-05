@@ -22,11 +22,11 @@
 |scenario|Npo poms Zoeken Druk knop|knop|
 |click   |xpath=//button[text()="@knop"]|
 
-|scenario                                           |Npo poms Zoeken Wacht tot aantal zoekresultaten is veranderd                              |
-|seconds before timeout                             |600                                                                                       |
-|wait for visible                                   |xpath=./div[@class="search-result-count"]/span[not(text()="$laatsteAantalZoekresultaten")]|
-|seconds before timeout                             |${secondsBeforeTimeout}                                                                   |
-|Npo poms Zoeken Sla aantal zoekresultaten op in var|laatsteAantalZoekresultaten                                                               |
+|scenario                                           |Npo poms Zoeken Wacht tot aantal zoekresultaten is veranderd                                                 |
+|seconds before timeout                             |180                                                                                                          |
+|$tmp=                                              |is visible on page|xpath=./div[@class="search-result-count"]/span[not(text()="$laatsteAantalZoekresultaten")]|
+|seconds before timeout                             |${secondsBeforeTimeout}                                                                                      |
+|Npo poms Zoeken Sla aantal zoekresultaten op in var|laatsteAantalZoekresultaten                                                                                  |
 
 |scenario             |Npo poms Zoeken Wacht tot sorteren klaar is                                |
 |wait for visible     |xpath=//poms-search-result/div[1]                                          |
@@ -220,10 +220,10 @@
 |scenario|Npo poms Zoeken Check of de sorteerdatum van de zoekresultaten|vergelijking                                                                                |is vergeleken met|datum                                                                                |
 |ensure  |dates in elements                                             |xpath=//*[contains(concat(" ",@class," "),"search-result-row")]/td[@class="column-sortDate"]|matched with     |!-^([0-9]{2}-[0-9]{2}-[0-9]{4}) [0-9]{2}:[0-9]{2}-!|compare|@vergelijking|with|@datum|
 
-|scenario    |Npo poms Zoeken Check dat alle sorteerdata|vergelijking|vandaag                                   |
-|$sortDates= |list all sort dates of                    |xpath=//table                                          |
-|$comparison=|dates                                     |$sortDates  |are|@vergelijking|date|!today (dd-MM-yyyy)|
-|ensure      |list                                      |$comparison |all true                                  |
+|scenario    |Npo poms Zoeken Check dat alle sorteerdata|vergelijking|datum|datum                    |
+|$sortDates= |list all sort dates of                    |xpath=//table                               |
+|$comparison=|dates                                     |$sortDates  |are  |@vergelijking|date|@datum|
+|ensure      |list                                      |$comparison |all true                       |
 
 |scenario |Npo poms Zoeken Scroll naar object nummer|nummer|
 |scroll to|xpath=//table/tbody/tr[@nummer]                 |
