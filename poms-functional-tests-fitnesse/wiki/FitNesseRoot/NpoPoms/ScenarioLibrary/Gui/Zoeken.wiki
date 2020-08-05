@@ -46,6 +46,7 @@
 |ensure               |is visible on page        |xpath=./div[@class="search-result-count"]       |
 |Npo poms Zoeken Wacht tot aantal zoekresultaten is veranderd                                     |
 |clear search context                                                                             |
+|wait                 |3                         |seconds                                         |
 
 |scenario             |Npo poms Zoeken Popup Wacht tot zoeken klaar is                            |
 |wait for visible     |xpath=//div[@class="modal-body"]//poms-search-result/div[1]                |

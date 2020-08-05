@@ -24,11 +24,13 @@ Test
 |Npo poms Tabblad object Wacht tot scrollen klaar is                                                               |
 |Npo poms Tabblad object Dubbelklik op platform|${platform}                                                        |
 |Npo poms Tabblad object Wacht tot detailscherm geopend                                                            |
+|wait                                          |3                 |seconds                                         |
 |$datum2=                                      |store             |!today (dd-MM-yyyy HH:mm)                       |
 |Npo poms Tabblad object Detailscherm Vul      |$datum2           |in tekstveld                 |Start             |
 |click                                         |Sla op                                                             |
 |Npo poms Tabblad object Wacht tot detailscherm gesloten                                                           |
 |Npo poms Tabblad object Wacht tot sidebar volledig geladen is                                                     |
+|wait                                          |3                 |seconds                                         |
 |Npo poms Tabblad object Druk op link          |Algemeen          |in sidebar                                      |
 |wait for visible                              |Sorteerdatum                                                       |
 |Npo poms Tabblad object Check veldtype 2      |Sorteerdatum      |heeft waarde                 |$datum2           |
