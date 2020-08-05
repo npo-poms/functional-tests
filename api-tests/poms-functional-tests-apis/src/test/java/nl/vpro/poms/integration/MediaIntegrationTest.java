@@ -3,6 +3,7 @@ package nl.vpro.poms.integration;
 import lombok.extern.log4j.Log4j2;
 
 import java.time.Duration;
+import java.time.Instant;
 import java.util.Objects;
 
 import javax.xml.bind.JAXB;
@@ -48,28 +49,29 @@ public class MediaIntegrationTest extends AbstractApiMediaBackendTest {
     @Test
     @Order(1)
     void createMedia() {
+        Instant now = Instant.now();
         clipTitle = title;
         Image expiredImage = createImage("OFFLINE ");
         expiredImage.setTitle("OFFLINE " + title);
-        expiredImage.setPublishStopInstant(NOWI.minus(Duration.ofMinutes(1)));
+        expiredImage.setPublishStopInstant(now.minus(Duration.ofMinutes(1)));
 
         Image publishedImage = createImage("PUBLISHED ");
         publishedImage.setTitle("PUBLISHED " + title);
-        publishedImage.setPublishStopInstant(NOWI.plus(Duration.ofMinutes(10)));
+        publishedImage.setPublishStopInstant(now.plus(Duration.ofMinutes(15)));
 
         Segment expiredSegment= createSegment(1);
         expiredSegment.setMainTitle("OFFLINE " + title);
-        expiredSegment.setPublishStopInstant(NOWI.minus(Duration.ofMinutes(1)));
+        expiredSegment.setPublishStopInstant(now.minus(Duration.ofMinutes(1)));
 
         Segment publishedSegment = createSegment(2);
         publishedSegment.setMainTitle("PUBLISHED " + title);
-        publishedSegment.setPublishStopInstant(NOWI.plus(Duration.ofMinutes(10)));
+        publishedSegment.setPublishStopInstant(now.plus(Duration.ofMinutes(10)));
 
         Location expiredLocation = createLocation(1);
-        expiredLocation.setPublishStopInstant(NOWI.minus(Duration.ofMinutes(1)));
+        expiredLocation.setPublishStopInstant(now.minus(Duration.ofMinutes(1)));
 
         Location publishedLocation = createLocation(2);
-        publishedLocation.setPublishStopInstant(NOWI.plus(Duration.ofMinutes(10)));
+        publishedLocation.setPublishStopInstant(now.plus(Duration.ofMinutes(10)));
 
         ProgramUpdate clip = ProgramUpdate
             .create(
@@ -166,7 +168,7 @@ public class MediaIntegrationTest extends AbstractApiMediaBackendTest {
         assertThat(clip.getMemberOf().first().getMediaRef()).isEqualTo(groupMid);
         assertThat(clip.getMemberOf().first().getNumber()).isEqualTo(2);
         assertThat(clip.getMemberOf()).hasSize(1);
-        assertThat(clip.getImages()).withFailMessage("%s doesn't have 1 image (it has: %s)", clip, clip.getImages()).hasSize(1);
+        assertThat(clip.getImages()).withFailMessage("%s doesn't have 1 image (it has: %d: %s)", clip, clip.getImages().size(), clip.getImages()).hasSize(1);
         assertThat(clip.getSegments()).hasSize(1);
         assertThat(clip.getLocations()).hasSize(1);
         assertThat(clip.getWorkflow()).isEqualTo(Workflow.PUBLISHED);
