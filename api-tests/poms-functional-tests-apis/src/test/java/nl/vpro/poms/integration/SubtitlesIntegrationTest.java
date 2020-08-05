@@ -122,7 +122,7 @@ public class SubtitlesIntegrationTest extends AbstractApiMediaBackendTest {
     @Test
     @Order(5)
     void revokeLocations() {
-        Instant now = NOWI;
+        Instant now = Instant.now();
         ProgramUpdate o = backend.get(MID_WITH_LOCATIONS);
         o.getLocations().forEach(l -> l.setPublishStopInstant(now));
         o.getPredictions().forEach(pu -> pu.setPublishStop(now));
@@ -133,12 +133,12 @@ public class SubtitlesIntegrationTest extends AbstractApiMediaBackendTest {
             Utils.Check.<MediaObject>builder()
                 .description("All locations of {} must have publish stop {}", MID_WITH_LOCATIONS, now)
                 .failureDescription((mo) -> "Some of the location of " + mo + " " + mo.getLocations() + " don't have expected pubilsh stop " + now)
-                .predicate(mo -> mo.getLocations().stream().allMatch((t) -> Objects.equals(t.getPublishStopInstant(), NOWI)))
+                .predicate(mo -> mo.getLocations().stream().allMatch((t) -> Objects.equals(t.getPublishStopInstant(), now)))
                 .build(),
             Utils.Check.<MediaObject>builder()
                 .description("{} has no publishable locations (they are to be revoked at {})", MID_WITH_LOCATIONS, now)
                 .failureDescription((mo) -> "Some of the locations of " + mo + " are still publishable " + mo.getLocations())
-                .predicate(mo -> mo.getLocations().stream().noneMatch((t) -> t.isPublishable(NOWI)))
+                .predicate(mo -> mo.getLocations().stream().noneMatch((t) -> t.isPublishable(now)))
                 .build());
 
     }
