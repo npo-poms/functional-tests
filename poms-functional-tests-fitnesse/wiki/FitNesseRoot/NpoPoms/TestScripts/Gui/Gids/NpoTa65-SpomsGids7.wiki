@@ -23,10 +23,7 @@ Test
 |Npo poms Zoeken Druk op header van kolom   |Laatste uitzending                                                                                                                                               |
 |Npo poms Zoeken Wacht tot sorteren klaar is                                                                                                                                                                  |
 |Npo poms Zoeken Check aantal zoekresultaten|>0                                                                                                                                                               |
-|                                           |Hier faalt het regelmatig in http://files.vpro.nl/specialisterren/.                                                                                              |
-|                                           |In de user story in Jira staat: "Verwachte resultaat: Er is een zoekresultaat voor vandaag, voor "Nederland 3 & Zapp".                                           |
-|                                           |Dit is hetzelfde als: "Filter op vandaag en Nederland 3 & Zapp en check dat het aantal zoekresultaten >0".                                                       |
-|                                           |Deze extra check hoeft wat mij betreft dus niet en daarom wordt deze nu overgeslagen.                                                                            |
+|Npo poms Zoeken Check dat alle sorteerdata |==                                                                       |datum                                         |$today                                  |
 |                                           |Npo poms Zoeken Check of de sorteerdatum van de zoekresultaten gelijk aan|$today                                        |is                                      |
 |Npo poms Zoeken Scroll naar zoekveld                                                                                                                                                                         |
 |Npo poms Zoeken Check kolom                |Laatste uitzending                                                       |aflopend gesorteerd                                                                    |
