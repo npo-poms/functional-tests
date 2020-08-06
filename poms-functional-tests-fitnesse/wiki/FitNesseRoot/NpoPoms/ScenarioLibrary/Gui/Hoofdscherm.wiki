@@ -23,6 +23,14 @@
 |scenario|Npo poms Hoofdscherm Vul|tekst|in zoekveld  |
 |enter   |@tekst                  |as   |xpath=//input|
 
+|scenario        |Npo poms Hoofdscherm Wacht tot tabblad nummer|aantal |zichtbaar|
+|$aantal=        |add                                          |@aantal|and  |1  |
+|wait for visible|xpath=//ul[@class="nav nav-tabs"]/li[$aantal]                  |
+
+|scenario            |Npo poms Hoofdscherm Wacht tot tabblad nummer|aantal |niet zichtbaar|
+|$aantal=            |add                                          |@aantal|and     |1    |
+|wait for not visible|xpath=//ul[@class="nav nav-tabs"]/li[$aantal]                       |
+
 |scenario              |Npo poms Hoofdscherm Check titel van laatste tab begint met|titel                                                                   |
 |seconds before timeout|3                                                                                                                                   |
 |$tabTitel=            |value of                                                   |xpath=//ul[@class="nav nav-tabs"]/li[last()-1]//span[@class="tab-title"]|

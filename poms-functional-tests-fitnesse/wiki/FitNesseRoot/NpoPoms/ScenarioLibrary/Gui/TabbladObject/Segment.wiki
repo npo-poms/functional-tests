@@ -101,7 +101,8 @@
 |Npo poms Tabblad object Druk op verwijderknop bij segment|@titel                                                                 |
 |wait for visible                                         |Segment verwijderen?                                                   |
 |click                                                    |xpath=//button[text()="verwijderen"]                                   |
-|Wacht tot Angular requests klaar zijn                                                                                            |
+|wait for not visible                                     |xpath=//button[text()="verwijderen"]                                   |
+|Npo poms Tabblad object Wacht tot sidebar volledig geladen is                                                                    |
 |Npo poms Tabblad object Check segment                    |@titel                                   |heeft status|Wordt verwijderd|
 #|execute script       |document.querySelector('.tab-pane.active').querySelector('[title="@titel"]').scrollIntoView()             |
 #|execute script       |document.querySelector('.tab-pane.active').scrollBy(0,-300)                                               |

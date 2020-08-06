@@ -78,7 +78,6 @@
 |click                |xpath=./div[@class="remove-override-icon"]                                                                                 |
 |wait for visible     |xpath=//button[text()="verwijderen"]                                                                                       |
 |click                |xpath=//button[text()="verwijderen"]                                                                                       |
-|Wacht tot Angular requests klaar zijn                                                                                                            |
 
 |scenario                                |Npo poms Tabblad object Vul   |waarde         |in veld met type             |type            |en label           |label           |
 |note                                    |Dit scenario gaf soms onnodige failures doordat click niet automatisch scrollde naar het betreffende veld; scroll daarom expliciet|
@@ -86,7 +85,6 @@
 |click                                   |xpath=//h2[normalize-space(.)="@label"]                                                                                           |
 |enter                                   |@waarde                       |as             |xpath=//h2[normalize-space(.)="@label"]/following-sibling::form/span/@type         |
 |click                                   |xpath=//h2[normalize-space(.)="@label"]/following-sibling::form/span/span/button[text()="save"]                                   |
-|Wacht tot Angular requests klaar zijn                                                                                                                                      |
 |Npo poms Tabblad object Check veldtype 2|@label                        |heeft waarde   |@waarde                                                                            |
 
 |scenario                   |Npo poms Tabblad object Vul|waarde          |in tekstveld|tekstveld          |
@@ -100,7 +98,6 @@
 |$@var=                                  |value of                            |xpath=//h2[normalize-space(.)="@textarea"]/following-sibling::form/span/textarea             |
 |enter                                   |$@var-@waarde                       |as          |xpath=//h2[normalize-space(.)="@textarea"]/following-sibling::form/span/textarea|
 |click                                   |xpath=//h2[normalize-space(.)="@textarea"]/following-sibling::form/span/span/button[text()="save"]                                |
-|Wacht tot Angular requests klaar zijn                                                                                                                                      |
 |Npo poms Tabblad object Check veldtype 2|@textarea                           |heeft waarde|$@var-@waarde                                                                   |
 
 |scenario        |Npo poms Tabblad object Wacht tot status zichtbaar|
@@ -301,23 +298,33 @@
 |double click         |@uitzending                                                |
 |clear search context                                                             |
 
-|scenario|Npo poms Tabblad object Check aantal in veld|veld             |is             |aantal             |
-|ensure  |is visible on page                          |xpath=.//div/h1[normalize-space(.)="@veld (@aantal)"]|
-
 |scenario|Npo poms Tabblad object Sla aantal in veld|veld |op in var|var                          |
 |$@var=  |value of                                  |xpath=.//div/h1[contains(text(), "@veld")]   |
 |$@var=  |extract string                            |$@var|from     |@veld \((\d+)\)|using group|1|
 
-|scenario|Npo poms Tabblad object Check aantal in veld|veld            |is var            |var            |
-|ensure  |is visible on page                          |xpath=.//div/h1[normalize-space(.)="@veld ($@var)"]|
-|note    |Toon de waarde van het bedoelde veld voor het geval de regel hierboven faalt                    |
-|show    |value of                                    |xpath=.//div/h1[contains(text(), "@veld")]         |
+|scenario            |Npo poms Tabblad object Wacht tot aantal in veld                |veld                |bijgewerkt is               |
+|wait for visible    |xpath=.//h1[@class="media-section-title"][contains(normalize-space(.), "@veld")]                                  |
+|wait for not visible|xpath=.//h1[@class="media-section-title waiting"][contains(normalize-space(.), "@veld")]                          |
+|wait for not visible|xpath=.//h1[@class="media-section-title waiting ng-animate waiting-remove"][contains(normalize-space(.), "@veld")]|
+|wait for visible    |xpath=.//h1[@class="media-section-title"][contains(normalize-space(.), "@veld")]                                  |
+|wait                |3                                                               |seconds                                          |
 
-|scenario     |Npo poms Tabblad object Check aantal in veld|veld     |is var    |var    |plus    |optellenMetGetal    |
-|$nieuwAantal=|add                                         |$@var    |and       |@optellenMetGetal                    |
-|ensure       |is visible on page                          |xpath=.//div/h1[normalize-space(.)="@veld ($nieuwAantal)"]|
-|note         |Toon de waarde van het bedoelde veld voor het geval de regel hierboven faalt                           |
-|show         |value of                                    |xpath=.//div/h1[contains(text(), "@veld")]                |
+|scenario                                        |Npo poms Tabblad object Check aantal in veld|veld                                     |is                                    |aantal                                    |
+|Npo poms Tabblad object Wacht tot sidebar volledig geladen is                                                                                                                                                            |
+|set search context to                           |xpath=//ul[@id="sidebar"]                                                                                                                                               |
+|ensure                                          |is visible on page                          |@veld (@aantal)                                                                                                            |
+|remove last search context                                                                                                                                                                                               |
+|Npo poms Tabblad object Wacht tot aantal in veld|@veld                                       |bijgewerkt is                                                                                                              |
+|ensure                                          |is visible on page                          |xpath=.//h1[@class="media-section-title"][contains(normalize-space(.), "@veld")][contains(normalize-space(.), "(@aantal)")]|
+|note                                            |Toon de waarde van het bedoelde veld voor het geval de regel hierboven faalt                                                                                            |
+|show                                            |value of                                    |xpath=.//div/h1[contains(text(), "@veld")]                                                                                 |
+
+|scenario                                    |Npo poms Tabblad object Check aantal in veld|veld|is var|var|
+|Npo poms Tabblad object Check aantal in veld|@veld                                       |is  |$@var     |
+
+|scenario                                    |Npo poms Tabblad object Check aantal in veld|veld |is var|var|plus|optellenMetGetal|
+|$nieuwAantal=                               |add                                         |$@var|and   |@optellenMetGetal        |
+|Npo poms Tabblad object Check aantal in veld|@veld                                       |is   |$nieuwAantal                    |
 
 |scenario             |Npo poms Tabblad object Klik op wijzig tags icoon              |
 |hover over           |xpath=//h2[text()="Tags"]                                      |

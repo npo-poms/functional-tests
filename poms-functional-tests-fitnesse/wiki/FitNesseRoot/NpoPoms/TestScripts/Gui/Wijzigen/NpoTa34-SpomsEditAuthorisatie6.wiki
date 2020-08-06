@@ -43,7 +43,6 @@ Test
 |wait for visible                                      |verwijderen?                                                            |
 |click                                                 |xpath=//button[text()="verwijderen"]                                    |
 |wait for not visible                                  |verwijderen?                                                            |
-|Wacht tot Angular requests klaar zijn                                                                                          |
 |set search context to                                 |xpath=//poms-members                                                    |
 |Npo poms Tabblad object Check aantal in veld          |Onderdelen        |is var           |aantalOnderdelen                   |
 |Npo poms Tabblad object Check item                    |$titelVanOnderdeel|niet zichtbaar                                       |

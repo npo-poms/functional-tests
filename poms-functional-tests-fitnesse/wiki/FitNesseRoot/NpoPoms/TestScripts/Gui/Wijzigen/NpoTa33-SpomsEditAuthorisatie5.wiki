@@ -33,7 +33,6 @@ Test
 |Npo poms Zoeken Vink checkbox aan bij eerste object in zoekresultaten                                                            |
 |click                                                     |Kies                                                                  |
 |wait for not visible                                      |Kies                                                                  |
-|Npo poms Tabblad object Wacht tot sidebar volledig geladen is                                                                    |
 |set search context to                                     |xpath=//poms-members                                                  |
 |Npo poms Tabblad object Check aantal in veld              |Onderdelen        |is var         |aantalOnderdelen    |plus    |1    |
 |Npo poms Tabblad object Check item                        |$titelVanOnderdeel|zichtbaar                                          |
@@ -44,7 +43,6 @@ Test
 |wait for visible                                          |verwijderen?                                                          |
 |click                                                     |xpath=//button[text()="verwijderen"]                                  |
 |wait for not visible                                      |verwijderen?                                                          |
-|Npo poms Tabblad object Wacht tot sidebar volledig geladen is                                                                    |
 |set search context to                                     |xpath=//poms-members                                                  |
 |Npo poms Tabblad object Check aantal in veld              |Onderdelen        |is var         |aantalOnderdelen                   |
 |Npo poms Tabblad object Check item                        |$titelVanOnderdeel|niet zichtbaar                                     |
