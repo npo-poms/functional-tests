@@ -5,6 +5,7 @@ import lombok.extern.log4j.Log4j2;
 import java.io.IOException;
 import java.time.Duration;
 import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.*;
 
 import javax.ws.rs.core.Response;
@@ -122,7 +123,7 @@ public class SubtitlesIntegrationTest extends AbstractApiMediaBackendTest {
     @Test
     @Order(5)
     void revokeLocations() {
-        Instant now = Instant.now();
+        Instant now = Instant.now().truncatedTo(ChronoUnit.SECONDS);
         ProgramUpdate o = backend.get(MID_WITH_LOCATIONS);
         o.getLocations().forEach(l -> l.setPublishStopInstant(now));
         o.getPredictions().forEach(pu -> pu.setPublishStop(now));
@@ -132,8 +133,8 @@ public class SubtitlesIntegrationTest extends AbstractApiMediaBackendTest {
              () -> backend.getFull(MID_WITH_LOCATIONS),
             Utils.Check.<MediaObject>builder()
                 .description("All locations of {} must have publish stop {}", MID_WITH_LOCATIONS, now)
-                .failureDescription((mo) -> "Some of the location of " + mo + " " + mo.getLocations() + " don't have expected pubilsh stop " + now)
-                .predicate(mo -> mo.getLocations().stream().allMatch((t) -> Objects.equals(t.getPublishStopInstant(), now)))
+                .failureDescription((mo) -> "Some of the location of " + mo + " " + mo.getLocations() + " don't have expected publish stop " + now)
+                .predicate(mo -> mo.getLocations().stream().allMatch((l) -> Objects.equals(l.getPublishStopInstant(), now)))
                 .build(),
             Utils.Check.<MediaObject>builder()
                 .description("{} has no publishable locations (they are to be revoked at {})", MID_WITH_LOCATIONS, now)
