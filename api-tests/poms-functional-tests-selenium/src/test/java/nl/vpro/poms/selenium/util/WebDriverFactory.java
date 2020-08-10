@@ -32,9 +32,9 @@ public class WebDriverFactory {
         headless = Boolean.parseBoolean(CONFIG.getProperty("headless"));
     }
 
-    private static LoadingCache<DriverManagerType, WebDriverManager> CACHE = CacheBuilder
+    private static final LoadingCache<DriverManagerType, WebDriverManager> CACHE = CacheBuilder
             .newBuilder()
-            .build(new CacheLoader<DriverManagerType, WebDriverManager>() {
+            .build(new CacheLoader<>() {
                 @Override
                 public WebDriverManager load(@Nonnull DriverManagerType key) {
                     WebDriverManager instance = WebDriverManager.getInstance(key);

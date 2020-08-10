@@ -80,10 +80,10 @@ public abstract class AbstractTest {
         List<Object[]> result = new ArrayList<>();
         List<String> browsers = Arrays.asList(CONFIG.getProperty("browsers").split("\\s*,\\s*"));
         if (browsers.contains("chrome")) {
-            result.add(new Object[]{new Browser(DriverManagerType.CHROME, "2.41")}); // 2.41 corresponds with the chrome on jenkins.
+            result.add(new Object[]{new Browser(DriverManagerType.CHROME, "81.0.4044.113")}); // 2.41 corresponds with the chrome on jenkins.
         }
         if (browsers.contains("firefox")) {
-            result.add(new Object[]{new Browser(DriverManagerType.FIREFOX, null)});
+            result.add(new Object[]{new Browser(DriverManagerType.FIREFOX, "68.11.0esr")});
         }
         return result;
     }
