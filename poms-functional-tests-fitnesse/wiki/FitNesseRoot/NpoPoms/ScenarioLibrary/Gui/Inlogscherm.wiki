@@ -6,15 +6,20 @@
 |scenario|Npo poms Inlogscherm Wacht tot pagina geladen |
 |$tmp=   |is visible on page|${npoPomsInlogscherm_titel}|
 
-|scenario                     |Npo poms Inlogscherm Log in met gebruiker|gebruiker|en wachtwoord|wachtwoord|
-|Npo poms Inlogscherm Wacht tot pagina geladen                                                             |
-|enter                        |@gebruiker                               |as       |id=username             |
-|enter                        |@wachtwoord                              |as       |id=password             |
-|click                        |id=kc-login                                                                 |
-|wait for visible             |xpath=//body[@ng-app="poms"]                                                |
-|Npo poms Hoofdscherm Wacht tot tabblad Zoeken geopend                                                     |
-|$laatsteAantalZoekresultaten=|store                                    |0                                 |
-|Npo poms Zoeken Wacht tot zoeken klaar is                                                                 |
+|scenario                     |Npo poms Inlogscherm Log in met gebruiker  |gebruiker  |en wachtwoord  |wachtwoord |
+|Npo poms Inlogscherm Wacht tot pagina geladen                                                                    |
+|enter                        |@gebruiker                                 |as         |id=username                |
+|enter                        |@wachtwoord                                |as         |id=password                |
+|click                        |id=kc-login                                                                        |
+|wait for visible             |xpath=//body[@ng-app="poms"]                                                       |
+|Npo poms Hoofdscherm Wacht tot tabblad Zoeken geopend                                                            |
+|                             |In 'Npo poms Zoeken Wacht tot zoeken klaar is' wordt gewacht                       |
+|                             |tot aantal zoekresultaten niet gelijk is aan $laatsteAantalZoekresultaten.         |
+|                             |Hier wordt $laatsteAantalZoekresultaten ingesteld op 0, zodat in                   |
+|                             |'Npo poms Zoeken Wacht tot zoeken klaar is' wordt gewacht tot aantal zoekresultaten|
+|                             |niet gelijk is aan 0, m.a.w. tot alle zoekresultaten zijn geladen.                 |
+|$laatsteAantalZoekresultaten=|store                                      |0                                      |
+|Npo poms Zoeken Wacht tot zoeken klaar is                                                                        |
 
 |scenario                                 |Npo poms Inlogscherm Log in met standaard-gebruiker        |
 |Npo poms Inlogscherm Log in met gebruiker|$standaardGebruikersnaam|en wachtwoord|$standaardWachtwoord|

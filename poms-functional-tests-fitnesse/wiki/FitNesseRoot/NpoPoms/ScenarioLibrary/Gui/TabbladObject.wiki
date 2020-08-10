@@ -4,13 +4,16 @@
 |open          |${urlPoms}/#/edit/@object                     |
 |Npo poms Tabblad object Wacht tot sidebar volledig geladen is|
 
-|scenario             |Npo poms Tabblad object Wacht tot sidebar volledig geladen is                          |
-|wait for visible     |xpath=//ul[@id="sidebar"]                                                              |
-|set search context to|xpath=//ul[@id="sidebar"]                                                              |
-|wait for not visible |xpath=./li/span[@class="media-item-navigation-text media-item-navigation-text-waiting"]|
-|ensure               |is visible on page        |xpath=./li/span[@class="media-item-navigation-text"]        |
-|clear search context                                                                                         |
-|wait                 |3                         |seconds                                                     |
+|scenario            |Npo poms Tabblad object Wacht tot alle laad-icoontjes in de sidebar verdwenen zijn     |
+|wait for not visible|xpath=./li/span[@class="media-item-navigation-text media-item-navigation-text-waiting"]|
+|ensure              |is visible on page        |xpath=./li/span[@class="media-item-navigation-text"]        |
+
+|scenario             |Npo poms Tabblad object Wacht tot sidebar volledig geladen is|
+|wait for visible     |xpath=//ul[@id="sidebar"]                                    |
+|set search context to|xpath=//ul[@id="sidebar"]                                    |
+|Npo poms Tabblad object Wacht tot alle laad-icoontjes in de sidebar verdwenen zijn |
+|clear search context                                                               |
+|wait                 |3                          |seconds                          |
 
 |scenario|Npo poms Tabblad object Druk op status om deze te wijzigen                |
 |click   |xpath=//h2[text()="Status"]/following-sibling::*/p|in|css=.tab-pane.active|
@@ -191,19 +194,14 @@
 |Npo poms Tabblad object Check onderdeel nummer|@index                                        |heeft subtitel|@subtitel                                              |
 |Npo poms Tabblad object Check onderdeel nummer|@index                                        |heeft status  |@status                                                |
 
-|scenario              |Npo poms Tabblad object Check item|item                                 |niet zichtbaar                                 |
-|seconds before timeout|3                                                                                                                       |
-|reject                |is visible on page                |xpath=./div/table/tbody/tr/td[@class="column-title"]/span[normalize-space(.)="@item"]|
-|seconds before timeout|${secondsBeforeTimeout}                                                                                                 |
+|scenario|Npo poms Tabblad object Check onderdeel|onderdeel                                             |zichtbaar                                            |
+|ensure  |is visible on page                     |xpath=//poms-members/div/table/tbody/tr/td[@class="column-title"]/span/span[normalize-space(.)="@onderdeel"]|
 
-|scenario|Npo poms Tabblad object Check item|item                                    |zichtbaar                                   |
-|ensure  |is visible on page                |xpath=./div/table/tbody/tr/td[@class="column-title"]/span[normalize-space(.)="@item"]|
+|scenario  |Npo poms Tabblad object Hover over onderdeel                           |onderdeel                           |
+|hover over|xpath=//poms-members/div/table/tbody/tr/td[@class="column-title"]/span/span[normalize-space(.)="@onderdeel"]|
 
-|scenario  |Npo poms Tabblad object Hover over item                     |item                    |
-|hover over|xpath=./div/table/tbody/tr/td[@class="column-title"]/span[normalize-space(.)="@item"]|
-
-|scenario|Npo poms Tabblad object Druk op verwijderknop bij item                                              |item                                             |
-|click   |xpath=./div/table/tbody/tr[./td[@class="column-title"]/span[normalize-space(.)="@item"]]/td[@class="column-tools"]/div/button[@title="verwijder item"]|
+|scenario|Npo poms Tabblad object Druk op verwijderknop bij onderdeel                                                    |onderdeel                                                    |
+|click   |xpath=//poms-members/div/table/tbody/tr[./td[@class="column-title"]/span/span[normalize-space(.)="@onderdeel"]]/td[@class="column-tools"]/div/button[@title="verwijder item"]|
 
 
 |scenario|Npo poms Tabblad object Check bron|url                                          |zichtbaar                                          |
