@@ -16,10 +16,10 @@ Test
 |Open Npo poms website                                                                 |
 |Npo poms Inlogscherm Log in met npo                                                   |
 |Npo poms Tabblad object Open                  |${mid}                                 |
-|Npo poms Tabblad object Check veldtype 2      |Type        |heeft waarde|${mediatype} |
-|Npo poms Tabblad object Check veldtype 2      |AV-Type     |heeft waarde|${avType}    |
-|Npo poms Tabblad object Check veldtype 2      |Omroepen    |heeft waarde|=~/${omroep}/|
-|Npo poms Tabblad object Sla veldtype 2        |Sorteerdatum|op in var   |datum1       |
+|Npo poms Tabblad object Check veld            |Type        |heeft waarde|${mediatype} |
+|Npo poms Tabblad object Check veld            |AV-Type     |heeft waarde|${avType}    |
+|Npo poms Tabblad object Check veld            |Omroepen    |heeft waarde|=~/${omroep}/|
+|Npo poms Tabblad object Sla veld              |Sorteerdatum|op in var   |datum1       |
 |Npo poms Tabblad object Druk op link          |Platformen  |in sidebar                |
 |Npo poms Tabblad object Wacht tot scrollen klaar is                                   |
 |Npo poms Tabblad object Dubbelklik op platform|${platform}                            |
@@ -31,7 +31,7 @@ Test
 |Npo poms Tabblad object Wacht tot sidebar volledig geladen is                         |
 |Npo poms Tabblad object Druk op link          |Algemeen    |in sidebar                |
 |wait for visible                              |Sorteerdatum                           |
-|Npo poms Tabblad object Check veldtype 2      |Sorteerdatum|heeft waarde|$datum2      |
+|Npo poms Tabblad object Check veld            |Sorteerdatum|heeft waarde|$datum2      |
 |Npo poms Tabblad object Druk op link          |Platformen  |in sidebar                |
 |Npo poms Tabblad object Wacht tot scrollen klaar is                                   |
 |Npo poms Tabblad object Dubbelklik op platform|${platform}                            |
@@ -42,7 +42,7 @@ Test
 |Npo poms Tabblad object Wacht tot sidebar volledig geladen is                         |
 |Npo poms Tabblad object Druk op link          |Algemeen    |in sidebar                |
 |wait for visible                              |Sorteerdatum                           |
-|Npo poms Tabblad object Check veldtype 2      |Sorteerdatum|heeft waarde|$datum1      |
+|Npo poms Tabblad object Check veld            |Sorteerdatum|heeft waarde|$datum1      |
 |Npo poms Hoofdscherm Sluit laatste tab                                                |
 |Npo poms Hoofdscherm Sluit laatste tab                                                |
 |Npo poms Hoofdscherm Log uit                                                          |

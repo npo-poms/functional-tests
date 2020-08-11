@@ -58,20 +58,17 @@
 |check                              |value of                                               |xpath=//h2[@class="viewer-media-type"]/span[2]|$scenarioLibrary_hoofdscherm_start|
 |check                              |value of                                               |xpath=//div[@class="pickers"]                 |${publicatiestart}                |
 
-|scenario        |Npo poms Tabblad object Wacht tot veldtype 1   |veld  |zichtbaar  |
-|wait for visible|xpath=//h2[normalize-space(.)="@veld"]/following-sibling::div/span|
+|scenario        |Npo poms Tabblad object Wacht tot veld  |veld  |zichtbaar  |
+|wait for visible|xpath=//h2[normalize-space(.)="@veld"]/following-sibling::*|
 
-|scenario|Npo poms Tabblad object Check veldtype 1|veld                                                              |heeft waarde|waarde|
-|check   |value of                                |xpath=//h2[normalize-space(.)="@veld"]/following-sibling::div/span|@waarde            |
+|scenario|Npo poms Tabblad object Check veld|veld                                                       |heeft waarde|waarde|
+|check   |value of                          |xpath=//h2[normalize-space(.)="@veld"]/following-sibling::*|@waarde            |
 
-|scenario|Npo poms Tabblad object Check veldtype 2|veld                                                       |heeft waarde|waarde|
-|check   |value of                                |xpath=//h2[normalize-space(.)="@veld"]/following-sibling::*|@waarde            |
-
-|scenario        |Npo poms Tabblad object Wacht tot veldtype 2     |veld     |heeft waarde     |waarde     |
+|scenario        |Npo poms Tabblad object Wacht tot veld       |veld       |heeft waarde      |waarde      |
 |wait for visible|xpath=//h2[normalize-space(.)="@veld"]/following-sibling::*[normalize-space(.)="@waarde"]|
 
-|scenario|Npo poms Tabblad object Sla veldtype 2|veld              |op in var              |var             |
-|$@var=  |value of                              |xpath=//h2[normalize-space(.)="@veld"]/following-sibling::*|
+|scenario|Npo poms Tabblad object Sla veld|veld              |op in var              |var             |
+|$@var=  |value of                        |xpath=//h2[normalize-space(.)="@veld"]/following-sibling::*|
 
 |scenario             |Npo poms Tabblad object Maak veld                           |veld                           |leeg                          |
 |scroll to            |xpath=//h2[normalize-space(.)="@veld"]                                                                                     |
@@ -82,13 +79,13 @@
 |wait for visible     |xpath=//button[text()="verwijderen"]                                                                                       |
 |click                |xpath=//button[text()="verwijderen"]                                                                                       |
 
-|scenario                                |Npo poms Tabblad object Vul   |waarde         |in veld met type             |type            |en label           |label           |
-|note                                    |Dit scenario gaf soms onnodige failures doordat click niet automatisch scrollde naar het betreffende veld; scroll daarom expliciet|
-|scroll to                               |xpath=//h2[normalize-space(.)="@label"]                                                                                           |
-|click                                   |xpath=//h2[normalize-space(.)="@label"]                                                                                           |
-|enter                                   |@waarde                       |as             |xpath=//h2[normalize-space(.)="@label"]/following-sibling::form/span/@type         |
-|click                                   |xpath=//h2[normalize-space(.)="@label"]/following-sibling::form/span/span/button[text()="save"]                                   |
-|Npo poms Tabblad object Check veldtype 2|@label                        |heeft waarde   |@waarde                                                                            |
+|scenario                              |Npo poms Tabblad object Vul   |waarde         |in veld met type             |type            |en label           |label           |
+|note                                  |Dit scenario gaf soms onnodige failures doordat click niet automatisch scrollde naar het betreffende veld; scroll daarom expliciet|
+|scroll to                             |xpath=//h2[normalize-space(.)="@label"]                                                                                           |
+|click                                 |xpath=//h2[normalize-space(.)="@label"]                                                                                           |
+|enter                                 |@waarde                       |as             |xpath=//h2[normalize-space(.)="@label"]/following-sibling::form/span/@type         |
+|click                                 |xpath=//h2[normalize-space(.)="@label"]/following-sibling::form/span/span/button[text()="save"]                                   |
+|Npo poms Tabblad object Wacht tot veld|@label                        |heeft waarde   |@waarde                                                                            |
 
 |scenario                   |Npo poms Tabblad object Vul|waarde          |in tekstveld|tekstveld          |
 |Npo poms Tabblad object Vul|@waarde                    |in veld met type|input       |en label|@tekstveld|
@@ -96,12 +93,12 @@
 |scenario                   |Npo poms Tabblad object Vul|waarde          |in textarea|textarea          |
 |Npo poms Tabblad object Vul|@waarde                    |in veld met type|textarea   |en label|@textarea|
 
-|scenario                                |Npo poms Tabblad object Sla textarea|textarea    |op in var          |var          |en vul deze aan met          |waarde          |
-|click                                   |xpath=//h2[normalize-space(.)="@textarea"]                                                                                        |
-|$@var=                                  |value of                            |xpath=//h2[normalize-space(.)="@textarea"]/following-sibling::form/span/textarea             |
-|enter                                   |$@var-@waarde                       |as          |xpath=//h2[normalize-space(.)="@textarea"]/following-sibling::form/span/textarea|
-|click                                   |xpath=//h2[normalize-space(.)="@textarea"]/following-sibling::form/span/span/button[text()="save"]                                |
-|Npo poms Tabblad object Check veldtype 2|@textarea                           |heeft waarde|$@var-@waarde                                                                   |
+|scenario                          |Npo poms Tabblad object Sla textarea|textarea    |op in var          |var          |en vul deze aan met          |waarde          |
+|click                             |xpath=//h2[normalize-space(.)="@textarea"]                                                                                        |
+|$@var=                            |value of                            |xpath=//h2[normalize-space(.)="@textarea"]/following-sibling::form/span/textarea             |
+|enter                             |$@var-@waarde                       |as          |xpath=//h2[normalize-space(.)="@textarea"]/following-sibling::form/span/textarea|
+|click                             |xpath=//h2[normalize-space(.)="@textarea"]/following-sibling::form/span/span/button[text()="save"]                                |
+|Npo poms Tabblad object Check veld|@textarea                           |heeft waarde|$@var-@waarde                                                                   |
 
 |scenario        |Npo poms Tabblad object Wacht tot status zichtbaar|
 |wait for visible|xpath=//h2[text()="Status"]/following-sibling::*/p|

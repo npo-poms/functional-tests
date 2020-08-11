@@ -21,7 +21,7 @@ Test
 |Npo poms Tabblad object Start met bewerken Lexicografische titel                                                                |
 |Npo poms Tabblad object Check tekst in invoerveld Lexicografische titel is     |TEST                                            |
 |Npo poms Tabblad object Verander tekst in invoerveld Lexicografische titel naar|TESTCASE             |en sla op                 |
-|Npo poms Tabblad object Wacht tot veldtype 2                                   |Lexicografische titel|heeft waarde|TESTCASE     |
+|Npo poms Tabblad object Wacht tot veld                                         |Lexicografische titel|heeft waarde|TESTCASE     |
 |Npo poms Tabblad object Start met bewerken Lexicografische titel                                                                |
 |Npo poms Tabblad object Verander tekst in invoerveld Lexicografische titel naar|                     |en sla op                 |
 |Npo poms Tabblad object Verander hoofdtitel naar                               |$titelVanObject                                 |

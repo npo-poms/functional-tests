@@ -27,7 +27,7 @@ Test
 |Npo poms Zoeken Selecteer optie                      |${zender1}           |in dropdown                      |Zenders                                |
 |ensure                                               |is visible on page   |Gezocht naar: ${mediatype}, ${zender1}, ${avType}, ${criteria1}          |
 |Npo poms Zoeken Open object nummer                   |${objectNummer}                                                                                |
-|Npo poms Tabblad object Sla veldtype 2               |Uitzending (1)       |op in var                        |uitzending                             |
+|Npo poms Tabblad object Sla veld                     |Uitzending (1)       |op in var                        |uitzending                             |
 |Npo poms Tabblad object Sla mid of urn op in var     |mid                                                                                            |
 |Npo poms Tabblad object Druk op link                 |Uitzendingen         |in sidebar                                                               |
 |Npo poms Tabblad object Wacht tot scrollen klaar is                                                                                                  |

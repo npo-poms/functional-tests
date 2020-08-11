@@ -29,7 +29,7 @@ Test
 |click                                              |save                                                                   |
 |clear search context                                                                                                       |
 |wait for not visible                               |save                                                                   |
-|Npo poms Tabblad object Check veldtype 2           |Type              |heeft waarde                 |${mediatype2}         |
+|Npo poms Tabblad object Check veld                 |Type              |heeft waarde                 |${mediatype2}         |
 |Npo poms Hoofdscherm Sluit laatste tab                                                                                     |
 |Npo poms Hoofdscherm Sluit laatste tab                                                                                     |
 |Npo poms Zoeken Selecteer optie                    |${mediatype1}     |in dropdown                  |!-MediaType-!         |
@@ -51,7 +51,7 @@ Test
 |click                                              |save                                                                   |
 |clear search context                                                                                                       |
 |wait for not visible                               |save                                                                   |
-|Npo poms Tabblad object Check veldtype 2           |Type              |heeft waarde                 |${mediatype1}         |
+|Npo poms Tabblad object Check veld                 |Type              |heeft waarde                 |${mediatype1}         |
 |Npo poms Hoofdscherm Sluit laatste tab                                                                                     |
 |Npo poms Hoofdscherm Sluit laatste tab                                                                                     |
 |Npo poms Hoofdscherm Log uit                                                                                               |
