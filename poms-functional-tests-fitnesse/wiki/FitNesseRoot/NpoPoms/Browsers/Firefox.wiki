@@ -1,0 +1,9 @@
+---
+Suite
+SymbolicLinks
+  E2E: .NpoPoms.TestScripts.E2E
+  Gui: .NpoPoms.TestScripts.Gui
+---
+!define BROWSER {firefox}
+
+!contents -R2 -g -p -f -h
