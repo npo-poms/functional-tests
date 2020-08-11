@@ -20,17 +20,17 @@ Om toegang te krijgen tot de geautomatiseerde scripts in FitNesse, moet `start.b
 
 De FitNesse-omgeving kan dan bekeken worden door te browsen naar: [http://localhost:9090/NpoPoms](http://localhost:9090/NpoPoms).
 
-De testscripts van de testomgeving staan in: [http://localhost:9090/NpoPoms.Omgevingen.Test.TestScripts](http://localhost:9090/NpoPoms.Omgevingen.Test.TestScripts).
+Vanuit deze pagina kunnen de testscripts worden bekeken na het selecteren van de omgeving (`test` en `dev`), het testdoel (`gui`, `api` en `e2e`) en indien van toepassing de browser (`Firefox` en `Chrome`): [http://localhost:9090/NpoPoms.Omgevingen](http://localhost:9090/NpoPoms.Omgevingen).
 
 De testscripts maken gebruik van scenario's in de scenario library. Die staan hier: [http://localhost:9090/NpoPoms.ScenarioLibrary](http://localhost:9090/NpoPoms.ScenarioLibrary).
 
 ## Draaien in Jenkins
 
-In Jenkins moeten er aparte projecten zijn voor `gui`, `api` en `e2e` en voor elke omgeving.
+In Jenkins moeten er aparte jobs zijn voor elke mogelijke combinatie van de omgeving, het testdoel en indien van toepassing de browser.
 
 ### Gui
 
-De configuratie van de testomgeving van `gui` moet als volgt worden ingesteld:
+De configuratie van de testomgeving van `gui` met `Firefox` moet als volgt worden ingesteld:
 
 ![Npo-poms-api-jenkins-configuration](wiki/FitNesseRoot/files/images/Npo-poms-gui-jenkins-configuration.png)
 
@@ -38,7 +38,7 @@ Als de properties files in `~/conf` (Linux/macOS) of `%userprofile%\conf` (Windo
 ```
 cd poms-functional-tests-fitnesse
 MOZ_HEADLESS=1
-mvn clean test-compile failsafe:integration-test -DfitnesseSuiteToRun=NpoPoms.Omgevingen.Test.TestScripts.Gui
+mvn clean test-compile failsafe:integration-test -DfitnesseSuiteToRun=NpoPoms.Omgevingen.Test.Firefox.Gui
 ```
 
 Als dit niet zo is, dan moet de properties file `poms-fitnesse-accounts.properties` gegenereerd worden via `Commando`. Deze file heeft een dergelijke inhoud:
@@ -61,7 +61,7 @@ mkdir -p target/fitnesse-results/files/fileFixture
 
 (echo standaardGebruikersnaam='gebruikersnaam' & echo standaardWachtwoord='wachtwoord' & echo npoGebruikersnaam='gebruikersnaam' & echo npoWachtwoord='wachtwoord' & echo adminGebruikersnaam='gebruikersnaam' & echo adminWachtwoord='wachtwoord' & echo omroepUploaderGebruikersnaam='gebruikersnaam' & echo omroepUploaderWachtwoord='wachtwoord') > target/fitnesse-results/files/fileFixture/poms-fitnesse-accounts.properties
 
-mvn failsafe:integration-test -DfitnesseSuiteToRun=NpoPoms.Omgevingen.Test.TestScripts.Gui "-DseleniumJsonProfile={'args':['headless','disable-gpu']}"
+mvn failsafe:integration-test -DfitnesseSuiteToRun=NpoPoms.Omgevingen.Test.Firefox.Gui "-DseleniumJsonProfile={'args':['headless','disable-gpu']}"
 ```
 
 waarbij de waarden achter `=` vervangen moeten worden door de werkelijke waarden.
@@ -74,7 +74,7 @@ Als de properties files in `~/conf` (Linux/macOS) of `%userprofile%\conf` (Windo
 ```
 cd poms-functional-tests-fitnesse
 MOZ_HEADLESS=1
-mvn clean test-compile failsafe:integration-test -DfitnesseSuiteToRun=NpoPoms.Omgevingen.Test.TestScripts.Api
+mvn clean test-compile failsafe:integration-test -DfitnesseSuiteToRun=NpoPoms.Omgevingen.Test.Api
 ```
 
 Als dit niet zo is, dan moet de properties file `poms-fitnesse-apikeys.properties` gegenereerd worden via `Commando`. Deze file heeft een dergelijke inhoud:
@@ -95,20 +95,20 @@ mkdir -p target/fitnesse-results/files/fileFixture
 
 (echo frontEndApiKey='apiKey' & echo frontEndApiSecret='secret' & echo frontEndApiOrigin='https://poms.testomgeving.example.com/' & echo backEndApiKey='apiKey' & echo backEndApiSecret='secret' & echo backEndApiOrigin='https://poms.testomgeving.example.com/') > target/fitnesse-results/files/fileFixture/poms-fitnesse-apikeys.properties
 
-mvn failsafe:integration-test -DfitnesseSuiteToRun=NpoPoms.Omgevingen.Test.TestScripts.Api "-DseleniumJsonProfile={'args':['headless','disable-gpu']}"
+mvn failsafe:integration-test -DfitnesseSuiteToRun=NpoPoms.Omgevingen.Test.Api "-DseleniumJsonProfile={'args':['headless','disable-gpu']}"
 ```
 
 waarbij de waarden achter `=` vervangen moeten worden door de werkelijke waarden.
 
 ### E2E
 
-De configuratie van de testomgeving van `e2e` moet ingesteld worden zoals die van `gui` met uitzondering van het veld `Commando`.
+De configuratie van de testomgeving van `e2e` met `Firefox` moet ingesteld worden zoals die van `gui` met uitzondering van het veld `Commando`.
 
 Als de properties files in `~/conf` (Linux/macOS) of `%userprofile%\conf` (Windows) zitten, dan moet er dit bij `Commando` staan:
 ```
 cd poms-functional-tests-fitnesse
 MOZ_HEADLESS=1
-mvn clean test-compile failsafe:integration-test -DfitnesseSuiteToRun=NpoPoms.Omgevingen.Test.TestScripts.E2E
+mvn clean test-compile failsafe:integration-test -DfitnesseSuiteToRun=NpoPoms.Omgevingen.Test.Firefox.E2E
 ```
 
 Als dit niet zo is, dan moeten de properties files `poms-fitnesse-accounts.properties` en `poms-fitnesse-apikeys.properties` gegenereerd worden via `Commando`. Deze files hebben een inhoud zoals eerder genoemd.
@@ -122,7 +122,7 @@ mkdir -p target/fitnesse-results/files/fileFixture
 (echo standaardGebruikersnaam='gebruikersnaam' & echo standaardWachtwoord='wachtwoord' & echo npoGebruikersnaam='gebruikersnaam' & echo npoWachtwoord='wachtwoord' & echo adminGebruikersnaam='gebruikersnaam' & echo adminWachtwoord='wachtwoord' & echo omroepUploaderGebruikersnaam='gebruikersnaam' & echo omroepUploaderWachtwoord='wachtwoord') > target/fitnesse-results/files/fileFixture/poms-fitnesse-accounts.properties
 (echo frontEndApiKey='apiKey' & echo frontEndApiSecret='secret' & echo frontEndApiOrigin='https://poms.testomgeving.example.com/' & echo backEndApiKey='apiKey' & echo backEndApiSecret='secret' & echo backEndApiOrigin='https://poms.testomgeving.example.com/') > target/fitnesse-results/files/fileFixture/poms-fitnesse-apikeys.properties
 
-mvn failsafe:integration-test -DfitnesseSuiteToRun=NpoPoms.Omgevingen.Test.TestScripts.E2E "-DseleniumJsonProfile={'args':['headless','disable-gpu']}"
+mvn failsafe:integration-test -DfitnesseSuiteToRun=NpoPoms.Omgevingen.Test.Firefox.E2E "-DseleniumJsonProfile={'args':['headless','disable-gpu']}"
 ```
 
 waarbij de waarden achter `=` vervangen moeten worden door de werkelijke waarden.
