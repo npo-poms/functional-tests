@@ -1,24 +1,30 @@
 package nl.vpro.poms.pagespublisher;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.extern.log4j.Log4j2;
+
+import java.net.URLEncoder;
+import java.time.Duration;
+import java.time.LocalDate;
+import java.util.*;
+import java.util.stream.Collectors;
+
+import javax.validation.constraints.NotNull;
+import javax.ws.rs.NotFoundException;
+
+import org.junit.jupiter.api.Order;
+import org.junit.jupiter.api.*;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+
 import nl.vpro.api.client.pages.PageUpdateApiClient;
-import nl.vpro.api.client.utils.PageUpdateApiUtil;
-import nl.vpro.api.client.utils.PageUpdateRateLimiter;
 import nl.vpro.api.client.utils.Result;
-import nl.vpro.domain.api.IdList;
-import nl.vpro.domain.api.MultipleEntry;
-import nl.vpro.domain.api.SearchResultItem;
-import nl.vpro.domain.api.page.PageForm;
-import nl.vpro.domain.api.page.PageSearchResult;
-import nl.vpro.domain.api.page.PageSortField;
+import nl.vpro.api.client.utils.*;
+import nl.vpro.domain.api.*;
+import nl.vpro.domain.api.page.*;
 import nl.vpro.domain.media.MediaObject;
 import nl.vpro.domain.media.Schedule;
 import nl.vpro.domain.media.update.MediaUpdate;
-import nl.vpro.domain.page.LinkType;
-import nl.vpro.domain.page.Page;
-import nl.vpro.domain.page.Referral;
-import nl.vpro.domain.page.Section;
+import nl.vpro.domain.page.*;
 import nl.vpro.domain.page.update.*;
 import nl.vpro.jackson2.Jackson2Mapper;
 import nl.vpro.poms.AbstractApiMediaBackendTest;
@@ -28,15 +34,6 @@ import nl.vpro.testutils.Utils;
 import nl.vpro.testutils.Utils.Check;
 import nl.vpro.util.Version;
 import nl.vpro.validation.URI;
-import org.junit.jupiter.api.*;
-
-import javax.validation.constraints.NotNull;
-import javax.ws.rs.NotFoundException;
-import java.net.URLEncoder;
-import java.time.Duration;
-import java.time.LocalDate;
-import java.util.*;
-import java.util.stream.Collectors;
 
 import static io.restassured.RestAssured.given;
 import static java.nio.charset.StandardCharsets.UTF_8;
@@ -260,13 +257,19 @@ class PagesPublisherTest extends AbstractApiMediaBackendTest {
         Page tomorrow = pageUtil.load(urlTomorrow)[0];
 
         assertThat(tomorrow).isNull();
-        Page topStory = pageUtil.load(TOP_STORY_URL)[0];
 
-        Optional<Referral> referral = topStory.getReferrals()
-            .stream()
-            .filter(r -> r.getPageRef().equals(urlToday))
-            .findFirst();
 
+        Page topStory = Utils.waitUntil(ACCEPTABLE_PAGE_PUBLISHED_DURATION,
+            () -> pageUtil.load(TOP_STORY_URL)[0],
+            Check.<Page>builder()
+                .description("top stary as referrer " + urlToday)
+                .predicate(
+                    ts -> ts.getReferrals()
+                    .stream()
+                    .anyMatch(r -> r.getPageRef().equals(urlToday))
+                ).build()
+        );
+        Optional<Referral> referral = topStory.getReferrals().stream().filter(r -> r.getPageRef().equals((urlToday))).findFirst();
         assertThat(referral).withFailMessage(TOP_STORY_URL + " has no referral " + urlToday).isPresent();
         assertThat(referral.get().getType()).isEqualTo(LinkType.TOP_STORY);
 
