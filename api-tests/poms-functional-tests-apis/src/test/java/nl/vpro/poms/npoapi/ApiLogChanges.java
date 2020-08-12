@@ -22,7 +22,6 @@ public class ApiLogChanges extends AbstractApiTest {
 
 
     @Test
-
     public void logChanges() throws InterruptedException {
         Instant start = Instant.now().minus(Duration.ofMinutes(10));
         String mid = null;

@@ -36,7 +36,7 @@ public class PreprTest  extends AbstractApiMediaBackendTest {
     static final ObjectName PREPR = getObjectName("nl.vpro.media:name=prepr");
     static final ObjectName MBEANS = getObjectName("nl.vpro.jmx:name=nl.vpro.jmx.MBeansUtils#0,type=MBeansUtils");
 
-    static JMXSupport.JMXContainer pomsJMX = getMBeanServerConnection(CONFIG.getProperties(Config.Prefix.poms));
+    static final JMXSupport.JMXContainer pomsJMX = getMBeanServerConnection(CONFIG.getProperties(Config.Prefix.poms));
 
     @AfterAll
     public static void shutdown() {
