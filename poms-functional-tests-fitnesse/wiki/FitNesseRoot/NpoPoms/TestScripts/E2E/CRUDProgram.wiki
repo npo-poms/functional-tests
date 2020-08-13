@@ -82,13 +82,13 @@ Test
 |Npo poms Zoeken Check aantal zoekresultaten|1                                            |
 |Npo poms Zoeken Open eerste object                                                       |
 |Npo poms Tabblad object Check status       |${status1}                                   |
-|Npo poms Tabblad object Check veldtype 2   |Type              |heeft waarde|${typeGui1}  |
-|Npo poms Tabblad object Check veldtype 2   |Titel             |heeft waarde|${titel1}    |
-|Npo poms Tabblad object Check veldtype 2   |AV-Type           |heeft waarde|${avTypeGui1}|
-|Npo poms Tabblad object Check veldtype 1   |Omroepen          |heeft waarde|${omroep1}   |
+|Npo poms Tabblad object Check veld         |Type              |heeft waarde|${typeGui1}  |
+|Npo poms Tabblad object Check veld         |Titel             |heeft waarde|${titel1}    |
+|Npo poms Tabblad object Check veld         |AV-Type           |heeft waarde|${avTypeGui1}|
+|Npo poms Tabblad object Check veld         |Omroepen          |heeft waarde|${omroep1}   |
 |Npo poms Tabblad object Druk op link       |Labels            |in sidebar                |
 |Npo poms Tabblad object Wacht tot scrollen klaar is                                      |
-|Npo poms Tabblad object Check veldtype 2   |Genres            |heeft waarde|${genreGui1} |
+|Npo poms Tabblad object Check veld         |Genres            |heeft waarde|${genreGui1} |
 
 !include -c <E2E.GuiTearDown
 !include -c <E2E.ApiBackendSetUp
@@ -115,16 +115,16 @@ Test
 |Npo poms Zoeken Check aantal zoekresultaten|1                                                    |
 |Npo poms Zoeken Open eerste object                                                               |
 |Npo poms Tabblad object Check status       |${status2}                                           |
-|Npo poms Tabblad object Check veldtype 2   |Type              |heeft waarde|${typeGui2}          |
-|Npo poms Tabblad object Check veldtype 2   |Titel             |heeft waarde|${titel2}            |
-|Npo poms Tabblad object Check veldtype 2   |Korte titel       |heeft waarde|${korteTitel2}       |
-|Npo poms Tabblad object Check veldtype 2   |Beschrijving      |heeft waarde|${beschrijving2}     |
-|Npo poms Tabblad object Check veldtype 2   |Korte beschrijving|heeft waarde|${korteBeschrijving2}|
-|Npo poms Tabblad object Check veldtype 2   |AV-Type           |heeft waarde|${avTypeGui2}        |
-|Npo poms Tabblad object Check veldtype 1   |Omroepen          |heeft waarde|${omroep2}           |
+|Npo poms Tabblad object Check veld         |Type              |heeft waarde|${typeGui2}          |
+|Npo poms Tabblad object Check veld         |Titel             |heeft waarde|${titel2}            |
+|Npo poms Tabblad object Check veld         |Korte titel       |heeft waarde|${korteTitel2}       |
+|Npo poms Tabblad object Check veld         |Beschrijving      |heeft waarde|${beschrijving2}     |
+|Npo poms Tabblad object Check veld         |Korte beschrijving|heeft waarde|${korteBeschrijving2}|
+|Npo poms Tabblad object Check veld         |AV-Type           |heeft waarde|${avTypeGui2}        |
+|Npo poms Tabblad object Check veld         |Omroepen          |heeft waarde|${omroep2}           |
 |Npo poms Tabblad object Druk op link       |Labels            |in sidebar                        |
 |Npo poms Tabblad object Wacht tot scrollen klaar is                                              |
-|Npo poms Tabblad object Check veldtype 2   |Genres            |heeft waarde|${genreGui2}         |
+|Npo poms Tabblad object Check veld         |Genres            |heeft waarde|${genreGui2}         |
 
 !include -c <E2E.GuiTearDown
 !include -c <E2E.ApiBackendSetUp 
