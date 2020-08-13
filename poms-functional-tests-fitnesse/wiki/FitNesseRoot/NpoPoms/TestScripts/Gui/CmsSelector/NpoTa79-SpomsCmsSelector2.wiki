@@ -2,8 +2,8 @@
 Suites: MT
 Test
 ---
-!include -c <TestScripts.Gui.CmsSelector.Variabelen
-!include -c <TestScripts.Gui.CmsSelector.Scenarios
+!include -c <Gui.CmsSelector.Variabelen
+!include -c <Gui.CmsSelector.Scenarios
 
 !*> Lokale scenario's
 # Dit table template gebruikt harde waits om een meer menselijk klikgedrag te simuleren

@@ -1,2 +1,2 @@
-!include -c <TestScripts.Api.Backend.SuiteSetUp
-!include -c <TestScripts.Api.Backend.SetUp
+!include -c .NpoPoms.TestScripts.Api.Backend.SuiteSetUp
+!include -c .NpoPoms.TestScripts.Api.Backend.SetUp

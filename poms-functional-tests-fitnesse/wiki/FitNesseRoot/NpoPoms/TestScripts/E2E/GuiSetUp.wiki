@@ -1,2 +1,2 @@
-!include <TestScripts.Gui.SuiteSetUp
-!include <TestScripts.Gui.SetUp
+!include .NpoPoms.TestScripts.Gui.SuiteSetUp
+!include .NpoPoms.TestScripts.Gui.SetUp

@@ -1,1 +1,1 @@
-!include <TestScripts.Gui.TearDown
+!include .NpoPoms.TestScripts.Gui.TearDown

@@ -137,12 +137,12 @@ Test
 !include -c <E2E.GuiTearDown
 !include -c <E2E.ApiBackendSetUp
 
-|script                                                                                                                                                                      |
-|get from    |${urlBackendApi}/media/program/$mid/locations?owner=BROADCASTER                                                                                                |
-|note        |Save location, like in [[DELETE /media/{entity}/{id}/location/{locationId} (NPOAPI-103)][<TestScripts.Api.Backend.Media.DeleteMediaEntityIdLocationLocationId]]|
-|$urn=       |xPath                        |/collection/update:location/@urn                                                                                                 |
-|$locationId=|extract string               |$urn                |from               |^urn:vpro:media:location:(\d+)$               |using group              |1              |
-|show        |delete                       |${urlBackendApi}/media/program/$mid/location/$locationId                                                                         |
+|script                                                                                                                                                                              |
+|get from    |${urlBackendApi}/media/program/$mid/locations?owner=BROADCASTER                                                                                                        |
+|note        |Save location, like in [[DELETE /media/{entity}/{id}/location/{locationId} (NPOAPI-103)][.NpoPoms.TestScripts.Api.Backend.Media.DeleteMediaEntityIdLocationLocationId]]|
+|$urn=       |xPath                         |/collection/update:location/@urn                                                                                                        |
+|$locationId=|extract string                |$urn                 |from                |^urn:vpro:media:location:(\d+)$                |using group                |1                |
+|show        |delete                        |${urlBackendApi}/media/program/$mid/location/$locationId                                                                                |
 
 |script                                               |
 |show    |delete|${urlBackendApi}/media/program/$mid  |
