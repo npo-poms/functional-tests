@@ -36,7 +36,7 @@ Test
 |check                          |response status |202                                                                                                         |
 |check                          |response        |Removed accepted for $segmentId of $itemId.                                                                 |
 |get from                       |${urlBackendApi}/media/program/$itemId/full                                                                                  |
-|check                          |xPath           |/media:program/media:segments/media:segment[1]/@workflow|FOR DELETION                                       |
+|check                          |xPath           |/media:program/media:segments/media:segment[1]/@workflow|!-=~/(FOR DELETION)|(DELETED)/-!                   |
 |show                           |delete          |${urlBackendApi}/media/program/$itemId                                                                      |
 |get from                       |${urlBackendApi}/media/program/$itemId/full                                                                                  |
 |check                          |xPath           |/media:program/media:segments/media:segment[1]/@workflow|FOR DELETION                                       |

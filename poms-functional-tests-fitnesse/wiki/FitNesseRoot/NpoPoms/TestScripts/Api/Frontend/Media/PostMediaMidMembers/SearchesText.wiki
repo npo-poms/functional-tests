@@ -32,5 +32,5 @@ Test
 
 |Post count at path                        |
 |body    |post                |path |count?|
-|${body1}|media/${mid}/members|items|8     |
-|${body2}|media/${mid}/members|items|3     |
+|${body1}|media/${mid}/members|items|9     |
+|${body2}|media/${mid}/members|items|4     |
