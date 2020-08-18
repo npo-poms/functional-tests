@@ -14,9 +14,13 @@
 |post          |@{body}        |to|${urlFrontendApi}/@{post}|
 |$count=       |json path count|@{path}.*                   |
 
-|table template|Get value at path       |
-|get from      |${urlFrontendApi}/@{get}|
-|$value=       |json path    |@{path}   |
+|table template                 |Get value at path                           |
+|show                           |get from        |${urlFrontendApi}/@{get}   |
+|repeat until response status is|200                                         |
+|$repeatCount=                  |repeat count                                |
+|$timeSpentRepeating=           |time spent repeating                        |
+|$timeSpentRepeating=           |format timestamp|$timeSpentRepeating|as|m:ss|
+|$value=                        |json path       |@{path}                    |
 
 |table template|Get values at two paths |
 |get from      |${urlFrontendApi}/@{get}|

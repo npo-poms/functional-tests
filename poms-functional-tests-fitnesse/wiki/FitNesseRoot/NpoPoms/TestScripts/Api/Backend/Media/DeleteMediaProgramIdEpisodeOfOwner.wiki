@@ -41,31 +41,29 @@ Test
 </program>
 }}} }
 *!
-|script                                                                                                                                                              |
-|show                           |post                           |${bodyCreateProgram}                            |to|${urlBackendApi}/media/program?owner=BROADCASTER|
-|$midProgram=                   |response                                                                                                                            |
-|show                           |get from                       |${urlBackendApi}/media/program/$midProgram/full                                                     |
-|repeat until response status is|200                                                                                                                                 |
-|$repeatCount=                  |repeat count                                                                                                                        |
-|$timeSpentRepeating=           |time spent repeating                                                                                                                |
-|$timeSpentRepeating=           |format timestamp               |$timeSpentRepeating                             |as|m:ss                                            |
-|$urn=                          |xPath                          |/media:program/@urn                                                                                 |
-|show                           |post                           |${bodyCreateSeason}                             |to|${urlBackendApi}/media/group?owner=BROADCASTER  |
-|$midSeason=                    |response                                                                                                                            |
-|show                           |post                           |${bodyUpdateProgram}                            |to|${urlBackendApi}/media/program?owner=BROADCASTER|
-|show                           |get from                       |${urlBackendApi}/media/group/$midSeason/episodes?owner=BROADCASTER                                  |
-|repeat until response status is|200                                                                                                                                 |
-|$repeatCount=                  |repeat count                                                                                                                        |
-|$timeSpentRepeating=           |time spent repeating                                                                                                                |
-|$timeSpentRepeating=           |format timestamp               |$timeSpentRepeating                             |as|m:ss                                            |
-|repeat until xPath             |count(/update:list/update:item)|is                                              |1                                                  |
-|$repeatCount=                  |repeat count                                                                                                                        |
-|$timeSpentRepeating=           |time spent repeating                                                                                                                |
-|$timeSpentRepeating=           |format timestamp               |$timeSpentRepeating                             |as|m:ss                                            |
-|check                          |xPath                          |/update:list/update:item/update:mediaUpdate/@mid|$midProgram                                        |
-|show                           |delete                         |${urlBackendApi}/media/program/$midProgram/episodeOf/$midSeason                                     |
-|check                          |response status                |202                                                                                                 |
-|get from                       |${urlBackendApi}/media/group/$midSeason/episodes?owner=BROADCASTER                                                                  |
-|check                          |xPath                          |count(/update:list/update:item)                 |0                                                  |
-|show                           |delete                         |${urlBackendApi}/media/program/$midProgram                                                          |
-|show                           |delete                         |${urlBackendApi}/media/program/$midSeason                                                           |
+|script                                                                                                                                               |
+|show                           |post            |${bodyCreateProgram}                            |to|${urlBackendApi}/media/program?owner=BROADCASTER|
+|$midProgram=                   |response                                                                                                             |
+|show                           |get from        |${urlBackendApi}/media/program/$midProgram/full                                                     |
+|repeat until response status is|200                                                                                                                  |
+|$repeatCount=                  |repeat count                                                                                                         |
+|$timeSpentRepeating=           |time spent repeating                                                                                                 |
+|$timeSpentRepeating=           |format timestamp|$timeSpentRepeating                             |as|m:ss                                            |
+|$urn=                          |xPath           |/media:program/@urn                                                                                 |
+|show                           |post            |${bodyCreateSeason}                             |to|${urlBackendApi}/media/group?owner=BROADCASTER  |
+|$midSeason=                    |response                                                                                                             |
+|show                           |post            |${bodyUpdateProgram}                            |to|${urlBackendApi}/media/program?owner=BROADCASTER|
+|show                           |get from        |${urlBackendApi}/media/group/$midSeason/episodes?owner=BROADCASTER                                  |
+|repeat until response status is|200                                                                                                                  |
+|$repeatCount=                  |repeat count                                                                                                         |
+|$timeSpentRepeating=           |time spent repeating                                                                                                 |
+|$timeSpentRepeating=           |format timestamp|$timeSpentRepeating                             |as|m:ss                                            |
+|wait                           |3               |seconds                                                                                             |
+|check                          |xPath           |count(/update:list/update:item)                 |1                                                  |
+|check                          |xPath           |/update:list/update:item/update:mediaUpdate/@mid|$midProgram                                        |
+|show                           |delete          |${urlBackendApi}/media/program/$midProgram/episodeOf/$midSeason                                     |
+|check                          |response status |202                                                                                                 |
+|get from                       |${urlBackendApi}/media/group/$midSeason/episodes?owner=BROADCASTER                                                   |
+|check                          |xPath           |count(/update:list/update:item)                 |0                                                  |
+|show                           |delete          |${urlBackendApi}/media/program/$midProgram                                                          |
+|show                           |delete          |${urlBackendApi}/media/program/$midSeason                                                           |
