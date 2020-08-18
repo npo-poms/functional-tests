@@ -8,6 +8,7 @@ SymbolicLinks
 ---
 !*** Gegevens
 !*> Defines
+!define omgeving {Dev}
 !define urlPoms {!-https://poms-dev.omroep.nl-!}
 !define npoPomsInlogscherm_titel {POMS Test-omgeving}
 !define npoPomsHoofdscherm_titel {POMS - @tabblad}

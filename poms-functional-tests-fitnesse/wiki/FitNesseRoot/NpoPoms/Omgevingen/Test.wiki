@@ -9,6 +9,7 @@ Test: no
 ---
 !*** Gegevens
 !*> Defines
+!define omgeving {Test}
 !define urlPoms {!-https://poms-test.omroep.nl-!}
 !define npoPomsInlogscherm_titel {POMS Test-omgeving}
 !define npoPomsHoofdscherm_titel {POMS - @tabblad}
