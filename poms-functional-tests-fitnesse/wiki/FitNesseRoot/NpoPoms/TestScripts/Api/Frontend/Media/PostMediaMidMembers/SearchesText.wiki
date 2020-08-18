@@ -12,7 +12,12 @@ Test
       "value": "Golden Earring",
       "matchType": "TEXT",
       "match": "MUST"
-    }
+    },
+    "scheduleEvents" : { 
+      "begin" : 1307730900000, 
+      "end" : 1397672790000, 
+      "rerun": false 
+    } 
   }
 }
 }}} }
@@ -24,7 +29,12 @@ Test
       "value": "Armin van Buuren",
       "matchType": "TEXT",
       "match": "MUST"
-    }
+    },
+    "scheduleEvents" : { 
+      "begin" : 1307730900000, 
+      "end" : 1397672790000, 
+      "rerun": false 
+    } 
   }
 }
 }}} }
@@ -32,5 +42,5 @@ Test
 
 |Post count at path                        |
 |body    |post                |path |count?|
-|${body1}|media/${mid}/members|items|9     |
-|${body2}|media/${mid}/members|items|4     |
+|${body1}|media/${mid}/members|items|4     |
+|${body2}|media/${mid}/members|items|1     |
