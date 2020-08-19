@@ -1,0 +1,17 @@
+---
+Test: no
+---
+!define datetimeRegex {!-\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}\+02:00-!}
+
+|table template|Check maps in Test  |
+|              |Dummy table template|
+|show          |value of  |@{map}   |
+|show          |value of  |@{value} |
+
+|table template|Check maps in Dev   |
+|              |Dummy table template|
+|show          |value of  |@{map}   |
+|show          |value of  |@{value} |
+
+|table template|Check maps in ${omgeving}    |
+|check         |json path|map.@{map}|@{value}|

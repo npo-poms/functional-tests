@@ -21,6 +21,10 @@ Test
 }}} }
 *!
 
-|Post count at path        |
-|body   |post |path |count?|
-|${body}|media|items|7     |
+|Post count at path in Test|
+|body    |post |path |count|
+|${body} |media|items|7    |
+
+|Post count at path in Dev|
+|body   |post |path |count|
+|${body}|media|items|1    |

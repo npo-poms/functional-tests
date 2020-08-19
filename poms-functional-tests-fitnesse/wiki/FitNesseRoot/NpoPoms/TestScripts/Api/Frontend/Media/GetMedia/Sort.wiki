@@ -3,7 +3,12 @@ Test
 ---
 !define firstTitle {items[0].titles[0].value}
 
-|Get value at path                                                                                           |
-|get                           |path         |value?                                                         |
+|Get value at path in Test                                                                                   |
+|get                           |path         |value                                                          |
 |media?sort=asc&offset=0&max=2 |${firstTitle}|Liedje: Claudia de Breij - My Favorite Things  (Sound of Music)|
 |media?sort=desc&offset=0&max=2|${firstTitle}|NTR Podium                                                     |
+
+|Get value at path in Dev                                               |
+|get                           |path         |value                     |
+|media?sort=asc&offset=0&max=2 |${firstTitle}|De Daniel den Hoed Kliniek|
+|media?sort=desc&offset=0&max=2|${firstTitle}|Zappchat Wie is de Mol jr |

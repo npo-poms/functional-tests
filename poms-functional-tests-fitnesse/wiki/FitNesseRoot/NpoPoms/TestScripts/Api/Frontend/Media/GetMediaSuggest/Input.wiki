@@ -2,6 +2,6 @@
 Suites: NPOAPI-22, RG
 Test
 ---
-|Get count at path                         |
-|get                          |path |count?|
-|media/suggest?input=npo&max=1|items|1     |
+|Get count at path                          |
+|get                           |path |count?|
+|media/suggest?input=vpro&max=1|items|1     |
