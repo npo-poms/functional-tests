@@ -24,31 +24,35 @@ Test
 |scenario|Post |body                                            |
 |post    |@body|to|${urlFrontendApi}/media/${mid}/related?max=10|
 
-|scenario     |Check broadcaster of item number|index         |is not       |broadcaster  |
-|$broadcaster=|json path                       |items[@index].result.broadcasters[0].value|
-|push fixture                                                                             |
-|start        |string fixture                                                             |
-|ensure       |value                           |$broadcaster  |differs from |@broadcaster |
-|pop fixture                                                                              |
+|scenario     |Check broadcaster of item number|index       |is not      |broadcaster |
+|$broadcaster=|json path                       |items[@index].broadcasters[0].id      |
+|push fixture                                                                         |
+|start        |string fixture                                                         |
+|ensure       |value                           |$broadcaster|differs from|@broadcaster|
+|pop fixture                                                                          |
 *!
-|script                                                                                                                      |
-|Post                            |${firstBody}                                                                               |
-|set repeat interval to          |10000                                |milliseconds                                         |
-|repeat at most                  |30                                   |times                                                |
-|repeat until json path          |items[0].result.broadcasters[0].value|is                 |${firstBroadcasterAfterFirstPost}|
-|$repeatCount=                   |repeat count                                                                               |
-|$timeSpentRepeating=            |time spent repeating                                                                       |
-|$timeSpentRepeating=            |format timestamp                     |$timeSpentRepeating|as             |m:ss             |
-|check                           |json path                            |total              |${numberOfItems}                 |
-|check                           |json path count                      |items.*            |${numberOfItems}                 |
-|Post                            |${secondBody}                                                                              |
-|Check broadcaster of item number|0                                    |is not             |${firstBroadcasterAfterFirstPost}|
-|Check broadcaster of item number|1                                    |is not             |${firstBroadcasterAfterFirstPost}|
-|Check broadcaster of item number|2                                    |is not             |${firstBroadcasterAfterFirstPost}|
-|Check broadcaster of item number|3                                    |is not             |${firstBroadcasterAfterFirstPost}|
-|Check broadcaster of item number|4                                    |is not             |${firstBroadcasterAfterFirstPost}|
-|Check broadcaster of item number|5                                    |is not             |${firstBroadcasterAfterFirstPost}|
-|Check broadcaster of item number|6                                    |is not             |${firstBroadcasterAfterFirstPost}|
-|Check broadcaster of item number|7                                    |is not             |${firstBroadcasterAfterFirstPost}|
-|Check broadcaster of item number|8                                    |is not             |${firstBroadcasterAfterFirstPost}|
-|Check broadcaster of item number|9                                    |is not             |${firstBroadcasterAfterFirstPost}|
+|script                                                                                                            |
+|Post                            |${firstBody}                                                                     |
+|get from                        |${urlFrontendApi}/media/${mid}/related?max=10                                    |
+|repeat until json path          |items[0].broadcasters[0].id|is                 |${firstBroadcasterAfterFirstPost}|
+|$repeatCount=                   |repeat count                                                                     |
+|$timeSpentRepeating=            |time spent repeating                                                             |
+|$timeSpentRepeating=            |format timestamp           |$timeSpentRepeating|as             |m:ss             |
+|check                           |json path                  |total              |${numberOfItems}                 |
+|check                           |json path count            |items.*            |${numberOfItems}                 |
+|Post                            |${secondBody}                                                                    |
+|get from                        |${urlFrontendApi}/media/${mid}/related?max=10                                    |
+|repeat until json path          |items[0].broadcasters[0].id|is not             |${firstBroadcasterAfterFirstPost}|
+|$repeatCount=                   |repeat count                                                                     |
+|$timeSpentRepeating=            |time spent repeating                                                             |
+|$timeSpentRepeating=            |format timestamp           |$timeSpentRepeating|as             |m:ss             |
+|Check broadcaster of item number|0                          |is not             |${firstBroadcasterAfterFirstPost}|
+|Check broadcaster of item number|1                          |is not             |${firstBroadcasterAfterFirstPost}|
+|Check broadcaster of item number|2                          |is not             |${firstBroadcasterAfterFirstPost}|
+|Check broadcaster of item number|3                          |is not             |${firstBroadcasterAfterFirstPost}|
+|Check broadcaster of item number|4                          |is not             |${firstBroadcasterAfterFirstPost}|
+|Check broadcaster of item number|5                          |is not             |${firstBroadcasterAfterFirstPost}|
+|Check broadcaster of item number|6                          |is not             |${firstBroadcasterAfterFirstPost}|
+|Check broadcaster of item number|7                          |is not             |${firstBroadcasterAfterFirstPost}|
+|Check broadcaster of item number|8                          |is not             |${firstBroadcasterAfterFirstPost}|
+|Check broadcaster of item number|9                          |is not             |${firstBroadcasterAfterFirstPost}|
