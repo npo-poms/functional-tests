@@ -93,12 +93,12 @@
 |scenario                   |Npo poms Tabblad object Vul|waarde          |in textarea|textarea          |
 |Npo poms Tabblad object Vul|@waarde                    |in veld met type|textarea   |en label|@textarea|
 
-|scenario                          |Npo poms Tabblad object Sla textarea|textarea    |op in var          |var          |en vul deze aan met          |waarde          |
-|click                             |xpath=//h2[normalize-space(.)="@textarea"]                                                                                        |
-|$@var=                            |value of                            |xpath=//h2[normalize-space(.)="@textarea"]/following-sibling::form/span/textarea             |
-|enter                             |$@var-@waarde                       |as          |xpath=//h2[normalize-space(.)="@textarea"]/following-sibling::form/span/textarea|
-|click                             |xpath=//h2[normalize-space(.)="@textarea"]/following-sibling::form/span/span/button[text()="save"]                                |
-|Npo poms Tabblad object Check veld|@textarea                           |heeft waarde|$@var-@waarde                                                                   |
+|scenario                              |Npo poms Tabblad object Sla textarea|textarea    |op in var          |var          |en vul deze aan met          |waarde          |
+|click                                 |xpath=//h2[normalize-space(.)="@textarea"]                                                                                        |
+|$@var=                                |value of                            |xpath=//h2[normalize-space(.)="@textarea"]/following-sibling::form/span/textarea             |
+|enter                                 |$@var-@waarde                       |as          |xpath=//h2[normalize-space(.)="@textarea"]/following-sibling::form/span/textarea|
+|click                                 |xpath=//h2[normalize-space(.)="@textarea"]/following-sibling::form/span/span/button[text()="save"]                                |
+|Npo poms Tabblad object Wacht tot veld|@textarea                           |heeft waarde|$@var-@waarde                                                                   |
 
 |scenario        |Npo poms Tabblad object Wacht tot status zichtbaar|
 |wait for visible|xpath=//h2[text()="Status"]/following-sibling::*/p|
@@ -251,6 +251,27 @@
 |check   |value of                             |xpath=//poms-segments/div/table/tbody/tr[./td[@class="column-mainTitle"]/span[normalize-space(.)="@segment"]]/td[@class="column-workflow"]/span/poms-workflow/p|!-=~/(@status1)|(@status2)/-!  |
 |show    |value of                             |xpath=//poms-segments/div/table/tbody/tr[./td[@class="column-mainTitle"]/span[normalize-space(.)="@segment"]]/td[@class="column-workflow"]/span/poms-workflow/p                                |
 
+|scenario             |Npo poms Tabblad object Druk op tandwieltje bij segmenten|
+|set search context to|xpath=//poms-segment-columns                             |
+|click                |Kolominstellingen aanpassen                              |
+|remove last search context                                                     |
+
+|scenario             |Npo poms Tabblad object Druk op kolomoptie|optie|bij segmenten|
+|set search context to|xpath=//poms-segment-columns                                  |
+|click                |@optie                                                        |
+|remove last search context                                                          |
+
+|scenario            |Npo poms Tabblad object Wacht tot kolomoptie            |optie           |bij segmenten aangevinkt           |
+|wait for not visible|xpath=//poms-segment-columns/div/div/span[./span[text()="@optie"]][@class="poms-multidropdown-item"]         |
+|wait for visible    |xpath=//poms-segment-columns/div/div/span[./span[text()="@optie"]][@class="poms-multidropdown-item selected"]|
+
+|scenario                                    |Npo poms Tabblad object Vink kolomoptie|optie |aan bij segmenten|
+|Npo poms Tabblad object Druk op kolomoptie  |@optie                                 |bij segmenten           |
+|Npo poms Tabblad object Wacht tot kolomoptie|@optie                                 |bij segmenten aangevinkt|
+
+|scenario|Npo poms Tabblad object Sla mid van segment|segment                                         |op in var                                         |var                                        |
+|$@var=  |value of                                   |xpath=//poms-segments/div/table/tbody/tr[./td[@class="column-mainTitle"]/span[normalize-space(.)="@segment"]]/td[@class="column-mid"]/span/span|
+
 |table template                                                    |Npo poms Tabblad object Check permissies van veld                                                                                                     |
 |scroll to                                                         |xpath=//h2[starts-with(normalize-space(.), "@{veld}")]                                                                                                |
 |hover over                                                        |xpath=//h2[starts-with(normalize-space(.), "@{veld}")]                                                                                                |
@@ -305,14 +326,14 @@
 |wait                |3                                                               |seconds                                          |
 
 |scenario                                        |Npo poms Tabblad object Check aantal in veld|veld                                     |is                                    |aantal                                    |
-|Npo poms Tabblad object Wacht tot sidebar volledig geladen is                                                                                                                                                            |
-|set search context to                           |xpath=//ul[@id="sidebar"]                                                                                                                                               |
-|ensure                                          |is visible on page                          |@veld (@aantal)                                                                                                            |
-|remove last search context                                                                                                                                                                                               |
 |Npo poms Tabblad object Wacht tot aantal in veld|@veld                                       |bijgewerkt is                                                                                                              |
 |ensure                                          |is visible on page                          |xpath=.//h1[@class="media-section-title"][contains(normalize-space(.), "@veld")][contains(normalize-space(.), "(@aantal)")]|
 |note                                            |Toon de waarde van het bedoelde veld voor het geval de regel hierboven faalt                                                                                            |
 |show                                            |value of                                    |xpath=.//div/h1[contains(text(), "@veld")]                                                                                 |
+|Npo poms Tabblad object Wacht tot sidebar volledig geladen is                                                                                                                                                            |
+|set search context to                           |xpath=//ul[@id="sidebar"]                                                                                                                                               |
+|ensure                                          |is visible on page                          |@veld (@aantal)                                                                                                            |
+|remove last search context                                                                                                                                                                                               |
 
 |scenario                                    |Npo poms Tabblad object Check aantal in veld|veld|is var|var|
 |Npo poms Tabblad object Check aantal in veld|@veld                                       |is  |$@var     |

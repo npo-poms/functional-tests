@@ -32,7 +32,7 @@ Test
 |Npo poms Tabblad object Check veld                            |Genres          |heeft waarde |${standaardGenre}                                            |
 |Npo poms Tabblad object Druk op link                          |Algemeen        |in sidebar                                                                 |
 |Npo poms Tabblad object Wacht tot status zichtbaar                                                                                                         |
-|Npo poms Tabblad object Check status                          |Voor publicatie                                                                             |
+|Npo poms Tabblad object Check status                          |Voor publicatie |of           |Ingetrokken                                                  |
 |seconds before timeout                                        |600                                                                                         |
 |start timer                                                   |timer                                                                                       |
 |Npo poms Tabblad object Wacht tot status                      |Ingetrokken                                                                                 |
