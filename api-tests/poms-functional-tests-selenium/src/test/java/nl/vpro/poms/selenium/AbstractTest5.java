@@ -1,6 +1,6 @@
 package nl.vpro.poms.selenium;
 
-import io.github.bonigarcia.wdm.DriverManagerType;
+import io.github.bonigarcia.wdm.config.DriverManagerType;
 
 import java.lang.annotation.*;
 import java.util.*;

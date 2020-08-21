@@ -32,7 +32,7 @@ import static org.junit.jupiter.api.Assumptions.assumeTrue;
 class ApiMediaStreamingCallsTest extends AbstractApiTest {
 
 
-    private Instant FROM = Instant.now().minus(Duration.ofDays(14));
+    private Instant FROM = Instant.now().minus(Duration.ofDays(14)).truncatedTo(ChronoUnit.SECONDS);
 
     private static final int CHANGES_MAX = 100;
 
@@ -179,7 +179,7 @@ class ApiMediaStreamingCallsTest extends AbstractApiTest {
 
     @SuppressWarnings("deprecation")
     protected void testChanges(String profile, Instant from, Integer max) throws Exception {
-        Instant start = NOWI;
+        Instant start = from.truncatedTo(ChronoUnit.SECONDS);
         final AtomicInteger i = new AtomicInteger();
         Instant prev = from;
         try(CloseableIterator<MediaChange> changes = mediaUtil.changes(profile, false,  from, null, Order.ASC, max, Deletes.ID_ONLY)) {
