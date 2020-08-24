@@ -23,14 +23,14 @@ import static org.assertj.core.api.Assertions.assertThat;
 @Log4j2
 class ThesaurusPublisherTest extends AbstractApiTest {
 
-   private PageUpdateApiClient pageUpdateApiClient = PageUpdateApiClient.configured(
+   private final PageUpdateApiClient pageUpdateApiClient = PageUpdateApiClient.configured(
        CONFIG.env(npo_pageupdate_api),
        CONFIG.getProperties(npo_pageupdate_api)
    ).build();
 
 
     private static String givenName;
-    private static String familyName = "Puk";
+    private final static String familyName = "Puk";
     private static String gtaaId;
 
 

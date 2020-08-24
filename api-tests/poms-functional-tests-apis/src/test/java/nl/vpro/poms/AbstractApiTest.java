@@ -109,7 +109,7 @@ public abstract class AbstractApiTest extends AbstractTest  {
             apiVersionNumber = clients.getVersionNumber();
         } catch (Exception  e) {
             LOG.warn(e.getMessage());
-            apiVersionNumber = Version.of(5, 9);
+            apiVersionNumber = Version.of(5, 14);
         }
         Compatibility.setCompatibility(apiVersionNumber);
         mediaUtil.setCacheExpiry("1S");

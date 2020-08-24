@@ -34,7 +34,7 @@ class ApiMediaStreamingCallsTest extends AbstractApiTest {
 
     private Instant FROM = Instant.now().minus(Duration.ofDays(14)).truncatedTo(ChronoUnit.SECONDS);
 
-    private static final int CHANGES_MAX = 100;
+    private static final int CHANGES_MAX = 5000;
 
     int couchdbSince;
 
@@ -186,12 +186,13 @@ class ApiMediaStreamingCallsTest extends AbstractApiTest {
             while (changes.hasNext()) {
                 MediaChange change = changes.next();
                 if (!change.isTail()) {
-
+                    log.debug("{} {}", change.getPublishDate(), change.getMid());
                     assertThat(change.getSequence()).isNull();
                     assertThat(change.getPublishDate()).withFailMessage("%s has no publish date", change).isNotNull();
                     assertThat(change.getPublishDate()).isAfterOrEqualTo(prev);
                     assertThat(change.getRevision() == null || change.getRevision() > 0).isTrue();
                     prev = change.getPublishDate();
+
                     if (i.incrementAndGet() % 1000 == 0) {
                         log.info("{}: {}", i.get(), change);
                     }
