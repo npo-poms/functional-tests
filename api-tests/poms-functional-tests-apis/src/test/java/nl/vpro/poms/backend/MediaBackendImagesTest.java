@@ -1,6 +1,20 @@
 package nl.vpro.poms.backend;
 
 import lombok.extern.log4j.Log4j2;
+
+import java.net.URLEncoder;
+import java.time.Duration;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
+import java.util.*;
+import java.util.function.Function;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
+
+import javax.xml.bind.JAXB;
+
+import org.junit.jupiter.api.*;
+
 import nl.vpro.api.client.media.ResponseError;
 import nl.vpro.domain.image.ImageType;
 import nl.vpro.domain.media.update.ImageUpdate;
@@ -10,19 +24,6 @@ import nl.vpro.poms.AbstractApiMediaBackendTest;
 import nl.vpro.poms.Require;
 import nl.vpro.test.jupiter.AbortOnException;
 import nl.vpro.util.Version;
-import org.junit.jupiter.api.*;
-
-import javax.xml.bind.JAXB;
-import java.net.URLEncoder;
-import java.time.Duration;
-import java.time.Instant;
-import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.function.Function;
-import java.util.function.Predicate;
-import java.util.stream.Collectors;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static nl.vpro.testutils.Utils.waitUntil;
@@ -45,7 +46,7 @@ import static org.junit.jupiter.api.Assumptions.assumeTrue;
  *
  * @author Michiel Meeuwissen
  */
-@TestMethodOrder(MethodOrderer.Alphanumeric.class)
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @Log4j2
 public class MediaBackendImagesTest extends AbstractApiMediaBackendTest {
     private static final Duration ACCEPTABLE_DURATION = Duration.ofMinutes(3);
@@ -53,14 +54,16 @@ public class MediaBackendImagesTest extends AbstractApiMediaBackendTest {
 
     @Test
     @Tag("lifecycle")
-    void test00setup() {
+    @Order(0)
+    void setup() {
         cleanup();
         cleanupCheck();
     }
 
     @Test
     @Require.Needs(MID)
-    void test01addRedirectingImage() {
+    @Order(1)
+    void addRedirectingImage() {
         assumeThat(backendVersionNumber).isGreaterThanOrEqualTo(Version.of(5));
         titles.add(title);
         ImageUpdate update = randomImage(title)
@@ -73,7 +76,8 @@ public class MediaBackendImagesTest extends AbstractApiMediaBackendTest {
 
 
     @Test
-    void test02addImage() {
+    @Order(2)
+    void addImage() {
         titles.add(title);
 
         ImageUpdate update = randomImage(title)
@@ -83,13 +87,15 @@ public class MediaBackendImagesTest extends AbstractApiMediaBackendTest {
     }
 
     @Test
-    void test10checkArrived() {
+    @Order(10)
+    void test10checkArrivedAddImage() {
         checkArrived();
     }
 
 
     @Test
-    void test11addImageToObject() {
+    @Order(11)
+    void addImageToObject() {
         titles.add(title);
         ImageUpdate imageUpdate  = randomImage(title)
             .type(ImageType.ICON)
@@ -103,7 +109,8 @@ public class MediaBackendImagesTest extends AbstractApiMediaBackendTest {
 
 
     @Test
-    void test12checkArrived() {
+    @Order(12)
+    void checkArrivedAddImageToImage() {
         // Test 11 happens via object (not via addImage), so goes via broadcaster cues.
         // If 13 is executed before 11 fully handled, 13 will fail.
         // therefor we added this intermediate check.
@@ -115,7 +122,8 @@ public class MediaBackendImagesTest extends AbstractApiMediaBackendTest {
 
     @Test
     @Tag("wikimedia")
-    void test13addWikimediaImage() {
+    @Order(13)
+    void addWikimediaImage() {
         titles.add(title);
         wikiImageTitle = title;
 
@@ -137,7 +145,8 @@ public class MediaBackendImagesTest extends AbstractApiMediaBackendTest {
 
     @Test
     @Tag("wikimedia")
-    void test14checkArrivedWikimedia() {
+    @Order(14)
+    void checkArrivedWikimedia() {
         checkArrived();
         assumeTrue(wikiImageTitle != null);
         ProgramUpdate update = backend.get(MID);
@@ -156,7 +165,8 @@ public class MediaBackendImagesTest extends AbstractApiMediaBackendTest {
     @Test
     @Tag("tineye")
     @Disabled("MSE-4391, MSE-4069, PIS-11")
-    void test15addTineyeImage() {
+    @Order(15)
+    void addTineyeImage() {
         titles.add(title);
         tineyeImageTitle = title;
 
@@ -177,7 +187,8 @@ public class MediaBackendImagesTest extends AbstractApiMediaBackendTest {
     @Tag("tineye")
     @AbortOnException.Except("known to sometimes fail")
     @Disabled("MSE-4391, MSE-4069, PIS-11")
-    void test20checkArrivedTineye() {
+    @Order(20)
+    void checkArrivedTineye() {
         checkArrived();
         assumeTrue(tineyeImageTitle != null);
         ProgramUpdate update = backend.get(MID);
@@ -190,7 +201,8 @@ public class MediaBackendImagesTest extends AbstractApiMediaBackendTest {
     }
 
     @Test
-    void test21updateImageInObject() {
+    @Order(21)
+    void updateImageInObject() {
         final ProgramUpdate[] update = new ProgramUpdate[1];
         update[0] = backend.get(MID);
         Instant yesterday = NOWI.minus(Duration.ofDays(1)).truncatedTo(ChronoUnit.MINUTES);
@@ -222,7 +234,8 @@ public class MediaBackendImagesTest extends AbstractApiMediaBackendTest {
     }
 
     @Test
-    void test22updateImageInObjectButCleanUrn() {
+    @Order(22)
+    void updateImageInObjectButCleanUrn() {
         final ProgramUpdate[] update = new ProgramUpdate[1];
         update[0] = backend.get(MID);
 
@@ -262,7 +275,8 @@ public class MediaBackendImagesTest extends AbstractApiMediaBackendTest {
 
     @Test
     @Require.Needs(ANOTHER_MID)
-    void test30copyImageToOtherObject() {
+    @Order(30)
+    void copyImageToOtherObject() {
         final ProgramUpdate[] updates = new ProgramUpdate[2];
         updates[0] = backend.get(MID);
 
@@ -301,7 +315,8 @@ public class MediaBackendImagesTest extends AbstractApiMediaBackendTest {
 
 
     @Test
-    void test31addInvalidImage() {
+    @Order(31)
+    void addInvalidImage() {
         Assertions.assertThrows(ResponseError.class, () -> {
             assumeThat(backendVersionNumber).isGreaterThanOrEqualTo(Version.of(5, 8));
             titles.add(title);
@@ -318,24 +333,17 @@ public class MediaBackendImagesTest extends AbstractApiMediaBackendTest {
     @Test
     @Tag("lifecycle")
     @AbortOnException.NoAbort
-    void test98Cleanup() {
-        cleanup();
-    }
-
-
-    @Test
-    @Tag("lifecycle")
-    @AbortOnException.NoAbort
-    void test99CleanupCheck() {
-        cleanupCheck();
-    }
-
+    @Order(98)
     void cleanup() {
         cleanupAllImages(ANOTHER_MID);
         cleanupAllImages(MID);
     }
 
 
+    @Test
+    @Tag("lifecycle")
+    @AbortOnException.NoAbort
+    @Order(99)
     void cleanupCheck() {
         final ProgramUpdate[] update = new ProgramUpdate[1];
         waitUntil(ACCEPTABLE_DURATION,
