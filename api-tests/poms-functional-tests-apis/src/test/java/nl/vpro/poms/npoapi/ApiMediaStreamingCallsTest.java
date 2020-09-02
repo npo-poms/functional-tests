@@ -238,7 +238,7 @@ class ApiMediaStreamingCallsTest extends AbstractApiTest {
                 MediaChange change = changes.next();
                 if (!change.isTail()) {
                     i.incrementAndGet();
-                    if (i.get() > 100) {
+                    if (i.get() >= 100) {
                         break;
                     }
                     if (apiVersionNumber.isBefore(5, 3)) {
