@@ -23,11 +23,22 @@ import java.util.Date;
 import java.text.SimpleDateFormat;
 import java.text.ParseException;
 
+import nl.hsac.fitnesse.fixture.slim.SlimFixtureException;
+
 public class ExtendedBrowserTest extends BrowserTest {
     private LinkedList<String> previousPropertyValues = new LinkedList<>();
 
 	public Object store(Object result) {
 		return result;
+	}
+	
+	public String trySetBrowserSizeToBy(int newWidth, int newHeight) {
+		try {
+			setBrowserSizeToBy(newWidth, newHeight);
+			return "";
+		} catch(SlimFixtureException e) {
+			return e.getMessage();
+		}
 	}
 	
 	@WaitUntil(TimeoutPolicy.RETURN_FALSE)

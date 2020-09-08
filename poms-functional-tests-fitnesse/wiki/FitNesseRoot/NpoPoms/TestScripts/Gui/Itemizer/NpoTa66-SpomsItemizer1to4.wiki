@@ -12,6 +12,9 @@ Test
 
 *!
 
+|script                                   |
+|show|try set browser size to|1600|by|1200|
+
 |script                                             |
 |Open Npo poms website                              |
 |Npo poms Inlogscherm Log in met standaard-gebruiker|

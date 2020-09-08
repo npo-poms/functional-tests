@@ -10,6 +10,9 @@ Test
 
 *!
 
+|script                                   |
+|show|try set browser size to|1600|by|1200|
+
 |scenario        |vul     |item                                                 |met       |tekst      |
 |wait for visible|@item                                                                                |
 |click           |@item                                                                                |
