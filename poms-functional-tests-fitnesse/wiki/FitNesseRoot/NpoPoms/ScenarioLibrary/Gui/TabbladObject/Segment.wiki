@@ -36,10 +36,8 @@
 |scenario              |Npo poms Tabblad object Segment wacht tot video ingeladen is|
 |seconds before timeout|180                                                         |
 |wait for visible      |xpath=//*[@id="videoDuration" and .!="00:00:00"]            |
-|wait for visible      |css=#iconPlayPause                                          |
-|seconds before timeout|10                                                          |
-|$tmp=                 |click if available             |css=.icon-pause             |
 |seconds before timeout|${secondsBeforeTimeout}                                     |
+|wait for visible      |css=.icon-play                                              |
 
 |scenario|Npo poms Tabblad object Segment Speel video voor|sec|sec|
 |click   |css=#iconPlayPause                                      |
@@ -55,11 +53,11 @@
 |scenario|Npo poms Tabblad object Segment Zet huidige positie als|start_stoptijd|
 |click   |Zet huidige positie als @start_stoptijd                               |
 
-|scenario|Npo poms Tabblad object Segment opslaan met titel|titel|beschrijving|beschrijving|en knop Bewaar en|nieuw_sluit|
-|enter   |@titel                                           |as   |Titel (verplicht)                                      |
-|enter   |@beschrijving                                    |as   |Beschrijving                                           |
-|click   |Bewaar en @nieuw_sluit                                                                                         |
-|ensure  |is visible on page                               |css=poms-segments .column-mainTitle [title="@titel"]         |
+|scenario|Npo poms Tabblad object Segment opslaan met titel|titel             |beschrijving|beschrijving|en knop Bewaar en|nieuw_sluit|
+|enter   |@titel                                           |as                |Titel (verplicht)                                      |
+|enter   |@beschrijving                                    |as                |Beschrijving                                           |
+|click   |Bewaar en @nieuw_sluit                                                                                                      |
+|        |ensure                                           |is visible on page|css=poms-segments .column-mainTitle [title="@titel"]   |
 
 |scenario         |Npo poms Tabblad object Segment Bewaar aantal segmenten op id|id                                              |
 |$segmentValue@id=|value of                                                     |css=[title="Segmenten"] span                    |

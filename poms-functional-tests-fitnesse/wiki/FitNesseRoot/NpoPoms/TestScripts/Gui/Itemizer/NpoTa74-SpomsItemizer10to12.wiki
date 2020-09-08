@@ -60,10 +60,12 @@ Test
 |click           |css=.canvas-grab  |
 |wait for visible|css=.image-preview|
 
-|script                                                                                                            |
-|Npo poms Tabblad object Segment Controleer start |00:02:25|stop        |00:06:50       |en speelduur     |00:04:25|
-|Npo poms Tabblad object Segment opslaan met titel|${titel}|beschrijving|${beschrijving}|en knop Bewaar en|sluit   |
-|Npo poms Tabblad object Segment itemize          |${titel}                                                        |
+|script                                                                                                                   |
+|Npo poms Tabblad object Segment Controleer start |00:02:25|stop        |00:06:50       |en speelduur     |00:04:25       |
+|Npo poms Tabblad object Segment opslaan met titel|${titel}|beschrijving|${beschrijving}|en knop Bewaar en|sluit          |
+|Npo poms Tabblad object Wacht tot sidebar volledig geladen is                                                            |
+|Npo poms Tabblad object Check segment            |${titel}|heeft status|Gepubliceerd   |of               |Voor publicatie|
+|Npo poms Tabblad object Segment itemize          |${titel}                                                               |
 
 |script                                                                                           |
 |enter                                           |00:02:25.000|as  |Starttijd                     |

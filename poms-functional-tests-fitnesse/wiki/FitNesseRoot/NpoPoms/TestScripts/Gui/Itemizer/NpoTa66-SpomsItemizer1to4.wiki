@@ -34,6 +34,7 @@ op hele trage PC's zou dit tot onterechte fouten kunnen leiden: dan is de stopti
 |script                                                                                                              |
 |Npo poms Tabblad object Segment Controleer start |00:00:01 |stop        |00:00:04        |en speelduur     |00:00:03|
 |Npo poms Tabblad object Segment opslaan met titel|${titel1}|beschrijving|${beschrijving1}|en knop Bewaar en|nieuw   |
+|wait for visible                                 |Nog in te vullen:                                                 |
 |click                                            |Annuleer                                                          |
 TODO: Zodra de onderstaande bug is opgelost: 'click Annuleer'-regel hierboven VERWIJDEREN!
 
@@ -50,6 +51,11 @@ TODO: De stappen uit alle comments hieronder toevoegen, zodra bug NPOTA-99 is op
 #|script                                                          |
 #|Npo poms Tabblad object Segment Controleer start |00:00:03 |stop        |00:00:04        |en speelduur      |00:00:01|
 #|Npo poms Tabblad object Segment opslaan met titel|${titel2}|beschrijving|${beschrijving2}|en knop Bewaar en|sluit|
+
+|script                                                                                      |
+|Npo poms Tabblad object Wacht tot sidebar volledig geladen is                               |
+|Npo poms Tabblad object Check segment|${titel1}|heeft status|Gepubliceerd|of|Voor publicatie|
+#|Npo poms Tabblad object Check segment|${titel2}|heeft status|Gepubliceerd|of|Voor publicatie|
 
 Controleer verwacht resultaat:
 Terug in het deel van de segmenten: De teller bij “Segmenten” is met '''één''' opgehoogd.
