@@ -51,4 +51,5 @@ Door het zetten van start- en stop tijd, worden de start- en stop tijden ingevul
 |check           |value of|css=.column-duration|in|xpath=//tr[contains(.,'${titel}')]|01:01|
 
 |script                                            |
+|Npo poms Tabblad object Segment Toon MID kolom    |
 |Npo poms Tabblad object Segment Verwijder|${titel}|

@@ -64,6 +64,8 @@ Controle dat de vastgelegde speelduur = stoptijd - starttijd
 |enter                                           |00:03:25.000|as  |Eindtijd                      |
 |Npo poms Tabblad object Segment Controleer start|00:02:25    |stop|00:03:25|en speelduur|00:01:00|
 |click                                           |Bewaar en sluit                                 |
+|Npo poms Tabblad object Wacht tot sidebar volledig geladen is                                    |
 
 |script                                            |
+|Npo poms Tabblad object Segment Toon MID kolom    |
 |Npo poms Tabblad object Segment Verwijder|${titel}|

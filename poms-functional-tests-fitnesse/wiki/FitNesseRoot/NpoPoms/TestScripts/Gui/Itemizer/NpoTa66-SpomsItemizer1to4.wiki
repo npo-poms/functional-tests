@@ -68,6 +68,7 @@ TODO: Zodra de bug is opgelost: verwachte toename wijzigen van een naar twee, in
 |Npo poms Tabblad object Segment Controleer aantal tussen id  |1|en|2|is toegenomen met|1|
 
 |script                                             |
+|Npo poms Tabblad object Segment Toon MID kolom     |
 |Npo poms Tabblad object Segment Verwijder|${titel1}|
 #|Npo poms Tabblad object Segment Verwijder|${titel2}|
 TODO: Zodra de bug is opgelost: regel hierboven ACTIVEREN!
