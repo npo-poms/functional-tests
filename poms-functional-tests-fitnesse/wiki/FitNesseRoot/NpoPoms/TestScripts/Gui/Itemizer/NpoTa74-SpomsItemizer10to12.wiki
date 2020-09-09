@@ -48,12 +48,13 @@ Test
 |script                                                                                                                        |
 |enter                 |00:06:50.010      |as                                     |Eindtijd                                    |
 |seconds before timeout|1                                                                                                      |
-|reject                |is visible on page|De starttijd van een segment mag niet later zijn dan of gelijk zijn aan de stoptijd.|
+|ensure                |is visible on page|De starttijd van een segment mag niet later zijn dan of gelijk zijn aan de stoptijd.|
 |seconds before timeout|${secondsBeforeTimeout}                                                                                |
 
-|script                                                                                           |
-|enter                                           |00:02:25.001|as  |Starttijd                     |
-|Npo poms Tabblad object Segment Controleer start|00:02:25    |stop|00:06:50|en speelduur|00:04:25|
+|script                                                                                                                                                  |
+|enter                                           |00:02:25.001      |as               |Starttijd                                                         |
+|reject                                          |is visible on page|De starttijd van een segment mag niet later zijn dan of gelijk zijn aan de stoptijd.|
+|Npo poms Tabblad object Segment Controleer start|00:02:25          |stop             |00:06:50            |en speelduur            |00:04:25            |
 
 |storyboard                         |
 |click           |id=seekbar        |
