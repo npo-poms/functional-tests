@@ -39,13 +39,13 @@ Door het zetten van start- en stop tijd, worden de start- en stop tijden ingevul
 |Npo poms Tabblad object Segment aanpassen speeltijd naar hh:mm:ss|00:01:01        |
 |Npo poms Hoofdscherm Sluit tab met tekst                         |Segment ${titel}|
 
-|script                                                                                                                              |
-|Npo poms Tabblad object Segment Refresh maximaal|60|keer na|3000|ms tot|${titel}|gewijzigd is naar stoptijd|01:01|en speelduur|01:01|
+|script                                                                                                                            |
+|Npo poms Tabblad object Segment Refresh maximaal|60|keer na|3000|ms tot|${titel}|gewijzigd is naar stoptijd|1:01|en speelduur|1:01|
 
-|script                                                                                    |
-|wait for visible|css=.column-workflow [title="Gepubliceerd"]                              |
-|check           |value of|css=.column-stop    |in|xpath=//tr[contains(.,'${titel}')]|01:01|
-|check           |value of|css=.column-duration|in|xpath=//tr[contains(.,'${titel}')]|01:01|
+|script                                                                                   |
+|wait for visible|css=.column-workflow [title="Gepubliceerd"]                             |
+|check           |value of|css=.column-stop    |in|xpath=//tr[contains(.,'${titel}')]|1:01|
+|check           |value of|css=.column-duration|in|xpath=//tr[contains(.,'${titel}')]|1:01|
 
 |script                                            |
 |Npo poms Tabblad object Segment Toon MID kolom    |
