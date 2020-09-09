@@ -84,6 +84,7 @@
 |scroll to                             |xpath=//h2[normalize-space(.)="@label"]                                                                                           |
 |click                                 |xpath=//h2[normalize-space(.)="@label"]                                                                                           |
 |enter                                 |@waarde                       |as             |xpath=//h2[normalize-space(.)="@label"]/following-sibling::form/span/@type         |
+|wait                                  |3                             |seconds                                                                                            |
 |click                                 |xpath=//h2[normalize-space(.)="@label"]/following-sibling::form/span/span/button[text()="save"]                                   |
 |Npo poms Tabblad object Wacht tot veld|@label                        |heeft waarde   |@waarde                                                                            |
 
