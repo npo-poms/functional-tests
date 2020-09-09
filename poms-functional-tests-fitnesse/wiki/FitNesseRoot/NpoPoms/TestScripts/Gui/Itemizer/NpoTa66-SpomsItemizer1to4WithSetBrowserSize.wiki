@@ -12,6 +12,27 @@ Test
 
 *!
 
+!*> Lokale scenario
+
+|scenario              |Npo poms Tabblad object Segment wacht tot video ingeladen is|
+|seconds before timeout|180                                                         |
+|wait for visible      |xpath=//*[@id="videoDuration" and .!="00:00:00"]            |
+|wait for visible      |css=#iconPlayPause                                          |
+|show                  |take screenshot     |1_VideoIngeladen                       |
+|seconds before timeout|10                                                          |
+|$tmp=                 |click if available  |css=.icon-pause                        |
+|seconds before timeout|${secondsBeforeTimeout}                                     |
+|show                  |take screenshot     |2_OpPauzeknopGedruktAlsDezeAanwezigIs  |
+
+*!
+
+|script                                   |
+|show|current browser width               |
+|show|current browser height              |
+|show|try set browser size to|1600|by|1200|
+|show|current browser width               |
+|show|current browser height              |
+
 |script                                             |
 |Open Npo poms website                              |
 |Npo poms Inlogscherm Log in met standaard-gebruiker|
@@ -21,23 +42,27 @@ Test
 |Npo poms Tabblad object Segment Bewaar aantal segmenten op id|1|
 |Npo poms Tabblad object Segment toevoegen met speler           |
 
-|script                                                           |
-|Npo poms Tabblad object Segment Speel video voor       |1  |sec  |
-|Npo poms Tabblad object Segment Zet huidige positie als|starttijd|
-|Npo poms Tabblad object Segment Speel video voor       |3  |sec  |
-|Npo poms Tabblad object Segment Zet huidige positie als|stoptijd |
+|script                                                                                              |
+|Npo poms Tabblad object Segment Speel video voor       |1              |sec                         |
+|show                                                   |take screenshot|3_VideoGestoptNa1SecAfspelen|
+|Npo poms Tabblad object Segment Zet huidige positie als|starttijd                                   |
+|show                                                   |take screenshot|4_StarttijdIngesteld        |
+|Npo poms Tabblad object Segment Speel video voor       |3              |sec                         |
+|show                                                   |take screenshot|5_VideoGestoptNa3SecAfspelen|
+|Npo poms Tabblad object Segment Zet huidige positie als|stoptijd                                    |
+|show                                                   |take screenshot|6_EindtijdIngesteld         |
 
 Controleer verwacht resultaat:
 Door het zetten van start- en stop tijd, worden de start- en stop tijden ingevuld en wordt de speelduur berekend.
 '''Let op:''' Onderstaande checks op tijd gaan ervan uit dat alle kliks op play/pauze binnen een seconde zijn uitgevoerd,
 op hele trage PC's zou dit tot onterechte fouten kunnen leiden: dan is de stoptijd (evt. ook de speelduur/starttijd) hoger dan verwacht.
-|script                                                                                                              |
-|Npo poms Tabblad object Segment Controleer start |00:00:01 |stop        |00:00:04        |en speelduur     |00:00:03|
-|Npo poms Tabblad object Segment opslaan met titel|${titel1}|beschrijving|${beschrijving1}|en knop Bewaar en|nieuw   |
-|wait for visible                                 |Nog in te vullen:                                                 |
-|click                                            |Annuleer                                                          |
+|script                                                                                                                                                            |
+|Npo poms Tabblad object Segment Controleer start|00:00:01                                         |stop     |00:00:04    |en speelduur    |00:00:03               |
+|                                                |Npo poms Tabblad object Segment opslaan met titel|${titel1}|beschrijving|${beschrijving1}|en knop Bewaar en|nieuw|
+|                                                |wait for visible                                 |Nog in te vullen:                                              |
+|click                                           |Annuleer                                                                                                         |
 TODO: Zodra de onderstaande bug is opgelost: 'click Annuleer'-regel hierboven VERWIJDEREN!
-
+{{{
 BUG! Na klik op “Bewaar en nieuw” werkt de playknop niet meer, zie https://specialisterren.atlassian.net/browse/NPOTA-99
 TODO: De stappen uit alle comments hieronder toevoegen, zodra bug NPOTA-99 is opgelost:
 #|script                                 |
@@ -69,4 +94,4 @@ TODO: Zodra de bug is opgelost: verwachte toename wijzigen van een naar twee, in
 |Npo poms Tabblad object Segment Verwijder|${titel1}|
 #|Npo poms Tabblad object Segment Verwijder|${titel2}|
 TODO: Zodra de bug is opgelost: regel hierboven ACTIVEREN!
-
+}}}
