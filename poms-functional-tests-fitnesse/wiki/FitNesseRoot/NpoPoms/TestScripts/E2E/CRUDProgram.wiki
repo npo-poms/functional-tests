@@ -81,7 +81,7 @@ Test
 |ensure                                     |is visible on page|Gezocht naar: '$mid'      |
 |Npo poms Zoeken Check aantal zoekresultaten|1                                            |
 |Npo poms Zoeken Open eerste object                                                       |
-|Npo poms Tabblad object Check status       |${status1}                                   |
+|Npo poms Tabblad object Check status       |${status1}        |of          |${status2}   |
 |Npo poms Tabblad object Check veld         |Type              |heeft waarde|${typeGui1}  |
 |Npo poms Tabblad object Check veld         |Titel             |heeft waarde|${titel1}    |
 |Npo poms Tabblad object Check veld         |AV-Type           |heeft waarde|${avTypeGui1}|
@@ -93,16 +93,19 @@ Test
 !include -c <E2E.GuiTearDown
 !include -c <E2E.ApiBackendSetUp
 
-|script                                                                                                                                           |
-|show                |post                    |${body2}                                       |to|${urlBackendApi}/media/program?owner=BROADCASTER|
-|$mid=               |response                                                                                                                    |
-|get from            |${urlBackendApi}/media/program/$mid/full                                                                                    |
-|check               |xPath                   |/media:program/@workflow                       |FOR PUBLICATION                                    |
-|repeat until xPath  |/media:program/@workflow|is                                             |PUBLISHED                                          |
-|$repeatCount=       |repeat count                                                                                                                |
-|$timeSpentRepeating=|time spent repeating                                                                                                        |
-|$timeSpentRepeating=|format timestamp        |$timeSpentRepeating                            |as|m:ss                                            |
-|check               |xPath                   |/media:program/media:description[@type="SHORT"]|${korteBeschrijving2}                              |
+|script                                                                                                               |
+|show                |post                    |${body2}           |to|${urlBackendApi}/media/program?owner=BROADCASTER|
+|$mid=               |response                                                                                        |
+|get from            |${urlBackendApi}/media/program/$mid/full                                                        |
+|repeat until xPath  |/media:program/@workflow|is                 |FOR PUBLICATION                                    |
+|$repeatCount=       |repeat count                                                                                    |
+|$timeSpentRepeating=|time spent repeating                                                                            |
+|$timeSpentRepeating=|format timestamp        |$timeSpentRepeating|as|m:ss                                            |
+|                                                                                                                     |
+|repeat until xPath  |/media:program/@workflow|is                 |PUBLISHED                                          |
+|$repeatCount=       |repeat count                                                                                    |
+|$timeSpentRepeating=|time spent repeating                                                                            |
+|$timeSpentRepeating=|format timestamp        |$timeSpentRepeating|as|m:ss                                            |
 
 !include -c <E2E.GuiSetUp
 
@@ -120,24 +123,29 @@ Test
 |Npo poms Tabblad object Check veld         |Titel             |heeft waarde|${titel2}            |
 |Npo poms Tabblad object Check veld         |Korte titel       |heeft waarde|${korteTitel2}       |
 |Npo poms Tabblad object Check veld         |Beschrijving      |heeft waarde|${beschrijving2}     |
-|Npo poms Tabblad object Check veld         |Korte beschrijving|heeft waarde|${korteBeschrijving2}|
 |Npo poms Tabblad object Check veld         |AV-Type           |heeft waarde|${avTypeGui2}        |
 |Npo poms Tabblad object Check veld         |Omroepen          |heeft waarde|${omroep2}           |
 |Npo poms Tabblad object Druk op link       |Labels            |in sidebar                        |
 |Npo poms Tabblad object Wacht tot scrollen klaar is                                              |
+|Npo poms Tabblad object Check veld         |Korte beschrijving|heeft waarde|${korteBeschrijving2}|
 |Npo poms Tabblad object Check veld         |Genres            |heeft waarde|${genreGui2}         |
 
 !include -c <E2E.GuiTearDown
 !include -c <E2E.ApiBackendSetUp 
 
-|script                                                                             |
-|show                |delete                  |${urlBackendApi}/media/program/$mid  |
-|get from            |${urlBackendApi}/media/program/$mid/full                      |
-|check               |xPath                   |/media:program/@workflow|FOR DELETION|
-|repeat until xPath  |/media:program/@workflow|is                      |DELETED     |
-|$repeatCount=       |repeat count                                                  |
-|$timeSpentRepeating=|time spent repeating                                          |
-|$timeSpentRepeating=|format timestamp        |$timeSpentRepeating     |as   |m:ss  |
+|script                                                                           |
+|show                |delete                  |${urlBackendApi}/media/program/$mid|
+|wait                |3                       |seconds                            |
+|get from            |${urlBackendApi}/media/program/$mid/full                    |
+|repeat until xPath  |/media:program/@workflow|is                  |FOR DELETION  |
+|$repeatCount=       |repeat count                                                |
+|$timeSpentRepeating=|time spent repeating                                        |
+|$timeSpentRepeating=|format timestamp        |$timeSpentRepeating |as    |m:ss   |
+|                                                                                 |
+|repeat until xPath  |/media:program/@workflow|is                  |DELETED       |
+|$repeatCount=       |repeat count                                                |
+|$timeSpentRepeating=|time spent repeating                                        |
+|$timeSpentRepeating=|format timestamp        |$timeSpentRepeating |as    |m:ss   |
 
 !include -c <E2E.GuiSetUp
 

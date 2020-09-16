@@ -187,10 +187,18 @@
 |scenario|Npo poms Tabblad object Check onderdeel nummer|index                                                                            |heeft status|status|
 |check   |value of                                      |xpath=//poms-members/div/table/tbody/tr[@index]/td[@class="column-workflow"]/span|@status            |
 
+|scenario|Npo poms Tabblad object Check onderdeel nummer|index                                                                            |heeft status |status1|of|status2|
+|check   |value of                                      |xpath=//poms-members/div/table/tbody/tr[@index]/td[@class="column-workflow"]/span|=~/(@status1)|(@status2)/       |
+
 |scenario                                      |Npo poms Tabblad object Check onderdeel nummer|index         |heeft titel|titel|en subtitel|subtitel|en status|status|
 |Npo poms Tabblad object Check onderdeel nummer|@index                                        |heeft titel   |@titel                                                 |
 |Npo poms Tabblad object Check onderdeel nummer|@index                                        |heeft subtitel|@subtitel                                              |
 |Npo poms Tabblad object Check onderdeel nummer|@index                                        |heeft status  |@status                                                |
+
+|scenario                                      |Npo poms Tabblad object Check onderdeel nummer|index         |heeft titel|titel|en subtitel|subtitel|en status|status1|of|status2|
+|Npo poms Tabblad object Check onderdeel nummer|@index                                        |heeft titel   |@titel                                                             |
+|Npo poms Tabblad object Check onderdeel nummer|@index                                        |heeft subtitel|@subtitel                                                          |
+|Npo poms Tabblad object Check onderdeel nummer|@index                                        |heeft status  |@status1   |of   |@status2                                         |
 
 |scenario|Npo poms Tabblad object Check onderdeel|onderdeel                                             |zichtbaar                                            |
 |ensure  |is visible on page                     |xpath=//poms-members/div/table/tbody/tr/td[@class="column-title"]/span/span[normalize-space(.)="@onderdeel"]|
@@ -342,6 +350,18 @@
 |scenario                                    |Npo poms Tabblad object Check aantal in veld|veld |is var|var|plus|optellenMetGetal|
 |$nieuwAantal=                               |add                                         |$@var|and   |@optellenMetGetal        |
 |Npo poms Tabblad object Check aantal in veld|@veld                                       |is   |$nieuwAantal                    |
+
+|scenario                                        |Npo poms Tabblad object Wacht tot aantal in veld               |veld               |is               |aantal               |
+|Npo poms Tabblad object Wacht tot aantal in veld|@veld                                                          |bijgewerkt is                                              |
+|wait for visible                                |xpath=.//h1[@class="media-section-title"][contains(normalize-space(.), "@veld")][contains(normalize-space(.), "(@aantal)")]|
+|Npo poms Tabblad object Wacht tot sidebar volledig geladen is                                                                                                               |
+|set search context to                           |xpath=//ul[@id="sidebar"]                                                                                                  |
+|wait for visible                                |@veld (@aantal)                                                                                                            |
+|remove last search context                                                                                                                                                  |
+
+|scenario                                        |Npo poms Tabblad object Wacht tot aantal in veld|veld |is var|var|plus|optellenMetGetal|
+|$nieuwAantal=                                   |add                                             |$@var|and   |@optellenMetGetal        |
+|Npo poms Tabblad object Wacht tot aantal in veld|@veld                                           |is   |$nieuwAantal                    |
 
 |scenario             |Npo poms Tabblad object Klik op wijzig tags icoon              |
 |hover over           |xpath=//h2[text()="Tags"]                                      |

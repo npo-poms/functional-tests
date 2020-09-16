@@ -117,20 +117,20 @@ Test
 
 !include -c <E2E.GuiSetUp
 
-|script                                                                                                                                       |
-|Open Npo poms website                                                                                                                        |
-|Npo poms Inlogscherm Log in met ${gebruiker}                                                                                                 |
-|Npo poms Zoeken Vul                           |$midSerie         |in zoekveld                                                                |
-|Npo poms Zoeken Druk knop                     |Zoeken                                                                                        |
-|Npo poms Zoeken Wacht tot zoeken klaar is                                                                                                    |
-|ensure                                        |is visible on page|Gezocht naar: '$midSerie'                                                  |
-|Npo poms Zoeken Check aantal zoekresultaten   |1                                                                                             |
-|Npo poms Zoeken Open eerste object                                                                                                           |
-|set search context to                         |css=[id=sidebar]                                                                              |
-|ensure                                        |is visible on page|Onderdelen (2)                                                             |
-|clear search context                                                                                                                         |
-|Npo poms Tabblad object Check onderdeel nummer|1                 |heeft titel|${titel2}|en subtitel|${subtitel2}|en status|Wordt gepubliceerd|
-|Npo poms Tabblad object Check onderdeel nummer|2                 |heeft titel|${titel1}|en subtitel|${subtitel1}|en status|Wordt gepubliceerd|
+|script                                                                                                                                                       |
+|Open Npo poms website                                                                                                                                        |
+|Npo poms Inlogscherm Log in met ${gebruiker}                                                                                                                 |
+|Npo poms Zoeken Vul                           |$midSerie         |in zoekveld                                                                                |
+|Npo poms Zoeken Druk knop                     |Zoeken                                                                                                        |
+|Npo poms Zoeken Wacht tot zoeken klaar is                                                                                                                    |
+|ensure                                        |is visible on page|Gezocht naar: '$midSerie'                                                                  |
+|Npo poms Zoeken Check aantal zoekresultaten   |1                                                                                                             |
+|Npo poms Zoeken Open eerste object                                                                                                                           |
+|set search context to                         |css=[id=sidebar]                                                                                              |
+|ensure                                        |is visible on page|Onderdelen (2)                                                                             |
+|clear search context                                                                                                                                         |
+|Npo poms Tabblad object Check onderdeel nummer|1                 |heeft titel|${titel2}|en subtitel|${subtitel2}|en status|Wordt gepubliceerd|of|Gepubliceerd|
+|Npo poms Tabblad object Check onderdeel nummer|2                 |heeft titel|${titel1}|en subtitel|${subtitel1}|en status|Wordt gepubliceerd|of|Gepubliceerd|
 
 !include -c <E2E.GuiTearDown
 !include -c <E2E.ApiBackendSetUp

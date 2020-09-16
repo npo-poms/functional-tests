@@ -28,9 +28,10 @@ Test
 
 |script                                                                      |
 |get from              |${urlBackendApi}/media/media/${mid}/transcodingstatus|
-|set repeat interval to|500                     |milliseconds                |
-|repeat at most        |30                      |times                       |
-|repeat until xPath    |//update:status         |is         |RUNNING         |
+|set repeat interval to|500                 |milliseconds                    |
+|repeat at most        |30                  |times                           |
+|show                  |xPath               |//update:status                 |
+|show                  |repeat until xPath  |//update:status  |is  |RUNNING  |
 |show                  |time spent repeating                                 |
 |Set default repeat interval and timeout                                     |
 
