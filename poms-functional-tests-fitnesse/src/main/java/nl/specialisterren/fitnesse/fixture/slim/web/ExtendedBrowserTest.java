@@ -387,4 +387,37 @@ public class ExtendedBrowserTest extends BrowserTest {
 		
 		return true;
 	}
+	
+	public ArrayList<String> valuesOfMatching(ArrayList<String> values, String regex) {
+		ArrayList<String> result = new ArrayList<String>();
+		Pattern p = Pattern.compile(regex);
+			
+		for(String value : values) {
+			Matcher m = p.matcher(value);
+			if (m.find()) {
+				result.add(m.group(1));
+			}
+		}
+		
+		return result;
+	}
+	
+	@WaitUntil(TimeoutPolicy.RETURN_FALSE)
+    public boolean waitForVisibleAt(String place, ArrayList<String> values) {
+        return waitForVisibleAtIn(place, values, null);
+    }
+
+	@WaitUntil(TimeoutPolicy.RETURN_FALSE)
+    public boolean waitForNotVisibleAt(String place, ArrayList<String> values) {
+        return !waitForVisibleAtIn(place, values, null);
+    }
+	
+    @WaitUntil(TimeoutPolicy.RETURN_FALSE)
+    public boolean waitForVisibleAtIn(String place, ArrayList<String> values, String container) {
+        Boolean result = Boolean.TRUE;
+		for (String value : values) {
+			result = result && waitForVisibleIn(place + "[starts-with(normalize-space(), '" + value + "')]", container);
+		}
+		return result;
+    }
 }

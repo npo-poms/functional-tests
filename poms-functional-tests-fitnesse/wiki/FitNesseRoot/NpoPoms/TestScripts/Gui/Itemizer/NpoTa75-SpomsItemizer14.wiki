@@ -62,9 +62,6 @@ Test
 |$wachttijd=                                         |time on timer           |timer                                             |
 |$wachttijd=                                         |format timestamp        |$wachttijd  |as              |m:ss                |
 |stop timer                                          |timer                                                                      |
-|seconds before timeout                              |3                                                                          |
-|$tmp=                                               |click if available      |herlaad                                           |
-|seconds before timeout                              |${secondsBeforeTimeout}                                                    |
 |Npo poms Tabblad object Detailscherm Vul            |${titel} $timestamp-2   |in tekstveld|Titel *                              |
 |Npo poms Tabblad object Detailscherm Vul            |${beschrijving2}        |in textarea |Beschrijving                         |
 |Npo poms Tabblad object Detailscherm Vul            |${starttijd}            |in tekstveld|Starttijd *                          |
@@ -73,7 +70,7 @@ Test
 |click                                               |Bewaar en sluit                                                            |
 |ensure                                              |is visible on page      |De stop-tijd moet voor de start-tijd liggen       |
 |Npo poms Tabblad object Detailscherm Vul            |                        |in tekstveld|Eindtijd                             |
-|reject                                              |is visible on page      |De stop-tijd moet voor de start-tijd liggen       |
+|wait for not visible                                |De stop-tijd moet voor de start-tijd liggen                                |
 |Npo poms Tabblad object Detailscherm Check tekstveld|Duur                    |heeft waarde|${duur}                              |
 |hover over                                          |Bewaar en sluit                                                            |
 |click                                               |Bewaar en sluit                                                            |
@@ -84,9 +81,6 @@ Test
 |Npo poms Tabblad object Open                        |$midVanSegment2                                                            |
 |Npo poms Hoofdscherm Wacht tot tabblad nummer       |3                       |zichtbaar                                         |
 |Npo poms Tabblad object Wacht tot sidebar volledig geladen is                                                                   |
-|seconds before timeout                              |3                                                                          |
-|$tmp=                                               |click if available      |herlaad                                           |
-|seconds before timeout                              |${secondsBeforeTimeout}                                                    |
 |Npo poms Tabblad object Vul                         |${afleveringtitel}      |in tekstveld|Afleveringtitel / Subtitel           |
 |Npo poms Tabblad object Vul                         |${korteTitel}           |in tekstveld|Korte titel                          |
 |Npo poms Tabblad object Vul                         |${afkorting}            |in tekstveld|Afkorting                            |

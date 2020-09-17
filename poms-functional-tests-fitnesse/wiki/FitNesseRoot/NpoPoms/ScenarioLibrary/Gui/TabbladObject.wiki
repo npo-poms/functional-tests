@@ -4,9 +4,12 @@
 |open          |${urlPoms}/#/edit/@object                     |
 |Npo poms Tabblad object Wacht tot sidebar volledig geladen is|
 
-|scenario            |Npo poms Tabblad object Wacht tot alle laad-icoontjes in de sidebar verdwenen zijn     |
-|wait for not visible|xpath=./li/span[@class="media-item-navigation-text media-item-navigation-text-waiting"]|
-|ensure              |is visible on page        |xpath=./li/span[@class="media-item-navigation-text"]        |
+|scenario               |Npo poms Tabblad object Wacht tot alle laad-icoontjes in de sidebar verdwenen zijn                                          |
+|$sidebarItems=         |values of                                                                              |xpath=//ul[@id="sidebar"]           |
+|$sidebarItemsWithCount=|values of                                                                              |$sidebarItems|matching|(.+?) \(.+?\)|
+|wait for visible       |xpath=./li/span[@class="media-item-navigation-text"]                                   |at           |$sidebarItemsWithCount|
+|wait for not visible   |xpath=./li/span[@class="media-item-navigation-text media-item-navigation-text-waiting"]|at           |$sidebarItemsWithCount|
+|wait for visible       |xpath=./li/span[@class="media-item-navigation-text"]                                   |at           |$sidebarItemsWithCount|
 
 |scenario             |Npo poms Tabblad object Wacht tot sidebar volledig geladen is|
 |wait for visible     |xpath=//ul[@id="sidebar"]                                    |
@@ -335,14 +338,14 @@
 |wait                |3                                                               |seconds                                          |
 
 |scenario                                        |Npo poms Tabblad object Check aantal in veld|veld                                     |is                                    |aantal                                    |
-|Npo poms Tabblad object Wacht tot aantal in veld|@veld                                       |bijgewerkt is                                                                                                              |
-|ensure                                          |is visible on page                          |xpath=.//h1[@class="media-section-title"][contains(normalize-space(.), "@veld")][contains(normalize-space(.), "(@aantal)")]|
-|note                                            |Toon de waarde van het bedoelde veld voor het geval de regel hierboven faalt                                                                                            |
-|show                                            |value of                                    |xpath=.//div/h1[contains(text(), "@veld")]                                                                                 |
 |Npo poms Tabblad object Wacht tot sidebar volledig geladen is                                                                                                                                                            |
 |set search context to                           |xpath=//ul[@id="sidebar"]                                                                                                                                               |
 |ensure                                          |is visible on page                          |@veld (@aantal)                                                                                                            |
 |remove last search context                                                                                                                                                                                               |
+|Npo poms Tabblad object Wacht tot aantal in veld|@veld                                       |bijgewerkt is                                                                                                              |
+|ensure                                          |is visible on page                          |xpath=.//h1[@class="media-section-title"][contains(normalize-space(.), "@veld")][contains(normalize-space(.), "(@aantal)")]|
+|note                                            |Toon de waarde van het bedoelde veld voor het geval de regel hierboven faalt                                                                                            |
+|show                                            |value of                                    |xpath=.//div/h1[contains(text(), "@veld")]                                                                                 |
 
 |scenario                                    |Npo poms Tabblad object Check aantal in veld|veld|is var|var|
 |Npo poms Tabblad object Check aantal in veld|@veld                                       |is  |$@var     |
