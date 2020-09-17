@@ -187,8 +187,8 @@
 |scenario|Npo poms Tabblad object Check onderdeel nummer|index                                                                            |heeft status|status|
 |check   |value of                                      |xpath=//poms-members/div/table/tbody/tr[@index]/td[@class="column-workflow"]/span|@status            |
 
-|scenario|Npo poms Tabblad object Check onderdeel nummer|index                                                                            |heeft status |status1|of|status2|
-|check   |value of                                      |xpath=//poms-members/div/table/tbody/tr[@index]/td[@class="column-workflow"]/span|=~/(@status1)|(@status2)/       |
+|scenario|Npo poms Tabblad object Check onderdeel nummer|index                                                                            |heeft status|status1|of|status2|
+|check   |value of                                      |xpath=//poms-members/div/table/tbody/tr[@index]/td[@class="column-workflow"]/span|!-=~/(@status1)|(@status2)/-!  |
 
 |scenario                                      |Npo poms Tabblad object Check onderdeel nummer|index         |heeft titel|titel|en subtitel|subtitel|en status|status|
 |Npo poms Tabblad object Check onderdeel nummer|@index                                        |heeft titel   |@titel                                                 |

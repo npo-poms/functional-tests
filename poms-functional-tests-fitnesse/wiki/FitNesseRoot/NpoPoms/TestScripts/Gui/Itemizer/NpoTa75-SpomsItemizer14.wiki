@@ -56,7 +56,7 @@ Test
 |Npo poms Tabblad object Detailscherm Vul            |${beschrijving1}        |in textarea |Beschrijving                         |
 |hover over                                          |Bewaar en nieuw                                                            |
 |click                                               |Bewaar en nieuw                                                            |
-|seconds before timeout                              |60                                                                         |
+|seconds before timeout                              |180                                                                        |
 |start timer                                         |timer                                                                      |
 |wait for visible                                    |Nog in te vullen:                                                          |
 |$wachttijd=                                         |time on timer           |timer                                             |
@@ -77,8 +77,7 @@ Test
 |Npo poms Tabblad object Detailscherm Check tekstveld|Duur                    |heeft waarde|${duur}                              |
 |hover over                                          |Bewaar en sluit                                                            |
 |click                                               |Bewaar en sluit                                                            |
-|Npo poms Tabblad object Wacht tot sidebar volledig geladen is                                                                   |
-|Npo poms Tabblad object Wacht tot aantal in veld    |Segmenten               |is var      |aantalSegmenten |plus|2              |
+|Npo poms Tabblad object Check aantal in veld        |Segmenten               |is var      |aantalSegmenten |plus|2              |
 |Npo poms Tabblad object Check segment               |${titel} $timestamp-1   |heeft status|Gepubliceerd    |of  |Voor publicatie|
 |Npo poms Tabblad object Check segment               |${titel} $timestamp-2   |heeft status|Gepubliceerd    |of  |Voor publicatie|
 |Npo poms Tabblad object Sla mid van segment         |${titel} $timestamp-2   |op in var   |midVanSegment2                       |
