@@ -54,6 +54,7 @@ Test
 |Npo poms Tabblad object Wacht tot detailscherm geopend                                                                          |
 |Npo poms Tabblad object Detailscherm Vul            |${titel} $timestamp-1   |in tekstveld|Titel *                              |
 |Npo poms Tabblad object Detailscherm Vul            |${beschrijving1}        |in textarea |Beschrijving                         |
+|wait                                                |3                       |seconds                                           |
 |hover over                                          |Bewaar en nieuw                                                            |
 |click                                               |Bewaar en nieuw                                                            |
 |seconds before timeout                              |180                                                                        |
@@ -66,12 +67,15 @@ Test
 |Npo poms Tabblad object Detailscherm Vul            |${beschrijving2}        |in textarea |Beschrijving                         |
 |Npo poms Tabblad object Detailscherm Vul            |${starttijd}            |in tekstveld|Starttijd *                          |
 |Npo poms Tabblad object Detailscherm Vul            |${eindtijd}             |in tekstveld|Eindtijd                             |
+|wait                                                |3                       |seconds                                           |
 |hover over                                          |Bewaar en sluit                                                            |
 |click                                               |Bewaar en sluit                                                            |
 |ensure                                              |is visible on page      |De stop-tijd moet voor de start-tijd liggen       |
+|wait                                                |3                       |seconds                                           |
 |Npo poms Tabblad object Detailscherm Vul            |                        |in tekstveld|Eindtijd                             |
 |wait for not visible                                |De stop-tijd moet voor de start-tijd liggen                                |
 |Npo poms Tabblad object Detailscherm Check tekstveld|Duur                    |heeft waarde|${duur}                              |
+|wait                                                |3                       |seconds                                           |
 |hover over                                          |Bewaar en sluit                                                            |
 |click                                               |Bewaar en sluit                                                            |
 |Npo poms Tabblad object Check aantal in veld        |Segmenten               |is var      |aantalSegmenten |plus|2              |
