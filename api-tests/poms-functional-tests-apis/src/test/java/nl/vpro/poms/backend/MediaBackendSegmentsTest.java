@@ -1,18 +1,22 @@
 package nl.vpro.poms.backend;
 
 import lombok.extern.log4j.Log4j2;
+
+import java.io.IOException;
+import java.time.Duration;
+import java.time.Instant;
+import java.util.Iterator;
+
+import javax.xml.bind.JAXB;
+
+import org.junit.jupiter.api.*;
+
 import nl.vpro.domain.media.*;
 import nl.vpro.domain.media.update.ProgramUpdate;
 import nl.vpro.domain.media.update.SegmentUpdate;
 import nl.vpro.poms.AbstractApiMediaBackendTest;
 import nl.vpro.poms.Require.Needs;
 import nl.vpro.test.jupiter.AbortOnException;
-import org.junit.jupiter.api.*;
-
-import javax.xml.bind.JAXB;
-import java.time.Duration;
-import java.time.Instant;
-import java.util.Iterator;
 
 import static nl.vpro.poms.AbstractApiMediaBackendTest.MID;
 import static nl.vpro.testutils.Utils.waitUntil;
@@ -80,7 +84,7 @@ class MediaBackendSegmentsTest extends AbstractApiMediaBackendTest {
 
 
     /**
-     * TODO: this actually checks the frontend. This is therefor not a pure backend test
+     * TODO: this actually checks the frontend. This is therefore not a pure backend test
      */
     @Test
     @Order(3)
@@ -213,6 +217,24 @@ class MediaBackendSegmentsTest extends AbstractApiMediaBackendTest {
             SegmentUpdate up = backend.get(segmentMid);
             return up.fetch().getMainTitle().equals(updatedSegmentTitle);
         });
+    }
+
+
+    @Test
+    @Order(20)
+    void waitForUpdatedSegmentInFrontendToo() {
+        assumeThat(segmentMid).isNotNull();
+        waitUntil(ACCEPTABLE_DURATION,
+            segmentMid + " has title " + updatedSegmentTitle + " (in frontend)",
+            () -> {
+                try {
+                    return (Segment) mediaUtil.loadOrNull(segmentMid);
+                } catch (IOException ignored) {
+                    return null;
+                }
+
+            }, (segment) -> segment != null && segment.getMainTitle().equals(updatedSegmentTitle)
+        );
     }
 
 
