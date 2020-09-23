@@ -20,7 +20,7 @@
     <vpro.shared.version>2.14.0</vpro.shared.version>
     <selenium.version>4.0.0-alpha-6</selenium.version>
     <log4j2.version>2.13.3</log4j2.version>
-    <surefire.version>3.0.0-M4</surefire.version>
+    <surefire.version>3.0.0-M5</surefire.version>
   </properties>
 
 
@@ -30,7 +30,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-failsafe-plugin</artifactId>
-        <version>2.22.2</version>
+        <version>3.0.0-M5</version>
         <executions>
           <execution>
             <goals>
@@ -155,7 +155,7 @@
         <groupId>org.junit</groupId>
         <artifactId>junit-bom</artifactId>
         <type>pom</type>
-        <version>5.7.0-RC1</version>
+        <version>5.7.0</version>
         <scope>import</scope>
       </dependency>
       <dependency>
@@ -172,7 +172,7 @@
       <dependency>
         <groupId>org.assertj</groupId>
         <artifactId>assertj-core</artifactId>
-        <version>3.17.0</version>
+        <version>3.17.2</version>
       </dependency>
       <dependency>
         <groupId>org.projectlombok</groupId>
@@ -190,7 +190,7 @@
       <dependency>
         <groupId>org.springframework</groupId>
         <artifactId>spring-core</artifactId>
-        <version>5.2.8.RELEASE</version>
+        <version>5.2.9.RELEASE</version>
       </dependency>
       <dependency>
         <groupId>org.apache.commons</groupId>
