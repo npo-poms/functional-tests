@@ -675,7 +675,7 @@ class PagesPublisherTest extends AbstractApiMediaBackendTest {
     public void deleteByOneCrid() {
         Result<DeleteResult> result = pageUpdateApiUtil.delete(CREATED_CRIDS[0]);
 
-
+        log.info("Deleting {} -> {}", CREATED_CRIDS[0], result);
         assertThat(result.getStatus())
             .withFailMessage(result.getErrors() == null ? "Status is not success but " + result.getStatus() : result.getErrors())
             .isEqualTo(Result.Status.SUCCESS);
