@@ -104,15 +104,6 @@ public class Search extends AbstractPage {
         return driver.findElement(By.cssSelector(String.format(SearchItemRow, itemNumber))).getText();
     }
 
-    public void clickOnTabWithTitle(By by, String title) {
-        driver.findElements(by)
-                .stream()
-                .filter(WebElement::isDisplayed)
-                .filter(webElement -> webElement.getText().equals(title))
-                .findFirst().get().click()
-        ;
-    }
-
     public void closeTab() {
         webDriverUtil.waitAndClick(closeTabBy);
     }
@@ -194,14 +185,8 @@ public class Search extends AbstractPage {
         return "true".equals(columnState);
     }
 
-    public boolean checkIfColumnNameExcists(String columnName) {
-        boolean foundItem = false;
-        if (driver.findElements(By.cssSelector(String.format(columCss, columnName))).size() >= 1) {
-            foundItem = true;
-        } else {
-            foundItem = false;
-        }
-        return foundItem;
+    public boolean checkIfColumnNameExists(String columnName) {
+        return driver.findElements(By.cssSelector(String.format(columCss, columnName))).size() >= 1;
     }
 
     public MediaItemPage clickRow(int index) {
@@ -230,39 +215,11 @@ public class Search extends AbstractPage {
         //        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView({block: 'center'});", element);
     }
 
-    // TODO: To be included?
-    public void scrollToAfbeeldingen() {
-        WebElement element = driver.findElement(imagesBy);
-        moveToElement(imagesBy);
-        Actions actions = new Actions(driver);
-        actions.moveToElement(element).doubleClick().perform();
-    }
-
-    // TODO: To be included?
-//	public List<WebElement> getTableRows() {
-//		wait.until(ExpectedConditions.visibilityOfElementLocated(tableRowsBy));
-//		List<WebElement> tableRows = driver.findElements(tableRowsBy);
-//		return tableRows;
-//	}
 
     public void clickWissen() {
         webDriverUtil.waitAndClick(wissenBy);
     }
 
-    public void clickAdminItem(String item) {
-        webDriverUtil.waitAndClick(adminBy);
-        webDriverUtil.waitAndClick(By.xpath(String.format(adminItemTemplate, item)));
-    }
-
-    public String getSearchRowSorteerDatumKanaal() {
-        webDriverUtil.waitForVisible(By.cssSelector("tr td [ng-if*='sortDateScheduleEvent']"));
-        return driver.findElement(By.cssSelector("tr td [ng-if*='sortDateScheduleEvent']")).getText();
-    }
-
-    public String getSearchRowSorteerDatumKanaal(String sorteerdatum) {
-        webDriverUtil.waitForVisible(By.xpath("(//tr/descendant::*[contains(text(),'" + sorteerdatum + "')]/descendant::*)[1]"));
-        return driver.findElement(By.xpath("(//tr/descendant::*[contains(text(),'" + sorteerdatum + "')]/descendant::*)[1]")).getText();
-    }
 
     public void getMultibleRowsAndCheckTextEquals(By by, String waardetext) {
         new NgWebDriver((JavascriptExecutor) driver).waitForAngularRequestsToFinish();
@@ -289,24 +246,15 @@ public class Search extends AbstractPage {
         webDriverUtil.waitAndClick(By.cssSelector(String.format(columCss, columname)));
     }
 
-    public void doubleClickOnColum(String columname) {
-        webDriverUtil.waitForVisible(By.cssSelector(String.format(columCss, columname)));
-
-        Actions action = new Actions(driver);
-        WebElement element = driver.findElement(By.cssSelector(String.format(columCss, columname)));
-
-        action.doubleClick(element).perform();
-    }
-
     public void getAndCheckTimeBetweenTwoBroadcastsLessThenMinutes(int minutes) {
         Pattern pattern = Pattern.compile("\\d{2}-\\d{2}-\\d{4}\\s\\d{2}:\\d{2}");
         List<WebElement> listElementsBoardCastTime = driver.findElements(lastBroadcastTimeChannel);
 
         List<String> elementText = new ArrayList<String>();
 
-        for (int i = 0; i < listElementsBoardCastTime.size(); i++) {
-            if (listElementsBoardCastTime.get(i).isDisplayed()) {
-                String getElementText = listElementsBoardCastTime.get(i).getText();
+        for (WebElement webElement : listElementsBoardCastTime) {
+            if (webElement.isDisplayed()) {
+                String getElementText = webElement.getText();
                 Matcher matcher = pattern.matcher(getElementText);
                 matcher.find();
                 String TextAfterMatch = matcher.group(0);

@@ -61,7 +61,7 @@ public class CMSSelectorTest extends AbstractPomsTest {
     public void SPOMSCMSSELECTOR3() {
         Search Search = openCmsPopupAddSearch();
         Search.addOrRemoveColumn("Gewijzigd op");
-        assertThat(Search.checkIfColumnNameExcists("Gewijzigd op")).isEqualTo(true);
+        assertThat(Search.checkIfColumnNameExists("Gewijzigd op")).isEqualTo(true);
     }
 
     private Search openCmsPopupAddSearch() {
