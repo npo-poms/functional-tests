@@ -165,7 +165,7 @@ class MediaBackendSegmentsTest extends AbstractApiMediaBackendTest {
 
 
     @Test
-    @Order(7)
+    @Order(10)
     void updateSegmentDirectly() {
         assumeThat(segmentMid).isNotNull();
 
@@ -178,7 +178,7 @@ class MediaBackendSegmentsTest extends AbstractApiMediaBackendTest {
     }
 
     @Test
-    @Order(8)
+    @Order(11)
     void waitForUpdateSegmentDirectly() {
         assumeThat(segmentMid).isNotNull();
         waitUntil(ACCEPTABLE_DURATION,
@@ -190,7 +190,15 @@ class MediaBackendSegmentsTest extends AbstractApiMediaBackendTest {
     }
 
     @Test
-    @Order(9)
+    @Order(12)
+    void waitForUpdatedSegmentDirectlyInFrontendToo() {
+        assumeThat(segmentMid).isNotNull();
+        checkFrontend(segmentMid, updatedSegmentTitle);
+    }
+
+
+    @Test
+    @Order(20)
     void updateSegmentViaProgram() {
         assumeThat(segmentMid).isNotNull();
         ProgramUpdate programUpdate = backend.get(MID);
@@ -208,7 +216,7 @@ class MediaBackendSegmentsTest extends AbstractApiMediaBackendTest {
 
 
     @Test
-    @Order(10)
+    @Order(21)
     void waitForUpdatedSegmentViaProgram() {
         assumeThat(segmentMid).isNotNull();
         waitUntil(ACCEPTABLE_DURATION,
@@ -221,20 +229,10 @@ class MediaBackendSegmentsTest extends AbstractApiMediaBackendTest {
 
 
     @Test
-    @Order(20)
-    void waitForUpdatedSegmentInFrontendToo() {
+    @Order(22)
+    void waitForUpdatedSegmentViaProgramInFrontendToo() {
         assumeThat(segmentMid).isNotNull();
-        waitUntil(ACCEPTABLE_DURATION,
-            segmentMid + " has title " + updatedSegmentTitle + " (in frontend)",
-            () -> {
-                try {
-                    return (Segment) mediaUtil.loadOrNull(segmentMid);
-                } catch (IOException ignored) {
-                    return null;
-                }
-
-            }, (segment) -> segment != null && segment.getMainTitle().equals(updatedSegmentTitle)
-        );
+        checkFrontend(segmentMid, updatedSegmentTitle);
     }
 
 
@@ -260,7 +258,6 @@ class MediaBackendSegmentsTest extends AbstractApiMediaBackendTest {
         log.info("Deleted {} segments for {}", count, MID);
     }
 
-
     @Test
     @AbortOnException.NoAbort
     @Order(101)
@@ -269,7 +266,6 @@ class MediaBackendSegmentsTest extends AbstractApiMediaBackendTest {
         assertThat(program.getSegments()).filteredOn(s -> ! s.isDeleted()).isEmpty();
     }
 
-
     @Test
     @Disabled
     void testSegment() {
@@ -277,5 +273,19 @@ class MediaBackendSegmentsTest extends AbstractApiMediaBackendTest {
         assertThat(segment.getMidRef()).isNotNull();
     }
 
+    protected void checkFrontend(String segmentMid, String updatedSegmentTitle) {
+
+        waitUntil(ACCEPTABLE_DURATION_FRONTEND,
+            segmentMid + " has title " + updatedSegmentTitle + " (in frontend)",
+            () -> {
+                try {
+                    return (Segment) mediaUtil.loadOrNull(segmentMid);
+                } catch (IOException ignored) {
+                    return null;
+                }
+
+            }, (segment) -> segment.getMainTitle().equals(updatedSegmentTitle)
+        );
+    }
 
 }
