@@ -70,24 +70,35 @@ public class NpoJsonHttpTest extends JsonHttpTest {
         }
     }
 	
-	public boolean repeatUntilJsonPathIsNot(final String jsonPath, final Object expectedValue) {
-        RepeatCompletion completion;
+	public boolean repeatUntilJsonPathOfFirstItemsIsNot(final String jsonPath, int numberOfItems, String expectedValue) {
+		RepeatCompletion completion;
         if (expectedValue == null) {
             completion = new RepeatLastCall() {
                 @Override
                 public boolean isFinished() {
-                    return jsonPath(jsonPath) != null;
+					Object actual;
+					boolean result = true;
+					for (int i=0; i < numberOfItems; i++) {
+						actual = jsonPath(String.format(jsonPath, i));
+						result = result && (actual != null);
+					}
+                    return result;
                 }
             };
         } else {
             completion = new RepeatLastCall() {
                 @Override
                 public boolean isFinished() {
-                    Object actual = jsonPath(jsonPath);
-                    return !compareActualToExpected(expectedValue, actual);
+					Object actual;
+					boolean result = true;
+					for (int i=0; i < numberOfItems; i++) {
+						actual = jsonPath(String.format(jsonPath, i));
+						result = result && !compareActualToExpected(expectedValue, actual);
+					}
+                    return result;
                 }
             };
         }
         return repeatUntil(completion);
-    }
+	}
 }
