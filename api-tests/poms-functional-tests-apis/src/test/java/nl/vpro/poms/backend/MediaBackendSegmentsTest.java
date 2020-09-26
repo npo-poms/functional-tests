@@ -236,6 +236,43 @@ class MediaBackendSegmentsTest extends AbstractApiMediaBackendTest {
     }
 
 
+
+
+    @Test
+    @Order(30)
+    void removeSegmentViaProgram() {
+        assumeThat(segmentMid).isNotNull();
+        ProgramUpdate programUpdate = backend.get(MID);
+
+        programUpdate.getSegments().removeIf(s -> s.getMid().equals(segmentMid));
+        backend.set(programUpdate);
+    }
+
+    @Test
+    @Order(31)
+    void waitForRemoveSegmentViaProgram() {
+        assumeThat(segmentMid).isNotNull();
+        waitUntil(ACCEPTABLE_DURATION,
+            segmentMid + " has disappeared ",
+            () -> {
+            SegmentUpdate up = backend.get(segmentMid);
+            return up == null;
+        });
+    }
+    @Test
+    @Order(32)
+    void waitForRemoveSegmentViaProgramDisappearedFromProgramToo() {
+        assumeThat(segmentMid).isNotNull();
+        waitUntil(ACCEPTABLE_DURATION,
+            segmentMid + " has disappeared from " + MID,
+            () -> {
+            ProgramUpdate program = backend.get(MID);
+            return program.getSegments().stream().noneMatch(u -> u.getMid().equals(segmentMid));
+        });
+    }
+
+
+
     @Test
     @AbortOnException.NoAbort
     @Order(100)
