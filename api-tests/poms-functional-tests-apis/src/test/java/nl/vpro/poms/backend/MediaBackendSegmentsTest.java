@@ -2,7 +2,6 @@ package nl.vpro.poms.backend;
 
 import lombok.extern.log4j.Log4j2;
 
-import java.io.IOException;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.Iterator;
@@ -32,7 +31,7 @@ import static org.assertj.core.api.Assumptions.assumeThat;
 *
 * Clean up segments sometimes: select delete_object(id) from segment where parent_id  = id('WO_VPRO_025057');
 *
-* Otherwise test object gets used of all (deleted) segments
+* Otherwise test object gets a bit heavy of all (deleted) segments
  */
 /**
  * @author Michiel Meeuwissen
@@ -236,11 +235,11 @@ class MediaBackendSegmentsTest extends AbstractApiMediaBackendTest {
     }
 
 
-
-
     @Test
     @Order(30)
+    @Disabled("This is not implemented")
     void removeSegmentViaProgram() {
+        segmentMid = "POMS_VPRO_3364141";
         assumeThat(segmentMid).isNotNull();
         ProgramUpdate programUpdate = backend.get(MID);
 
@@ -250,6 +249,7 @@ class MediaBackendSegmentsTest extends AbstractApiMediaBackendTest {
 
     @Test
     @Order(31)
+    @Disabled("This is not implemented")
     void waitForRemoveSegmentViaProgram() {
         assumeThat(segmentMid).isNotNull();
         waitUntil(ACCEPTABLE_DURATION,
@@ -261,12 +261,39 @@ class MediaBackendSegmentsTest extends AbstractApiMediaBackendTest {
     }
     @Test
     @Order(32)
+    @Disabled("This is not implemented")
     void waitForRemoveSegmentViaProgramDisappearedFromProgramToo() {
         assumeThat(segmentMid).isNotNull();
         waitUntil(ACCEPTABLE_DURATION,
             segmentMid + " has disappeared from " + MID,
             () -> {
             ProgramUpdate program = backend.get(MID);
+            return program.getSegments().stream().noneMatch(u -> u.getMid().equals(segmentMid));
+        });
+    }
+
+
+    @Test
+    @Order(33)
+    @Disabled("This is not implemented")
+    void waitForRemoveSegmentViaProgramInFrontend() {
+        assumeThat(segmentMid).isNotNull();
+        waitUntil(ACCEPTABLE_DURATION_FRONTEND,
+            segmentMid + " has disappeared from frontend",
+            () -> {
+            Segment up = mediaUtil.findByMid(segmentMid);
+            return up == null;
+        });
+    }
+    @Test
+    @Order(34)
+    @Disabled("This is not implemented")
+    void waitForRemoveSegmentViaProgramDisappearedFromProgramTooInFrontend() {
+        assumeThat(segmentMid).isNotNull();
+        waitUntil(ACCEPTABLE_DURATION,
+            segmentMid + " has disappeared from " + MID + " from frontend",
+            () -> {
+            Program program = mediaUtil.findByMid(MID);
             return program.getSegments().stream().noneMatch(u -> u.getMid().equals(segmentMid));
         });
     }
@@ -303,8 +330,7 @@ class MediaBackendSegmentsTest extends AbstractApiMediaBackendTest {
         assertThat(program.getSegments()).filteredOn(s -> ! s.isDeleted()).isEmpty();
     }
 
-    @Test
-    @Disabled
+    //@Test
     void testSegment() {
         Segment segment = (Segment) clients.getMediaService().load("POMS_VPRO_1460016", null, null);
         assertThat(segment.getMidRef()).isNotNull();
@@ -314,14 +340,7 @@ class MediaBackendSegmentsTest extends AbstractApiMediaBackendTest {
 
         waitUntil(ACCEPTABLE_DURATION_FRONTEND,
             segmentMid + " has title " + updatedSegmentTitle + " (in frontend)",
-            () -> {
-                try {
-                    return (Segment) mediaUtil.loadOrNull(segmentMid);
-                } catch (IOException ignored) {
-                    return null;
-                }
-
-            }, (segment) -> segment.getMainTitle().equals(updatedSegmentTitle)
+            () -> (Segment) mediaUtil.findByMid(segmentMid), (segment) -> segment.getMainTitle().equals(updatedSegmentTitle)
         );
     }
 
