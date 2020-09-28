@@ -8,7 +8,7 @@ Test
 {
   "searches": {
     "text": {
-      "value": "melkunie",
+      "value": "Gouden Loeki",
       "matchType": "TEXT",
       "match": "MUST"
     },
@@ -16,7 +16,7 @@ Test
       "channel": "NED1",
       "begin": 1198265400000,
       "end": 1229887807000,
-      "rerun": false
+      "rerun": true
     }
   }
 }
@@ -26,22 +26,57 @@ Test
 {
   "searches": {
     "text": {
-      "value": "leerdammer",
+      "value": "Margreet",
       "matchType": "TEXT",
       "match": "MUST"
     },
     "scheduleEvents": {
       "channel": "REGU",
-      "begin": 1578460500000,
-      "end": 1578627300000,
+      "begin": "1599974700000",
+      "end": "1600061100000",
       "rerun": false
     }
   }
 }
 }}} }
-*!
 
+#!define body1 { {{{
+#{
+#  "searches": {
+#    "text": {
+#      "value": "melkunie",
+#      "matchType": "TEXT",
+#      "match": "MUST"
+#    },
+#    "scheduleEvents": {
+#      "channel": "NED1",
+#      "begin": 1198265400000,
+#      "end": 1229887807000,
+#      "rerun": false
+#    }
+#  }
+#}
+#}}} }
+
+#!define body2 { {{{
+#{
+#  "searches": {
+#    "text": {
+#      "value": "leerdammer",
+#      "matchType": "TEXT",
+#      "match": "MUST"
+#    },
+#    "scheduleEvents": {
+#      "channel": "REGU",
+#      "begin": "1578460500000",
+#      "end": "1578627300000",
+#      "rerun": false
+#    }
+#  }
+#}
+#}}} }
+*!
 |Post count at path                        |
 |body    |post         |path        |count?|
-|${body1}|media/iterate|mediaobjects|1     |
-|${body2}|media/iterate|mediaobjects|18    |
+|${body1}|media/iterate|mediaobjects|2     |
+|${body2}|media/iterate|mediaobjects|9     |

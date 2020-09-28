@@ -16,7 +16,7 @@ Test
     "scheduleEvents" : { 
       "begin" : 1307730900000, 
       "end" : 1397672790000, 
-      "rerun": false 
+      "rerun": true 
     } 
   }
 }
@@ -33,7 +33,7 @@ Test
     "scheduleEvents" : { 
       "begin" : 1307730900000, 
       "end" : 1397672790000, 
-      "rerun": false 
+      "rerun": true 
     } 
   }
 }
@@ -42,5 +42,5 @@ Test
 
 |Post count at path                        |
 |body    |post                |path |count?|
-|${body1}|media/${mid}/members|items|4     |
+|${body1}|media/${mid}/members|items|3     |
 |${body2}|media/${mid}/members|items|1     |

@@ -11,7 +11,8 @@ Test
   <to>1</to>
 </move>
 }}} }
-!define id {POMS_S_NPO_11226816}
+#!define id {POMS_S_NPO_11226816}
+!define id {POMS_S_VPRO_191774}
 !define responseStatus {202}
 !define response {Move accepted for ${id}.}
 *!
