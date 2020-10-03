@@ -180,7 +180,7 @@ public class MediaIntegrationTest extends AbstractApiMediaBackendTest {
         assertThat(clip.getSegments()).hasSize(1);
         assertThat(clip.getLocations()).hasSize(1);
         assertThat(clip.getWorkflow()).isEqualTo(Workflow.PUBLISHED);
-        expectedChanges.add((mc) -> mc.getMid().equals(clipMid));
+        expectedChanges.add((mc) -> clipMid.equals(mc.getMid()));
 
     }
 
