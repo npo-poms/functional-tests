@@ -4,13 +4,17 @@ import lombok.extern.log4j.Log4j2;
 
 import java.time.Duration;
 import java.time.Instant;
+import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.function.Predicate;
 
 import javax.xml.bind.JAXB;
 
 import org.junit.jupiter.api.*;
 import org.opentest4j.TestAbortedException;
 
+import nl.vpro.domain.api.MediaChange;
 import nl.vpro.domain.media.*;
 import nl.vpro.domain.media.support.Image;
 import nl.vpro.domain.media.support.Workflow;
@@ -45,6 +49,10 @@ public class MediaIntegrationTest extends AbstractApiMediaBackendTest {
     private static String clipMid;
     private static String clipTitle;
     private static String clipDescription;
+
+
+    private static final List<Predicate<MediaChange>> expectedChanges = new CopyOnWriteArrayList<>();
+
 
     @Test
     @Order(1)
@@ -172,6 +180,7 @@ public class MediaIntegrationTest extends AbstractApiMediaBackendTest {
         assertThat(clip.getSegments()).hasSize(1);
         assertThat(clip.getLocations()).hasSize(1);
         assertThat(clip.getWorkflow()).isEqualTo(Workflow.PUBLISHED);
+        expectedChanges.add((mc) -> mc.getMid().equals(clipMid));
 
     }
 
@@ -318,7 +327,7 @@ public class MediaIntegrationTest extends AbstractApiMediaBackendTest {
     void delete() {
         if (clipMid == null){
             //  to debug a failure, you may explicitely set it here.
-            clipMid = "POMS_VPRO_3324281";
+            //clipMid = "POMS_VPRO_3324281";
         }
         assumeThat(clipMid).isNotNull();
         backend.delete(clipMid);
@@ -336,7 +345,7 @@ public class MediaIntegrationTest extends AbstractApiMediaBackendTest {
     @Tag("cleanup")
     void checkDeletedInBackendApi() {
         if (clipMid == null){
-            clipMid = "POMS_VPRO_3324281";
+            //clipMid = "POMS_VPRO_3324281";
         }
         assumeThat(clipMid).isNotNull();
         waitUntil(ACCEPTABLE_DURATION_BACKEND,
@@ -368,5 +377,11 @@ public class MediaIntegrationTest extends AbstractApiMediaBackendTest {
             () -> mediaUtil.findByMid(clipMid) == null
         );
 
+    }
+
+    @Test
+    @Order(200)
+    void checkReceivedChanges() {
+        awaitChanges(expectedChanges);
     }
 }

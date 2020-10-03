@@ -3,8 +3,9 @@ package nl.vpro.poms;
 import java.lang.reflect.Method;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
-import java.util.Objects;
-import java.util.concurrent.TimeUnit;
+import java.util.*;
+import java.util.concurrent.*;
+import java.util.function.Predicate;
 
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -14,7 +15,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 
 import nl.vpro.api.client.frontend.NpoApiClients;
 import nl.vpro.api.client.utils.*;
-import nl.vpro.domain.api.Constants;
+import nl.vpro.domain.api.*;
 import nl.vpro.domain.api.media.*;
 import nl.vpro.domain.classification.CachedURLClassificationServiceImpl;
 import nl.vpro.domain.classification.ClassificationServiceLocator;
@@ -23,9 +24,9 @@ import nl.vpro.junit.extensions.*;
 import nl.vpro.test.jupiter.AbortOnException;
 import nl.vpro.testutils.AbstractTest;
 import nl.vpro.testutils.Utils;
-import nl.vpro.util.IntegerVersion;
-import nl.vpro.util.Version;
+import nl.vpro.util.*;
 
+import static nl.vpro.testutils.Utils.waitUntil;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
@@ -49,7 +50,55 @@ public abstract class AbstractApiTest extends AbstractTest  {
     private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("yyyyMMdd'T'HHmm");
     protected static final String SIMPLE_NOWSTRING = FORMATTER.format(NOW);
 
+    protected static final List<MediaChange> CHANGES = new CopyOnWriteArrayList<>();
+    private static Future<?> changesFuture;
+
+
     protected String title;
+
+    @BeforeAll
+    public static void changesListening() {
+        changesFuture = EXECUTOR_SERVICE.submit(new Runnable() {
+            @Override
+            public void run() {
+                Instant start = NOWI;
+                String mid = null;
+                while (!Thread.currentThread().isInterrupted()) {
+                    try (CountedIterator<MediaChange> changes = mediaUtil.changes(null, false, start, mid, nl.vpro.domain.api.Order.ASC, null, Deletes.ID_ONLY, Tail.ALWAYS)) {
+                        while (changes.hasNext()) {
+                            MediaChange change = changes.next();
+                            CHANGES.add(change);
+                            start = change.getPublishDate();
+                            mid = change.getMid();
+                        }
+                    } catch (Exception e) {
+                        LOG.info(e.getMessage());
+                    }
+                }
+            }
+        });
+    }
+
+    protected static void awaitChanges(Collection<Predicate<MediaChange>> predicates) {
+        waitUntil(ACCEPTABLE_DURATION_FRONTEND.plus(Duration.ofSeconds(30)),
+            () -> "waiting for " + predicates.size() + " expected changes",
+            () -> {
+                boolean result = true;
+                for(Predicate<MediaChange> expectedChange : predicates) {
+                    result &= CHANGES.stream().anyMatch(expectedChange);
+                }
+                return result;
+
+            });
+        for(Predicate<MediaChange> expectedChange : predicates) {
+            assertThat(CHANGES.stream().filter(expectedChange).findFirst()).isPresent();
+        }
+    }
+
+    @AfterAll
+    public static void shutdown() {
+        changesFuture.cancel(true);
+    }
 
     @BeforeEach
     public void setupTitle(TestInfo testInfo) {
