@@ -51,6 +51,12 @@ public abstract class AbstractApiTest extends AbstractTest  {
     protected static final String SIMPLE_NOWSTRING = FORMATTER.format(NOW);
 
     protected static final List<MediaChange> CHANGES = new CopyOnWriteArrayList<>();
+
+    /**
+     * If it is necessary to set this to anything bigger then {@link Duration#ZERO} then this indicates some bug.
+     */
+    protected static final Duration changesMinimalAge = Duration.ofSeconds(90);
+    //protected static final Duration changesMinimalAge = Duration.ZERO;
     private static Future<?> changesFuture;
 
 
@@ -67,9 +73,13 @@ public abstract class AbstractApiTest extends AbstractTest  {
                     try (CountedIterator<MediaChange> changes = mediaUtil.changes(null, false, start, mid, nl.vpro.domain.api.Order.ASC, null, Deletes.ID_ONLY, Tail.ALWAYS)) {
                         while (changes.hasNext()) {
                             MediaChange change = changes.next();
-                            CHANGES.add(change);
-                            start = change.getPublishDate();
-                            mid = change.getMid();
+                            if (change.getPublishDate().plus(changesMinimalAge).isBefore(NOWI)) {
+                                CHANGES.add(change);
+                                start = change.getPublishDate();
+                                mid = change.getMid();
+                            } else {
+                                LOG.info("Skipping {} because of minimal age {}", change, changesMinimalAge);
+                            }
                         }
                     } catch (Exception e) {
                         LOG.info(e.getMessage());
