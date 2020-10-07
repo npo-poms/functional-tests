@@ -52,7 +52,7 @@ class MediaBackendSegmentsTest extends AbstractApiMediaBackendTest {
 
     @Test
     @Order(1)
-    void createNewSegment() {
+    void createNewSegmentOnExistingProgram() {
         segmentTitle = title;
         SegmentUpdate update = SegmentUpdate.create(
             MediaBuilder.segment()
@@ -116,7 +116,7 @@ class MediaBackendSegmentsTest extends AbstractApiMediaBackendTest {
 
     @Test
     @Order(4)
-    void createNewProgramWithSegment() {
+    void createNewProgramWithNewSegment() {
         Segment segment =
             MediaBuilder.segment()
                 .avType(AVType.VIDEO)
@@ -180,12 +180,12 @@ class MediaBackendSegmentsTest extends AbstractApiMediaBackendTest {
     @Order(11)
     void waitForUpdateSegmentDirectly() {
         assumeThat(segmentMid).isNotNull();
-        waitUntil(ACCEPTABLE_DURATION,
+        Segment updatedSegment = waitUntil(ACCEPTABLE_DURATION,
             segmentMid + " has title " + updatedSegmentTitle,
-            () -> {
-            SegmentUpdate up = backend.get(segmentMid);
-            return up.fetch().getMainTitle().equals(updatedSegmentTitle);
-        });
+            () -> backend.getFull(segmentMid),
+            up -> up.getMainTitle().equals(updatedSegmentTitle)
+        );
+        assertThat(updatedSegment.getLastModifiedInstant()).isAfter(updatedSegment.getCreationInstant());
     }
 
     @Test
