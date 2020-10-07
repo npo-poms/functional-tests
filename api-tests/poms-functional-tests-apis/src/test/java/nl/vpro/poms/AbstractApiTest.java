@@ -78,7 +78,7 @@ public abstract class AbstractApiTest extends AbstractTest  {
                                 start = change.getPublishDate();
                                 mid = change.getMid();
                             } else {
-                                LOG.info("Skipping {} because of minimal age {}", change, changesMinimalAge);
+                                LOG.debug("Skipping {} because of minimal age {}", change, changesMinimalAge);
                             }
                         }
                     } catch (Exception e) {
