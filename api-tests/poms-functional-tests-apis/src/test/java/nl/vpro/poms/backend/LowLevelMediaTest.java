@@ -117,7 +117,7 @@ public class LowLevelMediaTest {
             ProgramUpdate.create(
                 AbstractApiMediaBackendTest.getBackendVersionNumber(),
                 createClip(null, segments));
-        clipTitle = clip.getMainTitle();
+
 
         clipMid = given()
             .urlEncodingEnabled(true)
@@ -136,6 +136,8 @@ public class LowLevelMediaTest {
         log.info("Using {}", clipMid);
     }
 
+    public static String clipWithCridTitle;
+
     @Test
     @Tag("cridclip")
     @Tag("clips")
@@ -148,6 +150,7 @@ public class LowLevelMediaTest {
             AbstractApiMediaBackendTest.getBackendVersionNumber(),
             createClip(clipCrid, segments)
         );
+        clipWithCridTitle = clip.getMainTitle();
         log.info("Created clip with crid {}", clipCrid);
 
         given()
@@ -248,7 +251,7 @@ public class LowLevelMediaTest {
             .  log().all()
             .  statusCode(200)
             .  body(hasXPath("/u:program/u:title[@type='MAIN']/text()",
-                NAMESPACE_CONTEXT, equalTo(clipTitle)))
+                NAMESPACE_CONTEXT, equalTo(clipWithCridTitle)))
             .  body(hasXPath("/u:program/@deleted", NAMESPACE_CONTEXT, emptyOrNullString()));
     }
 
