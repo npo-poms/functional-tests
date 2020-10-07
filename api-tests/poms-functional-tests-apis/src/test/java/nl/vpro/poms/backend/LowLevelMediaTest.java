@@ -2,6 +2,7 @@ package nl.vpro.poms.backend;
 
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
+import io.restassured.specification.RequestSpecification;
 import lombok.extern.log4j.Log4j2;
 
 import java.io.StringReader;
@@ -118,14 +119,9 @@ public class LowLevelMediaTest {
                 AbstractApiMediaBackendTest.getBackendVersionNumber(),
                 createClip(null, segments));
 
+        clipTitle = clip.getMainTitle();
 
-        clipMid = given()
-            .urlEncodingEnabled(true)
-            .auth().basic(USERNAME, PASSWORD)
-            .contentType(ContentType.XML)
-            .body(clip)
-            .queryParam("errors", ERRORS_EMAIL)
-            .log().all()
+        clipMid = client(clip)
             .when()
             .  post(MEDIA_URL)
             .then()
@@ -153,13 +149,8 @@ public class LowLevelMediaTest {
         clipWithCridTitle = clip.getMainTitle();
         log.info("Created clip with crid {}", clipCrid);
 
-        given()
-            .auth().basic(USERNAME, PASSWORD)
-            .contentType(ContentType.XML)
-            .body(clip)
-            .queryParam("errors", ERRORS_EMAIL)
-            .log().all()
-            .when()
+       client(clip)
+           .when()
             .  post(MEDIA_URL)
             .then()
             .  log().all()
@@ -178,12 +169,7 @@ public class LowLevelMediaTest {
         );
         segmentTitle = segment.getMainTitle();
 
-        given()
-            .  auth().basic(USERNAME, PASSWORD)
-            .  contentType(ContentType.XML)
-            .  body(segment)
-            .  queryParam(ERRORS, ERRORS_EMAIL)
-            .  log().all()
+        client(segment)
             .when()
             .  post(MEDIA_URL)
             .then()
@@ -199,22 +185,18 @@ public class LowLevelMediaTest {
         assumeThat(clipMid).isNotNull();
         Boolean result = Utils.waitUntil(ACCEPTABLE, () -> {
             try {
-                given()
-                    .auth().basic(USERNAME, PASSWORD)
-                    .contentType("application/xml")
-                    .queryParam(ERRORS, ERRORS_EMAIL)
-                    .log().all()
-                    .when()
-                    .get(MEDIA_URL + "/" + clipMid)
-                    .then()
-                    .log().all()
-                    .statusCode(200)
-                    .body(hasXPath(
-                        "/u:program/u:title[@type='MAIN']/text()", NAMESPACE_CONTEXT,
-                        equalTo(clipTitle)
-                    ))
-                    .body(hasXPath("/u:program/@deleted", NAMESPACE_CONTEXT, emptyOrNullString()))
-                ;
+                client()
+                  .when()
+                  .  get(MEDIA_URL + "/" + clipMid)
+                  .then()
+                  .  log().all()
+                  .  statusCode(200)
+                  .  body(hasXPath(
+                      "/u:program/u:title[@type='MAIN']/text()", NAMESPACE_CONTEXT,
+                      equalTo(clipTitle)
+                  ))
+                  .body(hasXPath("/u:program/@deleted", NAMESPACE_CONTEXT, emptyOrNullString()))
+              ;
                 return Boolean.TRUE;
             } catch (AssertionError ae) {
                 log.info(ae.getMessage());
@@ -223,7 +205,7 @@ public class LowLevelMediaTest {
         },
             Utils.Check.<Boolean>builder()
                 .predicate(r -> r)
-                .description("Getting from api returns 200")
+                .description("Getting from api returns 200 and has title "  + clipTitle)
                 .build()
         );
 
@@ -240,11 +222,7 @@ public class LowLevelMediaTest {
         String clipCrid = clipCrid(cridIdFromSuffix);
         log.info("Retrieving clip with crid {}", clipCrid);
         String encodedClipCrid = URLEncoder.encode(clipCrid, UTF_8);
-        given()
-            .auth().basic(USERNAME, PASSWORD)
-            .contentType("application/xml")
-            .queryParam(ERRORS, ERRORS_EMAIL)
-            .log().all()
+        client()
             .when()
             .  get(MEDIA_URL + "/" + encodedClipCrid)
             .then()
@@ -269,11 +247,7 @@ public class LowLevelMediaTest {
 
         TitleForm form = new TitleForm(clipTitle, false);
         search.addTitle(form);
-        given()
-            .auth().basic(USERNAME, PASSWORD)
-            .contentType(ContentType.XML)
-            .body(search)
-            .log().all()
+        client(search)
             .when()
             .  post(FIND_URL)
             .then()
@@ -289,10 +263,7 @@ public class LowLevelMediaTest {
     @Order(100)
     @AbortOnException.NoAbort
     public void deleteClip() {
-        given()
-            .auth().basic(USERNAME, PASSWORD)
-            .queryParam(ERRORS, ERRORS_EMAIL)
-            .log().all()
+        client()
             .when()
             .  delete(MEDIA_URL + "/" + clipMid)
             .then()
@@ -302,12 +273,7 @@ public class LowLevelMediaTest {
 
         Utils.waitUntil(ACCEPTABLE, () -> {
             try {
-                given()
-                    .auth()
-                    .basic(USERNAME, PASSWORD)
-                    .contentType(ContentType.XML)
-                    .queryParam(ERRORS, ERRORS_EMAIL)
-                    .log().all()
+               client()
                     .when()
                     .  get(MEDIA_URL + "/" + clipMid)
                     .then()
@@ -327,9 +293,7 @@ public class LowLevelMediaTest {
     @Order(101)
     @AbortOnException.NoAbort
     public void retrieve404() {
-        log.info(given()
-            .auth().basic(USERNAME, PASSWORD)
-            .log().all()
+        log.info(client()
             .when()
             .  get(MEDIA_URL + "/BESTAATNIET")
             .then()
@@ -347,9 +311,7 @@ public class LowLevelMediaTest {
     @AbortOnException.Ignore
     public void streamingStatus() {
         String streamingStatusEndpoint = CONFIG.url(npo_backend_api, "media/streamingstatus");
-        String result = given()
-            .auth().basic(USERNAME, PASSWORD)
-            .log().all()
+        String result = client()
             .when()
             .  get(streamingStatusEndpoint + "/" + MID)
             .then()
@@ -374,8 +336,7 @@ public class LowLevelMediaTest {
     public void addSubtitles(TestInfo testInfo) {
         subtitlesTitle = testInfo.getDisplayName() + TIME;
         String subtitles = CONFIG.url(npo_backend_api, "media/subtitles");
-        String result = given()
-            .auth().basic(USERNAME, PASSWORD)
+        String result = client()
             .contentType(SubtitlesFormat.WEBVTT.getMediaType())
             .body("WEBVTT\n" +
                 "X-TIMESTAMP-MAP=MPEGTS:900000,LOCAL:00:00:00.000\n" +
@@ -412,10 +373,7 @@ public class LowLevelMediaTest {
         String subtitles = CONFIG.url(npo_backend_api, "media/subtitles");
         Utils.waitUntil(ACCEPTABLE, () -> {
             try {
-                given()
-                    .auth()
-                    .basic(USERNAME, PASSWORD)
-                    .log().all()
+                client()
                     .when()
                     .  get(subtitles + "/" + MID + "/fr/TRANSLATION?avoidParsing=true")
                     .then()
@@ -469,5 +427,21 @@ public class LowLevelMediaTest {
 
     private String clipCrid(String dynamicSuffix) {
         return crid("clip", dynamicSuffix);
+    }
+
+    private RequestSpecification client() {
+        return given()
+            .urlEncodingEnabled(true)
+            .log().all()
+            .auth().basic(USERNAME, PASSWORD);
+    }
+    private RequestSpecification client(Object body) {
+        return client()
+            .contentType(ContentType.XML)
+            .queryParam(ERRORS, ERRORS_EMAIL)
+            .body(body);
+
+
+
     }
 }
