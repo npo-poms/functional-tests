@@ -5,17 +5,19 @@ import io.restassured.http.ContentType;
 import lombok.extern.log4j.Log4j2;
 
 import java.io.StringReader;
+import java.lang.reflect.Method;
 import java.net.URLEncoder;
 import java.time.*;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 import java.util.regex.Pattern;
 
 import javax.xml.bind.JAXB;
 
+import org.apache.commons.text.StringSubstitutor;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 
+import nl.vpro.api.client.utils.Config;
 import nl.vpro.domain.media.*;
 import nl.vpro.domain.media.search.*;
 import nl.vpro.domain.media.update.ProgramUpdate;
@@ -68,12 +70,29 @@ public class LowLevelMediaTest {
     private static final String FIND_URL = CONFIG.url(npo_backend_api, "media/find");
     private static final String USERNAME = CONFIG.requiredOption(npo_backend_api, "user");
     private static final String PASSWORD = CONFIG.requiredOption(npo_backend_api, "password");
-    private static final String ERRORS_EMAIL = CONFIG.configOption(npo_backend_api, "errors_email").orElse("digitaal-techniek@vpro.nl");
+    private static final String ERRORS_EMAIL;
+     static {
+        Map<String, String> valuesMap = new HashMap<>();
+        valuesMap.put("TESTRUN", "" + NOW.toEpochMilli());
+        StringSubstitutor subst = new StringSubstitutor(valuesMap);
+        ERRORS_EMAIL =  subst.replace(CONFIG.getProperties(Config.Prefix.npo_backend_api).get("errors"));
+        log.info("Mailing errors to {}", ERRORS_EMAIL);
+    }
+
+
     private static final String BASE_CRID = "crid://apitests";
-    private static final String TITLE_PREFIX = LowLevelMediaTest.class.getSimpleName() + " " + TIME + " ";
+    //private static final String TITLE_PREFIX = LowLevelMediaTest.class.getSimpleName() + " " + TIME + " ";
     private static String dynamicSuffix;
     private static String cridIdFromSuffix;
     private static String clipMid;
+
+    private String title;
+
+    @BeforeEach
+    public void setupTitle(TestInfo testInfo) {
+        title = TestMDC.getTestNumber() + ":" + dynamicSuffix + " " + testInfo.getDisplayName();
+        log.info("Running {} with title {}", testInfo.getTestMethod().map(Method::toString).orElse("<no method?>"), title);
+    }
 
     @BeforeAll
     public static void setUpShared() {
@@ -87,18 +106,21 @@ public class LowLevelMediaTest {
         RestAssured.urlEncodingEnabled = false;
     }
 
+    public static String clipTitle;
     @Test
     @Tag("clip")
     @Tag("clips")
     @Order(1)
     public void postClip() {
-        List<Segment> segments = Collections.singletonList(createSegment(null, dynamicSuffix, null));
+        List<Segment> segments = Collections.singletonList(createSegment(null, null));
         ProgramUpdate clip =
             ProgramUpdate.create(
                 AbstractApiMediaBackendTest.getBackendVersionNumber(),
-                createClip(null, dynamicSuffix, segments));
+                createClip(null, segments));
+        clipTitle = clip.getMainTitle();
 
         clipMid = given()
+            .urlEncodingEnabled(true)
             .auth().basic(USERNAME, PASSWORD)
             .contentType(ContentType.XML)
             .body(clip)
@@ -109,8 +131,9 @@ public class LowLevelMediaTest {
             .then()
             .  log().all()
             .  statusCode(202)
-            .  body(startsWith("POMS_VPRO"))
+            .  body(anyOf(startsWith("POMS_VPRO"), startsWith("POMS_MOCK_VPRO_"))) // this is silly, we're testing METIS here.
             .  extract().asString();
+        log.info("Using {}", clipMid);
     }
 
     @Test
@@ -118,11 +141,12 @@ public class LowLevelMediaTest {
     @Tag("clips")
     @Order(2)
     public void postClipWithCrid() {
+
         String clipCrid = clipCrid(cridIdFromSuffix);
-        List<Segment> segments = Collections.singletonList(createSegment(null, dynamicSuffix, null));
+        List<Segment> segments = Collections.singletonList(createSegment(null, null));
         ProgramUpdate clip = ProgramUpdate.create(
             AbstractApiMediaBackendTest.getBackendVersionNumber(),
-            createClip(clipCrid, dynamicSuffix, segments)
+            createClip(clipCrid, segments)
         );
         log.info("Created clip with crid {}", clipCrid);
 
@@ -140,14 +164,16 @@ public class LowLevelMediaTest {
             .  body(equalTo(clipCrid));
     }
 
+    static protected String segmentTitle;
     @Test
     @Tag("segment")
     @Order(3)
     public void postSegment() {
         SegmentUpdate segment = SegmentUpdate.create(
             AbstractApiMediaBackendTest.getBackendVersionNumber(),
-            createSegment(null, dynamicSuffix, clipMid)
+            createSegment(null, clipMid)
         );
+        segmentTitle = segment.getMainTitle();
 
         given()
             .  auth().basic(USERNAME, PASSWORD)
@@ -166,7 +192,7 @@ public class LowLevelMediaTest {
     @Tag("clip")
     @Tag("clips")
     @Order(20)
-    public void retrieveClip(TestInfo testInfo) {
+    public void retrieveClip() {
         assumeThat(clipMid).isNotNull();
         Boolean result = Utils.waitUntil(ACCEPTABLE, () -> {
             try {
@@ -182,7 +208,7 @@ public class LowLevelMediaTest {
                     .statusCode(200)
                     .body(hasXPath(
                         "/u:program/u:title[@type='MAIN']/text()", NAMESPACE_CONTEXT,
-                        equalTo(TITLE_PREFIX + dynamicSuffix)
+                        equalTo(clipTitle)
                     ))
                     .body(hasXPath("/u:program/@deleted", NAMESPACE_CONTEXT, emptyOrNullString()))
                 ;
@@ -222,7 +248,7 @@ public class LowLevelMediaTest {
             .  log().all()
             .  statusCode(200)
             .  body(hasXPath("/u:program/u:title[@type='MAIN']/text()",
-                NAMESPACE_CONTEXT, equalTo(TITLE_PREFIX + dynamicSuffix)))
+                NAMESPACE_CONTEXT, equalTo(clipTitle)))
             .  body(hasXPath("/u:program/@deleted", NAMESPACE_CONTEXT, emptyOrNullString()));
     }
 
@@ -238,7 +264,7 @@ public class LowLevelMediaTest {
             )
             .build();
 
-        TitleForm form = new TitleForm(TITLE_PREFIX + dynamicSuffix, false);
+        TitleForm form = new TitleForm(clipTitle, false);
         search.addTitle(form);
         given()
             .auth().basic(USERNAME, PASSWORD)
@@ -406,7 +432,7 @@ public class LowLevelMediaTest {
         });
     }
 
-    private Program createClip(String crid, String dynamicSuffix, List<Segment> segments) {
+    private Program createClip(String crid, List<Segment> segments) {
 
         return MediaTestDataBuilder.program()
             .validNew()
@@ -416,19 +442,19 @@ public class LowLevelMediaTest {
             .type(ProgramType.CLIP)
             .segments(segments)
             .ageRating(AgeRating.ALL)
-            .title(TITLE_PREFIX + dynamicSuffix)
+            .title(title)
             .build();
     }
 
 
 
-    private Segment createSegment(String crid, String dynamicSuffix, String midRef) {
+    private Segment createSegment(String crid, String midRef) {
         return MediaTestDataBuilder.segment()
             .validNew()
             .crids(crid)
             .clearBroadcasters()
             .broadcasters("VPRO")
-            .title(TITLE_PREFIX + "(1) " + dynamicSuffix)
+            .title(title)
             .midRef(midRef)
             .ageRating(AgeRating.ALL)
             .build();
