@@ -23,6 +23,7 @@ import nl.vpro.util.CommandExecutorImpl;
 import static java.lang.Integer.parseInt;
 
 /**
+ * Support for JMX access on the system that we test. The idea is the start with {@link #getMBeanServerConnection(Map)}
  * @author Michiel Meeuwissen
  * @since ...
  */
@@ -35,6 +36,19 @@ public class JMXSupport {
     }
 
 
+    /**
+     * Returns a {@link JMXContainer} with the necessary object to access JMX for a server that is being tested.
+     *
+     * Provided it with property like so:
+     * {@code
+     *   JMXSupport.getMBeanServerConnection(getCONFIG.getProperties(Config.Prefix.poms)));
+     * }
+     *
+     * Most of the time JMX is not accessible for the world, and this has to happen via an SSH tunnel.
+     *
+     * This method also arranges that (if the 'ssh-host' property is found).
+     *
+     */
     @SneakyThrows
     public static JMXContainer getMBeanServerConnection(Map<String, String> properties) {
         String ssh = properties.get("ssh-host");
