@@ -6,6 +6,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.concurrent.*;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -98,8 +99,13 @@ public abstract class AbstractApiTest extends AbstractTest  {
                 return result;
 
             });
-        for(Predicate<MediaChange> expectedChange : predicates) {
-            assertThat(CHANGES.stream().filter(expectedChange).findFirst()).isPresent();
+
+        for (Predicate<MediaChange> expectedChange : predicates) {
+            assertThat(CHANGES.stream().filter(expectedChange).findFirst())
+                .withFailMessage(() -> "Doest contain expected: \n" +
+                    CHANGES.stream().map(MediaChange::toString).collect(Collectors.joining("\n"))
+                )
+                .isPresent();
         }
     }
 
