@@ -13,6 +13,7 @@ import nl.vpro.domain.gtaa.GTAAPerson;
 import nl.vpro.poms.AbstractApiTest;
 
 import static nl.vpro.api.client.utils.Config.Prefix.npo_pageupdate_api;
+import static nl.vpro.testutils.Utils.CONFIG;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**

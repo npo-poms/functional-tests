@@ -1,7 +1,7 @@
 package nl.vpro.poms.poms;
 
 import static nl.vpro.api.client.utils.Config.Prefix.poms;
-import static nl.vpro.poms.AbstractApiTest.CONFIG;
+import static nl.vpro.testutils.Utils.CONFIG;
 
 /**
  * @author Michiel Meeuwissen

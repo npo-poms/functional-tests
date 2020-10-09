@@ -13,6 +13,7 @@ import java.util.stream.Collectors;
 import org.slf4j.helpers.FormattingTuple;
 import org.slf4j.helpers.MessageFormatter;
 
+import nl.vpro.api.client.utils.Config;
 import nl.vpro.util.TextUtil;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -24,6 +25,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @Log4j2
 public class Utils {
 
+    public static final Config CONFIG = new Config("npo-functional-tests.properties");
     private final static Duration WAIT = Duration.ofSeconds(15);
 
     public static final ThreadLocal<Runnable> CLEAR_CACHES = ThreadLocal.withInitial((Supplier<Runnable>) () -> () -> {});

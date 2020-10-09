@@ -39,6 +39,7 @@ import static io.restassured.RestAssured.given;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static nl.vpro.api.client.utils.Config.Prefix.npo_pageupdate_api;
 import static nl.vpro.domain.api.Order.DESC;
+import static nl.vpro.testutils.Utils.CONFIG;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assumptions.assumeThat;
 import static org.junit.jupiter.api.Assumptions.assumeTrue;

@@ -23,7 +23,7 @@ import nl.vpro.junit.extensions.TestMDC;
 import nl.vpro.poms.AbstractApiMediaBackendTest;
 import nl.vpro.poms.AbstractApiTest;
 
-import static nl.vpro.poms.AbstractApiTest.CONFIG;
+import static nl.vpro.testutils.Utils.CONFIG;
 import static org.assertj.core.api.Assumptions.assumeThat;
 
 /**

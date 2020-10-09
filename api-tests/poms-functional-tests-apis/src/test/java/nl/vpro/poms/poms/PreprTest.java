@@ -10,14 +10,15 @@ import javax.management.*;
 import javax.management.openmbean.TabularDataSupport;
 
 import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.extension.ExtendWith;
 
-import nl.vpro.api.client.utils.Config;
 import nl.vpro.domain.media.MediaObject;
+import nl.vpro.junit.extensions.For;
+import nl.vpro.junit.extensions.JMXContainers;
 import nl.vpro.poms.AbstractApiMediaBackendTest;
-import nl.vpro.testutils.JMXSupport;
 import nl.vpro.testutils.Utils;
 
-import static nl.vpro.testutils.JMXSupport.getMBeanServerConnection;
+import static nl.vpro.api.client.utils.Config.Prefix.poms;
 import static nl.vpro.testutils.JMXSupport.getObjectName;
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -26,6 +27,7 @@ import static org.assertj.core.api.Assertions.assertThat;
  * @author Michiel Meeuwissen
  */
 @Log4j2
+@ExtendWith(JMXContainers.class)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class PreprTest  extends AbstractApiMediaBackendTest {
     static final String SERIES = "RBX_S_VPRO_13100068";
@@ -36,12 +38,6 @@ public class PreprTest  extends AbstractApiMediaBackendTest {
     static final ObjectName PREPR = getObjectName("nl.vpro.media:name=prepr");
     static final ObjectName MBEANS = getObjectName("nl.vpro.jmx:name=nl.vpro.jmx.MBeansUtils#0,type=MBeansUtils");
 
-    static final JMXSupport.JMXContainer pomsJMX = getMBeanServerConnection(CONFIG.getProperties(Config.Prefix.poms));
-
-    @AfterAll
-    public static void shutdown() {
-        pomsJMX.shutdown();
-    }
 
     @Test
     @Order(1)
@@ -58,16 +54,13 @@ public class PreprTest  extends AbstractApiMediaBackendTest {
                     .build()
             );
         }
-
     }
 
-
     @Test
-    @Order(9) // TODO, on dev's gives unique constraint
-    public void resyncBroadcast() throws IOException, MBeanException, InstanceNotFoundException, ReflectionException {
+    @Order(9)
+    public void resyncBroadcast(@For(poms) MBeanServerConnection pomsJMX) throws IOException, MBeanException, InstanceNotFoundException, ReflectionException {
 
-
-        Object syncBroadcast = pomsJMX.connection.invoke(PREPR, "syncBroadcast",
+        Object syncBroadcast = pomsJMX.invoke(PREPR, "syncBroadcast",
             new Object[]{"PREPR_VPRO_15979404"}, new String[]{
                 String.class.getName()
             });
@@ -76,9 +69,9 @@ public class PreprTest  extends AbstractApiMediaBackendTest {
 
     @Test
     @Order(10)
-    public void resyncDay() throws IOException, MBeanException, InstanceNotFoundException, ReflectionException {
+    public void resyncDay(@For(poms) MBeanServerConnection pomsJMX) throws IOException, MBeanException, InstanceNotFoundException, ReflectionException {
 
-        Object syncDay = pomsJMX.connection.invoke(PREPR, "sync",
+        Object syncDay = pomsJMX.invoke(PREPR, "sync",
             new Object[]{"RAD3", "2020-02-15", null}, new String[] {
                 String.class.getName(),
                 String.class.getName(),
@@ -90,7 +83,7 @@ public class PreprTest  extends AbstractApiMediaBackendTest {
             Duration.ofMinutes(5),
             () ->  {
                 try {
-                    return (TabularDataSupport) pomsJMX.connection.getAttribute(MBEANS, "Running");
+                    return (TabularDataSupport) pomsJMX.getAttribute(MBEANS, "Running");
                 } catch (Exception e) {
                     log.error(e.getMessage(), e);
                     return null;

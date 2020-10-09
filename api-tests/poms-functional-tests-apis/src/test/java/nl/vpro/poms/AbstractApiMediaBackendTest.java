@@ -32,6 +32,7 @@ import nl.vpro.util.Version;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static nl.vpro.domain.media.MediaBuilder.program;
 import static nl.vpro.poms.Require.needsCheck;
+import static nl.vpro.testutils.Utils.CONFIG;
 
 /**
  * @author Michiel Meeuwissen

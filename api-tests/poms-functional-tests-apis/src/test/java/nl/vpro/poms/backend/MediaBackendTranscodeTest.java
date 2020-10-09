@@ -1,6 +1,17 @@
  package nl.vpro.poms.backend;
 
  import lombok.extern.log4j.Log4j2;
+
+import java.io.IOException;
+import java.time.Duration;
+import java.time.Instant;
+import java.util.Map;
+
+import javax.ws.rs.core.Response;
+
+import org.junit.jupiter.api.*;
+import org.opentest4j.TestAbortedException;
+
 import nl.vpro.api.client.utils.Config;
 import nl.vpro.domain.media.Encryption;
 import nl.vpro.domain.media.EntityType;
@@ -13,18 +24,11 @@ import nl.vpro.poms.AbstractApiMediaBackendTest;
 import nl.vpro.poms.Require;
 import nl.vpro.testutils.Utils;
 import nl.vpro.util.Env;
-import org.junit.jupiter.api.*;
-import org.opentest4j.TestAbortedException;
-
-import javax.ws.rs.core.Response;
-import java.io.IOException;
-import java.time.Duration;
-import java.time.Instant;
-import java.util.Map;
 
 import static nl.vpro.domain.media.update.TranscodeStatus.Status.COMPLETED;
 import static nl.vpro.domain.media.update.TranscodeStatus.Status.FAILED;
-import static nl.vpro.testutils.Utils.waitUntil;
+ import static nl.vpro.testutils.Utils.CONFIG;
+ import static nl.vpro.testutils.Utils.waitUntil;
 
 /**
  * Tests if files can be uploaded, and be correctly handled.

@@ -9,8 +9,8 @@ import nl.vpro.api.client.utils.Config;
 import nl.vpro.domain.classification.ClassificationService;
 import nl.vpro.domain.classification.URLClassificationServiceImpl;
 import nl.vpro.junit.extensions.TestMDC;
-import nl.vpro.poms.AbstractApiTest;
 
+import static nl.vpro.testutils.Utils.CONFIG;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
@@ -23,7 +23,7 @@ class ClassificationTest {
 
     @Test
     public void testClassification() {
-        ClassificationService service = new URLClassificationServiceImpl(AbstractApiTest.CONFIG.requiredOption(Config.Prefix.npo_pageupdate_api, "baseUrl") + "/schema/classification");
+        ClassificationService service = new URLClassificationServiceImpl(CONFIG.requiredOption(Config.Prefix.npo_pageupdate_api, "baseUrl") + "/schema/classification");
         log.info("Found service {}", service);
         assertThat(service.getTerm("3.0.7").getName()).isEqualTo("Proprietary Cinema genres");
 

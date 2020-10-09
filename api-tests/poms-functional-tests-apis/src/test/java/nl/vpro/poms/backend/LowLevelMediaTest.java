@@ -35,7 +35,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 import static nl.vpro.api.client.utils.Config.Prefix.npo_backend_api;
 import static nl.vpro.domain.Xmlns.NAMESPACE_CONTEXT;
 import static nl.vpro.poms.AbstractApiMediaBackendTest.MID;
-import static nl.vpro.poms.AbstractApiTest.CONFIG;
+import static nl.vpro.testutils.Utils.CONFIG;
 import static nl.vpro.rs.media.MediaBackendRestService.ERRORS;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assumptions.assumeThat;

@@ -26,6 +26,7 @@ import nl.vpro.poms.AbstractApiTest;
 import nl.vpro.util.Env;
 
 import static nl.vpro.domain.media.Channel.*;
+import static nl.vpro.testutils.Utils.CONFIG;
 import static nl.vpro.util.Env.PROD;
 import static org.assertj.core.api.Assertions.assertThat;
 

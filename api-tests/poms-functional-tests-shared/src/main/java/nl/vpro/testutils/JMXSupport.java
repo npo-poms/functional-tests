@@ -8,7 +8,6 @@ import java.security.Permission;
 import java.util.*;
 import java.util.function.Consumer;
 
-import javax.management.MBeanServerConnection;
 import javax.management.ObjectName;
 import javax.management.remote.*;
 
@@ -24,8 +23,10 @@ import static java.lang.Integer.parseInt;
 
 /**
  * Support for JMX access on the system that we test. The idea is the start with {@link #getMBeanServerConnection(Map)}
+ *
+ * This is accessible via a junit 5 extension {@link nl.vpro.junit.extensions.JMXContainers}
+ *
  * @author Michiel Meeuwissen
- * @since ...
  */
 @Log4j2
 public class JMXSupport {
@@ -175,24 +176,4 @@ public class JMXSupport {
         return null;
     }
 
-    public static class JMXContainer {
-        JMXConnector connector;
-        public MBeanServerConnection connection;
-        long pid;
-
-        @SneakyThrows
-        public void shutdown() {
-            try {
-                connector.close();
-            } catch (Exception e){
-                log.warn(e.getMessage());
-            }
-            try {
-                killTunnel(pid);
-             } catch (Exception e){
-                log.warn(e.getMessage());
-            }
-
-        }
-    }
 }

@@ -3,13 +3,14 @@ package nl.vpro.poms.poms;
 import io.restassured.RestAssured;
 import lombok.extern.log4j.Log4j2;
 
-import nl.vpro.poms.Require;
 import org.junit.jupiter.api.*;
+
+import nl.vpro.poms.Require;
 
 import static io.restassured.RestAssured.given;
 import static nl.vpro.api.client.utils.Config.Prefix.poms;
-import static nl.vpro.poms.AbstractApiTest.CONFIG;
 import static nl.vpro.poms.AbstractApiMediaBackendTest.MID;
+import static nl.vpro.testutils.Utils.CONFIG;
 import static org.assertj.core.api.Assertions.assertThat;
 
 

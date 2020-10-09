@@ -42,8 +42,6 @@ public abstract class AbstractApiTest extends AbstractTest  {
 
     protected static final String DASHES = new String(new char[100]).replace('\0', '-');
 
-    public static final Config CONFIG = new Config("npo-functional-tests.properties");
-
     protected static final OffsetDateTime NOW = ZonedDateTime.now(Schedule.ZONE_ID).toOffsetDateTime();
     protected static final Instant NOWI = NOW.toInstant();
     protected static final String NOWSTRING = NOW.toString();
@@ -141,7 +139,7 @@ public abstract class AbstractApiTest extends AbstractTest  {
 
 
     protected static final NpoApiClients clients =
-        NpoApiClients.configured(CONFIG.env(), CONFIG.getProperties(Config.Prefix.npo_api))
+        NpoApiClients.configured(Utils.CONFIG.env(), Utils.CONFIG.getProperties(Config.Prefix.npo_api))
             .warnThreshold(Duration.ofMillis(500))
             .connectTimeout(Duration.ofSeconds(10))
             .socketTimeout(Duration.ofSeconds(60))
@@ -152,7 +150,7 @@ public abstract class AbstractApiTest extends AbstractTest  {
 
     protected static final NpoApiMediaUtil mediaUtil = new NpoApiMediaUtil(clients);
     protected static final NpoApiPageUtil pageUtil = new NpoApiPageUtil(clients);
-    protected static final NpoApiImageUtil imageUtil = new NpoApiImageUtil(CONFIG.getProperties(Config.Prefix.images).get("baseUrl"));
+    protected static final NpoApiImageUtil imageUtil = new NpoApiImageUtil(Utils.CONFIG.getProperties(Config.Prefix.images).get("baseUrl"));
 
     private static final String apiVersion = clients.getVersion();
     protected static IntegerVersion apiVersionNumber;
@@ -174,11 +172,11 @@ public abstract class AbstractApiTest extends AbstractTest  {
         mediaUtil.setCacheExpiry("1S");
 
         ClassificationServiceLocator.setInstance(new CachedURLClassificationServiceImpl(
-            CONFIG.requiredOption(Config.Prefix.poms, "baseUrl")));
+            Utils.CONFIG.requiredOption(Config.Prefix.poms, "baseUrl")));
         LOG.debug("Installed {}", ClassificationServiceLocator.getInstance());
 
 
-        LOG.info("Using {} ({}, {})", clients, apiVersion, CONFIG.env());
+        LOG.info("Using {} ({}, {})", clients, apiVersion, Utils.CONFIG.env());
 
         LOG.info("Image server: {}", imageUtil);
     }

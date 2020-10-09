@@ -14,8 +14,8 @@ import org.apache.commons.io.IOUtils;
 import org.junit.jupiter.api.*;
 
 import nl.vpro.api.client.utils.MediaRestClientUtils;
-import nl.vpro.domain.api.*;
 import nl.vpro.domain.api.Order;
+import nl.vpro.domain.api.*;
 import nl.vpro.domain.api.profile.Profile;
 import nl.vpro.domain.media.MediaObject;
 import nl.vpro.domain.media.Schedule;
@@ -24,6 +24,7 @@ import nl.vpro.poms.AbstractApiTest;
 import nl.vpro.util.*;
 
 import static nl.vpro.api.client.utils.MediaRestClientUtils.sinceString;
+import static nl.vpro.testutils.Utils.CONFIG;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assumptions.assumeTrue;

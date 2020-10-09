@@ -37,6 +37,10 @@
       <artifactId>junit-jupiter-migrationsupport</artifactId>
       <optional>true</optional>
     </dependency>
+    <dependency>
+      <groupId>nl.vpro.poms.api-clients</groupId>
+      <artifactId>client-core</artifactId>
+    </dependency>
 
     <dependency>
       <groupId>org.assertj</groupId>
