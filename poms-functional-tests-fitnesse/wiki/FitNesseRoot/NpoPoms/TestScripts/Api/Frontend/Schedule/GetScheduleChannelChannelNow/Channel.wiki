@@ -2,7 +2,7 @@
 Suites: NPOAPI-33, RG
 Test
 ---
-|Get value at path                       |
-|get                      |path   |value?|
-|schedule/channel/NED3/now|channel|NED3  |
-|schedule/channel/RAD3/now|channel|RAD3  |
+|Get value at path                                                    |
+|get                                                   |path   |value?|
+|schedule/channel/NED2/now?now=2020-10-08T11:00:00.000Z|channel|NED2  |
+|schedule/channel/RAD3/now?now=2020-10-08T11:00:00.000Z|channel|RAD3  |

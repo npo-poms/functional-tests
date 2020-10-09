@@ -2,6 +2,27 @@
 Suites: NPOAPI-22, RG
 Test
 ---
-|Get count at path                          |
-|get                           |path |count?|
-|media/suggest?input=vpro&max=1|items|1     |
+!*> Test-specific items
+!define searchQuery {npo}
+
+!define body { {{{
+{
+  "searches": {
+    "text": {
+      "value": "${searchQuery}",
+      "matchType": "TEXT",
+      "match": "MUST"
+    }
+  }
+}
+}}} }
+*!
+
+Post-call based on [[POST /media > Searches text (NPOAPI-7)][<Media.PostMedia.SearchesText]]
+
+|script                                 |
+|post|${body}|to|${urlFrontendApi}/media|
+
+|Get count at path                                    |
+|get                                     |path |count?|
+|media/suggest?input=${searchQuery}&max=1|items|1     |
