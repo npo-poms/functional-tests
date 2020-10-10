@@ -72,7 +72,7 @@ public abstract class AbstractApiTest extends AbstractTest  {
                     try (CountedIterator<MediaChange> changes = mediaUtil.changes(null, false, start, mid, nl.vpro.domain.api.Order.ASC, null, Deletes.ID_ONLY, Tail.ALWAYS)) {
                         while (changes.hasNext()) {
                             MediaChange change = changes.next();
-                            if (change.getPublishDate().plus(changesMinimalAge).isBefore(NOWI)) {
+                            if (change.getPublishDate().plus(changesMinimalAge).isBefore(Instant.now())) {
                                 CHANGES.add(change);
                                 start = change.getPublishDate();
                                 mid = change.getMid();
@@ -95,6 +95,9 @@ public abstract class AbstractApiTest extends AbstractTest  {
                 boolean result = true;
                 for(Predicate<MediaChange> expectedChange : predicates) {
                     result &= CHANGES.stream().anyMatch(expectedChange);
+                }
+                if (! result) {
+                    LOG.info(CHANGES.stream().map(MediaChange::toString).collect(Collectors.joining("\n")));
                 }
                 return result;
 
