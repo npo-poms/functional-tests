@@ -54,8 +54,8 @@ public abstract class AbstractApiTest extends AbstractTest  {
     /**
      * If it is necessary to set this to anything bigger then {@link Duration#ZERO} then this indicates some bug.
      */
-    protected static final Duration changesMinimalAge = Duration.ofSeconds(90);
-    //protected static final Duration changesMinimalAge = Duration.ZERO;
+    //protected static final Duration changesMinimalAge = Duration.ofSeconds(90);
+    protected static final Duration changesMinimalAge = Duration.ZERO;
     private static Future<?> changesFuture;
 
 
