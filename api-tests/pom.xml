@@ -16,8 +16,8 @@
   </modules>
 
   <properties>
-    <poms.version>5.16.0</poms.version>
-    <vpro.shared.version>2.15.0</vpro.shared.version>
+    <poms.version>5.17.1</poms.version>
+    <vpro.shared.version>2.16.0</vpro.shared.version>
     <selenium.version>4.0.0-alpha-6</selenium.version>
     <log4j2.version>2.13.3</log4j2.version>
     <surefire.version>3.0.0-M5</surefire.version>
@@ -177,7 +177,7 @@
       <dependency>
         <groupId>org.projectlombok</groupId>
         <artifactId>lombok</artifactId>
-        <version>1.18.12</version>
+        <version>1.18.14</version>
         <scope>provided</scope>
       </dependency>
       <dependency>
@@ -215,7 +215,7 @@
       <dependency>
         <groupId>io.github.bonigarcia</groupId>
         <artifactId>webdrivermanager</artifactId>
-        <version>4.2.0</version>
+        <version>4.2.2</version>
       </dependency>
 <!--
       <dependency>
@@ -227,7 +227,7 @@
       <dependency>
         <groupId>org.apache.httpcomponents</groupId>
         <artifactId>httpclient</artifactId>
-        <version>4.5.12</version>
+        <version>4.5.13</version>
       </dependency>
       <dependency>
         <groupId>org.rauschig</groupId>
