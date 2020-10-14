@@ -97,11 +97,6 @@ Test
 |show                |post                    |${body2}           |to|${urlBackendApi}/media/program?owner=BROADCASTER|
 |$mid=               |response                                                                                        |
 |get from            |${urlBackendApi}/media/program/$mid/full                                                        |
-|repeat until xPath  |/media:program/@workflow|is                 |FOR PUBLICATION                                    |
-|$repeatCount=       |repeat count                                                                                    |
-|$timeSpentRepeating=|time spent repeating                                                                            |
-|$timeSpentRepeating=|format timestamp        |$timeSpentRepeating|as|m:ss                                            |
-|                                                                                                                     |
 |repeat until xPath  |/media:program/@workflow|is                 |PUBLISHED                                          |
 |$repeatCount=       |repeat count                                                                                    |
 |$timeSpentRepeating=|time spent repeating                                                                            |

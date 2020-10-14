@@ -44,9 +44,6 @@ Test
 |clear search context                                                                                                                             |
 |Npo poms Tabblad object Druk op link                |Segmenten               |in sidebar                                                         |
 |Npo poms Tabblad object Wacht tot scrollen klaar is                                                                                              |
-|Npo poms Tabblad object Druk op tandwieltje bij segmenten                                                                                        |
-|Npo poms Tabblad object Vink kolomoptie             |MID                     |aan bij segmenten                                                  |
-|Npo poms Tabblad object Druk op tandwieltje bij segmenten                                                                                        |
 |set search context to                               |xpath=//poms-segments                                                                       |
 |Npo poms Tabblad object Sla aantal in veld          |Segmenten               |op in var        |aantalSegmenten                                  |
 |click                                               |Segment toevoegen zonder speler                                                             |
@@ -81,6 +78,9 @@ Test
 |click                                               |Bewaar en sluit                                                                             |
 |Npo poms Tabblad object Check aantal in veld        |Segmenten               |is var           |aantalSegmenten     |plus    |2                  |
 |show                                                |take screenshot         |Itemizer_NpoTa75_SpomsItemizer14_TweeSegmentenToegevoegd-$timestamp|
+|Npo poms Tabblad object Druk op tandwieltje bij segmenten                                                                                        |
+|Npo poms Tabblad object Vink kolomoptie             |MID                     |aan bij segmenten                                                  |
+|Npo poms Tabblad object Druk op tandwieltje bij segmenten                                                                                        |
 |Npo poms Tabblad object Check segment               |${titel} $timestamp-1   |heeft status     |Gepubliceerd        |of      |Voor publicatie    |
 |Npo poms Tabblad object Check segment               |${titel} $timestamp-2   |heeft status     |Gepubliceerd        |of      |Voor publicatie    |
 |Npo poms Tabblad object Sla mid van segment         |${titel} $timestamp-2   |op in var        |midVanSegment2                                   |
