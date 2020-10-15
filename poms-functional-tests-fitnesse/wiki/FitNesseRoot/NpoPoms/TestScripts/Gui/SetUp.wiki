@@ -3,14 +3,14 @@
 |start driver for|${BROWSER}           |
 |show            |driver description   |
 
-|script                          |extended browser test  |
-|delete all cookies                                      |
-|set browser size to maximum                             |
-|show                            |current browser width  |
-|show                            |current browser height |
-|set browser size to             |1366    |by    |768    |
-|show                            |current browser width  |
-|show                            |current browser height |
-|seconds before timeout          |${secondsBeforeTimeout}|
-|seconds before page load timeout|${secondsBeforeTimeout}|
+|script                          |extended browser test              |
+|delete all cookies                                                  |
+|set browser size to maximum                                         |
+|show                            |current browser width              |
+|show                            |current browser height             |
+|show                            |try set browser size to|1366|by|768|
+|show                            |current browser width              |
+|show                            |current browser height             |
+|seconds before timeout          |${secondsBeforeTimeout}            |
+|seconds before page load timeout|${secondsBeforeTimeout}            |
 *!

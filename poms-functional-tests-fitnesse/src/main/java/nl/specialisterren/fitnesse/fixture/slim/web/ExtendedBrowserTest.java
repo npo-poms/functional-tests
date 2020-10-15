@@ -32,6 +32,15 @@ public class ExtendedBrowserTest extends BrowserTest {
 		return result;
 	}
 	
+	public String trySetBrowserSizeToBy(int newWidth, int newHeight) {
+		try {
+			setBrowserSizeToBy(newWidth, newHeight);
+			return "";
+		} catch(SlimFixtureException e) {
+			return e.getMessage();
+		}
+	}
+	
 	@WaitUntil(TimeoutPolicy.RETURN_FALSE)
     public boolean waitForNotVisible(String place) {
         return !waitForVisibleIn(place, null);
