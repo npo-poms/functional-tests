@@ -25,7 +25,7 @@ Test
 |Npo poms Tabblad object Sla mid of urn op in var   |mid                                                                    |
 |click                                              |Type                                                                   |
 |set search context to                              |xpath=//span[@class="editable-controls"]                               |
-|Npo poms Tabblad object Druk op type               |${mediatype2}                                                          |
+|click                                              |${mediatype2}                                                          |
 |click                                              |save                                                                   |
 |clear search context                                                                                                       |
 |wait for not visible                               |save                                                                   |
@@ -47,7 +47,7 @@ Test
 |Npo poms Zoeken Open eerste object                                                                                         |
 |click                                              |Type                                                                   |
 |set search context to                              |xpath=//span[@class="editable-controls"]                               |
-|Npo poms Tabblad object Druk op type               |${mediatype1}                                                          |
+|click                                              |${mediatype1}                                                          |
 |click                                              |save                                                                   |
 |clear search context                                                                                                       |
 |wait for not visible                               |save                                                                   |

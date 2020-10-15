@@ -379,6 +379,3 @@
 |set search context to|xpath=//h2[text()="Tags"]/..                                                                                           |
 |wait for not visible |xpath=./div[@class="ui-select"]                                                                                        |
 |clear search context                                                                                                                         |
-
-|scenario|Npo poms Tabblad object Druk op type        |type       |
-|click   |xpath=//input[./following-sibling::span[text()="@type"]]|
