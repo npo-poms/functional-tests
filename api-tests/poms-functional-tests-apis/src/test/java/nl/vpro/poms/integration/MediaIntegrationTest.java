@@ -184,6 +184,14 @@ public class MediaIntegrationTest extends AbstractApiMediaBackendTest {
 
     }
 
+
+    @Test
+    @Order(3)
+    void checkReceivedChangesAfterNew() {
+        awaitChanges(expectedChanges);
+        expectedChanges.clear();
+    }
+
     @Test
     @Order(10)
     void updateTitle() {
@@ -198,6 +206,7 @@ public class MediaIntegrationTest extends AbstractApiMediaBackendTest {
             clipTitle = title;
             mediaUpdate.setMainTitle(clipTitle);
             backend.set(mediaUpdate);
+            expectedChanges.add((mc) -> clipMid.equals(mc.getMid()));
         }
     }
 
@@ -230,6 +239,13 @@ public class MediaIntegrationTest extends AbstractApiMediaBackendTest {
 
 
     @Test
+    @Order(13)
+    void checkReceivedChanges1() {
+        awaitChanges(expectedChanges);
+        expectedChanges.clear();
+    }
+
+    @Test
     @Order(20)
     void updateDescription() {
         if (getBackendVersionNumber().isNotAfter(5, 11, 7)) {
@@ -243,6 +259,7 @@ public class MediaIntegrationTest extends AbstractApiMediaBackendTest {
             assumeThat(mediaUpdate).isNotNull();
             mediaUpdate.setMainDescription(clipDescription);
             backend.set(mediaUpdate);
+            expectedChanges.add((mc) -> clipMid.equals(mc.getMid()));
         }
     }
 
@@ -273,6 +290,14 @@ public class MediaIntegrationTest extends AbstractApiMediaBackendTest {
         assertThat(clip.getWorkflow()).isEqualTo(Workflow.PUBLISHED);
     }
 
+
+    @Test
+    @Order(22)
+    void checkReceivedChanges2() {
+        awaitChanges(expectedChanges);
+        expectedChanges.clear();
+    }
+
     /**
      * All images where not published to begin with or will expire in 10 minutes
      */
@@ -286,6 +311,7 @@ public class MediaIntegrationTest extends AbstractApiMediaBackendTest {
             (c) -> c.getImages().isEmpty());
         assertThat(clip).isNotNull();
         assertThat(clip.getImages()).isEmpty();
+        expectedChanges.add((mc) -> clipMid.equals(mc.getMid()));
     }
 
 

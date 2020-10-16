@@ -74,6 +74,7 @@ public abstract class AbstractApiTest extends AbstractTest  {
                             MediaChange change = changes.next();
                             if (change.getPublishDate().plus(changesMinimalAge).isBefore(Instant.now())) {
                                 if (! change.isTail()) {
+                                    LOG.info("Received {}", change);
                                     CHANGES.add(change);
                                 }
                                 start = change.getPublishDate();
@@ -86,7 +87,7 @@ public abstract class AbstractApiTest extends AbstractTest  {
                         LOG.info(e.getMessage());
                     }
                     try {
-                        Thread.sleep(10000L);
+                        Thread.sleep(2000L);
                     } catch (InterruptedException iae) {
                         Thread.currentThread().interrupt();
                     }
