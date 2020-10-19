@@ -4,10 +4,27 @@ Suites: NPOAPI-130, RG
 Test
 ---
 !*> Test-specific items
-!define mid {POMS_VPRO_3339239}
-!define body { {{{
+!define bodyClip { {{{
+<program xmlns="urn:vpro:media:update:2009" type="CLIP" avType="VIDEO" embeddable="true">
+  <broadcaster>NPO</broadcaster>
+  <title type="MAIN">Specialisterren !today (yyyyMMddHHmm)</title>
+  <title type="SUB">Testsubtitle</title>
+  <title type="ORIGINAL">Original title</title>
+  <description type="MAIN">Deze clip is aangemaakt door Specialisterren.</description>
+  <description type="SHORT">Specialisterren Clip.</description>
+  <description type="SUB">Specialisterren Clip.</description>
+  <description type="EPISODE">Nieuwe Clip van vandaag.</description>
+  <credits/>
+  <locations/>
+  <scheduleEvents/>
+  <images/>
+  <segments/>
+</program>
+}}} }
+
+!define bodySubtitles { {{{
 {
-  "mid": "${mid}",
+  "mid": "$mid",
   "content": {
     "format": "WEBVTT",
     "value": [
@@ -37,8 +54,21 @@ Test
 }}} }
 *!
 
-|script                                                                                                     |
-|set content type|text/vtt                                                                                  |
-|show            |post           |${body}     |to    |${urlBackendApi}/media/subtitles/${mid}/nl/CAPTION    |
-|check           |response status|202                                                                       |
-|check           |response       |Subtitles (4 cues, 569 bytes) provisionally accepted for ${mid}	CAPTION	nl|
+Post-call based on [[POST /media/{entity} (NPOAPI-94)][<Media.PostMediaEntity]]
+
+|script                                                                             |
+|show |post           |${bodyClip}|to|${urlBackendApi}/media/media?owner=BROADCASTER|
+|check|response status|202                                                          |
+|check|response       |=~/^POMS_NPO_\d{7}$/                                         |
+|$mid=|response                                                                     |
+
+|script                                                                                                   |
+|set content type|text/vtt                                                                                |
+|show            |post           |${bodySubtitles}  |to |${urlBackendApi}/media/subtitles/$mid/nl/CAPTION |
+|check           |response status|202                                                                     |
+|check           |response       |Subtitles (4 cues, 568 bytes) provisionally accepted for $mid	CAPTION	nl|
+
+|script                                                                  |
+|set content type               |application/xml; charset=UTF-8          |
+|show                           |delete|${urlBackendApi}/media/media/$mid|
+|repeat until response status is|202                                     |
