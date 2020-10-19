@@ -12,7 +12,7 @@
           <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
           <!-- classpath that Fitnesse uses when not starting from IDE/maven -->
           <standalone.classpath>wiki/fixtures</standalone.classpath>
-          <fitnesse.port>9090</fitnesse.port>
+          <fitnesse.port>8090</fitnesse.port>
           <webdriver.download.skip>false</webdriver.download.skip>
           <extraFailsafeListeners>,nl.hsac.fitnesse.junit.JUnitXMLPerPageListener</extraFailsafeListeners>
       </properties>
