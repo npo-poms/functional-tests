@@ -118,7 +118,7 @@ public abstract class AbstractApiTest extends AbstractTest  {
                 }
             }
         }
-        assertThat(CHANGES.stream().map(MediaChange::getMid)).containsExactlyElementsOf(mids);
+        assertThat(CHANGES.stream().map(MediaChange::getMid)).containsExactlyInAnyOrderElementsOf(mids);
     }
 
     protected static void awaitChanges(Collection<Predicate<MediaChange>> predicates) {
