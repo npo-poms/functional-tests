@@ -76,7 +76,7 @@ public class MediaBackendSubtitlesTest extends AbstractApiMediaBackendTest {
                 "\n" +
                 ""
         );
-        backend.setSubtitles(subtitles);
+        log.info("{}", backend.setSubtitles(subtitles));
     }
 
 
