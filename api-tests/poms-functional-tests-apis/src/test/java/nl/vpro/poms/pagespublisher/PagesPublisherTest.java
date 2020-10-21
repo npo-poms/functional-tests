@@ -263,7 +263,7 @@ class PagesPublisherTest extends AbstractApiMediaBackendTest {
         Page topStory = Utils.waitUntil(ACCEPTABLE_PAGE_PUBLISHED_DURATION,
             () -> pageUtil.load(TOP_STORY_URL)[0],
             Check.<Page>builder()
-                .description("top stary as referrer " + urlToday)
+                .description("top story as referrer " + urlToday)
                 .predicate(
                     ts -> ts.getReferrals()
                     .stream()
