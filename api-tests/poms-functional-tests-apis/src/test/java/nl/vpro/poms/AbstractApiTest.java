@@ -51,6 +51,7 @@ public abstract class AbstractApiTest extends AbstractTest  {
     protected static final String SIMPLE_NOWSTRING = FORMATTER.format(NOW);
 
     protected static final List<MediaChange> CHANGES = new CopyOnWriteArrayList<>();
+    private static final Duration  waitBetweenChangeListening = Duration.ofSeconds(2);
 
     /**
      * If it is necessary to set this to anything bigger then {@link Duration#ZERO} then this indicates some bug.
@@ -88,7 +89,7 @@ public abstract class AbstractApiTest extends AbstractTest  {
                         LOG.info(e.getMessage());
                     }
                     try {
-                        Thread.sleep(2000L);
+                        Thread.sleep(waitBetweenChangeListening.toMillis());
                     } catch (InterruptedException iae) {
                         Thread.currentThread().interrupt();
                     }
@@ -99,6 +100,9 @@ public abstract class AbstractApiTest extends AbstractTest  {
     }
 
 
+    /**
+     * All tests are ready, we started changes listening every {@link #waitBetweenChangeListening}, all tests took some time. If we ask als changes starting from the same initial time instance, until now, we should receive exactly the same MID's.
+     */
     @Test
     @Order(Integer.MAX_VALUE)
     public void checkAllChanges() throws Exception {
