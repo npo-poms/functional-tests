@@ -12,6 +12,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.extension.ExtendWith;
 
 import nl.vpro.api.client.frontend.NpoApiClients;
@@ -92,8 +93,28 @@ public abstract class AbstractApiTest extends AbstractTest  {
                         Thread.currentThread().interrupt();
                     }
                 }
+                LOG.info("Interrupted");
             }
         });
+    }
+
+
+    @Test
+    @Order(Integer.MAX_VALUE)
+    public void checkAllChanges() throws Exception {
+        changesFuture.cancel(true);
+        final Set<String> mids  = new HashSet<>();
+        try (CountedIterator<MediaChange> changes = mediaUtil.changes(null, false, NOWI, null, nl.vpro.domain.api.Order.ASC, null, Deletes.ID_ONLY, Tail.NEVER)) {
+            while (changes.hasNext()) {
+                MediaChange change = changes.next();
+                if (change.getPublishDate().plus(changesMinimalAge).isBefore(Instant.now())) {
+                    if (!change.isTail()) {
+                        mids.add(change.getMid());
+                    }
+                }
+            }
+        }
+        assertThat(CHANGES.stream().map(MediaChange::getMid)).containsExactlyElementsOf(mids);
     }
 
     protected static void awaitChanges(Collection<Predicate<MediaChange>> predicates) {
