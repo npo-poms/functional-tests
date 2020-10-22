@@ -58,16 +58,16 @@ public abstract class AbstractApiTest extends AbstractTest  {
      */
     //protected static final Duration changesMinimalAge = Duration.ofSeconds(90);
     protected static final Duration changesMinimalAge = Duration.ZERO;
-    private static Future<?> changesFuture;
+    private static Future<Instant> changesFuture;
 
 
     protected String title;
 
     @BeforeAll
     public static void changesListening() {
-        changesFuture = EXECUTOR_SERVICE.submit(new Runnable() {
+        changesFuture = EXECUTOR_SERVICE.submit(new Callable<Instant>() {
             @Override
-            public void run() {
+            public Instant call() {
                 Instant start = NOWI;
                 String mid = null;
                 while (!Thread.currentThread().isInterrupted()) {
@@ -95,6 +95,7 @@ public abstract class AbstractApiTest extends AbstractTest  {
                     }
                 }
                 LOG.info("Interrupted");
+                return start;
             }
         });
     }
@@ -107,12 +108,13 @@ public abstract class AbstractApiTest extends AbstractTest  {
     @Order(Integer.MAX_VALUE)
     public void checkAllChanges() throws Exception {
         changesFuture.cancel(true);
+        Instant until = changesFuture.get();
         final Set<String> mids  = new HashSet<>();
         try (CountedIterator<MediaChange> changes = mediaUtil.changes(null, false, NOWI, null, nl.vpro.domain.api.Order.ASC, null, Deletes.ID_ONLY, Tail.NEVER)) {
             while (changes.hasNext()) {
                 MediaChange change = changes.next();
                 if (change.getPublishDate().plus(changesMinimalAge).isBefore(Instant.now())) {
-                    if (!change.isTail()) {
+                    if (!change.isTail() && ! change.getPublishDate().isAfter(until) ) {
                         mids.add(change.getMid());
                     }
                 }
