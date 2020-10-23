@@ -11,8 +11,8 @@ import java.util.stream.Collectors;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.Order;
+import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 
 import nl.vpro.api.client.frontend.NpoApiClients;
@@ -58,6 +58,7 @@ public abstract class AbstractApiTest extends AbstractTest  {
      */
     //protected static final Duration changesMinimalAge = Duration.ofSeconds(90);
     protected static final Duration changesMinimalAge = Duration.ZERO;
+    protected static  boolean changesListening = false;
     private static Future<Instant> changesFuture;
 
 
@@ -65,12 +66,13 @@ public abstract class AbstractApiTest extends AbstractTest  {
 
     @BeforeAll
     public static void changesListening() {
+        changesListening = true;
         changesFuture = EXECUTOR_SERVICE.submit(new Callable<Instant>() {
             @Override
             public Instant call() {
                 Instant start = NOWI;
                 String mid = null;
-                while (!Thread.currentThread().isInterrupted()) {
+                while (changesListening) {
                     try (CountedIterator<MediaChange> changes = mediaUtil.changes(null, false, start, mid, nl.vpro.domain.api.Order.ASC, null, Deletes.ID_ONLY, Tail.ALWAYS)) {
                         while (changes.hasNext()) {
                             MediaChange change = changes.next();
@@ -92,6 +94,7 @@ public abstract class AbstractApiTest extends AbstractTest  {
                         Thread.sleep(waitBetweenChangeListening.toMillis());
                     } catch (InterruptedException iae) {
                         Thread.currentThread().interrupt();
+                        changesListening = false;
                     }
                 }
                 LOG.info("Interrupted");
@@ -106,8 +109,9 @@ public abstract class AbstractApiTest extends AbstractTest  {
      */
     @Test
     @Order(Integer.MAX_VALUE)
-    public void checkAllChanges() throws Exception {
-        changesFuture.cancel(true);
+    public void checkAllChanges(TestInfo context) throws Exception {
+        Assumptions.assumeTrue(context.getTestClass().get().getAnnotation(TestMethodOrder.class) != null);
+        changesListening = false;
         Instant until = changesFuture.get();
         final Set<String> mids  = new HashSet<>();
         try (CountedIterator<MediaChange> changes = mediaUtil.changes(null, false, NOWI, null, nl.vpro.domain.api.Order.ASC, null, Deletes.ID_ONLY, Tail.NEVER)) {
