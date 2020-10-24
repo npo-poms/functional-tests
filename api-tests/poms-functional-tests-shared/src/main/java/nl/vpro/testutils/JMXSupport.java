@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.security.Permission;
 import java.util.*;
 import java.util.function.Consumer;
+import java.util.function.IntConsumer;
 
 import javax.management.ObjectName;
 import javax.management.remote.*;
@@ -83,9 +84,8 @@ public class JMXSupport {
             .executablesPaths("/usr/bin/ssh")
             .build();
 
-        Consumer<Integer> ready = (i) -> {
-            log.info("Finished {}", i);
-        };
+        IntConsumer ready = (i) -> log.info("Finished {}", i);
+
         Consumer<Process> consumer = (p) -> {
             synchronized (container) {
                 container.pid = p.pid();
