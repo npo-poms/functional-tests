@@ -114,17 +114,18 @@ public abstract class AbstractApiTest extends AbstractTest  {
         changesListening = false;
         Instant until = changesFuture.get();
         final Set<String> mids  = new HashSet<>();
+        log.info("Getting all changes between {} and {} again. There must be {}", NOWI, until, CHANGES.size());
         try (CountedIterator<MediaChange> changes = mediaUtil.changes(null, false, NOWI, null, nl.vpro.domain.api.Order.ASC, null, Deletes.ID_ONLY, Tail.NEVER)) {
             while (changes.hasNext()) {
                 MediaChange change = changes.next();
-                if (change.getPublishDate().plus(changesMinimalAge).isBefore(Instant.now())) {
-                    if (!change.isTail() && ! change.getPublishDate().isAfter(until) ) {
-                        mids.add(change.getMid());
-                    }
+                if (!change.isTail() && ! change.getPublishDate().isAfter(until) ) {
+                    log.info("{}", change);
+                    mids.add(change.getMid());
                 }
             }
         }
-        assertThat(CHANGES.stream().map(MediaChange::getMid).collect(Collectors.toSet())).containsExactlyInAnyOrderElementsOf(mids);
+        assertThat(CHANGES.stream().map(MediaChange::getMid).collect(Collectors.toSet()))
+            .containsExactlyInAnyOrderElementsOf(mids);
     }
 
     protected static void awaitChanges(Collection<Predicate<MediaChange>> predicates) {
