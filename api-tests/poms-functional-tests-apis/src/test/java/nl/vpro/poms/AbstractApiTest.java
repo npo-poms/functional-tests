@@ -155,8 +155,12 @@ public abstract class AbstractApiTest extends AbstractTest  {
             }
         }
 
-        assertThat(unmatchedChanges).isEmpty();
-        assertThat(newChangesNotMatched).isEmpty();
+        assertThat(unmatchedChanges)
+            .withFailMessage("The following changes were previously received but we didn't find them again %s", unmatchedChanges)
+            .isEmpty();
+        assertThat(newChangesNotMatched)
+            .withFailMessage("We received the following changes, but they were not matched previously: %s", newChangesNotMatched)
+            .isEmpty();
 
     }
 
