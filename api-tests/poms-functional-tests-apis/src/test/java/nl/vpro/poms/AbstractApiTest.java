@@ -127,7 +127,8 @@ public abstract class AbstractApiTest extends AbstractTest  {
                 }
             }
         }
-        assertThat(CHANGES.stream().map(MediaChange::getMid).collect(Collectors.toSet()))
+        assertThat(CHANGES.stream().map(MediaChange::getMid)
+            .collect(Collectors.toCollection(() -> new LinkedHashSet<>())))
             .containsExactlyInAnyOrderElementsOf(mids);
     }
 
