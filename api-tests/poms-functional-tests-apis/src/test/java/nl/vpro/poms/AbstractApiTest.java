@@ -128,6 +128,8 @@ public abstract class AbstractApiTest extends AbstractTest  {
                 if (! change.getPublishDate().isAfter(until) ) {
                     log.info("{}", change);
                     mids.add(change.getMid());
+                } else {
+                    log.info("Ignoring {}", change);
                 }
             }
         }
