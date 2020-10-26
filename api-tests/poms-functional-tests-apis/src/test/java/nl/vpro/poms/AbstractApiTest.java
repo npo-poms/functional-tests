@@ -28,6 +28,7 @@ import nl.vpro.testutils.AbstractTest;
 import nl.vpro.testutils.Utils;
 import nl.vpro.util.*;
 
+import static nl.vpro.domain.api.Order.ASC;
 import static nl.vpro.testutils.Utils.waitUntil;
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -67,13 +68,14 @@ public abstract class AbstractApiTest extends AbstractTest  {
     @BeforeAll
     public static void changesListening() {
         changesListening = true;
+        CHANGES.clear();
         changesFuture = EXECUTOR_SERVICE.submit(new Callable<Instant>() {
             @Override
             public Instant call() {
                 Instant start = NOWI;
                 String mid = null;
                 while (changesListening) {
-                    try (CountedIterator<MediaChange> changes = mediaUtil.changes(null, false, start, mid, nl.vpro.domain.api.Order.ASC, null, Deletes.ID_ONLY, Tail.ALWAYS)) {
+                    try (CountedIterator<MediaChange> changes = mediaUtil.changes(null, false, start, mid, ASC, null, Deletes.ID_ONLY, Tail.ALWAYS)) {
                         while (changes.hasNext()) {
                             MediaChange change = changes.next();
                             if (change.getPublishDate().plus(changesMinimalAge).isBefore(Instant.now())) {
@@ -93,11 +95,12 @@ public abstract class AbstractApiTest extends AbstractTest  {
                     try {
                         Thread.sleep(waitBetweenChangeListening.toMillis());
                     } catch (InterruptedException iae) {
+                        LOG.info("Interrupted");
                         Thread.currentThread().interrupt();
                         changesListening = false;
                     }
                 }
-                LOG.info("Interrupted");
+                LOG.info("Ready listening for changes");
                 return start;
             }
         });
@@ -115,10 +118,10 @@ public abstract class AbstractApiTest extends AbstractTest  {
         Instant until = changesFuture.get();
         final Set<String> mids  = new HashSet<>();
         log.info("Getting all changes between {} and {} again. There must be {}", NOWI, until, CHANGES.size());
-        try (CountedIterator<MediaChange> changes = mediaUtil.changes(null, false, NOWI, null, nl.vpro.domain.api.Order.ASC, null, Deletes.ID_ONLY, Tail.NEVER)) {
+        try (CountedIterator<MediaChange> changes = mediaUtil.changes(null, false, NOWI, null, ASC, null, Deletes.ID_ONLY, Tail.NEVER)) {
             while (changes.hasNext()) {
                 MediaChange change = changes.next();
-                if (!change.isTail() && ! change.getPublishDate().isAfter(until) ) {
+                if (! change.getPublishDate().isAfter(until) ) {
                     log.info("{}", change);
                     mids.add(change.getMid());
                 }
