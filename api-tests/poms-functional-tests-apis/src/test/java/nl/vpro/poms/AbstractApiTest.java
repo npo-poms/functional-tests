@@ -58,8 +58,7 @@ public abstract class AbstractApiTest extends AbstractTest  {
     /**
      * If it is necessary to set this to anything bigger then {@link Duration#ZERO} then this indicates some bug.
      */
-    //protected static final Duration changesMinimalAge = Duration.ofSeconds(90);
-    protected static final Duration changesMinimalAge = Duration.ZERO;
+
     protected static  boolean changesListening = false;
     private static Future<Instant> changesFuture;
 
@@ -79,7 +78,7 @@ public abstract class AbstractApiTest extends AbstractTest  {
                     try (CountedIterator<MediaChange> changes = mediaUtil.changes(null, false, start, mid, ASC, null, Deletes.ID_ONLY, Tail.ALWAYS)) {
                         while (changes.hasNext()) {
                             MediaChange change = changes.next();
-                            if (change.getPublishDate().plus(changesMinimalAge).isBefore(Instant.now())) {
+                            if (change.getPublishDate().isBefore(Instant.now())) {
                                 if (! change.isTail()) {
                                     LOG.info("Received {}", change);
                                     CHANGES.add(change);
@@ -89,8 +88,6 @@ public abstract class AbstractApiTest extends AbstractTest  {
                                 }
                                 start = change.getPublishDate();
                                 mid = change.getMid();
-                            } else {
-                                LOG.debug("Skipping {} because of minimal age {}", change, changesMinimalAge);
                             }
                         }
                     } catch (Exception e) {
@@ -120,22 +117,47 @@ public abstract class AbstractApiTest extends AbstractTest  {
         Assumptions.assumeTrue(context.getTestClass().get().getAnnotation(TestMethodOrder.class) != null);
         changesListening = false;
         Instant until = changesFuture.get();
-        final Set<String> mids  = new HashSet<>();
         log.info("Getting all changes between {} and {} again. There must be {}", NOWI, until, CHANGES.size());
+
+
+        // Initalially a list of all changes we received
+        // we'll do a new changes call, and remove the ones we'll find again.
+        List<MediaChange> unmatchedChanges = new ArrayList<>(CHANGES);
+
+        // If during that we encounter changes wich we didn't find before (this couldn't happen), we store it in this:
+        List<MediaChange> newChangesNotMatched = new ArrayList<>();
+
         try (CountedIterator<MediaChange> changes = mediaUtil.changes(null, false, NOWI, null, ASC, null, Deletes.ID_ONLY, Tail.NEVER)) {
             while (changes.hasNext()) {
                 MediaChange change = changes.next();
-                if (! change.getPublishDate().isAfter(until) ) {
-                    log.info("{}", change);
-                    mids.add(change.getMid());
+                if (!change.getPublishDate().isAfter(until)) {
+                    boolean found = unmatchedChanges.removeIf((c) -> c.getMid().equals((change.getMid())));
+                    if (! found) {
+                        newChangesNotMatched.add(change);
+                    }
                 } else {
-                    log.info("Ignoring {}", change);
+                    log.info("Ignoring for now {}", change);
                 }
             }
         }
-        assertThat(CHANGES.stream().map(MediaChange::getMid)
-            .collect(Collectors.toCollection(() -> new LinkedHashSet<>())))
-            .containsExactlyInAnyOrderElementsOf(mids);
+        if (! unmatchedChanges.isEmpty()) {
+            log.info("Some previously received changes not found: {}. Listening for them now (they may have received another change)", unmatchedChanges);
+            // There may be some pending changes on object that were changed before that are not yet published again
+            Thread.sleep(41_000); // 30 seconds commit delay, 10 seconds in publisher
+            try (CountedIterator<MediaChange> changes = mediaUtil.changes(null, false, until, null, ASC, null, Deletes.ID_ONLY, Tail.NEVER)) {
+                while (changes.hasNext()) {
+                    MediaChange change = changes.next();
+                    if (unmatchedChanges.removeIf((mc) -> mc.getMid().equals(change.getMid()))) {
+                        log.info("Found a change to remove {}", change);
+                    }
+                }
+
+            }
+        }
+
+        assertThat(unmatchedChanges).isEmpty();
+        assertThat(newChangesNotMatched).isEmpty();
+
     }
 
     protected static void awaitChanges(Collection<Predicate<MediaChange>> predicates) {
