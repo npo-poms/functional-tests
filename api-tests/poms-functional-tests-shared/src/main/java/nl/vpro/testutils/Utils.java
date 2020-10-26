@@ -30,11 +30,19 @@ public class Utils {
 
     public static final ThreadLocal<Runnable> CLEAR_CACHES = ThreadLocal.withInitial((Supplier<Runnable>) () -> () -> {});
 
+    public static final Object WAIT_NOTIFIABLE = new Object();
+
+    private static void wait(Duration duration) throws InterruptedException {
+        synchronized (WAIT_NOTIFIABLE) {
+            WAIT_NOTIFIABLE.wait(duration.toMillis());
+        }
+    }
+
     private static void waitUntil(Duration acceptable, Callable<Boolean> r)  {
         CLEAR_CACHES.get().run();
         Instant start = Instant.now();
         try {
-            Thread.sleep(Duration.ofSeconds(1).toMillis());
+            wait(Duration.ofSeconds(1));
             while (true) {
                 boolean result = false;
                 try {
@@ -56,7 +64,7 @@ public class Utils {
                         .isTrue();
                 }
                 log.info("{} didn't evaluate to true yet after {} (< {}). Waiting another {}", r, duration, acceptable, WAIT);
-                Thread.sleep(WAIT.toMillis());
+                wait(WAIT);
             }
         } catch (RuntimeException rte) {
             throw rte;
@@ -67,15 +75,21 @@ public class Utils {
             throw new RuntimeException(e);
         }
     }
-
-    public static void waitUntil(Duration acceptable, Supplier<String> callableToDescription, final Callable<Boolean> r)  {
-        log.info("Waiting until " + callableToDescription.get());
+    /**
+     * Wait for a certain condition to become true. Waiting between checks happens on {@link #WAIT_NOTIFIABLE}. This may be notified if you suspect something may have happend already.
+     *
+     * @param acceptable The maximal acceptable duration for the condition to become true. If it takes longer, the test will fail.
+     * @param conditionDescription  Suppliers a description for the condition. It may change in time.
+     * @param condition The condition itself.
+     */
+    public static void waitUntil(Duration acceptable, Supplier<String> conditionDescription, final Callable<Boolean> condition)  {
+        log.info("Waiting until " + conditionDescription.get());
         waitUntil(acceptable, new Callable<>() {
             @Override
             public Boolean call() throws Exception {
                 try {
                     CLEAR_CACHES.get().run();
-                    return r.call();
+                    return condition.call();
                 } catch (Exception e) {
                     log.error(e.getMessage(), e);
                     throw e;
@@ -83,11 +97,11 @@ public class Utils {
             }
 
             public String toString() {
-                return "(" + callableToDescription.get() + ")";
+                return "(" + conditionDescription.get() + ")";
             }
         });
-
     }
+
 
 
     public static void waitUntil(Duration acceptable, String callableToDescription, final Callable<Boolean> r)  {

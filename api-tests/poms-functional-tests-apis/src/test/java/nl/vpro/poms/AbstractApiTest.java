@@ -29,6 +29,7 @@ import nl.vpro.testutils.Utils;
 import nl.vpro.util.*;
 
 import static nl.vpro.domain.api.Order.ASC;
+import static nl.vpro.testutils.Utils.WAIT_NOTIFIABLE;
 import static nl.vpro.testutils.Utils.waitUntil;
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -51,7 +52,7 @@ public abstract class AbstractApiTest extends AbstractTest  {
     private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("yyyyMMdd'T'HHmm");
     protected static final String SIMPLE_NOWSTRING = FORMATTER.format(NOW);
 
-    protected static final List<MediaChange> CHANGES = new CopyOnWriteArrayList<>();
+    private static final List<MediaChange> CHANGES = new CopyOnWriteArrayList<>();
     private static final Duration  waitBetweenChangeListening = Duration.ofSeconds(2);
 
     /**
@@ -82,6 +83,9 @@ public abstract class AbstractApiTest extends AbstractTest  {
                                 if (! change.isTail()) {
                                     LOG.info("Received {}", change);
                                     CHANGES.add(change);
+                                    synchronized(WAIT_NOTIFIABLE) {
+                                        WAIT_NOTIFIABLE.notifyAll();
+                                    }
                                 }
                                 start = change.getPublishDate();
                                 mid = change.getMid();
@@ -134,7 +138,7 @@ public abstract class AbstractApiTest extends AbstractTest  {
 
     protected static void awaitChanges(Collection<Predicate<MediaChange>> predicates) {
         waitUntil(ACCEPTABLE_DURATION_FRONTEND.plus(Duration.ofSeconds(30)),
-            () -> "waiting for " + predicates.size() + " expected changes",
+            () -> "" + predicates.size() + " expected changes",
             () -> {
                 boolean result = true;
                 for(Predicate<MediaChange> expectedChange : predicates) {
