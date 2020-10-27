@@ -1,10 +1,13 @@
 package nl.vpro.poms;
 
+import lombok.SneakyThrows;
+
 import java.lang.reflect.Method;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.concurrent.*;
+import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
@@ -24,12 +27,9 @@ import nl.vpro.domain.classification.ClassificationServiceLocator;
 import nl.vpro.domain.media.Schedule;
 import nl.vpro.junit.extensions.*;
 import nl.vpro.test.jupiter.AbortOnException;
-import nl.vpro.testutils.AbstractTest;
-import nl.vpro.testutils.Utils;
+import nl.vpro.testutils.*;
 import nl.vpro.util.*;
 
-import static nl.vpro.domain.api.Order.ASC;
-import static nl.vpro.testutils.Utils.WAIT_NOTIFIABLE;
 import static nl.vpro.testutils.Utils.waitUntil;
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -53,7 +53,6 @@ public abstract class AbstractApiTest extends AbstractTest  {
     protected static final String SIMPLE_NOWSTRING = FORMATTER.format(NOW);
 
     private static final List<MediaChange> CHANGES = new CopyOnWriteArrayList<>();
-    private static final Duration  waitBetweenChangeListening = Duration.ofSeconds(2);
 
     /**
      * If it is necessary to set this to anything bigger then {@link Duration#ZERO} then this indicates some bug.
@@ -61,6 +60,16 @@ public abstract class AbstractApiTest extends AbstractTest  {
 
     protected static  boolean changesListening = false;
     private static Future<Instant> changesFuture;
+    private static final Consumer<MediaChange> listener =  new Consumer<>() {
+        @Override
+        public void accept(MediaChange change) {
+            if (!change.isTail()) {
+                LOG.info("Received {}", change);
+                CHANGES.add(change);
+                ChangesNotifier.notifyChanges();
+            }
+        }
+    };
 
 
     protected String title;
@@ -69,53 +78,19 @@ public abstract class AbstractApiTest extends AbstractTest  {
     public static void changesListening() {
         changesListening = true;
         CHANGES.clear();
-        changesFuture = EXECUTOR_SERVICE.submit(new Callable<Instant>() {
-            @Override
-            public Instant call() {
-                Instant start = NOWI;
-                String mid = null;
-                while (changesListening) {
-                    try (CountedIterator<MediaChange> changes = mediaUtil.changes(null, false, start, mid, ASC, null, Deletes.ID_ONLY, Tail.ALWAYS)) {
-                        while (changes.hasNext()) {
-                            MediaChange change = changes.next();
-                            if (change.getPublishDate().isBefore(Instant.now())) {
-                                if (! change.isTail()) {
-                                    LOG.info("Received {}", change);
-                                    CHANGES.add(change);
-                                    synchronized(WAIT_NOTIFIABLE) {
-                                        WAIT_NOTIFIABLE.notifyAll();
-                                    }
-                                }
-                                start = change.getPublishDate();
-                                mid = change.getMid();
-                            }
-                        }
-                    } catch (Exception e) {
-                        LOG.info(e.getMessage());
-                    }
-                    try {
-                        Thread.sleep(waitBetweenChangeListening.toMillis());
-                    } catch (InterruptedException iae) {
-                        LOG.info("Interrupted");
-                        Thread.currentThread().interrupt();
-                        changesListening = false;
-                    }
-                }
-                LOG.info("Ready listening for changes");
-                return start;
-            }
-        });
+        changesFuture = mediaUtil.subscribeToChanges(null, NOWI, Deletes.ID_ONLY, ()-> changesListening,  listener);
     }
 
 
     /**
-     * All tests are ready, we started changes listening every {@link #waitBetweenChangeListening}, all tests took some time. If we ask als changes starting from the same initial time instance, until now, we should receive exactly the same MID's.
+     * All tests are ready, we started changes listening. All tests took some time. If we ask als changes starting from the same initial time instance, until now, we should receive exactly the same MID's.
      */
     @Test
     @Order(Integer.MAX_VALUE)
     public void checkAllChanges(TestInfo context) throws Exception {
         Assumptions.assumeTrue(context.getTestClass().get().getAnnotation(TestMethodOrder.class) != null);
         changesListening = false;
+
         Instant until = changesFuture.get();
         log.info("Getting all changes between {} and {} again. There must be {}", NOWI, until, CHANGES.size());
 
@@ -127,7 +102,7 @@ public abstract class AbstractApiTest extends AbstractTest  {
         // If during that we encounter changes wich we didn't find before (this couldn't happen), we store it in this:
         List<MediaChange> newChangesNotMatched = new ArrayList<>();
 
-        try (CountedIterator<MediaChange> changes = mediaUtil.changes(null, false, NOWI, null, ASC, null, Deletes.ID_ONLY, Tail.NEVER)) {
+        try (CountedIterator<MediaChange> changes = mediaUtil.changes(NOWI)) {
             while (changes.hasNext()) {
                 MediaChange change = changes.next();
                 if (!change.getPublishDate().isAfter(until)) {
@@ -143,16 +118,13 @@ public abstract class AbstractApiTest extends AbstractTest  {
         if (! unmatchedChanges.isEmpty()) {
             log.info("Some previously received changes not found: {}. Listening for them now (they may have received another change)", unmatchedChanges);
             // There may be some pending changes on object that were changed before that are not yet published again
-            Thread.sleep(41_000); // 30 seconds commit delay, 10 seconds in publisher
-            try (CountedIterator<MediaChange> changes = mediaUtil.changes(null, false, until, null, ASC, null, Deletes.ID_ONLY, Tail.NEVER)) {
-                while (changes.hasNext()) {
-                    MediaChange change = changes.next();
-                    if (unmatchedChanges.removeIf((mc) -> mc.getMid().equals(change.getMid()))) {
-                        log.info("Found a change to remove {}", change);
-                    }
+            Instant start = Instant.now();
+            Future<Instant> f = mediaUtil.subscribeToChanges(until, ()-> ! unmatchedChanges.isEmpty() && Duration.between(start, Instant.now()).compareTo(ACCEPTABLE_DURATION_FRONTEND) < 0,  (change) -> {
+                if (unmatchedChanges.removeIf((mc) -> mc.getMid().equals(change.getMid()))) {
+                    log.info("Found a change to remove {}", change);
                 }
-
-            }
+            });
+            f.get();
         }
 
         assertThat(unmatchedChanges)
@@ -164,28 +136,32 @@ public abstract class AbstractApiTest extends AbstractTest  {
 
     }
 
+    @SneakyThrows
     protected static void awaitChanges(Collection<Predicate<MediaChange>> predicates) {
-        waitUntil(ACCEPTABLE_DURATION_FRONTEND.plus(Duration.ofSeconds(30)),
-            () -> "" + predicates.size() + " expected changes",
-            () -> {
-                boolean result = true;
-                for(Predicate<MediaChange> expectedChange : predicates) {
-                    result &= CHANGES.stream().anyMatch(expectedChange);
-                }
-                if (! result) {
-                    LOG.info(CHANGES.stream().map(MediaChange::toString).collect(Collectors.joining("\n")));
-                }
-                return result;
+        ChangesNotifier.interestedInChanges(() -> {
+            waitUntil(ACCEPTABLE_DURATION_FRONTEND.plus(Duration.ofSeconds(30)),
+                () -> "" + predicates.size() + " expected changes",
+                () -> {
+                    boolean result = true;
+                    for (Predicate<MediaChange> expectedChange : predicates) {
+                        result &= CHANGES.stream().anyMatch(expectedChange);
+                    }
+                    if (!result) {
+                        LOG.info(CHANGES.stream().map(MediaChange::toString).collect(Collectors.joining("\n")));
+                    }
+                    return result;
 
-            });
+                });
 
-        for (Predicate<MediaChange> expectedChange : predicates) {
-            assertThat(CHANGES.stream().filter(expectedChange).findFirst())
-                .withFailMessage(() -> "Doest contain expected: \n" +
-                    CHANGES.stream().map(MediaChange::toString).collect(Collectors.joining("\n"))
-                )
-                .isPresent();
-        }
+            for (Predicate<MediaChange> expectedChange : predicates) {
+                assertThat(CHANGES.stream().filter(expectedChange).findFirst())
+                    .withFailMessage(() -> "Doest contain expected: \n" +
+                        CHANGES.stream().map(MediaChange::toString).collect(Collectors.joining("\n"))
+                    )
+                    .isPresent();
+            }
+            return null;
+        });
     }
 
     @AfterAll

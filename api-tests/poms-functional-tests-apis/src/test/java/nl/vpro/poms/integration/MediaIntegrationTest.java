@@ -23,6 +23,7 @@ import nl.vpro.domain.media.update.ProgramUpdate;
 import nl.vpro.logging.Log4j2OutputStream;
 import nl.vpro.poms.AbstractApiMediaBackendTest;
 import nl.vpro.test.jupiter.AbortOnException;
+import nl.vpro.testutils.ChangesNotifier;
 import nl.vpro.testutils.Utils.Check;
 
 import static nl.vpro.testutils.Utils.waitUntil;
@@ -293,8 +294,8 @@ public class MediaIntegrationTest extends AbstractApiMediaBackendTest {
 
     @Test
     @Order(22)
+    @ChangesNotifier.Notify
     void checkReceivedChanges2() {
-        awaitChanges(expectedChanges);
         expectedChanges.clear();
     }
 

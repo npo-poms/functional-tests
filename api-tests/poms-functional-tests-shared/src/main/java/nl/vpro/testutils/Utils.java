@@ -30,11 +30,9 @@ public class Utils {
 
     public static final ThreadLocal<Runnable> CLEAR_CACHES = ThreadLocal.withInitial((Supplier<Runnable>) () -> () -> {});
 
-    public static final Object WAIT_NOTIFIABLE = new Object();
-
     private static void wait(Duration duration) throws InterruptedException {
-        synchronized (WAIT_NOTIFIABLE) {
-            WAIT_NOTIFIABLE.wait(duration.toMillis());
+        synchronized (ChangesNotifier.WAIT_NOTIFIABLE) {
+            ChangesNotifier.WAIT_NOTIFIABLE.wait(duration.toMillis());
         }
     }
 
@@ -76,7 +74,7 @@ public class Utils {
         }
     }
     /**
-     * Wait for a certain condition to become true. Waiting between checks happens on {@link #WAIT_NOTIFIABLE}. This may be notified if you suspect something may have happend already.
+     * Wait for a certain condition to become true. Waiting between checks happens on {@link ChangesNotifier#WAIT_NOTIFIABLE}. This may be notified if you suspect something may have happend already.
      *
      * @param acceptable The maximal acceptable duration for the condition to become true. If it takes longer, the test will fail.
      * @param conditionDescription  Suppliers a description for the condition. It may change in time.
