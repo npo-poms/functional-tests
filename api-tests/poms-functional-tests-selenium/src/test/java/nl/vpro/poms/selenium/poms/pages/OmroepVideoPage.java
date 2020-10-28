@@ -1,13 +1,12 @@
 package nl.vpro.poms.selenium.poms.pages;
 
-import nl.vpro.poms.selenium.pages.AbstractPage;
-import nl.vpro.poms.selenium.util.WebDriverUtil;
-import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebElement;
+import java.util.List;
+
+import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 
-import java.util.List;
+import nl.vpro.poms.selenium.pages.AbstractPage;
+import nl.vpro.poms.selenium.util.WebDriverUtil;
 
 
 public class OmroepVideoPage extends AbstractPage {
@@ -18,40 +17,28 @@ public class OmroepVideoPage extends AbstractPage {
 
     public final int DX_MOVIESEEKBAR = -145;
 
-    public final int DX_MOVIESEEKBAR_PICTURE = 150;
 
-    private By userName = By.xpath("//div[@class='header-account-details']/descendant::span[1]");
-    private By searchField = By.id("query");
-    private By searchButton = By.id("submit");
-    private By clearButton = By.xpath("//button[normalize-space(.)='Wissen']");
-    //private By allTitles = By.xpath("//table//tr");
-    private By allTitles = By.xpath("(//table//tr)//td[3]//span");
-    private By allSubTitles = By.xpath("(//table//tr)//td[4]//span");
-    private By allTypes = By.xpath("(//table//tr)//td[6]//span");
-    private By videoPlayer = By.xpath("//div[@aria-label='Video Player'][1]");
+    private final By addSegment = By.xpath("//button[normalize-space(text())='Segment toevoegen met speler']");
 
-    private By addSegment = By.xpath("//button[normalize-space(text())='Segment toevoegen met speler']");
+    private final By titleSegment = By.xpath("//input[@name='inputTitle']");
 
-    private By titleSegment = By.xpath("//input[@name='inputTitle']");
+    private final By startSegment = By.xpath("//input[@id='inputStart']");
+    private final By stopSegment = By.xpath("//input[@id='inputStop' ]");
 
-    private By startSegment = By.xpath("//input[@id='inputStart']");
-    private By stopSegment = By.xpath("//input[@id='inputStop' ]");
+    private final By descriptionSegment = By.xpath("//textarea[@id='inputDescription']");
 
-    private By descriptionSegment = By.xpath("//textarea[@id='inputDescription']");
+    private final By playButton = By.xpath("//div[@id='playPauseBtn']");
 
-    private By playButton = By.xpath("//div[@id='playPauseBtn']");
+    private final By seekbar = By.xpath("//input[@id='seekbar']");
 
-    private By seekbar = By.xpath("//input[@id='seekbar']");
+    private final By startPointSegment = By.xpath("//span[normalize-space(.)='Zet huidige positie als starttijd']");
+    private final By endPointSegment = By.xpath("//span[normalize-space(.)='Zet huidige positie als stoptijd']");
 
-    private By startPointSegment = By.xpath("//span[normalize-space(.)='Zet huidige positie als starttijd']");
-    private By endPointSegment = By.xpath("//span[normalize-space(.)='Zet huidige positie als stoptijd']");
+    private final By saveSegment = By.xpath("//button[normalize-space(.)='Bewaar en sluit']");
 
-    private By saveSegment = By.xpath("//button[normalize-space(.)='Bewaar en sluit']");
+    private final By allSegments = By.xpath("//tr[contains(@ng-repeat,'segment')]/descendant::span[@ng-switch-when='mainTitle']/child::span");
 
-    private By allSegments = By.xpath("//tr[contains(@ng-repeat,'segment')]/descendant::span[@ng-switch-when='mainTitle']/child::span");
-
-    private By pictureButton = By.xpath("//div[@class='canvas-grab']");
-    private By pictureLocation = By.xpath("//div[@ng-if='still']");
+    private final By pictureButton = By.xpath("//div[@class='canvas-grab']");
 
     public OmroepVideoPage(WebDriverUtil driver) {
         super(driver);
@@ -89,10 +76,6 @@ public class OmroepVideoPage extends AbstractPage {
 
     public void enterBeschrijvingSegmentPopup(String textToEnter) {
         driver.findElement(descriptionSegment).sendKeys(textToEnter);
-    }
-
-    public void clickPictureButton() {
-        driver.findElement(pictureButton).click();
     }
 
     public void clickPlayPauseSegmentButton() {
@@ -228,41 +211,6 @@ public class OmroepVideoPage extends AbstractPage {
 
         try {
             Thread.sleep(waitTime1 - WAIT_TIME_CLICK_VIDEO_LONG);
-        } catch (InterruptedException ex) {
-            ex.printStackTrace();
-        }
-
-        clickEindPuntSegment();
-
-        try {
-            Thread.sleep(1500);
-        } catch (InterruptedException ex) {
-            ex.printStackTrace();
-        }
-    }
-
-    public void changeSegmentStartEnd(String title, int waitTime1, int waitTime2) {
-        openSegmentItemize(title);
-
-        try {
-            Thread.sleep(2000);
-        } catch (InterruptedException ex) {
-            ex.printStackTrace();
-        }
-
-        clickPlayPauseSegmentButton();
-
-
-        try {
-            Thread.sleep(waitTime1);
-        } catch (InterruptedException ex) {
-            ex.printStackTrace();
-        }
-
-        clickStartPuntSegment();
-
-        try {
-            Thread.sleep(waitTime2);
         } catch (InterruptedException ex) {
             ex.printStackTrace();
         }
@@ -414,23 +362,6 @@ public class OmroepVideoPage extends AbstractPage {
             ex.printStackTrace();
         }
 
-    }
-
-    public void createPicture(String segmentTitle) {
-        openSegmentItemize(segmentTitle);
-        moveSeekBar(DX_MOVIESEEKBAR_PICTURE);
-        clickPictureButton();
-
-        try {
-            Thread.sleep(10000);
-        } catch (InterruptedException ex) {
-            ex.printStackTrace();
-        }
-
-    }
-
-    public boolean isPicturePresent() {
-        return (driver.findElements(pictureLocation).size() > 0);
     }
 
     /**

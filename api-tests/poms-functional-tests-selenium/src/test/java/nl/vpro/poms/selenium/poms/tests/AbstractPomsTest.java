@@ -24,7 +24,6 @@ public abstract class AbstractPomsTest extends AbstractTest {
         super(browser);
     }
 
-    @Override
     public AbstractLogin login() {
         return keycloakLogin(URL);
     }

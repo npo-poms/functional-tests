@@ -11,7 +11,6 @@ import nl.vpro.poms.selenium.util.WebDriverFactory;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@Ignore
 public class CMSSelectorTest extends AbstractPomsTest {
 
     private CMSMediaSelector cms;

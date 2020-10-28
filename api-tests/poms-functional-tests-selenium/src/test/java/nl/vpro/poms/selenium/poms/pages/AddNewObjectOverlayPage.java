@@ -22,8 +22,6 @@ public class AddNewObjectOverlayPage extends AbstractOverlayPage {
 
     private static final String typeOptionTemplate = "//div[contains(text(),'%s')]";
 
-    private static final String selectedOmroepTemplate = "//div[@class='dropdown-selected' and contains(text(),'%s')]";
-
     private static final By maakAanButtonBy = By.xpath("//button[contains(text(),'Maak aan')]");
 
     public AddNewObjectOverlayPage(WebDriverUtil driver) {
@@ -49,12 +47,6 @@ public class AddNewObjectOverlayPage extends AbstractOverlayPage {
         webDriverUtil.waitAndClick(avTypeBy);
         clickOption(avType.getDisplayName());
         return this;
-    }
-
-    public boolean omroepIsSelected(String omroep) {
-        By omroepSelectedBy = By.xpath(String.format(selectedOmroepTemplate, omroep));
-        WebElement omroepSelectedElement = driver.findElement(omroepSelectedBy);
-        return omroepSelectedElement.isDisplayed();
     }
 
     public AddNewObjectOverlayPage chooseGenre(String genre) {

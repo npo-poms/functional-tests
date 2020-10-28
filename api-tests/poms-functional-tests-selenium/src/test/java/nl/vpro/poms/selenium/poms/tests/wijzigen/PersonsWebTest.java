@@ -47,7 +47,6 @@ public class PersonsWebTest extends AbstractPomsTest {
 
     }
     @Test
-    @Ignore("This is broken. Never finished?")
     public void test02AddPerson() {
         webDriverUtil.waitForAngularRequestsToFinish();
 

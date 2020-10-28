@@ -48,12 +48,6 @@ public abstract class AbstractLogin extends AbstractPage {
 		gotoLogin(user, password);
 	}
 
-	public void speciaalAdminGebruiker() {
-		String user = CONFIG.getProperty("AdminGebruiker.LOGIN");
-		String password = CONFIG.getProperty("AdminGebruiker.PASSWORD");
-		gotoLogin(user, password);
-	}
-
     public void speciaalVf() {
         String user =  CONFIG.getProperty("SpeciaalVfGebruiker.LOGIN");
         String password =  CONFIG.getProperty("SpeciaalVfGebruiker.PASSWORD");

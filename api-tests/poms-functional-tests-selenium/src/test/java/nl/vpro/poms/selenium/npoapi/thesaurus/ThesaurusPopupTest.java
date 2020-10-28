@@ -40,14 +40,13 @@ public class ThesaurusPopupTest extends AbstractTest {
     private static final String EXAMPLE_TITLE = "POMS GTAA";
     private static final String POPUP_TITLE = "GTAA";
 
-    private static Map<WebDriverFactory.Browser, Boolean> loggedIn = new HashMap<>();
+    private static final Map<WebDriverFactory.Browser, Boolean> loggedIn = new HashMap<>();
 
     public ThesaurusPopupTest(@Nonnull WebDriverFactory.Browser browser) {
         super(browser);
     }
 
-    @Override
-    protected AbstractLogin login() {
+    private AbstractLogin login() {
         String url = CONFIG.getProperties(Config.Prefix.npo_api)
             .get("baseUrl") + "/thesaurus/example/secure";
         return keycloakLogin(url);

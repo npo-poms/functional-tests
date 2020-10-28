@@ -4,10 +4,10 @@ import lombok.Getter;
 
 import java.util.function.Function;
 
+import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import org.slf4j.Logger;
 
 import com.paulhammant.ngwebdriver.NgWebDriver;
 
@@ -69,11 +69,6 @@ public class WebDriverUtil {
         ngWait.waitForAngularRequestsToFinish();
         wait.until(ExpectedConditions.invisibilityOfElementLocated(by));
         ngWait.waitForAngularRequestsToFinish();
-    }
-
-    public void waitForTextToBePresent(By by, String text) {
-        wait.until(ExpectedConditions.textToBePresentInElementLocated(by, text));
-
     }
 
     public boolean isElementPresent(By by) {

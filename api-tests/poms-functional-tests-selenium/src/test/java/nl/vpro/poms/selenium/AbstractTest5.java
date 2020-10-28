@@ -41,36 +41,10 @@ public abstract class AbstractTest5 {
     public static final Config CONFIG =
             new Config("npo-functional-tests.properties", "npo-browser-tests.properties");
 
-    public static final String MID = "WO_VPRO_025057";
-
-    @MethodSource("nl.vpro.poms.selenium.AbstractTest5#browsers")
-    @Documented
-    @Target(ElementType.METHOD)
-    @Retention(RetentionPolicy.RUNTIME)
-    public @interface Browsers {
-
-    }
-
-    @MethodSource("drivers")
-    public @interface Drivers {
-
-    }
     protected static Map<Browser, WebDriver> staticDrivers = new HashMap<>();
     protected static Map<Class<?>, Boolean> loggedAboutSetupEach = new HashMap<>();
     protected boolean setupEach = true;
 
-
-    public static Collection<Browser> browsers() {
-        List<Browser> result = new ArrayList<>();
-        List<String> browsers = Arrays.asList(CONFIG.getProperty("browsers").split("\\s*,\\s*"));
-        if (browsers.contains("chrome")) {
-            result.add(new Browser(DriverManagerType.CHROME, "2.41")); // 2.41 corresponds with the chrome on jenkins.
-        }
-        if (browsers.contains("firefox")) {
-            result.add(new Browser(DriverManagerType.FIREFOX, null));
-        }
-        return result;
-    }
 
     protected AbstractTest5() {
         this.setupEach = this.getClass().getAnnotation(TestMethodOrder.class) == null;
@@ -105,25 +79,6 @@ public abstract class AbstractTest5 {
             staticDrivers.clear();
         } else {
             LOG.warn("Not closing browser because of test failures {}", exceptions);
-        }
-    }
-
-    protected KeycloakLogin keycloakLogin(String url, Browser browser) {
-        return new KeycloakLogin(url, browser.getUtil(log));
-    }
-
-    protected CasLogin casLogin(String url, Browser browser) {
-        return new CasLogin(url, browser.getUtil(log));
-    }
-    protected abstract AbstractLogin login(Browser browser);
-
-    protected void logout(Browser browser) {
-        WebDriver driver = browser.getDriver();
-        if (driver != null) {
-            Search search = new Search(browser.getUtil(log));
-            search.logout();
-        } else {
-            log.error("Cannot logout because no driver");
         }
     }
 

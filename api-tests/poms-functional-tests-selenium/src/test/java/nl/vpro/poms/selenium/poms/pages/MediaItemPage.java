@@ -17,9 +17,6 @@ import java.net.URL;
 import static org.assertj.core.api.Fail.fail;
 
 public class MediaItemPage extends AbstractPage {
-    private static final String xpathViewerTitle = "//*[@class='viewer-title' and contains(text(), '%s')]";
-    private static final String xpathViewerSubTitle = "//*[@class='viewer-subtitle' and contains(text(), '%s')]";
-    private static final String xpathUitzendingen = "//*[@class='media-section-title'  and contains(text(), '%s')]";
     private static final String xpathAfbeeldingen = "//*[@class='media-section-title'  and contains(text(), '%s')]";
     private static final String buttonAfbeeldingToevoegen = "//button[contains(text(), 'Afbeelding toevoegen')]";
     private static final String cssInputUploadAfbeelding = "input#inputFile";
@@ -84,25 +81,11 @@ public class MediaItemPage extends AbstractPage {
         webDriverUtil.waitForInvisible(By.xpath("//label[@label-for='channel' and contains(text(), 'Kanaal:')]"));
     }
 
-    public void clickAlgemeen() {
-        webDriverUtil.waitAndClick(By.xpath("(//span[contains(text(), 'Uitzendingen')])[last()]"));
-//
-//        try {
-//            Thread.sleep(5000);
-//        } catch (InterruptedException e) {
-//            e.printStackTrace();
-//        }
-    }
-
     public void doubleClickUitzending(String date) {
         //waitUtil.waitForVisible(By.xpath("//span[contains(text(), '" + date + "')]/../../../tr"));
         //waitUtil.isElementPresent(By.xpath("//span[contains(text(), '" + date + "')]/../../../tr"));
         Actions actions = new Actions(driver);
         actions.moveToElement(driver.findElement(By.xpath("//span[contains(text(), '" + date + "')]/../../../tr"))).doubleClick().perform();
-    }
-
-    public void moveToUitzendingen(){
-        moveToElement(By.xpath(xpathUitzendingen));
     }
 
     public void moveToAfbeeldingen(){
@@ -223,14 +206,6 @@ public class MediaItemPage extends AbstractPage {
 
     public String getMediaItemTitle() {
         return webDriverUtil.waitAndGetText(By.cssSelector("h1[class='viewer-title']"));
-    }
-
-    public void waitAndCheckMediaItemTitle(String title) {
-        webDriverUtil.waitForVisible(By.xpath(String.format(xpathViewerTitle, title)));
-    }
-
-    public void waitAndCheckMediaItemSubTitle(String title) {
-        webDriverUtil.waitForVisible(By.xpath(String.format(xpathViewerSubTitle, title)));
     }
 
     public void refreshUntilUitzendingGegevensWithStartDate(String startDate) {

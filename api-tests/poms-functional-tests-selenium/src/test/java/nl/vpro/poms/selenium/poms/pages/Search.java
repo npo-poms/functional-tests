@@ -21,26 +21,19 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 public class Search extends AbstractPage {
 
     private static final By currentUserBy = By.id("currentUser");
-    private static final By newBy = By.cssSelector(".header-link-new");
     private static final By logoutBy = By.xpath("//a[text()='log uit']");
     private static final By accountInstellingenBy = By.xpath("//a[contains(text(),'account-instellingen')]");
-    private static final By loggedOutBy = By.id("kc-page-title");
     private static final By menuBy = By.cssSelector(".header-account-buttons > .header-account-link:first-child > span");
-    private static final By overlayFormBy = By.cssSelector("div.modal-backdrop");
     private static final By queryBy = By.cssSelector("input#query");
     private static final By zoekenBy = By.cssSelector("button#submit");
     private static final By wissenBy = By.xpath("//button[contains(text(),'Wissen')]");
-    private static final By resultTableBy = By.cssSelector("table.search-results-list");
-    private static final By lastBroadcastTimeChannel = By.cssSelector("[ng-if*='item.lastScheduleEvent']");
     private static final String foundItemTemplate = "span[title='%s']";
     private static final By closeTabBy = By.cssSelector("span.tab-close");
-    private static final String closeTabByName = "//*[contains(@class, 'tab-search') or contains(@class, 'tab-edit')]/descendant::*[contains(text(), '%s')]/../../descendant::*[@class='tab-close']";
     private static final String criteriaMenuTemplate = ".poms-uiselect[name=%s]";
     private static final String menuOptionTemplate = "//div[contains(text(),'%s')]";
     private static final By datePersonMenuBy = By.xpath("//span[contains(text(), 'Datum & Persoon')]");
     private static final By uitzenddatumBy = By.cssSelector("input#search-datetype-scheduleEventDate");
     private static final By gewijzigdBy = By.cssSelector("input#search-datetype-modified");
-    private static final By aangemaaktBy = By.cssSelector("input#search-datetype-created");
     private static final By sorteerdatumBy = By.cssSelector("input#search-datetype-sortdate");
     private static final By vanBy = By.cssSelector("input[name=fromdate]");
     private static final By totEnMetBy = By.cssSelector("input[name=todate]");
@@ -52,19 +45,10 @@ public class Search extends AbstractPage {
     private static final By columnSelectBy = By.cssSelector("div.column-select-icon");
     private static final String columnCheckboxTemplate = "//span[contains(text(),'%s')]/following-sibling::input[@type='checkbox']";
     private static final By tableRowsBy = By.cssSelector("tr.poms-table-row");
-    private static final By imagesBy = By.cssSelector("div.media-images");
-    private static final By adminBy = By.xpath("//span[contains(text(), 'admin') and contains(@class, 'btn-text-icon-admin')]");
-    private static final String adminItemTemplate = "//a[contains(text(), '%s')]";
     private static final String columCss = "[class*='column-header'][title='%s']";
-    private static final String SearchItemRow = "tr[class*='poms-table-row']:nth-of-type(%s) [class='column-title'] [title]";
-    private static final String SCROLL_SCRIPT = "window.scrollBy(0,(-window.innerHeight + arguments[0].getBoundingClientRect().top + arguments[0].getBoundingClientRect().bottom) / 2);";
 
     public Search(WebDriverUtil util) {
         super(util);
-    }
-
-    public void clickNew() {
-        webDriverUtil.waitAndClick(newBy);
     }
 
     public void logout() {
@@ -99,18 +83,8 @@ public class Search extends AbstractPage {
         return webDriverUtil.isElementPresent(By.cssSelector(String.format(foundItemTemplate, title)));
     }
 
-    public String getItemListTitle(int itemNumber) {
-        webDriverUtil.waitForVisible(By.cssSelector(String.format(SearchItemRow, itemNumber)));
-        return driver.findElement(By.cssSelector(String.format(SearchItemRow, itemNumber))).getText();
-    }
-
     public void closeTab() {
         webDriverUtil.waitAndClick(closeTabBy);
-    }
-
-    public void closeTabTitle(String title) {
-        webDriverUtil.waitForVisible(By.xpath(String.format(closeTabByName, title)));
-        webDriverUtil.waitAndClick(By.xpath(String.format(closeTabByName, title)));
     }
 
     public void selectOptionFromMenu(String menu, String option) {
@@ -135,10 +109,6 @@ public class Search extends AbstractPage {
 
     public void enterGewijzigdDates(String start, String end) {
         enterDates(gewijzigdBy, start, end);
-    }
-
-    public void enterAangemaaktDates(String start, String end) {
-        enterDates(aangemaaktBy, start, end);
     }
 
     private void clickDatePersonMenu() {
@@ -198,12 +168,6 @@ public class Search extends AbstractPage {
         return new MediaItemPage(webDriverUtil);
     }
 
-    public int countRows() {
-        webDriverUtil.waitForVisible(tableRowsBy);
-        List<WebElement> tableRows = driver.findElements(tableRowsBy);
-        return tableRows.size();
-    }
-
     // TODO: move to helper class
     private void moveToElement(By by) {
         WebElement element = driver.findElement(by);
@@ -232,47 +196,8 @@ public class Search extends AbstractPage {
                 );
     }
 
-    public void getMultibleRowsAndCheckTextContains(By by, String waardetext) {
-        driver.findElements(by)
-                .stream()
-                .filter(WebElement::isDisplayed)
-                .map(WebElement::getText)
-                .forEach(item ->
-                        assertThat(item).contains(waardetext)
-                );
-    }
-
     public void clickOnColum(String columname) {
         webDriverUtil.waitAndClick(By.cssSelector(String.format(columCss, columname)));
-    }
-
-    public void getAndCheckTimeBetweenTwoBroadcastsLessThenMinutes(int minutes) {
-        Pattern pattern = Pattern.compile("\\d{2}-\\d{2}-\\d{4}\\s\\d{2}:\\d{2}");
-        List<WebElement> listElementsBoardCastTime = driver.findElements(lastBroadcastTimeChannel);
-
-        List<String> elementText = new ArrayList<String>();
-
-        for (WebElement webElement : listElementsBoardCastTime) {
-            if (webElement.isDisplayed()) {
-                String getElementText = webElement.getText();
-                Matcher matcher = pattern.matcher(getElementText);
-                matcher.find();
-                String TextAfterMatch = matcher.group(0);
-                elementText.add(TextAfterMatch);
-            }
-        }
-
-        for (int i = 0; i < elementText.size(); i++) {
-            if (i + 1 < elementText.size()) {
-
-                ZonedDateTime varFirstDateTime = ZonedDateTime.parse(elementText.get(i), DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm").withZone(ZoneId.of("Europe/Amsterdam")));
-                ZonedDateTime varSecondDateTime = ZonedDateTime.parse(elementText.get(i + 1), DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm").withZone(ZoneId.of("Europe/Amsterdam")));
-
-                Long durationBetweenMinutes = Duration.between(varFirstDateTime, varSecondDateTime).toMinutes();
-
-                assertThat(durationBetweenMinutes).isNotNegative().isLessThan(minutes);
-            }
-        }
     }
 
     public String getMidFromColum(int columNumber) {

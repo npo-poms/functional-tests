@@ -1,21 +1,17 @@
 package nl.vpro.testutils;
 
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * @author Michiel Meeuwissen
  *  */
 public class AbstractTest {
 
-    protected static ExecutorService EXECUTOR_SERVICE = Executors.newFixedThreadPool(4);
 
-
-    protected static Logger LOG = LoggerFactory.getLogger(AbstractTest.class);
-    protected Logger log = LoggerFactory.getLogger(getClass());
+    protected static Logger LOG = LogManager.getLogger(AbstractTest.class);
+    protected Logger log = LogManager.getLogger(getClass());
 
     public void clearCaches() {
 

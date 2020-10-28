@@ -17,11 +17,11 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 
 
 /**
- * TODO: This class does not create users, so why is it named like that...
- */
-public class CreateUserTest extends AbstractPomsTest {
 
-    public CreateUserTest(@Nonnull WebDriverFactory.Browser browser) {
+ */
+public class CreateObjectsAsUserNormalUser extends AbstractPomsTest {
+
+    public CreateObjectsAsUserNormalUser(@Nonnull WebDriverFactory.Browser browser) {
         super(browser);
     }
 

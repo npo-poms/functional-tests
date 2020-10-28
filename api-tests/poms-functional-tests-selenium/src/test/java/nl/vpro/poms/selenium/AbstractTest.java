@@ -8,6 +8,8 @@ import java.util.concurrent.TimeUnit;
 
 import javax.annotation.Nonnull;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.junit.*;
 import org.junit.rules.TestName;
 import org.junit.rules.Timeout;
@@ -17,10 +19,9 @@ import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.logging.LogEntries;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import org.slf4j.LoggerFactory;
 
 import nl.vpro.api.client.utils.Config;
-import nl.vpro.poms.selenium.pages.*;
+import nl.vpro.poms.selenium.pages.KeycloakLogin;
 import nl.vpro.poms.selenium.poms.pages.Search;
 import nl.vpro.poms.selenium.util.WebDriverFactory;
 import nl.vpro.poms.selenium.util.WebDriverFactory.Browser;
@@ -33,8 +34,8 @@ import nl.vpro.rules.TestMDC;
  */
 @RunWith(Parameterized.class)
 public abstract class AbstractTest {
-    static final org.slf4j.Logger LOG = LoggerFactory.getLogger(AbstractTest.class);
-    protected org.slf4j.Logger log = LoggerFactory.getLogger(getClass());
+    static final Logger LOG = LogManager.getLogger(AbstractTest.class);
+    protected Logger log = LogManager.getLogger(getClass());
 
 
     public static final Config CONFIG =
@@ -161,11 +162,6 @@ public abstract class AbstractTest {
     protected KeycloakLogin keycloakLogin(String url) {
         return new KeycloakLogin(url, webDriverUtil);
     }
-
-    protected CasLogin casLogin(String url) {
-        return new CasLogin(url, webDriverUtil);
-    }
-    protected abstract AbstractLogin login();
 
     protected void logout() {
         if (driver != null) {

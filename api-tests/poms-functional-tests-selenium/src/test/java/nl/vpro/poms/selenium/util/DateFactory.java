@@ -26,9 +26,4 @@ public class DateFactory {
 		return TODAY_FORMAT.format(today);
 	}
 
-	public static String getPastDay() {
-		final Instant instantDay = Instant.now().minus(Duration.ofDays(2));
-		Date dayAgo = Date.from(instantDay);
-		return TODAY_FORMAT.format(dayAgo);
-	}
 }

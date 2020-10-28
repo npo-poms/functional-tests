@@ -44,11 +44,6 @@ public class WebDriverFactory {
             });
 
 
-    @SneakyThrows
-    public static WebDriver getWebDriver(Browser browser) {
-        return browser.asWebDriver();
-    }
-
     @EqualsAndHashCode
     public static class Browser {
         final DriverManagerType type;
@@ -104,8 +99,5 @@ public class WebDriverFactory {
             return driver;
         }
 
-        public WebDriverUtil getUtil(Logger log) {
-            return new WebDriverUtil(getDriver(), log);
-        }
     }
 }

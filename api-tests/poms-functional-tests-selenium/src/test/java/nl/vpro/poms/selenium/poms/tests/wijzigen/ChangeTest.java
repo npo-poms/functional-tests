@@ -32,7 +32,7 @@ public class ChangeTest extends AbstractPomsTest {
 	private static final String randomDescription = randomAlphanumeric(35);
 
 	@Test
-	@Ignore("FAILS on DEV")
+
 	public void SPOMSEDITUPLOAD1() throws URISyntaxException {
 
 		MediaItemPage item = new Search(webDriverUtil).searchAndOpenClip();

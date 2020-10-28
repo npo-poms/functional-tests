@@ -26,7 +26,6 @@ public class NPOGebruikerTest extends AbstractPomsTest {
     }
 
     @Test
-    @Ignore("FAILS on DEV")
     public void testNPOGebruiker() {
         Search search = new Search(webDriverUtil);
         search.goToAccountInstellingen();
@@ -37,7 +36,7 @@ public class NPOGebruikerTest extends AbstractPomsTest {
     }
 
     @Test
-    @Ignore("FAILS on DEV")
+
     public void checkCurrentUser() {
         Search search = new Search(webDriverUtil);
         assertThat(search.getCurrentUser()).isEqualTo("NPO Test");
@@ -71,7 +70,7 @@ public class NPOGebruikerTest extends AbstractPomsTest {
         String title = itemPage.getMediaItemTitle();
         System.out.println(title);
         String sorteerDatumTijd = itemPage.getSorteerDatumTijd();
-        String uitzendingGegevens = itemPage.getUitzendigData();
+        itemPage.getUitzendigData();
 
         itemPage.clickMenuItem("Uitzendingen");
         itemPage.doubleClickUitzending(sorteerDatumTijd);
