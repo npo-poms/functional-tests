@@ -220,7 +220,8 @@ public class Utils {
         Supplier<T> resultSupplier) {
         return waitUntil(acceptable, resultSupplier, Check.<T>builder()
             .description(resultSupplier + " is not null")
-            .predicate(Objects::nonNull).build());
+            .predicate(Objects::nonNull)
+            .build());
     }
 
 

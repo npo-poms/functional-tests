@@ -37,6 +37,7 @@ import static nl.vpro.domain.Xmlns.NAMESPACE_CONTEXT;
 import static nl.vpro.poms.AbstractApiMediaBackendTest.MID;
 import static nl.vpro.testutils.Utils.CONFIG;
 import static nl.vpro.rs.media.MediaBackendRestService.ERRORS;
+import static nl.vpro.testutils.Utils.waitUntil;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assumptions.assumeThat;
 import static org.hamcrest.Matchers.*;
@@ -183,7 +184,7 @@ public class LowLevelMediaTest {
     @Order(20)
     public void retrieveClip() {
         assumeThat(clipMid).isNotNull();
-        Boolean result = Utils.waitUntil(ACCEPTABLE, () -> {
+        Boolean result = waitUntil(ACCEPTABLE, () -> {
             try {
                 client()
                   .when()
@@ -271,20 +272,15 @@ public class LowLevelMediaTest {
             .  statusCode(202);
 
 
-        Utils.waitUntil(ACCEPTABLE, () -> {
-            try {
-               client()
-                    .when()
-                    .  get(MEDIA_URL + "/" + clipMid)
-                    .then()
-                    .  log().all()
-                    .  statusCode(200)
-                    .  body(hasXPath("/u:program/@deleted", NAMESPACE_CONTEXT, equalTo("true")));
-                return true;
-            } catch (AssertionError ae) {
-                log.info(ae.getMessage());
-                return null;
-            }
+        waitUntil(ACCEPTABLE, "until " + clipMid + " is marked for deletion", () -> {
+            client()
+                .when()
+                .  get(MEDIA_URL + "/" + clipMid)
+                .then()
+                .  log().all()
+                .  statusCode(200)
+                .  body(hasXPath("/u:program/@deleted", NAMESPACE_CONTEXT, equalTo("true")));
+            return true;
         });
     }
 
@@ -371,25 +367,21 @@ public class LowLevelMediaTest {
     public void checkAddSubtitlesArrived() {
         assumeThat(subtitlesTitle).isNotNull();
         String subtitles = CONFIG.url(npo_backend_api, "media/subtitles");
-        Utils.waitUntil(ACCEPTABLE, () -> {
-            try {
-                client()
-                    .when()
-                    .  get(subtitles + "/" + MID + "/fr/TRANSLATION?avoidParsing=true")
-                    .then()
-                    .  log().all()
-                    .  statusCode(200)
-                    .  body(startsWith("WEBVTT\n" +
-                "X-TIMESTAMP-MAP=MPEGTS:900000,LOCAL:00:00:00.000\n" +
-                "\n" +
-                "1\n" +
-                "00:00:02.200 --> 00:00:04.150\n" +
-                "" + subtitlesTitle + "\n" ));
-                return Boolean.TRUE;
-            } catch (AssertionError ae) {
-                log.info(ae.getMessage());
-                return null;
-            }
+        waitUntil(ACCEPTABLE, "Until subtitles for " + MID + "/fr/TRANSLATION arrived",  () -> {
+
+            client()
+                .when()
+                .  get(subtitles + "/" + MID + "/fr/TRANSLATION?avoidParsing=true")
+                .then()
+                .  log().all()
+                .  statusCode(200)
+                .  body(startsWith("WEBVTT\n" +
+                    "X-TIMESTAMP-MAP=MPEGTS:900000,LOCAL:00:00:00.000\n" +
+                    "\n" +
+                    "1\n" +
+                    "00:00:02.200 --> 00:00:04.150\n" +
+                    "" + subtitlesTitle + "\n" ));
+            return Boolean.TRUE;
         });
     }
 
