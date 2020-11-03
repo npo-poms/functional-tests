@@ -221,11 +221,6 @@
 							<bit>64</bit>
 						  </driver>
 						  <driver>
-							<name>chromedriver</name>
-							<platform>linux</platform>
-							<bit>32</bit>
-						  </driver>
-						  <driver>
 						  <name>geckodriver</name>
 							<platform>linux</platform>
 							<bit>32</bit>
