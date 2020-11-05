@@ -2,7 +2,6 @@
 Suite
 SymbolicLinks
   Api: .NpoPoms.TestScripts.Api
-  Browsers: .NpoPoms.Browsers
   Chrome: .NpoPoms.Browsers.Chrome
   Firefox: .NpoPoms.Browsers.Firefox
   TestScripts: .NpoPoms.TestScripts
