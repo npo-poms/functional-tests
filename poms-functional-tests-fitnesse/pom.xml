@@ -219,7 +219,7 @@
 						  <name>geckodriver</name>
 							<platform>linux</platform>
 							<bit>64</bit>
-							<version>0.26</version>
+							<version>0.26.0</version>
 						  </driver>					
                           <driver>
                               <name>chromedriver</name>
