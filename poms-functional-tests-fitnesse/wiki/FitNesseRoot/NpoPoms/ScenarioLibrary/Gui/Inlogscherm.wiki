@@ -6,12 +6,19 @@
 |scenario|Npo poms Inlogscherm Wacht tot pagina geladen |
 |$tmp=   |is visible on page|${npoPomsInlogscherm_titel}|
 
-|scenario                     |Npo poms Inlogscherm Log in met gebruiker  |gebruiker  |en wachtwoord  |wachtwoord |
+|scenario                     |Npo poms Inlogscherm Log in met gebruiker  |gebruiker   |en wachtwoord |wachtwoord |
 |Npo poms Inlogscherm Wacht tot pagina geladen                                                                    |
-|enter                        |@gebruiker                                 |as         |id=username                |
-|enter                        |@wachtwoord                                |as         |id=password                |
+|enter                        |@gebruiker                                 |as          |id=username               |
+|enter                        |@wachtwoord                                |as          |id=password               |
 |click                        |id=kc-login                                                                        |
+|$timeout=                    |seconds before timeout                                                             |
+|seconds before timeout       |180                                                                                |
+|start timer                  |timer                                                                              |
 |wait for visible             |xpath=//body[@ng-app="poms"]                                                       |
+|$wachttijd=                  |time on timer                              |timer                                  |
+|$wachttijd=                  |format timestamp                           |$wachttijd  |as            |m:ss       |
+|stop timer                   |timer                                                                              |
+|seconds before timeout       |$timeout                                                                           |
 |Npo poms Hoofdscherm Wacht tot tabblad Zoeken geopend                                                            |
 |                             |In 'Npo poms Zoeken Wacht tot zoeken klaar is' wordt gewacht                       |
 |                             |tot aantal zoekresultaten niet gelijk is aan $laatsteAantalZoekresultaten.         |
