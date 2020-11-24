@@ -1,7 +1,7 @@
 ---
 Test: no
 ---
-!define datetimeRegex {!-\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}\+02:00-!}
+!define datetimeRegex {!-\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}\+0(1|2):00-!}
 
 |table template|Check maps in Test  |
 |              |Dummy table template|

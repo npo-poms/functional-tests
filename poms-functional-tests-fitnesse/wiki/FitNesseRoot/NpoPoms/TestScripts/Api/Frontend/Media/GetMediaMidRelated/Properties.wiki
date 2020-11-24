@@ -14,15 +14,15 @@ Test
 |$images=      |element        |0                             |of json path|items[?(@.mid=='@{item_mid}')].images.length()      |default|0|
 *!
 
-|Check properties of related items                                                                              |
-|get                                                       |item_mid  |titles?|title_type?|descriptions?|images?|
-|media/${mid}/related?max=240&properties=all               |${itemMid}|5      |MAIN       |5            |4      |
-|media/${mid}/related?max=240&properties=none              |${itemMid}|1      |MAIN       |0            |0      |
-|media/${mid}/related?max=240&properties=image             |${itemMid}|1      |MAIN       |0            |1      |
-|media/${mid}/related?max=240&properties=image:2           |${itemMid}|1      |MAIN       |0            |2      |
-|media/${mid}/related?max=240&properties=image:3           |${itemMid}|1      |MAIN       |0            |3      |
-|media/${mid}/related?max=240&properties=title:1           |${itemMid}|3      |MAIN       |0            |0      |
-|media/${mid}/related?max=240&properties=title:main:1      |${itemMid}|1      |MAIN       |0            |0      |
-|media/${mid}/related?max=240&properties=title:main:       |${itemMid}|1      |MAIN       |0            |0      |
-|media/${mid}/related?max=240&properties=titles:main:      |${itemMid}|2      |MAIN       |0            |0      |
-|media/${mid}/related?max=240&properties=description:main:1|${itemMid}|1      |MAIN       |1            |0      |
+|Check properties of related items                                                                                          |
+|get                                                       |item_mid  |titles?|title_type?|descriptions?   |images?         |
+|media/${mid}/related?max=240&properties=all               |${itemMid}|5      |MAIN       |5               |4               |
+|media/${mid}/related?max=240&properties=none              |${itemMid}|1      |MAIN       |!-=~/0|(null)/-!|!-=~/0|(null)/-!|
+|media/${mid}/related?max=240&properties=image             |${itemMid}|1      |MAIN       |!-=~/0|(null)/-!|1               |
+|media/${mid}/related?max=240&properties=image:2           |${itemMid}|1      |MAIN       |!-=~/0|(null)/-!|2               |
+|media/${mid}/related?max=240&properties=image:3           |${itemMid}|1      |MAIN       |!-=~/0|(null)/-!|3               |
+|media/${mid}/related?max=240&properties=title:1           |${itemMid}|3      |MAIN       |!-=~/0|(null)/-!|!-=~/0|(null)/-!|
+|media/${mid}/related?max=240&properties=title:main:1      |${itemMid}|1      |MAIN       |!-=~/0|(null)/-!|!-=~/0|(null)/-!|
+|media/${mid}/related?max=240&properties=title:main:       |${itemMid}|1      |MAIN       |!-=~/0|(null)/-!|!-=~/0|(null)/-!|
+|media/${mid}/related?max=240&properties=titles:main:      |${itemMid}|2      |MAIN       |!-=~/0|(null)/-!|!-=~/0|(null)/-!|
+|media/${mid}/related?max=240&properties=description:main:1|${itemMid}|1      |MAIN       |1               |!-=~/0|(null)/-!|
