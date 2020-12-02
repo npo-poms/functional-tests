@@ -97,12 +97,12 @@
 |scenario                   |Npo poms Tabblad object Vul|waarde          |in textarea|textarea          |
 |Npo poms Tabblad object Vul|@waarde                    |in veld met type|textarea   |en label|@textarea|
 
-|scenario                              |Npo poms Tabblad object Sla textarea|textarea    |op in var          |var          |en vul deze aan met          |waarde          |
-|click                                 |xpath=//h2[normalize-space(.)="@textarea"]                                                                                        |
-|$@var=                                |value of                            |xpath=//h2[normalize-space(.)="@textarea"]/following-sibling::form/span/textarea             |
-|enter                                 |$@var-@waarde                       |as          |xpath=//h2[normalize-space(.)="@textarea"]/following-sibling::form/span/textarea|
-|click                                 |xpath=//h2[normalize-space(.)="@textarea"]/following-sibling::form/span/span/button[text()="save"]                                |
-|Npo poms Tabblad object Wacht tot veld|@textarea                           |heeft waarde|$@var-@waarde                                                                   |
+|scenario                              |Npo poms Tabblad object Sla textarea|textarea    |op in var           |var          |en vul deze aan met          |waarde          |
+|click                                 |xpath=.//h2[normalize-space(.)="@textarea"]                                                                                        |
+|$@var=                                |value of                            |xpath=.//h2[normalize-space(.)="@textarea"]/following-sibling::form/span/textarea             |
+|enter                                 |$@var-@waarde                       |as          |xpath=.//h2[normalize-space(.)="@textarea"]/following-sibling::form/span/textarea|
+|click                                 |xpath=.//h2[normalize-space(.)="@textarea"]/following-sibling::form/span/span/button[text()="save"]                                |
+|Npo poms Tabblad object Wacht tot veld|@textarea                           |heeft waarde|$@var-@waarde                                                                    |
 
 |scenario        |Npo poms Tabblad object Wacht tot status zichtbaar|
 |wait for visible|xpath=//h2[text()="Status"]/following-sibling::*/p|
@@ -205,6 +205,9 @@
 
 |scenario|Npo poms Tabblad object Check onderdeel|onderdeel                                             |zichtbaar                                            |
 |ensure  |is visible on page                     |xpath=//poms-members/div/table/tbody/tr/td[@class="column-title"]/span/span[normalize-space(.)="@onderdeel"]|
+
+|scenario        |Npo poms Tabblad object Wacht tot onderdeel               |onderdeel               |zichtbaar               |
+|wait for visible|xpath=//poms-members/div/table/tbody/tr/td[@class="column-title"]/span/span[normalize-space(.)="@onderdeel"]|
 
 |scenario  |Npo poms Tabblad object Hover over onderdeel                           |onderdeel                           |
 |hover over|xpath=//poms-members/div/table/tbody/tr/td[@class="column-title"]/span/span[normalize-space(.)="@onderdeel"]|

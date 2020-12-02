@@ -23,8 +23,10 @@ Test
 |clear search context                                                                                                                           |
 |Npo poms Hoofdscherm Wacht tot tabblad nummer|3                     |zichtbaar                                                                 |
 |Npo poms Tabblad object Check mid of urn     |${midVanSegment}                                                                                 |
+|set search context to                        |xpath=//div[@class='media-section media-sub-section']                                            |
 |Npo poms Tabblad object Sla textarea         |Beschrijving          |op in var  |oudeBeschrijving     |en vul deze aan met|${beschrijving}     |
 |Npo poms Tabblad object Sla textarea         |Korte beschrijving    |op in var  |oudeKorteBeschrijving|en vul deze aan met|${korteBeschrijving}|
+|clear search context                                                                                                                           |
 |Npo poms Tabblad object Druk op link         |Algemeen              |in sidebar                                                                |
 |Npo poms Tabblad object Wacht tot status zichtbaar                                                                                             |
 |Npo poms Tabblad object Druk op status om te publiceren                                                                                        |

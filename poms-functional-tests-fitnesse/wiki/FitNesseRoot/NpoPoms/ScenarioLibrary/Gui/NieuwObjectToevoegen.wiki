@@ -1,3 +1,5 @@
+!include -c >Variabelen
+
 |scenario        |Npo poms Nieuw object toevoegen Wacht tot popup geladen|
 |wait for visible|Nieuw object toevoegen                                 |
 
@@ -31,10 +33,6 @@
 
 |scenario|Npo poms Nieuw object toevoegen Check optie|optie                                                                         |als optie nummer|index|geselecteerd in dropdown|dropdown|
 |check   |value of                                   |xpath=//span[normalize-space(.)="@dropdown"]/../following-sibling::div[@index]|@optie                                                  |
-
-!define standaardOmroep {NPS}
-!define standaardAvType {Audio}
-!define standaardGenre {Jeugd}
 
 |scenario                                                                     |Npo poms Nieuw object toevoegen Voeg|mediaType|toe met titel|titel|
 |Npo poms Nieuw object toevoegen Start met toevoegen                          |@mediaType                          |met titel|@titel             |

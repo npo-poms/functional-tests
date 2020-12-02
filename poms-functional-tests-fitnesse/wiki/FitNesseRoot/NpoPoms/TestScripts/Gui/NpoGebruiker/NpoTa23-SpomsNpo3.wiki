@@ -23,11 +23,14 @@ Test
 |Npo poms Zoeken Sla aantal zoekresultaten op in var|aantalZoekresultaten1                                                  |
 |Npo poms Zoeken Open object nummer                 |${objectNummer}                                                        |
 |Npo poms Tabblad object Sla mid of urn op in var   |mid                                                                    |
+|show                                               |take screenshot   |NpoGebruiker_NpoTa23_SpomsNpo3_1                    |
 |click                                              |Type                                                                   |
 |set search context to                              |xpath=//span[@class="editable-controls"]                               |
 |click                                              |${mediatype2}                                                          |
+|show                                               |take screenshot   |NpoGebruiker_NpoTa23_SpomsNpo3_2                    |
 |click                                              |save                                                                   |
 |clear search context                                                                                                       |
+|show                                               |take screenshot   |NpoGebruiker_NpoTa23_SpomsNpo3_3                    |
 |wait for not visible                               |save                                                                   |
 |Npo poms Tabblad object Check veld                 |Type              |heeft waarde                 |${mediatype2}         |
 |Npo poms Hoofdscherm Sluit laatste tab                                                                                     |

@@ -1,0 +1,3 @@
+!define standaardOmroep {VPRO}
+!define standaardAvType {Audio}
+!define standaardGenre {Jeugd}
