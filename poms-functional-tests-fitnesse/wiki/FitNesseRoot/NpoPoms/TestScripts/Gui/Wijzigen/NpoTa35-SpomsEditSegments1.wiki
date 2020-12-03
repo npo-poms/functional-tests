@@ -40,4 +40,3 @@ Test
 |                                                                             |Npo poms Tabblad object Check segment|${segmentTitel} $timestamp  |niet zichtbaar                                                                           |
 |Npo poms Hoofdscherm Sluit laatste tab                                                                                                                                                                                                    |
 |Npo poms Hoofdscherm Sluit laatste tab                                                                                                                                                                                                    |
-|Npo poms Hoofdscherm Log uit                                                                                                                                                                                                              |

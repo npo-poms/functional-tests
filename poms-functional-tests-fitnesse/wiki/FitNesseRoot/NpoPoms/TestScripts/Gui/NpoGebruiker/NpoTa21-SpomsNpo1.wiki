@@ -18,4 +18,3 @@ Test
 |Npo poms Hoofdscherm Ga naar account-instellingen                                      |
 |Npo poms Account instellingen Check veld|${rollenVeldnaam}|heeft waarde|${rollenWaarde}|
 |Npo poms Account instellingen Druk op kruisje om pop-up te sluiten                     |
-|Npo poms Hoofdscherm Log uit                                                           |

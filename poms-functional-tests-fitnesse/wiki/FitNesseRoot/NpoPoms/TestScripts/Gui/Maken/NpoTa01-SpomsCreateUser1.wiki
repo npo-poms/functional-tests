@@ -37,4 +37,3 @@ Test
 |                                                                                                                    |
 |Npo poms Nieuw object toevoegen Druk op kruisje om pop-up te sluiten                                                |
 |Npo poms Hoofdscherm Wacht tot tabblad Zoeken geopend                                                               |
-|Npo poms Hoofdscherm Log uit                                                                                        |

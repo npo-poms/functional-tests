@@ -6,3 +6,10 @@ Herbruikbare selectoren
 |start   |ng browser test                      |
 |wait for Angular requests to finish           |
 |pop fixture                                   |
+
+
+|scenario|Npo poms Sluit af in Firefox|
+|                                     |
+
+|scenario|Npo poms Sluit af in Chrome|
+|Npo poms Hoofdscherm Log uit        |

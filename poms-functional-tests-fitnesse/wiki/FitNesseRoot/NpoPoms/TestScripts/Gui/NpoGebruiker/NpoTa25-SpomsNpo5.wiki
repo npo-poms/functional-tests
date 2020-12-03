@@ -45,4 +45,3 @@ Test
 |Npo poms Tabblad object Check veld            |Sorteerdatum|heeft waarde|$datum1      |
 |Npo poms Hoofdscherm Sluit laatste tab                                                |
 |Npo poms Hoofdscherm Sluit laatste tab                                                |
-|Npo poms Hoofdscherm Log uit                                                          |

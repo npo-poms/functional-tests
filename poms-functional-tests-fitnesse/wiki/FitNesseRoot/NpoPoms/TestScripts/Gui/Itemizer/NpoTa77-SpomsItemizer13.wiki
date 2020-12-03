@@ -38,4 +38,3 @@ Test
 |Npo poms Tabblad object Vul                  |$oudeKorteBeschrijving|in textarea|Korte beschrijving                                            |
 |Npo poms Hoofdscherm Sluit laatste tab                                                                                                         |
 |Npo poms Hoofdscherm Sluit laatste tab                                                                                                         |
-|Npo poms Hoofdscherm Log uit                                                                                                                   |

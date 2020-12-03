@@ -17,4 +17,3 @@ Test
 |Npo poms Zoeken Druk op zoeksuggestie nummer|${zoeksuggestieNummer}                        |
 |Npo poms Zoeken Check zoekveld heeft waarde |$zoeksuggestie                                |
 |Npo poms Hoofdscherm Sluit laatste tab                                                     |
-|Npo poms Hoofdscherm Log uit                                                               |

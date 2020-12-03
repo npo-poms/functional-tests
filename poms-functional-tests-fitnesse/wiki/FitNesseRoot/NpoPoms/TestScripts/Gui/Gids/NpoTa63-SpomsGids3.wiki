@@ -31,4 +31,3 @@ Test
 |                                          |Npo poms Zoeken Check of de sorteerdatum van de zoekresultaten gelijk aan of later dan|$today                         |is                        |
 |Npo poms Zoeken Scroll naar zoekveld                                                                                                                                                        |
 |Npo poms Zoeken Check kolom               |Laatste uitzending                                                                    |oplopend gesorteerd                                       |
-|Npo poms Hoofdscherm Log uit                                                                                                                                                                |

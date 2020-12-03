@@ -32,5 +32,3 @@ Test
 |Controleer dat er                          |0                          |afbeeldingen toegevoegd zijn                                     |
 |Npo poms Hoofdscherm Sluit laatste tab                                                                                                   |
 |Npo poms Hoofdscherm Sluit laatste tab                                                                                                   |
-|Npo poms Hoofdscherm Log uit                                                                                                             |
-

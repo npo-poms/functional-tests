@@ -26,4 +26,3 @@ Test
 |Npo poms Account instellingen Deselecteer optie|${nieuweOmroep}         |in dropdown             |Standaard-omroepen|
 |Npo poms Account instellingen Selecteer optie  |${oorspronkelijkeOmroep}|in dropdown             |Standaard-omroepen|
 |click                                          |Opslaan                                                             |
-|Npo poms Hoofdscherm Log uit                                                                                        |

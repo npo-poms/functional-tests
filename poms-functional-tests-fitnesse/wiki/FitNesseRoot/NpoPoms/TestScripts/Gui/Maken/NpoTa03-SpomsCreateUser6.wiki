@@ -38,4 +38,3 @@ Test
 |Npo poms Tabblad object Druk op link                          |Relaties       |in sidebar                                                                 |
 |Npo poms Tabblad object Verwijder huidig object met media type|Clip                                                                                       |
 |Npo poms Hoofdscherm Wacht tot subtitel van laatste tab       |Zoeken                                                                                     |
-|Npo poms Hoofdscherm Log uit                                                                                                                              |

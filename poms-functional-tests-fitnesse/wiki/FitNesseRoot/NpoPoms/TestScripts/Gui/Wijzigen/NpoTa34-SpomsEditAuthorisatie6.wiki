@@ -48,4 +48,3 @@ Test
 |clear search context                                                                                                                |
 |Npo poms Hoofdscherm Sluit laatste tab                                                                                              |
 |Npo poms Hoofdscherm Sluit laatste tab                                                                                              |
-|Npo poms Hoofdscherm Log uit                                                                                                        |

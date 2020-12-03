@@ -25,4 +25,3 @@ Test
 |Npo poms Zoeken Open eerste object                                                                                                    |
 |Npo poms Hoofdscherm Sluit laatste tab                                                                                                |
 |Npo poms Hoofdscherm Sluit laatste tab                                                                                                |
-|Npo poms Hoofdscherm Log uit                                                                                                          |

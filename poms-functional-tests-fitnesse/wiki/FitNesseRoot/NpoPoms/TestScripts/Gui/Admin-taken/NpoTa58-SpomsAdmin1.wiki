@@ -23,4 +23,3 @@ Test
 |note                                                          |De status van een verwijderd item is in eerste instantie "Wordt verwijderd" en het duurt soms|
 |note                                                          |erg lang voordat dit "Verwijderd" wordt. Momenteel keuren we daarom beide varianten goed     |
 |Npo poms Zoeken Wacht tot status bij object                   |$uitzendingTitel                 |met mediatype     |Uitzending     |bevat     |erwijderd    |
-|Npo poms Hoofdscherm Log uit                                                                                                                                |

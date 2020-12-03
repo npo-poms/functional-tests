@@ -18,4 +18,3 @@ Test
 |Frontend api Hoofdscherm Vul                             |${mid}            |in tekstveld           |mid           |
 |click                                                    |Try it out!                                              |
 |Frontend api Hoofdscherm Check response body bevat waarde|"midRef": "${mid}"                                       |
-|Frontend api Hoofdscherm Log uit                                                                                   |

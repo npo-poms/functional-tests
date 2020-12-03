@@ -21,4 +21,3 @@ Test
 |Npo poms Zoeken Wacht tot zoeken klaar is                                                                           |
 |ensure                            |is visible on page|Gezocht naar: Nederland 1, uitzend-/sorteerdatum: vanaf $today|
 |Npo poms Zoeken Open object nummer|${objectNummer}                                                                  |
-|Npo poms Hoofdscherm Log uit                                                                                        |

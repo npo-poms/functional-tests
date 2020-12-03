@@ -15,4 +15,3 @@ Test
 |Npo poms Zoeken Check aantal zoekresultaten|1                                             |
 |Npo poms Zoeken Open eerste object                                                        |
 |Npo poms Hoofdscherm Sluit laatste tab                                                    |
-|Npo poms Hoofdscherm Log uit                                                              |

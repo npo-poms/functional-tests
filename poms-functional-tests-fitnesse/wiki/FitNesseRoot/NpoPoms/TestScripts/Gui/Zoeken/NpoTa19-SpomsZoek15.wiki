@@ -43,4 +43,3 @@ Test
 |Npo poms Zoeken Check kolom                        |${nieuweKolom}       |niet zichtbaar            |
 |Npo poms Zoeken Check kolom                        |${oudeKolom}         |zichtbaar                 |
 |Npo poms Hoofdscherm Sluit laatste tab                                                              |
-|Npo poms Hoofdscherm Log uit                                                                        |

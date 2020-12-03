@@ -1,3 +1,6 @@
+|script                         |
+|Npo poms Sluit af in ${BROWSER}|
+
 |script|selenium driver setup|
 |show  |run summary          |
 |stop driver                 |

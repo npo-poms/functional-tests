@@ -23,4 +23,3 @@ Test
 |Npo poms Tabblad object Verander hoofdtitel naar|$titelVanObject                                                                 |
 |Npo poms Hoofdscherm Sluit laatste tab                                                                                           |
 |Npo poms Hoofdscherm Sluit laatste tab                                                                                           |
-|Npo poms Hoofdscherm Log uit                                                                                                     |

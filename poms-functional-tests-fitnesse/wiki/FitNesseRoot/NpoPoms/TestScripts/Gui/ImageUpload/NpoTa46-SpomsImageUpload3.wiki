@@ -32,4 +32,3 @@ Test
 |show                                        |take screenshot      |${screenshot}-$timestamp            |
 |Npo poms Hoofdscherm Sluit laatste tab                                                                 |
 |Npo poms Hoofdscherm Sluit laatste tab                                                                 |
-|Npo poms Hoofdscherm Log uit                                                                           |
