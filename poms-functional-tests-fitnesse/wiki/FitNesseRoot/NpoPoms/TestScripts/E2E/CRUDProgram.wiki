@@ -89,6 +89,8 @@ Test
 |Npo poms Tabblad object Druk op link       |Labels            |in sidebar                |
 |Npo poms Tabblad object Wacht tot scrollen klaar is                                      |
 |Npo poms Tabblad object Check veld         |Genres            |heeft waarde|${genreGui1} |
+|Npo poms Hoofdscherm Sluit laatste tab                                                   |
+|Npo poms Hoofdscherm Sluit laatste tab                                                   |
 
 !include -c <E2E.GuiTearDown
 !include -c <E2E.ApiBackendSetUp
@@ -124,6 +126,8 @@ Test
 |Npo poms Tabblad object Wacht tot scrollen klaar is                                              |
 |Npo poms Tabblad object Check veld         |Korte beschrijving|heeft waarde|${korteBeschrijving2}|
 |Npo poms Tabblad object Check veld         |Genres            |heeft waarde|${genreGui2}         |
+|Npo poms Hoofdscherm Sluit laatste tab                                                           |
+|Npo poms Hoofdscherm Sluit laatste tab                                                           |
 
 !include -c <E2E.GuiTearDown
 !include -c <E2E.ApiBackendSetUp 
@@ -141,6 +145,7 @@ Test
 |$repeatCount=       |repeat count                                                |
 |$timeSpentRepeating=|time spent repeating                                        |
 |$timeSpentRepeating=|format timestamp        |$timeSpentRepeating |as    |m:ss   |
+|show                |xPath                   |/media:program/@workflow           |
 
 !include -c <E2E.GuiSetUp
 
@@ -154,5 +159,7 @@ Test
 |Npo poms Zoeken Check aantal zoekresultaten|1                                      |
 |Npo poms Zoeken Open eerste object                                                 |
 |Npo poms Tabblad object Check status       |Verwijderd                             |
+|Npo poms Hoofdscherm Sluit laatste tab                                             |
+|Npo poms Hoofdscherm Sluit laatste tab                                             |
 
 !include -c <E2E.GuiTearDown
