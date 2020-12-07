@@ -28,6 +28,7 @@ Test
 |Npo poms Tabblad object Detailscherm Sla textarea                        |Eenregelige beschrijving  |op in var|eenregeligebeschrijvingVar|
 
 |scenario               |Zet huidige waarde                                    |waarde |van herhaling checkbox op waarde|nieuwwaarde|
+|scroll to              |xpath=//label[text()='Herhaling:']/following::input[1]                                                     |
 |zet Checkbox Op Waarde;|xpath=//label[text()='Herhaling:']/following::input[1]|@waarde|@nieuwwaarde                                |
 
 |scenario                                                                 |Vul nieuwe waardes in in het detailscherm                                                |
