@@ -54,3 +54,6 @@ Test
 |Visual radio           |
 |Opname                 |
 |Promo                  |
+
+|script               |
+|Open Npo poms website|
