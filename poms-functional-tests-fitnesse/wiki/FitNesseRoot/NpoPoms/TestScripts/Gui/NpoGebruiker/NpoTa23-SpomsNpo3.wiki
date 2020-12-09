@@ -40,8 +40,7 @@ Test
 |ensure                                             |is visible on page|${mediatype1}, ${avType}, ${criteria1}              |
 |$aantalZoekresultaten2=                            |subtract          |$aantalZoekresultaten1       |and         |1        |
 |Npo poms Zoeken Check aantal zoekresultaten        |$aantalZoekresultaten2                                                 |
-|Npo poms Hoofdscherm Sluit laatste tab                                                                                     |
-|Npo poms Hoofdscherm Sluit laatste tab                                                                                     |
+|close all tabs                                                                                                             |
 |Npo poms Zoeken Vul                                |$mid              |in zoekveld                                         |
 |Npo poms Zoeken Druk knop                          |Zoeken                                                                 |
 |Npo poms Zoeken Wacht tot zoeken klaar is                                                                                  |
