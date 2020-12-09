@@ -87,5 +87,3 @@ Test
 |Npo poms Tabblad object Detailscherm Check checkbox |Beschikbaar |actief |
 |Npo poms Tabblad object Detailscherm Check dropdown |Encryptie   |actief |
 |Npo poms Tabblad object Detailscherm Druk op kruisje om pop-up te sluiten|
-|Npo poms Hoofdscherm Sluit laatste tab                                   |
-|Npo poms Hoofdscherm Sluit laatste tab                                   |

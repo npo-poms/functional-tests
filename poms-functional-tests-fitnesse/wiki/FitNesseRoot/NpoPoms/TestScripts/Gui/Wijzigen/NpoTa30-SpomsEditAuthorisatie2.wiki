@@ -18,4 +18,3 @@ Test
 |Npo poms Zoeken Selecteer optie            |${criteria}       |in dropdown             |Criteria                 |
 |ensure                                     |is visible on page|Gezocht naar: ${mediatype}, ${omroep}, ${criteria}|
 |Npo poms Zoeken Check aantal zoekresultaten|0                                                                    |
-|Npo poms Hoofdscherm Sluit laatste tab                                                                           |

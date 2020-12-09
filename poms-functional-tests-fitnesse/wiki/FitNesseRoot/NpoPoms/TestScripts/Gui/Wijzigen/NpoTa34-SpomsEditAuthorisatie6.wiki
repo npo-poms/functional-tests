@@ -46,5 +46,3 @@ Test
 |set search context to                                      |xpath=//poms-members                                                    |
 |Npo poms Tabblad object Check aantal in veld               |Onderdelen        |is var           |aantalOnderdelen                   |
 |clear search context                                                                                                                |
-|Npo poms Hoofdscherm Sluit laatste tab                                                                                              |
-|Npo poms Hoofdscherm Sluit laatste tab                                                                                              |

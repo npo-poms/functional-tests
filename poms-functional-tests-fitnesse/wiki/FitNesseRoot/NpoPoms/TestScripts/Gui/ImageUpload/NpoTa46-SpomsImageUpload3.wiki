@@ -30,5 +30,3 @@ Test
 |Npo poms Tabblad object Check afbeelding    |${titel} $timestamp-2|niet zichtbaar                      |
 |clear search context                                                                                   |
 |show                                        |take screenshot      |${screenshot}-$timestamp            |
-|Npo poms Hoofdscherm Sluit laatste tab                                                                 |
-|Npo poms Hoofdscherm Sluit laatste tab                                                                 |

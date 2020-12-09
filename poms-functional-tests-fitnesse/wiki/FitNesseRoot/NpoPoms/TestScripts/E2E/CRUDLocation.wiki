@@ -101,8 +101,6 @@ Test
 |Npo poms Tabblad object Detailscherm Check tekstveld          |Bitrate           |heeft waarde |${bitrate1}       |
 |Npo poms Tabblad object Detailscherm Check bron online sinds  |${publishStartGui}                                 |
 |Npo poms Tabblad object Detailscherm Druk op kruisje om pop-up te sluiten                                         |
-|Npo poms Hoofdscherm Sluit laatste tab                                                                            |
-|Npo poms Hoofdscherm Sluit laatste tab                                                                            |
 
 !include -c <E2E.GuiTearDown
 !include -c <E2E.ApiBackendSetUp
@@ -135,8 +133,6 @@ Test
 |Npo poms Tabblad object Detailscherm Check tekstveld          |Bitrate           |heeft waarde |${bitrate2}                              |
 |Npo poms Tabblad object Detailscherm Check bron online van    |${publishStartGui}|tot          |${publishStopGui2}                       |
 |Npo poms Tabblad object Detailscherm Druk op kruisje om pop-up te sluiten                                                                |
-|Npo poms Hoofdscherm Sluit laatste tab                                                                                                   |
-|Npo poms Hoofdscherm Sluit laatste tab                                                                                                   |
 
 !include -c <E2E.GuiTearDown
 !include -c <E2E.ApiBackendSetUp

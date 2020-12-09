@@ -25,5 +25,3 @@ Test
 |Npo poms Tabblad object Start met bewerken Lexicografische titel                                                                |
 |Npo poms Tabblad object Verander tekst in invoerveld Lexicografische titel naar|                     |en sla op                 |
 |Npo poms Tabblad object Verander hoofdtitel naar                               |$titelVanObject                                 |
-|Npo poms Hoofdscherm Sluit laatste tab                                                                                          |
-|Npo poms Hoofdscherm Sluit laatste tab                                                                                          |

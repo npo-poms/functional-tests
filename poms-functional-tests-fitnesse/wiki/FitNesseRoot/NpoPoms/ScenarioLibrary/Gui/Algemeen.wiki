@@ -12,4 +12,6 @@ Herbruikbare selectoren
 |                                     |
 
 |scenario|Npo poms Sluit af in Chrome|
+|Open Npo poms website               |
+|close all tabs                      |
 |Npo poms Hoofdscherm Log uit        |

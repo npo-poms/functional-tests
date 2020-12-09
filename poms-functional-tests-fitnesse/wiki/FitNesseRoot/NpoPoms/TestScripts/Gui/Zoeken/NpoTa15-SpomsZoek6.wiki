@@ -14,4 +14,3 @@ Test
 |ensure                                     |is visible on page|Gezocht naar: '${MIDVALUE}'|
 |Npo poms Zoeken Check aantal zoekresultaten|1                                             |
 |Npo poms Zoeken Open eerste object                                                        |
-|Npo poms Hoofdscherm Sluit laatste tab                                                    |

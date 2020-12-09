@@ -26,6 +26,7 @@
 |                             |'Npo poms Zoeken Wacht tot zoeken klaar is' wordt gewacht tot aantal zoekresultaten|
 |                             |niet gelijk is aan 0, m.a.w. tot alle zoekresultaten zijn geladen.                 |
 |$laatsteAantalZoekresultaten=|store                                      |0                                      |
+|close last tab                                                                                                   |
 |Npo poms Zoeken Wacht tot zoeken klaar is                                                                        |
 
 |scenario                                 |Npo poms Inlogscherm Log in met standaard-gebruiker        |

@@ -30,4 +30,3 @@ Test
 |Npo poms Zoeken Check eerste object heeft omroep|${omroep1}                                               |
 |Npo poms Zoeken Check eerste object heeft omroep|${omroep2}                                               |
 |Npo poms Tabblad object Detailscherm Druk op kruisje om pop-up te sluiten                                 |
-|Npo poms Hoofdscherm Sluit laatste tab                                                                    |

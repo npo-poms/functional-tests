@@ -37,8 +37,7 @@ Test
 |Npo poms Zoeken Sla aantal zoekresultaten op in var|aantalZoekresultaten2                                                                                 |
 |ensure                                             |value             |$aantalZoekresultaten2 |is smaller than |$aantalZoekresultaten1                    |
 |Npo poms Zoeken Open eerste object                                                                                                                        |
-|Npo poms Hoofdscherm Sluit laatste tab                                                                                                                    |
-|Npo poms Hoofdscherm Sluit laatste tab                                                                                                                    |
+|close all tabs                                                                                                                                            |
 |Npo poms Zoeken Sla aantal zoekresultaten op in var|aantalZoekresultaten1                                                                                 |
 |click                                              |Datum & Persoon                                                                                       |
 |click                                              |Aangemaakt door                                                                                       |
@@ -50,5 +49,3 @@ Test
 |Npo poms Zoeken Sla aantal zoekresultaten op in var|aantalZoekresultaten2                                                                                 |
 |ensure                                             |value             |$aantalZoekresultaten2 |is smaller than |$aantalZoekresultaten1                    |
 |Npo poms Zoeken Open eerste object                                                                                                                        |
-|Npo poms Hoofdscherm Sluit laatste tab                                                                                                                    |
-|Npo poms Hoofdscherm Sluit laatste tab                                                                                                                    |

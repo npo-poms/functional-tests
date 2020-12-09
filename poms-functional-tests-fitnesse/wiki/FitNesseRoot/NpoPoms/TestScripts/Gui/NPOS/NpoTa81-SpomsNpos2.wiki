@@ -105,4 +105,3 @@ Test
 |Controleer de nieuwe waardes in detailscherm                                                |
 |Zet originele waardes terug in het detailscherm                                             |
 |click                                           |Bewaar                                     |
-|Npo poms Hoofdscherm Sluit laatste tab                                                      |

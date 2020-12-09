@@ -16,4 +16,3 @@ Test
 |Npo poms Zoeken Sla zoeksuggestie nummer    |${zoeksuggestieNummer}|op in var|zoeksuggestie|
 |Npo poms Zoeken Druk op zoeksuggestie nummer|${zoeksuggestieNummer}                        |
 |Npo poms Zoeken Check zoekveld heeft waarde |$zoeksuggestie                                |
-|Npo poms Hoofdscherm Sluit laatste tab                                                     |

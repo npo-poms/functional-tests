@@ -108,8 +108,6 @@ Test
 |clear search context                                                                                                                   |
 |Npo poms Tabblad object Check onderdeel nummer|1                 |heeft titel|${titel1}|en subtitel|${subtitel1}|en status|Gepubliceerd|
 |Npo poms Tabblad object Check onderdeel nummer|2                 |heeft titel|${titel2}|en subtitel|${subtitel2}|en status|Gepubliceerd|
-|Npo poms Hoofdscherm Sluit laatste tab                                                                                                 |
-|Npo poms Hoofdscherm Sluit laatste tab                                                                                                 |
 
 !include -c <E2E.GuiTearDown
 !include -c <E2E.ApiBackendSetUp
@@ -133,8 +131,6 @@ Test
 |clear search context                                                                                                                                         |
 |Npo poms Tabblad object Check onderdeel nummer|1                 |heeft titel|${titel2}|en subtitel|${subtitel2}|en status|Wordt gepubliceerd|of|Gepubliceerd|
 |Npo poms Tabblad object Check onderdeel nummer|2                 |heeft titel|${titel1}|en subtitel|${subtitel1}|en status|Wordt gepubliceerd|of|Gepubliceerd|
-|Npo poms Hoofdscherm Sluit laatste tab                                                                                                                       |
-|Npo poms Hoofdscherm Sluit laatste tab                                                                                                                       |
 
 !include -c <E2E.GuiTearDown
 !include -c <E2E.ApiBackendSetUp
@@ -163,8 +159,6 @@ Test
 |set search context to                      |css=[id=sidebar]                            |
 |ensure                                     |is visible on page|Onderdelen (2)           |
 |clear search context                                                                    |
-|Npo poms Hoofdscherm Sluit laatste tab                                                  |
-|Npo poms Hoofdscherm Sluit laatste tab                                                  |
 
 !include -c <E2E.GuiTearDown
 !include -c <E2E.ApiBackendSetUp
@@ -187,8 +181,6 @@ Test
 |set search context to                      |css=[id=sidebar]                            |
 |ensure                                     |is visible on page|Onderdelen (0)           |
 |clear search context                                                                    |
-|Npo poms Hoofdscherm Sluit laatste tab                                                  |
-|Npo poms Hoofdscherm Sluit laatste tab                                                  |
 
 !include -c <E2E.GuiTearDown
 !include -c <E2E.ApiBackendSetUp

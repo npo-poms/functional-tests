@@ -39,5 +39,3 @@ Test
 |wait for visible                                      |Bronnen ($aantalBronnen1)                                                            |
 |clear search context                                                                                                                        |
 |Npo poms Tabblad object Check bron                    |${url}            |niet zichtbaar                                                    |
-|Npo poms Hoofdscherm Sluit laatste tab                                                                                                      |
-|Npo poms Hoofdscherm Sluit laatste tab                                                                                                      |

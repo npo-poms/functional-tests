@@ -21,5 +21,3 @@ Test
 |Npo poms Tabblad object Verander hoofdtitel naar|Het Test          |en check dat voorgestelde Lexicografische titel|Test, het |is|
 |Npo poms Tabblad object Verander hoofdtitel naar|Een Test          |en check dat voorgestelde Lexicografische titel|Test, een |is|
 |Npo poms Tabblad object Verander hoofdtitel naar|$titelVanObject                                                                 |
-|Npo poms Hoofdscherm Sluit laatste tab                                                                                           |
-|Npo poms Hoofdscherm Sluit laatste tab                                                                                           |

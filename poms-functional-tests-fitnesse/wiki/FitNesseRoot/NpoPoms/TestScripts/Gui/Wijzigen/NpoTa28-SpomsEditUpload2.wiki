@@ -38,8 +38,7 @@ Test
 |check                                               |value of           |xpath=//div[@class="modal-message"]|${waarschuwingFotosUploaden}|
 |click                                               |begrepen                                                                            |
 |wait for not visible                                |begrepen                                                                            |
-|Npo poms Hoofdscherm Sluit laatste tab                                                                                                   |
-|Npo poms Hoofdscherm Sluit laatste tab                                                                                                   |
+|close all tabs                                                                                                                           |
 |Npo poms Hoofdscherm Log uit                                                                                                             |
 
 
@@ -74,5 +73,3 @@ Test
 |Npo poms Tabblad object Check afbeelding                    |${titel} $timestamp|niet zichtbaar                              |
 |clear search context                                                                                                         |
 |show                                                        |take screenshot    |${screenshot}-$timestamp-4                  |
-|Npo poms Hoofdscherm Sluit laatste tab                                                                                       |
-|Npo poms Hoofdscherm Sluit laatste tab                                                                                       |

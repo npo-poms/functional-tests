@@ -42,4 +42,3 @@ Test
 |Npo poms Zoeken Scroll naar zoekveld                                                                |
 |Npo poms Zoeken Check kolom                        |${nieuweKolom}       |niet zichtbaar            |
 |Npo poms Zoeken Check kolom                        |${oudeKolom}         |zichtbaar                 |
-|Npo poms Hoofdscherm Sluit laatste tab                                                              |

@@ -44,9 +44,6 @@
 |scenario        |Npo poms Hoofdscherm Wacht tot subtitel van laatste tab                       |subtitel                       |
 |wait for visible|xpath=//ul[@class="nav nav-tabs"]/li[last()-1]//span[@class="tab-subtitle" and normalize-space(.)="@subtitel"]|
 
-|scenario|Npo poms Hoofdscherm Sluit laatste tab                              |
-|click   |xpath=//ul[@class="nav nav-tabs"]/li[last()-1]//span[text()="close"]|
-
 |scenario|Npo poms Hoofdscherm Sluit tab met tekst|tekst                                                             |
 |click   |sluit deze tab                          |in|xpath=//*[contains(@class,"nav-link") and contains(.,"@tekst")]|
 

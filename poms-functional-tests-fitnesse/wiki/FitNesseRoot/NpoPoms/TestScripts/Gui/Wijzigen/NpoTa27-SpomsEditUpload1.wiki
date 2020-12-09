@@ -64,5 +64,3 @@ Test
 |Npo poms Tabblad object Check afbeelding                    |${titel} $timestamp|niet zichtbaar                                                  |
 |clear search context                                                                                                                             |
 |show                                                        |take screenshot    |${screenshot}-$timestamp-4                                      |
-|Npo poms Hoofdscherm Sluit laatste tab                                                                                                           |
-|Npo poms Hoofdscherm Sluit laatste tab                                                                                                           |

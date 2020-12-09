@@ -24,8 +24,7 @@ Test
 |Npo poms Zoeken Sla aantal zoekresultaten op in var|aantalZoekresultaten2                                                           |
 |ensure                                             |value             |$aantalZoekresultaten2|is smaller than|$aantalZoekresultaten1|
 |Npo poms Zoeken Open eerste object                                                                                                  |
-|Npo poms Hoofdscherm Sluit laatste tab                                                                                              |
-|Npo poms Hoofdscherm Sluit laatste tab                                                                                              |
+|close all tabs                                                                                                                      |
 |Npo poms Zoeken Vul                                |${zoekopdracht}   |in zoekveld                                                  |
 |Npo poms Zoeken Druk knop                          |Zoeken                                                                          |
 |Npo poms Zoeken Wacht tot zoeken klaar is                                                                                           |
@@ -36,5 +35,3 @@ Test
 |Npo poms Zoeken Sla aantal zoekresultaten op in var|aantalZoekresultaten2                                                           |
 |ensure                                             |value             |$aantalZoekresultaten2|is smaller than|$aantalZoekresultaten1|
 |Npo poms Zoeken Open eerste object                                                                                                  |
-|Npo poms Hoofdscherm Sluit laatste tab                                                                                              |
-|Npo poms Hoofdscherm Sluit laatste tab                                                                                              |

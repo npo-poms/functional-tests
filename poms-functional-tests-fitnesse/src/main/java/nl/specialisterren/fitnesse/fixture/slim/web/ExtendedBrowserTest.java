@@ -420,4 +420,26 @@ public class ExtendedBrowserTest extends BrowserTest {
 		}
 		return result;
     }
+	
+	public int getNumberOfTabs() {
+		WebElement element = getElement("xpath=//ul[@class='nav nav-tabs']");
+		List<WebElement> items = element.findElements(By.tagName("li"));
+		
+		return items.size() - 1;
+	}
+	
+	public void closeLastTab() {
+		click("xpath=//ul[@class='nav nav-tabs']/li[last()-1]//span[text()='close']");
+	}
+	
+	public void closeAllTabs() {
+		int tabsCount = getNumberOfTabs();
+		
+		while (tabsCount > 1) {
+			closeLastTab();
+			tabsCount--;
+		}
+		
+		closeLastTab();
+	}
 }

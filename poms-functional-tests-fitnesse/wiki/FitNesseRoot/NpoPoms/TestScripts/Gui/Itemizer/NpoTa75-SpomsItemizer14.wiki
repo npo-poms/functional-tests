@@ -130,5 +130,3 @@ Test
 |Npo poms Tabblad object Wacht tot sidebar volledig geladen is                                                                                    |
 |Npo poms Tabblad object Check segment               |${titel} $timestamp-1   |heeft status     |Wordt verwijderd    |of      |Verwijderd         |
 |Npo poms Tabblad object Check segment               |${titel} $timestamp-2   |heeft status     |Wordt verwijderd    |of      |Verwijderd         |
-|Npo poms Hoofdscherm Sluit laatste tab                                                                                                           |
-|Npo poms Hoofdscherm Sluit laatste tab                                                                                                           |
