@@ -249,11 +249,3 @@
 
 |scenario                                           |Npo poms Zoeken Vink checkbox aan bij eerste object in zoekresultaten|
 |Npo poms Zoeken Vink checkbox aan bij object nummer|1                         |in zoekresultaten                         |
-
-|scenario            |Npo poms Zoeken Check geen optie geselecteerd in dropdown |dropdown |
-|wait for not visible|xpath=//span[normalize-space(.)="@dropdown"]/../following-sibling::*|
-
-|scenario                                                 |Npo poms Zoeken Deselecteer optie|optie                   |in dropdown|dropdown|
-|Npo poms Zoeken Check optie                              |@optie                           |geselecteerd in dropdown|@dropdown           |
-|click                                                    |@optie                                                                         |
-|Npo poms Zoeken Check geen optie geselecteerd in dropdown|@dropdown                                                                      |
