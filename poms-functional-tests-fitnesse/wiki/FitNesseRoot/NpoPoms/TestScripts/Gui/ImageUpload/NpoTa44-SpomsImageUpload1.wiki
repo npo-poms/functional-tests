@@ -12,7 +12,7 @@ Test
 |ensure                                                                           |is visible on page|Gezocht naar: Clip, VPRO             |
 |Npo poms Zoeken Open object nummer                                               |${objectNummer}                                         |
 |Npo poms Tabblad object Druk op link                                             |Afbeeldingen      |in sidebar                           |
-|wait for visible                                                                 |Afbeelding toevoegen                                    |
+|Npo poms Tabblad object Wacht tot scrollen klaar is                                                                                       |
 |set search context to                                                            |xpath=//poms-images                                     |
 |click                                                                            |Afbeelding toevoegen                                    |
 |clear search context                                                                                                                      |

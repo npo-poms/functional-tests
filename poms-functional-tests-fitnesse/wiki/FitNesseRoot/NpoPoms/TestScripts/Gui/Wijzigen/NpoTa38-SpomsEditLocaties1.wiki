@@ -9,33 +9,33 @@ Test
 
 *!
 
-|script                                                                                                                                      |
-|Open Npo poms website                                                                                                                       |
-|Npo poms Inlogscherm Log in met standaard-gebruiker                                                                                         |
-|Npo poms Zoeken Selecteer optie                       |Clip              |in dropdown                  |!-MediaType-!                       |
-|Npo poms Zoeken Selecteer optie                       |Mag schrijven     |in dropdown                  |Criteria                            |
-|Npo poms Zoeken Selecteer optie                       |Zonder bron       |in dropdown                  |Criteria                            |
-|ensure                                                |is visible on page|Gezocht naar: Clip, Mag schrijven, Zonder bron                    |
-|Npo poms Zoeken Open eerste object                                                                                                          |
-|Npo poms Tabblad object Druk op link                  |Bronnen           |in sidebar                                                        |
-|Npo poms Tabblad object Wacht tot scrollen klaar is                                                                                         |
-|$aantalBronnen1=                                      |value of          |xpath=//poms-locations/div/h1                                     |
-|$aantalBronnen1=                                      |extract string    |$aantalBronnen1              |from|Bronnen \((\d+)\)|using group|1|
-|set search context to                                 |xpath=//poms-locations                                                               |
-|click                                                 |Bron toevoegen                                                                       |
-|clear search context                                                                                                                        |
-|Npo poms Tabblad object Detailscherm Vul              |${url}            |in tekstveld                 |URL *                               |
-|Npo poms Tabblad object Detailscherm Selecteer optie  |${bronType}       |in selecteerbare tekstveld   |Type *                              |
-|click                                                 |Maak aan                                                                             |
-|Npo poms Tabblad object Check bron                    |${url}            |zichtbaar                                                         |
-|Npo poms Tabblad object Check bron                    |${url}            |heeft formaat                |${bronType}                         |
-|$aantalBronnen2=                                      |add               |$aantalBronnen1              |and |1                              |
-|check                                                 |value of          |xpath=//poms-locations/div/h1|Bronnen ($aantalBronnen2)           |
-|Npo poms Tabblad object Hover over bron               |${url}                                                                               |
-|Npo poms Tabblad object Druk op verwijderknop bij bron|${url}                                                                               |
-|Npo poms Tabblad object Bevestig verwijdering van     |Bron                                                                                 |
-|wait for visible                                      |xpath=//poms-locations                                                               |
-|set search context to                                 |xpath=//poms-locations                                                               |
-|wait for visible                                      |Bronnen ($aantalBronnen1)                                                            |
-|clear search context                                                                                                                        |
-|Npo poms Tabblad object Check bron                    |${url}            |niet zichtbaar                                                    |
+|script                                                                                                                                    |
+|Open Npo poms website                                                                                                                     |
+|Npo poms Inlogscherm Log in met standaard-gebruiker                                                                                       |
+|Npo poms Zoeken Selecteer optie                     |Clip              |in dropdown                  |!-MediaType-!                       |
+|Npo poms Zoeken Selecteer optie                     |Mag schrijven     |in dropdown                  |Criteria                            |
+|Npo poms Zoeken Selecteer optie                     |Zonder bron       |in dropdown                  |Criteria                            |
+|ensure                                              |is visible on page|Gezocht naar: Clip, Mag schrijven, Zonder bron                    |
+|Npo poms Zoeken Open eerste object                                                                                                        |
+|Npo poms Tabblad object Druk op link                |Bronnen           |in sidebar                                                        |
+|Npo poms Tabblad object Wacht tot scrollen klaar is                                                                                       |
+|$aantalBronnen1=                                    |value of          |xpath=//poms-locations/div/h1                                     |
+|$aantalBronnen1=                                    |extract string    |$aantalBronnen1              |from|Bronnen \((\d+)\)|using group|1|
+|set search context to                               |xpath=//poms-locations                                                               |
+|click                                               |Bron toevoegen                                                                       |
+|clear search context                                                                                                                      |
+|Npo poms Tabblad object Detailscherm Vul            |${url}            |in tekstveld                 |URL *                               |
+|Npo poms Tabblad object Detailscherm Selecteer optie|${bronType}       |in selecteerbare tekstveld   |Type *                              |
+|click                                               |Maak aan                                                                             |
+|Npo poms Tabblad object Check bron                  |${url}            |zichtbaar                                                         |
+|Npo poms Tabblad object Check bron                  |${url}            |heeft formaat                |${bronType}                         |
+|$aantalBronnen2=                                    |add               |$aantalBronnen1              |and |1                              |
+|check                                               |value of          |xpath=//poms-locations/div/h1|Bronnen ($aantalBronnen2)           |
+|Npo poms Tabblad object Hover over laatste bron                                                                                            |
+|Npo poms Tabblad object Druk op verwijderknop bij laatste bron                                                                            |
+|Npo poms Tabblad object Bevestig verwijdering van   |Bron                                                                                 |
+|wait for visible                                    |xpath=//poms-locations                                                               |
+|set search context to                               |xpath=//poms-locations                                                               |
+|wait for visible                                    |Bronnen ($aantalBronnen1)                                                            |
+|clear search context                                                                                                                      |
+|Npo poms Tabblad object Check bron                  |${url}            |niet zichtbaar                                                    |

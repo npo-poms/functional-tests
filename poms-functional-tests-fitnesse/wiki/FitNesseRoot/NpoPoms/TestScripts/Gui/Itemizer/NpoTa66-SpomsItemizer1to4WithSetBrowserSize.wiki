@@ -44,6 +44,7 @@ Test
 |Npo poms Tabblad object Segment toevoegen met speler           |
 
 |script                                                                                              |
+|scroll to                                              |Zet huidige positie als starttijd           |
 |Npo poms Tabblad object Segment Speel video voor       |1              |sec                         |
 |show                                                   |take screenshot|3_VideoGestoptNa1SecAfspelen|
 |Npo poms Tabblad object Segment Zet huidige positie als|starttijd                                   |
