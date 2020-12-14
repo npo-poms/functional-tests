@@ -3,6 +3,11 @@
 |scenario|Open Npo poms website|
 |open    |${urlPoms}           |
 
+|scenario|Open Npo poms website in Firefox|
+
+|scenario|Open Npo poms website in Chrome|
+|Open Npo poms website                   |
+
 |scenario|Npo poms Inlogscherm Wacht tot pagina geladen |
 |$tmp=   |is visible on page|${npoPomsInlogscherm_titel}|
 

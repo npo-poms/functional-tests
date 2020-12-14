@@ -28,3 +28,4 @@ Test
 |Npo poms Zoeken Dubbelklik op hoofdtitel van eerste object                                       |
 |switch to previous tab                                                                           |
 |Check tekstveld                                    |Result:           |heeft waarde|$mid         |
+|Open Npo poms website in ${BROWSER}                                                              |
