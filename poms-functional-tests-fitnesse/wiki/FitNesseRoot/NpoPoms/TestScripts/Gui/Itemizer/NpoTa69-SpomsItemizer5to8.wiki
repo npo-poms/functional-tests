@@ -19,10 +19,11 @@ Test
 |Npo poms Tabblad object Segment Bewaar aantal segmenten op id|1|
 |Npo poms Tabblad object Segment toevoegen met speler           |
 
-|script                                                           |
-|Npo poms Tabblad object Segment Zet huidige positie als|starttijd|
-|Npo poms Tabblad object Segment Speel video voor       |3  |sec  |
-|Npo poms Tabblad object Segment Zet huidige positie als|stoptijd |
+|script                                                                                   |
+|scroll to                                              |Zet huidige positie als starttijd|
+|Npo poms Tabblad object Segment Zet huidige positie als|starttijd                        |
+|Npo poms Tabblad object Segment Speel video voor       |3              |sec              |
+|Npo poms Tabblad object Segment Zet huidige positie als|stoptijd                         |
 #|click                                          |css=.canvas-grab| <= fotocamera-knop met bug, zie hieronder:
 TODO: Na het oplossen van bug https://specialisterren.atlassian.net/browse/NPOTA-101
 Toevoegen: stappen 17. Klik op “fotocamera” en 19. "foto is geplaatst bij afbeelding (staat voor de titel)"
@@ -42,6 +43,7 @@ Er komt een melding  “De startijd van een segment niet later dan of gelijk zij
 |script                                                                                                                                                         |
 |Npo poms Tabblad object Segment itemize                |${titel}                                                                                               |
 |click                                                  |id=seekbar                                                                                             |
+|scroll to                                              |Zet huidige positie als starttijd                                                                      |
 |Npo poms Tabblad object Segment Zet huidige positie als|starttijd                                                                                              |
 |ensure                                                 |is visible on page|De starttijd van een segment mag niet later zijn dan of gelijk zijn aan de stoptijd.|
 

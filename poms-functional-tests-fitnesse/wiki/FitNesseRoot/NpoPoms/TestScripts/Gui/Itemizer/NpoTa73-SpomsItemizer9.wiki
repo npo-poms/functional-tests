@@ -20,10 +20,11 @@ Test
 |Npo poms Tabblad object Segment Bewaar aantal segmenten op id|1           |
 |Npo poms Tabblad object Segment toevoegen met speler                      |
 
-|script                                                           |
-|Npo poms Tabblad object Segment Zet huidige positie als|starttijd|
-|Npo poms Tabblad object Segment Speel video voor       |3  |sec  |
-|Npo poms Tabblad object Segment Zet huidige positie als|stoptijd |
+|script                                                                                   |
+|scroll to                                              |Zet huidige positie als starttijd|
+|Npo poms Tabblad object Segment Zet huidige positie als|starttijd                        |
+|Npo poms Tabblad object Segment Speel video voor       |3              |sec              |
+|Npo poms Tabblad object Segment Zet huidige positie als|stoptijd                         |
 
 Controleer verwacht resultaat:
 Door het zetten van start- en stop tijd, worden de start- en stop tijden ingevuld en wordt de speelduur berekend.

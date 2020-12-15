@@ -21,11 +21,12 @@ Test
 |Npo poms Tabblad object Segment Bewaar aantal segmenten op id|1|
 |Npo poms Tabblad object Segment toevoegen met speler           |
 
-|script                                                           |
-|Npo poms Tabblad object Segment Speel video voor       |1  |sec  |
-|Npo poms Tabblad object Segment Zet huidige positie als|starttijd|
-|Npo poms Tabblad object Segment Speel video voor       |3  |sec  |
-|Npo poms Tabblad object Segment Zet huidige positie als|stoptijd |
+|script                                                                                   |
+|scroll to                                              |Zet huidige positie als starttijd|
+|Npo poms Tabblad object Segment Speel video voor       |1              |sec              |
+|Npo poms Tabblad object Segment Zet huidige positie als|starttijd                        |
+|Npo poms Tabblad object Segment Speel video voor       |3              |sec              |
+|Npo poms Tabblad object Segment Zet huidige positie als|stoptijd                         |
 
 Controleer verwacht resultaat:
 Door het zetten van start- en stop tijd, worden de start- en stop tijden ingevuld en wordt de speelduur berekend.
@@ -34,7 +35,9 @@ op hele trage PC's zou dit tot onterechte fouten kunnen leiden: dan is de stopti
 |script                                                                                                              |
 |Npo poms Tabblad object Segment Controleer start |00:00:01 |stop        |00:00:04        |en speelduur     |00:00:03|
 |Npo poms Tabblad object Segment opslaan met titel|${titel1}|beschrijving|${beschrijving1}|en knop Bewaar en|nieuw   |
+|seconds before timeout                           |180                                                               |
 |wait for visible                                 |Nog in te vullen:                                                 |
+|seconds before timeout                           |${secondsBeforeTimeout}                                           |
 |click                                            |Annuleer                                                          |
 TODO: Zodra de onderstaande bug is opgelost: 'click Annuleer'-regel hierboven VERWIJDEREN!
 

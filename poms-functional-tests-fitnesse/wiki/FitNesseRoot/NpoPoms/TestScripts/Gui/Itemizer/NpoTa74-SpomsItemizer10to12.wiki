@@ -42,6 +42,7 @@ Test
 
 |script                                                                                                                                                         |
 |click                                                  |id=seekbar                                                                                             |
+|scroll to                                              |Zet huidige positie als starttijd                                                                      |
 |Npo poms Tabblad object Segment Zet huidige positie als|starttijd                                                                                              |
 |ensure                                                 |is visible on page|De starttijd van een segment mag niet later zijn dan of gelijk zijn aan de stoptijd.|
 

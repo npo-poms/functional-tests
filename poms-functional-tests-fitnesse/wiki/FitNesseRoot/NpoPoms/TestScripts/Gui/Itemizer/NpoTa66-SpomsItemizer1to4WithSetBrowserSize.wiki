@@ -61,7 +61,9 @@ op hele trage PC's zou dit tot onterechte fouten kunnen leiden: dan is de stopti
 |script                                                                                                                                                            |
 |Npo poms Tabblad object Segment Controleer start|00:00:01                                         |stop     |00:00:04    |en speelduur    |00:00:03               |
 |                                                |Npo poms Tabblad object Segment opslaan met titel|${titel1}|beschrijving|${beschrijving1}|en knop Bewaar en|nieuw|
-|                                                |wait for visible                                 |Nog in te vullen:                                              |
+|seconds before timeout                          |180                                                                                                              |
+|wait for visible                                |Nog in te vullen:                                                                                                |
+|seconds before timeout                          |${secondsBeforeTimeout}                                                                                          |
 |click                                           |Annuleer                                                                                                         |
 TODO: Zodra de onderstaande bug is opgelost: 'click Annuleer'-regel hierboven VERWIJDEREN!
 {{{
