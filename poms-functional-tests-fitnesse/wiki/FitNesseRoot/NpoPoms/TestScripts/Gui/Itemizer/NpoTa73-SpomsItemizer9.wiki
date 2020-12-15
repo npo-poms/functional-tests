@@ -33,6 +33,7 @@ Door het zetten van start- en stop tijd, worden de start- en stop tijden ingevul
 |Npo poms Tabblad object Segment opslaan met titel|${titel}|beschrijving|${beschrijving}|en knop Bewaar en|sluit          |
 |Npo poms Tabblad object Wacht tot detailscherm gesloten                                                                  |
 |Npo poms Tabblad object Check segment            |${titel}|heeft status|Gepubliceerd   |of               |Voor publicatie|
+|Npo poms Tabblad object Druk op status om te publiceren                                                                  |
 
 |script                                                                            |
 |Npo poms Tabblad object Segment aanpassen                        |${titel}        |
@@ -43,10 +44,11 @@ Door het zetten van start- en stop tijd, worden de start- en stop tijden ingevul
 |script                                                                                                                            |
 |Npo poms Tabblad object Segment Refresh maximaal|60|keer na|3000|ms tot|${titel}|gewijzigd is naar stoptijd|1:01|en speelduur|1:01|
 
-|script                                                                                   |
-|wait for visible|css=.column-workflow [title="Gepubliceerd"]                             |
-|check           |value of|css=.column-stop    |in|xpath=//tr[contains(.,'${titel}')]|1:01|
-|check           |value of|css=.column-duration|in|xpath=//tr[contains(.,'${titel}')]|1:01|
+|script                                                                                                                                |
+|Npo poms Tabblad object Check segment|${titel}|heeft status        |Gepubliceerd|of                                |Wordt gepubliceerd|
+|Npo poms Tabblad object Druk op status om te publiceren                                                                               |
+|check                                |value of|css=.column-stop    |in          |xpath=//tr[contains(.,'${titel}')]|1:01              |
+|check                                |value of|css=.column-duration|in          |xpath=//tr[contains(.,'${titel}')]|1:01              |
 
 |script                                            |
 |Npo poms Tabblad object Segment Toon MID kolom    |

@@ -36,6 +36,7 @@ Door het zetten van start- en stop tijd, worden de start- en stop tijden ingevul
 |Npo poms Tabblad object Segment opslaan met titel|${titel}|beschrijving|${beschrijving}|en knop Bewaar en|sluit          |
 |Npo poms Tabblad object Wacht tot detailscherm gesloten                                                                  |
 |Npo poms Tabblad object Check segment            |${titel}|heeft status|Gepubliceerd   |of               |Voor publicatie|
+|Npo poms Tabblad object Druk op status om te publiceren                                                                  |
 
 klik op [] achter het toegevoegde segment (Itemizer)
 verplaats de slider (blauw) dusdanig dat het voorbij de stoptijd komt en zet de starttijd
@@ -50,7 +51,7 @@ Er komt een melding  “De startijd van een segment niet later dan of gelijk zij
 Verplaats de slider dusdanig dat het voorbij de starttijd komt en zet de stoptijd
 De melding is weer verdwenen.
 |script                                                                                                                                                         |
-|Npo poms Tabblad object Segment Speel video voor       |1                 |sec                                                                                 |
+|Npo poms Tabblad object Segment Speel video voor       |2                 |sec                                                                                 |
 |Npo poms Tabblad object Segment Zet huidige positie als|stoptijd                                                                                               |
 |seconds before timeout                                 |1                                                                                                      |
 |reject                                                 |is visible on page|De starttijd van een segment mag niet later zijn dan of gelijk zijn aan de stoptijd.|
@@ -58,12 +59,14 @@ De melding is weer verdwenen.
 
 Wijzig de starttijd door in het ingevulde veld er 1 minuut af te halen
 Controle dat de vastgelegde speelduur = stoptijd - starttijd
-|script                                                                                           |
-|enter                                           |00:02:25.000|as  |Starttijd                     |
-|enter                                           |00:03:25.000|as  |Eindtijd                      |
-|Npo poms Tabblad object Segment Controleer start|00:02:25    |stop|00:03:25|en speelduur|00:01:00|
-|click                                           |Bewaar en sluit                                 |
-|Npo poms Tabblad object Wacht tot sidebar volledig geladen is                                    |
+|script                                                                                                                 |
+|enter                                           |00:02:25.000|as          |Starttijd                                   |
+|enter                                           |00:03:25.000|as          |Eindtijd                                    |
+|Npo poms Tabblad object Segment Controleer start|00:02:25    |stop        |00:03:25    |en speelduur|00:01:00          |
+|click                                           |Bewaar en sluit                                                       |
+|Npo poms Tabblad object Wacht tot detailscherm gesloten                                                                |
+|Npo poms Tabblad object Check segment           |${titel}    |heeft status|Gepubliceerd|of          |Wordt gepubliceerd|
+|Npo poms Tabblad object Druk op status om te publiceren                                                                |
 
 |script                                            |
 |Npo poms Tabblad object Segment Toon MID kolom    |
