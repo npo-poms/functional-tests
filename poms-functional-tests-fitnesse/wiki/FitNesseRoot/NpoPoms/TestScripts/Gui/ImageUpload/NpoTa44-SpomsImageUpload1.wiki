@@ -23,3 +23,4 @@ Test
 |Npo poms Tabblad object Detailscherm controleer nog in te vullen melding van veld|Titel                                                   |
 |Npo poms Tabblad object Detailscherm controleer nog in te vullen melding van veld|Beschrijving                                            |
 |Npo poms Tabblad object Detailscherm controleer nog in te vullen melding van veld|Afbeeldingtype                                          |
+|click                                                                            |Annuleer                                                |
