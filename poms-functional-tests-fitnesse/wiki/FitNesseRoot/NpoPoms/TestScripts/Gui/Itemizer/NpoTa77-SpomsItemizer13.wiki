@@ -36,3 +36,6 @@ Test
 |back                                                                                                                                           |
 |Npo poms Tabblad object Vul                  |$oudeBeschrijving     |in textarea|Beschrijving                                                  |
 |Npo poms Tabblad object Vul                  |$oudeKorteBeschrijving|in textarea|Korte beschrijving                                            |
+|Npo poms Tabblad object Druk op link         |Algemeen              |in sidebar                                                                |
+|Npo poms Tabblad object Wacht tot status zichtbaar                                                                                             |
+|Npo poms Tabblad object Druk op status om te publiceren                                                                                        |
