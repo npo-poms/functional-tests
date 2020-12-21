@@ -62,14 +62,18 @@ Test
 |Npo poms Tabblad object Detailscherm Check tekstveld |Originele titel      |heeft waarde                     |${origineleTitel2}                     |
 |Npo poms Tabblad object Detailscherm Druk op kruisje om pop-up te sluiten                                                                            |
 |wait for visible                                     |xpath=//ul[@class='nav nav-tabs']                                                              |
+|check                                                |get number of tabs   |2                                                                        |
 |close last tab                                                                                                                                       |
+|check                                                |get number of tabs   |1                                                                        |
 |Npo poms Zoeken Scroll naar zoekveld                                                                                                                 |
 |Npo poms Zoeken Vul                                  |$mid                 |in zoekveld                                                              |
 |Npo poms Zoeken Druk knop                            |Zoeken                                                                                         |
 |Npo poms Zoeken Wacht tot zoeken klaar is                                                                                                            |
 |ensure                                               |is visible on page   |Gezocht naar: '$mid' in ${mediatype}, ${zender1}, ${avType}, ${criteria1}|
 |Npo poms Zoeken Check aantal zoekresultaten          |0                                                                                              |
+|check                                                |get number of tabs   |1                                                                        |
 |close last tab                                                                                                                                       |
+|check                                                |get number of tabs   |1                                                                        |
 |Npo poms Zoeken Vul                                  |$mid                 |in zoekveld                                                              |
 |Npo poms Zoeken Druk knop                            |Zoeken                                                                                         |
 |Npo poms Zoeken Wacht tot zoeken klaar is                                                                                                            |
