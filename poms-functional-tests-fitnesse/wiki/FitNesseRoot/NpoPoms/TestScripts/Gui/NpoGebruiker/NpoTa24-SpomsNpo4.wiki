@@ -61,7 +61,7 @@ Test
 |scroll to                                            |Originele titel                                                                                |
 |Npo poms Tabblad object Detailscherm Check tekstveld |Originele titel      |heeft waarde                     |${origineleTitel2}                     |
 |Npo poms Tabblad object Detailscherm Druk op kruisje om pop-up te sluiten                                                                            |
-|wait for visible                                     |xpath=//ul[@class='nav nav-tabs']                                                              |
+|Npo poms Tabblad object Wacht tot detailscherm gesloten                                                                                              |
 |check                                                |get number of tabs   |2                                                                        |
 |close last tab                                                                                                                                       |
 |check                                                |get number of tabs   |1                                                                        |
