@@ -1,16 +1,22 @@
 ---
-Suites: MT
+Suites: RG
 Test
 ---
-!define MIDVALUE {!-POMS_NTR_157704-!}
+!*> Lokale variabelen
 
-|script                                                                                    |
-|Open Npo poms website                                                                     |
-|Npo poms Inlogscherm Log in met npo                                                       |
-|click                                      |Zoeken                                        |
-|Npo poms Zoeken Vul                        |${MIDVALUE}       |in zoekveld                |
-|Npo poms Zoeken Druk knop                  |Zoeken                                        |
-|Npo poms Zoeken Wacht tot zoeken klaar is                                                 |
-|ensure                                     |is visible on page|Gezocht naar: '${MIDVALUE}'|
-|Npo poms Zoeken Check aantal zoekresultaten|1                                             |
-|Npo poms Zoeken Open eerste object                                                        |
+!define mid {!-POMS_S_NPO_3712344-!}
+
+*!
+
+|script                                                                                                                              |
+|Open Npo poms website                                                                                                               |
+|Npo poms Inlogscherm Log in met npo                                                                                                 |
+|Npo poms Zoeken Sla aantal zoekresultaten op in var|aantalZoekresultaten1                                                           |
+|click                                              |Onderdeel van                                                                   |
+|Npo poms Zoeken Vul mid                            |${mid}                                                                          |
+|Npo poms Zoeken Druk op plusje om onderdeel toe te voegen                                                                           |
+|Npo poms Zoeken Wacht tot zoeken klaar is                                                                                           |
+|ensure                                             |is visible on page|Gezocht naar: ${mid}                                         |
+|Npo poms Zoeken Sla aantal zoekresultaten op in var|aantalZoekresultaten2                                                           |
+|ensure                                             |value             |$aantalZoekresultaten2|is smaller than|$aantalZoekresultaten1|
+|Npo poms Zoeken Open eerste object                                                                                                  |

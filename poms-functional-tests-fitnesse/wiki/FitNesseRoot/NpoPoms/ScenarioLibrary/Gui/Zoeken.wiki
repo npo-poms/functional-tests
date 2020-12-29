@@ -249,3 +249,9 @@
 
 |scenario                                           |Npo poms Zoeken Vink checkbox aan bij eerste object in zoekresultaten|
 |Npo poms Zoeken Vink checkbox aan bij object nummer|1                         |in zoekresultaten                         |
+
+|scenario|Npo poms Zoeken Vul mid|mid                                                    |
+|enter   |@mid                   |as|xpath=//span[text()="Mid:"]/following-sibling::input|
+
+|scenario|Npo poms Zoeken Druk op plusje om onderdeel toe te voegen|
+|click   |xpath=//button[@class="addDescendant"]                   |
