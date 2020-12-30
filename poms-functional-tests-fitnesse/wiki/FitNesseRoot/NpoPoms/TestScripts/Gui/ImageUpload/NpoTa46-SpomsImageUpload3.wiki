@@ -1,4 +1,5 @@
 ---
+Help: In de detailpagina van een bestaande clip kunnen er afbeeldingen toegevoegd en verwijderd worden.
 Suites: MT
 Test
 ---

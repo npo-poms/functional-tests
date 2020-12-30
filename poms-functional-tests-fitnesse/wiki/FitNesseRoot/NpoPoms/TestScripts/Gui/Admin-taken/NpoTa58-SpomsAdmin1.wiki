@@ -1,4 +1,5 @@
 ---
+Help: Object verschijnt in zoekresultaten met label 'Verwijderd' als dit object is verwijderd.
 Suites: JF
 Test
 ---

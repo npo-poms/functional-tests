@@ -1,4 +1,5 @@
 ---
+Help: Een uitzending komt niet meer voor in de zoekresultaten als er gezocht wordt op een bepaalde zender x nadat de zender van deze uitzending is gewijzigd van zender x naar een andere zender.
 Suites: RG
 Test
 ---

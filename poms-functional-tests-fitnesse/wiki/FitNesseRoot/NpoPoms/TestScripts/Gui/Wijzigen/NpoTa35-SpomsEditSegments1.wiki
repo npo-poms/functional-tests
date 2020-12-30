@@ -1,4 +1,5 @@
 ---
+Help: In een nieuw aangemaakte clip kan een segment zonder speler toegevoegd en verwijderd worden.
 Suites: MT
 Test
 ---

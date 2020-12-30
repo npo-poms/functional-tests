@@ -1,4 +1,5 @@
 ---
+Help: In de zoekpagina kan er gezocht worden zonder filters, dus alleen met het zoekveld ingevuld. De zoekresultaten hebben verschillende mediatypes en ze kunnen allemaal geopend worden.
 Suites: RG
 Test
 ---

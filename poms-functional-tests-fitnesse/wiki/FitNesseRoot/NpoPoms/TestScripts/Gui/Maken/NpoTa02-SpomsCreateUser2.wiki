@@ -1,4 +1,5 @@
 ---
+Help: Een nieuw aangemaakte clip krijgt de status 'Ingetrokken' als de startdatum in de toekomst ligt.
 Suites: RG
 Test
 ---

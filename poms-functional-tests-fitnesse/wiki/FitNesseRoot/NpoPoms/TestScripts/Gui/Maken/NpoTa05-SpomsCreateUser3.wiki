@@ -1,4 +1,5 @@
 ---
+Help: In de popup 'account-instellingen' blijft de geselecteerde standaard-omroep gehandhaafd als de popup gesloten en weer geopend wordt.
 Prune
 Suites: RG
 Test

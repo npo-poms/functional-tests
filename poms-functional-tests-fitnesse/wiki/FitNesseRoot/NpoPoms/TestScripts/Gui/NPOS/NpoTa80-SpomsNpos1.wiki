@@ -1,4 +1,5 @@
 ---
+Help: In de detailpagina van een bestaande uitzending verschijnt een popup met details over een kanaal x als er op deze kanaal dubbelgeklikt wordt.
 Suites: MT
 Test
 ---

@@ -1,4 +1,5 @@
 ---
+Help: In de detailpagina van een bestaande clip kunnen segmenten zonder speler toegevoegd en verwijderd worden.
 Suites: RG
 Test
 ---

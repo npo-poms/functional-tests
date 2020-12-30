@@ -1,4 +1,5 @@
 ---
+Help: In de detailpagina van een bestaande clip met de criteria 'Mag schrijven' en 'Zonder bron', kunnen bronnen toegevoegd en verwijderd worden.
 Suites: JF
 Test
 ---
@@ -31,7 +32,7 @@ Test
 |Npo poms Tabblad object Check bron                  |${url}            |heeft formaat                |${bronType}                         |
 |$aantalBronnen2=                                    |add               |$aantalBronnen1              |and |1                              |
 |check                                               |value of          |xpath=//poms-locations/div/h1|Bronnen ($aantalBronnen2)           |
-|Npo poms Tabblad object Hover over laatste bron                                                                                            |
+|Npo poms Tabblad object Hover over laatste bron                                                                                           |
 |Npo poms Tabblad object Druk op verwijderknop bij laatste bron                                                                            |
 |Npo poms Tabblad object Bevestig verwijdering van   |Bron                                                                                 |
 |wait for visible                                    |xpath=//poms-locations                                                               |

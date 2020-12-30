@@ -1,4 +1,5 @@
 ---
+Help: In de zoekpagina kan er een object geopend worden als er gefilterd is op sorteerdatum vandaag.
 Suites: JF
 Test
 ---

@@ -1,4 +1,5 @@
 ---
+Help: In de detailpagina van een bestaand object met titel tekst x dat niet begint met een Nederlands lidwoord (dus bijv. niet 'De Test'), wordt tekst x automatisch ingevuld in de lexicografische titel als de lexicografische titel leeg was en gewijzigd wordt. En een ingevulde lexicografische titel kan veranderd worden in een andere waarde.
 Suites: JF
 Test
 ---

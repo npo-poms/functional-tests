@@ -1,4 +1,5 @@
 ---
+Help: In de cms selector verschijnt de juiste mid in het veld 'Result' als er een media type is geselecteerd in 'Optional media type filter'. Dit geldt voor alle media types.
 Suites: MT
 Test
 ---

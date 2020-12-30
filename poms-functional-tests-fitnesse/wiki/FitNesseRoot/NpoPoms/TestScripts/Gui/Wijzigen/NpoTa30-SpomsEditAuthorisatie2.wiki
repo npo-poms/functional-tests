@@ -1,4 +1,5 @@
 ---
+Help: Er zijn geen clips met omroep NMO en criterium 'Mag schrijven'.
 Suites: RG
 Test
 ---

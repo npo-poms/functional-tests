@@ -1,4 +1,5 @@
 ---
+Help: In de popup 'Afbeelding toevoegen' voor een bestaande clip verschijnt onderaan een foutmelding als er alleen een bestand is geselecteerd.
 Suites: MT
 Test
 ---

@@ -1,4 +1,5 @@
 ---
+Help: De velden van een bestaande clip met omroep NPS kunnen wel gewijzigd worden.
 Suites: RG
 Test
 ---

@@ -1,4 +1,5 @@
 ---
+Help: In de popup 'Nieuw object toevoegen' verschijnt onderaan de melding 'Nog in te vullen: x' als alle verplichte velden behalve veld x ingevuld zijn.
 Suites: RG
 Test
 ---

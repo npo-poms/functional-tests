@@ -1,4 +1,5 @@
 ---
+Help: De user 'npo' ziet in de popup 'account-instellingen' staan: 'Dit zijn jouw rollen binnen poms, die bepalen waar je wel/geen toestemming voor hebt'.
 Suites: RG
 Test
 ---

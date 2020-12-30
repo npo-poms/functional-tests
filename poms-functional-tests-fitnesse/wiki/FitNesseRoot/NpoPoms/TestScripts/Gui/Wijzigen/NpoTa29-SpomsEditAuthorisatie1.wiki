@@ -1,4 +1,5 @@
 ---
+Help: De velden van een bestaande clip met omroep NMO kunnen niet gewijzigd worden.
 Suites: RG
 Test
 ---

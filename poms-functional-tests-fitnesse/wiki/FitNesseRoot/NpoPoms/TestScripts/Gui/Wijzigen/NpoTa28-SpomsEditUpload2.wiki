@@ -1,4 +1,5 @@
 ---
+Help: De afbeelding is zichtbaar nadat deze is toegevoegd aan een bestaande clip door een andere gebruiker.
 Suites: RG
 Test
 ---

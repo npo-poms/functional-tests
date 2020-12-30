@@ -1,4 +1,5 @@
 ---
+Help: Aanmaken en verwijderen van een clip en 2 onderdelen in de backend zijn zichtbaar in de gui.
 Suites: NPOAPI-156, RG
 Test
 ---

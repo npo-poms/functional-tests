@@ -1,4 +1,5 @@
 ---
+Help: In de detailpagina van het platform 'INTERNETVOD' van een bestaande clip blijft de starttijd gehandhaafd nadat deze starttijd is gewijzigd en deze detailpagina gesloten en weer geopend wordt.
 Suites: RG
 Test
 ---

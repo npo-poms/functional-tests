@@ -1,4 +1,5 @@
 ---
+Help: Als in de zoekpagina wordt gefilterd op mediatype clips en omroep x en in de pagina 'Onderdeel van' wordt gefilterd op omroep y, dan hebben de zoekresultaten in de pagina 'Onderdeel van' als omroepen zowel x als y.
 Suites: RG
 Test
 ---

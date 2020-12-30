@@ -1,4 +1,5 @@
 ---
+Help: In een nieuw aangemaakte clip kunnen er tags toegevoegd en verwijderd worden.
 Suites: MT
 Test
 ---

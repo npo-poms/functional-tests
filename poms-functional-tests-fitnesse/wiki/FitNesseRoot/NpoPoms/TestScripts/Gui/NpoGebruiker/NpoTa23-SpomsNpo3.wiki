@@ -1,4 +1,5 @@
 ---
+Help: In de detailpagina van een bestaande uitzending kan het type gewijzigd worden.
 Suites: RG
 Test
 ---

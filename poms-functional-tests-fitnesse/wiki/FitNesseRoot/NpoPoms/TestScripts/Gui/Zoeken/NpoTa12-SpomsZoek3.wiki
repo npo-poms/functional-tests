@@ -1,4 +1,5 @@
 ---
+Help: In de zoekpagina vermindert het aantal zoekresultaten als er gefilterd wordt op avType (single-optie).
 Suites: RG
 Test
 ---

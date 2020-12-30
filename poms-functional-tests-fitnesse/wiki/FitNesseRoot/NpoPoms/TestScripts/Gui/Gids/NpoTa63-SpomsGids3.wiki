@@ -1,4 +1,5 @@
 ---
+Help: In de zoekpagina hebben alle testresultaten op de 1e pagina als sorteerdatum vandaag of later als er hierop gefilterd is en er gesorteerd is op 'Laatste uitzending'.
 Suites: JF
 Test
 ---

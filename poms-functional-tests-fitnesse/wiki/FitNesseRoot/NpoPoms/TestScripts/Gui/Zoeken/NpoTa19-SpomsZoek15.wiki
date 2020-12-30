@@ -1,4 +1,5 @@
 ---
+Help: In de zoekpagina kunnen er extra kolommen getoond worden en bestaande kolommen verborgen worden. En er kan gesorteerd worden op de extra kolommen.
 Suites: RG
 Test
 ---

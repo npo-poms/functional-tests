@@ -1,4 +1,5 @@
 ---
+Help: Een nieuw aangemaakte clip krijgt de status 'Gepubliceerd' als de startdatum in het verleden ligt.
 Suites: RG
 Test
 ---

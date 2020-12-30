@@ -1,4 +1,5 @@
 ---
+Help: In de detailpagina van een bestaande clip kan een segment geopend worden en de velden van dit segment kunnen gewijzigd worden.
 Suites: RG
 Test
 ---

@@ -1,4 +1,5 @@
 ---
+Help: In de popup met details over een kanaal van een bestaande uitzending blijven alle waardes gehandhaafd nadat deze waardes zijn gewijzigd en deze popup gesloten en weer geopend wordt.
 Suites: MT
 Test
 ---

@@ -1,4 +1,5 @@
 ---
+Help: In de detailpagina van een bestaand object met titel een Nederlands lidwoord + tekst x (bijv. 'De Test') wordt tekst x + komma + lidwoord (bijv. 'Test, de') automatisch ingevuld in de lexicografische titel als de lexicografische titel leeg was en gewijzigd wordt.
 Suites: JF
 Test
 ---

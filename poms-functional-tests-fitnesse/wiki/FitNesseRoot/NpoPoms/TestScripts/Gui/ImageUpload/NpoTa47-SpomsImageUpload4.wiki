@@ -1,4 +1,5 @@
 ---
+Help: In de detailpagina van een bestaande clip blijft de volgorde van de afbeeldingen gehandhaafd als de volgorde veranderd wordt en de detailpagina gesloten en opnieuw geopend wordt.
 Suites: MT
 Test
 ---

@@ -1,4 +1,5 @@
 ---
+Help: Aanmaken van een clip, wijzigen van een clip naar een film en verwijderen van deze film in de backend zijn zichtbaar in de gui.
 Suites: NPOAPI-153, RG
 Test
 ---

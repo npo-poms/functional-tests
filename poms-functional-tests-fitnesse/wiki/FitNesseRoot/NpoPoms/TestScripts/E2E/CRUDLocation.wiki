@@ -1,4 +1,5 @@
 ---
+Help: Aanmaken, wijzigen en verwijderen van een clip en een bron in de backend zijn zichtbaar in de gui.
 Suites: NPOAPI-155, RG
 Test
 ---
