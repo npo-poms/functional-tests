@@ -1,16 +1,13 @@
 package nl.vpro.poms.selenium.tests.poms.wijzigen;
 
-import java.net.URISyntaxException;
-
-
 import org.junit.*;
 
 import nl.vpro.domain.image.ImageType;
 import nl.vpro.domain.support.License;
 import nl.vpro.poms.selenium.tests.poms.AbstractPomsTest;
+import nl.vpro.poms.selenium.util.WebDriverFactory;
 import nl.vpro.poms.selenium.util.pages.poms.MediaItemPage;
 import nl.vpro.poms.selenium.util.pages.poms.Search;
-import nl.vpro.poms.selenium.util.WebDriverFactory;
 
 import static org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric;
 
@@ -33,7 +30,7 @@ public class ChangeTest extends AbstractPomsTest {
 
 	@Test
 
-	public void SPOMSEDITUPLOAD1() throws URISyntaxException {
+	public void SPOMSEDITUPLOAD1() {
 
 		MediaItemPage item = new Search(webDriverUtil).searchAndOpenClip();
 		item.moveToAfbeeldingen();

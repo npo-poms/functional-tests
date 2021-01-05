@@ -2,7 +2,6 @@ package nl.vpro.poms.pagespublisher;
 
 import lombok.extern.log4j.Log4j2;
 
-import org.assertj.core.api.Assumptions;
 import org.junit.jupiter.api.*;
 
 import nl.vpro.api.client.pages.PageUpdateApiClient;
@@ -15,6 +14,7 @@ import nl.vpro.poms.AbstractApiTest;
 import static nl.vpro.api.client.utils.Config.Prefix.npo_pageupdate_api;
 import static nl.vpro.testutils.Utils.CONFIG;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assumptions.assumeThat;
 
 /**
  * @author Michiel Meeuwissen
@@ -53,7 +53,7 @@ class ThesaurusPublisherTest extends AbstractApiTest {
     @Test
     @Order(2)
     void newPersonArrivedInGTAA() {
-        Assumptions.assumeThat(gtaaId).isNotNull();
+        assumeThat(gtaaId).isNotNull();
         log.info("Getting person with id {}", gtaaId);
         GTAAPerson item = (GTAAPerson) clients.getThesaurusRestService().conceptStatus(gtaaId);
         log.info("{}", item);
@@ -66,7 +66,7 @@ class ThesaurusPublisherTest extends AbstractApiTest {
     @Test
     @Order(3)
     void newPersonIsAlsoFindableInGTAA() {
-        Assumptions.assumeThat(gtaaId).isNotNull();
+        assumeThat(gtaaId).isNotNull();
         PersonResult persons = clients.getThesaurusRestService().findPersons(givenName, 100);
         assertThat(persons.getSize()).isGreaterThan(0);
         for (PersonInterface p : persons) {
