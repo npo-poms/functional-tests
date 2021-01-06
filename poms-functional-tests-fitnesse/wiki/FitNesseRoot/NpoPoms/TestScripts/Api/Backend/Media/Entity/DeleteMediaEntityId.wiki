@@ -1,5 +1,5 @@
 ---
-Help: DELETE /media/{entity}/{id}
+Help: Een object kan verwijderd worden met DELETE /media/{entity}/{id}.
 Suites: NPOAPI-95, RG
 Test
 ---

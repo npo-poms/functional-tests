@@ -1,5 +1,5 @@
 ---
-Help: POST /media/{entity}/{id}/image
+Help: Een afbeelding kan toegevoegd worden aan een object met POST /media/{entity}/{id}/image.
 Suites: NPOAPI-99, RG
 Test
 ---

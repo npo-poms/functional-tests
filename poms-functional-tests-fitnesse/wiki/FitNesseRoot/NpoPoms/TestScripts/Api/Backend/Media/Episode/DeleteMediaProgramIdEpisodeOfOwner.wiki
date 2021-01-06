@@ -1,5 +1,5 @@
 ---
-Help: DELETE /media/program/{id}/episodeOf/{owner}
+Help: Een aflevering (program) kan verwijderd worden van een seizoen met DELETE /media/program/{id}/episodeOf/{owner}.
 Suites: NPOAPI-123, RG
 Test
 ---

@@ -1,4 +1,5 @@
 ---
+Help: Alle afleveringen van een seizoen (group) kunnen gesorteerd opgevraagd worden met GET /media/group/{id}/episodes.
 Suites: NPOAPI-120, DV
 Test
 ---

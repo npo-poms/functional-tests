@@ -1,5 +1,5 @@
 ---
-Help: POST /media/{entity}
+Help: Een object kan aangemaakt worden met POST /media/{entity}.
 Suites: NPOAPI-94, JF
 Test
 ---

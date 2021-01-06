@@ -1,5 +1,5 @@
 ---
-Help: POST /media/find
+Help: Er kan gezocht worden naar objecten met bepaalde eigenschappen met POST /media/find.
 Suites: NPOAPI-119, DV
 Test
 ---

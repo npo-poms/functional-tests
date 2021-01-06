@@ -1,5 +1,5 @@
 ---
-Help: GET /media/exists/{mid}
+Help: Er kan opgevraagd worden of een mid wel of niet bestaat met GET /media/exists/{mid}.
 Suites: NPOAPI-118, DV
 Test
 ---
