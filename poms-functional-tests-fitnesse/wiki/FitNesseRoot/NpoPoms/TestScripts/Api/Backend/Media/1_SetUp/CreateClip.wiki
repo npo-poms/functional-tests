@@ -1,0 +1,39 @@
+---
+Test
+---
+!*> Test-specific items
+!define body { {{{
+<program xmlns="urn:vpro:media:update:2009" type="CLIP" avType="VIDEO" embeddable="true">
+  <broadcaster>NPO</broadcaster>
+  <title type="MAIN">Specialisterren !today (yyyyMMddHHmm)</title>
+  <title type="SUB">Testsubtitle</title>
+  <title type="ORIGINAL">Original title</title>
+  <description type="MAIN">Deze clip is aangemaakt door Specialisterren.</description>
+  <description type="SHORT">Specialisterren Clip.</description>
+  <description type="SUB">Specialisterren Clip.</description>
+  <description type="EPISODE">Nieuwe Clip van vandaag.</description>
+  <credits/>
+  <locations/>
+  <scheduleEvents/>
+  <images/>
+  <segments/>
+</program>
+}}} }
+*!
+
+!4 Create
+|script                                                                         |
+|show |post           |${body}|to|${urlBackendApi}/media/media?owner=BROADCASTER|
+|check|response status|202                                                      |
+|check|response       |=~/^POMS_NPO_\d{7}$/                                     |
+|$mid=|response                                                                 |
+
+!4 Read (verify creation)
+|script                                                                                      |
+|show                           |get from|${urlBackendApi}/media/media/$mid?owner=BROADCASTER|
+|repeat until response status is|200                                                         |
+|show                           |time spent repeating                                        |
+|check                          |xPath   |/update:program/@mid             |$mid             |
+|set var                        |midClip |to                               |$mid             |
+|$urn=                          |xPath   |/update:program/@urn                               |
+|set var                        |urnClip |to                               |$urn             |

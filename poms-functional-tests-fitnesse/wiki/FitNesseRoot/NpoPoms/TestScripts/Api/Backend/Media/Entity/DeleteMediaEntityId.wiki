@@ -1,8 +1,6 @@
 ---
 Help: Een object kan verwijderd worden met DELETE /media/{entity}/{id}.
-Suites: NPOAPI-95, RG
+Suites: NPOAPI-95, JF
 Test
 ---
-|script                                                            |
-|show |delete         |${urlBackendApi}/media/media/WO_VPRO_3338447|
-|check|response status|202                                         |
+See [[Teardown > Delete clip][<Media._TearDown.DeleteClip]]

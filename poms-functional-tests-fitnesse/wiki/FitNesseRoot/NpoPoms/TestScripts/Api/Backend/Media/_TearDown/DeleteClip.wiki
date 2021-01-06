@@ -1,0 +1,14 @@
+---
+Test
+---
+!4 Delete
+|script                                                 |
+|$mid=|get var        |midClip                          |
+|show |delete         |${urlBackendApi}/media/media/$mid|
+|check|response status|202                              |
+
+!4 Read (verify deletion)
+|script                                                                |
+|get from          |${urlBackendApi}/media/media/$mid?owner=BROADCASTER|
+|repeat until xPath|/update:program/@deleted       |is      |true      |
+|show              |time spent repeating                               |
