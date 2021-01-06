@@ -1,5 +1,5 @@
 ---
-Help: GET /media/{entity}/{id}/locations
+Help: Alle bronnen van een object kunnen opgevraagd worden met GET /media/{entity}/{id}/locations.
 Suites: NPOAPI-104, RG
 Test
 ---

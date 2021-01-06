@@ -1,8 +1,13 @@
 ---
+Help: Er kan opgevraagd worden waar een gegeven object een onderdeel (member) van is met GET /media/{entity}/{id}/memberOfs.
 Suites: NPOAPI-107, RG
 Test
 ---
-|script                                                          |
-|get from|${urlBackendApi}/media/media/POW_00038757/memberOfs    |
-|check   |xPath|count(/update:list/update:item)|1                |
-|check   |xPath|/update:list/update:item       |POMS_S_BNN_097259|
+!*> Test-specific items
+!define seasonMid {POW_00038757}
+!define seriesMid {POMS_S_BNN_097259}
+*!
+|script                                                      |
+|get from|${urlBackendApi}/media/media/${seasonMid}/memberOfs|
+|check   |xPath |count(/update:list/update:item)|1           |
+|check   |xPath |/update:list/update:item       |${seriesMid}|

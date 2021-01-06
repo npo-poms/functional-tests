@@ -1,5 +1,5 @@
 ---
-Help: PUT /media/{entity}/{id}/members
+Help: De volgordes van onderdelen kunnen veranderd worden met PUT /media/{entity}/{id}/members.
 Suites: NPOAPI-109, RG
 Test
 ---

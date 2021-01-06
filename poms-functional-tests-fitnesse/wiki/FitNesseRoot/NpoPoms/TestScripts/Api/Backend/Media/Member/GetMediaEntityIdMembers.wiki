@@ -1,5 +1,4 @@
 ---
-Help: GET /media/{entity}/{id}/members
 Suite
 ---
 !contents -R2 -g -p -f -h

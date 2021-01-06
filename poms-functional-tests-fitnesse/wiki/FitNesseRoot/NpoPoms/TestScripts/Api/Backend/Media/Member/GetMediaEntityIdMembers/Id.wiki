@@ -1,4 +1,5 @@
 ---
+Help: Alle onderdelen (members) van een object kunnen opgevraagd worden met GET /media/{entity}/{id}/members.
 Suites: NPOAPI-108, RG
 Test
 ---

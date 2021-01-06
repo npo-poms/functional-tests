@@ -1,5 +1,5 @@
 ---
-Help: POST /media/{entity}/{id}/memberOf
+Help: Een onderdeel kan toegevoegd worden aan een object met POST /media/{entity}/{id}/memberOf.
 Suites: NPOAPI-105, RG
 Test
 ---

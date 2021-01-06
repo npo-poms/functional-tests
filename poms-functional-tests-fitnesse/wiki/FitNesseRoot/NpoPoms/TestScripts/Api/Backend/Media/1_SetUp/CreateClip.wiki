@@ -5,7 +5,7 @@ Test
 !define body { {{{
 <program xmlns="urn:vpro:media:update:2009" type="CLIP" avType="VIDEO" embeddable="true">
   <broadcaster>NPO</broadcaster>
-  <title type="MAIN">Specialisterren !today (yyyyMMddHHmm)</title>
+  <title type="MAIN">Specialisterren !today (yyyyMMddHHmmss)</title>
   <title type="SUB">Testsubtitle</title>
   <title type="ORIGINAL">Original title</title>
   <description type="MAIN">Deze clip is aangemaakt door Specialisterren.</description>
