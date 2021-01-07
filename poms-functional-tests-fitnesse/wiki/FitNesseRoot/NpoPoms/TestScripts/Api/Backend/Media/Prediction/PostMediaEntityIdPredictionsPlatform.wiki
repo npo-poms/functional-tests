@@ -1,17 +1,65 @@
 ---
-Help: POST /media/{entity}/{id}/predictions/{platform}
+Help: Een platform (prediction) kan bijgewerkt worden met POST /media/{entity}/{id}/predictions/{platform}.
 Suites: NPOAPI-114, RG
 Test
 ---
 !*> Test-specific items
-!define id {POMS_VPRO_3339239}
-!define body { {{{
+!define publishStart1 {2017-01-01T00:00:00.001Z}
+!define publishStart2 {2017-01-01T01:00:00.001+01:00}
+!define publishStop1 {2018-01-01T00:00:00.001Z}
+!define publishStop2 {2018-01-01T01:00:00.001+01:00}
+
+!define body1 { {{{
 <?xml version="1.0"?>
-<prediction xmlns="urn:vpro:media:update:2009" publishStart="2017-01-01T00:00:00.001Z" publishStop="2018-01-01T00:00:00.001Z" encryption="NONE">
+<prediction xmlns="urn:vpro:media:update:2009" publishStart="${publishStart1}" publishStop="${publishStop1}">
+  <platform>INTERNETVOD</platform>
+</prediction>
+}}} }
+!define body2 { {{{
+<?xml version="1.0"?>
+<prediction xmlns="urn:vpro:media:update:2009" publishStart="" publishStop="">
   <platform>INTERNETVOD</platform>
 </prediction>
 }}} }
 *!
+
+!4 Check original values
+
+|script                                                            |
+|$mid=   |get var    |midClip                                      |
+|get from|${urlBackendApi}/media/media/$mid/predictions/INTERNETVOD|
+|check   |xPath      |/update:prediction/@publishStart    |null    |
+|check   |xPath      |/update:prediction/@publishStop     |null    |
+
+!4 Update platform with POST /media/{entity}/{id}/predictions/{platform}
+
 |script                                                                                     |
-|show |post           |${body}|to|${urlBackendApi}/media/media/${id}/predictions/INTERNETVOD|
+|show |post           |${body1}|to|${urlBackendApi}/media/media/$mid/predictions/INTERNETVOD|
 |check|response status|204                                                                  |
+
+!4 Check platform updated
+
+|script                                                                                                |
+|get from            |${urlBackendApi}/media/media/$mid/predictions/INTERNETVOD                        |
+|repeat until xPath  |/update:prediction/@publishStart|is                             |${publishStart2}|
+|$repeatCount=       |repeat count                                                                     |
+|$timeSpentRepeating=|time spent repeating                                                             |
+|$timeSpentRepeating=|format timestamp                |$timeSpentRepeating            |as     |m:ss    |
+|check               |xPath                           |/update:prediction/@publishStop|${publishStop2} |
+
+!4 Put back original values of platform
+
+|script                                                                                     |
+|$mid=|get var        |midClip                                                              |
+|show |post           |${body2}|to|${urlBackendApi}/media/media/$mid/predictions/INTERNETVOD|
+|check|response status|204                                                                  |
+
+!4 Check platform back to its original values
+
+|script                                                                                       |
+|get from            |${urlBackendApi}/media/media/$mid/predictions/INTERNETVOD               |
+|repeat until xPath  |/update:prediction/@publishStart|is                             |null   |
+|$repeatCount=       |repeat count                                                            |
+|$timeSpentRepeating=|time spent repeating                                                    |
+|$timeSpentRepeating=|format timestamp                |$timeSpentRepeating            |as|m:ss|
+|check               |xPath                           |/update:prediction/@publishStop|null   |

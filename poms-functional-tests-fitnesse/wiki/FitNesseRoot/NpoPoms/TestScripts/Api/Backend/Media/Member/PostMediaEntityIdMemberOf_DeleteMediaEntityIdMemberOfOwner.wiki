@@ -1,0 +1,65 @@
+---
+Help: Een onderdeel kan toegevoegd worden aan een object met POST /media/{entity}/{id}/memberOf en een onderdeel kan verwijderd worden van een object met DELETE /media/{entity}/{id}/memberOf/{owner}.
+Suites: NPOAPI-105, NPOAPI-106, RG
+Test
+---
+!*> Test-specific items
+!define bodyCreateExtraClip { {{{
+<program xmlns="urn:vpro:media:update:2009" type="CLIP" avType="VIDEO" embeddable="true">
+  <broadcaster>NPO</broadcaster>
+  <title type="MAIN">Speciaal onderdeel !today (yyyyMMddHHmmss)</title>
+  <credits/>
+  <locations/>
+  <scheduleEvents/>
+  <images/>
+  <segments/>
+</program>
+}}} }
+!define bodySetExtraClipAsMember { {{{
+<?xml version="1.0"?>
+<memberRef xmlns="urn:vpro:media:update:2009" position="1" highlighted="true">$midOwner</memberRef>
+}}} }
+*!
+
+!4 Save current number of members
+
+|script                                                                          |
+|$midOwner=   |get var              |midClip                                     |
+|get from     |${urlBackendApi}/media/media/$midOwner/locations?owner=BROADCASTER|
+|$sourceCount=|xPath                |count(/update:list/update:item)             |
+
+!4 Create extra clip
+
+|script                                                                                                                   |
+|show                           |post            |${bodyCreateExtraClip}|to|${urlBackendApi}/media/media?owner=BROADCASTER|
+|$midMember=                    |response                                                                                 |
+|show                           |get from        |${urlBackendApi}/media/media/$midMember?owner=BROADCASTER               |
+|repeat until response status is|200                                                                                      |
+|$repeatCount=                  |repeat count                                                                             |
+|$timeSpentRepeating=           |time spent repeating                                                                     |
+|$timeSpentRepeating=           |format timestamp|$timeSpentRepeating   |as|m:ss                                          |
+
+!4 Add extra clip as member with POST /media/{entity}/{id}/memberOf
+
+|script                                                                                               |
+|show |post           |${bodySetExtraClipAsMember}|to|${urlBackendApi}/media/media/$midMember/memberOf|
+|check|response status|202                                                                            |
+
+!4 Check extra clip added as member
+
+|script                                                                    |
+|get from|${urlBackendApi}/media/media/$midOwner/members?owner=BROADCASTER |
+|check   |xPath|/update:list/update:item/update:mediaUpdate/@mid|$midMember|
+|show    |response                                                         |
+
+!4 Remove member from clip with DELETE /media/{entity}/{id}/memberOf/{owner}
+
+|script                                                                          |
+|show |delete         |${urlBackendApi}/media/media/$midMember/memberOf/$midOwner|
+|check|response status|202                                                       |
+
+!4 Check member is removed from clip
+
+|script                                                                     |
+|get from|${urlBackendApi}/media/media/$midOwner/locations?owner=BROADCASTER|
+|check   |xPath      |count(/update:list/update:item)     |$sourceCount     |

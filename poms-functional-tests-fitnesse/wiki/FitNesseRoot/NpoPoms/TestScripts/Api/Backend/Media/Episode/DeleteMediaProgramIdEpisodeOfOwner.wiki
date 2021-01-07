@@ -95,6 +95,10 @@ Test
 
 |script                                                                     |
 |get from|${urlBackendApi}/media/group/$midSeason/episodes?owner=BROADCASTER|
-|check   |xPath       |count(/update:list/update:item)           |0         |
-|show    |delete      |${urlBackendApi}/media/program/$midProgram           |
-|show    |delete      |${urlBackendApi}/media/program/$midSeason            |
+|check   |xPath         |count(/update:list/update:item)         |0         |
+
+!4 Delete program and season
+
+|script                                                |
+|show|delete|${urlBackendApi}/media/program/$midProgram|
+|show|delete|${urlBackendApi}/media/program/$midSeason |

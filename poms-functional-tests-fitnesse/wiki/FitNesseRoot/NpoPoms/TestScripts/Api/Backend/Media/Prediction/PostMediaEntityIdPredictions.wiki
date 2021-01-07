@@ -1,5 +1,5 @@
 ---
-Help: POST /media/{entity}/{id}/predictions
+Help: Alle platformen (predictions) kunnen bijgewerkt worden met POST /media/{entity}/{id}/predictions.
 Suites: NPOAPI-112, RG
 Test
 ---
