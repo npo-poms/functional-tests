@@ -28,4 +28,8 @@ public class ExtendedStringFixture {
     public boolean stringStartsWith(String haystack, String needle) {
 	    return haystack.startsWith(needle);
     }
+	
+	public String trim(String value) {
+		return value.trim();
+	}
 }

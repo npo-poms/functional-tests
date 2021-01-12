@@ -4,22 +4,18 @@ Suites: NPOAPI-114, RG
 Test
 ---
 !*> Test-specific items
-!define publishStart1 {2017-01-01T00:00:00.001Z}
-!define publishStart2 {2017-01-01T01:00:00.001+01:00}
-!define publishStop1 {2018-01-01T00:00:00.001Z}
-!define publishStop2 {2018-01-01T01:00:00.001+01:00}
+!define publishStart_Post {2017-01-01T00:00:00.001Z}
+!define publishStart_Get {2017-01-01T01:00:00.001+01:00}
+!define publishStop_Post {2018-01-01T00:00:00.001Z}
+!define publishStop_Get {2018-01-01T01:00:00.001+01:00}
 
-!define body1 { {{{
+!define bodySetPublishStartAndStop { {{{
 <?xml version="1.0"?>
-<prediction xmlns="urn:vpro:media:update:2009" publishStart="${publishStart1}" publishStop="${publishStop1}">
-  <platform>INTERNETVOD</platform>
-</prediction>
+<prediction xmlns="urn:vpro:media:update:2009" publishStart="${publishStart_Post}" publishStop="${publishStop_Post}"/>
 }}} }
-!define body2 { {{{
+!define bodyPutBackOriginalValues { {{{
 <?xml version="1.0"?>
-<prediction xmlns="urn:vpro:media:update:2009" publishStart="" publishStop="">
-  <platform>INTERNETVOD</platform>
-</prediction>
+<prediction xmlns="urn:vpro:media:update:2009" publishStart="" publishStop=""/>
 }}} }
 *!
 
@@ -33,26 +29,26 @@ Test
 
 !4 Update platform with POST /media/{entity}/{id}/predictions/{platform}
 
-|script                                                                                     |
-|show |post           |${body1}|to|${urlBackendApi}/media/media/$mid/predictions/INTERNETVOD|
-|check|response status|204                                                                  |
+|script                                                                                                          |
+|show |post           |${bodySetPublishStartAndStop}|to|${urlBackendApi}/media/media/$mid/predictions/INTERNETVOD|
+|check|response status|204                                                                                       |
 
 !4 Check platform updated
 
-|script                                                                                                |
-|get from            |${urlBackendApi}/media/media/$mid/predictions/INTERNETVOD                        |
-|repeat until xPath  |/update:prediction/@publishStart|is                             |${publishStart2}|
-|$repeatCount=       |repeat count                                                                     |
-|$timeSpentRepeating=|time spent repeating                                                             |
-|$timeSpentRepeating=|format timestamp                |$timeSpentRepeating            |as     |m:ss    |
-|check               |xPath                           |/update:prediction/@publishStop|${publishStop2} |
+|script                                                                                                   |
+|get from            |${urlBackendApi}/media/media/$mid/predictions/INTERNETVOD                           |
+|repeat until xPath  |/update:prediction/@publishStart|is                             |${publishStart_Get}|
+|$repeatCount=       |repeat count                                                                        |
+|$timeSpentRepeating=|time spent repeating                                                                |
+|$timeSpentRepeating=|format timestamp                |$timeSpentRepeating            |as      |m:ss      |
+|check               |xPath                           |/update:prediction/@publishStop|${publishStop_Get} |
 
 !4 Put back original values of platform
 
-|script                                                                                     |
-|$mid=|get var        |midClip                                                              |
-|show |post           |${body2}|to|${urlBackendApi}/media/media/$mid/predictions/INTERNETVOD|
-|check|response status|204                                                                  |
+|script                                                                                                         |
+|$mid=|get var        |midClip                                                                                  |
+|show |post           |${bodyPutBackOriginalValues}|to|${urlBackendApi}/media/media/$mid/predictions/INTERNETVOD|
+|check|response status|204                                                                                      |
 
 !4 Check platform back to its original values
 

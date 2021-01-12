@@ -1,5 +1,5 @@
 ---
-Help: GET /media/subtitles/{mid}/{language}/{type}
+Help: De inhoud van de ondertitels van een object kan opgevraagd worden met GET /media/subtitles/{mid}/{language}/{type}.
 Suites: NPOAPI-129, DV
 Test
 ---

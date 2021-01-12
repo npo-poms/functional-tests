@@ -1,17 +1,81 @@
 ---
-Help: Alle platformen (predictions) kunnen bijgewerkt worden met POST /media/{entity}/{id}/predictions.
+Help: Meerdere platformen (predictions) kunnen bijgewerkt worden met POST /media/{entity}/{id}/predictions.
 Suites: NPOAPI-112, RG
 Test
 ---
 !*> Test-specific items
-!define id {POMS_VPRO_3339239}
-!define body { {{{
+!define publishStart_Tvvod_Post {2013-01-01T00:00:00.001Z}
+!define publishStart_Tvvod_Get {2013-01-01T01:00:00.001+01:00}
+!define publishStop_Tvvod_Post {2014-01-01T00:00:00.001Z}
+!define publishStop_Tvvod_Get {2014-01-01T01:00:00.001+01:00}
+
+!define publishStart_Plusvod_Post {2015-01-01T00:00:00.001Z}
+!define publishStart_Plusvod_Get {2015-01-01T01:00:00.001+01:00}
+!define publishStop_Plusvod_Post {2016-01-01T00:00:00.001Z}
+!define publishStop_Plusvod_Get {2016-01-01T01:00:00.001+01:00}
+
+!define bodySetPublishStartAndStop { {{{
 <?xml version="1.0"?>
-<collection publishStart="2017-01-01T00:00:00.001Z" publishStop="2018-01-01T00:00:00.001Z" encryption="NONE">
-  <platform>INTERNETVOD</platform>
+<collection xmlns:update="urn:vpro:media:update:2009">
+  <update:prediction publishStart="${publishStart_Tvvod_Post}" publishStop="${publishStop_Tvvod_Post}">TVVOD</update:prediction>
+  <update:prediction publishStart="${publishStart_Plusvod_Post}" publishStop="${publishStop_Plusvod_Post}">PLUSVOD</update:prediction>
+</collection>
+}}} }
+!define bodyPutBackOriginalValues { {{{
+<?xml version="1.0"?>
+<collection xmlns:update="urn:vpro:media:update:2009">
+  <update:prediction publishStart="" publishStop="">TVVOD</update:prediction>
+  <update:prediction publishStart="" publishStop="">PLUSVOD</update:prediction>
 </collection>
 }}} }
 *!
-|script                                                                         |
-|show |post           |${body}|to|${urlBackendApi}/media/media/${id}/predictions|
-|check|response status|204                                                      |
+
+!4 Check original values
+
+|script                                                        |
+|$mid=   |get var   |midClip                                   |
+|get from|${urlBackendApi}/media/media/$mid/predictions/TVVOD  |
+|check   |xPath     |/update:prediction/@publishStart   |null  |
+|check   |xPath     |/update:prediction/@publishStop    |null  |
+|get from|${urlBackendApi}/media/media/$mid/predictions/PLUSVOD|
+|check   |xPath     |/update:prediction/@publishStart   |null  |
+|check   |xPath     |/update:prediction/@publishStop    |null  |
+
+!4 Update platform with POST /media/{entity}/{id}/predictions
+
+|script                                                                                              |
+|show |post           |${bodySetPublishStartAndStop}|to|${urlBackendApi}/media/media/$mid/predictions|
+|check|response status|204                                                                           |
+
+!4 Check platform updated
+
+|script                                                                                                            |
+|get from            |${urlBackendApi}/media/media/$mid/predictions/TVVOD                                          |
+|repeat until xPath  |/update:prediction/@publishStart|is                              |${publishStart_Tvvod_Get}  |
+|$repeatCount=       |repeat count                                                                                 |
+|$timeSpentRepeating=|time spent repeating                                                                         |
+|$timeSpentRepeating=|format timestamp                |$timeSpentRepeating             |as          |m:ss          |
+|check               |xPath                           |/update:prediction/@publishStop |${publishStop_Tvvod_Get}   |
+|get from            |${urlBackendApi}/media/media/$mid/predictions/PLUSVOD                                        |
+|check               |xPath                           |/update:prediction/@publishStart|${publishStart_Plusvod_Get}|
+|check               |xPath                           |/update:prediction/@publishStop |${publishStop_Plusvod_Get} |
+
+!4 Put back original values of platform
+
+|script                                                                                             |
+|$mid=|get var        |midClip                                                                      |
+|show |post           |${bodyPutBackOriginalValues}|to|${urlBackendApi}/media/media/$mid/predictions|
+|check|response status|204                                                                          |
+
+!4 Check platform back to its original values
+
+|script                                                                                        |
+|get from            |${urlBackendApi}/media/media/$mid/predictions/TVVOD                      |
+|repeat until xPath  |/update:prediction/@publishStart|is                              |null   |
+|$repeatCount=       |repeat count                                                             |
+|$timeSpentRepeating=|time spent repeating                                                     |
+|$timeSpentRepeating=|format timestamp                |$timeSpentRepeating             |as|m:ss|
+|check               |xPath                           |/update:prediction/@publishStop |null   |
+|get from            |${urlBackendApi}/media/media/$mid/predictions/PLUSVOD                    |
+|check               |xPath                           |/update:prediction/@publishStart|null   |
+|check               |xPath                           |/update:prediction/@publishStop |null   |

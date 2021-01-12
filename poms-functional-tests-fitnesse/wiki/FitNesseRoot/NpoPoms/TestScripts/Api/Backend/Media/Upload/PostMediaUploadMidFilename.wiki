@@ -1,5 +1,5 @@
 ---
-Help: POST /media/upload/{mid}/{fileName}
+Help: Een bron (location) kan geupload worden met POST /media/upload/{mid}/{fileName}.
 Suites: NPOAPI-136, DV
 Test
 ---

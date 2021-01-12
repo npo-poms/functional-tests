@@ -1,5 +1,5 @@
 ---
-Help: GET /media/streamingstatus/{mid}
+Help: De streaming platformstatus kan opgevraagd worden met GET /media/streamingstatus/{mid}.
 Suites: NPOAPI-126, DV
 Test
 ---

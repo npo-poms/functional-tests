@@ -1,0 +1,70 @@
+---
+Help: Ondertitels kunnen toegevoegd worden aan een object met POST /media/subtitles/{mid}/{language}/{type} en ondertitels kunnen verwijderd worden van een object met DELETE /media/subtitles/{mid}/{language}/{type}.
+Suites: NPOAPI-130, NPOAPI-128, RG
+Test
+---
+!*> Test-specific items
+!define subtitles { {{{WEBVTT
+
+1
+00:01:06.920 --> 00:01:07.960
+888
+
+2
+00:01:08.800 --> 00:01:10.200
+Ondertitels van dit object
+       
+3
+00:01:10.200 --> 00:01:12.760
+Soms is lezen beter dan luisteren
+
+4
+00:01:12.760 --> 00:01:15.800
+En soms is luisteren beter
+}}} }
+
+|scenario   |Convert line endings of subtitles to unix|
+|$subtitles=|convert line endings to unix|${subtitles}|
+
+|scenario  |Get formatted response                      |
+|$response=|response                                    |
+|$response=|trim                        |$response      |
+|$response=|convert line endings to unix|$response      |
+|$response=|value of                    |{{{$response}}}|
+*!
+
+!4 Check clip has no subtitles
+
+|script                                                                        |
+|$midClip=|get var        |midClip                                             |
+|show     |get from       |${urlBackendApi}/media/subtitles/$midClip/nl/CAPTION|
+|check    |response status|404                                                 |
+
+!4 Add subtitles to clip
+
+|script                                                                                             |
+|Convert line endings of subtitles to unix                                                          |
+|set content type|text/vtt                                                                          |
+|show            |post           |$subtitles|to|${urlBackendApi}/media/subtitles/$midClip/nl/CAPTION|
+|check           |response status|202                                                               |
+
+!4 Check subtitles added to clip
+
+|script                                                            |
+|show|get from|${urlBackendApi}/media/subtitles/$midClip/nl/CAPTION|
+|Get formatted response                                            |
+|show|value   |$response         |equals        |$subtitles        |
+
+!4 Remove subtitles from clip
+
+|script                                                                               |
+|set content type|text/vtt                                                            |
+|show            |delete         |${urlBackendApi}/media/subtitles/$midClip/nl/CAPTION|
+|check           |response status|202                                                 |
+|check           |response       |Subtitles deletion accepted for $midClip	CAPTION	nl |
+
+!4 Check clip has no subtitles
+
+|script                                                                    |
+|show |get from       |${urlBackendApi}/media/subtitles/$midClip/nl/CAPTION|
+|check|response status|404                                                 |
