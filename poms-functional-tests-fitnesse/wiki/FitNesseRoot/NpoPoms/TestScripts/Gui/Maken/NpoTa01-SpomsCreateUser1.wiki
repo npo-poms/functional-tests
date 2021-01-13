@@ -6,6 +6,15 @@ Test
 |script                                                                                                              |
 |Open Npo poms website                                                                                               |
 |Npo poms Inlogscherm Log in met standaard-gebruiker                                                                 |
+|$timeout=                                        |seconds before timeout                                            |
+|seconds before timeout                           |180                                                               |
+|start timer                                      |timer                                                             |
+|wait for visible                                 |xpath=//body[@ng-app="poms"]                                      |
+|$wachttijd=                                      |time on timer               |timer                                |
+|$wachttijd=                                      |format timestamp            |$wachttijd              |as   |m:ss  |
+|stop timer                                       |timer                                                             |
+|seconds before timeout                           |$timeout                                                          |
+|Npo poms Hoofdscherm Wacht tot tabblad Zoeken geopend                                                               |
 |click                                            |NIEUW                                                             |
 |Npo poms Nieuw object toevoegen Wacht tot popup geladen                                                             |
 |                                                                                                                    |

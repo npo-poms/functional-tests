@@ -29,7 +29,14 @@ public class ExtendedStringFixture {
 	    return haystack.startsWith(needle);
     }
 	
-	public String trim(String value) {
-		return value.trim();
+	public String convertTimestamp(String timestamp) {
+		String regEx = "(\\d{2}):(\\d{2}):(\\d{2}).(\\d{3})";
+		
+		int dt = Integer.parseInt(extractStringFromUsingGroup(timestamp, regEx, 1));
+		int h = Integer.parseInt(extractStringFromUsingGroup(timestamp, regEx, 2));
+		int m = Integer.parseInt(extractStringFromUsingGroup(timestamp, regEx, 3));
+		String s = extractStringFromUsingGroup(timestamp, regEx, 4);
+		
+		return String.format("P0DT%sH%sM%s.%sS", dt, h, m, s);
 	}
 }

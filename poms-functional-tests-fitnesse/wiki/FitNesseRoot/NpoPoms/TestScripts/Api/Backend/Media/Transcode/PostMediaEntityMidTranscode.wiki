@@ -5,16 +5,34 @@ Test
 ---
 !*> Test-specific items
 !define body { {{{
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <transcode xmlns="urn:vpro:media:update:2009">
-  <fileName>${urlBackendApi}!-/nep/-!$midClip__000000000-000010000.mp4</fileName></fileName>
-  <encryption>DRM</encryption>
+  <fileName>specialisterren-backend-api/$midClip.mp4</fileName>
+  <encryption>NONE</encryption>
   <priority>LOW</priority>
 </transcode>
 }}} }
 *!
-|script                                                                                        |
-|$midClip=|get var        |midClip                                                             |
-|show     |post           |${body}    |to   |${urlBackendApi}/media/media/$midClip/transcode   |
-|check    |response status|202                                                                 |
-|check    |response       |Transcoding job accepted for mid $midClip errors are mailed to: null|
+|script                   |
+|$midClip=|get var|midClip|
+
+|script                                                                                                                |
+|set content type|video/mp4                                                                                            |
+|show            |post           |files/videos/test.mp4|to|${urlBackendApi}/media/upload/$midClip?log=true&replace=true|
+|check           |response status|200                                                                                  |
+|check           |response       |=~/Ready uploading/                                                                  |
+
+|script                                                                                               |
+|set content type|application/xml; charset=UTF-8                                                      |
+|show            |post           |${body}    |to   |${urlBackendApi}/media/media/$midClip/transcode   |
+|check           |response status|202                                                                 |
+|check           |response       |Transcoding job accepted for mid $midClip errors are mailed to: null|
+
+|script                                                                        |
+|get from              |${urlBackendApi}/media/media/$midClip/transcodingstatus|
+|set repeat interval to|500                  |milliseconds                     |
+|repeat at most        |30                   |times                            |
+|show                  |xPath                |//update:status                  |
+|show                  |repeat until xPath   |//update:status   |is  |RUNNING  |
+|show                  |time spent repeating                                   |
+|Set default repeat interval and timeout                                       |

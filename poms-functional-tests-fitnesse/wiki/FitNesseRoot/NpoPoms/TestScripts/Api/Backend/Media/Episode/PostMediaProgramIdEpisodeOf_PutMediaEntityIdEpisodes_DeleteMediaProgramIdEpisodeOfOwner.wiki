@@ -1,0 +1,198 @@
+---
+Help: Een aflevering (program) kan toegevoegd worden aan een seizoen met POST /media/program/{id}/episodeOf, de volgordes van afleveringen kunnen veranderd worden met PUT /media/{entity}/{id}/episodes en een aflevering kan verwijderd worden van een seizoen met DELETE /media/program/{id}/episodeOf/{owner}.
+Suites: NPOAPI-122, NPOAPI-97, NPOAPI-123, RG
+Test
+---
+!*> Test-specific items
+!define bodyCreateSeason { {{{
+<group avType="VIDEO" embeddable="true" type="SEASON" xmlns="urn:vpro:media:update:2009">
+  <broadcaster>NPO</broadcaster>
+  <title type="MAIN">Speciaal Seizoen $timestamp</title>
+  <description type="MAIN">Seizoen Specialisterren.</description>
+  <credits/>
+  <locations/>
+  <scheduleEvents/>
+  <images/>
+</group>
+}}} }
+!define bodyCreateProgram1 { {{{
+<program xmlns="urn:vpro:media:update:2009" type="CLIP" avType="VIDEO" embeddable="true">
+  <broadcaster>NPO</broadcaster>
+  <title type="MAIN">Specialisterren $timestamp</title>
+  <title type="SUB">Testsubtitle</title>
+  <title type="ORIGINAL">Original title</title>
+  <description type="MAIN">Deze clip is aangemaakt door Specialisterren.</description>
+  <description type="SHORT">Specialisterren Clip.</description>
+  <description type="SUB">Specialisterren Clip.</description>
+  <description type="EPISODE">Nieuwe Clip van vandaag.</description>
+  <credits/>
+  <locations/>
+  <scheduleEvents/>
+  <images/>
+  <segments/>
+</program>
+}}} }
+!define bodyCreateProgram2 { {{{
+<program avType="VIDEO" embeddable="true" type="CLIP" xmlns="urn:vpro:media:update:2009">
+  <broadcaster>NPO</broadcaster>
+  <title type="MAIN">Speciaal Clip $timestamp</title>
+  <credits/>
+  <locations/>
+  <scheduleEvents/>
+  <images/>
+  <segments/>
+</program>
+}}} }
+!define bodyChangeProgram1ToBroadcast { {{{
+<program xmlns="urn:vpro:media:update:2009" type="BROADCAST" urn="$urnProgram1" mid="$midProgram1" avType="VIDEO" embeddable="true">
+  <broadcaster>NPO</broadcaster>
+  <title type="MAIN">Speciaal uitzending $timestamp - 1</title>
+  <description type="MAIN">Uitzending Specialisterren.</description>
+  <credits/>
+  <locations/>
+  <scheduleEvents/>
+  <images/>
+  <segments/>
+</program>
+}}} }
+!define bodySetProgram1AsEpisodeOfSeason { {{{
+<?xml version="1.0"?>
+<memberRef xmlns="urn:vpro:media:update:2009" position="1" highlighted="true">$midSeason</memberRef>
+}}} }
+!define bodyChangeProgram2ToBroadcastAndSetAsEpisodeOfSeason { {{{
+<program avType="VIDEO" embeddable="true" type="BROADCAST" urn="$urnProgram2" mid="$midProgram2" xmlns="urn:vpro:media:update:2009">
+  <broadcaster>NPO</broadcaster>
+  <title type="MAIN">Speciaal uitzending $timestamp - 2</title>
+  <credits/>
+  <locations/>
+  <scheduleEvents/>
+  <images/>
+  <episodeOf highlighted="true" position="2">$midSeason</episodeOf>
+  <segments/>
+</program>
+}}} }
+!define bodyMoveEpisode { {{{
+<?xml version="1.0" encoding="utf-8"?>
+<move xmlns="urn:vpro:media:update:2009">
+  <from>0</from>
+  <to>1</to>
+</move>
+}}} }
+*!
+
+|script                                    |
+|$timestamp=|value of|!today (yyyyMMddHHmm)|
+
+!4 Create season
+
+|script                                                                                                                |
+|show                           |post            |${bodyCreateSeason}|to|${urlBackendApi}/media/group?owner=BROADCASTER|
+|$midSeason=                    |response                                                                              |
+|show                           |get from        |${urlBackendApi}/media/group/$midSeason/full                         |
+|repeat until response status is|200                                                                                   |
+|$repeatCount=                  |repeat count                                                                          |
+|$timeSpentRepeating=           |time spent repeating                                                                  |
+|$timeSpentRepeating=           |format timestamp|$timeSpentRepeating|as|m:ss                                          |
+
+!4 Create program 1 with media type 'clip'
+
+|script                                                                                                                   |
+|show                           |post           |${bodyCreateProgram1}|to|${urlBackendApi}/media/program?owner=BROADCASTER|
+|check                          |response status|202                                                                      |
+|$midProgram1=                  |response                                                                                 |
+|show                           |get from       |${urlBackendApi}/media/program/$midProgram1?owner=BROADCASTER            |
+|repeat until response status is|200                                                                                      |
+|show                           |time spent repeating                                                                     |
+|check                          |xPath          |/update:program/@mid |$midProgram                                        |
+|$urnProgram1=                  |xPath          |/update:program/@urn                                                     |
+
+!4 Update program 1: Change media type to 'broadcast'
+
+|script                                                                                                                         |
+|show                |post                 |${bodyChangeProgram1ToBroadcast}|to|${urlBackendApi}/media/program?owner=BROADCASTER|
+|show                |get from             |${urlBackendApi}/media/program/$midProgram1?owner=BROADCASTER                       |
+|repeat until xPath  |/update:program/@type|is                              |BROADCAST                                          |
+|$repeatCount=       |repeat count                                                                                              |
+|$timeSpentRepeating=|time spent repeating                                                                                      |
+|$timeSpentRepeating=|format timestamp     |$timeSpentRepeating             |as|m:ss                                            |
+
+!4 Set program 1 as episode of season with POST /media/program/{id}/episodeOf
+
+|script                                                                                                                                           |
+|show                |post                           |${bodySetProgram1AsEpisodeOfSeason}|to|${urlBackendApi}/media/program/$midProgram1/episodeOf|
+|get from            |${urlBackendApi}/media/group/$midSeason/episodes?owner=BROADCASTER                                                          |
+|repeat until xPath  |count(/update:list/update:item)|is                                 |1                                                       |
+|$repeatCount=       |repeat count                                                                                                                |
+|$timeSpentRepeating=|time spent repeating                                                                                                        |
+|$timeSpentRepeating=|format timestamp               |$timeSpentRepeating                |as|m:ss                                                 |
+
+!4 Check program 1 is episode of season
+
+|script                                                                      |
+|get from|${urlBackendApi}/media/group/$midSeason/episodes?owner=BROADCASTER |
+|check   |xPath|/update:list/update:item/update:mediaUpdate/@mid|$midProgram1|
+
+!4 Create program 2 with media type 'clip'
+
+|script                                                                                                                    |
+|show                           |post            |${bodyCreateProgram2}|to|${urlBackendApi}/media/program?owner=BROADCASTER|
+|$midProgram2=                  |response                                                                                  |
+|show                           |get from        |${urlBackendApi}/media/program/$midProgram2/full                         |
+|repeat until response status is|200                                                                                       |
+|$repeatCount=                  |repeat count                                                                              |
+|$timeSpentRepeating=           |time spent repeating                                                                      |
+|$timeSpentRepeating=           |format timestamp|$timeSpentRepeating  |as|m:ss                                            |
+|$urnProgram2=                  |xPath           |/media:program/@urn                                                      |
+
+!4 Update program 2: Change media type to 'broadcast' and set program as episode of season
+
+|script                                                                                                                                                          |
+|show                |post                           |${bodyChangeProgram2ToBroadcastAndSetAsEpisodeOfSeason}|to|${urlBackendApi}/media/program?owner=BROADCASTER|
+|get from            |${urlBackendApi}/media/group/$midSeason/episodes?owner=BROADCASTER                                                                         |
+|repeat until xPath  |count(/update:list/update:item)|is                                                     |2                                                  |
+|$repeatCount=       |repeat count                                                                                                                               |
+|$timeSpentRepeating=|time spent repeating                                                                                                                       |
+|$timeSpentRepeating=|format timestamp               |$timeSpentRepeating                                    |as|m:ss                                            |
+
+!4 Check program 1 and 2 are episodes of season
+
+|script                                                                         |
+|get from|${urlBackendApi}/media/group/$midSeason/episodes?owner=BROADCASTER    |
+|check   |xPath|count(/update:list/update:item)                    |2           |
+|check   |xPath|/update:list/update:item[1]/update:mediaUpdate/@mid|$midProgram1|
+|check   |xPath|/update:list/update:item[2]/update:mediaUpdate/@mid|$midProgram2|
+
+!4 Switch episode 1 and 2 with PUT /media/{entity}/{id}/episodes 
+
+|script                                                                                      |
+|show |put            |${bodyMoveEpisode}|to|${urlBackendApi}/media/group/$midSeason/episodes|
+|check|response status|202                                                                   |
+|check|response       |Move accepted for $midSeason.                                         |
+
+!4 Check episode 1 and 2 have switched places
+
+|script                                                                         |
+|get from|${urlBackendApi}/media/group/$midSeason/episodes?owner=BROADCASTER    |
+|check   |xPath|count(/update:list/update:item)                    |2           |
+|check   |xPath|/update:list/update:item[1]/update:mediaUpdate/@mid|$midProgram1|
+|check   |xPath|/update:list/update:item[2]/update:mediaUpdate/@mid|$midProgram2|
+
+!4 Delete episodes from season with DELETE /media/program/{id}/episodeOf/{owner}
+
+|script                                                                                |
+|show |delete         |${urlBackendApi}/media/program/$midProgram2/episodeOf/$midSeason|
+|check|response status|202                                                             |
+|show |delete         |${urlBackendApi}/media/program/$midProgram1/episodeOf/$midSeason|
+|check|response status|202                                                             |
+
+!4 Check season has no episodes anymore 
+
+|script                                                                     |
+|get from|${urlBackendApi}/media/group/$midSeason/episodes?owner=BROADCASTER|
+|check   |xPath         |count(/update:list/update:item)         |0         |
+
+!4 Delete program and season
+
+|script                                                |
+|show|delete|${urlBackendApi}/media/program/$midProgram|
+|show|delete|${urlBackendApi}/media/program/$midSeason |
