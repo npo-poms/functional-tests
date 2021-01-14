@@ -1,0 +1,119 @@
+---
+Help: Een onderdeel kan toegevoegd worden aan een object met POST /media/{entity}/{id}/memberOf, de volgordes van onderdelen kunnen veranderd worden met PUT /media/{entity}/{id}/members en een onderdeel kan verwijderd worden van een object met DELETE /media/{entity}/{id}/memberOf/{owner}.
+Suites: NPOAPI-105, NPOAPI-109, NPOAPI-106, RG
+Test
+---
+!*> Test-specific items
+!define bodyCreateExtraClip1 { {{{
+<program xmlns="urn:vpro:media:update:2009" type="CLIP" avType="VIDEO" embeddable="true">
+  <broadcaster>NPO</broadcaster>
+  <title type="MAIN">Speciaal onderdeel !today (yyyyMMddHHmmss) - 1</title>
+  <credits/>
+  <locations/>
+  <scheduleEvents/>
+  <images/>
+  <segments/>
+</program>
+}}} }
+!define bodySetExtraClipAsMember { {{{
+<?xml version="1.0"?>
+<memberRef xmlns="urn:vpro:media:update:2009" position="1" highlighted="true">$midOwner</memberRef>
+}}} }
+!define bodyCreateExtraClip2AndSetAsMember { {{{
+<program xmlns="urn:vpro:media:update:2009" type="CLIP" avType="VIDEO" embeddable="true">
+  <broadcaster>NPO</broadcaster>
+  <title type="MAIN">Speciaal onderdeel !today (yyyyMMddHHmmss) - 2</title>
+  <credits/>
+  <memberOf highlighted="true" position="2">$midOwner</memberOf>
+  <locations/>
+  <scheduleEvents/>
+  <images/>
+  <segments/>
+</program>
+}}} }
+!define bodyMoveMember { {{{
+<?xml version="1.0" encoding="utf-8"?>
+<move xmlns="urn:vpro:media:update:2009">
+  <from>0</from>
+  <to>1</to>
+</move>
+}}} }
+*!
+
+!4 Save current number of members
+
+|script                                                                        |
+|$midOwner=   |get var             |midClip                                    |
+|get from     |${urlBackendApi}/media/media/$midOwner/members?owner=BROADCASTER|
+|$memberCount=|xPath               |count(/update:list/update:item)            |
+
+!4 Create extra clip 1
+
+|script                                                                                                                    |
+|show                           |post            |${bodyCreateExtraClip1}|to|${urlBackendApi}/media/media?owner=BROADCASTER|
+|$midMember1=                   |response                                                                                  |
+|show                           |get from        |${urlBackendApi}/media/media/$midMember1?owner=BROADCASTER               |
+|repeat until response status is|200                                                                                       |
+|$repeatCount=                  |repeat count                                                                              |
+|$timeSpentRepeating=           |time spent repeating                                                                      |
+|$timeSpentRepeating=           |format timestamp|$timeSpentRepeating    |as|m:ss                                          |
+
+!4 Update clip 1: Set as member with POST /media/{entity}/{id}/memberOf
+
+|script                                                                                                |
+|show |post           |${bodySetExtraClipAsMember}|to|${urlBackendApi}/media/media/$midMember1/memberOf|
+|check|response status|202                                                                             |
+
+!4 Check extra clip 1 added as member
+
+|script                                                                        |
+|get from|${urlBackendApi}/media/media/$midOwner/members?owner=BROADCASTER     |
+|check   |xPath|/update:list/update:item[1]/update:mediaUpdate/@mid|$midMember1|
+
+!4 Create extra clip 2 and set as member
+
+|script                                                                                                                                      |
+|show                |post                           |${bodyCreateExtraClip2AndSetAsMember}|to|${urlBackendApi}/media/media?owner=BROADCASTER|
+|$midMember2=        |response                                                                                                               |
+|show                |get from                       |${urlBackendApi}/media/media/$midMember2?owner=BROADCASTER                             |
+|repeat until xPath  |count(/update:list/update:item)|is                                   |2                                                |
+|$repeatCount=       |repeat count                                                                                                           |
+|$timeSpentRepeating=|time spent repeating                                                                                                   |
+|$timeSpentRepeating=|format timestamp               |$timeSpentRepeating                  |as|m:ss                                          |
+
+!4 Check clip 1 and 2 are members
+
+|script                                                                        |
+|get from|${urlBackendApi}/media/media/$midOwner/members?owner=BROADCASTER     |
+|check   |xPath|count(/update:list/update:item)                    |2          |
+|check   |xPath|/update:list/update:item[1]/update:mediaUpdate/@mid|$midMember1|
+|check   |xPath|/update:list/update:item[2]/update:mediaUpdate/@mid|$midMember2|
+
+!4 Switch member 1 and 2 with PUT /media/{entity}/{id}/members 
+
+|script                                                                                   |
+|show |put            |${bodyMoveMember}|to|${urlBackendApi}/media/media/$midOwner/members|
+|check|response status|202                                                                |
+|check|response       |Move accepted for $midOwner.                                       |
+
+!4 Check member 1 and 2 have switched places
+
+|script                                                                        |
+|get from|${urlBackendApi}/media/media/$midOwner/members?owner=BROADCASTER     |
+|check   |xPath|count(/update:list/update:item)                    |2          |
+|check   |xPath|/update:list/update:item[1]/update:mediaUpdate/@mid|$midMember2|
+|check   |xPath|/update:list/update:item[2]/update:mediaUpdate/@mid|$midMember1|
+
+!4 Remove members from clip with DELETE /media/{entity}/{id}/memberOf/{owner}
+
+|script                                                                           |
+|show |delete         |${urlBackendApi}/media/media/$midMember2/memberOf/$midOwner|
+|check|response status|202                                                        |
+|show |delete         |${urlBackendApi}/media/media/$midMember1/memberOf/$midOwner|
+|check|response status|202                                                        |
+
+!4 Check members are removed from clip
+
+|script                                                                   |
+|get from|${urlBackendApi}/media/media/$midOwner/members?owner=BROADCASTER|
+|check   |xPath     |count(/update:list/update:item)     |$memberCount    |

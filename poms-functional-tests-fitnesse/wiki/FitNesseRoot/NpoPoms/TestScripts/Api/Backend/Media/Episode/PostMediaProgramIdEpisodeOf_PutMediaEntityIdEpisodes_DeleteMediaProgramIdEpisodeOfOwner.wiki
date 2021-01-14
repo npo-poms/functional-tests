@@ -103,7 +103,7 @@ Test
 |show                           |get from       |${urlBackendApi}/media/program/$midProgram1?owner=BROADCASTER            |
 |repeat until response status is|200                                                                                      |
 |show                           |time spent repeating                                                                     |
-|check                          |xPath          |/update:program/@mid |$midProgram                                        |
+|check                          |xPath          |/update:program/@mid |$midProgram1                                       |
 |$urnProgram1=                  |xPath          |/update:program/@urn                                                     |
 
 !4 Update program 1: Change media type to 'broadcast'
@@ -118,18 +118,14 @@ Test
 
 !4 Set program 1 as episode of season with POST /media/program/{id}/episodeOf
 
-|script                                                                                                                                           |
-|show                |post                           |${bodySetProgram1AsEpisodeOfSeason}|to|${urlBackendApi}/media/program/$midProgram1/episodeOf|
-|get from            |${urlBackendApi}/media/group/$midSeason/episodes?owner=BROADCASTER                                                          |
-|repeat until xPath  |count(/update:list/update:item)|is                                 |1                                                       |
-|$repeatCount=       |repeat count                                                                                                                |
-|$timeSpentRepeating=|time spent repeating                                                                                                        |
-|$timeSpentRepeating=|format timestamp               |$timeSpentRepeating                |as|m:ss                                                 |
+|script                                                                                                |
+|show|post|${bodySetProgram1AsEpisodeOfSeason}|to|${urlBackendApi}/media/program/$midProgram1/episodeOf|
 
 !4 Check program 1 is episode of season
 
 |script                                                                      |
 |get from|${urlBackendApi}/media/group/$midSeason/episodes?owner=BROADCASTER |
+|check   |xPath|count(/update:list/update:item)                 |1           |
 |check   |xPath|/update:list/update:item/update:mediaUpdate/@mid|$midProgram1|
 
 !4 Create program 2 with media type 'clip'
@@ -174,8 +170,8 @@ Test
 |script                                                                         |
 |get from|${urlBackendApi}/media/group/$midSeason/episodes?owner=BROADCASTER    |
 |check   |xPath|count(/update:list/update:item)                    |2           |
-|check   |xPath|/update:list/update:item[1]/update:mediaUpdate/@mid|$midProgram1|
-|check   |xPath|/update:list/update:item[2]/update:mediaUpdate/@mid|$midProgram2|
+|check   |xPath|/update:list/update:item[1]/update:mediaUpdate/@mid|$midProgram2|
+|check   |xPath|/update:list/update:item[2]/update:mediaUpdate/@mid|$midProgram1|
 
 !4 Delete episodes from season with DELETE /media/program/{id}/episodeOf/{owner}
 
