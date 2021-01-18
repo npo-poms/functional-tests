@@ -75,7 +75,7 @@ Test
 |script                                                                                                                                      |
 |show                |post                           |${bodyCreateExtraClip2AndSetAsMember}|to|${urlBackendApi}/media/media?owner=BROADCASTER|
 |$midMember2=        |response                                                                                                               |
-|show                |get from                       |${urlBackendApi}/media/media/$midMember2?owner=BROADCASTER                             |
+|show                |get from                       |${urlBackendApi}/media/media/$midOwner?owner=BROADCASTER                               |
 |repeat until xPath  |count(/update:list/update:item)|is                                   |2                                                |
 |$repeatCount=       |repeat count                                                                                                           |
 |$timeSpentRepeating=|time spent repeating                                                                                                   |
@@ -117,3 +117,9 @@ Test
 |script                                                                   |
 |get from|${urlBackendApi}/media/media/$midOwner/members?owner=BROADCASTER|
 |check   |xPath     |count(/update:list/update:item)     |$memberCount    |
+
+!4 Delete members
+
+|script                                              |
+|show|delete|${urlBackendApi}/media/media/$midMember1|
+|show|delete|${urlBackendApi}/media/media/$midMember2|

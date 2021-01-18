@@ -49,3 +49,6 @@
 
 |scenario|Npo poms Hoofdscherm Ga naar eerste tab|
 |click   |xpath=//ul[@class="nav nav-tabs"]/li[1]|
+
+|scenario|Npo poms Hoofdscherm Toon huidige gebruiker|
+|show    |value of  |xpath=//span[@id="currentUser"] |

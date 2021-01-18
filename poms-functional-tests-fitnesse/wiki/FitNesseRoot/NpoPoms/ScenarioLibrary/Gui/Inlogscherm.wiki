@@ -10,7 +10,7 @@
 |Npo poms Inlogscherm Wacht tot pagina geladen                                                                    |
 |enter                        |@gebruiker                                 |as          |id=username               |
 |enter                        |@wachtwoord                                |as          |id=password               |
-|click                        |id=kc-login                                                                        |
+|show                         |click if available                         |id=kc-login                            |
 |$timeout=                    |seconds before timeout                                                             |
 |seconds before timeout       |180                                                                                |
 |start timer                  |timer                                                                              |
@@ -28,6 +28,7 @@
 |$laatsteAantalZoekresultaten=|store                                      |0                                      |
 |close last tab                                                                                                   |
 |Npo poms Zoeken Wacht tot zoeken klaar is                                                                        |
+|Npo poms Hoofdscherm Toon huidige gebruiker                                                                      |
 
 |scenario                                 |Npo poms Inlogscherm Log in met standaard-gebruiker        |
 |Npo poms Inlogscherm Log in met gebruiker|$standaardGebruikersnaam|en wachtwoord|$standaardWachtwoord|
