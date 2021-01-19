@@ -39,4 +39,12 @@ public class ExtendedStringFixture {
 		
 		return String.format("P0DT%sH%sM%s.%sS", dt, h, m, s);
 	}
+	
+	public boolean valueIsSmallerThan(String value1, String value2) {
+		return (value1.compareTo(value2) < 0);
+	}
+	
+	public boolean valueIsGreaterThan(String value1, String value2) {
+		return (value1.compareTo(value2) > 0);
+	}
 }

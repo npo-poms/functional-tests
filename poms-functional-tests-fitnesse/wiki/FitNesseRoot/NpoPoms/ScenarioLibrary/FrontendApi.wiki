@@ -6,6 +6,11 @@
 |get from|${urlFrontendApi}/@{action}                       |
 |check   |json path|@{path}|@{value}                        |
 
+|scenario   |Get      |action|and save values at|path1|and|path2|as|alias1|and|alias2|
+|get from   |${urlFrontendApi}/@{action}                                             |
+|$@{alias1}=|json path|@{path1}                                                      |
+|$@{alias2}=|json path|@{path2}                                                      |
+
 |table template|Get count at path        |
 |get from      |${urlFrontendApi}/@{get} |
 |$count=       |json path count|@{path}.*|

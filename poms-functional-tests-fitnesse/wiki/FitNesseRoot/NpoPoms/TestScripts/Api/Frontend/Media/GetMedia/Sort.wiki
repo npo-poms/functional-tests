@@ -2,14 +2,9 @@
 Help: De items in de response van GET /media kunnen gesorteerd worden op titel met de parameter 'sort'.
 Test
 ---
-!define firstTitle {items[0].titles[0].value}
-
-|Get value at path in Test                                                                                   |
-|get                           |path         |value                                                          |
-|media?sort=asc&offset=0&max=2 |${firstTitle}|Liedje: Claudia de Breij - My Favorite Things  (Sound of Music)|
-|media?sort=desc&offset=0&max=2|${firstTitle}|NTR Podium                                                     |
-
-|Get value at path in Dev                                               |
-|get                           |path         |value                     |
-|media?sort=asc&offset=0&max=2 |${firstTitle}|De Daniel den Hoed Kliniek|
-|media?sort=desc&offset=0&max=2|${firstTitle}|Zappchat Wie is de Mol jr |
+|script                                                                                                                             |
+|Get   |media?sort=asc&offset=0&max=2 |and save values at|items[0].titles[0].value|and|items[1].titles[0].value|as|title1|and|title2|
+|Get   |media?sort=desc&offset=0&max=2|and save values at|items[0].titles[0].value|and|items[1].titles[0].value|as|title3|and|title4|
+|start |extended string fixture                                                                                                     |
+|ensure|value                         |$title1           |is smaller than         |$title2                                          |
+|ensure|value                         |$title3           |is greater than         |$title4                                          |
