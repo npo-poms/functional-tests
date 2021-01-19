@@ -1,0 +1,6 @@
+---
+Help: De transcoding status van een bron (location) kan opgevraagd worden met GET /media/{entity}/{mid}/transcodingstatus.
+Suites: NPOAPI-117, DV
+Test
+---
+Zie [[POST /media/transcode (NPOAPI-133)][<Media.Transcode.PostMediaTranscode]]

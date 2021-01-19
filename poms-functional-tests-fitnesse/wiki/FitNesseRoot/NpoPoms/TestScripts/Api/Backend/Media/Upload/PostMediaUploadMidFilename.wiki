@@ -3,4 +3,4 @@ Help: Een bron (location) kan geupload worden met POST /media/upload/{mid}/{file
 Suites: NPOAPI-136, DV
 Test
 ---
-Zie [[POST /media/transcode][<Media.Transcode.PostMediaTranscode]]
+Zie [[POST /media/transcode (NPOAPI-133)][<Media.Transcode.PostMediaTranscode]]
