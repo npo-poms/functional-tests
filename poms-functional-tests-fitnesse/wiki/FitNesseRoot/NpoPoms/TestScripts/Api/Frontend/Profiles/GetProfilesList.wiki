@@ -1,5 +1,5 @@
 ---
-Help: GET /profiles/list
+Help: Het aantal items in de response van GET /profiles, is kleiner of gelijk aan de opgegeven waarde in de parameter 'max'.
 Suites: NPOAPI-39, RG
 Test
 ---

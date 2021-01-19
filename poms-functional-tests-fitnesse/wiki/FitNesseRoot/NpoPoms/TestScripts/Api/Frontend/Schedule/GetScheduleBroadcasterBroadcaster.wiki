@@ -1,5 +1,4 @@
 ---
-Help: GET /schedule/broadcaster/{broadcaster}
 Suite
 ---
 !contents -R2 -g -p -f -h

@@ -1,4 +1,5 @@
 ---
+Help: Het eerste item in de response van GET /media/{mid}/members is een onderdeel van het opgegeven object en het aantal items in de response is kleiner of gelijk aan de opgegeven waarde in de parameter 'max'.
 Suites: NPOAPI-13, RG
 Test
 ---

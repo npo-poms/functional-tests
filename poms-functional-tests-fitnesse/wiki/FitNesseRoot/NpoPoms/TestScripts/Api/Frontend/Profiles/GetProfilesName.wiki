@@ -1,5 +1,5 @@
 ---
-Help: GET /profiles/{name}
+Help: Een profiel kan opgevraagd worden met GET /profiles/{name}.
 Suite
 ---
 !contents -R2 -g -p -f -h

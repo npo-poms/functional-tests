@@ -1,5 +1,4 @@
 ---
-Help: GET /media
 Suite
 Suites: NPOAPI-6, RG
 ---

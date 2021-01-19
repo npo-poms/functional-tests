@@ -1,8 +1,11 @@
 ---
+Help: De response van POST /media/{mid}/episodes bevat alle objecten die een onderdeel zijn van het opgegeven object en voldoen aan de opgegeven voorwaarden.
 Suites: NPOAPI-14, RG
 Test
 ---
 !*> Test-specific items
+!define begin {10-6-2011 20:35} #1307730900000
+!define end {16-4-2014 18:26} #1397672760000
 !define mid {POMS_S_VPRO_218686}
 
 !define body1 { {{{
@@ -14,8 +17,8 @@ Test
       "match": "MUST"
     },
     "scheduleEvents" : { 
-      "begin" : 1307730900000, 
-      "end" : 1397672790000, 
+      "begin" : $begin,
+      "end" : $end,
       "rerun": true 
     } 
   }
@@ -31,14 +34,17 @@ Test
       "match": "MUST"
     },
     "scheduleEvents" : { 
-      "begin" : 1307730900000, 
-      "end" : 1397672790000, 
+      "begin" : $begin,
+      "end" : $end,
       "rerun": true 
     } 
   }
 }
 }}} }
 *!
+|script                                |
+|$begin=|convert date|${begin}|to epoch|
+|$end=  |convert date|${end}  |to epoch|
 
 |Post count at path                        |
 |body    |post                |path |count?|

@@ -1,4 +1,5 @@
 ---
+Help: Het tweede item in de response van GET /media zonder offset is gelijk aan het eerste item in de response van GET /media met offset 1.
 Test
 ---
 |script                                                                       |

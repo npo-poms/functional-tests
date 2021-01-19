@@ -1,5 +1,4 @@
 ---
-Help: GET /schedule/net/{net}/next
 Suite
 ---
 !contents -R2 -g -p -f -h

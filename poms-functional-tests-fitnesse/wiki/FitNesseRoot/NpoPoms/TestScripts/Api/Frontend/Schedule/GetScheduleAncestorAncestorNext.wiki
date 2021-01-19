@@ -1,5 +1,4 @@
 ---
-Help: GET /schedule/ancestor/{ancestor}/next
 Suite
 ---
 !contents -R2 -g -p -f -h

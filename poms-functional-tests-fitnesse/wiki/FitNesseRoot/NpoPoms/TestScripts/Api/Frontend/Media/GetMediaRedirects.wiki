@@ -1,5 +1,5 @@
 ---
-Help: GET /media/redirects
+Help: De response van GET /media/redirects bevat alle objecten die een vervanger hebben.
 Suite
 Suites: NPOAPI-21, RG
 ---

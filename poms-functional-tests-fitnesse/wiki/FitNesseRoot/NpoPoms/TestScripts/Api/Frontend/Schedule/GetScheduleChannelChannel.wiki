@@ -1,5 +1,4 @@
 ---
-Help: GET /schedule/channel/{channel}
 Suite
 ---
 !contents -R2 -g -p -f -h

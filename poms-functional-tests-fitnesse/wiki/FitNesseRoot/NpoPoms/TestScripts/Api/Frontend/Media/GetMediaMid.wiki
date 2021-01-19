@@ -1,5 +1,5 @@
 ---
-Help: GET /media/{mid}
+Help: De response van GET /media/{mid} bevat het juiste aantal properties.
 Suites: NPOAPI-8, RG
 Test
 ---

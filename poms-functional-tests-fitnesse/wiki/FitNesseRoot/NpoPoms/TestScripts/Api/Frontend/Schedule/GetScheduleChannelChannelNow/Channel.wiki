@@ -1,4 +1,5 @@
 ---
+Help: De zender van het item in de response van GET /schedule/channel/{channel}/now is gelijk aan de opgegeven zender.
 Suites: NPOAPI-33, RG
 Test
 ---

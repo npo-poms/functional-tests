@@ -1,4 +1,5 @@
 ---
+Help: De response van POST /media/{mid}/descendants bevat alle objecten die een descendant zijn van het opgegeven object en voldoen aan de opgegeven voorwaarden.
 Suites: NPOAPI-10, RG
 Test
 ---

@@ -1,5 +1,5 @@
 ---
-Help: GET /thesaurus/concepts/status
+Help: De id van de response van GET /thesaurus/concepts/status eindigt op de opgegeven id en geldt voor alle statussen.
 Suites: NPOAPI-57, RG
 Test
 ---

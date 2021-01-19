@@ -1,5 +1,4 @@
 ---
-Help: GET /media/{mid}/related
 Suite
 Suites: NPOAPI-15, DV
 ---

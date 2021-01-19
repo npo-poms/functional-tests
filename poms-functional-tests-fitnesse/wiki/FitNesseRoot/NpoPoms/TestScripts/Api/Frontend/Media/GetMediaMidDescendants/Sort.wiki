@@ -1,4 +1,5 @@
 ---
+Help: De items in de response van GET /media/{mid}/descendants kunnen gesorteerd worden op titel met de parameter 'sort'.
 Test
 ---
 !define firstItem {items[0].mid}

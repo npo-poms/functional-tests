@@ -1,4 +1,5 @@
 ---
+Help: Het aantal items in de response van GET /schedule/broadcaster/{broadcaster} is kleiner of gelijk aan de opgegeven waarde in de parameter 'max'.
 Suites: NPOAPI-29, RG
 Test
 ---

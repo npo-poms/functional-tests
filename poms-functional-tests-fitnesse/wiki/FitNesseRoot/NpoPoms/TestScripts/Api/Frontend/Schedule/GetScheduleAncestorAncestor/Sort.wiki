@@ -1,4 +1,5 @@
 ---
+Help: De items in de response van GET /schedule/ancestor/{ancestor} kunnen gesorteerd worden op titel met de parameter 'sort'.
 Suites: NPOAPI-25, RG
 Test
 ---

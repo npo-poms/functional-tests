@@ -1,20 +1,28 @@
 ---
+Help: De response van POST /schedule bevat alle objecten die voldoen aan de opgegeven voorwaarden.
 Suites: NPOAPI-24, RG
 Test
 ---
 !*> Test-specific items
-!define body {!-<pre>{
+!define begin {27-2-2014 1:00} #1393459200000
+!define end {27-2-2014 17:00} #1393516800000
+!define body { {{{
+{
   "searches": {
     "scheduleEvents" : {
       "channel" : "NED3",
       "net" : "ZAPP",
-      "begin" : 1393459200000,
-      "end" : 1393516800000,
+      "begin" : $begin,
+      "end" : $end,
       "rerun": false
-    }
+    } 
   }
-}</pre>-!}
+}
+}}} }
 *!
+|script                                |
+|$begin=|convert date|${begin}|to epoch|
+|$end=  |convert date|${end}  |to epoch|
 
 |Post count at path in Test  |
 |body   |post    |path |count|

@@ -1,5 +1,5 @@
 ---
-Help: GET /media/{mid}/episodes
+Help: Het eerste item in de response van GET /media/{mid}/episodes is een aflevering van een seizoen dat het opgegeven object is.
 Suites: NPOAPI-11, RG
 Test
 ---

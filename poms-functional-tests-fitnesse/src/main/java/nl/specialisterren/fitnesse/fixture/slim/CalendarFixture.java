@@ -6,6 +6,9 @@ import java.util.Calendar;
 import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.ZoneId;
 
 
 public class CalendarFixture {
@@ -46,5 +49,12 @@ public class CalendarFixture {
 		c.add(Calendar.MINUTE, minutes);
 		
 		return sdf.format(c.getTime());  
+	}
+	
+	public long convertDateToEpoch(String datetime) {
+		LocalDateTime localDateTime = LocalDateTime.parse(datetime, DateTimeFormatter.ofPattern("d-M-yyyy H:mm") );
+		long millis = localDateTime.atZone(ZoneId.of("Europe/Amsterdam")).toInstant().toEpochMilli();
+		
+		return millis;
 	}
 }

@@ -1,6 +1,7 @@
 ---
-Test
+Help: De id's van de items in de response van GET /media/multiple is gelijk aan de opgegeven id's.
 Suites: DV, NPOAPI-20
+Test
 ---
 !***> Test-specific items
 !define id1 {AVRO_1656037}

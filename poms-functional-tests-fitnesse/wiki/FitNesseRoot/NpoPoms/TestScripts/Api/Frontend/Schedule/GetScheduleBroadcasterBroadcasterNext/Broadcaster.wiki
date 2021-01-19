@@ -1,4 +1,5 @@
 ---
+Help: De omroep van het item in de response van GET /schedule/broadcaster/{broadcaster}/next is gelijk aan de opgegeven omroep.
 Suites: NPOAPI-28, RG
 Test
 ---

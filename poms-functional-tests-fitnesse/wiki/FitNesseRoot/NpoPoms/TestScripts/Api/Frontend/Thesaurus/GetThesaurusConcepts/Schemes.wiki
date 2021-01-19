@@ -1,4 +1,5 @@
 ---
+Help: Het objecttype van het eerste item van de response van GET /thesaurus/concepts is gelijk aan het opgegeven scheme.
 Suites: NPOAPI-56, RG
 Test
 ---

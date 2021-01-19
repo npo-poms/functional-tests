@@ -1,5 +1,4 @@
 ---
-Help: GET /thesaurus/persons
 Suite
 Suites: NPOAPI-59, RG
 ---

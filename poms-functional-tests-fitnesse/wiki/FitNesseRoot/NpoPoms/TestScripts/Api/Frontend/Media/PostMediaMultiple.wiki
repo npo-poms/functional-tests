@@ -1,5 +1,5 @@
 ---
-Help: POST /media/mutiple
+Help: De id's van de items in de response van POST /media/multiple is gelijk aan de opgegeven id's.
 Suites: NPOAPI-19, RG
 Test
 ---

@@ -1,4 +1,5 @@
 ---
+Help: De items in de response van GET /media kunnen gesorteerd worden op titel met de parameter 'sort'.
 Test
 ---
 !define firstTitle {items[0].titles[0].value}

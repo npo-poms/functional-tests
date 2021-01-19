@@ -1,4 +1,5 @@
 ---
+Help: Het net van het item in de response van GET /schedule/net/{net}/now is gelijk aan het opgegeven net.
 Suites: NPOAPI-36, RG
 Test
 ---

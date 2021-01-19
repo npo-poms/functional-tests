@@ -1,5 +1,4 @@
 ---
-Help: POST /media/{mid}/descendants
 Suite
 ---
 !contents -R2 -g -p -f -h

@@ -1,5 +1,4 @@
 ---
-Help: GET /media/{mid}/multiple
 Suite
 ---
 !contents -R2 -g -p -f -h

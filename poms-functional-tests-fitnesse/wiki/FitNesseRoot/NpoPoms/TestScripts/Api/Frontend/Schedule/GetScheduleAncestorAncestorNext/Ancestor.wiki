@@ -1,4 +1,5 @@
 ---
+Help: De response van GET /schedule/ancestor/{ancestor}/next bevat 1 item.
 Suites: NPOAPI-26, RG
 Test
 ---

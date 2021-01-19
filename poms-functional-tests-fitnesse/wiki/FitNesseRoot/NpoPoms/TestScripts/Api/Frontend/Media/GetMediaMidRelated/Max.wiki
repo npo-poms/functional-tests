@@ -1,4 +1,5 @@
 ---
+Help: Het aantal items in de response van GET /media/{mid}/related is kleiner of gelijk aan de opgegeven waarde in de parameter 'max'.
 Test
 ---
 |Get count at path                       |

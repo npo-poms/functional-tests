@@ -1,5 +1,5 @@
 ---
-Help: POST /media/{mid}/related
+Help: De response van POST /media/{mid}/related bevat alle objecten die gerelateerd zijn aan het opgegeven object en voldoen aan de opgegeven voorwaarden.
 Suites: NPOAPI-16, RG
 Test
 ---

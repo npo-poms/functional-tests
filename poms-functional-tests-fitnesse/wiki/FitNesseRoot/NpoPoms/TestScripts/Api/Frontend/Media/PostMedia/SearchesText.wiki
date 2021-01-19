@@ -1,8 +1,11 @@
 ---
+Help: De response van POST /media bevat alle objecten die voldoen aan de opgegeven voorwaarden.
 Suites: NPOAPI-7, RG
 Test
 ---
 !*> Test-specific items
+!define begin {2-4-2015 15:35} #1427981700000
+!define end {28-10-2018 22:50} #1540763400000
 !define body { {{{
 {
   "searches": {
@@ -12,14 +15,18 @@ Test
       "match": "MUST"
     },
     "scheduleEvents": {
-      "begin": 1427981700000,
-      "end": 1540763400000,
+      "begin": $begin,
+      "end": $end,
       "rerun": false
     }
   }
 }
 }}} }
 *!
+
+|script                                |
+|$begin=|convert date|${begin}|to epoch|
+|$end=  |convert date|${end}  |to epoch|
 
 |Post count at path in Test|
 |body    |post |path |count|

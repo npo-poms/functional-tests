@@ -4,6 +4,8 @@ Suites: NPOAPI-18, RG
 Test
 ---
 !*> Test-specific items
+!define begin1 {21-12-2007 20:30} #1198265400000
+!define end1 {21-12-2008 20:30} #1229887807000
 !define body1 { {{{
 {
   "searches": {
@@ -14,14 +16,16 @@ Test
     },
     "scheduleEvents": {
       "channel": "NED1",
-      "begin": 1198265400000,
-      "end": 1229887807000,
+      "begin": $begin1,
+      "end": $end1,
       "rerun": true
     }
   }
 }
 }}} }
 
+!define begin2 {13-9-2020 07:25} #1599974700000
+!define end2 {14-9-2020 07:25} #1600061100000
 !define body2 { {{{
 {
   "searches": {
@@ -32,8 +36,8 @@ Test
     },
     "scheduleEvents": {
       "channel": "REGU",
-      "begin": "1599974700000",
-      "end": "1600061100000",
+      "begin": $begin2,
+      "end": $end2,
       "rerun": false
     }
   }
@@ -76,6 +80,12 @@ Test
 #}
 #}}} }
 *!
+|script                                  |
+|$begin1=|convert date|${begin1}|to epoch|
+|$end1=  |convert date|${end1}  |to epoch|
+|$begin2=|convert date|${begin2}|to epoch|
+|$end2=  |convert date|${end2}  |to epoch|
+
 |Post count at path                        |
 |body    |post         |path        |count?|
 |${body1}|media/iterate|mediaobjects|2     |

@@ -1,4 +1,5 @@
 ---
+Help: De response van POST /media/{mid}/episodes bevat alle objecten die een aflevering zijn van het opgegeven object en voldoen aan de opgegeven voorwaarden.
 Suites: NPOAPI-12, RG
 Test
 ---

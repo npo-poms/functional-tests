@@ -1,5 +1,4 @@
 ---
-Help: GET /media/{mid}/descendants
 Suite
 Suites: NPOAPI-9, RG
 ---

@@ -1,7 +1,15 @@
 ---
+Help: De guide day van het eerste item van de response van GET /schedule is gelijk aan het opgegeven guide day.
 Suites: NPOAPI-23, RG
 Test
 ---
-|Get value at path                                                          |
-|get                                        |path             |value?       |
-|schedule?guideDay=2017-07-04&sort=asc&max=1|items[0].guideDay|1499119200000|
+!*> Test-specific items
+!define guideDay {4-7-2017 0:00} #1499119200000
+*!
+
+|script                                      |
+|$guideDay=|convert date|${guideDay}|to epoch|
+
+|Get value at path                                                      |
+|get                                        |path             |value?   |
+|schedule?guideDay=2017-07-04&sort=asc&max=1|items[0].guideDay|$guideDay|

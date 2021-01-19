@@ -1,4 +1,5 @@
 ---
+Help: Het aantal items in de response van GET /media/suggest is kleiner of gelijk aan de opgegeven waarde in de parameter 'max' als de input gelijk is aan de gezochte tekst.
 Suites: NPOAPI-22, RG
 Test
 ---
