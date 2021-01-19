@@ -75,7 +75,7 @@ Test
 |script                                                                                                                                      |
 |show                |post                           |${bodyCreateExtraClip2AndSetAsMember}|to|${urlBackendApi}/media/media?owner=BROADCASTER|
 |$midMember2=        |response                                                                                                               |
-|show                |get from                       |${urlBackendApi}/media/media/$midOwner?owner=BROADCASTER                               |
+|show                |get from                       |${urlBackendApi}/media/media/$midOwner/members?owner=BROADCASTER                       |
 |repeat until xPath  |count(/update:list/update:item)|is                                   |2                                                |
 |$repeatCount=       |repeat count                                                                                                           |
 |$timeSpentRepeating=|time spent repeating                                                                                                   |
