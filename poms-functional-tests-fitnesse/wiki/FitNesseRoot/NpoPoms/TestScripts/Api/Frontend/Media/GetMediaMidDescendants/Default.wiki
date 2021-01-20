@@ -1,0 +1,10 @@
+---
+Help: De items in de response van GET /media/{mid}/descendants zijn descendants van het opgegeven object.
+Test
+---
+!define firstItem {items[0].episodeOf[0].midRef}
+
+|Get value at path                                     |
+|get                               |path        |value?|
+|media/${mid}/descendants?sort=asc |${firstItem}|${mid}|
+|media/${mid}/descendants?sort=desc|${firstItem}|${mid}|

@@ -1,0 +1,12 @@
+---
+Help: Het eerste item in de response van GET /schedule/ancestor/{ancestor}/next heeft het opgegeven object als ancestor.
+Suites: NPOAPI-25, RG
+Test
+---
+!*> Test-sepcific items
+!define midAncestor {044411213}
+*!
+|script                                                                                                                              |
+|Get  |schedule/ancestor/${midAncestor}?properties=none&sort=asc&max=1|and save value at           |items[0].midRef|as|midDescendant |
+|Get  |media/${midAncestor}/descendants?sort=asc&max=1                |and check value at          |items[0].mid   |is|$midDescendant|
+|check|json path                                                      |items[0].episodeOf[0].midRef|${midAncestor}                   |

@@ -10,16 +10,16 @@
 |Npo poms Inlogscherm Wacht tot pagina geladen                                                                    |
 |enter                        |@gebruiker                                 |as          |id=username               |
 |enter                        |@wachtwoord                                |as          |id=password               |
-|show                         |click if available                         |id=kc-login                            |
+|click                        |id=kc-login                                                                        |
+|wait for visible             |xpath=//body[@ng-app="poms"]                                                       |
 |$timeout=                    |seconds before timeout                                                             |
 |seconds before timeout       |180                                                                                |
 |start timer                  |timer                                                                              |
-|wait for visible             |xpath=//body[@ng-app="poms"]                                                       |
+|Npo poms Hoofdscherm Wacht tot tabblad Zoeken geopend                                                            |
 |$wachttijd=                  |time on timer                              |timer                                  |
 |$wachttijd=                  |format timestamp                           |$wachttijd  |as            |m:ss       |
 |stop timer                   |timer                                                                              |
 |seconds before timeout       |$timeout                                                                           |
-|Npo poms Hoofdscherm Wacht tot tabblad Zoeken geopend                                                            |
 |                             |In 'Npo poms Zoeken Wacht tot zoeken klaar is' wordt gewacht                       |
 |                             |tot aantal zoekresultaten niet gelijk is aan $laatsteAantalZoekresultaten.         |
 |                             |Hier wordt $laatsteAantalZoekresultaten ingesteld op 0, zodat in                   |
