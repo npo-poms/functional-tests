@@ -1,8 +1,13 @@
 ---
-Help: De response van GET /schedule/ancestor/{ancestor}/next bevat 1 item.
+Help: De response van GET /schedule/ancestor/{ancestor}/next bevat 1 item en de starttijd ligt in de toekomst.
 Suites: NPOAPI-26, RG
 Test
 ---
-|script                                                                |
-|get from |${urlFrontendApi}/schedule/ancestor/POMS_S_NPO_8138042/next |
-|Ensure one and only one result by counting the number of poProgID keys|
+|script                                                                             |
+|$now=      |value of              |!today (d-M-yyyy H:mm:ss)                       |
+|$nowIso=   |convert datetime      |$now            |to iso                         |
+|get from   |${urlFrontendApi}/schedule/ancestor/POMS_S_NPO_8138042/next?now=$nowIso|
+|Ensure one and only one result by counting the number of poProgID keys             |
+|$start=    |json path             |start                                           |
+|$starttime=|convert epoch         |$start          |to datetime                    |
+|ensure     |datetime              |$starttime      |is greater than      |$now     |

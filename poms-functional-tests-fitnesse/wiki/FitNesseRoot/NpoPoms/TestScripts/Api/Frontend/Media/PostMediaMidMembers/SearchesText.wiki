@@ -42,9 +42,9 @@ Test
 }
 }}} }
 *!
-|script                                |
-|$begin=|convert date|${begin}|to epoch|
-|$end=  |convert date|${end}  |to epoch|
+|script                                    |
+|$begin=|convert datetime|${begin}|to epoch|
+|$end=  |convert datetime|${end}  |to epoch|
 
 |Post count at path                        |
 |body    |post                |path |count?|

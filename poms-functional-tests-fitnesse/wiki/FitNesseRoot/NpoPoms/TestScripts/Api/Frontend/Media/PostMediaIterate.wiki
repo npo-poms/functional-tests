@@ -80,11 +80,11 @@ Test
 #}
 #}}} }
 *!
-|script                                  |
-|$begin1=|convert date|${begin1}|to epoch|
-|$end1=  |convert date|${end1}  |to epoch|
-|$begin2=|convert date|${begin2}|to epoch|
-|$end2=  |convert date|${end2}  |to epoch|
+|script                                      |
+|$begin1=|convert datetime|${begin1}|to epoch|
+|$end1=  |convert datetime|${end1}  |to epoch|
+|$begin2=|convert datetime|${begin2}|to epoch|
+|$end2=  |convert datetime|${end2}  |to epoch|
 
 |Post count at path                        |
 |body    |post         |path        |count?|

@@ -7,8 +7,8 @@ Test
 !define guideDay {4-7-2017 0:00} #1499119200000
 *!
 
-|script                                      |
-|$guideDay=|convert date|${guideDay}|to epoch|
+|script                                          |
+|$guideDay=|convert datetime|${guideDay}|to epoch|
 
 |Get value at path                                                      |
 |get                                        |path             |value?   |

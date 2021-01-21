@@ -6,8 +6,8 @@ Test
 !*> Test-specific items
 !define start {17-5-2010 15:30} #1274103000000
 *!
-|script                                |
-|$start=|convert date|${start}|to epoch|
+|script                                    |
+|$start=|convert datetime|${start}|to epoch|
 
 |Get value at path                                                                |
 |get                                                                 |path |value?|

@@ -2,6 +2,8 @@ package nl.specialisterren.fitnesse.fixture.slim;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.TimeZone;
 import java.util.Calendar;
 import java.util.Locale;
 import java.util.regex.Matcher;
@@ -51,10 +53,47 @@ public class CalendarFixture {
 		return sdf.format(c.getTime());  
 	}
 	
-	public long convertDateToEpoch(String datetime) {
+
+	public long convertDatetimeToEpoch(String datetime) {
 		LocalDateTime localDateTime = LocalDateTime.parse(datetime, DateTimeFormatter.ofPattern("d-M-yyyy H:mm") );
 		long millis = localDateTime.atZone(ZoneId.of("Europe/Amsterdam")).toInstant().toEpochMilli();
 		
 		return millis;
+	}
+	
+	public String convertEpochToDatetime(long epoch) {
+		Date date = new Date(epoch);
+        SimpleDateFormat sdf = new SimpleDateFormat("d-M-yyyy H:mm:ss");
+        sdf.setTimeZone(TimeZone.getTimeZone("Europe/Amsterdam"));
+		
+        return sdf.format(date);
+	}
+	
+	public boolean datetimeIsSmallerThan(String datetime1, String datetime2) {
+		SimpleDateFormat sdf = new SimpleDateFormat("d-M-yyyy H:mm:ss");
+		Calendar c1 = stringToCalendar(datetime1, sdf);
+		Calendar c2 = stringToCalendar(datetime2, sdf);
+		
+		return (c1.compareTo(c2) < 0);
+	}
+	
+	public boolean datetimeIsGreaterThan(String datetime1, String datetime2) {
+		SimpleDateFormat sdf = new SimpleDateFormat("d-M-yyyy H:mm:ss");
+		Calendar c1 = stringToCalendar(datetime1, sdf);
+		Calendar c2 = stringToCalendar(datetime2, sdf);
+		
+		return (c1.compareTo(c2) > 0);
+	}
+	
+	public String convertDatetimeFromTo(String datetime, String format1, String format2) {
+		SimpleDateFormat sdf1 = new SimpleDateFormat(format1);
+		SimpleDateFormat sdf2 = new SimpleDateFormat(format2);
+		Calendar c = stringToCalendar(datetime, sdf1);
+		
+		return sdf2.format(c.getTime()); 
+	}
+	
+	public String convertDatetimeToIso(String datetime) {
+		return convertDatetimeFromTo(datetime, "d-M-yyyy H:mm:ss", "yyyy-MM-dd'T'HH:mm:ss.000'Z'");
 	}
 }
