@@ -6,7 +6,7 @@
       <groupId>nl.vpro.poms</groupId>
       <artifactId>poms-functional-tests-fitnesse</artifactId>
       <version>1.0.11c</version> <!-- what's the ratio for the version? -->
-      <description>Fitnesse tests for poms gui</description>    
+      <description>Fitnesse tests for poms gui</description>
       <properties>
           <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
           <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
@@ -16,7 +16,7 @@
           <webdriver.download.skip>false</webdriver.download.skip>
           <extraFailsafeListeners>,nl.hsac.fitnesse.junit.JUnitXMLPerPageListener</extraFailsafeListeners>
       </properties>
-      
+
       <dependencies>
           <dependency>
               <groupId>org.fitnesse</groupId>
@@ -27,7 +27,7 @@
           <dependency>
               <groupId>nl.hsac</groupId>
               <artifactId>hsac-fitnesse-fixtures</artifactId>
-              <version>4.21.0</version>
+              <version>4.23.1</version>
           </dependency>
           <dependency>
               <groupId>com.github.tcnh</groupId>
@@ -39,7 +39,7 @@
               <artifactId>fitnesse-autocomplete-responder</artifactId>
               <version>1.0.8</version>
           </dependency>
-          
+
           <dependency>
               <groupId>nl.hsac</groupId>
               <artifactId>allure-fitnesse-listener</artifactId>
@@ -52,7 +52,7 @@
               <artifactId>frontend-api-client</artifactId>
               <version>5.12.3</version>
           </dependency>
-          
+
           <!-- Testing -->
           <dependency>
               <groupId>junit</groupId>
@@ -61,7 +61,7 @@
               <scope>test</scope>
           </dependency>
       </dependencies>
-      
+
       <build>
           <outputDirectory>${standalone.classpath}</outputDirectory>
           <plugins>
@@ -167,6 +167,7 @@
                                   <argument>fitnesse-standalone.jar</argument>
                                   <argument>-p</argument>
                                   <argument>${fitnesse.port}</argument>
+                                  <argument>-lh</argument>
                               </arguments>
                           </configuration>
                       </execution>
@@ -220,7 +221,7 @@
 							<platform>linux</platform>
 							<bit>64</bit>
 							<version>0.26.0</version>
-						  </driver>					
+						  </driver>
                           <driver>
                               <name>chromedriver</name>
                               <platform>windows</platform>
@@ -341,7 +342,7 @@
                       <dependency>
                           <groupId>nl.hsac</groupId>
                           <artifactId>hsac-fitnesse-fixtures</artifactId>
-                          <version>4.21.0</version>
+                          <version>4.23.1</version>
                           <classifier>standalone</classifier>
                           <type>zip</type>
                       </dependency>
@@ -367,7 +368,7 @@
               </plugin>
           </plugins>
       </build>
-      
+
       <profiles>
           <profile>
               <id>mac</id>
