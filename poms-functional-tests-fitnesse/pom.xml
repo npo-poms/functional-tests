@@ -21,13 +21,13 @@
           <dependency>
               <groupId>org.fitnesse</groupId>
               <artifactId>fitnesse</artifactId>
-              <version>20201213</version>
+              <version>20200501</version>
               <scope>provided</scope>
           </dependency>
           <dependency>
               <groupId>nl.hsac</groupId>
               <artifactId>hsac-fitnesse-fixtures</artifactId>
-              <version>4.23.1</version>
+              <version>4.21.0</version>
           </dependency>
           <dependency>
               <groupId>com.github.tcnh</groupId>
@@ -342,7 +342,7 @@
                       <dependency>
                           <groupId>nl.hsac</groupId>
                           <artifactId>hsac-fitnesse-fixtures</artifactId>
-                          <version>4.23.1</version>
+                          <version>4.21.0</version>
                           <classifier>standalone</classifier>
                           <type>zip</type>
                       </dependency>
