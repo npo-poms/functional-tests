@@ -1,13 +1,25 @@
 ---
-Help: De response van GET /schedule/ancestor/{ancestor}/next bevat 1 item en de starttijd ligt in de toekomst.
+Help: Het item in de response van GET /schedule/ancestor/{ancestor}/next heeft een starttijd in de toekomst en heeft het gegeven object als ancestor.
 Suites: NPOAPI-26, RG
 Test
 ---
-|script                                                                             |
-|$now=      |value of              |!today (d-M-yyyy H:mm:ss)                       |
-|$nowIso=   |convert datetime      |$now            |to iso                         |
-|get from   |${urlFrontendApi}/schedule/ancestor/POMS_S_NPO_8138042/next?now=$nowIso|
-|Ensure one and only one result by counting the number of poProgID keys             |
-|$start=    |json path             |start                                           |
-|$starttime=|convert epoch         |$start          |to datetime                    |
-|ensure     |datetime              |$starttime      |is greater than      |$now     |
+!*> Test-specific items
+!define midAncestor {POMS_S_NPO_8138042}
+*!
+|script                                                                      |
+|$now=   |value of                 |!today (d-M-yyyy H:mm:ss)                |
+|$nowIso=|convert datetime         |$now               |to iso               |
+|get from|${urlFrontendApi}/schedule/ancestor/${midAncestor}/next?now=$nowIso|
+
+!4 Item in response has starttime in future
+
+|script                                                   |
+|$start=    |json path    |start                          |
+|$starttime=|convert epoch|$start    |to datetime         |
+|ensure     |datetime     |$starttime|is greater than|$now|
+
+!4 Item in response has given object as ancestor
+
+|script                                                  |
+|$midNext=   |json path|midRef                           |
+|Check object|$midNext |is a descendant of|${midAncestor}|

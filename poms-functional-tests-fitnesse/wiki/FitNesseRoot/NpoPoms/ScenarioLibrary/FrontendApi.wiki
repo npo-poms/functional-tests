@@ -86,3 +86,7 @@
 |scenario              |Set default repeat interval and timeout|
 |set repeat interval to|3000           |milliseconds           |
 |repeat at most        |120            |times                  |
+
+|scenario|Check object   |descendant                            |is a descendant of|ancestor|
+|get from|${urlFrontendApi}/media/@descendant                                               |
+|check   |json path count|descendantOf[?(@.midRef=='@ancestor')]|1                          |

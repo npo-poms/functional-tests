@@ -1,17 +1,23 @@
 ---
-Help: De response van GET /schedule/ancestor/{ancestor}/now bevat 1 item en de starttijd van dit item is gelijk aan de opgegeven waarde in de parameter 'now'.
+Help: Het item in de response van GET /schedule/ancestor/{ancestor}/now heeft een starttijd dat gelijk is aan de waarde van de 'now' parameter en heeft het gegeven object als ancestor.
 Suites: NPOAPI-27, RG
 Test
 ---
 !*> Test-specific items
+!define midAncestor {POMS_S_BNN_097259}
 !define start {17-5-2010 15:30} #1274103000000
 *!
 |script                                    |
 |$start=|convert datetime|${start}|to epoch|
 
-|Get value at path                                                                |
-|get                                                                 |path |value?|
-|schedule/ancestor/POMS_S_BNN_097259/now?now=2010-05-17T13:30:00.000Z|start|$start|
+!4 Item in response has starttime that equals value of now parameter
 
-|script                                                                |
-|Ensure one and only one result by counting the number of poProgID keys|
+|Get value at path                                                             |
+|get                                                              |path |value?|
+|schedule/ancestor/${midAncestor}/now?now=2010-05-17T13:30:00.000Z|start|$start|
+
+!4 Item in response has given object as ancestor
+
+|script                                                  |
+|$midNext=   |json path|midRef                           |
+|Check object|$midNext |is a descendant of|${midAncestor}|
