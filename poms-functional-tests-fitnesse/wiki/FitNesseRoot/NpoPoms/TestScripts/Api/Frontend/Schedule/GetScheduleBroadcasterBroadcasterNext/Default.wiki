@@ -1,15 +1,36 @@
 ---
-Help: De omroep van het item in de response van GET /schedule/broadcaster/{broadcaster}/next is gelijk aan de opgegeven omroep.
+Help: Het item in de response van GET /schedule/broadcaster/{broadcaster}/next heeft een starttijd in de toekomst en de opgegeven omroep is 1 van de omroepen waar het uitzendt.
 Suites: NPOAPI-28, RG
 Test
 ---
 !*> Test-specific items
+!define broadcaster1 {VPRO}
+!define broadcaster2 {NPO}
+
+{{{
 !note Sometimes the requested broadcaster is not the primary broadcaster of the upcoming item and is therefore not listed in the result
 !note To avoid this, use a now parameter with a value that does not trigger this edge case
 !define broadcasterNextNow {2020-05-26T09:00:00.000Z}
+}}}
 *!
 
-|Get value at path                                                                          |
-|get                                                     |path                       |value?|
-|schedule/broadcaster/VPRO/next?now=${broadcasterNextNow}|media.broadcasters[0].value|VPRO  |
-|schedule/broadcaster/NPO/next?now=${broadcasterNextNow} |media.broadcasters[0].value|NPO   |
+|script                                          |
+|$now=   |value of        |!today (d-M-yyyy H:mm)|
+|$nowIso=|convert datetime|$now      |to iso     |
+
+|script                                                                                                                    |
+|get from                                          |${urlFrontendApi}/schedule/broadcaster/${broadcaster1}/next?now=$nowIso|
+|Check item in response has start time greater than|$now                                                                   |
+|Check item in response has broadcaster            |${broadcaster1}                                                        |
+
+|script                                                                                                                    |
+|get from                                          |${urlFrontendApi}/schedule/broadcaster/${broadcaster2}/next?now=$nowIso|
+|Check item in response has start time greater than|$now                                                                   |
+|Check item in response has broadcaster            |${broadcaster2}                                                        |
+
+{{{
+|Get value at path                                                                                              |
+|get                                                                |path                       |value?         |
+|schedule/broadcaster/${broadcaster1}/next?now=${broadcasterNextNow}|media.broadcasters[0].value|${broadcaster1}|
+|schedule/broadcaster/${broadcaster2}/next?now=${broadcasterNextNow}|media.broadcasters[0].value|${broadcaster2}|
+}}}

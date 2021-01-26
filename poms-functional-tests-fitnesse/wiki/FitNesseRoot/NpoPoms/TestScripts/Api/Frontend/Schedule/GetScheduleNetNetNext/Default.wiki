@@ -1,9 +1,21 @@
 ---
-Help: Het net van het item in de response van GET /schedule/net/{net}/next is gelijk aan het opgegeven net.
+Help: Het item in de response van GET /schedule/net/{net}/next heeft een starttijd in de toekomst en zendt uit op het opgegeven net.
 Suites: NPOAPI-35, RG
 Test
 ---
-|Get value at path                  |
-|get                    |path|value?|
-|schedule/net/ZAPP/next |net |ZAPP  |
-|schedule/net/ZAPPE/next|net |ZAPPE |
+!*> Test-specific items
+!define net1 {ZAPP}
+!define net2 {ZAPPE}
+*!
+
+|script                                          |
+|$now=   |value of        |!today (d-M-yyyy H:mm)|
+|$nowIso=|convert datetime|$now      |to iso     |
+
+|script                                                                                                                    |
+|Get                                               |schedule/net/${net1}/next?now=$nowIso|and check value at|net|is|${net1}|
+|Check item in response has start time greater than|$now                                                                   |
+
+|script                                                                                                                    |
+|Get                                               |schedule/net/${net2}/next?now=$nowIso|and check value at|net|is|${net2}|
+|Check item in response has start time greater than|$now                                                                   |

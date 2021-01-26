@@ -1,9 +1,21 @@
 ---
-Help: De zender van het item in de response van GET /schedule/channel/{channel}/next is gelijk aan de opgegeven zender.
+Help: Het item in de response van GET /schedule/channel/{channel}/next heeft een starttijd in de toekomst en zendt uit op de opgegeven zender.
 Suites: NPOAPI-32, RG
 Test
 ---
-|Get value at path                        |
-|get                       |path   |value?|
-|schedule/channel/NED1/next|channel|NED1  |
-|schedule/channel/RAD2/next|channel|RAD2  |
+!*> Test-specific items
+!define channel1 {NED1}
+!define channel2 {RAD2}
+*!
+
+|script                                          |
+|$now=   |value of        |!today (d-M-yyyy H:mm)|
+|$nowIso=|convert datetime|$now      |to iso     |
+
+|script                                                                                                                                    |
+|Get                                               |schedule/channel/${channel1}/next?now=$nowIso|and check value at|channel|is|${channel1}|
+|Check item in response has start time greater than|$now                                                                                   |
+
+|script                                                                                                                                    |
+|Get                                               |schedule/channel/${channel2}/next?now=$nowIso|and check value at|channel|is|${channel2}|
+|Check item in response has start time greater than|$now                                                                                   |

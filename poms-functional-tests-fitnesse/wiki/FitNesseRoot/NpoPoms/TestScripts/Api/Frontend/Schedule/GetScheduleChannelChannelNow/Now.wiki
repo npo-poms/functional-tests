@@ -1,9 +1,0 @@
----
-Help: De zender van het item in de response van GET /schedule/channel/{channel}/now is gelijk aan de opgegeven zender.
-Suites: NPOAPI-33, RG
-Test
----
-|Get value at path                                                    |
-|get                                                   |path   |value?|
-|schedule/channel/NED2/now?now=2020-10-08T11:00:00.000Z|channel|NED2  |
-|schedule/channel/RAD3/now?now=2020-10-08T11:00:00.000Z|channel|RAD3  |

@@ -1,0 +1,29 @@
+|scenario   |Get start time in response      |
+|$start=    |json path    |start             |
+|$starttime=|convert epoch|$start|to datetime|
+
+|scenario|Check item in response has start time greater than|now                            |
+|Get start time in response                                                                 |
+|ensure  |datetime                                          |$starttime|is greater than|@now|
+
+|scenario  |Check item in response is broadcasting at moment of time|now                                                 |
+|Get start time in response                                                                                              |
+|$duration=|json path                                               |duration                                            |
+|$endtime= |increase datetime                                       |$starttime|with milliSeconds|$duration              |
+|ensure    |datetime                                                |@now      |is between       |$starttime|and|$endtime|
+
+|scenario|Check item     |item                                  |is a descendant of|ancestor|
+|get from|${urlFrontendApi}/media/@item                                                     |
+|check   |json path count|descendantOf[?(@.midRef=='@ancestor')]|1                          |
+
+|scenario  |Check item in response is a descendant of|ancestor                    |
+|$mid=     |json path                                |midRef                      |
+|Check item|$mid                                     |is a descendant of|@ancestor|
+
+|scenario|Check item     |item                                 |has broadcaster|broadcaster|
+|get from|${urlFrontendApi}/media/@item                                                    |
+|check   |json path count|broadcasters[?(@.id=='@broadcaster')]|1                          |
+
+|scenario  |Check item in response has broadcaster|broadcaster                 |
+|$mid=     |json path                             |midRef                      |
+|Check item|$mid                                  |has broadcaster|@broadcaster|

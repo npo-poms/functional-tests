@@ -1,0 +1,8 @@
+---
+Help: Het eerste item in de response van GET /schedule/net/{net} zendt uit op het opgegeven net.
+Test
+---
+|Get value at path                           |
+|get                     |path        |value?|
+|schedule/net/ZAPP?max=1 |items[0].net|ZAPP  |
+|schedule/net/ZAPPE?max=1|items[0].net|ZAPPE |

@@ -1,0 +1,8 @@
+---
+Help: Het eerste item in de response van GET /schedule/channel/{channel} zendt uit op de opgegeven zender.
+Test
+---
+|Get value at path                                  |
+|get                        |path            |value?|
+|schedule/channel/NED1?max=1|items[0].channel|NED1  |
+|schedule/channel/RAD2?max=1|items[0].channel|RAD2  |

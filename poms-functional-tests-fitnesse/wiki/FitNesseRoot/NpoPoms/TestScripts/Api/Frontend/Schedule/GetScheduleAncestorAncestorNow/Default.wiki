@@ -1,0 +1,17 @@
+---
+Help: Het item in de response van GET /schedule/ancestor/{ancestor}/now zendt uit ten tijde van de waarde van de 'now' parameter en heeft het opgegeven item als ancestor.
+Suites: NPOAPI-27, RG
+Test
+---
+!*> Test-specific items
+!define midAncestor {POMS_S_BNN_097259}
+!define now {17-5-2010 15:45}
+*!
+
+|script                                 |
+|$nowIso=|convert datetime|${now}|to iso|
+
+|script                                                                                                                     |
+|get from                                                |${urlFrontendApi}/schedule/ancestor/${midAncestor}/now?now=$nowIso|
+|Check item in response is broadcasting at moment of time|${now}                                                            |
+|Check item in response is a descendant of               |${midAncestor}                                                    |

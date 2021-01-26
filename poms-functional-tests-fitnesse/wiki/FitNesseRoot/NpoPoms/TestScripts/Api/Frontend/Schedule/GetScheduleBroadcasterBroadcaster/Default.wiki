@@ -1,0 +1,5 @@
+---
+Help: De gegeven omroep in het eerste item in de response van GET /schedule/broadcaster/{broadcaster} is 1 van de omroepen waar het uitzendt.
+Test
+---
+<test page>

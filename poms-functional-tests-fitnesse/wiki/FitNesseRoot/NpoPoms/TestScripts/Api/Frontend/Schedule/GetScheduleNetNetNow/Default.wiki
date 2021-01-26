@@ -1,0 +1,24 @@
+---
+Help: Het item in de response van GET /schedule/net/{net}/now zendt uit ten tijde van de waarde van de 'now' parameter op het opgegeven net.
+Suites: NPOAPI-36, RG
+Test
+---
+!*> Test-specific items
+!define net1 {ZAPP}
+!define net2 {ZAPPE}
+
+!define now1 {26-5-2020 17:00}
+!define now2 {26-5-2020 15:00}
+*!
+
+|script                                   |
+|$now1Iso=|convert datetime|${now1}|to iso|
+|$now2Iso=|convert datetime|${now2}|to iso|
+
+|script                                                                                                                          |
+|Get                                                     |schedule/net/${net1}/now?now=$now1Iso|and check value at|net|is|${net1}|
+|Check item in response is broadcasting at moment of time|${now1}                                                                |
+
+|script                                                                                                                          |
+|Get                                                     |schedule/net/${net2}/now?now=$now2Iso|and check value at|net|is|${net2}|
+|Check item in response is broadcasting at moment of time|${now2}                                                                |

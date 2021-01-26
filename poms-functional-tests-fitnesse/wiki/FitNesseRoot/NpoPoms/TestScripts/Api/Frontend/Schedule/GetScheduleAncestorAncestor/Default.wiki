@@ -1,11 +1,11 @@
 ---
-Help: Het eerste item in de response van GET /schedule/ancestor/{ancestor} heeft het opgegeven object als ancestor.
+Help: Het eerste item in de response van GET /schedule/ancestor/{ancestor}/next heeft het opgegeven item als ancestor.
 Suites: NPOAPI-25, RG
 Test
 ---
 !*> Test-specific items
 !define midAncestor {044411213}
 *!
-|script                                                                                                                               |
-|Get         |schedule/ancestor/${midAncestor}?properties=none&sort=asc&max=1|and save value at |items[0].midRef|as|midFirstDescendant|
-|Check object|$midFirstDescendant                                            |is a descendant of|${midAncestor}                       |
+|script                                                                                                                             |
+|Get       |schedule/ancestor/${midAncestor}?properties=none&sort=asc&max=1|and save value at |items[0].midRef|as|midFirstDescendant|
+|Check item|$midFirstDescendant                                            |is a descendant of|${midAncestor}                       |

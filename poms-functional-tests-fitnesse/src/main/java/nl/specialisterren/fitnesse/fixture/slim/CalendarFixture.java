@@ -53,6 +53,14 @@ public class CalendarFixture {
 		return sdf.format(c.getTime());  
 	}
 	
+	public String increaseDatetimeWithMilliSeconds(String datetime, int milliSeconds) {
+		SimpleDateFormat sdf = new SimpleDateFormat("d-M-yyyy H:mm");
+		Calendar c = stringToCalendar(datetime, sdf);   
+		c.add(Calendar.MILLISECOND, milliSeconds);
+		
+		return sdf.format(c.getTime());  
+	}
+	
 
 	public long convertDatetimeToEpoch(String datetime) {
 		LocalDateTime localDateTime = LocalDateTime.parse(datetime, DateTimeFormatter.ofPattern("d-M-yyyy H:mm") );
@@ -63,26 +71,27 @@ public class CalendarFixture {
 	
 	public String convertEpochToDatetime(long epoch) {
 		Date date = new Date(epoch);
-        SimpleDateFormat sdf = new SimpleDateFormat("d-M-yyyy H:mm:ss");
+        SimpleDateFormat sdf = new SimpleDateFormat("d-M-yyyy H:mm");
         sdf.setTimeZone(TimeZone.getTimeZone("Europe/Amsterdam"));
 		
         return sdf.format(date);
 	}
 	
-	public boolean datetimeIsSmallerThan(String datetime1, String datetime2) {
-		SimpleDateFormat sdf = new SimpleDateFormat("d-M-yyyy H:mm:ss");
-		Calendar c1 = stringToCalendar(datetime1, sdf);
-		Calendar c2 = stringToCalendar(datetime2, sdf);
-		
-		return (c1.compareTo(c2) < 0);
-	}
-	
 	public boolean datetimeIsGreaterThan(String datetime1, String datetime2) {
-		SimpleDateFormat sdf = new SimpleDateFormat("d-M-yyyy H:mm:ss");
+		SimpleDateFormat sdf = new SimpleDateFormat("d-M-yyyy H:mm");
 		Calendar c1 = stringToCalendar(datetime1, sdf);
 		Calendar c2 = stringToCalendar(datetime2, sdf);
 		
 		return (c1.compareTo(c2) > 0);
+	}
+	
+	public boolean datetimeIsBetweenAnd(String datetime1, String datetime2, String datetime3) {
+		SimpleDateFormat sdf = new SimpleDateFormat("d-M-yyyy H:mm");
+		Calendar c1 = stringToCalendar(datetime1, sdf);
+		Calendar c2 = stringToCalendar(datetime2, sdf);
+		Calendar c3 = stringToCalendar(datetime3, sdf);
+		
+		return (c1.compareTo(c2) >= 0 && c1.compareTo(c3) < 0);
 	}
 	
 	public String convertDatetimeFromTo(String datetime, String format1, String format2) {
@@ -94,6 +103,7 @@ public class CalendarFixture {
 	}
 	
 	public String convertDatetimeToIso(String datetime) {
-		return convertDatetimeFromTo(datetime, "d-M-yyyy H:mm:ss", "yyyy-MM-dd'T'HH:mm:ss.000'Z'");
+		LocalDateTime localDateTime = LocalDateTime.parse(datetime, DateTimeFormatter.ofPattern("d-M-yyyy H:mm") );
+		return localDateTime.atZone(ZoneId.of("Europe/Amsterdam")).toString();
 	}
 }

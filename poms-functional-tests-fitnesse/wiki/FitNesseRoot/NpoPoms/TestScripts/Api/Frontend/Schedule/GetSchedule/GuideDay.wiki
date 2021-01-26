@@ -1,5 +1,5 @@
 ---
-Help: De guide day van het eerste item van de response van GET /schedule is gelijk aan het opgegeven guide day.
+Help: De guide day van het eerste item van de response van GET /schedule is gelijk aan de opgegeven guide day.
 Suites: NPOAPI-23, RG
 Test
 ---

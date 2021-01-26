@@ -1,0 +1,22 @@
+---
+Help: Het item in de response van GET /schedule/channel/{channel}/now zendt uit ten tijde van de waarde van de 'now' parameter op de opgegeven zender.
+Suites: NPOAPI-33, RG
+Test
+---
+!*> Test-specific items
+!define channel1 {NED1}
+!define channel2 {RAD2}
+
+!define now {8-10-2020 13:00}
+*!
+
+|script                                 |
+|$nowIso=|convert datetime|${now}|to iso|
+
+|script                                                                                                                                         |
+|Get                                                     |schedule/channel/${channel1}/now?now=$nowIso|and check value at|channel|is|${channel1}|
+|Check item in response is broadcasting at moment of time|${now}                                                                                |
+
+|script                                                                                                                                         |
+|Get                                                     |schedule/channel/${channel2}/now?now=$nowIso|and check value at|channel|is|${channel2}|
+|Check item in response is broadcasting at moment of time|${now}                                                                                |
