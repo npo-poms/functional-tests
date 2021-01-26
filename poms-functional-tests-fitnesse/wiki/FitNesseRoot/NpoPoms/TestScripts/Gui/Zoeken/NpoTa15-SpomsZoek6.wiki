@@ -9,15 +9,15 @@ Test
 
 *!
 
-|script                                                                                                                              |
-|Open Npo poms website                                                                                                               |
-|Npo poms Inlogscherm Log in met npo                                                                                                 |
-|Npo poms Zoeken Sla aantal zoekresultaten op in var|aantalZoekresultaten1                                                           |
-|click                                              |Onderdeel van                                                                   |
-|Npo poms Zoeken Vul mid                            |${mid}                                                                          |
-|Npo poms Zoeken Druk op plusje om onderdeel toe te voegen                                                                           |
-|Npo poms Zoeken Wacht tot zoeken klaar is                                                                                           |
-|ensure                                             |is visible on page|Gezocht naar: ${mid}                                         |
-|Npo poms Zoeken Sla aantal zoekresultaten op in var|aantalZoekresultaten2                                                           |
-|ensure                                             |value             |$aantalZoekresultaten2|is smaller than|$aantalZoekresultaten1|
-|Npo poms Zoeken Open eerste object                                                                                                  |
+|script                                                                                                                           |
+|Open Npo poms website                                                                                                            |
+|Npo poms Inlogscherm Log in met npo                                                                                              |
+|Npo poms Zoeken Sla aantal zoekresultaten op in var|aantalZoekresultaten1                                                        |
+|click                                              |Onderdeel van                                                                |
+|Npo poms Zoeken Vul mid                            |${mid}                                                                       |
+|Npo poms Zoeken Druk op plusje om onderdeel toe te voegen                                                                        |
+|Npo poms Zoeken Wacht tot zoeken klaar is                                                                                        |
+|ensure                                             |is visible on page|Gezocht naar: ${mid}                                      |
+|Npo poms Zoeken Sla aantal zoekresultaten op in var|aantalZoekresultaten2                                                        |
+|ensure                                             |value             |$aantalZoekresultaten2|is less than|$aantalZoekresultaten1|
+|Npo poms Zoeken Open eerste object                                                                                               |
