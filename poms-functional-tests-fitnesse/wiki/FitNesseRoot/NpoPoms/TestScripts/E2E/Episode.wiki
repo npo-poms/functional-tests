@@ -1,6 +1,5 @@
 ---
-Help: Een aflevering (program) kan toegevoegd worden aan een seizoen met POST /media/program/{id}/episodeOf, de volgordes van afleveringen kunnen veranderd worden met PUT /media/{entity}/{id}/episodes en een aflevering kan verwijderd worden van een seizoen met DELETE /media/program/{id}/episodeOf/{owner}.
-Suites: NPOAPI-122, NPOAPI-97, NPOAPI-123, RG
+Help: Aanmaken, volgorde veranderen en verwijderen van afleveringen in de backend zijn zichtbaar in de gui.
 Test
 ---
 !*> Test-specific items
@@ -80,10 +79,12 @@ Test
 }}} }
 *!
 
+!include -c <E2E.ApiBackendSetUp
+
 |script                                    |
 |$timestamp=|value of|!today (yyyyMMddHHmm)|
 
-!4 Create season
+!4 Create season in backend
 
 |script                                                                                                                |
 |show                           |post            |${bodyCreateSeason}|to|${urlBackendApi}/media/group?owner=BROADCASTER|
@@ -94,7 +95,7 @@ Test
 |$timeSpentRepeating=           |time spent repeating                                                                  |
 |$timeSpentRepeating=           |format timestamp|$timeSpentRepeating|as|m:ss                                          |
 
-!4 Create program 1 with media type 'clip'
+!4 Create program 1 with media type 'clip' in backend
 
 |script                                                                                                                   |
 |show                           |post           |${bodyCreateProgram1}|to|${urlBackendApi}/media/program?owner=BROADCASTER|
@@ -106,7 +107,7 @@ Test
 |check                          |xPath          |/update:program/@mid |$midProgram1                                       |
 |$urnProgram1=                  |xPath          |/update:program/@urn                                                     |
 
-!4 Update program 1: Change media type to 'broadcast'
+!4 Update program 1 in backend: Change media type to 'broadcast'
 
 |script                                                                                                                         |
 |show                |post                 |${bodyChangeProgram1ToBroadcast}|to|${urlBackendApi}/media/program?owner=BROADCASTER|
@@ -116,19 +117,19 @@ Test
 |$timeSpentRepeating=|time spent repeating                                                                                      |
 |$timeSpentRepeating=|format timestamp     |$timeSpentRepeating             |as|m:ss                                            |
 
-!4 Set program 1 as episode of season with POST /media/program/{id}/episodeOf
+!4 Set program 1 as episode of season in backend
 
 |script                                                                                                |
 |show|post|${bodySetProgram1AsEpisodeOfSeason}|to|${urlBackendApi}/media/program/$midProgram1/episodeOf|
 
-!4 Check program 1 is episode of season
+!4 Check program 1 is episode of season in backend
 
 |script                                                                      |
 |get from|${urlBackendApi}/media/group/$midSeason/episodes?owner=BROADCASTER |
 |check   |xPath|count(/update:list/update:item)                 |1           |
 |check   |xPath|/update:list/update:item/update:mediaUpdate/@mid|$midProgram1|
 
-!4 Create program 2 with media type 'clip'
+!4 Create program 2 with media type 'clip' in backend
 
 |script                                                                                                                    |
 |show                           |post            |${bodyCreateProgram2}|to|${urlBackendApi}/media/program?owner=BROADCASTER|
@@ -140,7 +141,7 @@ Test
 |$timeSpentRepeating=           |format timestamp|$timeSpentRepeating  |as|m:ss                                            |
 |$urnProgram2=                  |xPath           |/media:program/@urn                                                      |
 
-!4 Update program 2: Change media type to 'broadcast' and set program as episode of season
+!4 Update program 2 in backend: Change media type to 'broadcast' and set program as episode of season
 
 |script                                                                                                                                                          |
 |show                |post                           |${bodyChangeProgram2ToBroadcastAndSetAsEpisodeOfSeason}|to|${urlBackendApi}/media/program?owner=BROADCASTER|
@@ -150,7 +151,7 @@ Test
 |$timeSpentRepeating=|time spent repeating                                                                                                                       |
 |$timeSpentRepeating=|format timestamp               |$timeSpentRepeating                                    |as|m:ss                                            |
 
-!4 Check program 1 and 2 are episodes of season
+!4 Check program 1 and 2 are episodes of season in backend
 
 |script                                                                         |
 |get from|${urlBackendApi}/media/group/$midSeason/episodes?owner=BROADCASTER    |
@@ -158,14 +159,18 @@ Test
 |check   |xPath|/update:list/update:item[1]/update:mediaUpdate/@mid|$midProgram1|
 |check   |xPath|/update:list/update:item[2]/update:mediaUpdate/@mid|$midProgram2|
 
-!4 Switch episode 1 and 2 with PUT /media/{entity}/{id}/episodes 
+!4 Check program 1 and 2 are episodes of season in gui
+
+...
+
+!4 Switch episode 1 and 2 in backend 
 
 |script                                                                                      |
 |show |put            |${bodyMoveEpisode}|to|${urlBackendApi}/media/group/$midSeason/episodes|
 |check|response status|202                                                                   |
 |check|response       |Move accepted for $midSeason.                                         |
 
-!4 Check episode 1 and 2 have switched places
+!4 Check episode 1 and 2 have switched places in backend
 
 |script                                                                         |
 |get from|${urlBackendApi}/media/group/$midSeason/episodes?owner=BROADCASTER    |
@@ -173,7 +178,11 @@ Test
 |check   |xPath|/update:list/update:item[1]/update:mediaUpdate/@mid|$midProgram2|
 |check   |xPath|/update:list/update:item[2]/update:mediaUpdate/@mid|$midProgram1|
 
-!4 Delete episodes from season with DELETE /media/program/{id}/episodeOf/{owner}
+!4 Check episode 1 and 2 have switched places in gui
+
+...
+
+!4 Delete episodes from season in backend
 
 |script                                                                                |
 |show |delete         |${urlBackendApi}/media/program/$midProgram2/episodeOf/$midSeason|
@@ -181,11 +190,15 @@ Test
 |show |delete         |${urlBackendApi}/media/program/$midProgram1/episodeOf/$midSeason|
 |check|response status|202                                                             |
 
-!4 Check season has no episodes anymore 
+!4 Check season has no episodes anymore in backand
 
 |script                                                                     |
 |get from|${urlBackendApi}/media/group/$midSeason/episodes?owner=BROADCASTER|
 |check   |xPath         |count(/update:list/update:item)         |0         |
+
+!4 Check season has no episodes anymore in gui
+
+...
 
 !4 Delete program and season
 

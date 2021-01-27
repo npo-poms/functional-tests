@@ -1,6 +1,5 @@
 ---
-Help: Ondertitels kunnen toegevoegd worden aan een object met POST /media/subtitles/{mid}/{language}/{type} en ondertitels kunnen verwijderd worden van een object met DELETE /media/subtitles/{mid}/{language}/{type}.
-Suites: NPOAPI-130, NPOAPI-128, RG
+Help: Toevoegen en verwijderen van ondertitels in de backend zijn zichtbaar in de gui.
 Test
 ---
 !*> Test-specific items
@@ -49,21 +48,23 @@ ${text4}
 |check         |xPath              |/subtitles:standaloneCue        |@{text} |
 *!
 
-!4 Check clip has no subtitles
+!include -c <E2E.ApiBackendSetUp
+
+!4 Check clip has no subtitles in backend
 
 |script                                                                        |
 |$midClip=|get var        |midClip                                             |
 |show     |get from       |${urlBackendApi}/media/subtitles/$midClip/nl/CAPTION|
 |check    |response status|404                                                 |
 
-!4 Add subtitles to clip with POST /media/subtitles/{mid}/{language}/{type}
+!4 Add subtitles to clip in backend
 
 |script                                                                                               |
 |set content type|text/vtt                                                                            |
 |show            |post           |${subtitles}|to|${urlBackendApi}/media/subtitles/$midClip/nl/CAPTION|
 |check           |response status|202                                                                 |
 
-!4 Check subtitles added to clip
+!4 Check subtitles added to clip in backend
 
 |Check subtitles                   |
 |index|start time|end time|text    |
@@ -72,7 +73,11 @@ ${text4}
 |3    |${start3} |${end3} |${text3}|
 |4    |${start4} |${end4} |${text4}|
 
-!4 Remove subtitles from clip with DELETE /media/subtitles/{mid}/{language}/{type}
+!4 Check subtitles added to clip in gui
+
+...
+
+!4 Remove subtitles from clip in backend
 
 |script                                                                               |
 |set content type|text/vtt                                                            |
@@ -80,8 +85,12 @@ ${text4}
 |check           |response status|202                                                 |
 |check           |response       |Subtitles deletion accepted for $midClip	CAPTION	nl |
 
-!4 Check clip has no subtitles
+!4 Check clip has no subtitles in backend
 
 |script                                                                    |
 |show |get from       |${urlBackendApi}/media/subtitles/$midClip/nl/CAPTION|
 |check|response status|404                                                 |
+
+!4 Check clip has no subtitles in gui
+
+...

@@ -1,0 +1,6 @@
+---
+Help: Een onderdeel (member) kan toegevoegd worden aan een object met POST /media/{entity}/{id}/memberOf.
+Suites: NPOAPI-105, RG
+Test
+---
+See [[!-E2E-! > Member][.NpoPoms.TestScripts.E2E.Member]]

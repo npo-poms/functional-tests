@@ -1,5 +1,5 @@
 ---
-Help: Aanmaken, wijzigen en verwijderen van een clip en een bron in de backend zijn zichtbaar in de gui.
+Help: Aanmaken, wijzigen en verwijderen van een bron (location) in de backend zijn zichtbaar in de gui.
 Suites: NPOAPI-155, RG
 Test
 ---
@@ -65,19 +65,22 @@ Test
 
 !include -c <E2E.ApiBackendSetUp
 
-|script                                                                                                                       |
-|show                           |post            |${bodyClip}             |to|${urlBackendApi}/media/program?owner=BROADCASTER|
-|$mid=                          |response                                                                                     |
-|show                           |get from        |${urlBackendApi}/media/program/$mid/full                                    |
-|repeat until response status is|200                                                                                          |
-|$repeatCount=                  |repeat count                                                                                 |
-|$timeSpentRepeating=           |time spent repeating                                                                         |
-|$timeSpentRepeating=           |format timestamp|$timeSpentRepeating     |as|m:ss                                            |
-|check                          |xPath           |/media:program/@workflow|FOR PUBLICATION                                    |
-|show                           |post            |${bodyLocation1}        |to|${urlBackendApi}/media/program/$mid/location    |
-|Wacht tot locatie is gepubliceerd                                                                                            |
+!4 Save current number of locations (bronnen)
+
+|script                                                                     |
+|$mid=        |get var          |midClip                                    |
+|get from     |${urlBackendApi}/media/media/$mid/locations?owner=BROADCASTER|
+|$sourceCount=|xPath            |count(/collection/update:location)         |
+
+!4 Add location (bron) to clip in backend
+
+|script                                                                    |
+|show|post|${bodyLocation1}|to|${urlBackendApi}/media/program/$mid/location|
+|Wacht tot locatie is gepubliceerd                                         |
 
 !include -c <E2E.GuiSetUp
+
+!4 Check location (bron) is added to clip in gui
 
 |script                                                                                                            |
 |Open Npo poms website                                                                                             |
@@ -106,11 +109,15 @@ Test
 !include -c <E2E.GuiTearDown
 !include -c <E2E.ApiBackendSetUp
 
+!4 Edit location (bron) in backend
+
 |script                                                                    |
 |show|post|${bodyLocation2}|to|${urlBackendApi}/media/program/$mid/location|
 |Wacht tot locatie is gepubliceerd                                         |
 
 !include -c <E2E.GuiSetUp
+
+!4 Check changes in source visible in gui
 
 |script                                                                                                                                   |
 |Open Npo poms website                                                                                                                    |
@@ -138,14 +145,35 @@ Test
 !include -c <E2E.GuiTearDown
 !include -c <E2E.ApiBackendSetUp
 
-|script                                                                                                                                                                              |
-|get from    |${urlBackendApi}/media/program/$mid/locations?owner=BROADCASTER                                                                                                        |
-|note        |Save location, like in [[DELETE /media/{entity}/{id}/location/{locationId} (NPOAPI-103)][.NpoPoms.TestScripts.Api.Backend.Media.DeleteMediaEntityIdLocationLocationId]]|
-|$urn=       |xPath                         |/collection/update:location/@urn                                                                                                        |
-|$locationId=|extract string                |$urn                 |from                |^urn:vpro:media:location:(\d+)$                |using group                |1                |
-|show        |delete                        |${urlBackendApi}/media/program/$mid/location/$locationId                                                                                |
+!4 Remove location (bron) from clip
 
-|script                                               |
-|show    |delete|${urlBackendApi}/media/program/$mid  |
-|get from|${urlBackendApi}/media/program/$mid/full    |
-|check   |xPath |/media:program/@workflow|FOR DELETION|
+|script                                                                              |
+|get from    |${urlBackendApi}/media/program/$mid/locations?owner=BROADCASTER        |
+|$urn=       |xPath         |/collection/update:location/@urn                        |
+|$locationId=|extract string|$urn |from|^urn:vpro:media:location:(\d+)$|using group|1|
+|show        |delete        |${urlBackendApi}/media/program/$mid/location/$locationId|
+
+!4 Check location (bron) is removed from clip in backend
+
+|script                                                                  |
+|get from|${urlBackendApi}/media/program/$mid/locations?owner=BROADCASTER|
+|check   |xPath    |count(/collection/update:location)   |$sourceCount   |
+
+!include -c <E2E.GuiSetUp
+
+!4 Check location (bron) is removed from clip in gui
+
+|script                                                                              |
+|Open Npo poms website                                                               |
+|Npo poms Inlogscherm Log in met ${gebruiker}                                        |
+|Npo poms Zoeken Vul                         |$mid              |in zoekveld         |
+|Npo poms Zoeken Druk knop                   |Zoeken                                 |
+|Npo poms Zoeken Wacht tot zoeken klaar is                                           |
+|ensure                                      |is visible on page|Gezocht naar: '$mid'|
+|Npo poms Zoeken Check aantal zoekresultaten |1                                      |
+|Npo poms Zoeken Open eerste object                                                  |
+|Npo poms Tabblad object Druk op link        |Bronnen           |in sidebar          |
+|Npo poms Tabblad object Wacht tot scrollen klaar is                                 |
+|Npo poms Tabblad object Check aantal in veld|Bronnen           |is        |0        |
+
+!include -c <E2E.GuiTearDown

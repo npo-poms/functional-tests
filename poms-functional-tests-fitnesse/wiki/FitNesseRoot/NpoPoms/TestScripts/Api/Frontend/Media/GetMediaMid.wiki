@@ -17,12 +17,12 @@ Test
 |show                          |json path count        |broadcasters.*       |
 *!
 !***> Test 03: Properties none
-|script                                                                                                                      |
-|get from                       |${urlFrontendApi}/media/${mid}?properties=none                                              |
-|$numberOfPropsAtPropertiesNone=|json path count|*                                                                           |
-|ensure                         |value          |$numberOfPropsAtPropertiesNone|is smaller than|$numberOfPropsAtPropertiesAll|
-|check                          |json path count|titles.*                      |1                                            |
-|check                          |json path count|broadcasters.*                |1                                            |
+|script                                                                                                                   |
+|get from                       |${urlFrontendApi}/media/${mid}?properties=none                                           |
+|$numberOfPropsAtPropertiesNone=|json path count|*                                                                        |
+|ensure                         |value          |$numberOfPropsAtPropertiesNone|is less than|$numberOfPropsAtPropertiesAll|
+|check                          |json path count|titles.*                      |1                                         |
+|check                          |json path count|broadcasters.*                |1                                         |
 
 |Is single-value property|
 |property                |

@@ -6,5 +6,5 @@ Test
 |Get   |media?sort=asc&offset=0&max=2 |and save values at|items[0].titles[0].value|and|items[1].titles[0].value|as|title1|and|title2|
 |Get   |media?sort=desc&offset=0&max=2|and save values at|items[0].titles[0].value|and|items[1].titles[0].value|as|title3|and|title4|
 |start |extended string fixture                                                                                                     |
-|ensure|value                         |$title1           |is smaller than         |$title2                                          |
+|ensure|value                         |$title1           |is less than            |$title2                                          |
 |ensure|value                         |$title3           |is greater than         |$title4                                          |

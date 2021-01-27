@@ -1,10 +1,10 @@
 ---
-Help: Het aantal items in de response van GET /schedule/net/{net} is kleiner of gelijk aan de opgegeven waarde in de parameter 'max'.
+Help: Het aantal items in de response van GET /schedule/net/{net} is kleiner dan of gelijk aan de opgegeven waarde in de parameter 'max'.
 Suites: NPOAPI-34, RG
 Test
 ---
-|Get count at path                     |
-|get                      |path |count?|
-|schedule/net/ZAPP        |items|10    |
-|schedule/net/ZAPP?max=1  |items|1     |
-|schedule/net/ZAPP?max=240|items|240   |
+|Get max at path                    |
+|get                      |path |max|
+|schedule/net/ZAPP        |items|10 |
+|schedule/net/ZAPP?max=1  |items|1  |
+|schedule/net/ZAPP?max=240|items|240|

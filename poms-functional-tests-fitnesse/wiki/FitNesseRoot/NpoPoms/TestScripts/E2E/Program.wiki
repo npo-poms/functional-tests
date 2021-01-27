@@ -1,0 +1,119 @@
+---
+Help: Aanmaken van een clip, wijzigen van een clip naar een film en verwijderen van deze film in de backend zijn zichtbaar in de gui.
+Suites: NPOAPI-153, RG
+Test
+---
+!include -c <E2E.Variables
+
+!*> Test-specific items
+!define gebruiker {standaard-gebruiker}
+
+!define typeApi2 {MOVIE}
+!define typeGui2 {Film}
+!define status2 {Gepubliceerd}
+!define avTypeApi2 {VIDEO}
+!define avTypeGui2 {Video}
+!define omroep2 {NPO}
+!define titel2 {Speciaal Movie $now}
+!define korteTitel2 {Short title}
+!define beschrijving2 {Dit is de main description}
+!define korteBeschrijving2 {Short description}
+!define genreApi2 {3.0.1.7}
+!define genreGui2 {Informatief}
+
+!define body2 { {{{
+<program avType="${avTypeApi2}" embeddable="true" type="${typeApi2}" urn="$urn" mid="$mid" xmlns="urn:vpro:media:update:2009">
+  <broadcaster>${omroep2}</broadcaster>
+  <title type="MAIN">${titel2}</title>
+  <title type="SHORT">${korteTitel2}</title>
+  <description type="MAIN">${beschrijving2}</description>
+  <description type="SHORT">${korteBeschrijving2}</description>
+  <genre>${genreApi2}</genre>
+  <credits/>
+  <locations/>
+  <scheduleEvents/>
+  <images/>
+  <segments/>
+</program>
+}}} }
+*!
+
+!4 Create clip in backend
+
+See [[Setup > Create clip][<E2E.1_SetUp.CreateClip]]
+
+|script               |
+|$mid=|get var|midClip|
+|$urn=|get var|urnClip|
+|$now=|get var|now    |
+
+!include -c <E2E.GuiSetUp
+
+!4 Check clip created in gui
+
+|script                                                                                   |
+|Open Npo poms website                                                                    |
+|Npo poms Inlogscherm Log in met ${gebruiker}                                             |
+|Npo poms Zoeken Vul                        |$mid              |in zoekveld               |
+|Npo poms Zoeken Druk knop                  |Zoeken                                       |
+|Npo poms Zoeken Wacht tot zoeken klaar is                                                |
+|ensure                                     |is visible on page|Gezocht naar: '$mid'      |
+|Npo poms Zoeken Check aantal zoekresultaten|1                                            |
+|Npo poms Zoeken Open eerste object                                                       |
+|Npo poms Tabblad object Check status       |${status1}        |of          |${status2}   |
+|Npo poms Tabblad object Check veld         |Type              |heeft waarde|${typeGui1}  |
+|Npo poms Tabblad object Check veld         |Titel             |heeft waarde|${titel1}    |
+|Npo poms Tabblad object Check veld         |AV-Type           |heeft waarde|${avTypeGui1}|
+|Npo poms Tabblad object Check veld         |Omroepen          |heeft waarde|${omroep1}   |
+|Npo poms Tabblad object Druk op link       |Labels            |in sidebar                |
+|Npo poms Tabblad object Wacht tot scrollen klaar is                                      |
+|Npo poms Tabblad object Check veld         |Genres            |heeft waarde|${genreGui1} |
+
+!include -c <E2E.GuiTearDown
+!include -c <E2E.ApiBackendSetUp
+
+!4 Edit clip in backend
+
+|script                                                                 |
+|show |post|${body2}|to|${urlBackendApi}/media/program?owner=BROADCASTER|
+|$mid=|response                                                         |
+
+!4 Wait until changes in clip published in backend
+
+|script                                                                     |
+|get from            |${urlBackendApi}/media/program/$mid/full              |
+|repeat until xPath  |/media:program/@workflow|is                 |PUBLISHED|
+|$repeatCount=       |repeat count                                          |
+|$timeSpentRepeating=|time spent repeating                                  |
+|$timeSpentRepeating=|format timestamp        |$timeSpentRepeating|as |m:ss |
+
+!include -c <E2E.GuiSetUp
+
+!4 Check changes in clip visible in gui
+
+|script                                                                                           |
+|Open Npo poms website                                                                            |
+|Npo poms Inlogscherm Log in met ${gebruiker}                                                     |
+|Npo poms Zoeken Vul                        |$mid              |in zoekveld                       |
+|Npo poms Zoeken Druk knop                  |Zoeken                                               |
+|Npo poms Zoeken Wacht tot zoeken klaar is                                                        |
+|ensure                                     |is visible on page|Gezocht naar: '$mid'              |
+|Npo poms Zoeken Check aantal zoekresultaten|1                                                    |
+|Npo poms Zoeken Open eerste object                                                               |
+|Npo poms Tabblad object Check status       |${status2}                                           |
+|Npo poms Tabblad object Check veld         |Type              |heeft waarde|${typeGui2}          |
+|Npo poms Tabblad object Check veld         |Titel             |heeft waarde|${titel2}            |
+|Npo poms Tabblad object Check veld         |Korte titel       |heeft waarde|${korteTitel2}       |
+|Npo poms Tabblad object Check veld         |Beschrijving      |heeft waarde|${beschrijving2}     |
+|Npo poms Tabblad object Check veld         |AV-Type           |heeft waarde|${avTypeGui2}        |
+|Npo poms Tabblad object Check veld         |Omroepen          |heeft waarde|${omroep2}           |
+|Npo poms Tabblad object Druk op link       |Labels            |in sidebar                        |
+|Npo poms Tabblad object Wacht tot scrollen klaar is                                              |
+|Npo poms Tabblad object Check veld         |Korte beschrijving|heeft waarde|${korteBeschrijving2}|
+|Npo poms Tabblad object Check veld         |Genres            |heeft waarde|${genreGui2}         |
+
+!include -c <E2E.GuiTearDown
+
+!4 Delete clip in backend and check clip deleted in gui
+
+See [[Teardown > Delete clip][<E2E._TearDown.DeleteClip]]

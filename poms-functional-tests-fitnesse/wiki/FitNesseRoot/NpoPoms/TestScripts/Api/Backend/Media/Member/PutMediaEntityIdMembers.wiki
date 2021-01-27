@@ -1,0 +1,6 @@
+---
+Help: De volgorde van onderdelen (members) kan veranderd worden met PUT /media/{entity}/{id}/members.
+Suites: NPOAPI-109, RG
+Test
+---
+See [[!-E2E-! > Member][.NpoPoms.TestScripts.E2E.Member]]

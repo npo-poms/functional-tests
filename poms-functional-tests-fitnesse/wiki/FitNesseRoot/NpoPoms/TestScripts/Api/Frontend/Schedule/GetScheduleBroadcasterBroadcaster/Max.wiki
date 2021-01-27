@@ -1,10 +1,10 @@
 ---
-Help: Het aantal items in de response van GET /schedule/broadcaster/{broadcaster} is kleiner of gelijk aan de opgegeven waarde in de parameter 'max'.
+Help: Het aantal items in de response van GET /schedule/broadcaster/{broadcaster} is kleiner dan of gelijk aan de opgegeven waarde in de parameter 'max'.
 Suites: NPOAPI-29, RG
 Test
 ---
-|Get count at path                            |
-|get                             |path |count?|
-|schedule/broadcaster/NOS        |items|10    |
-|schedule/broadcaster/NOS?max=1  |items|1     |
-|schedule/broadcaster/NOS?max=240|items|240   |
+|Get max at path                           |
+|get                             |path |max|
+|schedule/broadcaster/NOS        |items|10 |
+|schedule/broadcaster/NOS?max=1  |items|1  |
+|schedule/broadcaster/NOS?max=240|items|240|

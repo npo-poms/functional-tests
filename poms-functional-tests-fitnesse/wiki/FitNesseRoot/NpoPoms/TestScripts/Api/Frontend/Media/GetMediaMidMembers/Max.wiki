@@ -1,10 +1,10 @@
 ---
-Help: Het aantal items in de response is kleiner of gelijk aan de opgegeven waarde in de parameter 'max'.
+Help: Het aantal items in de response is kleiner dan of gelijk aan de opgegeven waarde in de parameter 'max'.
 Suites: NPOAPI-13, RG
 Test
 ---
-|Get count at path                                  |
-|get                                   |path |count?|
-|media/POMS_S_BNN_097259/members       |items|10    |
-|media/POMS_S_BNN_097259/members?max=1 |items|1     |
-|media/POMS_S_BNN_097259/members?max=17|items|17    |
+|Get max at path                                 |
+|get                                   |path |max|
+|media/POMS_S_BNN_097259/members       |items|10 |
+|media/POMS_S_BNN_097259/members?max=1 |items|1  |
+|media/POMS_S_BNN_097259/members?max=17|items|17 |

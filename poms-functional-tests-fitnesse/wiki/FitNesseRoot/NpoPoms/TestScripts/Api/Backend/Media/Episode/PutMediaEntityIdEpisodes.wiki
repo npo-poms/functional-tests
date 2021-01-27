@@ -1,0 +1,6 @@
+---
+Help: De volgorde van afleveringen kan veranderd worden met PUT /media/{entity}/{id}/episodes.
+Suites: NPOAPI-97, RG
+Test
+---
+See [[!-E2E-! > Episode][.NpoPoms.TestScripts.E2E.Episode]]

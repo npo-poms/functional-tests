@@ -1,9 +1,9 @@
 ---
-Help: Het aantal items in de response van GET /media is kleiner of gelijk aan de opgegeven waarde in de parameter 'max'.
+Help: Het aantal items in de response van GET /media is kleiner dan of gelijk aan de opgegeven waarde in de parameter 'max'.
 Test
 ---
-|Get count at path         |
-|get          |path |count?|
-|media        |items|10    |
-|media?max=1  |items|1     |
-|media?max=240|items|240   |
+|Get max at path        |
+|get          |path |max|
+|media        |items|10 |
+|media?max=1  |items|1  |
+|media?max=240|items|240|

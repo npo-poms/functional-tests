@@ -1,0 +1,6 @@
+---
+Help: Een bron (location) kan verwijderd worden van een object met DELETE /media/{entity}/{id}/location/{locationId}.
+Suites: NPOAPI-103, RG
+Test
+---
+See [[!-E2E-! > Location][.NpoPoms.TestScripts.E2E.Location]]

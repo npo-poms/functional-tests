@@ -1,0 +1,6 @@
+---
+Help: Een bron (location) kan toegevoegd worden aan een object met POST /media/{entity}/{id}/location.
+Suites: NPOAPI-101, RG
+Test
+---
+See [[!-E2E-! > Location][.NpoPoms.TestScripts.E2E.Location]]

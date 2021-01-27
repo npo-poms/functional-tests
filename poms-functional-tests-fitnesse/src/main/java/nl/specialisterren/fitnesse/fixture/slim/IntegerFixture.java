@@ -4,6 +4,10 @@ public class IntegerFixture {
 	public boolean valueIsLessThan(int a, int b) {
 		return a < b;
 	}
+	
+	public boolean valueIsLessThanOrEqualTo(int a, int b) {
+		return a <= b;
+	}
 
 	public int addAnd(String a, int b) {
         Integer x = null;

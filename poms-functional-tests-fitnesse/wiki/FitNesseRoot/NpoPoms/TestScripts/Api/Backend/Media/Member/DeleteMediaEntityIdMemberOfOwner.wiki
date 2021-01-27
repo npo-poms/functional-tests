@@ -1,0 +1,6 @@
+---
+Help: Een onderdeel (member) kan verwijderd worden van een object met DELETE /media/{entity}/{id}/memberOf/{owner}.
+Suites: NPOAPI-106, RG
+Test
+---
+See [[!-E2E-! > Member][.NpoPoms.TestScripts.E2E.Member]]

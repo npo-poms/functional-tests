@@ -1,0 +1,6 @@
+---
+Help: Een aflevering kan verwijderd worden van een seizoen met DELETE /media/program/{id}/episodeOf/{owner}.
+Suites: NPOAPI-123, RG
+Test
+---
+See [[!-E2E-! > Episode][.NpoPoms.TestScripts.E2E.Episode]]

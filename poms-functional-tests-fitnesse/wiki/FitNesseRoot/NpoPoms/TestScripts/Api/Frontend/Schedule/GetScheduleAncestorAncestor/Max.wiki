@@ -1,16 +1,12 @@
 ---
-Help: Het aantal items in de response van GET /schedule/ancestor/{ancestor} is kleiner of gelijk aan de opgegeven waarde in de parameter 'max'.
+Help: Het aantal items in de response van GET /schedule/ancestor/{ancestor} is kleiner dan of gelijk aan de opgegeven waarde in de parameter 'max'.
 Test
 ---
 !*> Test-specific items
 !define midAncestor {044411213}
 *!
-|Get count at path                                  |
-|get                                   |path |count?|
-|schedule/ancestor/${midAncestor}      |items|10    |
-|schedule/ancestor/${midAncestor}?max=1|items|1     |
-
-|script                                                             |
-|get from|${urlFrontendApi}/schedule/ancestor/${midAncestor}?max=240|
-|$count= |json path count     |items.*                              |
-|ensure  |value               |$count     |is less than     |240    |
+|Get max at path                                   |
+|get                                     |path |max|
+|schedule/ancestor/${midAncestor}        |items|10 |
+|schedule/ancestor/${midAncestor}?max=1  |items|1  |
+|schedule/ancestor/${midAncestor}?max=240|items|240|

@@ -1,9 +1,9 @@
 ---
-Help: Het aantal items in de response van GET /media/{mid}/descendants is kleiner of gelijk aan de opgegeven waarde in de parameter 'max'.
+Help: Het aantal items in de response van GET /media/{mid}/descendants is kleiner dan of gelijk aan de opgegeven waarde in de parameter 'max'.
 Test
 ---
-|Get count at path                            |
-|get                             |path |count?|
-|media/${mid}/descendants        |items|10    |
-|media/${mid}/descendants?max=1  |items|1     |
-|media/${mid}/descendants?max=174|items|174   |
+|Get max at path                           |
+|get                             |path |max|
+|media/${mid}/descendants        |items|10 |
+|media/${mid}/descendants?max=1  |items|1  |
+|media/${mid}/descendants?max=174|items|174|

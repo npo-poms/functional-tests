@@ -1,0 +1,9 @@
+!define typeApi1 {CLIP}
+!define typeGui1 {Clip}
+!define status1 {Voor publicatie}
+!define avTypeApi1 {AUDIO}
+!define avTypeGui1 {Audio}
+!define omroep1 {NPO}
+!define titel1 {Speciaal Clip $now}
+!define genreApi1 {3.0.1.7.21}
+!define genreGui1 {Informatief - Nieuws/actualiteiten}

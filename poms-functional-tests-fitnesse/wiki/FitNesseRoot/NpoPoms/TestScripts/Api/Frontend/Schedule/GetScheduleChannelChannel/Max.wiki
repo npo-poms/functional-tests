@@ -1,10 +1,10 @@
 ---
-Help: Het aantal items in de response van GET /schedule/channel/{channel} is kleiner of gelijk aan de opgegeven waarde in de parameter 'max'.
+Help: Het aantal items in de response van GET /schedule/channel/{channel} is kleiner dan of gelijk aan de opgegeven waarde in de parameter 'max'.
 Suites: NPOAPI-31, RG
 Test
 ---
-|Get count at path                         |
-|get                          |path |count?|
-|schedule/channel/NED1        |items|10    |
-|schedule/channel/NED1?max=1  |items|1     |
-|schedule/channel/NED1?max=240|items|240   |
+|Get max at path                        |
+|get                          |path |max|
+|schedule/channel/NED1        |items|10 |
+|schedule/channel/NED1?max=1  |items|1  |
+|schedule/channel/NED1?max=240|items|240|

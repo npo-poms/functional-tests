@@ -1,0 +1,43 @@
+---
+Test
+---
+!include -c <E2E.ApiBackendSetUp 
+
+!4 Delete clip in backend
+
+|script                                           |
+|$mid=|get var|midClip                            |
+|show |delete |${urlBackendApi}/media/program/$mid|
+|wait |3      |seconds                            |
+
+!4 Wait until clip deleted in backend
+
+|script                                                                        |
+|get from            |${urlBackendApi}/media/program/$mid/full                 |
+|repeat until xPath  |/media:program/@workflow|is                 |FOR DELETION|
+|$repeatCount=       |repeat count                                             |
+|$timeSpentRepeating=|time spent repeating                                     |
+|$timeSpentRepeating=|format timestamp        |$timeSpentRepeating|as   |m:ss  |
+|                                                                              |
+|repeat until xPath  |/media:program/@workflow|is                 |DELETED     |
+|$repeatCount=       |repeat count                                             |
+|$timeSpentRepeating=|time spent repeating                                     |
+|$timeSpentRepeating=|format timestamp        |$timeSpentRepeating|as   |m:ss  |
+|show                |xPath                   |/media:program/@workflow        |
+
+!include -c <E2E.GuiSetUp
+
+!4 Check clip deleted in gui
+
+|script                                                                             |
+|Open Npo poms website                                                              |
+|Npo poms Inlogscherm Log in met admin                                              |
+|Npo poms Zoeken Vul                        |$mid              |in zoekveld         |
+|Npo poms Zoeken Druk knop                  |Zoeken                                 |
+|Npo poms Zoeken Wacht tot zoeken klaar is                                          |
+|ensure                                     |is visible on page|Gezocht naar: '$mid'|
+|Npo poms Zoeken Check aantal zoekresultaten|1                                      |
+|Npo poms Zoeken Open eerste object                                                 |
+|Npo poms Tabblad object Check status       |Verwijderd                             |
+
+!include -c <E2E.GuiTearDown

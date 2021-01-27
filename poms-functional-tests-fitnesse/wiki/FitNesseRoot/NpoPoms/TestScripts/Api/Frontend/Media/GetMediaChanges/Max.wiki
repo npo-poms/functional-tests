@@ -1,9 +1,9 @@
 ---
-Help: Het aantal items in de response van GET /media/changes is kleiner of gelijk aan de opgegeven waarde in de parameter 'max'.
+Help: Het aantal items in de response van GET /media/changes is kleiner dan of gelijk aan de opgegeven waarde in de parameter 'max'.
 Suites: NPOAPI-17, RG
 Test
 ---
-|Get count at path                 |
-|get                |path   |count?|
-|media/changes?max=1|changes|1     |
-|media/changes?max=2|changes|2     |
+|Get max at path                |
+|get                |path   |max|
+|media/changes?max=1|changes|1  |
+|media/changes?max=2|changes|2  |

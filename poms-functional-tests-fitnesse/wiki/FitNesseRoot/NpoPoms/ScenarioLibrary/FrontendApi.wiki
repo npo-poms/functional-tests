@@ -11,6 +11,11 @@
 |$@{alias1}=|json path|@{path1}                                                      |
 |$@{alias2}=|json path|@{path2}                                                      |
 
+|table template|Get max at path                                       |
+|get from      |${urlFrontendApi}/@{get}                              |
+|$count=       |json path count|@{path}.*                             |
+|ensure        |value          |$count|is less than or equal to|@{max}|
+
 |table template|Get count at path        |
 |get from      |${urlFrontendApi}/@{get} |
 |$count=       |json path count|@{path}.*|
@@ -18,20 +23,6 @@
 |table template|Post count at path                          |
 |post          |@{body}        |to|${urlFrontendApi}/@{post}|
 |$count=       |json path count|@{path}.*                   |
-
-|table template|Post count at path in Dev|
-|              |Dummy table template     |
-|show          |value of    |@{post}     |
-|show          |value of    |@{body}     |
-|show          |value of    |@{path}     |
-|show          |value of    |@{count}    |
-
-|table template|Post count at path in Test|
-|              |Dummy table template      |
-|show          |value of     |@{post}     |
-|show          |value of     |@{body}     |
-|show          |value of     |@{path}     |
-|show          |value of     |@{count}    |
 
 |table template|Post count at path in ${omgeving}                  |
 |post          |@{body}        |to       |${urlFrontendApi}/@{post}|
@@ -44,18 +35,6 @@
 |$timeSpentRepeating=           |time spent repeating                        |
 |$timeSpentRepeating=           |format timestamp|$timeSpentRepeating|as|m:ss|
 |$value=                        |json path       |@{path}                    |
-
-|table template|Get value at path in Dev|
-|              |Dummy table template    |
-|show          |value of    |@{get}     |
-|show          |value of    |@{path}    |
-|show          |value of    |@{value}   |
-
-|table template|Get value at path in Test|
-|              |Dummy table template     |
-|show          |value of    |@{get}      |
-|show          |value of    |@{path}     |
-|show          |value of    |@{value}    |
 
 |table template                 |Get value at path in ${omgeving}             |
 |show                           |get from        |${urlFrontendApi}/@{get}    |

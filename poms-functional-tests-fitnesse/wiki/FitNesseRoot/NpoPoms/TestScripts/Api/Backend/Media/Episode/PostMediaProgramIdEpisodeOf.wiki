@@ -1,0 +1,6 @@
+---
+Help: Een aflevering (program) kan toegevoegd worden aan een seizoen met POST /media/program/{id}/episodeOf.
+Suites: NPOAPI-122, RG
+Test
+---
+See [[!-E2E-! > Episode][.NpoPoms.TestScripts.E2E.Episode]]

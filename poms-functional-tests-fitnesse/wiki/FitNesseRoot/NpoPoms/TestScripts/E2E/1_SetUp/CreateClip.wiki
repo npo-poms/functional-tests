@@ -1,0 +1,45 @@
+---
+Test
+---
+!include -c <E2E.Variables
+
+!*> Test-specific items
+!define body1 { {{{
+<program avType="${avTypeApi1}" embeddable="true" type="${typeApi1}" xmlns="urn:vpro:media:update:2009">
+  <broadcaster>${omroep1}</broadcaster>
+  <title type="MAIN">${titel1}</title>
+  <genre>${genreApi1}</genre>
+  <credits/>
+  <locations/>
+  <scheduleEvents/>
+  <images/>
+  <segments/>
+</program>
+}}} }
+*!
+
+!include -c <E2E.ApiBackendSetUp
+
+|script                                  |
+|$now=  |value of|!today (yyyyMMddHHmmss)|
+|set var|now     |to        |$now        |
+
+!4 Create clip in backend
+
+|script                                                                 |
+|show |post|${body1}|to|${urlBackendApi}/media/program?owner=BROADCASTER|
+|$mid=|response                                                         |
+
+
+!4 Wait until clip visible in backend
+
+|script                                                                                                |
+|show                           |get from        |${urlBackendApi}/media/program/$mid?owner=BROADCASTER|
+|repeat until response status is|200                                                                   |
+|$repeatCount=                  |repeat count                                                          |
+|$timeSpentRepeating=           |time spent repeating                                                  |
+|$timeSpentRepeating=           |format timestamp|$timeSpentRepeating          |as        |m:ss        |
+|check                          |xPath           |/update:program/@mid         |$mid                   |
+|set var                        |midClip         |to                           |$mid                   |
+|$urn=                          |xPath           |/update:program/@urn                                 |
+|set var                        |urnClip         |to                           |$urn                   |
