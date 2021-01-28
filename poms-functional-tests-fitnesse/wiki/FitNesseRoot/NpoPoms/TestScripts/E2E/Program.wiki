@@ -38,6 +38,8 @@ Test
 }}} }
 *!
 
+!include -c <E2E.ApiBackendSetUp
+
 !4 Create clip in backend
 
 See [[Setup > Create clip][<E2E.1_SetUp.CreateClip]]
@@ -86,6 +88,19 @@ See [[Setup > Create clip][<E2E.1_SetUp.CreateClip]]
 |$repeatCount=       |repeat count                                          |
 |$timeSpentRepeating=|time spent repeating                                  |
 |$timeSpentRepeating=|format timestamp        |$timeSpentRepeating|as |m:ss |
+
+!4 Check changes in clip visible in backend
+
+|script                                                                                 |
+|get from|${urlBackendApi}/media/program/$mid/full                                      |
+|check   |xPath|/update:program/@avType                           |${avTypeApi2}        |
+|check   |xPath|/update:program/@type                             |${typeApi2}          |
+|check   |xPath|/update:program/update:broadcaster                |${omroep2}           |
+|check   |xPath|/update:program/update:title[@type='MAIN')]       |${titel2}            |
+|check   |xPath|/update:program/update:title[@type='SHORT')]      |${korteTitel2}       |
+|check   |xPath|/update:program/update:description[@type='MAIN')] |${beschrijving2}     |
+|check   |xPath|/update:program/update:description[@type='SHORT')]|${korteBeschrijving2}|
+|check   |xPath|/update:program/update:genre                      |${genreApi2}         |
 
 !include -c <E2E.GuiSetUp
 

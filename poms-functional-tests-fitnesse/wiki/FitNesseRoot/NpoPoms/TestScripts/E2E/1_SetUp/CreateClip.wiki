@@ -43,3 +43,13 @@ Test
 |set var                        |midClip         |to                           |$mid                   |
 |$urn=                          |xPath           |/update:program/@urn                                 |
 |set var                        |urnClip         |to                           |$urn                   |
+
+!4 Check clip visible in backend
+
+|script                                                                 |
+|show |get from|${urlBackendApi}/media/program/$mid?owner=BROADCASTER   |
+|check|xPath   |/update:program/@avType                   |${avTypeApi1}|
+|check|xPath   |/update:program/@type                     |${typeApi1}  |
+|check|xPath   |/update:program/update:broadcaster        |${omroep1}   |
+|check|xPath   |/update:program/update:title[@type='MAIN']|${titel1}    |
+|check|xPath   |/update:program/update:genre              |${genreApi1} |

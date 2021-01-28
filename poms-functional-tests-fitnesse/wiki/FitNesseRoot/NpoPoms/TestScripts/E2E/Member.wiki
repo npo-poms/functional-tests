@@ -107,6 +107,10 @@ Test
 |$timeSpentRepeating=|time spent repeating                                                                            |
 |$timeSpentRepeating=|format timestamp               |$timeSpentRepeating             |as            |m:ss            |
 
+!4 Check members (onderdelen) visible in backend
+
+...
+
 !include -c <E2E.GuiSetUp
 
 !4 Check members (onderdelen) visible in gui

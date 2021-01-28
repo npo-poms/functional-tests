@@ -25,6 +25,7 @@ Test
 
 !define avFileFormat1 {MP3}
 !define bitrate1 {128000}
+!define duration1 {P0DT0H10M2.000S}
 
 !define bodyLocation1 { {{{
 <?xml version="1.0" encoding="utf-8"?>
@@ -35,6 +36,7 @@ Test
     <avFileFormat>${avFileFormat1}</avFileFormat>
     <videoAttributes/>
   </avAttributes>
+  <duration>${duration1}</duration>
 </location>
 }}} }
 
@@ -42,6 +44,7 @@ Test
 !define publishStopGui2 {11-01-2012 18:16}
 !define avFileFormat2 {MP4}
 !define bitrate2 {6000}
+!define duration2 {P0DT0H30M4.000S}
 
 !define bodyLocation2 { {{{
 <?xml version="1.0" encoding="utf-8"?>
@@ -52,15 +55,9 @@ Test
     <avFileFormat>${avFileFormat2}</avFileFormat>
     <videoAttributes/>
   </avAttributes>
+  <duration>${duration2}</duration>
 </location>
 }}} }
-
-|scenario            |Wacht tot locatie is gepubliceerd                                                    |
-|get from            |${urlBackendApi}/media/program/$mid/full                                             |
-|repeat until xPath  |/media:program/media:locations/media:location/@workflow|is                 |PUBLISHED|
-|$repeatCount=       |repeat count                                                                         |
-|$timeSpentRepeating=|time spent repeating                                                                 |
-|$timeSpentRepeating=|format timestamp                                       |$timeSpentRepeating|as |m:ss |
 *!
 
 !include -c <E2E.ApiBackendSetUp
@@ -74,9 +71,22 @@ Test
 
 !4 Add location (bron) to clip in backend
 
-|script                                                                    |
-|show|post|${bodyLocation1}|to|${urlBackendApi}/media/program/$mid/location|
-|Wacht tot locatie is gepubliceerd                                         |
+|script                                                                                |
+|show |post           |${bodyLocation1}|to|${urlBackendApi}/media/program/$mid/location|
+|check|response status|202                                                             |
+|check|response       |Location accepted for $mid.                                     |
+
+!4 Check location (bron) is added to clip in backend
+
+|script                                                                                                                                                           |
+|get from    |${urlBackendApi}/media/program/$mid/locations?owner=BROADCASTER                                                                                     |
+|check       |xPath         |/update:collection/update:location[last()]/@publishStart                          |${publishStartApi}                                |
+|check       |xPath         |/update:collection/update:location[last()]/update:programUrl                      |${programUrl}                                     |
+|check       |xPath         |/update:collection/update:location[last()]/update:avAttributes/update:bitrate     |${bitrate1}                                       |
+|check       |xPath         |/update:collection/update:location[last()]/update:avAttributes/update:avFileFormat|${avFileFormat1}                                  |
+|check       |xPath         |/update:collection/update:location[last()]/update:duration                        |${duration1}                                      |
+|$urn=       |xPath         |/update:collection/update:location/@urn                                                                                              |
+|$locationId=|extract string|$urn                                                                              |from|^urn:vpro:media:location:(\d+)$|using group|1|
 
 !include -c <E2E.GuiSetUp
 
@@ -111,9 +121,21 @@ Test
 
 !4 Edit location (bron) in backend
 
-|script                                                                    |
-|show|post|${bodyLocation2}|to|${urlBackendApi}/media/program/$mid/location|
-|Wacht tot locatie is gepubliceerd                                         |
+|script                                                                                |
+|show |post           |${bodyLocation2}|to|${urlBackendApi}/media/program/$mid/location|
+|check|response status|202                                                             |
+|check|response       |Location accepted for $mid.                                     |
+
+!4 Check changes in source visible in backend
+
+|script                                                                                                              |
+|get from|${urlBackendApi}/media/program/$mid/locations?owner=BROADCASTER                                            |
+|check   |xPath|/update:collection/update:location[last()]/@publishStart                          |${publishStartApi}|
+|check   |xPath|/update:collection/update:location[last()]/@publishStop                           |${publishStopApi2}|
+|check   |xPath|/update:collection/update:location[last()]/update:programUrl                      |${programUrl}     |
+|check   |xPath|/update:collection/update:location[last()]/update:avAttributes/update:bitrate     |${bitrate2}       |
+|check   |xPath|/update:collection/update:location[last()]/update:avAttributes/update:avFileFormat|${avFileFormat2}  |
+|check   |xPath|/update:collection/update:location[last()]/update:duration                        |${duration2}      |
 
 !include -c <E2E.GuiSetUp
 
