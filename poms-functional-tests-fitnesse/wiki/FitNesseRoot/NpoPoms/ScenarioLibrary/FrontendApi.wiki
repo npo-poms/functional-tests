@@ -24,6 +24,20 @@
 |post          |@{body}        |to|${urlFrontendApi}/@{post}|
 |$count=       |json path count|@{path}.*                   |
 
+|table template|Post count at path in Dev|
+|              |Dummy table template     |
+|show          |value of    |@{post}     |
+|show          |value of    |@{body}     |
+|show          |value of    |@{path}     |
+|show          |value of    |@{count}    |
+
+|table template|Post count at path in Test|
+|              |Dummy table template      |
+|show          |value of     |@{post}     |
+|show          |value of     |@{body}     |
+|show          |value of     |@{path}     |
+|show          |value of     |@{count}    |
+
 |table template|Post count at path in ${omgeving}                  |
 |post          |@{body}        |to       |${urlFrontendApi}/@{post}|
 |check         |json path count|@{path}.*|@{count}                 |
@@ -35,14 +49,6 @@
 |$timeSpentRepeating=           |time spent repeating                        |
 |$timeSpentRepeating=           |format timestamp|$timeSpentRepeating|as|m:ss|
 |$value=                        |json path       |@{path}                    |
-
-|table template                 |Get value at path in ${omgeving}             |
-|show                           |get from        |${urlFrontendApi}/@{get}    |
-|repeat until response status is|200                                          |
-|$repeatCount=                  |repeat count                                 |
-|$timeSpentRepeating=           |time spent repeating                         |
-|$timeSpentRepeating=           |format timestamp|$timeSpentRepeating|as |m:ss|
-|check                          |json path       |@{path}            |@{value}|
 
 |table template|Get values at two paths |
 |get from      |${urlFrontendApi}/@{get}|

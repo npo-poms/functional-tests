@@ -1,6 +1,6 @@
 !define typeApi1 {CLIP}
 !define typeGui1 {Clip}
-!define status1 {Voor publicatie}
+!define status1 {Wordt gepubliceerd}
 !define avTypeApi1 {AUDIO}
 !define avTypeGui1 {Audio}
 !define omroep1 {NPO}
