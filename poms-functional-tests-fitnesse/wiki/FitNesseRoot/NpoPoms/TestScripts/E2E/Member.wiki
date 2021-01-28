@@ -109,7 +109,11 @@ Test
 
 !4 Check members (onderdelen) visible in backend
 
-...
+|script                                                                        |
+|get from|${urlBackendApi}/media/program/$midOwner/members?owner=BROADCASTER   |
+|check   |xPath|count(/update:list/update:item)                    |2          |
+|check   |xPath|/update:list/update:item[1]/update:mediaUpdate/@mid|$midMember1|
+|check   |xPath|/update:list/update:item[2]/update:mediaUpdate/@mid|$midMember2|
 
 !include -c <E2E.GuiSetUp
 
