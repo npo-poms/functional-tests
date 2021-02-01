@@ -29,15 +29,10 @@ Test
 
 !4 Check clip deleted in gui
 
-|script                                                                             |
-|Open Npo poms website                                                              |
-|Npo poms Inlogscherm Log in met admin                                              |
-|Npo poms Zoeken Vul                        |$mid              |in zoekveld         |
-|Npo poms Zoeken Druk knop                  |Zoeken                                 |
-|Npo poms Zoeken Wacht tot zoeken klaar is                                          |
-|ensure                                     |is visible on page|Gezocht naar: '$mid'|
-|Npo poms Zoeken Check aantal zoekresultaten|1                                      |
-|Npo poms Zoeken Open eerste object                                                 |
-|Npo poms Tabblad object Check status       |Verwijderd                             |
+|script                                         |
+|Open Npo poms website                          |
+|Npo poms Inlogscherm Log in met admin          |
+|Npo poms Tabblad object Open        |$mid      |
+|Npo poms Tabblad object Check status|Verwijderd|
 
 !include -c <E2E.GuiTearDown

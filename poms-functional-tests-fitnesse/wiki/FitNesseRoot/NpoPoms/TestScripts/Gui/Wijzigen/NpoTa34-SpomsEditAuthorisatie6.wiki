@@ -23,7 +23,7 @@ Test
 |Npo poms Tabblad object Druk op link                       |Onderdelen        |in sidebar                                           |
 |Npo poms Tabblad object Wacht tot scrollen klaar is                                                                                 |
 |Npo poms Tabblad object Sla aantal in veld                 |Onderdelen        |op in var        |aantalOnderdelen                   |
-|set search context to                                      |xpath=//poms-members                                                    |
+|Set search context to onderdelen                                                                                                    |
 |click                                                      |Onderdeel toevoegen                                                     |
 |clear search context                                                                                                                |
 |Npo poms Zoeken Selecteer optie                            |${mediatype2}     |in dropdown      |!-MediaType-!                      |
@@ -34,7 +34,7 @@ Test
 |Npo poms Zoeken Vink checkbox aan bij object nummer        |${objectNummer}   |in zoekresultaten                                    |
 |click                                                      |Kies                                                                    |
 |wait for not visible                                       |Kies                                                                    |
-|set search context to                                      |xpath=//poms-members                                                    |
+|Set search context to onderdelen                                                                                                    |
 |Npo poms Tabblad object Check aantal in veld               |Onderdelen        |is var           |aantalOnderdelen    |plus    |1    |
 |clear search context                                                                                                                |
 |Npo poms Tabblad object Wacht tot onderdeel                |$titelVanOnderdeel|zichtbaar                                            |
@@ -44,6 +44,6 @@ Test
 |wait for visible                                           |verwijderen?                                                            |
 |click                                                      |xpath=//button[text()="verwijderen"]                                    |
 |wait for not visible                                       |verwijderen?                                                            |
-|set search context to                                      |xpath=//poms-members                                                    |
+|Set search context to onderdelen                                                                                                    |
 |Npo poms Tabblad object Check aantal in veld               |Onderdelen        |is var           |aantalOnderdelen                   |
 |clear search context                                                                                                                |

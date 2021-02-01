@@ -57,13 +57,13 @@ Test
 
 !include -c <E2E.ApiBackendSetUp
 
-!4 Save current number of members (onderdelen)
+!4 Check no members (onderdelen)
 
-|script                                                                          |
-|$midOwner=   |get var              |midClip                                     |
-|$now=        |get var              |now                                         |
-|get from     |${urlBackendApi}/media/program/$midOwner/members?owner=BROADCASTER|
-|$memberCount=|xPath                |count(/update:list/update:item)             |
+|script                                                                       |
+|$midOwner=|get var         |midClip                                          |
+|$now=     |get var         |now                                              |
+|get from  |${urlBackendApi}/media/program/$midOwner/members?owner=BROADCASTER|
+|check     |xPath           |count(/update:list/update:item)        |0        |
 
 !4 Create extra clip 1 in backend
 
@@ -119,20 +119,18 @@ Test
 
 !4 Check members (onderdelen) visible in gui
 
-|script                                                                                                                                                    |
-|Open Npo poms website                                                                                                                                     |
-|Npo poms Inlogscherm Log in met ${gebruiker}                                                                                                              |
-|Npo poms Zoeken Vul                           |$midOwner         |in zoekveld                                                                             |
-|Npo poms Zoeken Druk knop                     |Zoeken                                                                                                     |
-|Npo poms Zoeken Wacht tot zoeken klaar is                                                                                                                 |
-|ensure                                        |is visible on page|Gezocht naar: '$midOwner'                                                               |
-|Npo poms Zoeken Check aantal zoekresultaten   |1                                                                                                          |
-|Npo poms Zoeken Open eerste object                                                                                                                        |
-|set search context to                         |css=[id=sidebar]                                                                                           |
-|ensure                                        |is visible on page|Onderdelen (2)                                                                          |
-|clear search context                                                                                                                                      |
-|Npo poms Tabblad object Check onderdeel nummer|1                 |heeft titel|${titel1}|en subtitel|${subtitel1}|en status|Voor publicatie|of|Gepubliceerd|
-|Npo poms Tabblad object Check onderdeel nummer|2                 |heeft titel|${titel2}|en subtitel|${subtitel2}|en status|Voor publicatie|of|Gepubliceerd|
+|script                                                                                 |
+|Open Npo poms website                                                                  |
+|Npo poms Inlogscherm Log in met ${gebruiker}                                           |
+|Npo poms Tabblad object Open                  |$midOwner                               |
+|ensure                                        |is visible on page|Onderdelen (2)       |
+|Npo poms Tabblad object Druk op link          |Onderdelen        |in sidebar           |
+|Npo poms Tabblad object Wacht tot scrollen klaar is                                    |
+|Npo poms Tabblad object Druk op tandwieltje bij onderdelen                             |
+|Npo poms Tabblad object Druk op kolomoptie    |MID               |bij onderdelen       |
+|Npo poms Tabblad object Druk op tandwieltje bij onderdelen                             |
+|Npo poms Tabblad object Check onderdeel nummer|1                 |heeft mid|$midMember1|
+|Npo poms Tabblad object Check onderdeel nummer|2                 |heeft mid|$midMember2|
 
 !include -c <E2E.GuiTearDown
 !include -c <E2E.ApiBackendSetUp
@@ -154,20 +152,18 @@ Test
 
 !4 Check member 1 and 2 (onderdeel 1+2) have switched places in gui
 
-|script                                                                                                                                                    |
-|Open Npo poms website                                                                                                                                     |
-|Npo poms Inlogscherm Log in met ${gebruiker}                                                                                                              |
-|Npo poms Zoeken Vul                           |$midOwner         |in zoekveld                                                                             |
-|Npo poms Zoeken Druk knop                     |Zoeken                                                                                                     |
-|Npo poms Zoeken Wacht tot zoeken klaar is                                                                                                                 |
-|ensure                                        |is visible on page|Gezocht naar: '$midOwner'                                                               |
-|Npo poms Zoeken Check aantal zoekresultaten   |1                                                                                                          |
-|Npo poms Zoeken Open eerste object                                                                                                                        |
-|set search context to                         |css=[id=sidebar]                                                                                           |
-|ensure                                        |is visible on page|Onderdelen (2)                                                                          |
-|clear search context                                                                                                                                      |
-|Npo poms Tabblad object Check onderdeel nummer|1                 |heeft titel|${titel2}|en subtitel|${subtitel2}|en status|Voor publicatie|of|Gepubliceerd|
-|Npo poms Tabblad object Check onderdeel nummer|2                 |heeft titel|${titel1}|en subtitel|${subtitel1}|en status|Voor publicatie|of|Gepubliceerd|
+|script                                                                                 |
+|Open Npo poms website                                                                  |
+|Npo poms Inlogscherm Log in met ${gebruiker}                                           |
+|Npo poms Tabblad object Open                  |$midOwner                               |
+|ensure                                        |is visible on page|Onderdelen (2)       |
+|Npo poms Tabblad object Druk op link          |Onderdelen        |in sidebar           |
+|Npo poms Tabblad object Wacht tot scrollen klaar is                                    |
+|Npo poms Tabblad object Druk op tandwieltje bij onderdelen                             |
+|Npo poms Tabblad object Druk op kolomoptie    |MID               |bij onderdelen       |
+|Npo poms Tabblad object Druk op tandwieltje bij onderdelen                             |
+|Npo poms Tabblad object Check onderdeel nummer|1                 |heeft mid|$midMember2|
+|Npo poms Tabblad object Check onderdeel nummer|2                 |heeft mid|$midMember1|
 
 !include -c <E2E.GuiTearDown
 !include -c <E2E.ApiBackendSetUp
@@ -182,29 +178,23 @@ Test
 
 |script                                                                     |
 |get from|${urlBackendApi}/media/program/$midOwner/members?owner=BROADCASTER|
-|check   |xPath      |count(/update:list/update:item)     |$memberCount     |
+|check   |xPath         |count(/update:list/update:item)         |0         |
+
+!include -c <E2E.GuiSetUp
+
+!4 Check members (onderdelen) are removed from clip in gui
+
+|script                                                        |
+|Open Npo poms website                                         |
+|Npo poms Inlogscherm Log in met ${gebruiker}                  |
+|Npo poms Tabblad object Open|$midOwner                        |
+|ensure                      |is visible on page|Onderdelen (0)|
+
+!include -c <E2E.GuiTearDown
+!include -c <E2E.ApiBackendSetUp
 
 !4 Delete members (onderdelen) in backend
 
 |script                                                |
 |show|delete|${urlBackendApi}/media/program/$midMember1|
 |show|delete|${urlBackendApi}/media/program/$midMember2|
-
-!include -c <E2E.GuiSetUp
-
-!4 Check members (onderdelen) deleted in gui
-
-|script                                                                                  |
-|Open Npo poms website                                                                   |
-|Npo poms Inlogscherm Log in met ${gebruiker}                                            |
-|Npo poms Zoeken Vul                        |$midOwner         |in zoekveld              |
-|Npo poms Zoeken Druk knop                  |Zoeken                                      |
-|Npo poms Zoeken Wacht tot zoeken klaar is                                               |
-|ensure                                     |is visible on page|Gezocht naar: '$midOwner'|
-|Npo poms Zoeken Check aantal zoekresultaten|1                                           |
-|Npo poms Zoeken Open eerste object                                                      |
-|set search context to                      |css=[id=sidebar]                            |
-|ensure                                     |is visible on page|Onderdelen (0)           |
-|clear search context                                                                    |
-
-!include -c <E2E.GuiTearDown
