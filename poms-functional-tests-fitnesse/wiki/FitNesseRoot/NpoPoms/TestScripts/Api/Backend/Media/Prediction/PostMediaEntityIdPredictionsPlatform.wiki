@@ -1,5 +1,5 @@
 ---
-Help: Een platform (prediction) kan bijgewerkt worden met POST /media/{entity}/{id}/predictions/{platform}.
+Help: POST /media/{entity}/{id}/predictions/{platform}
 Suites: NPOAPI-114, RG
 Test
 ---

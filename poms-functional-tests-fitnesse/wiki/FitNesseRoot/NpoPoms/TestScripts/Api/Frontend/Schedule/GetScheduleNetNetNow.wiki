@@ -1,4 +1,5 @@
 ---
+Help: GET /schedule/net/{net}/now
 Suite
 ---
 !contents -R2 -g -p -f -h

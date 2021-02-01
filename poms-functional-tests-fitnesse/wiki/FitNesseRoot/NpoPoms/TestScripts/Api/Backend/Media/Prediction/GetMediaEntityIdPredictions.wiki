@@ -1,5 +1,5 @@
 ---
-Help: Alle platformen (predictions) van een object kunnen opgevraagd worden met GET /media/{entity}/{id}/predictions.
+Help: GET /media/{entity}/{id}/predictions
 Suites: NPOAPI-111, DV
 Test
 ---

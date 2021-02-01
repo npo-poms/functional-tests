@@ -1,5 +1,5 @@
 ---
-Help: Ondertitels kunnen verwijderd worden van een object met DELETE /media/subtitles/{mid}/{language}/{type}.
+Help: DELETE /media/subtitles/{mid}/{language}/{type}
 Suites: NPOAPI-128, RG
 Test
 ---

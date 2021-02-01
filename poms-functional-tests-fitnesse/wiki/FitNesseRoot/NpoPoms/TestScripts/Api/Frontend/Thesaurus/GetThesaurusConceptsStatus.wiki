@@ -1,11 +1,5 @@
 ---
-Help: De id van de response van GET /thesaurus/concepts/status eindigt op de opgegeven id en geldt voor alle statussen.
-Suites: NPOAPI-57, RG
-Test
+Help: GET /thesaurus/concepts/status
+Suite
 ---
-|Get values at two paths                                                                                                                        |
-|get                                                                       |path1|value1?                                      |path2 |value2?  |
-|thesaurus/concepts/status?id=!-http://data.beeldengeluid.nl/gtaa/1714609-!|id   |!-http://data.beeldengeluid.nl/gtaa/1714609-!|status|candidate|
-|thesaurus/concepts/status?id=1714609                                      |id   |!-http://data.beeldengeluid.nl/gtaa/1714609-!|status|candidate|
-|thesaurus/concepts/status?id=!-http://data.beeldengeluid.nl/gtaa/30271-!  |id   |!-http://data.beeldengeluid.nl/gtaa/30271-!  |status|approved |
-|thesaurus/concepts/status?id=30271                                        |id   |!-http://data.beeldengeluid.nl/gtaa/30271-!  |status|approved |
+!contents -R2 -g -p -f -h

@@ -1,5 +1,5 @@
 ---
-Help: De volgorde van afleveringen kan veranderd worden met PUT /media/{entity}/{id}/episodes.
+Help: PUT /media/{entity}/{id}/episodes
 Suites: NPOAPI-97, RG
 Test
 ---

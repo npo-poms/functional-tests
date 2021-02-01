@@ -1,5 +1,5 @@
 ---
-Help: De inhoud van de ondertitels van een object bij een index kan opgevraagd worden met GET /media/subtitles/{mid}/{language}/{type}/{seq}.
+Help: GET /media/subtitles/{mid}/{language}/{type}/{seq}
 Suites: NPOAPI-132, DV
 Test
 ---

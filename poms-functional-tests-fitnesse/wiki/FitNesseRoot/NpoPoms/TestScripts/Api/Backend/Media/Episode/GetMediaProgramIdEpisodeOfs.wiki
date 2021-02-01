@@ -1,5 +1,5 @@
 ---
-Help: Er kan opgevraagd worden wan welk seizoen een aflevering (program) van is met GET /media/program/{id}/episodeOfs.
+Help: GET /media/program/{id}/episodeOfs
 Suites: NPOAPI-124, RG
 Test
 ---

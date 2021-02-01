@@ -1,5 +1,5 @@
 ---
-Help: Een platform (prediction) kan opgevraagd worden met GET /media/{entity}/{id}/predictions/{platform}.
+Help: GET /media/{entity}/{id}/predictions/{platform}
 Suites: NPOAPI-113, DV
 Test
 ---

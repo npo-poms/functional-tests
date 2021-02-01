@@ -1,5 +1,4 @@
 ---
-Help: Er kan opgevraagd worden waar een gegeven object een onderdeel (member) van is met GET /media/{entity}/{id}/memberOfs.
 Suites: NPOAPI-107, RG
 Test
 ---

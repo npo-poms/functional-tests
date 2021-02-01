@@ -1,5 +1,5 @@
 ---
-Help: Het eerste item in de response van GET /schedule/ancestor/{ancestor}/next heeft het opgegeven item als ancestor.
+Help: Het eerste item in de response van GET /schedule/ancestor/{ancestor} heeft het opgegeven item als ancestor.
 Suites: NPOAPI-25, RG
 Test
 ---

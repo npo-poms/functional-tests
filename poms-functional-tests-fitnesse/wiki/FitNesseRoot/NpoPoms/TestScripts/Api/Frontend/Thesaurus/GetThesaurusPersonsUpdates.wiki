@@ -1,8 +1,5 @@
 ---
 Help: GET /thesaurus/persons/updates
-Suites: NPOAPI-60, RG
-Test
+Suite
 ---
-|Get value at path                                                                       |
-|get                                                                      |path   |value?|
-|thesaurus/persons/updates?from=2000-01-01T07:30:00&to=2020-04-30T19:30:00|changes|[]    |
+!contents -R2 -g -p -f -h

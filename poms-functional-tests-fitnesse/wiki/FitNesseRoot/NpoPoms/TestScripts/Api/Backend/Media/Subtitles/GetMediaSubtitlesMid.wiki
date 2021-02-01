@@ -1,5 +1,5 @@
 ---
-Help: De specificaties van de ondertitels van een object kunnen opgevraagd worden met GET /media/subtitles/{mid}.
+Help: GET /media/subtitles/{mid}
 Suites: NPOAPI-127, DV
 Test
 ---

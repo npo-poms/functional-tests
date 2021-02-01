@@ -1,5 +1,5 @@
 ---
-Help: De transcoding status van een bron (location) kan opgevraagd worden met GET /media/{entity}/{mid}/transcodingstatus.
+Help: GET /media/{entity}/{mid}/transcodingstatus
 Suites: NPOAPI-117, DV
 Test
 ---

@@ -1,5 +1,5 @@
 ---
-Help: Alle afleveringen van een seizoen (group) kunnen opgevraagd worden met GET /media/group/{id}/episodes/full.
+Help: GET /media/group/{id}/episodes/full
 Suites: NPOAPI-121, RG
 Test
 ---

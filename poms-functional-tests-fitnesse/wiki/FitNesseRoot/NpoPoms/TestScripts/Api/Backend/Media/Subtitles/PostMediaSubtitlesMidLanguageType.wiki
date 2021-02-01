@@ -1,5 +1,5 @@
 ---
-Help: Ondertitels kunnen toegevoegd worden aan een object met POST /media/subtitles/{mid}/{language}/{type}.
+Help: POST /media/subtitles/{mid}/{language}/{type}
 Suites: NPOAPI-130, RG
 Test
 ---

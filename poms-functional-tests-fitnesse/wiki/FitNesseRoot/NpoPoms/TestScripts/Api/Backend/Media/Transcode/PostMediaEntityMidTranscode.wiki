@@ -1,5 +1,5 @@
 ---
-Help: Een bron (location) kan getranscodeerd worden met POST /media/{entity}/{mid}/transcode.
+Help: POST /media/{entity}/{mid}/transcode
 Suites: NPOAPI-116, RG
 Test
 ---

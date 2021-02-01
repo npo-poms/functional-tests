@@ -1,0 +1,91 @@
+---
+Suites: NPOAPI-18, RG
+Test
+---
+!*> Test-specific items
+!define begin1 {21-12-2007 20:30} #1198265400000
+!define end1 {21-12-2008 20:30} #1229887807000
+!define body1 { {{{
+{
+  "searches": {
+    "text": {
+      "value": "Gouden Loeki",
+      "matchType": "TEXT",
+      "match": "MUST"
+    },
+    "scheduleEvents": {
+      "channel": "NED1",
+      "begin": $begin1,
+      "end": $end1,
+      "rerun": true
+    }
+  }
+}
+}}} }
+
+!define begin2 {13-9-2020 07:25} #1599974700000
+!define end2 {14-9-2020 07:25} #1600061100000
+!define body2 { {{{
+{
+  "searches": {
+    "text": {
+      "value": "Margreet",
+      "matchType": "TEXT",
+      "match": "MUST"
+    },
+    "scheduleEvents": {
+      "channel": "REGU",
+      "begin": $begin2,
+      "end": $end2,
+      "rerun": false
+    }
+  }
+}
+}}} }
+
+#!define body1 { {{{
+#{
+#  "searches": {
+#    "text": {
+#      "value": "melkunie",
+#      "matchType": "TEXT",
+#      "match": "MUST"
+#    },
+#    "scheduleEvents": {
+#      "channel": "NED1",
+#      "begin": 1198265400000,
+#      "end": 1229887807000,
+#      "rerun": false
+#    }
+#  }
+#}
+#}}} }
+
+#!define body2 { {{{
+#{
+#  "searches": {
+#    "text": {
+#      "value": "leerdammer",
+#      "matchType": "TEXT",
+#      "match": "MUST"
+#    },
+#    "scheduleEvents": {
+#      "channel": "REGU",
+#      "begin": "1578460500000",
+#      "end": "1578627300000",
+#      "rerun": false
+#    }
+#  }
+#}
+#}}} }
+*!
+|script                                      |
+|$begin1=|convert datetime|${begin1}|to epoch|
+|$end1=  |convert datetime|${end1}  |to epoch|
+|$begin2=|convert datetime|${begin2}|to epoch|
+|$end2=  |convert datetime|${end2}  |to epoch|
+
+|Post count at path                        |
+|body    |post         |path        |count?|
+|${body1}|media/iterate|mediaobjects|2     |
+|${body2}|media/iterate|mediaobjects|9     |

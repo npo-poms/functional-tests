@@ -1,4 +1,5 @@
 ---
+Help: Een profiel kan opgevraagd worden met GET /profiles/{name}.
 Suites: NPOAPI-38, RG
 Test
 ---

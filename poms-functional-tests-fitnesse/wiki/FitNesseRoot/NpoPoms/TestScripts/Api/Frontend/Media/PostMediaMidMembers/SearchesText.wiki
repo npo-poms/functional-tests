@@ -1,5 +1,5 @@
 ---
-Help: De response van POST /media/{mid}/episodes bevat alle objecten die een onderdeel zijn van het opgegeven object en voldoen aan de opgegeven voorwaarden.
+Help: De response van POST /media/{mid}/members bevat alle objecten die een onderdeel zijn van het opgegeven object en voldoen aan de opgegeven voorwaarden.
 Suites: NPOAPI-14, RG
 Test
 ---

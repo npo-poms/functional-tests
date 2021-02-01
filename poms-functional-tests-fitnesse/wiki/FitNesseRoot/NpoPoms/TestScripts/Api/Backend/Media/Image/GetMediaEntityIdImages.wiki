@@ -1,5 +1,5 @@
 ---
-Help: Alle afbeeldingen van een object kunnen opgevraagd worden met GET /media/{entity}/{id}/images. Ook alleen afbeeldingen met een bepaalde eigenaar kunnen opgevraagd worden.
+Help: GET /media/{entity}/{id}/images
 Suites: NPOAPI-100, DV
 Test
 ---

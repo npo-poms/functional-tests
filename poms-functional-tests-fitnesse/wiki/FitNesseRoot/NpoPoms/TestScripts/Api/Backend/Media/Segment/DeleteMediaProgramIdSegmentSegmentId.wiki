@@ -1,5 +1,5 @@
 ---
-Help: Een onderdeel (segment) kan verwijderd worden van een clip met DELETE /media/program/{id}/segment/{segmentId}.
+Help: DELETE /media/program/{id}/segment/{segmentId}
 Suites: NPOAPI-125, RG
 Test
 ---

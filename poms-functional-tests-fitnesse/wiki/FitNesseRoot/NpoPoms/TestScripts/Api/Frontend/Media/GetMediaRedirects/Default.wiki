@@ -1,0 +1,17 @@
+---
+Help: Het eerste item in de response van GET /media/redirects heeft een vervanger.
+Suites: NPOAPI-21, RG
+Test
+---
+!*> Test-specific items
+!define datetimeRegex {!-\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}\+0(1|2):00-!}
+
+!define mid {POMS_S_AVRO_120020}
+*!
+|Get value at path                              |
+|get            |path      |value?              |
+|media/redirects|lastUpdate|=~/${datetimeRegex}/|
+
+|script                                                               |
+|$redirectedMid=|json path   |map.${mid}                              |
+|Get            |media/${mid}|and check value at|mid|is|$redirectedMid|

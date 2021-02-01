@@ -1,0 +1,22 @@
+---
+Help: Het aantal items in de response van GET /profiles, is kleiner of gelijk aan de opgegeven waarde in de parameter 'max'.
+Suites: NPOAPI-39, RG
+Test
+---
+!***> Test-specific items
+|table template|Get count at path       |
+|get from      |${urlFrontendApi}/@{get}|
+|$count=       |xPath  |count(@{path})  |
+*!
+
+|Get count at path                    |
+|get                |path      |count?|
+|profiles/list?max=1|//api:item|1     |
+
+|script                                     |
+|$total=|xPath|/profile:profileResult/@total|
+
+|Get count at path                     |
+|get                 |path      |count?|
+|profiles/list?max=10|//api:item|10    |
+|profiles/list       |//api:item|$total|

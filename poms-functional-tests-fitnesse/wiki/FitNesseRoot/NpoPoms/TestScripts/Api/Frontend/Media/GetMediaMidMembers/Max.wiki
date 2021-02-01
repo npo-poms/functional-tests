@@ -1,5 +1,5 @@
 ---
-Help: Het aantal items in de response is kleiner dan of gelijk aan de opgegeven waarde in de parameter 'max'.
+Help: Het aantal items in de response van GET /media/{mid}/members is kleiner dan of gelijk aan de opgegeven waarde in de parameter 'max'.
 Suites: NPOAPI-13, RG
 Test
 ---

@@ -1,5 +1,5 @@
 ---
-Help: Een object kan opgevraagd worden met GET /media/{entity}/{id}.
+Help: GET /media/{entity}/{id}
 Suites: NPOAPI-96, RG
 Test
 ---

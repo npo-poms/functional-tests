@@ -1,0 +1,17 @@
+---
+Help: De id's van de items in de response van POST /media/multiple is gelijk aan de opgegeven id's.
+Suites: NPOAPI-19, RG
+Test
+---
+!***> Test-specific items
+!define mid1 {AVRO_1656037}
+!define mid2 {POW_00716986}
+
+!define body {["${mid1}","${mid2}"]}
+
+!define result {!-<div><ul><li>-!${mid1}!-</li><li>-!${mid2}!-</li></ul></div>-!}
+*!
+
+|script                                                                          |
+|post |${body}              |to                 |${urlFrontendApi}/media/multiple|
+|check|all json path matches|items[*].result.mid|${result}                       |

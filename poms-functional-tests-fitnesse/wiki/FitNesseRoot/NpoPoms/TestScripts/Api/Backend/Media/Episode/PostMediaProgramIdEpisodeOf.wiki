@@ -1,5 +1,5 @@
 ---
-Help: Een aflevering (program) kan toegevoegd worden aan een seizoen met POST /media/program/{id}/episodeOf.
+Help: POST /media/program/{id}/episodeOf
 Suites: NPOAPI-122, RG
 Test
 ---

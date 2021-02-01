@@ -1,5 +1,5 @@
 ---
-Help: Een bron (location) kan toegevoegd worden aan een object met POST /media/{entity}/{id}/location.
+Help: POST /media/{entity}/{id}/location
 Suites: NPOAPI-101, RG
 Test
 ---
