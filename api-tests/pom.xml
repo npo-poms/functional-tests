@@ -166,18 +166,18 @@
       <dependency>
         <groupId>io.rest-assured</groupId>
         <artifactId>rest-assured</artifactId>
-        <version>4.3.1</version>
+        <version>4.3.3</version>
         <scope>test</scope>
       </dependency>
       <dependency>
         <groupId>org.assertj</groupId>
         <artifactId>assertj-core</artifactId>
-        <version>3.17.2</version>
+        <version>3.19.0</version>
       </dependency>
       <dependency>
         <groupId>org.projectlombok</groupId>
         <artifactId>lombok</artifactId>
-        <version>1.18.14</version>
+        <version>1.18.18</version>
         <scope>provided</scope>
       </dependency>
       <dependency>
@@ -190,7 +190,7 @@
       <dependency>
         <groupId>org.springframework</groupId>
         <artifactId>spring-core</artifactId>
-        <version>5.2.9.RELEASE</version>
+        <version>5.3.3</version>
       </dependency>
       <dependency>
         <groupId>org.apache.commons</groupId>
@@ -215,7 +215,7 @@
       <dependency>
         <groupId>io.github.bonigarcia</groupId>
         <artifactId>webdrivermanager</artifactId>
-        <version>4.2.2</version>
+        <version>4.3.1</version>
       </dependency>
 <!--
       <dependency>
