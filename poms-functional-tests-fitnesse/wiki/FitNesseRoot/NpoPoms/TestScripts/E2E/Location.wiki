@@ -20,8 +20,7 @@ Test
 }}} }
 
 !define programUrl {!-http://a.omroep.nl/19.mp3-!}
-!define publishStartApi {2012-01-11T16:16:01.287+01:00}
-!define publishStartGui {11-01-2012 16:16}
+!define publishStart {11-01-2012 16:16}
 
 !define avFileFormat1 {MP3}
 !define bitrate1 {128000}
@@ -29,7 +28,7 @@ Test
 
 !define bodyLocation1 { {{{
 <?xml version="1.0" encoding="utf-8"?>
-<location xmlns="urn:vpro:media:update:2009" publishStart="${publishStartApi}">
+<location xmlns="urn:vpro:media:update:2009" publishStart="$publishStartIso">
   <programUrl>${programUrl}</programUrl>
   <avAttributes>
     <bitrate>${bitrate1}</bitrate>
@@ -40,15 +39,14 @@ Test
 </location>
 }}} }
 
-!define publishStopApi2 {2012-01-11T18:16:01.287+01:00}
-!define publishStopGui2 {11-01-2012 18:16}
+!define publishStop2 {11-01-2012 18:16}
 !define avFileFormat2 {MP4}
 !define bitrate2 {6000}
 !define duration2 {P0DT0H30M4.000S}
 
 !define bodyLocation2 { {{{
 <?xml version="1.0" encoding="utf-8"?>
-<location xmlns="urn:vpro:media:update:2009" publishStart="${publishStartApi}" publishStop="${publishStopApi2}">
+<location xmlns="urn:vpro:media:update:2009" publishStart="$publishStartIso" publishStop="$publishStopIso2">
   <programUrl>${programUrl}</programUrl>
   <avAttributes>
     <bitrate>${bitrate2}</bitrate>
@@ -71,6 +69,9 @@ Test
 
 !4 Add location (bron) to clip in backend
 
+|script                                                   |
+|$publishStartIso=|convert datetime|${publishStart}|to iso|
+
 |script                                                                                |
 |show |post           |${bodyLocation1}|to|${urlBackendApi}/media/program/$mid/location|
 |check|response status|202                                                             |
@@ -80,7 +81,7 @@ Test
 
 |script                                                                                                                                                    |
 |get from    |${urlBackendApi}/media/program/$mid/locations?owner=BROADCASTER                                                                              |
-|check       |xPath         |/collection/update:location[last()]/@publishStart                          |${publishStartApi}                                |
+|check       |xPath         |/collection/update:location[last()]/@publishStart                          |$publishStartIso                                  |
 |check       |xPath         |/collection/update:location[last()]/update:programUrl                      |${programUrl}                                     |
 |check       |xPath         |/collection/update:location[last()]/update:avAttributes/update:bitrate     |${bitrate1}                                       |
 |check       |xPath         |/collection/update:location[last()]/update:avAttributes/update:avFileFormat|${avFileFormat1}                                  |
@@ -92,29 +93,32 @@ Test
 
 !4 Check location (bron) is added to clip in gui
 
-|script                                                                                                       |
-|Open Npo poms website                                                                                        |
-|Npo poms Inlogscherm Log in met ${gebruiker}                                                                 |
-|Npo poms Tabblad object Open                                  |$mid                                          |
-|Npo poms Tabblad object Druk op link                          |Bronnen      |in sidebar                      |
-|Npo poms Tabblad object Wacht tot scrollen klaar is                                                          |
-|set search context to                                         |xpath=//poms-locations                        |
-|Npo poms Tabblad object Check aantal in veld                  |Bronnen      |is           |1                 |
-|Npo poms Tabblad object Check bron                            |${programUrl}|zichtbaar                       |
-|Npo poms Tabblad object Check bron                            |${programUrl}|heeft formaat|${avFileFormat1}  |
-|Npo poms Tabblad object Check bron                            |${programUrl}|online sinds |${publishStartGui}|
-|double click                                                  |${programUrl}                                 |
-|clear search context                                                                                         |
-|Npo poms Tabblad object Detailscherm Check tekstveld          |URL *        |heeft waarde |${programUrl}     |
-|Npo poms Tabblad object Detailscherm Check bewerkbare dropdown|Type *       |heeft waarde |${avFileFormat1}  |
-|Npo poms Tabblad object Detailscherm Check tekstveld          |Bitrate      |heeft waarde |${bitrate1}       |
-|Npo poms Tabblad object Detailscherm Check bron online sinds  |${publishStartGui}                            |
-|Npo poms Tabblad object Detailscherm Druk op kruisje om pop-up te sluiten                                    |
+|script                                                                                                     |
+|Open Npo poms website                                                                                      |
+|Npo poms Inlogscherm Log in met ${gebruiker}                                                               |
+|Npo poms Tabblad object Open                                  |$mid                                        |
+|Npo poms Tabblad object Druk op link                          |Bronnen      |in sidebar                    |
+|Npo poms Tabblad object Wacht tot scrollen klaar is                                                        |
+|set search context to                                         |xpath=//poms-locations                      |
+|Npo poms Tabblad object Check aantal in veld                  |Bronnen      |is           |1               |
+|Npo poms Tabblad object Check bron                            |${programUrl}|zichtbaar                     |
+|Npo poms Tabblad object Check bron                            |${programUrl}|heeft formaat|${avFileFormat1}|
+|Npo poms Tabblad object Check bron                            |${programUrl}|online sinds |${publishStart} |
+|double click                                                  |${programUrl}                               |
+|clear search context                                                                                       |
+|Npo poms Tabblad object Detailscherm Check tekstveld          |URL *        |heeft waarde |${programUrl}   |
+|Npo poms Tabblad object Detailscherm Check bewerkbare dropdown|Type *       |heeft waarde |${avFileFormat1}|
+|Npo poms Tabblad object Detailscherm Check tekstveld          |Bitrate      |heeft waarde |${bitrate1}     |
+|Npo poms Tabblad object Detailscherm Check bron online sinds  |${publishStart}                             |
+|Npo poms Tabblad object Detailscherm Druk op kruisje om pop-up te sluiten                                  |
 
 !include -c <E2E.GuiTearDown
 !include -c <E2E.ApiBackendSetUp
 
 !4 Edit location (bron) in backend
+
+|script                                                   |
+|$publishStopIso2=|convert datetime|${publishStop2}|to iso|
 
 |script                                                                                |
 |show |post           |${bodyLocation2}|to|${urlBackendApi}/media/program/$mid/location|
@@ -123,36 +127,36 @@ Test
 
 !4 Check changes in source visible in backend
 
-|script                                                                                                       |
-|get from|${urlBackendApi}/media/program/$mid/locations?owner=BROADCASTER                                     |
-|check   |xPath|/collection/update:location[last()]/@publishStart                          |${publishStartApi}|
-|check   |xPath|/collection/update:location[last()]/@publishStop                           |${publishStopApi2}|
-|check   |xPath|/collection/update:location[last()]/update:programUrl                      |${programUrl}     |
-|check   |xPath|/collection/update:location[last()]/update:avAttributes/update:bitrate     |${bitrate2}       |
-|check   |xPath|/collection/update:location[last()]/update:avAttributes/update:avFileFormat|${avFileFormat2}  |
-|check   |xPath|/collection/update:location[last()]/update:duration                        |${duration2}      |
+|script                                                                                                     |
+|get from|${urlBackendApi}/media/program/$mid/locations?owner=BROADCASTER                                   |
+|check   |xPath|/collection/update:location[last()]/@publishStart                          |$publishStartIso|
+|check   |xPath|/collection/update:location[last()]/@publishStop                           |$publishStopIso2|
+|check   |xPath|/collection/update:location[last()]/update:programUrl                      |${programUrl}   |
+|check   |xPath|/collection/update:location[last()]/update:avAttributes/update:bitrate     |${bitrate2}     |
+|check   |xPath|/collection/update:location[last()]/update:avAttributes/update:avFileFormat|${avFileFormat2}|
+|check   |xPath|/collection/update:location[last()]/update:duration                        |${duration2}    |
 
 !include -c <E2E.GuiSetUp
 
 !4 Check changes in source visible in gui
 
-|script                                                                                                                                   |
-|Open Npo poms website                                                                                                                    |
-|Npo poms Inlogscherm Log in met ${gebruiker}                                                                                             |
-|Npo poms Tabblad object Open                                  |$mid                                                                      |
-|Npo poms Tabblad object Druk op link                          |Bronnen           |in sidebar                                             |
-|Npo poms Tabblad object Wacht tot scrollen klaar is                                                                                      |
-|Npo poms Tabblad object Check aantal in veld                  |Bronnen           |is           |1                                        |
-|Npo poms Tabblad object Check bron                            |${programUrl}     |zichtbaar                                              |
-|Npo poms Tabblad object Check bron                            |${programUrl}     |heeft formaat|${avFileFormat2}                         |
-|Npo poms Tabblad object Check bron                            |${programUrl}     |online van   |${publishStartGui}|tot|${publishStopGui2}|
-|double click                                                  |${programUrl}                                                             |
-|clear search context                                                                                                                     |
-|Npo poms Tabblad object Detailscherm Check tekstveld          |URL *             |heeft waarde |${programUrl}                            |
-|Npo poms Tabblad object Detailscherm Check bewerkbare dropdown|Type *            |heeft waarde |${avFileFormat2}                         |
-|Npo poms Tabblad object Detailscherm Check tekstveld          |Bitrate           |heeft waarde |${bitrate2}                              |
-|Npo poms Tabblad object Detailscherm Check bron online van    |${publishStartGui}|tot          |${publishStopGui2}                       |
-|Npo poms Tabblad object Detailscherm Druk op kruisje om pop-up te sluiten                                                                |
+|script                                                                                                                          |
+|Open Npo poms website                                                                                                           |
+|Npo poms Inlogscherm Log in met ${gebruiker}                                                                                    |
+|Npo poms Tabblad object Open                                  |$mid                                                             |
+|Npo poms Tabblad object Druk op link                          |Bronnen        |in sidebar                                       |
+|Npo poms Tabblad object Wacht tot scrollen klaar is                                                                             |
+|Npo poms Tabblad object Check aantal in veld                  |Bronnen        |is           |1                                  |
+|Npo poms Tabblad object Check bron                            |${programUrl}  |zichtbaar                                        |
+|Npo poms Tabblad object Check bron                            |${programUrl}  |heeft formaat|${avFileFormat2}                   |
+|Npo poms Tabblad object Check bron                            |${programUrl}  |online van   |${publishStart}|tot|${publishStop2}|
+|double click                                                  |${programUrl}                                                    |
+|clear search context                                                                                                            |
+|Npo poms Tabblad object Detailscherm Check tekstveld          |URL *          |heeft waarde |${programUrl}                      |
+|Npo poms Tabblad object Detailscherm Check bewerkbare dropdown|Type *         |heeft waarde |${avFileFormat2}                   |
+|Npo poms Tabblad object Detailscherm Check tekstveld          |Bitrate        |heeft waarde |${bitrate2}                        |
+|Npo poms Tabblad object Detailscherm Check bron online van    |${publishStart}|tot          |${publishStop2}                    |
+|Npo poms Tabblad object Detailscherm Druk op kruisje om pop-up te sluiten                                                       |
 
 !include -c <E2E.GuiTearDown
 !include -c <E2E.ApiBackendSetUp

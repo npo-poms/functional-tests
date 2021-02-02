@@ -126,3 +126,10 @@
 |scenario|Npo poms Tabblad object Detailscherm Selecteer optie op basis van klikken|optie|in dropdown|dropdown|
 |click   |xpath=//label[text()="@dropdown"]/following::select                                                 |
 |click   |xpath=//label[text()="@dropdown"]/following::select/descendant::option[@value="@optie"]             |
+
+!define publicatie {Publicatie!-
+-!start: @start!-
+-!stop: @stop}
+
+|scenario|Npo poms Tabblad object Detailscherm Check publicatie heeft start|start                                          |en stop |stop|
+|check   |value of                                                         |xpath=//span[normalize-space()="Publicatie"]/..|${publicatie}|

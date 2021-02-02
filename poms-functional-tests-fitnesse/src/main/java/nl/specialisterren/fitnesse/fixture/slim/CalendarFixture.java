@@ -9,6 +9,7 @@ import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.ZoneId;
 
@@ -103,7 +104,8 @@ public class CalendarFixture {
 	}
 	
 	public String convertDatetimeToIso(String datetime) {
-		LocalDateTime localDateTime = LocalDateTime.parse(datetime, DateTimeFormatter.ofPattern("d-M-yyyy H:mm") );
-		return localDateTime.atZone(ZoneId.of("Europe/Amsterdam")).toString();
+		LocalDateTime localDateTime = LocalDateTime.parse(datetime, DateTimeFormatter.ofPattern("d-M-yyyy H:mm"));
+		ZonedDateTime zonedDateTime = localDateTime.atZone(ZoneId.of("Europe/Amsterdam"));
+		return DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(zonedDateTime);
 	}
 }

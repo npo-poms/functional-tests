@@ -1,0 +1,103 @@
+---
+Test
+---
+!*> Test-specific items
+!define gebruiker {admin}
+
+!define imageTitle {Specialisterren Afbeelding !today (yyyyMMddHHmmss)}
+!define imageTitle {Specialisterren Afbeelding 20210202143220}
+!define imageDescription {Specialisterren Test}
+!define imageUrl {!-http://images.poms.omroep.nl/image/494930.jpg-!}
+!define publishStart {01-01-2021 00:00}
+!define publishStop {01-01-2022 00:00}
+!define body { {{{
+<?xml version="1.0"?>
+<image xmlns="urn:vpro:media:update:2009" type="PICTURE" highlighted="true" publishStart="$publishStartIso" publishStop="$publishStopIso">
+  <title>${imageTitle}</title>
+  <description>${imageDescription}</description>
+  <imageLocation>
+    <url>${imageUrl}</url>
+  </imageLocation>
+</image>
+}}} }
+*!
+
+!include -c <E2E.ApiBackendSetUp
+
+!4 Check no images in backend
+
+|script                                             |
+|$mid=   |get var |midClip                          |
+|get from|${urlBackendApi}/media/program/$mid/images|
+|check   |xPath   |count(/collection/update:image)|0|
+
+!include -c <E2E.GuiSetUp
+
+!4 Check no images in gui
+
+|script                                                          |
+|Open Npo poms website                                           |
+|Npo poms Inlogscherm Log in met ${gebruiker}                    |
+|Npo poms Tabblad object Open|$mid                               |
+|ensure                      |is visible on page|Afbeeldingen (0)|
+
+!include -c <E2E.GuiTearDown
+!include -c <E2E.ApiBackendSetUp
+
+!4 Add image to clip in backend
+
+|script                                                   |
+|$publishStartIso=|convert datetime|${publishStart}|to iso|
+|$publishStopIso= |convert datetime|${publishStop} |to iso|
+
+|script                                                                                      |
+|show |post           |${body}|to|${urlBackendApi}/media/program/$mid/image?owner=BROADCASTER|
+|check|response status|202                                                                   |
+
+!4 Check image is added to clip in backend
+
+|script                                                                           |
+|get from|${urlBackendApi}/media/program/$mid/images                              |
+|check   |xPath|count(/collection/update:image)               |1                  |
+|check   |xPath|/collection/update:image[1]/update:title      |${imageTitle}      |
+|check   |xPath|/collection/update:image[1]/update:description|${imageDescription}|
+|check   |xPath|/collection/update:image[1]/@publishStart     |$publishStartIso   |
+|check   |xPath|/collection/update:image[1]/@publishStop      |$publishStopIso    |
+
+!include -c <E2E.GuiSetUp
+
+!4 Check image is added to clip in gui
+
+|script                                                                                                                     |
+|Open Npo poms website                                                                                                      |
+|Npo poms Inlogscherm Log in met ${gebruiker}                                                                               |
+|Npo poms Tabblad object Open                                     |$mid                                                     |
+|ensure                                                           |is visible on page|Afbeeldingen (1)                      |
+|Npo poms Tabblad object Druk op link                             |Afbeeldingen      |in sidebar                            |
+|Npo poms Tabblad object Wacht tot scrollen klaar is                                                                        |
+|Npo poms Tabblad object Check afbeelding                         |${imageTitle}     |zichtbaar                             |
+|Npo poms Tabblad object Check afbeelding                         |${imageTitle}     |heeft beschrijving|${imageDescription}|
+|Npo poms Tabblad object Dubbelklik op afbeelding                 |${imageTitle}                                            |
+|scroll to                                                        |Publicatie                                               |
+|Npo poms Tabblad object Detailscherm Check publicatie heeft start|${publishStart}   |en stop           |${publishStop}     |
+|click                                                            |Annuleer                                                 |
+
+!include -c <E2E.GuiTearDown
+!include -c <E2E.GuiSetUp
+
+!4 Remove image from clip in gui
+
+|script                                                                   |
+|Open Npo poms website                                                    |
+|Npo poms Inlogscherm Log in met ${gebruiker}                             |
+|Npo poms Tabblad object Open        |$mid                                |
+|Npo poms Tabblad object Druk op link|Afbeeldingen       |in sidebar      |
+|Npo poms Tabblad object Wacht tot scrollen klaar is                      |
+|Npo poms Tabblad object Hover over eerste afbeelding                     |
+|Npo poms Tabblad object Druk op verwijderknop bij eerste afbeelding      |
+|wait for visible                    |Afbeelding verwijderen?             |
+|click                               |xpath=//button[text()="verwijderen"]|
+|wait for not visible                |Afbeelding verwijderen?             |
+|ensure                              |is visible on page |Afbeeldingen (0)|
+
+!include -c <E2E.GuiTearDown
