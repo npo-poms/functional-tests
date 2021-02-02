@@ -47,4 +47,8 @@ public class ExtendedStringFixture {
 	public boolean valueIsGreaterThan(String value1, String value2) {
 		return (value1.compareTo(value2) > 0);
 	}
+	
+	public String trim(String value) {
+		return value.trim();
+	}
 }

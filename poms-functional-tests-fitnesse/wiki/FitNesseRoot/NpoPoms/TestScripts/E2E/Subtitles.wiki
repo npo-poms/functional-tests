@@ -3,6 +3,8 @@ Help: Toevoegen en verwijderen van ondertitels in de backend zijn zichtbaar in d
 Test
 ---
 !*> Test-specific items
+!define gebruiker {standaard-gebruiker}
+
 !define start1 {00:01:06.920}
 !define end1 {00:01:07.960}
 !define text1 {888}
@@ -19,25 +21,27 @@ Test
 !define end4 {00:01:15.800}
 !define text4 {En soms is luisteren beter}
 
-!define subtitles { {{{
-WEBVTT
+!define subtitles {WEBVTT!-
 
 1
-${start1} --> ${end1}
-${text1}
+-!${start1} !--->-! ${end1}!-
+-!${text1}!-
 
 2
-${start2} --> ${end2}
-${text2}
+-!${start2} !--->-! ${end2}!-
+-!${text2}!-
 
 3
-${start3} --> ${end3}
-${text3}
+-!${start3} !--->-! ${end3}!-
+-!${text3}!-
 
 4
-${start4} --> ${end4}
-${text4}
-}}} }
+-!${start4} !--->-! ${end4}!-
+-!${text4}}
+
+|scenario|Store response in var|var  |
+|$@var=  |response                   |
+|$@var=  |trim                 |$@var|
 
 |table template|Check subtitles                                              |
 |$start=       |convert timestamp  |@{startTime}                             |
@@ -66,6 +70,11 @@ ${text4}
 
 !4 Check subtitles added to clip in backend
 
+|script                                                                             |
+|show                 |get from|${urlBackendApi}/media/subtitles/$midClip/nl/CAPTION|
+|Store response in var|subtitles                                                    |
+|check                |value of|$subtitles               |${subtitles}              |
+
 |Check subtitles                   |
 |index|start time|end time|text    |
 |1    |${start1} |${end1} |${text1}|
@@ -73,9 +82,25 @@ ${text4}
 |3    |${start3} |${end3} |${text3}|
 |4    |${start4} |${end4} |${text4}|
 
+!include -c <E2E.GuiSetUp
+
 !4 Check subtitles added to clip in gui
 
-...
+|script                                                                                                               |
+|Open Npo poms website                                                                                                |
+|Npo poms Inlogscherm Log in met ${gebruiker}                                                                         |
+|Npo poms Tabblad object Open        |$midClip                                                                        |
+|Npo poms Tabblad object Druk op link|Labels     |in sidebar                                                          |
+|Npo poms Tabblad object Wacht tot scrollen klaar is                                                                  |
+|Npo poms Tabblad object Check veld  |Ondertitels|heeft waarde                      |Nederlands                       |
+|click                               |Nederlands                                                                      |
+|switch to next tab                                                                                                   |
+|check                               |value of   |css=body                          |${subtitles}                     |
+|check                               |location   |${urlPoms}/domain/subtitles/$midClip/nl/CAPTION/vtt?guessOffset=true|
+|close tab                                                                                                            |
+
+!include -c <E2E.GuiTearDown
+!include -c <E2E.ApiBackendSetUp
 
 !4 Remove subtitles from clip in backend
 
@@ -91,6 +116,16 @@ ${text4}
 |show |get from       |${urlBackendApi}/media/subtitles/$midClip/nl/CAPTION|
 |check|response status|404                                                 |
 
+!include -c <E2E.GuiSetUp
+
 !4 Check clip has no subtitles in gui
 
-...
+|script                                                |
+|Open Npo poms website                                 |
+|Npo poms Inlogscherm Log in met ${gebruiker}          |
+|Npo poms Tabblad object Open        |$midClip         |
+|Npo poms Tabblad object Druk op link|Labels|in sidebar|
+|Npo poms Tabblad object Wacht tot scrollen klaar is   |
+|Npo poms Tabblad object Check geen ondertitels        |
+
+!include -c <E2E.GuiTearDown

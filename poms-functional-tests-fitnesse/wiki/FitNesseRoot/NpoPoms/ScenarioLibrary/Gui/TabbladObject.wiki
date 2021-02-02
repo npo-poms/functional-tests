@@ -421,3 +421,8 @@
 |set search context to|xpath=//h2[text()="Tags"]/..                                                                                           |
 |wait for not visible |xpath=./div[@class="ui-select"]                                                                                        |
 |clear search context                                                                                                                         |
+
+|scenario             |Npo poms Tabblad object Check geen ondertitels                           |
+|set search context to|xpath=//h2[normalize-space(.)="Ondertitels"]/..                          |
+|reject               |is visible on page|xpath=./span[@ng-repeat="subtitle in media.subtitles"]|
+|clear search context                                                                           |
