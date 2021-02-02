@@ -8,11 +8,7 @@ Test
 *!
 
 |script                                                                                   |
-|get from  |${urlFrontendApi}/schedule/broadcaster/${broadcaster1}                        |
 |Get       |schedule/broadcaster/${broadcaster1}|and save value at|items[0].midRef|as|mid1|
 |Check item|$mid1                               |has broadcaster  |${broadcaster1}        |
-
-|script                                                                                   |
-|get from  |${urlFrontendApi}/schedule/broadcaster/${broadcaster2}                        |
 |Get       |schedule/broadcaster/${broadcaster2}|and save value at|items[0].midRef|as|mid2|
 |Check item|$mid2                               |has broadcaster  |${broadcaster2}        |

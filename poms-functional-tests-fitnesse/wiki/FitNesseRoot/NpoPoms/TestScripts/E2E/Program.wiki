@@ -10,7 +10,6 @@ Test
 
 !define typeApi2 {MOVIE}
 !define typeGui2 {Film}
-!define status2 {Gepubliceerd}
 !define avTypeApi2 {VIDEO}
 !define avTypeGui2 {Video}
 !define omroep2 {NPO}
@@ -53,18 +52,17 @@ See [[Setup > Create clip][<E2E.1_SetUp.CreateClip]]
 
 !4 Check clip created in gui
 
-|script                                                                    |
-|Open Npo poms website                                                     |
-|Npo poms Inlogscherm Log in met ${gebruiker}                              |
-|Npo poms Tabblad object Open        |$mid                                 |
-|Npo poms Tabblad object Check status|${status1}|of          |${status2}   |
-|Npo poms Tabblad object Check veld  |Type      |heeft waarde|${typeGui1}  |
-|Npo poms Tabblad object Check veld  |Titel     |heeft waarde|${titel1}    |
-|Npo poms Tabblad object Check veld  |AV-Type   |heeft waarde|${avTypeGui1}|
-|Npo poms Tabblad object Check veld  |Omroepen  |heeft waarde|${omroep1}   |
-|Npo poms Tabblad object Druk op link|Labels    |in sidebar                |
-|Npo poms Tabblad object Wacht tot scrollen klaar is                       |
-|Npo poms Tabblad object Check veld  |Genres    |heeft waarde|${genreGui1} |
+|script                                                                  |
+|Open Npo poms website                                                   |
+|Npo poms Inlogscherm Log in met ${gebruiker}                            |
+|Npo poms Tabblad object Open        |$mid                               |
+|Npo poms Tabblad object Check veld  |Type    |heeft waarde|${typeGui1}  |
+|Npo poms Tabblad object Check veld  |Titel   |heeft waarde|${titel1}    |
+|Npo poms Tabblad object Check veld  |AV-Type |heeft waarde|${avTypeGui1}|
+|Npo poms Tabblad object Check veld  |Omroepen|heeft waarde|${omroep1}   |
+|Npo poms Tabblad object Druk op link|Labels  |in sidebar                |
+|Npo poms Tabblad object Wacht tot scrollen klaar is                     |
+|Npo poms Tabblad object Check veld  |Genres  |heeft waarde|${genreGui1} |
 
 !include -c <E2E.GuiTearDown
 !include -c <E2E.ApiBackendSetUp
@@ -105,15 +103,14 @@ See [[Setup > Create clip][<E2E.1_SetUp.CreateClip]]
 |Open Npo poms website                                                                     |
 |Npo poms Inlogscherm Log in met ${gebruiker}                                              |
 |Npo poms Tabblad object Open        |$mid                                                 |
-|Npo poms Tabblad object Check status|${status2}                                           |
 |Npo poms Tabblad object Check veld  |Type              |heeft waarde|${typeGui2}          |
 |Npo poms Tabblad object Check veld  |Titel             |heeft waarde|${titel2}            |
 |Npo poms Tabblad object Check veld  |Korte titel       |heeft waarde|${korteTitel2}       |
-|Npo poms Tabblad object Check veld  |Beschrijving      |heeft waarde|${beschrijving2}     |
 |Npo poms Tabblad object Check veld  |AV-Type           |heeft waarde|${avTypeGui2}        |
 |Npo poms Tabblad object Check veld  |Omroepen          |heeft waarde|${omroep2}           |
 |Npo poms Tabblad object Druk op link|Labels            |in sidebar                        |
 |Npo poms Tabblad object Wacht tot scrollen klaar is                                       |
+|Npo poms Tabblad object Check veld  |Beschrijving      |heeft waarde|${beschrijving2}     |
 |Npo poms Tabblad object Check veld  |Korte beschrijving|heeft waarde|${korteBeschrijving2}|
 |Npo poms Tabblad object Check veld  |Genres            |heeft waarde|${genreGui2}         |
 
