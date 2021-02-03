@@ -1,3 +1,13 @@
+!include -c >Detailscherm
+!include -c >LexicografischeTitel
+
+!include -c >Afbeelding
+!include -c >Aflevering
+!include -c >Bron
+!include -c >Onderdeel
+!include -c >Platform
+!include -c >Segment
+
 !include -c >Variabelen
 
 |scenario      |Npo poms Tabblad object Open      |object     |
@@ -150,191 +160,6 @@
 |scenario           |Npo poms Tabblad object Wacht tot scrollen klaar is|
 |wait until property|scrollTop|of element|css=.tab-pane.active|is stable|
 
-|scenario|Npo poms Tabblad object Check afbeelding|afbeelding                                          |zichtbaar                                         |
-|ensure  |is visible on page                      |xpath=//poms-images/div/table/tbody/tr/td[@class="column-title"]/span[normalize-space(.)="@afbeelding"]|
-
-|scenario        |Npo poms Tabblad object Wacht tot preview afbeelding van                      |afbeelding                     |zichtbaar                     |
-|wait for visible|xpath=//poms-images/div/table/tbody/tr[./td[@class="column-title"]/span[normalize-space(.)="@afbeelding"]]/td[@class="column-preview"]/span/a|
-
-|scenario|Npo poms Tabblad object Druk op preview afbeelding van                                      |afbeelding                                      |
-|click   |xpath=//poms-images/div/table/tbody/tr[./td[@class="column-title"]/span[normalize-space(.)="@afbeelding"]]/td[@class="column-preview"]/span/a|
-
-|scenario              |Npo poms Tabblad object Check afbeelding|afbeelding                                       |niet zichtbaar                                       |
-|seconds before timeout|3                                                                                                                                               |
-|reject                |is visible on page                      |xpath=//poms-images/div/table/tbody/tr/td[@class="column-title"]/span[normalize-space(.)="@afbeelding"]|
-|seconds before timeout|${secondsBeforeTimeout}                                                                                                                         |
-
-|scenario             |Npo poms Tabblad object Wacht tot afbeelding|afbeelding|niet zichtbaar|
-|set search context to|xpath=//poms-images                                                   |
-|wait for not visible |@afbeelding                                                           |
-|clear search context                                                                        |
-
-|scenario|Npo poms Tabblad object Check afbeelding|afbeelding                                                                                                                                     |heeft beschrijving|beschrijving|
-|check   |value of                                |xpath=//poms-images/div/table/tbody/tr[./td[@class="column-title"]/span[normalize-space(.)="@afbeelding"]]/td[@class="column-description"]/span|@beschrijving                  |
-
-|scenario  |Npo poms Tabblad object Hover over afbeelding                        |afbeelding                       |
-|hover over|xpath=//poms-images/div/table/tbody/tr/td[@class="column-title"]/span[normalize-space(.)="@afbeelding"]|
-
-|scenario  |Npo poms Tabblad object Hover over eerste afbeelding               |
-|hover over|xpath=//poms-images/div/table/tbody/tr[1]/td[@class="column-title"]|
-
-|scenario    |Npo poms Tabblad object Dubbelklik op afbeelding                      |afbeelding                      |
-|double click|xpath=//poms-images/div/table/tbody/tr/td[@class="column-title"]/span[normalize-space(.)="@afbeelding"]|
-
-|scenario|Npo poms Tabblad object Druk op verwijderknop bij afbeelding                                                    |afbeelding                                                   |
-|click   |xpath=//poms-images/div/table/tbody/tr[./td[@class="column-title"]/span[normalize-space(.)="@afbeelding"]]/td[@class="column-tools"]/div/button[@title="verwijder afbeelding"]|
-
-|scenario|Npo poms Tabblad object Druk op verwijderknop bij eerste afbeelding                                          |
-|click   |xpath=//poms-images/div/table/tbody/tr[1]/td[@class="column-tools"]/div/button[@title="verwijder afbeelding"]|
-
-|scenario|Npo poms Tabblad object Check onderdeel|onderdeel                                                                                                                                                     |heeft type|type|
-|check   |value of                               |xpath=//poms-members[@header="Onderdelen"]/div/table/tbody/tr[./td[@class="column-title"]/span[normalize-space(.)="@onderdeel"]]/td[@class="column-type"]/span|@type          |
-
-|scenario|Npo poms Tabblad object Check onderdeel nummer|index                                                                                               |heeft titel|titel|
-|check   |value of                                      |xpath=//poms-members[@header="Onderdelen"]/div/table/tbody/tr[@index]/td[@class="column-title"]/span|@titel           |
-
-|scenario|Npo poms Tabblad object Check onderdeel nummer|index                                                                                                  |heeft subtitel|subtitel|
-|check   |value of                                      |xpath=//poms-members[@header="Onderdelen"]/div/table/tbody/tr[@index]/td[@class="column-subtitle"]/span|@subtitel              |
-
-|scenario|Npo poms Tabblad object Check onderdeel nummer|index                                                                                                  |heeft status|status|
-|check   |value of                                      |xpath=//poms-members[@header="Onderdelen"]/div/table/tbody/tr[@index]/td[@class="column-workflow"]/span|@status            |
-
-|scenario|Npo poms Tabblad object Check onderdeel nummer|index                                                                                                  |heeft status|status1|of|status2|
-|check   |value of                                      |xpath=//poms-members[@header="Onderdelen"]/div/table/tbody/tr[@index]/td[@class="column-workflow"]/span|!-=~/(@status1)|(@status2)/-!  |
-
-|scenario|Npo poms Tabblad object Check onderdeel nummer|index                                                                                                                  |heeft mid|mid|
-|check   |value of                                      |xpath=//poms-members[@header="Onderdelen"]/div/table/tbody/tr[@index]/td[@class="column-mid"]/span/poms-clipboard/input|@mid         |
-
-|scenario                                      |Npo poms Tabblad object Check onderdeel nummer|index         |heeft titel|titel|en subtitel|subtitel|en status|status|
-|Npo poms Tabblad object Check onderdeel nummer|@index                                        |heeft titel   |@titel                                                 |
-|Npo poms Tabblad object Check onderdeel nummer|@index                                        |heeft subtitel|@subtitel                                              |
-|Npo poms Tabblad object Check onderdeel nummer|@index                                        |heeft status  |@status                                                |
-
-|scenario                                      |Npo poms Tabblad object Check onderdeel nummer|index         |heeft titel|titel|en subtitel|subtitel|en status|status1|of|status2|
-|Npo poms Tabblad object Check onderdeel nummer|@index                                        |heeft titel   |@titel                                                             |
-|Npo poms Tabblad object Check onderdeel nummer|@index                                        |heeft subtitel|@subtitel                                                          |
-|Npo poms Tabblad object Check onderdeel nummer|@index                                        |heeft status  |@status1   |of   |@status2                                         |
-
-|scenario|Npo poms Tabblad object Check onderdeel|onderdeel                                                        |zichtbaar                                                       |
-|ensure  |is visible on page                     |xpath=//poms-members[@header="Onderdelen"]/div/table/tbody/tr/td[@class="column-title"]/span/span[normalize-space(.)="@onderdeel"]|
-
-|scenario        |Npo poms Tabblad object Wacht tot onderdeel                       |onderdeel                      |zichtbaar                      |
-|wait for visible|xpath=//poms-members[@header="Onderdelen"]/div/table/tbody/tr/td[@class="column-title"]/span/span[normalize-space(.)="@onderdeel"]|
-
-|scenario  |Npo poms Tabblad object Hover over onderdeel                                      |onderdeel                                      |
-|hover over|xpath=//poms-members[@header="Onderdelen"]/div/table/tbody/tr/td[@class="column-title"]/span/span[normalize-space(.)="@onderdeel"]|
-
-|scenario|Npo poms Tabblad object Druk op verwijderknop bij onderdeel                                                               |onderdeel                                                               |
-|click   |xpath=//poms-members[@header="Onderdelen"]/div/table/tbody/tr[./td[@class="column-title"]/span/span[normalize-space(.)="@onderdeel"]]/td[@class="column-tools"]/div/button[@title="verwijder item"]|
-
-|scenario             |Set search context to onderdelen                          |
-|set search context to|xpath=//poms-members[@header="Onderdelen"]/div/table/thead|
-
-|scenario|Npo poms Tabblad object Druk op tandwieltje bij onderdelen|
-|Set search context to onderdelen                                   |
-|click   |Kolominstellingen aanpassen                               |
-|remove last search context                                         |
-
-|scenario|Npo poms Tabblad object Druk op kolomoptie|optie|bij onderdelen|
-|Set search context to onderdelen                                        |
-|click   |@optie                                                         |
-|remove last search context                                              |
-
-
-|scenario|Npo poms Tabblad object Check aflevering nummer|index                                                                                                                    |heeft mid|mid|
-|check   |value of                                       |xpath=//poms-members[@header="Afleveringen"]/div/table/tbody/tr[@index]/td[@class="column-mid"]/span/poms-clipboard/input|@mid         |
-
-|scenario             |Set search context to afleveringen                          |
-|set search context to|xpath=//poms-members[@header="Afleveringen"]/div/table/thead|
-
-|scenario|Npo poms Tabblad object Druk op tandwieltje bij afleveringen|
-|Set search context to afleveringen                                   |
-|click   |Kolominstellingen aanpassen                                 |
-|remove last search context                                           |
-
-|scenario|Npo poms Tabblad object Druk op kolomoptie|optie|bij afleveringen|
-|Set search context to afleveringen                                        |
-|click   |@optie                                                           |
-|remove last search context                                                |
-
-
-|scenario|Npo poms Tabblad object Check bron|url                                          |zichtbaar                                          |
-|ensure  |is visible on page                |xpath=//poms-locations/div/table/tbody/tr/td[@class="column-url"]/span[normalize-space(.)="@url"]|
-
-|scenario              |Npo poms Tabblad object Check bron|url                                        |niet zichtbaar                                       |
-|seconds before timeout|3                                                                                                                                   |
-|reject                |is visible on page                |xpath=//poms-locations/div/table/tbody/tr/td[@class="column-url"]/span[normalize-space(.)="@url"]|
-|seconds before timeout|${secondsBeforeTimeout}                                                                                                             |
-
-|scenario|Npo poms Tabblad object Check bron|url                                                                                                                                 |heeft formaat|formaat|
-|check   |value of                          |xpath=//poms-locations/div/table/tbody/tr[./td[@class="column-url"]/span[normalize-space(.)="@url"]]/td[@class="column-format"]/span|@formaat             |
-
-|scenario|Npo poms Tabblad object Check bron|url                                                                                                                                |heeft online offline|onlineOffline|
-|check   |value of                          |xpath=//poms-locations/div/table/tbody/tr[./td[@class="column-url"]/span[normalize-space(.)="@url"]]/td[@class="column-dates"]/span|@onlineOffline                    |
-
-|scenario                          |Npo poms Tabblad object Check bron|url                 |online sinds|start|
-|Npo poms Tabblad object Check bron|@url                              |heeft online offline|van: @start       |
-
-|scenario                          |Npo poms Tabblad object Check bron|url                 |online van|start|tot|stop|
-|Npo poms Tabblad object Check bron|@url                              |heeft online offline|van: @start tot: @stop   |
-
-|scenario  |Npo poms Tabblad object Hover over bron                           |url                           |
-|hover over|xpath=//poms-locations/div/table/tbody/tr/td[@class="column-url"]/span[normalize-space(.)="@url"]|
-
-|scenario|Npo poms Tabblad object Druk op verwijderknop bij bron                                                   |url                                                  |
-|click   |xpath=//poms-locations/div/table/tbody/tr[./td[@class="column-url"]/span[normalize-space(.)="@url"]]/td[@class="column-tools"]//button[@title="verwijder bron"]|
-
-|scenario  |Npo poms Tabblad object Hover over laatste bron  |
-|hover over|xpath=//poms-locations/div/table/tbody/tr[last()]|
-
-|scenario|Npo poms Tabblad object Druk op verwijderknop bij laatste bron                                              |
-|click   |xpath=//poms-locations/div/table/tbody/tr[last()]/td[@class="column-tools"]//button[@title="verwijder bron"]|
-
-|scenario|Npo poms Tabblad object Check segment|segment                                             |zichtbaar                                            |
-|ensure  |is visible on page                   |xpath=//poms-segments/div/table/tbody/tr/td[@class="column-mainTitle"]/span[normalize-space(.)="@segment"]|
-
-|scenario              |Npo poms Tabblad object Check segment|segment                                          |niet zichtbaar                                          |
-|seconds before timeout|3                                                                                                                                               |
-|reject                |is visible on page                   |xpath=//poms-segments/div/table/tbody/tr/td[@class="column-mainTitle"]/span[normalize-space(.)="@segment"]|
-|seconds before timeout|${secondsBeforeTimeout}                                                                                                                         |
-
-|scenario  |Npo poms Tabblad object Hover over segment                            |segment                            |
-|hover over|xpath=//poms-segments/div/table/tbody/tr/td[@class="column-mainTitle"]/span[normalize-space(.)="@segment"]|
-
-|scenario|Npo poms Tabblad object Druk op verwijderknop bij segment                                                        |segment                                                        |
-|click   |xpath=//poms-segments/div/table/tbody/tr[./td[@class="column-mainTitle"]/span[normalize-space(.)="@segment"]]/td[@class="column-tools-xl"]/div/button[@title="verwijder segment"]|
-
-|scenario|Npo poms Tabblad object Druk op editknop bij segment                                                        |segment                                                        |
-|click   |xpath=//poms-segments/div/table/tbody/tr[./td[@class="column-mainTitle"]/span[normalize-space(.)="@segment"]]/td[@class="column-tools-xl"]/div/button[@title="edit segment"]|
-
-|scenario|Npo poms Tabblad object Check segment|segment                                                                                                                                                        |heeft status|status|
-|check   |value of                             |xpath=//poms-segments/div/table/tbody/tr[./td[@class="column-mainTitle"]/span[normalize-space(.)="@segment"]]/td[@class="column-workflow"]/span/poms-workflow/p|@status            |
-
-|scenario|Npo poms Tabblad object Check segment|segment                                                                                                                                                        |heeft status|status1|of|status2|
-|check   |value of                             |xpath=//poms-segments/div/table/tbody/tr[./td[@class="column-mainTitle"]/span[normalize-space(.)="@segment"]]/td[@class="column-workflow"]/span/poms-workflow/p|!-=~/(@status1)|(@status2)/-!  |
-|show    |value of                             |xpath=//poms-segments/div/table/tbody/tr[./td[@class="column-mainTitle"]/span[normalize-space(.)="@segment"]]/td[@class="column-workflow"]/span/poms-workflow/p                                |
-
-|scenario             |Npo poms Tabblad object Druk op tandwieltje bij segmenten|
-|set search context to|xpath=//poms-segment-columns                             |
-|click                |Kolominstellingen aanpassen                              |
-|remove last search context                                                     |
-
-|scenario             |Npo poms Tabblad object Druk op kolomoptie|optie|bij segmenten|
-|set search context to|xpath=//poms-segment-columns                                  |
-|click                |@optie                                                        |
-|remove last search context                                                          |
-
-|scenario            |Npo poms Tabblad object Wacht tot kolomoptie            |optie           |bij segmenten aangevinkt           |
-|wait for not visible|xpath=//poms-segment-columns/div/div/span[./span[text()="@optie"]][@class="poms-multidropdown-item"]         |
-|wait for visible    |xpath=//poms-segment-columns/div/div/span[./span[text()="@optie"]][@class="poms-multidropdown-item selected"]|
-
-|scenario                                    |Npo poms Tabblad object Vink kolomoptie|optie |aan bij segmenten|
-|Npo poms Tabblad object Druk op kolomoptie  |@optie                                 |bij segmenten           |
-|Npo poms Tabblad object Wacht tot kolomoptie|@optie                                 |bij segmenten aangevinkt|
-
-|scenario|Npo poms Tabblad object Sla mid van segment|segment                                         |op in var                                         |var                                        |
-|$@var=  |value of                                   |xpath=//poms-segments/div/table/tbody/tr[./td[@class="column-mainTitle"]/span[normalize-space(.)="@segment"]]/td[@class="column-mid"]/span/span|
-
 |table template                                                    |Npo poms Tabblad object Check permissies van veld                                                                                                     |
 |scroll to                                                         |xpath=//h2[starts-with(normalize-space(.), "@{veld}")]                                                                                                |
 |hover over                                                        |xpath=//h2[starts-with(normalize-space(.), "@{veld}")]                                                                                                |
@@ -366,11 +191,6 @@
 |set search context to|xpath=//poms-scheduleevents                        |
 |double click         |@kanaal                                            |
 |clear search context                                                     |
-
-|scenario             |Npo poms Tabblad object Dubbelklik op platform|platform|
-|set search context to|xpath=//poms-predictions                               |
-|double click         |@platform                                              |
-|clear search context                                                         |
 
 |scenario             |Npo poms Tabblad object Dubbelklik op uitzending|uitzending|
 |set search context to|xpath=//poms-scheduleevents                                |

@@ -1,0 +1,15 @@
+|scenario|Npo poms Tabblad object Check aflevering nummer|index                                                                                                                    |heeft mid|mid|
+|check   |value of                                       |xpath=//poms-members[@header="Afleveringen"]/div/table/tbody/tr[@index]/td[@class="column-mid"]/span/poms-clipboard/input|@mid         |
+
+|scenario             |Set search context to afleveringen          |
+|set search context to|xpath=//poms-members[@header="Afleveringen"]|
+
+|scenario|Npo poms Tabblad object Druk op tandwieltje bij afleveringen|
+|Set search context to afleveringen                                   |
+|click   |Kolominstellingen aanpassen                                 |
+|remove last search context                                           |
+
+|scenario|Npo poms Tabblad object Druk op kolomoptie|optie|bij afleveringen|
+|Set search context to afleveringen                                        |
+|click   |@optie                                                           |
+|remove last search context                                                |

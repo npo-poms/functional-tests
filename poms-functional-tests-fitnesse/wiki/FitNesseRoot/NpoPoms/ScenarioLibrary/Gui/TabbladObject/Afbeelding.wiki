@@ -1,0 +1,36 @@
+|scenario|Npo poms Tabblad object Check afbeelding|afbeelding                                          |zichtbaar                                         |
+|ensure  |is visible on page                      |xpath=//poms-images/div/table/tbody/tr/td[@class="column-title"]/span[normalize-space(.)="@afbeelding"]|
+
+|scenario        |Npo poms Tabblad object Wacht tot preview afbeelding van                      |afbeelding                     |zichtbaar                     |
+|wait for visible|xpath=//poms-images/div/table/tbody/tr[./td[@class="column-title"]/span[normalize-space(.)="@afbeelding"]]/td[@class="column-preview"]/span/a|
+
+|scenario|Npo poms Tabblad object Druk op preview afbeelding van                                      |afbeelding                                      |
+|click   |xpath=//poms-images/div/table/tbody/tr[./td[@class="column-title"]/span[normalize-space(.)="@afbeelding"]]/td[@class="column-preview"]/span/a|
+
+|scenario              |Npo poms Tabblad object Check afbeelding|afbeelding                                       |niet zichtbaar                                       |
+|seconds before timeout|3                                                                                                                                               |
+|reject                |is visible on page                      |xpath=//poms-images/div/table/tbody/tr/td[@class="column-title"]/span[normalize-space(.)="@afbeelding"]|
+|seconds before timeout|${secondsBeforeTimeout}                                                                                                                         |
+
+|scenario             |Npo poms Tabblad object Wacht tot afbeelding|afbeelding|niet zichtbaar|
+|set search context to|xpath=//poms-images                                                   |
+|wait for not visible |@afbeelding                                                           |
+|clear search context                                                                        |
+
+|scenario|Npo poms Tabblad object Check afbeelding|afbeelding                                                                                                                                     |heeft beschrijving|beschrijving|
+|check   |value of                                |xpath=//poms-images/div/table/tbody/tr[./td[@class="column-title"]/span[normalize-space(.)="@afbeelding"]]/td[@class="column-description"]/span|@beschrijving                  |
+
+|scenario  |Npo poms Tabblad object Hover over afbeelding                        |afbeelding                       |
+|hover over|xpath=//poms-images/div/table/tbody/tr/td[@class="column-title"]/span[normalize-space(.)="@afbeelding"]|
+
+|scenario  |Npo poms Tabblad object Hover over eerste afbeelding               |
+|hover over|xpath=//poms-images/div/table/tbody/tr[1]/td[@class="column-title"]|
+
+|scenario    |Npo poms Tabblad object Dubbelklik op afbeelding                      |afbeelding                      |
+|double click|xpath=//poms-images/div/table/tbody/tr/td[@class="column-title"]/span[normalize-space(.)="@afbeelding"]|
+
+|scenario|Npo poms Tabblad object Druk op verwijderknop bij afbeelding                                                    |afbeelding                                                   |
+|click   |xpath=//poms-images/div/table/tbody/tr[./td[@class="column-title"]/span[normalize-space(.)="@afbeelding"]]/td[@class="column-tools"]/div/button[@title="verwijder afbeelding"]|
+
+|scenario|Npo poms Tabblad object Druk op verwijderknop bij eerste afbeelding                                          |
+|click   |xpath=//poms-images/div/table/tbody/tr[1]/td[@class="column-tools"]/div/button[@title="verwijder afbeelding"]|

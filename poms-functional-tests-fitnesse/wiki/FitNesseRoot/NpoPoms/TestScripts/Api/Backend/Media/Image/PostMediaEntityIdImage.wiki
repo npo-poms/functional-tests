@@ -3,32 +3,4 @@ Help: POST /media/{entity}/{id}/image
 Suites: NPOAPI-99, RG
 Test
 ---
-!*> Test-specific items
-!define imageTitle {Specialisterren Afbeelding !today (yyyyMMddHHmmss)}
-!define imageDescription {Specialisterren Test}
-!define imageUrl {!-http://images.poms.omroep.nl/image/494930.jpg-!}
-!define body { {{{
-<?xml version="1.0"?>
-<image xmlns="urn:vpro:media:update:2009" type="PICTURE" highlighted="true" publishStart="2021-01-01T00:00:00.001Z" publishStop="2022-01-01T00:00:00.001Z">
-  <title>${imageTitle}</title>
-  <description>${imageDescription}</description>
-  <imageLocation>
-    <url>${imageUrl}</url>
-  </imageLocation>
-</image>
-}}} }
-*!
-
-!4 Add image to clip
-
-|script                                                                                      |
-|$mid=|get var        |midClip                                                               |
-|show |post           |${body}|to|${urlBackendApi}/media/program/$mid/image?owner=BROADCASTER|
-|check|response status|202                                                                   |
-
-!4 Check image is added to clip
-
-|script                                                                                |
-|get from|${urlBackendApi}/media/program/$mid/images                                   |
-|check   |xPath|/collection/update:image[last()]/update:title      |${imageTitle}      |
-|check   |xPath|/collection/update:image[last()]/update:description|${imageDescription}|
+See [[!-E2E-! > Image][.NpoPoms.TestScripts.E2E.Image]]

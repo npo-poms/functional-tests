@@ -1,0 +1,197 @@
+---
+Help: Wijzigen van een platform (prediction) is zichtbaar in de gui.
+Test
+---
+!*> Test-specific items
+!define gebruiker {standaard-gebruiker}
+
+!define publishStart_InternetVod {01-01-2013 00:00}
+!define publishStop_InternetVod {01-01-2014 00:00}
+!define publishStart_TvVod {01-01-2015 00:00}
+!define publishStop_TvVod {01-01-2016 00:00}
+!define publishStart_PlusVod {01-01-2017 00:00}
+!define publishStop_PlusVod {01-01-2018 00:00}
+
+!define internetVod {INTERNETVOD}
+!define tvVod {TVVOD}
+!define plusVod {PLUSVOD}
+
+!define bodyChangeInternetVod { {{{
+<?xml version="1.0"?>
+<prediction xmlns="urn:vpro:media:update:2009" publishStart="$publishStartIso_InternetVod" publishStop="$publishStopIso_InternetVod"/>
+}}} }
+!define bodyChangeTvVodAndPlusVod { {{{
+<?xml version="1.0"?>
+<collection xmlns:update="urn:vpro:media:update:2009">
+  <update:prediction publishStart="$publishStartIso_TvVod" publishStop="$publishStopIso_TvVod">${tvVod}</update:prediction>
+  <update:prediction publishStart="$publishStartIso_PlusVod" publishStop="$publishStopIso_PlusVod">${plusVod}</update:prediction>
+</collection>
+}}} }
+!define bodyPutBackOriginalValues { {{{
+<?xml version="1.0"?>
+<collection xmlns:update="urn:vpro:media:update:2009">
+  <update:prediction publishStart="" publishStop="">${internetVod}</update:prediction>
+  <update:prediction publishStart="" publishStop="">${tvVod}</update:prediction>
+  <update:prediction publishStart="" publishStop="">${plusVod}</update:prediction>
+</collection>
+}}} }
+
+|table template|Check platform publish times in backend                  |
+|get from      |${urlBackendApi}/media/media/$mid/predictions/@{platform}|
+|check         |xPath    |/update:prediction/@publishStart   |@{start}   |
+|check         |xPath    |/update:prediction/@publishStop    |@{stop}    |
+
+|table template                                      |Check platform publish times in gui          |
+|Npo poms Tabblad object Check platform              |@{platform}|online van  |@{start}|tot|@{stop}|
+|Npo poms Tabblad object Dubbelklik op platform      |@{platform}                                  |
+|Npo poms Tabblad object Wacht tot detailscherm geopend                                            |
+|Npo poms Tabblad object Detailscherm Check tekstveld|Start      |heeft waarde|@{start}            |
+|Npo poms Tabblad object Detailscherm Check tekstveld|Stop       |heeft waarde|@{stop}             |
+|click                                               |Annuleer                                     |
+|Npo poms Tabblad object Wacht tot detailscherm gesloten                                           |
+
+|table template                                                      |Check no platform publish times in gui|
+|Npo poms Tabblad object Check wanneeer online ontbreekt bij platform|@{platform}                           |
+|Npo poms Tabblad object Dubbelklik op platform                      |@{platform}                           |
+|Npo poms Tabblad object Wacht tot detailscherm geopend                                                     |
+|Npo poms Tabblad object Detailscherm Check tekstveld                |Start       |heeft waarde      |      |
+|Npo poms Tabblad object Detailscherm Check tekstveld                |Stop        |heeft waarde      |      |
+|click                                                               |Annuleer                              |
+|Npo poms Tabblad object Wacht tot detailscherm gesloten                                                    |
+*!
+
+!include -c <E2E.ApiBackendSetUp
+
+|script                                                                           |
+|$mid=                        |get var         |midClip                           |
+|$publishStartIso_InternetVod=|convert datetime|${publishStart_InternetVod}|to iso|
+|$publishStopIso_InternetVod= |convert datetime|${publishStop_InternetVod} |to iso|
+|$publishStartIso_TvVod=      |convert datetime|${publishStart_TvVod}      |to iso|
+|$publishStopIso_TvVod=       |convert datetime|${publishStop_TvVod}       |to iso|
+|$publishStartIso_PlusVod=    |convert datetime|${publishStart_PlusVod}    |to iso|
+|$publishStopIso_PlusVod=     |convert datetime|${publishStop_PlusVod}     |to iso|
+
+!4 Check original values in backend
+
+|Check platform publish times in backend|
+|platform           |start     |stop    |
+|${internetVod}     |null      |null    |
+|${tvVod}           |null      |null    |
+|${plusVod}         |null      |null    |
+
+!4 Update platform 'internetvod' in backend
+
+|script                                                                                                        |
+|show |post           |${bodyChangeInternetVod}|to|${urlBackendApi}/media/media/$mid/predictions/${internetVod}|
+|check|response status|204                                                                                     |
+
+!4 Check platform 'internetvod' updated in backend
+
+|script                                                                                                |
+|get from            |${urlBackendApi}/media/media/$mid/predictions/${internetVod}                     |
+|repeat until xPath  |/update:prediction/@publishStart|is                 |$publishStartIso_InternetVod|
+|$repeatCount=       |repeat count                                                                     |
+|$timeSpentRepeating=|time spent repeating                                                             |
+|$timeSpentRepeating=|format timestamp                |$timeSpentRepeating|as           |m:ss          |
+
+|Check platform publish times in backend                                |
+|platform      |start                       |stop                       |
+|${internetVod}|$publishStartIso_InternetVod|$publishStopIso_InternetVod|
+
+!include -c <E2E.GuiSetUp
+
+!4 Check platform 'internetvod' updated in gui
+
+|script                                                    |
+|Open Npo poms website                                     |
+|Npo poms Inlogscherm Log in met ${gebruiker}              |
+|Npo poms Tabblad object Open        |$mid                 |
+|Npo poms Tabblad object Druk op link|Platformen|in sidebar|
+|Npo poms Tabblad object Wacht tot scrollen klaar is       |
+
+|Check platform publish times in gui                                  |
+|platform      |start                      |stop                      |
+|${internetVod}|${publishStart_InternetVod}|${publishStop_InternetVod}|
+
+!include -c <E2E.GuiTearDown
+!include -c <E2E.ApiBackendSetUp
+
+!4 Update platforms 'tvvod' and 'plusvod'
+
+|script                                                                                             |
+|show |post           |${bodyChangeTvVodAndPlusVod}|to|${urlBackendApi}/media/media/$mid/predictions|
+|check|response status|204                                                                          |
+
+!4 Check platforms 'tvvod' and 'plusvod' updated in backend
+
+|script                                                                                          |
+|get from            |${urlBackendApi}/media/media/$mid/predictions/${tvVod}                     |
+|repeat until xPath  |/update:prediction/@publishStart|is                 |$publishStartIso_TvVod|
+|$repeatCount=       |repeat count                                                               |
+|$timeSpentRepeating=|time spent repeating                                                       |
+|$timeSpentRepeating=|format timestamp                |$timeSpentRepeating|as        |m:ss       |
+
+|Check platform publish times in backend                    |
+|platform  |start                   |stop                   |
+|${tvVod}  |$publishStartIso_TvVod  |$publishStopIso_TvVod  |
+|${plusVod}|$publishStartIso_PlusVod|$publishStopIso_PlusVod|
+
+!include -c <E2E.GuiSetUp
+
+!4 Check platform 'internetvod' updated in gui
+
+|script                                                    |
+|Open Npo poms website                                     |
+|Npo poms Inlogscherm Log in met ${gebruiker}              |
+|Npo poms Tabblad object Open        |$mid                 |
+|Npo poms Tabblad object Druk op link|Platformen|in sidebar|
+|Npo poms Tabblad object Wacht tot scrollen klaar is       |
+
+|Check platform publish times in gui                      |
+|platform  |start                  |stop                  |
+|${tvVod}  |${publishStart_TvVod}  |${publishStop_TvVod}  |
+|${plusVod}|${publishStart_PlusVod}|${publishStop_PlusVod}|
+
+!include -c <E2E.GuiTearDown
+!include -c <E2E.ApiBackendSetUp
+
+!4 Put back original values of all platforms in backend
+
+|script                                                                                             |
+|$mid=|get var        |midClip                                                                      |
+|show |post           |${bodyPutBackOriginalValues}|to|${urlBackendApi}/media/media/$mid/predictions|
+|check|response status|204                                                                          |
+
+!4 Check platforms back to their original values in backend
+
+|script                                                                           |
+|get from            |${urlBackendApi}/media/media/$mid/predictions/${plusVod}    |
+|repeat until xPath  |/update:prediction/@publishStart|is                 |null   |
+|$repeatCount=       |repeat count                                                |
+|$timeSpentRepeating=|time spent repeating                                        |
+|$timeSpentRepeating=|format timestamp                |$timeSpentRepeating|as|m:ss|
+
+|Check platform publish times in backend|
+|platform           |start     |stop    |
+|${internetVod}     |null      |null    |
+|${tvVod}           |null      |null    |
+|${plusVod}         |null      |null    |
+
+!include -c <E2E.GuiSetUp
+
+!4 Check platforms back to their original values in backend
+
+|script                                                    |
+|Open Npo poms website                                     |
+|Npo poms Inlogscherm Log in met ${gebruiker}              |
+|Npo poms Tabblad object Open        |$mid                 |
+|Npo poms Tabblad object Druk op link|Platformen|in sidebar|
+|Npo poms Tabblad object Wacht tot scrollen klaar is       |
+
+|Check no platform publish times in gui|
+|platform                              |
+|${internetVod}                        |
+|${tvVod}                              |
+|${plusVod}                            |
+
+!include -c <E2E.GuiTearDown

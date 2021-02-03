@@ -1,0 +1,10 @@
+|scenario             |Npo poms Tabblad object Dubbelklik op platform|platform|
+|set search context to|xpath=//poms-predictions                               |
+|double click         |@platform                                              |
+|clear search context                                                         |
+
+|scenario|Npo poms Tabblad object Check platform|platform                                                                                                                                           |online van|onlineVan|tot|onlineTot|
+|check   |value of                              |xpath=//poms-predictions/div/table/tbody/tr[./td[@class="column-platform"]/span[normalize-space()="@platform"]]/td[@class="column-dates"]/span/span|van: @onlineVan tot: @onlineTot   |
+
+|scenario|Npo poms Tabblad object Check wanneeer online ontbreekt bij platform|platform                                                                                                                                                        |
+|ensure  |is visible on page                                                  |xpath=//poms-predictions/div/table/tbody/tr[./td[@class="column-platform"]/span[normalize-space()="@platform"]]/td[@class="column-dates"]/span/span[not(./span)]|

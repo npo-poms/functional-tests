@@ -1,2 +1,2 @@
-!include -c ScenarioLibrary.FrontendApi
-!include -c ScenarioLibrary.Gui
+!include -c >FrontendApi
+!include -c >Gui

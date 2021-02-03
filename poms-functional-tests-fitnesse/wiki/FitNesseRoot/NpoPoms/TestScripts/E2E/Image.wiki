@@ -1,4 +1,5 @@
 ---
+Help: Toevoegen van een afbeelding in de backend is zichtbaar in de gui.
 Test
 ---
 !*> Test-specific items
@@ -78,9 +79,13 @@ Test
 |Npo poms Tabblad object Check afbeelding                         |${imageTitle}     |zichtbaar                             |
 |Npo poms Tabblad object Check afbeelding                         |${imageTitle}     |heeft beschrijving|${imageDescription}|
 |Npo poms Tabblad object Dubbelklik op afbeelding                 |${imageTitle}                                            |
+|Npo poms Tabblad object Wacht tot detailscherm geopend                                                                     |
 |scroll to                                                        |Publicatie                                               |
+|Npo poms Tabblad object Detailscherm Check tekstveld             |Titel *           |heeft waarde      |${imageTitle}      |
+|Npo poms Tabblad object Detailscherm Check textarea              |Beschrijving *    |heeft waarde      |${imageDescription}|
 |Npo poms Tabblad object Detailscherm Check publicatie heeft start|${publishStart}   |en stop           |${publishStop}     |
 |click                                                            |Annuleer                                                 |
+|Npo poms Tabblad object Wacht tot detailscherm gesloten                                                                    |
 
 !include -c <E2E.GuiTearDown
 !include -c <E2E.GuiSetUp

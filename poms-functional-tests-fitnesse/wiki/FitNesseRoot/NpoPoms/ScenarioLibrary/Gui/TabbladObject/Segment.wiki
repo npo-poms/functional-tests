@@ -125,3 +125,48 @@
 |Npo poms Tabblad object Wacht tot sidebar volledig geladen is                                                                    |
 |Npo poms Tabblad object Check segment      |@titel                                   |heeft status|Wordt verwijderd|of|Verwijderd|
 
+
+|scenario|Npo poms Tabblad object Check segment|segment                                             |zichtbaar                                            |
+|ensure  |is visible on page                   |xpath=//poms-segments/div/table/tbody/tr/td[@class="column-mainTitle"]/span[normalize-space(.)="@segment"]|
+
+|scenario              |Npo poms Tabblad object Check segment|segment                                          |niet zichtbaar                                          |
+|seconds before timeout|3                                                                                                                                               |
+|reject                |is visible on page                   |xpath=//poms-segments/div/table/tbody/tr/td[@class="column-mainTitle"]/span[normalize-space(.)="@segment"]|
+|seconds before timeout|${secondsBeforeTimeout}                                                                                                                         |
+
+|scenario  |Npo poms Tabblad object Hover over segment                            |segment                            |
+|hover over|xpath=//poms-segments/div/table/tbody/tr/td[@class="column-mainTitle"]/span[normalize-space(.)="@segment"]|
+
+|scenario|Npo poms Tabblad object Druk op verwijderknop bij segment                                                        |segment                                                        |
+|click   |xpath=//poms-segments/div/table/tbody/tr[./td[@class="column-mainTitle"]/span[normalize-space(.)="@segment"]]/td[@class="column-tools-xl"]/div/button[@title="verwijder segment"]|
+
+|scenario|Npo poms Tabblad object Druk op editknop bij segment                                                        |segment                                                        |
+|click   |xpath=//poms-segments/div/table/tbody/tr[./td[@class="column-mainTitle"]/span[normalize-space(.)="@segment"]]/td[@class="column-tools-xl"]/div/button[@title="edit segment"]|
+
+|scenario|Npo poms Tabblad object Check segment|segment                                                                                                                                                        |heeft status|status|
+|check   |value of                             |xpath=//poms-segments/div/table/tbody/tr[./td[@class="column-mainTitle"]/span[normalize-space(.)="@segment"]]/td[@class="column-workflow"]/span/poms-workflow/p|@status            |
+
+|scenario|Npo poms Tabblad object Check segment|segment                                                                                                                                                        |heeft status|status1|of|status2|
+|check   |value of                             |xpath=//poms-segments/div/table/tbody/tr[./td[@class="column-mainTitle"]/span[normalize-space(.)="@segment"]]/td[@class="column-workflow"]/span/poms-workflow/p|!-=~/(@status1)|(@status2)/-!  |
+|show    |value of                             |xpath=//poms-segments/div/table/tbody/tr[./td[@class="column-mainTitle"]/span[normalize-space(.)="@segment"]]/td[@class="column-workflow"]/span/poms-workflow/p                                |
+
+|scenario             |Npo poms Tabblad object Druk op tandwieltje bij segmenten|
+|set search context to|xpath=//poms-segment-columns                             |
+|click                |Kolominstellingen aanpassen                              |
+|remove last search context                                                     |
+
+|scenario             |Npo poms Tabblad object Druk op kolomoptie|optie|bij segmenten|
+|set search context to|xpath=//poms-segment-columns                                  |
+|click                |@optie                                                        |
+|remove last search context                                                          |
+
+|scenario            |Npo poms Tabblad object Wacht tot kolomoptie            |optie           |bij segmenten aangevinkt           |
+|wait for not visible|xpath=//poms-segment-columns/div/div/span[./span[text()="@optie"]][@class="poms-multidropdown-item"]         |
+|wait for visible    |xpath=//poms-segment-columns/div/div/span[./span[text()="@optie"]][@class="poms-multidropdown-item selected"]|
+
+|scenario                                    |Npo poms Tabblad object Vink kolomoptie|optie |aan bij segmenten|
+|Npo poms Tabblad object Druk op kolomoptie  |@optie                                 |bij segmenten           |
+|Npo poms Tabblad object Wacht tot kolomoptie|@optie                                 |bij segmenten aangevinkt|
+
+|scenario|Npo poms Tabblad object Sla mid van segment|segment                                         |op in var                                         |var                                        |
+|$@var=  |value of                                   |xpath=//poms-segments/div/table/tbody/tr[./td[@class="column-mainTitle"]/span[normalize-space(.)="@segment"]]/td[@class="column-mid"]/span/span|
