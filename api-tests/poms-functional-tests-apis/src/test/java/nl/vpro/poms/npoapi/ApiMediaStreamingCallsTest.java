@@ -12,6 +12,9 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import org.apache.commons.io.IOUtils;
 import org.junit.jupiter.api.*;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.NullSource;
+import org.junit.jupiter.params.provider.ValueSource;
 
 import nl.vpro.api.client.utils.MediaRestClientUtils;
 import nl.vpro.domain.api.Order;
@@ -109,9 +112,20 @@ class ApiMediaStreamingCallsTest extends AbstractApiTest {
     }
 
 
-    @SuppressWarnings("deprecation")
-    @Test
-    public void testChangesNoProfileCheckSkipDeletesMaxOne() throws Exception {
+
+    /**
+     * This tries to take 100 changes from changes feed, starting from some point in time.
+     * It does that in two ways:
+     *
+     * - 100 subsequent calls with max=1
+     * - 1 call all with max=100
+     *
+     * The results should be exactly the same.
+     */
+    @ParameterizedTest
+    @ValueSource(strings = {"vpro"})
+    @NullSource
+    public void testChangesCheckSkipDeletesMaxOne(String profile) throws Exception {
         assumeTrue(apiVersionNumber.isNotBefore(Version.of(5, 4)));
         final AtomicInteger i = new AtomicInteger();
         final Instant JAN2017 = LocalDate.of(2017, 1, 1).atStartOfDay(Schedule.ZONE_ID).toInstant();
@@ -124,11 +138,12 @@ class ApiMediaStreamingCallsTest extends AbstractApiTest {
         List<MediaChange> foundWithMaxOne = new ArrayList<>();
         while (i.getAndIncrement() < toFind) {
             InputStream inputStream = mediaUtil.getClients().getMediaServiceNoTimeout()
-                .changes("vpro", null,null, sinceString(start, mid), null, 1, false, Deletes.EXCLUDE, null).readEntity(InputStream.class);
+                .changes(profile, null,null, sinceString(start, mid), null, 1, false, Deletes.EXCLUDE, null).readEntity(InputStream.class);
 
             try (JsonArrayIterator<MediaChange> changes = new JsonArrayIterator<>(inputStream, MediaChange.class, () -> IOUtils.closeQuietly(inputStream))) {
                 MediaChange change = changes.next();
                 start = change.getPublishDate();
+                //noinspection deprecation
                 assertThat(change.getSequence()).isNull();
                 assertThat(change.isDeleted()).isFalse();
                 if (change.isDeleted()) {
@@ -140,6 +155,7 @@ class ApiMediaStreamingCallsTest extends AbstractApiTest {
                     duplicateDates++;
                 }
                 assertThat(change.getPublishDate()).isAfterOrEqualTo(prev);
+                //noinspection deprecation
                 assertThat(change.getRevision() == null || change.getRevision() > 0).isTrue();
                 assertThat(change.getMid()).withFailMessage(change.getMid() + " should be different from " + mid).isNotEqualTo(mid);
                 prev = change.getPublishDate();
@@ -149,7 +165,7 @@ class ApiMediaStreamingCallsTest extends AbstractApiTest {
             }
         }
         List<MediaChange> foundWithMax100 = new ArrayList<>();
-        try (CloseableIterator<MediaChange> changes = mediaUtil.changes("vpro", false, JAN2017, null,  Order.ASC, toFind, Deletes.EXCLUDE)) {
+        try (CloseableIterator<MediaChange> changes = mediaUtil.changes(profile, false, JAN2017, null,  Order.ASC, toFind, Deletes.EXCLUDE)) {
             while (changes.hasNext()) {
                 MediaChange change = changes.next();
                 foundWithMax100.add(change);
