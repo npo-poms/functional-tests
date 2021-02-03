@@ -28,6 +28,7 @@ import nl.vpro.util.*;
 
 import static nl.vpro.api.client.utils.MediaRestClientUtils.sinceString;
 import static nl.vpro.testutils.Utils.CONFIG;
+import static nl.vpro.util.CloseableIterator.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assumptions.assumeTrue;
@@ -147,7 +148,7 @@ class ApiMediaStreamingCallsTest extends AbstractApiTest {
             InputStream inputStream = mediaUtil.getClients().getMediaServiceNoTimeout()
                 .changes(profile, null,null, sinceString(start, mid), null, 1, false, deletes, null).readEntity(InputStream.class);
 
-            try (JsonArrayIterator<MediaChange> changes = new JsonArrayIterator<>(inputStream, MediaChange.class, () -> IOUtils.closeQuietly(inputStream))) {
+            try (JsonArrayIterator<MediaChange> changes = new JsonArrayIterator<>(inputStream, MediaChange.class, () -> closeQuietly(inputStream))) {
                 MediaChange change = changes.next();
                 start = change.getPublishDate();
                 //noinspection deprecation
