@@ -12,18 +12,13 @@ Test
 
 !4 Wait until clip deleted in backend
 
-|script                                                                        |
-|get from            |${urlBackendApi}/media/program/$mid/full                 |
-|repeat until xPath  |/media:program/@workflow|is                 |FOR DELETION|
-|$repeatCount=       |repeat count                                             |
-|$timeSpentRepeating=|time spent repeating                                     |
-|$timeSpentRepeating=|format timestamp        |$timeSpentRepeating|as   |m:ss  |
-|                                                                              |
-|repeat until xPath  |/media:program/@workflow|is                 |DELETED     |
-|$repeatCount=       |repeat count                                             |
-|$timeSpentRepeating=|time spent repeating                                     |
-|$timeSpentRepeating=|format timestamp        |$timeSpentRepeating|as   |m:ss  |
-|show                |xPath                   |/media:program/@workflow        |
+|script                                                                   |
+|get from            |${urlBackendApi}/media/program/$mid/full            |
+|repeat until xPath  |/media:program/@workflow|is                 |DELETED|
+|$repeatCount=       |repeat count                                        |
+|$timeSpentRepeating=|time spent repeating                                |
+|$timeSpentRepeating=|format timestamp        |$timeSpentRepeating|as|m:ss|
+|show                |xPath                   |/media:program/@workflow   |
 
 !include -c <E2E.GuiSetUp
 

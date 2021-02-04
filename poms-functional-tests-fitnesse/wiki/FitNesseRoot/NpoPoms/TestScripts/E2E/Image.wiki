@@ -80,9 +80,9 @@ Test
 |Npo poms Tabblad object Check afbeelding                         |${imageTitle}     |heeft beschrijving|${imageDescription}|
 |Npo poms Tabblad object Dubbelklik op afbeelding                 |${imageTitle}                                            |
 |Npo poms Tabblad object Wacht tot detailscherm geopend                                                                     |
-|scroll to                                                        |Publicatie                                               |
 |Npo poms Tabblad object Detailscherm Check tekstveld             |Titel *           |heeft waarde      |${imageTitle}      |
 |Npo poms Tabblad object Detailscherm Check textarea              |Beschrijving *    |heeft waarde      |${imageDescription}|
+|scroll to                                                        |Publicatie                                               |
 |Npo poms Tabblad object Detailscherm Check publicatie heeft start|${publishStart}   |en stop           |${publishStop}     |
 |click                                                            |Annuleer                                                 |
 |Npo poms Tabblad object Wacht tot detailscherm gesloten                                                                    |
