@@ -40,7 +40,6 @@ import static org.junit.jupiter.api.Assumptions.assumeTrue;
 @Log4j2
 class ApiMediaStreamingCallsTest extends AbstractApiTest {
 
-
     private Instant FROM = Instant.now().minus(Duration.ofDays(14)).truncatedTo(ChronoUnit.SECONDS);
 
     private static final int CHANGES_MAX = 5000;
@@ -86,14 +85,16 @@ class ApiMediaStreamingCallsTest extends AbstractApiTest {
 
     @Test
     public void testChangesMissingProfile() {
-        assertThrows(javax.ws.rs.NotFoundException.class, () -> {
-            testChanges("bestaatniet", FROM, CHANGES_MAX);
-        });
+        assertThrows(javax.ws.rs.NotFoundException.class, () ->
+            testChanges("bestaatniet", FROM, CHANGES_MAX)
+        );
     }
 
     @Test
     public void testIterateMissingProfile() {
-        assertThrows(javax.ws.rs.NotFoundException.class, () -> testIterate("bestaatniet", CHANGES_MAX));
+        assertThrows(javax.ws.rs.NotFoundException.class, () ->
+            testIterate("bestaatniet", CHANGES_MAX)
+        );
     }
 
     @Test
@@ -138,11 +139,9 @@ class ApiMediaStreamingCallsTest extends AbstractApiTest {
      * It does that in two ways:
      *
      * - 100 subsequent calls with max=1
-     * - 1 call all with max=100
+     * - 1 call with max=100
      *
-     * The results should be exactly the same.
-     *
-     * Fail at os can be reproduced with : https://rs-test-os.poms.omroep.nl/v1/api/media/changes/?profile=vpro&publishedSince=1594211389690&order=asc&max=2&checkProfile=false&deletes=EXCLUDE
+     * The (cumulative) results should be exactly the same.
      */
     @ParameterizedTest
     @MethodSource("changesFeedParameters")
@@ -153,7 +152,6 @@ class ApiMediaStreamingCallsTest extends AbstractApiTest {
         int duplicateDates = 0;
         Instant start = startDate;
         Instant prev = start;
-        String prevMid = null;
         String mid = null;
         List<MediaChange> foundWithMaxOne = new ArrayList<>();
         while (i.getAndIncrement() < toFind) {
@@ -213,7 +211,6 @@ class ApiMediaStreamingCallsTest extends AbstractApiTest {
         log.info("Found duplicate dates: {}", duplicateDates);
     }
 
-
     @Test
     public void NPA_453() throws IOException {
         //https://rs.poms.omroep.nl/v1/api/media/changes?profile=bnnvara&publishedSince=2015-03-22T03%3A43%3A05Z%2CRBX_EO_667486&order=asc&max=100&checkProfile=true&deletes=INCLUDE
@@ -222,18 +219,15 @@ class ApiMediaStreamingCallsTest extends AbstractApiTest {
             .changes("bnnvara", null,null, sinceString(start, "RBX_EO_667486"), "asc", 100, true, Deletes.INCLUDE, Tail.IF_EMPTY));
 
         try (JsonArrayIterator<MediaChange> changes = new JsonArrayIterator<>(inputStream,
-            MediaChange.class, () -> IOUtils.closeQuietly(inputStream))) {
+            MediaChange.class, () -> closeQuietly(inputStream))) {
             MediaChange change = changes.next();
             log.info("{}", change);
         }
-
-
-
     }
 
     @SuppressWarnings("deprecation")
     protected void testChanges(String profile, Instant from, Integer max) throws Exception {
-        Instant start = from.truncatedTo(ChronoUnit.SECONDS);
+        final Instant start = from.truncatedTo(ChronoUnit.SECONDS);
         final AtomicInteger i = new AtomicInteger();
         Instant prev = from;
         try(CloseableIterator<MediaChange> changes = mediaUtil.changes(profile, false,  from, null, Order.ASC, max, Deletes.ID_ONLY)) {
@@ -253,20 +247,16 @@ class ApiMediaStreamingCallsTest extends AbstractApiTest {
                 }
             }
         }
-        assertThat(prev.isBefore(start.minus(Duration.ofSeconds(9))));
+        assertThat(prev).isAfterOrEqualTo(start);
         if (max != null) {
             assertThat(i.get()).isLessThanOrEqualTo(max);
         }
     }
 
-
-
     @Test
     public void testIterate() throws Exception {
         testIterate("vpro", CHANGES_MAX);
-
     }
-
 
     protected void testIterate(String profile, Integer max) throws Exception {
         Profile profileObject = mediaUtil.getClients().getProfileService().load(profile, null);

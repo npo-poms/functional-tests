@@ -71,7 +71,7 @@ class ApiMediaRedirectsTest extends AbstractApiTest {
             } catch (javax.ws.rs.NotFoundException unfe) {
                 //  https://jira.vpro.nl/browse/NPA-535
 
-                log.info("OK destination {} is gives 404 too", entry.getTo());
+                log.info("OK destination {}  gives 404 too", entry.getTo());
             }
         }
     }

@@ -32,6 +32,7 @@ import nl.vpro.util.*;
 
 import static nl.vpro.testutils.Utils.waitUntil;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assumptions.assumeThat;
 
 /**
  * @author Michiel Meeuwissen
@@ -60,14 +61,11 @@ public abstract class AbstractApiTest extends AbstractTest  {
 
     protected static  boolean changesListening = false;
     private static Future<Instant> changesFuture;
-    private static final Consumer<MediaChange> listener =  new Consumer<>() {
-        @Override
-        public void accept(MediaChange change) {
-            if (!change.isTail()) {
-                LOG.info("Received {}", change);
-                CHANGES.add(change);
-                ChangesNotifier.notifyChanges();
-            }
+    private static final Consumer<MediaChange> LISTENER = change -> {
+        if (!change.isTail()) {
+            LOG.info("Received {}", change);
+            CHANGES.add(change);
+            ChangesNotifier.notifyChanges();
         }
     };
 
@@ -78,17 +76,18 @@ public abstract class AbstractApiTest extends AbstractTest  {
     public static void changesListening() {
         changesListening = true;
         CHANGES.clear();
-        changesFuture = mediaUtil.subscribeToChanges(null, NOWI, Deletes.ID_ONLY, ()-> changesListening,  listener);
+        changesFuture = mediaUtil.subscribeToChanges(null, NOWI, Deletes.ID_ONLY, () -> changesListening, LISTENER);
     }
 
 
     /**
-     * All tests are ready, we started changes listening. All tests took some time. If we ask als changes starting from the same initial time instance, until now, we should receive exactly the same MID's.
+     * All tests are ready, we started changes listening. All tests took some time. If we ask als changes starting from the same initial time instance, until now, we should receive exactly the same MIDs.
      */
+    @SuppressWarnings("OptionalGetWithoutIsPresent")
     @Test
     @Order(Integer.MAX_VALUE)
     public void checkAllChanges(TestInfo context) throws Exception {
-        Assumptions.assumeTrue(context.getTestClass().get().getAnnotation(TestMethodOrder.class) != null);
+        assumeThat(context.getTestClass().get().getAnnotation(TestMethodOrder.class)).isNotNull();
         changesListening = false;
 
         Instant until = changesFuture.get();

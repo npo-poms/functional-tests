@@ -1,8 +1,13 @@
 <?xml version="1.0" ?>
 <Configuration status="INFO">
+  <Properties>
+    <Property name="extraPattern.not">&#009;(%C{1}#%M.%L)</Property>
+    <Property name="extraPattern"></Property>
+
+   </Properties>
    <Appenders>
     <Console name="console" target="SYSTEM_OUT" >
-      <PatternLayout pattern="%d{ISO8601}&#009;%4.4p&#009;%X{testNumber}%X{currentTest}&#009;%m%n" charset="UTF-8" />
+      <PatternLayout pattern="%d{ISO8601}&#009;%4.4p&#009;%X{testNumber}%X{currentTest}&#009;%m${extraPattern}%n" charset="UTF-8" />
     </Console>
   </Appenders>
   <Loggers>
