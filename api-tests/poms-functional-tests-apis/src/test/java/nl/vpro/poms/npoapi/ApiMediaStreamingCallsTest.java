@@ -6,10 +6,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.time.*;
 import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Stream;
+
+import javax.ws.rs.core.Response;
 
 import org.apache.commons.io.IOUtils;
 import org.junit.jupiter.api.*;
@@ -23,6 +24,8 @@ import nl.vpro.domain.api.profile.Profile;
 import nl.vpro.domain.media.MediaObject;
 import nl.vpro.domain.media.Schedule;
 import nl.vpro.jackson2.JsonArrayIterator;
+import nl.vpro.logging.LoggerOutputStream;
+import nl.vpro.logging.simple.*;
 import nl.vpro.poms.AbstractApiTest;
 import nl.vpro.util.*;
 
@@ -30,6 +33,7 @@ import static nl.vpro.api.client.utils.MediaRestClientUtils.sinceString;
 import static nl.vpro.testutils.Utils.CONFIG;
 import static nl.vpro.util.CloseableIterator.*;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assumptions.*;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
@@ -114,11 +118,18 @@ class ApiMediaStreamingCallsTest extends AbstractApiTest {
 
 
     private static Stream<Arguments> changesFeedParameters() {
+        final Instant JAN2017 = LocalDate.of(2017, 1, 1).atStartOfDay(Schedule.ZONE_ID).toInstant();
+        final int secs2015 = (int) (LocalDate.of(2015, 1, 1).atStartOfDay(Schedule.ZONE_ID).toInstant().toEpochMilli() / 1000);
+        final Instant RANDOM = Instant.ofEpochSecond(secs2015 + new Random().nextInt((int) (Instant.now().minus(Duration.ofDays(1)).toEpochMilli() / 1000)  - secs2015));
         return Stream.of(
-            Arguments.of("vpro", Deletes.EXCLUDE),
-            Arguments.of("vpro", Deletes.ID_ONLY),
-            Arguments.of(null, Deletes.EXCLUDE),
-            Arguments.of(null, Deletes.ID_ONLY)
+            Arguments.of("vpro", Deletes.EXCLUDE, JAN2017),
+            Arguments.of("vpro", Deletes.EXCLUDE, RANDOM),
+            Arguments.of("vpro", Deletes.ID_ONLY, JAN2017),
+            Arguments.of("vpro", Deletes.ID_ONLY, RANDOM),
+            Arguments.of(null, Deletes.EXCLUDE, JAN2017),
+            Arguments.of(null, Deletes.EXCLUDE, RANDOM),
+            Arguments.of(null, Deletes.ID_ONLY, JAN2017),
+            Arguments.of(null, Deletes.ID_ONLY, RANDOM)
         );
     }
 
@@ -130,23 +141,32 @@ class ApiMediaStreamingCallsTest extends AbstractApiTest {
      * - 1 call all with max=100
      *
      * The results should be exactly the same.
+     *
+     * Fail at os can be reproduced with : https://rs-test-os.poms.omroep.nl/v1/api/media/changes/?profile=vpro&publishedSince=1594211389690&order=asc&max=2&checkProfile=false&deletes=EXCLUDE
      */
     @ParameterizedTest
     @MethodSource("changesFeedParameters")
-    public void testChangesCheckSkipDeletesMaxOne(String profile, Deletes deletes) throws Exception {
+    public void testChangesCheckSkipDeletesMaxOne(String profile, Deletes deletes, Instant startDate) throws Exception {
         assumeTrue(apiVersionNumber.isNotBefore(Version.of(5, 4)));
         final AtomicInteger i = new AtomicInteger();
-        final Instant JAN2017 = LocalDate.of(2017, 1, 1).atStartOfDay(Schedule.ZONE_ID).toInstant();
-        final int toFind = 5;
+        final int toFind = 100;
         int duplicateDates = 0;
-        Instant start = JAN2017;
+        Instant start = startDate;
         Instant prev = start;
         String prevMid = null;
         String mid = null;
         List<MediaChange> foundWithMaxOne = new ArrayList<>();
         while (i.getAndIncrement() < toFind) {
-            InputStream inputStream = mediaUtil.getClients().getMediaServiceNoTimeout()
-                .changes(profile, null,null, sinceString(start, mid), null, 1, false, deletes, null).readEntity(InputStream.class);
+            Response response = mediaUtil.getClients().getMediaServiceNoTimeout()
+                .changes(profile, null,null, sinceString(start, mid), null, 1, false, deletes, null);
+
+            InputStream inputStream = response.readEntity(InputStream.class);
+            if (response.getStatus() != 200) {
+                IOUtils.copy(inputStream, LoggerOutputStream.error(Log4j2SimpleLogger.of(log)));
+                throw new RuntimeException(response.readEntity(String.class));
+            }
+
+
 
             try (JsonArrayIterator<MediaChange> changes = new JsonArrayIterator<>(inputStream, MediaChange.class, () -> closeQuietly(inputStream))) {
                 MediaChange change = changes.next();
@@ -167,23 +187,30 @@ class ApiMediaStreamingCallsTest extends AbstractApiTest {
                 assertThat(change.getPublishDate()).isAfterOrEqualTo(prev);
                 //noinspection deprecation
                 assertThat(change.getRevision() == null || change.getRevision() > 0).isTrue();
-                assertThat(change.getMid()).withFailMessage(change.getMid() + " should be different from " + mid).isNotEqualTo(mid);
+                if (change.isTail()) {
+                    log.info("Found tail: {}", change);
+                } else {
+                    assertThat(change.getMid()).withFailMessage(change.getMid() + " should be different from " + mid).isNotEqualTo(mid);
+                    foundWithMaxOne.add(change);
+                }
                 prev = change.getPublishDate();
                 mid = change.getMid();
                 log.info("{}", change);
-                foundWithMaxOne.add(change);
             }
         }
         List<MediaChange> foundWithMax100 = new ArrayList<>();
-        try (CloseableIterator<MediaChange> changes = mediaUtil.changes(profile, false, JAN2017, null,  Order.ASC, toFind, deletes)) {
+        try (CloseableIterator<MediaChange> changes = mediaUtil.changes(profile, false, startDate, null,  Order.ASC, toFind, deletes)) {
             while (changes.hasNext()) {
                 MediaChange change = changes.next();
-                foundWithMax100.add(change);
+                if (! change.isTail()) {
+                    foundWithMax100.add(change);
+                }
             }
         }
 
+        assumeThat(foundWithMaxOne).isNotEmpty();
         assertThat(foundWithMaxOne).containsExactlyElementsOf(foundWithMax100);
-        // assertThat(duplicateDates).isGreaterThan(0); TODO Find an example
+        log.info("Found duplicate dates: {}", duplicateDates);
     }
 
 
