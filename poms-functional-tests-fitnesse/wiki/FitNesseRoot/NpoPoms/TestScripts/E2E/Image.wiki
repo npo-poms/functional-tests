@@ -9,11 +9,13 @@ Test
 !define imageTitle {Specialisterren Afbeelding 20210202143220}
 !define imageDescription {Specialisterren Test}
 !define imageUrl {!-http://images.poms.omroep.nl/image/494930.jpg-!}
+!define publishStartIso {2021-01-01T00:00:00+01:00}
+!define publishStopIso {2022-01-01T00:00:00+01:00}
 !define publishStart {01-01-2021 00:00}
 !define publishStop {01-01-2022 00:00}
 !define body { {{{
 <?xml version="1.0"?>
-<image xmlns="urn:vpro:media:update:2009" type="PICTURE" highlighted="true" publishStart="$publishStartIso" publishStop="$publishStopIso">
+<image xmlns="urn:vpro:media:update:2009" type="PICTURE" highlighted="true" publishStart="${publishStartIso}" publishStop="${publishStopIso}">
   <title>${imageTitle}</title>
   <description>${imageDescription}</description>
   <imageLocation>
@@ -47,9 +49,9 @@ Test
 
 !4 Add image to clip in backend
 
-|script                                                   |
-|$publishStartIso=|convert datetime|${publishStart}|to iso|
-|$publishStopIso= |convert datetime|${publishStop} |to iso|
+|script                                              |
+|ensure|iso|${publishStartIso}|equals|${publishStart}|
+|ensure|iso|${publishStopIso} |equals|${publishStop} |
 
 |script                                                                                      |
 |show |post           |${body}|to|${urlBackendApi}/media/program/$mid/image?owner=BROADCASTER|

@@ -78,6 +78,10 @@ public class CalendarFixture {
         return sdf.format(date);
 	}
 	
+	public boolean epochEquals(long epoch, String datetime) {
+		return convertDatetimeToEpoch(datetime) == epoch;
+	}
+	
 	public boolean datetimeIsGreaterThan(String datetime1, String datetime2) {
 		SimpleDateFormat sdf = new SimpleDateFormat("d-M-yyyy H:mm");
 		Calendar c1 = stringToCalendar(datetime1, sdf);
@@ -104,8 +108,15 @@ public class CalendarFixture {
 	}
 	
 	public String convertDatetimeToIso(String datetime) {
+		if (datetime == null)
+			return null;
+		
 		LocalDateTime localDateTime = LocalDateTime.parse(datetime, DateTimeFormatter.ofPattern("d-M-yyyy H:mm"));
 		ZonedDateTime zonedDateTime = localDateTime.atZone(ZoneId.of("Europe/Amsterdam"));
 		return DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(zonedDateTime);
+	}
+	
+	public boolean isoEquals(String iso, String datetime) {
+		return convertDatetimeToIso(datetime).equals(iso);
 	}
 }

@@ -12,19 +12,26 @@ Test
 !define publishStart_PlusVod {01-01-2017 00:00}
 !define publishStop_PlusVod {01-01-2018 00:00}
 
+!define publishStartIso_InternetVod {2013-01-01T00:00:00+01:00}
+!define publishStopIso_InternetVod {2014-01-01T00:00:00+01:00}
+!define publishStartIso_TvVod {2015-01-01T00:00:00+01:00}
+!define publishStopIso_TvVod {2016-01-01T00:00:00+01:00}
+!define publishStartIso_PlusVod {2017-01-01T00:00:00+01:00}
+!define publishStopIso_PlusVod {2018-01-01T00:00:00+01:00}
+
 !define internetVod {INTERNETVOD}
 !define tvVod {TVVOD}
 !define plusVod {PLUSVOD}
 
 !define bodyChangeInternetVod { {{{
 <?xml version="1.0"?>
-<prediction xmlns="urn:vpro:media:update:2009" publishStart="$publishStartIso_InternetVod" publishStop="$publishStopIso_InternetVod"/>
+<prediction xmlns="urn:vpro:media:update:2009" publishStart="${publishStartIso_InternetVod}" publishStop="${publishStopIso_InternetVod}"/>
 }}} }
 !define bodyChangeTvVodAndPlusVod { {{{
 <?xml version="1.0"?>
 <collection xmlns:update="urn:vpro:media:update:2009">
-  <update:prediction publishStart="$publishStartIso_TvVod" publishStop="$publishStopIso_TvVod">${tvVod}</update:prediction>
-  <update:prediction publishStart="$publishStartIso_PlusVod" publishStop="$publishStopIso_PlusVod">${plusVod}</update:prediction>
+  <update:prediction publishStart="${publishStartIso_TvVod}" publishStop="${publishStopIso_TvVod}">${tvVod}</update:prediction>
+  <update:prediction publishStart="${publishStartIso_PlusVod}" publishStop="${publishStopIso_PlusVod}">${plusVod}</update:prediction>
 </collection>
 }}} }
 !define bodyPutBackOriginalValues { {{{
@@ -36,10 +43,12 @@ Test
 </collection>
 }}} }
 
-|table template|Check platform publish times in backend                  |
-|get from      |${urlBackendApi}/media/media/$mid/predictions/@{platform}|
-|check         |xPath    |/update:prediction/@publishStart   |@{start}   |
-|check         |xPath    |/update:prediction/@publishStop    |@{stop}    |
+|table template|Check platform publish times in backend                    |
+|$startIso=    |convert datetime|@{start}                        |to iso   |
+|$stopIso=     |convert datetime|@{stop}                         |to iso   |
+|get from      |${urlBackendApi}/media/media/$mid/predictions/@{platform}  |
+|check         |xPath           |/update:prediction/@publishStart|@startIso|
+|check         |xPath           |/update:prediction/@publishStop |@stopIso |
 
 |table template                                      |Check platform publish times in gui          |
 |Npo poms Tabblad object Check platform              |@{platform}|online van  |@{start}|tot|@{stop}|
@@ -62,14 +71,14 @@ Test
 
 !include -c <E2E.ApiBackendSetUp
 
-|script                                                                           |
-|$mid=                        |get var         |midClip                           |
-|$publishStartIso_InternetVod=|convert datetime|${publishStart_InternetVod}|to iso|
-|$publishStopIso_InternetVod= |convert datetime|${publishStop_InternetVod} |to iso|
-|$publishStartIso_TvVod=      |convert datetime|${publishStart_TvVod}      |to iso|
-|$publishStopIso_TvVod=       |convert datetime|${publishStop_TvVod}       |to iso|
-|$publishStartIso_PlusVod=    |convert datetime|${publishStart_PlusVod}    |to iso|
-|$publishStopIso_PlusVod=     |convert datetime|${publishStop_PlusVod}     |to iso|
+|script                                                                          |
+|$mid= |get var|midClip                                                          |
+|ensure|iso    |${publishStart_InternetVod}|equals|${publishStartIso_InternetVod}|
+|ensure|iso    |${publishStop_InternetVod} |equals|${publishStopIso_InternetVod} |
+|ensure|iso    |${publishStart_TvVod}      |equals|${publishStartIso_TvVod}      |
+|ensure|iso    |${publishStop_TvVod}       |equals|${publishStopIso_TvVod}       |
+|ensure|iso    |${publishStart_PlusVod}    |equals|${publishStartIso_PlusVod}    |
+|ensure|iso    |${publishStop_PlusVod}     |equals|${publishStopIso_PlusVod}     |
 
 !4 Check original values in backend
 
@@ -87,16 +96,16 @@ Test
 
 !4 Check platform 'internetvod' updated in backend
 
-|script                                                                                                |
-|get from            |${urlBackendApi}/media/media/$mid/predictions/${internetVod}                     |
-|repeat until xPath  |/update:prediction/@publishStart|is                 |$publishStartIso_InternetVod|
-|$repeatCount=       |repeat count                                                                     |
-|$timeSpentRepeating=|time spent repeating                                                             |
-|$timeSpentRepeating=|format timestamp                |$timeSpentRepeating|as           |m:ss          |
+|script                                                                                                  |
+|get from            |${urlBackendApi}/media/media/$mid/predictions/${internetVod}                       |
+|repeat until xPath  |/update:prediction/@publishStart|is                 |${publishStartIso_InternetVod}|
+|$repeatCount=       |repeat count                                                                       |
+|$timeSpentRepeating=|time spent repeating                                                               |
+|$timeSpentRepeating=|format timestamp                |$timeSpentRepeating|as            |m:ss           |
 
-|Check platform publish times in backend                                |
-|platform      |start                       |stop                       |
-|${internetVod}|$publishStartIso_InternetVod|$publishStopIso_InternetVod|
+|Check platform publish times in backend                              |
+|platform      |start                      |stop                      |
+|${internetVod}|${publishStart_InternetVod}|${publishStop_InternetVod}|
 
 !include -c <E2E.GuiSetUp
 
@@ -124,17 +133,17 @@ Test
 
 !4 Check platforms 'tvvod' and 'plusvod' updated in backend
 
-|script                                                                                          |
-|get from            |${urlBackendApi}/media/media/$mid/predictions/${tvVod}                     |
-|repeat until xPath  |/update:prediction/@publishStart|is                 |$publishStartIso_TvVod|
-|$repeatCount=       |repeat count                                                               |
-|$timeSpentRepeating=|time spent repeating                                                       |
-|$timeSpentRepeating=|format timestamp                |$timeSpentRepeating|as        |m:ss       |
+|script                                                                                            |
+|get from            |${urlBackendApi}/media/media/$mid/predictions/${tvVod}                       |
+|repeat until xPath  |/update:prediction/@publishStart|is                 |${publishStartIso_TvVod}|
+|$repeatCount=       |repeat count                                                                 |
+|$timeSpentRepeating=|time spent repeating                                                         |
+|$timeSpentRepeating=|format timestamp                |$timeSpentRepeating|as         |m:ss        |
 
-|Check platform publish times in backend                    |
-|platform  |start                   |stop                   |
-|${tvVod}  |$publishStartIso_TvVod  |$publishStopIso_TvVod  |
-|${plusVod}|$publishStartIso_PlusVod|$publishStopIso_PlusVod|
+|Check platform publish times in backend                  |
+|platform  |start                  |stop                  |
+|${tvVod}  |${publishStart_TvVod}  |${publishStop_TvVod}  |
+|${plusVod}|${publishStart_PlusVod}|${publishStop_PlusVod}|
 
 !include -c <E2E.GuiSetUp
 

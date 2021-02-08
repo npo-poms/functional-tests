@@ -4,12 +4,13 @@ Suites: NPOAPI-23, RG
 Test
 ---
 !*> Test-specific items
-!define guideDay {4-7-2017 0:00} #1499119200000
+!define guideDayEpoch {1499119200000}
+!define guideDay {4-7-2017 0:00}
 *!
 
 |script                                          |
-|$guideDay=|convert datetime|${guideDay}|to epoch|
+|ensure|epoch|${guideDayEpoch}|equals|${guideDay}|
 
-|Get value at path                                                      |
-|get                                        |path             |value?   |
-|schedule?guideDay=2017-07-04&sort=asc&max=1|items[0].guideDay|$guideDay|
+|Get value at path                                                             |
+|get                                        |path             |value?          |
+|schedule?guideDay=2017-07-04&sort=asc&max=1|items[0].guideDay|${guideDayEpoch}|

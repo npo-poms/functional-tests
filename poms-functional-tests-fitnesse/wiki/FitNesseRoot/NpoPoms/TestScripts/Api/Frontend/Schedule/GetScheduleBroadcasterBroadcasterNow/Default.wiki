@@ -7,18 +7,19 @@ Test
 !define broadcaster1 {NPO}
 !define broadcaster2 {NTR}
 
+!define nowIso {2020-05-26T17:00:00+02:00}
 !define now {26-5-2020 17:00}
 *!
 
-|script                                 |
-|$nowIso=|convert datetime|${now}|to iso|
+|script                            |
+|ensure|iso|${nowIso}|equals|${now}|
 
-|script                                                                                                                         |
-|get from                                                |${urlFrontendApi}/schedule/broadcaster/${broadcaster1}/now?now=$nowIso|
-|Check item in response is broadcasting at moment of time|${now}                                                                |
-|Check item in response has broadcaster                  |${broadcaster1}                                                       |
+|script                                                                                                                           |
+|get from                                                |${urlFrontendApi}/schedule/broadcaster/${broadcaster1}/now?now=${nowIso}|
+|Check item in response is broadcasting at moment of time|${now}                                                                  |
+|Check item in response has broadcaster                  |${broadcaster1}                                                         |
 
-|script                                                                                                                         |
-|get from                                                |${urlFrontendApi}/schedule/broadcaster/${broadcaster2}/now?now=$nowIso|
-|Check item in response is broadcasting at moment of time|${now}                                                                |
-|Check item in response has broadcaster                  |${broadcaster2}                                                       |
+|script                                                                                                                           |
+|get from                                                |${urlFrontendApi}/schedule/broadcaster/${broadcaster2}/now?now=${nowIso}|
+|Check item in response is broadcasting at moment of time|${now}                                                                  |
+|Check item in response has broadcaster                  |${broadcaster2}                                                         |

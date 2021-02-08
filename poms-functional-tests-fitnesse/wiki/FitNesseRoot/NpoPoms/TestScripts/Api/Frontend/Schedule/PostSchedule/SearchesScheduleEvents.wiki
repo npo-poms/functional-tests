@@ -4,16 +4,18 @@ Suites: NPOAPI-24, RG
 Test
 ---
 !*> Test-specific items
-!define begin {27-2-2014 1:00} #1393459200000
-!define end {27-2-2014 17:00} #1393516800000
+!define beginEpoch {1393459200000}
+!define endEpoch {1393516800000}
+!define begin {27-2-2014 1:00}
+!define end {27-2-2014 17:00}
 !define body { {{{
 {
   "searches": {
     "scheduleEvents" : {
       "channel" : "NED3",
       "net" : "ZAPP",
-      "begin" : $begin,
-      "end" : $end,
+      "begin" : ${beginEpoch},
+      "end" : ${endEpoch},
       "rerun": false
     } 
   }
@@ -21,8 +23,8 @@ Test
 }}} }
 *!
 |script                                    |
-|$begin=|convert datetime|${begin}|to epoch|
-|$end=  |convert datetime|${end}  |to epoch|
+|ensure|epoch|${beginEpoch}|equals|${begin}|
+|ensure|epoch|${endEpoch}  |equals|${end}  |
 
 |Post count at path in Test  |
 |body   |post    |path |count|

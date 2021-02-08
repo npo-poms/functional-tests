@@ -7,16 +7,17 @@ Test
 !define channel1 {NED1}
 !define channel2 {RAD2}
 
+!define nowIso {2020-10-08T13:00:00+02:00}
 !define now {8-10-2020 13:00}
 *!
 
-|script                                 |
-|$nowIso=|convert datetime|${now}|to iso|
+|script                            |
+|ensure|iso|${nowIso}|equals|${now}|
 
-|script                                                                                                                                         |
-|Get                                                     |schedule/channel/${channel1}/now?now=$nowIso|and check value at|channel|is|${channel1}|
-|Check item in response is broadcasting at moment of time|${now}                                                                                |
+|script                                                                                                                                           |
+|Get                                                     |schedule/channel/${channel1}/now?now=${nowIso}|and check value at|channel|is|${channel1}|
+|Check item in response is broadcasting at moment of time|${now}                                                                                  |
 
-|script                                                                                                                                         |
-|Get                                                     |schedule/channel/${channel2}/now?now=$nowIso|and check value at|channel|is|${channel2}|
-|Check item in response is broadcasting at moment of time|${now}                                                                                |
+|script                                                                                                                                           |
+|Get                                                     |schedule/channel/${channel2}/now?now=${nowIso}|and check value at|channel|is|${channel2}|
+|Check item in response is broadcasting at moment of time|${now}                                                                                  |

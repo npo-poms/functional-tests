@@ -4,8 +4,10 @@ Suites: NPOAPI-7, RG
 Test
 ---
 !*> Test-specific items
-!define begin {2-4-2015 15:35} #1427981700000
-!define end {28-10-2018 22:50} #1540763400000
+!define beginEpoch {1427981700000}
+!define endEpoch {1540763400000}
+!define begin {2-4-2015 15:35}
+!define end {28-10-2018 22:50}
 !define body { {{{
 {
   "searches": {
@@ -15,8 +17,8 @@ Test
       "match": "MUST"
     },
     "scheduleEvents": {
-      "begin": $begin,
-      "end": $end,
+      "begin": ${beginEpoch},
+      "end": ${endEpoch},
       "rerun": false
     }
   }
@@ -25,8 +27,8 @@ Test
 *!
 
 |script                                    |
-|$begin=|convert datetime|${begin}|to epoch|
-|$end=  |convert datetime|${end}  |to epoch|
+|ensure|epoch|${beginEpoch}|equals|${begin}|
+|ensure|epoch|${endEpoch}  |equals|${end}  |
 
 |Post count at path in Test|
 |body    |post |path |count|

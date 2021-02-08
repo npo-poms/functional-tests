@@ -20,6 +20,7 @@ Test
 }}} }
 
 !define programUrl {!-http://a.omroep.nl/19.mp3-!}
+!define publishStartIso {2012-01-11T16:16:00+01:00}
 !define publishStart {11-01-2012 16:16}
 
 !define avFileFormat1 {MP3}
@@ -28,7 +29,7 @@ Test
 
 !define bodyLocation1 { {{{
 <?xml version="1.0" encoding="utf-8"?>
-<location xmlns="urn:vpro:media:update:2009" publishStart="$publishStartIso">
+<location xmlns="urn:vpro:media:update:2009" publishStart="${publishStartIso}">
   <programUrl>${programUrl}</programUrl>
   <avAttributes>
     <bitrate>${bitrate1}</bitrate>
@@ -39,6 +40,7 @@ Test
 </location>
 }}} }
 
+!define publishStopIso2 {2012-01-11T18:16:00+01:00}
 !define publishStop2 {11-01-2012 18:16}
 !define avFileFormat2 {MP4}
 !define bitrate2 {6000}
@@ -46,7 +48,7 @@ Test
 
 !define bodyLocation2 { {{{
 <?xml version="1.0" encoding="utf-8"?>
-<location xmlns="urn:vpro:media:update:2009" publishStart="$publishStartIso" publishStop="$publishStopIso2">
+<location xmlns="urn:vpro:media:update:2009" publishStart="${publishStartIso}" publishStop="${publishStopIso2}">
   <programUrl>${programUrl}</programUrl>
   <avAttributes>
     <bitrate>${bitrate2}</bitrate>
@@ -69,8 +71,8 @@ Test
 
 !4 Add location (bron) to clip in backend
 
-|script                                                   |
-|$publishStartIso=|convert datetime|${publishStart}|to iso|
+|script                                              |
+|ensure|iso|${publishStartIso}|equals|${publishStart}|
 
 |script                                                                                |
 |show |post           |${bodyLocation1}|to|${urlBackendApi}/media/program/$mid/location|
@@ -117,8 +119,8 @@ Test
 
 !4 Edit location (bron) in backend
 
-|script                                                   |
-|$publishStopIso2=|convert datetime|${publishStop2}|to iso|
+|script                                              |
+|ensure|iso|${publishStopIso2}|equals|${publishStop2}|
 
 |script                                                                                |
 |show |post           |${bodyLocation2}|to|${urlBackendApi}/media/program/$mid/location|
