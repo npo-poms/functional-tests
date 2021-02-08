@@ -1,0 +1,108 @@
+---
+Help: Aanmaken en verwijderen van segment in de backend zijn zichtbaar in de gui.
+Test
+---
+!*> Test-specific items
+!define gebruiker {standaard-gebruiker}
+
+!define startTimestamp {P0DT2H23M0.000S}
+!define durationTimestamp {P0DT0H1M40.000S}
+!define start {02:23:00.000}
+!define end {02:24:40.000}
+!define duration {00:01:40.000}
+!define body { {{{
+<program avType="VIDEO" embeddable="true" type="CLIP" xmlns="urn:vpro:media:update:2009">
+  <broadcaster>NPO</broadcaster>
+  <title type="MAIN">Speciaal Clip</title>
+  <credits/>
+  <locations/>
+  <scheduleEvents/>
+  <images/>
+  <segments>
+    <segment avType="VIDEO" publishStart="2012-01-11T16:16:01.271+01:00" publishStop="2012-01-11T18:16:01.271+01:00" embeddable="true">
+      <broadcaster>NPO</broadcaster>
+      <title type="MAIN">Specialisterren segment</title>
+      <start>${startTimestamp}</start>
+      <duration>${durationTimestamp}</duration>
+    </segment>
+  </segments>
+</program>
+}}} }
+*!
+
+!include -c <E2E.ApiBackendSetUp
+
+|script                                                     |
+|check|convert|${start}   |to timestamp|${startTimestamp}   |
+|check|convert|${duration}|to timestamp|${durationTimestamp}|
+
+!4 Create clip with segment in backend
+
+|script                                                                   |
+|show    |post|${body}|to|${urlBackendApi}/media/program?owner=BROADCASTER|
+|$itemId=|response                                                        |
+
+!4 Check clip with segment created in backend
+
+|script                                                                                              |
+|show                           |get from        |${urlBackendApi}/media/program/$itemId/full        |
+|repeat until response status is|200                                                                 |
+|$repeatCount=                  |repeat count                                                        |
+|$timeSpentRepeating=           |time spent repeating                                                |
+|$timeSpentRepeating=           |format timestamp|$timeSpentRepeating        |as        |m:ss        |
+|$segmentId=                    |xPath           |/media:program/media:segments/media:segment[1]/@mid|
+
+!include -c <E2E.GuiSetUp
+
+!4 Check clip with segment created in gui
+
+|script                                                           |
+|Open Npo poms website                                            |
+|Npo poms Inlogscherm Log in met ${gebruiker}                     |
+|Npo poms Tabblad object Open                |$itemId             |
+|Npo poms Tabblad object Druk op link        |Segmenten|in sidebar|
+|Npo poms Tabblad object Wacht tot scrollen klaar is              |
+|Npo poms Tabblad object Check aantal in veld|Segmenten|is   |1   |
+|                                            |TODO: Check velden  |
+
+!include -c <E2E.GuiTearDown
+!include -c <E2E.ApiBackendSetUp
+
+!4 Remove segment in backend
+
+|script                                                                         |
+|show |delete         |${urlBackendApi}/media/program/$itemId/segment/$segmentId|
+|check|response status|202                                                      |
+|check|response       |Removed accepted for $segmentId of $itemId.              |
+
+!4 Check segment removed from clip in backend
+
+|script                                                                                                  |
+|get from|${urlBackendApi}/media/program/$itemId/full                                                    |
+|check   |xPath|/media:program/media:segments/media:segment[1]/@workflow|!-=~/(FOR DELETION)|(DELETED)/-!|
+
+!include -c <E2E.GuiSetUp
+
+!4 Check segment removed from clip in gui
+
+|script                                                           |
+|Open Npo poms website                                            |
+|Npo poms Inlogscherm Log in met ${gebruiker}                     |
+|Npo poms Tabblad object Open                |$itemId             |
+|Npo poms Tabblad object Druk op link        |Segmenten|in sidebar|
+|Npo poms Tabblad object Wacht tot scrollen klaar is              |
+|Npo poms Tabblad object Check aantal in veld|Segmenten|is   |0   |
+
+!include -c <E2E.GuiTearDown
+!include -c <E2E.ApiBackendSetUp
+
+!4 Delete clip in backend
+
+|script                                            |
+|show|delete|${urlBackendApi}/media/program/$itemId|
+
+!4 Check clip deleted in backend
+
+|script                                              |
+|get from|${urlBackendApi}/media/program/$itemId/full|
+|check   |xPath|/media:program/@workflow|FOR DELETION|
