@@ -59,8 +59,8 @@
 |scenario|Npo poms Tabblad object Detailscherm Check tekstveld|tekstveld                                |inactief                               |
 |ensure  |is visible on page                                  |xpath=//label[text()="@tekstveld"]/following-sibling::input[@disabled="disabled"]|
 
-|scenario|Npo poms Tabblad object Detailscherm Check tekstveld|tekstveld                                                  |heeft waarde|tekstwaarde|
-|check   |value of                                            |xpath=//label[text()="@tekstveld"]/following-sibling::input|@tekstwaarde            |
+|scenario|Npo poms Tabblad object Detailscherm Check tekstveld|tekstveld                                                             |heeft waarde|tekstwaarde|
+|check   |value of                                            |xpath=//label[normalize-space()="@tekstveld"]/following-sibling::input|@tekstwaarde            |
 
 |scenario|Npo poms Tabblad object Detailscherm Vul|tekst|in textarea                     |textarea                    |
 |enter   |@tekst                                  |as   |xpath=//label[text()="@textarea"]/following-sibling::textarea|

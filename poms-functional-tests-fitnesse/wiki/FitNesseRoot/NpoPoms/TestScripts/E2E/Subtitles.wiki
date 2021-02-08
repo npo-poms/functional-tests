@@ -5,18 +5,26 @@ Test
 !*> Test-specific items
 !define gebruiker {standaard-gebruiker}
 
+!define startTimestamp1 {P0DT0H1M6.920S}
+!define endTimestamp1 {P0DT0H1M7.960S}
 !define start1 {00:01:06.920}
 !define end1 {00:01:07.960}
 !define text1 {888}
 
+!define startTimestamp2 {P0DT0H1M8.800S}
+!define endTimestamp2 {P0DT0H1M10.000S}
 !define start2 {00:01:08.800}
 !define end2 {00:01:10.000}
 !define text2 {Ondertitels van dit object}
 
+!define startTimestamp3 {P0DT0H1M10.200S}
+!define endTimestamp3 {P0DT0H1M12.060S}
 !define start3 {00:01:10.200}
 !define end3 {00:01:12.060}
 !define text3 {Soms is lezen beter dan luisteren}
 
+!define startTimestamp4 {P0DT0H1M12.760S}
+!define endTimestamp4 {P0DT0H1M15.800S}
 !define start4 {00:01:12.760}
 !define end4 {00:01:15.800}
 !define text4 {En soms is luisteren beter}
@@ -44,12 +52,12 @@ Test
 |$@var=  |trim                 |$@var|
 
 |table template|Check subtitles                                              |
-|$start=       |convert timestamp  |@{startTime}                             |
-|$end=         |convert timestamp  |@{endTime}                               |
+|$start=       |convert   |@{startTime}                      |to timestamp   |
+|$end=         |convert   |@{endTime}                        |to timestamp   |
 |get from      |${urlBackendApi}/media/subtitles/$midClip/nl/CAPTION/@{index}|
-|check         |xPath              |/subtitles:standaloneCue/@start |$start  |
-|check         |xPath              |/subtitles:standaloneCue/@end   |$end    |
-|check         |xPath              |/subtitles:standaloneCue        |@{text} |
+|check         |xPath     |/subtitles:standaloneCue/@start   |$start         |
+|check         |xPath     |/subtitles:standaloneCue/@end     |$end           |
+|check         |xPath     |/subtitles:standaloneCue          |@{text}        |
 *!
 
 !include -c <E2E.ApiBackendSetUp

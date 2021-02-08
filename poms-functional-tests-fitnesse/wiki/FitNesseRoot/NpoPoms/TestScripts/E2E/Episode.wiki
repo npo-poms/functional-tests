@@ -224,7 +224,7 @@ Test
 |show |delete         |${urlBackendApi}/media/program/$midProgram1/episodeOf/$midSeason|
 |check|response status|202                                                             |
 
-!4 Check season has no episodes anymore in backand
+!4 Check season has no episodes anymore in backend
 
 |script                                                                     |
 |get from|${urlBackendApi}/media/group/$midSeason/episodes?owner=BROADCASTER|

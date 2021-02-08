@@ -29,7 +29,7 @@ public class ExtendedStringFixture {
 	    return haystack.startsWith(needle);
     }
 	
-	public String convertTimestamp(String timestamp) {
+	public String convertToTimestamp(String timestamp) {
 		String regEx = "(\\d{2}):(\\d{2}):(\\d{2}).(\\d{3})";
 		
 		int dt = Integer.parseInt(extractStringFromUsingGroup(timestamp, regEx, 1));
