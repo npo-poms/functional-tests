@@ -4,7 +4,7 @@ Test
 ---
 !*> Test-specific items
 !define beginEpoch1 {1198265400000}
-!define endEpoch1 {1229887807000}
+!define endEpoch1 {1229887800000}
 !define begin1 {21-12-2007 20:30}
 !define end1 {21-12-2008 20:30}
 !define body1 { {{{
