@@ -74,11 +74,9 @@ public abstract class AbstractApiTest extends AbstractTest  {
 
     @BeforeAll
     public static void changesListening() {
-        /*{
-            changesListening = true;
-            CHANGES.clear();
-            changesFuture = mediaUtil.subscribeToChanges(null, NOWI, Deletes.ID_ONLY, () -> changesListening, LISTENER);
-        }*/
+        changesListening = true;
+        CHANGES.clear();
+        changesFuture = mediaUtil.subscribeToChanges(null, NOWI, Deletes.ID_ONLY, () -> changesListening, LISTENER);
     }
 
 
