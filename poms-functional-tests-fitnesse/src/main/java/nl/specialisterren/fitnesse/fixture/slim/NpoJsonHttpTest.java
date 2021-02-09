@@ -70,7 +70,7 @@ public class NpoJsonHttpTest extends JsonHttpTest {
         }
     }
 	
-	public boolean repeatUntilJsonPathOfFirstItemsIsNot(final String jsonPath, int numberOfItems, String expectedValue) {
+	public boolean repeatUntilJsonPathOfFirstItemsIsNot(final String jsonPath, int numberOfItems, final Object expectedValue) {
 		RepeatCompletion completion;
         if (expectedValue == null) {
             completion = new RepeatLastCall() {

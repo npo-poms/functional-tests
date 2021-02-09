@@ -48,7 +48,17 @@ Test
 |ensure|epoch|${beginEpoch}|equals|${begin}|
 |ensure|epoch|${endEpoch}  |equals|${end}  |
 
+|script                                                         |
+|post |${body1}       |to|${urlFrontendApi}/media/${mid}/members|
+|check|response status|200                                      |
+
+|script                                                         |
+|post |${body2}       |to|${urlFrontendApi}/media/${mid}/members|
+|check|response status|200                                      |
+
+{{{
 |Post count at path                        |
 |body    |post                |path |count?|
 |${body1}|media/${mid}/members|items|3     |
 |${body2}|media/${mid}/members|items|1     |
+}}}

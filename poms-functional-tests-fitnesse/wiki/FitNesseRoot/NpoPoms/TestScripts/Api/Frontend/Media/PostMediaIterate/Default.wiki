@@ -53,7 +53,17 @@ Test
 |ensure|epoch|${beginEpoch2}|equals|${begin2}|
 |ensure|epoch|${endEpoch2}  |equals|${end2}  |
 
+|script                                                  |
+|post |${body1}       |to|${urlFrontendApi}/media/iterate|
+|check|response status|200                               |
+
+|script                                                  |
+|post |${body2}       |to|${urlFrontendApi}/media/iterate|
+|check|response status|200                               |
+
+{{{
 |Post count at path                        |
 |body    |post         |path        |count?|
 |${body1}|media/iterate|mediaobjects|2     |
 |${body2}|media/iterate|mediaobjects|9     |
+}}}
