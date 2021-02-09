@@ -32,6 +32,8 @@ import static org.junit.jupiter.api.Assumptions.assumeTrue;
 @Log4j2
 public class ApiMediaParameterizedSearchTest extends AbstractSearchTest<MediaForm, MediaSearchResult> {
 
+    public static int MAX = 10;
+
     @Retention(RetentionPolicy.RUNTIME)
     @ParameterizedTest(name = "Elaborate name listing all {arguments}")
     @MethodSource("getForms")
@@ -83,7 +85,7 @@ public class ApiMediaParameterizedSearchTest extends AbstractSearchTest<MediaFor
         });
         addTester("search-schedule-events.json/null/(xml|json)", sr -> {
             String testName = testInfo.getTestMethod().get().getName();
-            if (testName.startsWith("search[")
+            if (testName.equals("search")
             //Config.env() != Env.DEV // SADLY on DEV 2doc events are not coming in.
                 ) {
                 assertThat(sr.getItems().size()).isGreaterThan(0);
@@ -122,7 +124,7 @@ public class ApiMediaParameterizedSearchTest extends AbstractSearchTest<MediaFor
 
         addTester(Version.of(5, 4, 2),"visualsegments.json/null/(xml|json)", sr -> {
               String testName = testInfo.getTestMethod().get().getName();
-              if (testName.startsWith("search[")) {
+              if (testName.equals("search")) {
                   assertThat(sr.getSize()).isGreaterThan(0);
               }
 
@@ -134,6 +136,26 @@ public class ApiMediaParameterizedSearchTest extends AbstractSearchTest<MediaFor
             for (SearchResultItem<? extends MediaObject> r : sr) {
                 log.info("{}", r);
             }
+        });
+
+        addTester(Version.of(5, 23),"NPA-580.json/null/(xml|json)", sr -> {
+                String testName = testInfo.getTestMethod().get().getName();
+                if (testName.equals("search")) {
+                    assertThat(sr).hasSize(MAX);
+                    for (SearchResultItem<? extends MediaObject> r : sr) {
+                        log.info("{}", r);
+                    }
+                }
+        });
+
+        addTester(Version.of(5, 23),"NPA-580-with-facet.json/null/(xml|json)", sr -> {
+                String testName = testInfo.getTestMethod().get().getName();
+                if (testName.equals("search")) {
+                    assertThat(sr).hasSize(MAX);
+                    for (SearchResultItem<? extends MediaObject> r : sr) {
+                        log.info("{}", r);
+                    }
+                }
         });
 
         addAssumer("channels.json/.*/(xml|json)", minVersion(5, 3));
@@ -156,7 +178,7 @@ public class ApiMediaParameterizedSearchTest extends AbstractSearchTest<MediaFor
     @ParameterizedTest
     @Params
     void search(String name, MediaForm form, NpoApiClients clients) throws Exception {
-        MediaSearchResult searchResultItems = clients.getMediaService().find(form, null, null, 0L, 10);
+        MediaSearchResult searchResultItems = clients.getMediaService().find(form, null, null, 0L, MAX);
         assumeTrue(tester.apply(searchResultItems));
         test(form, name, searchResultItems);
     }
@@ -166,7 +188,7 @@ public class ApiMediaParameterizedSearchTest extends AbstractSearchTest<MediaFor
     @Params
     void searchMembers(String name, MediaForm form, NpoApiClients clients) throws Exception {
         log.info(DASHES.substring(0, 30 - "searchMembers".length()) + name);
-        MediaSearchResult searchResultItems = clients.getMediaService().findMembers(form, "POMS_S_VPRO_417550", null, null, 0L, 10);
+        MediaSearchResult searchResultItems = clients.getMediaService().findMembers(form, "POMS_S_VPRO_417550", null, null, 0L, MAX);
         assumeTrue(tester.apply(searchResultItems));
         test(form, name + ".members.json", searchResultItems);
     }
@@ -176,7 +198,7 @@ public class ApiMediaParameterizedSearchTest extends AbstractSearchTest<MediaFor
     @Params
     void searchEpisodes(String name, MediaForm form, NpoApiClients clients) throws Exception {
         log.info(DASHES.substring(0, 30 - "searchEpisodes".length()) + name);
-        ProgramSearchResult searchResultItems = clients.getMediaService().findEpisodes(form, "AVRO_1656037",  null, null, 0L, 10);
+        ProgramSearchResult searchResultItems = clients.getMediaService().findEpisodes(form, "AVRO_1656037",  null, null, 0L, MAX);
         test(form, name + ".episodes.json", searchResultItems);
     }
 

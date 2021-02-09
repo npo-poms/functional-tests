@@ -219,14 +219,14 @@ public abstract class AbstractApiTest extends AbstractTest  {
     /**
      * TODO: can't we determin this automaticly?
      */
-    public static final IntegerVersion DOMAIN_VERSION = Version.of(5, 13);
+    public static final IntegerVersion DOMAIN_VERSION = Version.of(5, 23);
 
     static {
         try {
             apiVersionNumber = clients.getVersionNumber();
         } catch (Exception  e) {
             LOG.warn(e.getMessage());
-            apiVersionNumber = Version.of(5, 14);
+            apiVersionNumber = Version.of(5, 23);
         }
         Compatibility.setCompatibility(apiVersionNumber);
         mediaUtil.setCacheExpiry("1S");
