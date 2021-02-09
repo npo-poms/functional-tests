@@ -29,15 +29,21 @@ public class ExtendedStringFixture {
 	    return haystack.startsWith(needle);
     }
 	
-	public String convertToTimestamp(String timestamp) {
-		String regEx = "(\\d{2}):(\\d{2}):(\\d{2}).(\\d{3})";
+	public String convertToTime(String timestamp) {
+		String regEx = "P0DT(\\d+)H(\\d+)M(\\d+).000S";
 		
 		int dt = Integer.parseInt(extractStringFromUsingGroup(timestamp, regEx, 1));
 		int h = Integer.parseInt(extractStringFromUsingGroup(timestamp, regEx, 2));
 		int m = Integer.parseInt(extractStringFromUsingGroup(timestamp, regEx, 3));
-		String s = extractStringFromUsingGroup(timestamp, regEx, 4);
 		
-		return String.format("P0DT%sH%sM%s.%sS", dt, h, m, s);
+		if (dt == 0)
+			return String.format("%s:%02d", h, m);
+			
+		return String.format("%s:%02d:%02d", dt, h, m);
+	}
+	
+	public boolean timestampEquals(String timestamp, String time) {
+		return convertToTime(timestamp).equals(time);
 	}
 	
 	public boolean valueIsLessThan(String value1, String value2) {

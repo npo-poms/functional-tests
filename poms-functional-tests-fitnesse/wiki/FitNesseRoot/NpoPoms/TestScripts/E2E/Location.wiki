@@ -83,7 +83,7 @@ Test
 
 |script                                                                                                                                                    |
 |get from    |${urlBackendApi}/media/program/$mid/locations?owner=BROADCASTER                                                                              |
-|check       |xPath         |/collection/update:location[last()]/@publishStart                          |$publishStartIso                                  |
+|check       |xPath         |/collection/update:location[last()]/@publishStart                          |${publishStartIso}                                |
 |check       |xPath         |/collection/update:location[last()]/update:programUrl                      |${programUrl}                                     |
 |check       |xPath         |/collection/update:location[last()]/update:avAttributes/update:bitrate     |${bitrate1}                                       |
 |check       |xPath         |/collection/update:location[last()]/update:avAttributes/update:avFileFormat|${avFileFormat1}                                  |
@@ -129,14 +129,14 @@ Test
 
 !4 Check changes in source visible in backend
 
-|script                                                                                                     |
-|get from|${urlBackendApi}/media/program/$mid/locations?owner=BROADCASTER                                   |
-|check   |xPath|/collection/update:location[last()]/@publishStart                          |$publishStartIso|
-|check   |xPath|/collection/update:location[last()]/@publishStop                           |$publishStopIso2|
-|check   |xPath|/collection/update:location[last()]/update:programUrl                      |${programUrl}   |
-|check   |xPath|/collection/update:location[last()]/update:avAttributes/update:bitrate     |${bitrate2}     |
-|check   |xPath|/collection/update:location[last()]/update:avAttributes/update:avFileFormat|${avFileFormat2}|
-|check   |xPath|/collection/update:location[last()]/update:duration                        |${duration2}    |
+|script                                                                                                       |
+|get from|${urlBackendApi}/media/program/$mid/locations?owner=BROADCASTER                                     |
+|check   |xPath|/collection/update:location[last()]/@publishStart                          |${publishStartIso}|
+|check   |xPath|/collection/update:location[last()]/@publishStop                           |${publishStopIso2}|
+|check   |xPath|/collection/update:location[last()]/update:programUrl                      |${programUrl}     |
+|check   |xPath|/collection/update:location[last()]/update:avAttributes/update:bitrate     |${bitrate2}       |
+|check   |xPath|/collection/update:location[last()]/update:avAttributes/update:avFileFormat|${avFileFormat2}  |
+|check   |xPath|/collection/update:location[last()]/update:duration                        |${duration2}      |
 
 !include -c <E2E.GuiSetUp
 

@@ -64,8 +64,8 @@ Test
 |check   |xPath|count(/collection/update:image)               |1                  |
 |check   |xPath|/collection/update:image[1]/update:title      |${imageTitle}      |
 |check   |xPath|/collection/update:image[1]/update:description|${imageDescription}|
-|check   |xPath|/collection/update:image[1]/@publishStart     |$publishStartIso   |
-|check   |xPath|/collection/update:image[1]/@publishStop      |$publishStopIso    |
+|check   |xPath|/collection/update:image[1]/@publishStart     |${publishStartIso} |
+|check   |xPath|/collection/update:image[1]/@publishStop      |${publishStopIso}  |
 
 !include -c <E2E.GuiSetUp
 

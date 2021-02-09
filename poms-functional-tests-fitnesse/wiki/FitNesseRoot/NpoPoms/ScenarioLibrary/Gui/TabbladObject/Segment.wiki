@@ -170,3 +170,18 @@
 
 |scenario|Npo poms Tabblad object Sla mid van segment|segment                                         |op in var                                         |var                                        |
 |$@var=  |value of                                   |xpath=//poms-segments/div/table/tbody/tr[./td[@class="column-mainTitle"]/span[normalize-space(.)="@segment"]]/td[@class="column-mid"]/span/span|
+
+|scenario|Npo poms Tabblad object Check segment|segment                                                                                                                                        |heeft mid|mid|
+|check   |value of                             |xpath=//poms-segments/div/table/tbody/tr[./td[@class="column-mainTitle"]/span[normalize-space(.)="@segment"]]/td[@class="column-mid"]/span/span|@mid         |
+
+|scenario|Npo poms Tabblad object Check segment|segment                                                                                                                                          |heeft start|start|
+|check   |value of                             |xpath=//poms-segments/div/table/tbody/tr[./td[@class="column-mainTitle"]/span[normalize-space(.)="@segment"]]/td[@class="column-start"]/span/span|@start           |
+
+|scenario|Npo poms Tabblad object Check segment|segment                                                                                                                                         |heeft stop|stop|
+|check   |value of                             |xpath=//poms-segments/div/table/tbody/tr[./td[@class="column-mainTitle"]/span[normalize-space(.)="@segment"]]/td[@class="column-stop"]/span/span|@stop          |
+
+|scenario|Npo poms Tabblad object Check segment|segment                                                                                                                                             |heeft speelduur|speelduur|
+|check   |value of                             |xpath=//poms-segments/div/table/tbody/tr[./td[@class="column-mainTitle"]/span[normalize-space(.)="@segment"]]/td[@class="column-duration"]/span/span|@speelduur               |
+
+|scenario|Npo poms Tabblad object Check segment|segment                                                                                                                                           |heeft av-type|avType|
+|check   |value of                             |xpath=//poms-segments/div/table/tbody/tr[./td[@class="column-mainTitle"]/span[normalize-space(.)="@segment"]]/td[@class="column-avType"]/span/span|@avType             |

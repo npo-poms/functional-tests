@@ -47,8 +47,8 @@ Test
 |$startIso=    |convert datetime|@{start}                        |to iso   |
 |$stopIso=     |convert datetime|@{stop}                         |to iso   |
 |get from      |${urlBackendApi}/media/media/$mid/predictions/@{platform}  |
-|check         |xPath           |/update:prediction/@publishStart|@startIso|
-|check         |xPath           |/update:prediction/@publishStop |@stopIso |
+|check         |xPath           |/update:prediction/@publishStart|$startIso|
+|check         |xPath           |/update:prediction/@publishStop |$stopIso |
 
 |table template                                      |Check platform publish times in gui          |
 |Npo poms Tabblad object Check platform              |@{platform}|online van  |@{start}|tot|@{stop}|
@@ -73,20 +73,20 @@ Test
 
 |script                                                                          |
 |$mid= |get var|midClip                                                          |
-|ensure|iso    |${publishStart_InternetVod}|equals|${publishStartIso_InternetVod}|
-|ensure|iso    |${publishStop_InternetVod} |equals|${publishStopIso_InternetVod} |
-|ensure|iso    |${publishStart_TvVod}      |equals|${publishStartIso_TvVod}      |
-|ensure|iso    |${publishStop_TvVod}       |equals|${publishStopIso_TvVod}       |
-|ensure|iso    |${publishStart_PlusVod}    |equals|${publishStartIso_PlusVod}    |
-|ensure|iso    |${publishStop_PlusVod}     |equals|${publishStopIso_PlusVod}     |
+|ensure|iso    |${publishStartIso_InternetVod}|equals|${publishStart_InternetVod}|
+|ensure|iso    |${publishStopIso_InternetVod} |equals|${publishStop_InternetVod} |
+|ensure|iso    |${publishStartIso_TvVod}      |equals|${publishStart_TvVod}      |
+|ensure|iso    |${publishStopIso_TvVod}       |equals|${publishStop_TvVod}       |
+|ensure|iso    |${publishStartIso_PlusVod}    |equals|${publishStart_PlusVod}    |
+|ensure|iso    |${publishStopIso_PlusVod}     |equals|${publishStop_PlusVod}     |
 
 !4 Check original values in backend
 
 |Check platform publish times in backend|
 |platform           |start     |stop    |
-|${internetVod}     |null      |null    |
-|${tvVod}           |null      |null    |
-|${plusVod}         |null      |null    |
+|${internetVod}     |          |        |
+|${tvVod}           |          |        |
+|${plusVod}         |          |        |
 
 !4 Update platform 'internetvod' in backend
 
@@ -182,9 +182,9 @@ Test
 
 |Check platform publish times in backend|
 |platform           |start     |stop    |
-|${internetVod}     |null      |null    |
-|${tvVod}           |null      |null    |
-|${plusVod}         |null      |null    |
+|${internetVod}     |          |        |
+|${tvVod}           |          |        |
+|${plusVod}         |          |        |
 
 !include -c <E2E.GuiSetUp
 

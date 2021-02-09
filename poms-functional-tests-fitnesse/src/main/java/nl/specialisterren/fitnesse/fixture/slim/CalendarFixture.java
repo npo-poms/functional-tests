@@ -108,15 +108,15 @@ public class CalendarFixture {
 	}
 	
 	public String convertDatetimeToIso(String datetime) {
-		if (datetime == null)
-			return null;
+		if (datetime.equals(""))
+			return "";
 		
 		LocalDateTime localDateTime = LocalDateTime.parse(datetime, DateTimeFormatter.ofPattern("d-M-yyyy H:mm"));
 		ZonedDateTime zonedDateTime = localDateTime.atZone(ZoneId.of("Europe/Amsterdam"));
 		return DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(zonedDateTime);
 	}
 	
-	public boolean isoEquals(String iso, String datetime) {
+	public boolean isoEquals(String iso, String datetime) {		
 		return convertDatetimeToIso(datetime).equals(iso);
 	}
 }

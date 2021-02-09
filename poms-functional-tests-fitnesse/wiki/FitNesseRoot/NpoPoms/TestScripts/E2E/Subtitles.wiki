@@ -120,9 +120,9 @@ Test
 
 !4 Check clip has no subtitles in backend
 
-|script                                                                    |
-|show |get from       |${urlBackendApi}/media/subtitles/$midClip/nl/CAPTION|
-|check|response status|404                                                 |
+|script                                                                                       |
+|show                           |get from|${urlBackendApi}/media/subtitles/$midClip/nl/CAPTION|
+|repeat until response status is|404                                                          |
 
 !include -c <E2E.GuiSetUp
 

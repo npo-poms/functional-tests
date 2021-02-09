@@ -5,11 +5,14 @@ Test
 !*> Test-specific items
 !define gebruiker {standaard-gebruiker}
 
+!define titel {Specialisterren segment}
+!define avType {Video}
+!define avTypeAllCaps {VIDEO}
 !define startTimestamp {P0DT2H23M0.000S}
 !define durationTimestamp {P0DT0H1M40.000S}
-!define start {02:23:00.000}
-!define end {02:24:40.000}
-!define duration {00:01:40.000}
+!define start {2:23:00}
+!define end {2:24:40}
+!define duration {1:40}
 !define body { {{{
 <program avType="VIDEO" embeddable="true" type="CLIP" xmlns="urn:vpro:media:update:2009">
   <broadcaster>NPO</broadcaster>
@@ -19,11 +22,11 @@ Test
   <scheduleEvents/>
   <images/>
   <segments>
-    <segment avType="VIDEO" publishStart="2012-01-11T16:16:01.271+01:00" publishStop="2012-01-11T18:16:01.271+01:00" embeddable="true">
+    <segment avType="${avTypeAllCaps}" publishStart="2012-01-11T16:16:01.271+01:00" publishStop="2012-01-11T18:16:01.271+01:00" embeddable="true">
       <broadcaster>NPO</broadcaster>
-      <title type="MAIN">Specialisterren segment</title>
-      <start>${startTimestamp}</start>
+      <title type="MAIN">${titel}</title>
       <duration>${durationTimestamp}</duration>
+      <start>${startTimestamp}</start>
     </segment>
   </segments>
 </program>
@@ -32,9 +35,9 @@ Test
 
 !include -c <E2E.ApiBackendSetUp
 
-|script                                                     |
-|check|convert|${start}   |to timestamp|${startTimestamp}   |
-|check|convert|${duration}|to timestamp|${durationTimestamp}|
+|script                                                  |
+|ensure|timestamp|${startTimestamp}   |equals|${start}   |
+|ensure|timestamp|${durationTimestamp}|equals|${duration}|
 
 !4 Create clip with segment in backend
 
@@ -56,14 +59,22 @@ Test
 
 !4 Check clip with segment created in gui
 
-|script                                                           |
-|Open Npo poms website                                            |
-|Npo poms Inlogscherm Log in met ${gebruiker}                     |
-|Npo poms Tabblad object Open                |$itemId             |
-|Npo poms Tabblad object Druk op link        |Segmenten|in sidebar|
-|Npo poms Tabblad object Wacht tot scrollen klaar is              |
-|Npo poms Tabblad object Check aantal in veld|Segmenten|is   |1   |
-|                                            |TODO: Check velden  |
+|script                                                                            |
+|Open Npo poms website                                                             |
+|Npo poms Inlogscherm Log in met ${gebruiker}                                      |
+|Npo poms Tabblad object Open                |$itemId                              |
+|Npo poms Tabblad object Druk op link        |Segmenten|in sidebar                 |
+|Npo poms Tabblad object Wacht tot scrollen klaar is                               |
+|Npo poms Tabblad object Check aantal in veld|Segmenten|is             |1          |
+|Npo poms Tabblad object Check segment       |${titel} |heeft start    |${start}   |
+|Npo poms Tabblad object Check segment       |${titel} |heeft stop     |${end}     |
+|Npo poms Tabblad object Check segment       |${titel} |heeft speelduur|${duration}|
+|Npo poms Tabblad object Druk op tandwieltje bij segmenten                         |
+|Npo poms Tabblad object Druk op kolomoptie  |MID      |bij segmenten              |
+|Npo poms Tabblad object Druk op kolomoptie  |AV-type  |bij segmenten              |
+|Npo poms Tabblad object Druk op tandwieltje bij segmenten                         |
+|Npo poms Tabblad object Check segment       |${titel} |heeft mid      |$segmentId |
+|Npo poms Tabblad object Check segment       |${titel} |heeft av-type  |${avType}  |
 
 !include -c <E2E.GuiTearDown
 !include -c <E2E.ApiBackendSetUp
@@ -77,9 +88,13 @@ Test
 
 !4 Check segment removed from clip in backend
 
-|script                                                                                                  |
-|get from|${urlBackendApi}/media/program/$itemId/full                                                    |
-|check   |xPath|/media:program/media:segments/media:segment[1]/@workflow|!-=~/(FOR DELETION)|(DELETED)/-!|
+|script                                                                                                                                |
+|get from            |${urlBackendApi}/media/program/$itemId/full                                                                      |
+|repeat until xPath  |/media:program/media:segments/media:segment[1]/@workflow|is                           |DELETED                   |
+|$repeatCount=       |repeat count                                                                                                     |
+|$timeSpentRepeating=|time spent repeating                                                                                             |
+|$timeSpentRepeating=|format timestamp                                        |$timeSpentRepeating          |as          |m:ss         |
+|show                |xPath                                                   |/media:program/media:segments/media:segment[1]/@workflow|
 
 !include -c <E2E.GuiSetUp
 
