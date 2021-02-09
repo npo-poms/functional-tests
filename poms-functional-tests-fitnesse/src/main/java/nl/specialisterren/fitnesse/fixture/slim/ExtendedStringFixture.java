@@ -29,6 +29,17 @@ public class ExtendedStringFixture {
 	    return haystack.startsWith(needle);
     }
 	
+	public String convertToTimestamp(String time) {
+		String regEx = "(\\d+):(\\d+):(\\d+).(\\d+)";
+		
+		int dt = Integer.parseInt(extractStringFromUsingGroup(time, regEx, 1));
+		int h = Integer.parseInt(extractStringFromUsingGroup(time, regEx, 2));
+		int m = Integer.parseInt(extractStringFromUsingGroup(time, regEx, 3));
+		String s = extractStringFromUsingGroup(time, regEx, 4);
+			
+		return String.format("P0DT%sH%sM%s.%sS", dt, h, m, s);
+	}
+	
 	public String convertToTime(String timestamp) {
 		String regEx = "P0DT(\\d+)H(\\d+)M(\\d+).000S";
 		
