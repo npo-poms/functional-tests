@@ -943,9 +943,9 @@ class PagesPublisherTest extends AbstractApiMediaBackendTest {
 
         List<String> removed = new ArrayList<>();
         for (MultipleEntry<Page> r : referralsAsPage) {
-            log.info("{} -> {}", r.getId(), r.getResult());
-            if (r.getResult() == null) {
-                log.info("result {} ", pageUpdateApiUtil.delete(r.getId()));
+            log.debug("{} -> {}", r.getId(), r.getResult());
+            if (r.getResult() != null) {
+                log.info("result {} {} ", r.getId(),  pageUpdateApiUtil.delete(r.getId()));
                 removed.add(r.getId());
             }
         }
