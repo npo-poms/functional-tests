@@ -29,10 +29,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
 
+@SuppressWarnings({"JUnit5MalformedParameterized", "OptionalGetWithoutIsPresent"})
 @Log4j2
 public class ApiMediaParameterizedSearchTest extends AbstractSearchTest<MediaForm, MediaSearchResult> {
 
-    public static int MAX = 10;
+    public static final int MAX = 10;
 
     @Retention(RetentionPolicy.RUNTIME)
     @ParameterizedTest(name = "Elaborate name listing all {arguments}")
