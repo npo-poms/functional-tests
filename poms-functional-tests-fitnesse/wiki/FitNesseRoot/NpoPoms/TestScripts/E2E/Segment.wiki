@@ -88,25 +88,22 @@ Test
 
 !4 Check segment removed from clip in backend
 
-|script                                                                                                                                |
-|get from            |${urlBackendApi}/media/program/$itemId/full                                                                      |
-|repeat until xPath  |/media:program/media:segments/media:segment[1]/@workflow|is                           |DELETED                   |
-|$repeatCount=       |repeat count                                                                                                     |
-|$timeSpentRepeating=|time spent repeating                                                                                             |
-|$timeSpentRepeating=|format timestamp                                        |$timeSpentRepeating          |as          |m:ss         |
-|show                |xPath                                                   |/media:program/media:segments/media:segment[1]/@workflow|
+|script                                                                                                  |
+|get from|${urlBackendApi}/media/program/$itemId/full                                                    |
+|check   |xPath|/media:program/media:segments/media:segment[1]/@workflow|!-=~/(FOR DELETION)|(DELETED)/-!|
 
 !include -c <E2E.GuiSetUp
 
 !4 Check segment removed from clip in gui
 
-|script                                                           |
-|Open Npo poms website                                            |
-|Npo poms Inlogscherm Log in met ${gebruiker}                     |
-|Npo poms Tabblad object Open                |$itemId             |
-|Npo poms Tabblad object Druk op link        |Segmenten|in sidebar|
-|Npo poms Tabblad object Wacht tot scrollen klaar is              |
-|Npo poms Tabblad object Check aantal in veld|Segmenten|is   |0   |
+|script                                                                                            |
+|Open Npo poms website                                                                             |
+|Npo poms Inlogscherm Log in met ${gebruiker}                                                      |
+|Npo poms Tabblad object Open                |$itemId                                              |
+|Npo poms Tabblad object Druk op link        |Segmenten|in sidebar                                 |
+|Npo poms Tabblad object Wacht tot scrollen klaar is                                               |
+|Npo poms Tabblad object Check aantal in veld|Segmenten|is          |1                             |
+|Npo poms Tabblad object Check segment       |${titel} |heeft status|Wordt verwijderd|of|Verwijderd|
 
 !include -c <E2E.GuiTearDown
 !include -c <E2E.ApiBackendSetUp
