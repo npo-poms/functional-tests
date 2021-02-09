@@ -939,7 +939,7 @@ class PagesPublisherTest extends AbstractApiMediaBackendTest {
         for (Referral r : multipleEntry.getResult().getReferrals()) {
             list.add(r.getPageRef());
         }
-        List<? extends MultipleEntry<Page>> referralsAsPage = clients.getPageService().loadMultiple(list, null, null).getItems();
+        List<? extends MultipleEntry<Page>> referralsAsPage = pageUtil.loadMultipleEntries(list);
 
         List<String> removed = new ArrayList<>();
         for (MultipleEntry<Page> r : referralsAsPage) {
