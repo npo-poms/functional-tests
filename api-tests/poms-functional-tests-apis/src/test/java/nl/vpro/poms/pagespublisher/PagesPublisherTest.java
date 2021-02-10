@@ -3,8 +3,7 @@ package nl.vpro.poms.pagespublisher;
 import lombok.extern.log4j.Log4j2;
 
 import java.net.URLEncoder;
-import java.time.Duration;
-import java.time.LocalDate;
+import java.time.*;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -120,6 +119,17 @@ class PagesPublisherTest extends AbstractApiMediaBackendTest {
                 .build()
         );
 
+        PageUpdate yesterday = pageUpdateApiUtil.get(urlYesterday);
+        if (yesterday == null) {
+            log.info("Article for yesterday {} not found (perhaps test didn't run yesterday). Making it for now, to test referrals too" , urlYesterday);
+            Result<Void> r = pageUpdateApiUtil.saveAndWait(PageUpdateBuilder.article(urlYesterday)
+                .broadcasters("VPRO")
+                .title(title)
+                .portal(portal)
+                .build());
+            assertThat(r.getStatus()).withFailMessage(r.toString()).isEqualTo(Result.Status.SUCCESS);
+        }
+
         article =
             PageUpdateBuilder.article(urlToday)
                 .broadcasters("VPRO")
@@ -144,16 +154,6 @@ class PagesPublisherTest extends AbstractApiMediaBackendTest {
                 )
             .build();
 
-        PageUpdate yesterday = pageUpdateApiUtil.get(urlYesterday);
-        if (yesterday == null) {
-            log.info("Article for yesterday {} not found (perhaps test didn't run yesterday). Making it for now, to test referrals too" , urlYesterday);
-            Result<Void> r = pageUpdateApiUtil.saveAndWait(PageUpdateBuilder.article(urlYesterday)
-                .broadcasters("VPRO")
-                .title(title)
-                .portal(portal)
-                .build());
-            assertThat(r.getStatus()).withFailMessage(r.toString()).isEqualTo(Result.Status.SUCCESS);
-        }
 
         PageUpdate topStory = pageUpdateApiUtil.get(TOP_STORY_URL);
         if (topStory == null) {
@@ -251,9 +251,9 @@ class PagesPublisherTest extends AbstractApiMediaBackendTest {
 
         Page yesterday = pageUtil.load(urlYesterday)[0];
 
-        assertThat(yesterday).isNotNull();
-        assertThat(yesterday.getReferrals()).isNotNull();
-        assertThat(yesterday.getReferrals().size()).isGreaterThanOrEqualTo(1);
+        assertThat(yesterday).withFailMessage("Could not find page for yesterday").isNotNull();
+        assertThat(yesterday.getReferrals()).withFailMessage("Yesterday's page referrals is null").isNotNull();
+        assertThat(yesterday.getReferrals().size()).withFailMessage("Yesterdays's page has no referrals").isGreaterThanOrEqualTo(1);
 
         Page tomorrow = pageUtil.load(urlTomorrow)[0];
 
@@ -944,7 +944,7 @@ class PagesPublisherTest extends AbstractApiMediaBackendTest {
         List<String> removed = new ArrayList<>();
         for (MultipleEntry<Page> r : referralsAsPage) {
             log.debug("{} -> {}", r.getId(), r.getResult());
-            if (r.isFound()) {
+            if (r.isFound() && r.getResult().getCreationDate().isBefore(Instant.now().minus(Duration.ofDays(7)))) {
                 log.info("result {} {} ", r.getId(),  pageUpdateApiUtil.delete(r.getId()));
                 removed.add(r.getId());
             }

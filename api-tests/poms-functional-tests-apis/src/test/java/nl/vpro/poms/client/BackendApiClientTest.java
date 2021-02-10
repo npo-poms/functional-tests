@@ -62,15 +62,15 @@ class BackendApiClientTest extends AbstractApiMediaBackendTest  {
 
         List<LogEvent> errors = logging.list.stream()
             .filter((l) -> l.getLevel().isMoreSpecificThan(Level.WARN))
-            .filter((l) -> ! l.getMessage().getFormattedMessage().startsWith("Took")) // changes feed which runs simultaniously may sometimes issue warning abbut that.
+            .filter((l) -> ! l.getMessage().getFormattedMessage().startsWith("Took")) // changes feed which runs simultaniously may sometimes issue warning about that.
             .collect(Collectors.toList());
 
         assertThat(errors).isEmpty();
 
-            List<LogEvent> info =
-                logging.list.stream()
-                    .filter((l) -> l.getLoggerName().endsWith(".4.04") && l.getLevel().isLessSpecificThan(Level.INFO))
-                    .collect(Collectors.toList());
+        List<LogEvent> info =
+            logging.list.stream()
+                .filter((l) -> l.getLoggerName().endsWith(".4.04") && l.getLevel().isLessSpecificThan(Level.INFO))
+                .collect(Collectors.toList());
         assertThat(info).hasSizeGreaterThan(0);
         assertThat(info.get(0).getMessage().toString())
             .withFailMessage(info.get(0).getMessage().toString())
