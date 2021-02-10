@@ -7,20 +7,28 @@ Test
 !define net1 {ZAPP}
 !define net2 {ZAPPE}
 
+{{{
 !define now1Iso {2020-05-26T17:00:00+02:00}
 !define now2Iso {2020-05-26T15:00:00+02:00}
 !define now1 {26-5-2020 17:00}
 !define now2 {26-5-2020 15:00}
+}}}
 *!
 
-|script                              |
-|ensure|iso|${now1Iso}|equals|${now1}|
-|ensure|iso|${now2Iso}|equals|${now2}|
+|script                                                                                                                 |
+|Get        |schedule/net/${net1}?guideDay=!today (yyyy-MM-dd)&sort=desc|and save value at|items[0].start|as|startEpoch1|
+|$start1=   |convert epoch                                              |$startEpoch1     |to datetime                  |
+|$startIso1=|convert datetime                                           |$start1          |to iso                       |
+
+|script                                                                                                                 |
+|Get        |schedule/net/${net2}?guideDay=!today (yyyy-MM-dd)&sort=desc|and save value at|items[0].start|as|startEpoch2|
+|$start2=   |convert epoch                                              |$startEpoch2     |to datetime                  |
+|$startIso2=|convert datetime                                           |$start2          |to iso                       |
 
 |script                                                                                                                            |
-|Get                                                     |schedule/net/${net1}/now?now=${now1Iso}|and check value at|net|is|${net1}|
-|Check item in response is broadcasting at moment of time|${now1}                                                                  |
+|Get                                                     |schedule/net/${net1}/now?now=$startIso1|and check value at|net|is|${net1}|
+|Check item in response is broadcasting at moment of time|$start1                                                                  |
 
 |script                                                                                                                            |
-|Get                                                     |schedule/net/${net2}/now?now=${now2Iso}|and check value at|net|is|${net2}|
-|Check item in response is broadcasting at moment of time|${now2}                                                                  |
+|Get                                                     |schedule/net/${net2}/now?now=$startIso2|and check value at|net|is|${net2}|
+|Check item in response is broadcasting at moment of time|$start2                                                                  |

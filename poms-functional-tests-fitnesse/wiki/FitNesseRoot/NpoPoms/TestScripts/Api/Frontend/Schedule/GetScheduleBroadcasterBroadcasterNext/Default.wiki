@@ -18,15 +18,15 @@ Test
 |$now=   |value of        |!today (d-M-yyyy H:mm)|
 |$nowIso=|convert datetime|$now      |to iso     |
 
-|script                                                                                                                    |
-|get from                                          |${urlFrontendApi}/schedule/broadcaster/${broadcaster1}/next?now=$nowIso|
-|Check item in response has start time greater than|$now                                                                   |
-|Check item in response has broadcaster            |${broadcaster1}                                                        |
+|script                                                                                                                                |
+|get from                                                      |${urlFrontendApi}/schedule/broadcaster/${broadcaster1}/next?now=$nowIso|
+|Check item in response has start time greater than or equal to|$now                                                                   |
+|Check item in response has broadcaster                        |${broadcaster1}                                                        |
 
-|script                                                                                                                    |
-|get from                                          |${urlFrontendApi}/schedule/broadcaster/${broadcaster2}/next?now=$nowIso|
-|Check item in response has start time greater than|$now                                                                   |
-|Check item in response has broadcaster            |${broadcaster2}                                                        |
+|script                                                                                                                                |
+|get from                                                      |${urlFrontendApi}/schedule/broadcaster/${broadcaster2}/next?now=$nowIso|
+|Check item in response has start time greater than or equal to|$now                                                                   |
+|Check item in response has broadcaster                        |${broadcaster2}                                                        |
 
 {{{
 |Get value at path                                                                                              |

@@ -3,13 +3,16 @@ Help: Het objecttype van het eerste item van de response van GET /thesaurus/conc
 Suites: NPOAPI-56, RG
 Test
 ---
-|Get value at path                                                                 |
-|get                                            |path               |value?        |
-|thesaurus/concepts?schemes=person&max=1        |items[0].objectType|person        |
-|thesaurus/concepts?schemes=geographicname&max=1|items[0].objectType|geographicname|
-|thesaurus/concepts?schemes=topic&max=1         |items[0].objectType|topic         |
-|thesaurus/concepts?schemes=topicbandg&max=1    |items[0].objectType|topicbandg    |
-|thesaurus/concepts?schemes=classification&max=1|items[0].objectType|classification|
-|thesaurus/concepts?schemes=maker&max=1         |items              |[]            |
-|thesaurus/concepts?schemes=genre&max=1         |items[0].objectType|genre         |
-|thesaurus/concepts?schemes=name&max=1          |items[0].objectType|name          |
+|script                                                                         |
+|$objectTypeMaker=|store|maker|if dev else store|null|current env is|${omgeving}|
+
+|Get value at path                                                                   |
+|get                                            |path               |value?          |
+|thesaurus/concepts?schemes=person&max=1        |items[0].objectType|person          |
+|thesaurus/concepts?schemes=geographicname&max=1|items[0].objectType|geographicname  |
+|thesaurus/concepts?schemes=topic&max=1         |items[0].objectType|topic           |
+|thesaurus/concepts?schemes=topicbandg&max=1    |items[0].objectType|topicbandg      |
+|thesaurus/concepts?schemes=classification&max=1|items[0].objectType|classification  |
+|thesaurus/concepts?schemes=maker&max=1         |items[0].objectType|$objectTypeMaker|
+|thesaurus/concepts?schemes=genre&max=1         |items[0].objectType|genre           |
+|thesaurus/concepts?schemes=name&max=1          |items[0].objectType|name            |

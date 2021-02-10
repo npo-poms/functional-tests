@@ -5,12 +5,10 @@ Test
 ---
 !*> Test-specific items
 !define midAncestor {POMS_S_BNN_097259}
+
 !define nowIso {2010-05-17T15:45:00+02:00}
 !define now {17-5-2010 15:45}
 *!
-
-|script                            |
-|ensure|iso|${nowIso}|equals|${now}|
 
 |script                                                                                                                       |
 |get from                                                |${urlFrontendApi}/schedule/ancestor/${midAncestor}/now?now=${nowIso}|

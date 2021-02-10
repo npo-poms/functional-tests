@@ -3,9 +3,17 @@ Help: De id van de response van GET /thesaurus/concepts/status eindigt op de opg
 Suites: NPOAPI-57, RG
 Test
 ---
-|Get values at two paths                                                                                                                        |
-|get                                                                       |path1|value1?                                      |path2 |value2?  |
-|thesaurus/concepts/status?id=!-http://data.beeldengeluid.nl/gtaa/1714609-!|id   |!-http://data.beeldengeluid.nl/gtaa/1714609-!|status|candidate|
-|thesaurus/concepts/status?id=1714609                                      |id   |!-http://data.beeldengeluid.nl/gtaa/1714609-!|status|candidate|
-|thesaurus/concepts/status?id=!-http://data.beeldengeluid.nl/gtaa/30271-!  |id   |!-http://data.beeldengeluid.nl/gtaa/30271-!  |status|approved |
-|thesaurus/concepts/status?id=30271                                        |id   |!-http://data.beeldengeluid.nl/gtaa/30271-!  |status|approved |
+!*> Test-specific items
+!define idCandidateTest {1714609}
+!define idCandidateDev {1712859}
+!define idApproved {30271} 
+*!
+|script                                                                                               |
+|$idCandidate=|store|${idCandidateDev}|if dev else store|${idCandidateTest}|current env is|${omgeving}|
+
+|Get values at two paths                                                                                                                                    |
+|get                                                                             |path1|value1?                                            |path2 |value2?  |
+|thesaurus/concepts/status?id=!-http://data.beeldengeluid.nl/gtaa/-!$idCandidate |id   |!-http://data.beeldengeluid.nl/gtaa/-!$idCandidate |status|candidate|
+|thesaurus/concepts/status?id=$idCandidate                                       |id   |!-http://data.beeldengeluid.nl/gtaa/-!$idCandidate |status|candidate|
+|thesaurus/concepts/status?id=!-http://data.beeldengeluid.nl/gtaa/-!${idApproved}|id   |!-http://data.beeldengeluid.nl/gtaa/-!${idApproved}|status|approved |
+|thesaurus/concepts/status?id=${idApproved}                                      |id   |!-http://data.beeldengeluid.nl/gtaa/-!${idApproved}|status|approved |

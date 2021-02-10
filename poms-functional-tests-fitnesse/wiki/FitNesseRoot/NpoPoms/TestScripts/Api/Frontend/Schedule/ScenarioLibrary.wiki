@@ -2,9 +2,9 @@
 |$start=    |json path    |start             |
 |$starttime=|convert epoch|$start|to datetime|
 
-|scenario|Check item in response has start time greater than|now                            |
-|Get start time in response                                                                 |
-|ensure  |datetime                                          |$starttime|is greater than|@now|
+|scenario|Check item in response has start time greater than or equal to|now                                        |
+|Get start time in response                                                                                         |
+|ensure  |datetime                                                      |$starttime|is greater than or equal to|@now|
 
 |scenario  |Check item in response is broadcasting at moment of time|now                                                 |
 |Get start time in response                                                                                              |

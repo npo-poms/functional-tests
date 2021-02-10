@@ -24,24 +24,6 @@
 |post          |@{body}        |to|${urlFrontendApi}/@{post}|
 |$count=       |json path count|@{path}.*                   |
 
-|table template|Post count at path in Dev|
-|              |Dummy table template     |
-|show          |value of    |@{post}     |
-|show          |value of    |@{body}     |
-|show          |value of    |@{path}     |
-|show          |value of    |@{count}    |
-
-|table template|Post count at path in Test|
-|              |Dummy table template      |
-|show          |value of     |@{post}     |
-|show          |value of     |@{body}     |
-|show          |value of     |@{path}     |
-|show          |value of     |@{count}    |
-
-|table template|Post count at path in ${omgeving}                  |
-|post          |@{body}        |to       |${urlFrontendApi}/@{post}|
-|check         |json path count|@{path}.*|@{count}                 |
-
 |table template                 |Get value at path                           |
 |show                           |get from        |${urlFrontendApi}/@{get}   |
 |repeat until response status is|200                                         |

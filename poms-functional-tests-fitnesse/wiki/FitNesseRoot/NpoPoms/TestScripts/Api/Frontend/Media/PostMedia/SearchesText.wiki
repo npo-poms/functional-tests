@@ -30,10 +30,17 @@ Test
 |ensure|epoch|${beginEpoch}|equals|${begin}|
 |ensure|epoch|${endEpoch}  |equals|${end}  |
 
-|Post count at path in Test|
-|body    |post |path |count|
-|${body} |media|items|7    |
+|script                                          |
+|post |${body}        |to|${urlFrontendApi}/media|
+|check|response status|200                       |
 
-|Post count at path in Dev|
-|body   |post |path |count|
-|${body}|media|items|1    |
+{{{
+What do you want to prove by checking the number of items in the response?
+
+|script                                                                |
+|$countToVerify=|store|1|if dev else store|3|current env is|${omgeving}|
+
+|Post count at path                |
+|body   |post |path |count?        |
+|${body}|media|items|$countToVerify|
+}}}

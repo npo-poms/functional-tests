@@ -17,6 +17,14 @@ Test
 }}} }
 *!
 
+|script                                                                    |
+|post |${body}        |to|${urlFrontendApi}/media/VPWON_1304075/descendants|
+|check|response status|200                                                 |
+
+{{{
+What do you want to prove by checking the number of items in the response?
+
 |Post count at path                                  |
 |body   |post                           |path |count?|
 |${body}|media/VPWON_1304075/descendants|items|1     |
+}}}

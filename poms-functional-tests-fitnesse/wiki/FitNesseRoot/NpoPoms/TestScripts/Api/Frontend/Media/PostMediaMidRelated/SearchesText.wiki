@@ -1,0 +1,26 @@
+---
+Help: De response van POST /media/{mid}/related bevat alle objecten die gerelateerd zijn aan het opgegeven object en voldoen aan de opgegeven voorwaarden.
+Test
+---
+!*> Test-specific items
+!define mid {POMS_S_VPRO_218686}
+!define body { {{{
+{
+  "searches": {
+    "text": {
+      "value": "Golden Earring",
+      "matchType": "TEXT",
+      "match": "MUST"
+    },
+    "scheduleEvents" : { 
+      "begin" : 1307730900000,
+      "end" : 1397672760000,
+      "rerun": true 
+    } 
+  }
+}
+}}} }
+*!
+|script                                                         |
+|post |${body}        |to|${urlFrontendApi}/media/${mid}/related|
+|check|response status|200                                      |

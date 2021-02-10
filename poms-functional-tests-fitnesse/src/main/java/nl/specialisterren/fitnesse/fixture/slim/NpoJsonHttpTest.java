@@ -101,4 +101,11 @@ public class NpoJsonHttpTest extends JsonHttpTest {
         }
         return repeatUntil(completion);
 	}
+	
+	public String storeIfDevElseStoreCurrentEnvIs(String valueDev, String valueTest, String env) {
+		if (env.equals("Dev"))
+			return valueDev;
+		
+		return valueTest;
+	}
 }

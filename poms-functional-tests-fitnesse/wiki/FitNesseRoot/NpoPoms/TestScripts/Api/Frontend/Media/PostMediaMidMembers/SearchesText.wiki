@@ -57,6 +57,8 @@ Test
 |check|response status|200                                      |
 
 {{{
+What do you want to prove by checking the number of items in the response?
+
 |Post count at path                        |
 |body    |post                |path |count?|
 |${body1}|media/${mid}/members|items|3     |

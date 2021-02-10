@@ -7,17 +7,26 @@ Test
 !define channel1 {NED1}
 !define channel2 {RAD2}
 
+{{{
 !define nowIso {2020-10-08T13:00:00+02:00}
 !define now {8-10-2020 13:00}
+}}}
 *!
 
-|script                            |
-|ensure|iso|${nowIso}|equals|${now}|
+|script                                                                                                                         |
+|Get        |schedule/channel/${channel1}?guideDay=!today (yyyy-MM-dd)&sort=desc|and save value at|items[0].start|as|startEpoch1|
+|$start1=   |convert epoch                                                      |$startEpoch1     |to datetime                  |
+|$startIso1=|convert datetime                                                   |$start1          |to iso                       |
 
-|script                                                                                                                                           |
-|Get                                                     |schedule/channel/${channel1}/now?now=${nowIso}|and check value at|channel|is|${channel1}|
-|Check item in response is broadcasting at moment of time|${now}                                                                                  |
+|script                                                                                                                         |
+|Get        |schedule/channel/${channel2}?guideDay=!today (yyyy-MM-dd)&sort=desc|and save value at|items[0].start|as|startEpoch2|
+|$start2=   |convert epoch                                                      |$startEpoch2     |to datetime                  |
+|$startIso2=|convert datetime                                                   |$start2          |to iso                       |
 
-|script                                                                                                                                           |
-|Get                                                     |schedule/channel/${channel2}/now?now=${nowIso}|and check value at|channel|is|${channel2}|
-|Check item in response is broadcasting at moment of time|${now}                                                                                  |
+|script                                                                                                                                            |
+|Get                                                     |schedule/channel/${channel1}/now?now=$startIso1|and check value at|channel|is|${channel1}|
+|Check item in response is broadcasting at moment of time|$start1                                                                                  |
+
+|script                                                                                                                                            |
+|Get                                                     |schedule/channel/${channel2}/now?now=$startIso2|and check value at|channel|is|${channel2}|
+|Check item in response is broadcasting at moment of time|$start2                                                                                  |

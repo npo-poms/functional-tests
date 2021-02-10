@@ -82,12 +82,12 @@ public class CalendarFixture {
 		return convertDatetimeToEpoch(datetime) == epoch;
 	}
 	
-	public boolean datetimeIsGreaterThan(String datetime1, String datetime2) {
+	public boolean datetimeIsGreaterThanOrEqualTo(String datetime1, String datetime2) {
 		SimpleDateFormat sdf = new SimpleDateFormat("d-M-yyyy H:mm");
 		Calendar c1 = stringToCalendar(datetime1, sdf);
 		Calendar c2 = stringToCalendar(datetime2, sdf);
 		
-		return (c1.compareTo(c2) > 0);
+		return (c1.compareTo(c2) >= 0);
 	}
 	
 	public boolean datetimeIsBetweenAnd(String datetime1, String datetime2, String datetime3) {

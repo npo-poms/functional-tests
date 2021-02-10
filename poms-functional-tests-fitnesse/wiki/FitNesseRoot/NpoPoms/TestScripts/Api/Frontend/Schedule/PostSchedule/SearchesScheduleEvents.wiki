@@ -26,10 +26,17 @@ Test
 |ensure|epoch|${beginEpoch}|equals|${begin}|
 |ensure|epoch|${endEpoch}  |equals|${end}  |
 
-|Post count at path in Test  |
-|body   |post    |path |count|
-|${body}|schedule|items|10   |
+|script                                             |
+|post |${body}        |to|${urlFrontendApi}/schedule|
+|check|response status|200                          |
 
-|Post count at path in Dev   |
-|body   |post    |path |count|
-|${body}|schedule|items|8    |
+{{{
+What do you want to prove by checking the number of items in the response?
+
+|script                                                                |
+|$countToVerify=|store|8|if dev else store|3|current env is|${omgeving}|
+
+|Post count at path                   |
+|body   |post    |path |count?        |
+|${body}|schedule|items|$countToVerify|
+}}}
