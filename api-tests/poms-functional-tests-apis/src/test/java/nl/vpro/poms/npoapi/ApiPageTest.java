@@ -36,8 +36,10 @@ public class ApiPageTest extends AbstractApiTest {
         Assumptions.assumeTrue(multipleEntry.getResult() != null, "This test cannot be performed because " + topStoryUrl + " has not yet been created at all");
 
         IdList list = new IdList();
-        for (Referral r : multipleEntry.getResult().getReferrals()) {
-            list.add(r.getPageRef());
+        if (multipleEntry.isFound()) {
+            for (Referral r : multipleEntry.getResult().getReferrals()) {
+                list.add(r.getPageRef());
+            }
         }
         log.info("{} has the following referrals {}. Now loading them as a page", topStoryUrl, list);
         List<? extends MultipleEntry<Page>> referralsAsPage =
