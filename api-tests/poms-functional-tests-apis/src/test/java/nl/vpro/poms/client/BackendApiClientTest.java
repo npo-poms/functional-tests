@@ -71,10 +71,13 @@ class BackendApiClientTest extends AbstractApiMediaBackendTest  {
             logging.list.stream()
                 .filter((l) -> l.getLoggerName().endsWith(".4.04") && l.getLevel().isLessSpecificThan(Level.INFO))
                 .collect(Collectors.toList());
-        assertThat(info).hasSizeGreaterThan(0);
+
+
+        assertThat(info).withFailMessage(logging.list + " had no 404").hasSizeGreaterThan(0);
         assertThat(info.get(0).getMessage().toString())
             .withFailMessage(info.get(0).getMessage().toString())
             .hasLineCount(6);
+
     }
 
     public static class ListAppender extends AbstractAppender {

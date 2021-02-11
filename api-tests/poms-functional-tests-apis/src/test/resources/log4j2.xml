@@ -2,7 +2,7 @@
 <Configuration status="INFO">
   <Properties>
     <Property name="extraPattern">&#009;(%C{1}#%M.%L)</Property>
-    <Property name="extraPattern.noet"></Property>
+    <Property name="extraPattern.not"></Property>
 
    </Properties>
    <Appenders>
