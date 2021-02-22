@@ -4,10 +4,11 @@ Suites: NPOAPI-118, DV
 Test
 ---
 !*> Test-specific items
-|table template|Check response                                      |
-|show          |get from       |${urlBackendApi}/media/exists/@{mid}|
-|check         |response       |@{responseBody}                     |
-|check         |response status|@{responseCode}                     |
+|table template |Check response                                                                         |
+|note           |Ignore the result of the get from so the test doesn't fail on the expected 404 response|
+|$ignoredResult=|get from                         |${urlBackendApi}/media/exists/@{mid}                 |
+|check          |response                         |@{responseBody}                                      |
+|check          |response status                  |@{responseCode}                                      |
 *!
 |Check response                            |
 |mid           |response body|response code|

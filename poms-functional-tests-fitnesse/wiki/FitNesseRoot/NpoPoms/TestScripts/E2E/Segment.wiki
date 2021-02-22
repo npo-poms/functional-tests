@@ -41,19 +41,15 @@ Test
 
 !4 Create clip with segment in backend
 
-|script                                                                   |
-|show    |post|${body}|to|${urlBackendApi}/media/program?owner=BROADCASTER|
-|$itemId=|response                                                        |
+|script                                                              |
+|post    |${body}|to|${urlBackendApi}/media/program?owner=BROADCASTER|
+|$itemId=|response                                                   |
 
 !4 Check clip with segment created in backend
 
-|script                                                                                              |
-|show                           |get from        |${urlBackendApi}/media/program/$itemId/full        |
-|repeat until response status is|200                                                                 |
-|$repeatCount=                  |repeat count                                                        |
-|$timeSpentRepeating=           |time spent repeating                                                |
-|$timeSpentRepeating=           |format timestamp|$timeSpentRepeating        |as        |m:ss        |
-|$segmentId=                    |xPath           |/media:program/media:segments/media:segment[1]/@mid|
+|script                                                                                                         |
+|repeat get from|${urlBackendApi}/media/program/$itemId/full|until response status is            |200           |
+|$segmentId=    |xPath                                      |/media:program/media:segments/media:segment[1]/@mid|
 
 !include -c <E2E.GuiSetUp
 
@@ -81,10 +77,10 @@ Test
 
 !4 Remove segment in backend
 
-|script                                                                         |
-|show |delete         |${urlBackendApi}/media/program/$itemId/segment/$segmentId|
-|check|response status|202                                                      |
-|check|response       |Removed accepted for $segmentId of $itemId.              |
+|script                                                            |
+|delete|${urlBackendApi}/media/program/$itemId/segment/$segmentId  |
+|check |response status|202                                        |
+|check |response       |Removed accepted for $segmentId of $itemId.|
 
 !4 Check segment removed from clip in backend
 
@@ -110,8 +106,8 @@ Test
 
 !4 Delete clip in backend
 
-|script                                            |
-|show|delete|${urlBackendApi}/media/program/$itemId|
+|script                                       |
+|delete|${urlBackendApi}/media/program/$itemId|
 
 !4 Check clip deleted in backend
 

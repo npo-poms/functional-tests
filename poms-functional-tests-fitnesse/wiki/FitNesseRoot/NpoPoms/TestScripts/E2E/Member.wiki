@@ -67,24 +67,20 @@ Test
 
 !4 Create extra clip 1 in backend
 
-|script                                                                                       |
-|show        |post|${bodyCreateExtraClip1}|to|${urlBackendApi}/media/program?owner=BROADCASTER|
-|$midMember1=|response                                                                        |
+|script                                                                                  |
+|post        |${bodyCreateExtraClip1}|to|${urlBackendApi}/media/program?owner=BROADCASTER|
+|$midMember1=|response                                                                   |
 
 !4 Wait until member 1 (onderdeel 1) visible in backend
 
-|script                                                                                                       |
-|show                           |get from        |${urlBackendApi}/media/program/$midMember1?owner=BROADCASTER|
-|repeat until response status is|200                                                                          |
-|$repeatCount=                  |repeat count                                                                 |
-|$timeSpentRepeating=           |time spent repeating                                                         |
-|$timeSpentRepeating=           |format timestamp|$timeSpentRepeating           |as           |m:ss           |
+|script                                                                                                   |
+|repeat get from|${urlBackendApi}/media/program/$midMember1?owner=BROADCASTER|until response status is|200|
 
 !4 Update clip 1 in backend: Set as member (onderdeel)
 
-|script                                                                                                  |
-|show |post           |${bodySetExtraClipAsMember}|to|${urlBackendApi}/media/program/$midMember1/memberOf|
-|check|response status|202                                                                               |
+|script                                                                                  |
+|post |${bodySetExtraClipAsMember}|to|${urlBackendApi}/media/program/$midMember1/memberOf|
+|check|response status            |202                                                   |
 
 !4 Check extra clip 1 added as member (onderdeel) in backend
 
@@ -100,12 +96,8 @@ Test
 
 !4 Wait until there are 2 members (onderdelen)
 
-|script                                                                                                               |
-|show                |get from                       |${urlBackendApi}/media/media/$midOwner/members?owner=BROADCASTER|
-|repeat until xPath  |count(/update:list/update:item)|is                              |2                              |
-|$repeatCount=       |repeat count                                                                                    |
-|$timeSpentRepeating=|time spent repeating                                                                            |
-|$timeSpentRepeating=|format timestamp               |$timeSpentRepeating             |as            |m:ss            |
+|script                                                                                                                           |
+|repeat get from|${urlBackendApi}/media/media/$midOwner/members?owner=BROADCASTER|until xPath|count(/update:list/update:item)|is|2|
 
 !4 Check members (onderdelen) visible in backend
 
@@ -137,8 +129,8 @@ Test
 
 !4 Switch member 1 and 2 (onderdeel 1+2) in backend
 
-|script                                                                      |
-|show|put|${bodyMoveMember}|to|${urlBackendApi}/media/group/$midOwner/members|
+|script                                                                 |
+|put|${bodyMoveMember}|to|${urlBackendApi}/media/group/$midOwner/members|
 
 !4 Check member 1 and 2 (onderdeel 1+2) have switched places in backend
 
@@ -170,9 +162,9 @@ Test
 
 !4 Remove members (onderdelen) from clip in backend
 
-|script                                                                 |
-|show|delete|${urlBackendApi}/media/group/$midMember1/memberOf/$midOwner|
-|show|delete|${urlBackendApi}/media/group/$midMember2/memberOf/$midOwner|
+|script                                                            |
+|delete|${urlBackendApi}/media/group/$midMember1/memberOf/$midOwner|
+|delete|${urlBackendApi}/media/group/$midMember2/memberOf/$midOwner|
 
 !4 Check members (onderdelen) are removed from clip in backend
 
@@ -195,6 +187,6 @@ Test
 
 !4 Delete members (onderdelen) in backend
 
-|script                                                |
-|show|delete|${urlBackendApi}/media/program/$midMember1|
-|show|delete|${urlBackendApi}/media/program/$midMember2|
+|script                                           |
+|delete|${urlBackendApi}/media/program/$midMember1|
+|delete|${urlBackendApi}/media/program/$midMember2|

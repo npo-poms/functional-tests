@@ -14,15 +14,15 @@ Test
 </transcode>
 }}} }
 *!
-|script                                                                                                              |
-|set content type|video/mp4                                                                                          |
-|show            |post           |files/videos/test.mp4|to|${urlBackendApi}/media/upload/${mid}?log=true&replace=true|
-|check           |response status|200                                                                                |
-|check           |response       |=~/Ready uploading/                                                                |
+|script                                                                                              |
+|set content type|video/mp4                                                                          |
+|post            |files/videos/test.mp4|to|${urlBackendApi}/media/upload/${mid}?log=true&replace=true|
+|check           |response status      |200                                                          |
+|check           |response             |=~/Ready uploading/                                          |
 
 |script                                                                                             |
 |set content type|application/xml; charset=UTF-8                                                    |
-|show            |post           |${body}        |to        |${urlBackendApi}/media/transcode       |
+|post            |${body}        |to                |${urlBackendApi}/media/transcode               |
 |check           |response status|202                                                               |
 |check           |response       |Transcoding job accepted for mid ${mid} errors are mailed to: null|
 

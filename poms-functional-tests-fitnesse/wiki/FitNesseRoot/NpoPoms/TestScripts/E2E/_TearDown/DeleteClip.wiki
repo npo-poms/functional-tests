@@ -5,20 +5,16 @@ Test
 
 !4 Delete clip in backend
 
-|script                                           |
-|$mid=|get var|midClip                            |
-|show |delete |${urlBackendApi}/media/program/$mid|
-|wait |3      |seconds                            |
+|script                                    |
+|$mid= |get var          |midClip          |
+|delete|${urlBackendApi}/media/program/$mid|
+|wait  |3                |seconds          |
 
 !4 Wait until clip deleted in backend
 
-|script                                                                   |
-|get from            |${urlBackendApi}/media/program/$mid/full            |
-|repeat until xPath  |/media:program/@workflow|is                 |DELETED|
-|$repeatCount=       |repeat count                                        |
-|$timeSpentRepeating=|time spent repeating                                |
-|$timeSpentRepeating=|format timestamp        |$timeSpentRepeating|as|m:ss|
-|show                |xPath                   |/media:program/@workflow   |
+|script                                                                                                  |
+|repeat get from|${urlBackendApi}/media/program/$mid/full|until xPath|/media:program/@workflow|is|DELETED|
+|show           |xPath                                   |/media:program/@workflow                       |
 
 !include -c <E2E.GuiSetUp
 

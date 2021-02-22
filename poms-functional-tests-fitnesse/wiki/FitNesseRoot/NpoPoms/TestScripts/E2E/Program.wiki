@@ -69,18 +69,14 @@ See [[Setup > Create clip][<E2E.1_SetUp.CreateClip]]
 
 !4 Edit clip in backend
 
-|script                                                                 |
-|show |post|${body2}|to|${urlBackendApi}/media/program?owner=BROADCASTER|
-|$mid=|response                                                         |
+|script                                                            |
+|post |${body2}|to|${urlBackendApi}/media/program?owner=BROADCASTER|
+|$mid=|response                                                    |
 
 !4 Wait until changes in clip published in backend
 
-|script                                                                                       |
-|get from            |${urlBackendApi}/media/program/$mid                                     |
-|repeat until xPath  |/update:program/update:title[@type='MAIN']|is                 |${titel2}|
-|$repeatCount=       |repeat count                                                            |
-|$timeSpentRepeating=|time spent repeating                                                    |
-|$timeSpentRepeating=|format timestamp                          |$timeSpentRepeating|as |m:ss |
+|script                                                                                                                 |
+|repeat get from|${urlBackendApi}/media/program/$mid|until xPath|/update:program/update:title[@type='MAIN']|is|${titel2}|
 
 !4 Check changes in clip visible in backend
 

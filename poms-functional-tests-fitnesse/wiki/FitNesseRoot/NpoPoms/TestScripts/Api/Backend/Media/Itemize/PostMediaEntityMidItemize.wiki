@@ -14,9 +14,8 @@ Test
 *!
 |script                                                                                                            |
 |$mid=|get var        |midClip                                                                                     |
-|show |post           |${body}                              |to     |${urlBackendApi}/media/media/$mid/itemize     |
+|post |${body}        |to                                   |${urlBackendApi}/media/media/$mid/itemize             |
 |check|response status|200                                                                                         |
 |check|xPath          |/update:itemizeResponse/update:result|${urlBackendApi}!-/nep/-!$mid__000000000-000010000.mp4|
 |check|xPath          |/update:itemizeResponse/@success     |true                                                  |
 |check|xPath          |/update:itemizeResponse/update:id    |=~/.{8}-.{4}-.{4}-.{12}/                              |
-|show |response                                                                                                    |

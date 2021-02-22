@@ -64,24 +64,24 @@ Test
 
 !4 Check clip has no subtitles in backend
 
-|script                                                                        |
-|$midClip=|get var        |midClip                                             |
-|show     |get from       |${urlBackendApi}/media/subtitles/$midClip/nl/CAPTION|
-|check    |response status|404                                                 |
+|script                                                                              |
+|$midClip=      |get var        |midClip                                             |
+|$ignoredResult=|get from       |${urlBackendApi}/media/subtitles/$midClip/nl/CAPTION|
+|check          |response status|404                                                 |
 
 !4 Add subtitles to clip in backend
 
-|script                                                                                               |
-|set content type|text/vtt                                                                            |
-|show            |post           |${subtitles}|to|${urlBackendApi}/media/subtitles/$midClip/nl/CAPTION|
-|check           |response status|202                                                                 |
+|script                                                                                  |
+|set content type|text/vtt                                                               |
+|post            |${subtitles}   |to|${urlBackendApi}/media/subtitles/$midClip/nl/CAPTION|
+|check           |response status|202                                                    |
 
 !4 Check subtitles added to clip in backend
 
-|script                                                                             |
-|show                 |get from|${urlBackendApi}/media/subtitles/$midClip/nl/CAPTION|
-|Store response in var|subtitles                                                    |
-|check                |value of|$subtitles               |${subtitles}              |
+|script                                                                    |
+|get from             |${urlBackendApi}/media/subtitles/$midClip/nl/CAPTION|
+|Store response in var|subtitles                                           |
+|check                |value of       |$subtitles       |${subtitles}      |
 
 |Check subtitles                   |
 |index|start time|end time|text    |
@@ -112,17 +112,16 @@ Test
 
 !4 Remove subtitles from clip in backend
 
-|script                                                                               |
-|set content type|text/vtt                                                            |
-|show            |delete         |${urlBackendApi}/media/subtitles/$midClip/nl/CAPTION|
-|check           |response status|202                                                 |
-|check           |response       |Subtitles deletion accepted for $midClip	CAPTION	nl |
+|script                                                                              |
+|set content type|text/vtt                                                           |
+|delete          |${urlBackendApi}/media/subtitles/$midClip/nl/CAPTION               |
+|check           |response status|202                                                |
+|check           |response       |Subtitles deletion accepted for $midClip	CAPTION	nl|
 
 !4 Check clip has no subtitles in backend
 
-|script                                                                                       |
-|show                           |get from|${urlBackendApi}/media/subtitles/$midClip/nl/CAPTION|
-|repeat until response status is|404                                                          |
+|script                                                                                           |
+|repeat get from|${urlBackendApi}/media/subtitles/$midClip/nl/CAPTION|until response status is|404|
 
 !include -c <E2E.GuiSetUp
 

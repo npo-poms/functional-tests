@@ -90,18 +90,14 @@ Test
 
 !4 Update platform 'internetvod' in backend
 
-|script                                                                                                        |
-|show |post           |${bodyChangeInternetVod}|to|${urlBackendApi}/media/media/$mid/predictions/${internetVod}|
-|check|response status|204                                                                                     |
+|script                                                                                        |
+|post |${bodyChangeInternetVod}|to|${urlBackendApi}/media/media/$mid/predictions/${internetVod}|
+|check|response status         |204                                                            |
 
 !4 Check platform 'internetvod' updated in backend
 
-|script                                                                                                  |
-|get from            |${urlBackendApi}/media/media/$mid/predictions/${internetVod}                       |
-|repeat until xPath  |/update:prediction/@publishStart|is                 |${publishStartIso_InternetVod}|
-|$repeatCount=       |repeat count                                                                       |
-|$timeSpentRepeating=|time spent repeating                                                               |
-|$timeSpentRepeating=|format timestamp                |$timeSpentRepeating|as            |m:ss           |
+|script                                                                                                                                                     |
+|repeat get from|${urlBackendApi}/media/media/$mid/predictions/${internetVod}|until xPath|/update:prediction/@publishStart|is|${publishStartIso_InternetVod}|
 
 |Check platform publish times in backend                              |
 |platform      |start                      |stop                      |
@@ -127,18 +123,14 @@ Test
 
 !4 Update platforms 'tvvod' and 'plusvod'
 
-|script                                                                                             |
-|show |post           |${bodyChangeTvVodAndPlusVod}|to|${urlBackendApi}/media/media/$mid/predictions|
-|check|response status|204                                                                          |
+|script                                                                             |
+|post |${bodyChangeTvVodAndPlusVod}|to|${urlBackendApi}/media/media/$mid/predictions|
+|check|response status             |204                                             |
 
 !4 Check platforms 'tvvod' and 'plusvod' updated in backend
 
-|script                                                                                            |
-|get from            |${urlBackendApi}/media/media/$mid/predictions/${tvVod}                       |
-|repeat until xPath  |/update:prediction/@publishStart|is                 |${publishStartIso_TvVod}|
-|$repeatCount=       |repeat count                                                                 |
-|$timeSpentRepeating=|time spent repeating                                                         |
-|$timeSpentRepeating=|format timestamp                |$timeSpentRepeating|as         |m:ss        |
+|script                                                                                                                                         |
+|repeat get from|${urlBackendApi}/media/media/$mid/predictions/${tvVod}|until xPath|/update:prediction/@publishStart|is|${publishStartIso_TvVod}|
 
 |Check platform publish times in backend                  |
 |platform  |start                  |stop                  |
@@ -166,19 +158,15 @@ Test
 
 !4 Put back original values of all platforms in backend
 
-|script                                                                                             |
-|$mid=|get var        |midClip                                                                      |
-|show |post           |${bodyPutBackOriginalValues}|to|${urlBackendApi}/media/media/$mid/predictions|
-|check|response status|204                                                                          |
+|script                                                                             |
+|$mid=|get var                     |midClip                                         |
+|post |${bodyPutBackOriginalValues}|to|${urlBackendApi}/media/media/$mid/predictions|
+|check|response status             |204                                             |
 
 !4 Check platforms back to their original values in backend
 
-|script                                                                           |
-|get from            |${urlBackendApi}/media/media/$mid/predictions/${plusVod}    |
-|repeat until xPath  |/update:prediction/@publishStart|is                 |null   |
-|$repeatCount=       |repeat count                                                |
-|$timeSpentRepeating=|time spent repeating                                        |
-|$timeSpentRepeating=|format timestamp                |$timeSpentRepeating|as|m:ss|
+|script                                                                                                                       |
+|repeat get from|${urlBackendApi}/media/media/$mid/predictions/${plusVod}|until xPath|/update:prediction/@publishStart|is|null|
 
 |Check platform publish times in backend|
 |platform           |start     |stop    |

@@ -53,9 +53,9 @@ Test
 |ensure|iso|${publishStartIso}|equals|${publishStart}|
 |ensure|iso|${publishStopIso} |equals|${publishStop} |
 
-|script                                                                                      |
-|show |post           |${body}|to|${urlBackendApi}/media/program/$mid/image?owner=BROADCASTER|
-|check|response status|202                                                                   |
+|script                                                                              |
+|post |${body}        |to|${urlBackendApi}/media/program/$mid/image?owner=BROADCASTER|
+|check|response status|202                                                           |
 
 !4 Check image is added to clip in backend
 

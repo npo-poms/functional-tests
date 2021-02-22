@@ -26,30 +26,26 @@ Test
 
 !4 Create clip in backend
 
-|script                                                                 |
-|show |post|${body1}|to|${urlBackendApi}/media/program?owner=BROADCASTER|
-|$mid=|response                                                         |
+|script                                                            |
+|post |${body1}|to|${urlBackendApi}/media/program?owner=BROADCASTER|
+|$mid=|response                                                    |
 
 
 !4 Wait until clip visible in backend
 
-|script                                                                                                |
-|show                           |get from        |${urlBackendApi}/media/program/$mid?owner=BROADCASTER|
-|repeat until response status is|200                                                                   |
-|$repeatCount=                  |repeat count                                                          |
-|$timeSpentRepeating=           |time spent repeating                                                  |
-|$timeSpentRepeating=           |format timestamp|$timeSpentRepeating          |as        |m:ss        |
-|check                          |xPath           |/update:program/@mid         |$mid                   |
-|set var                        |midClip         |to                           |$mid                   |
-|$urn=                          |xPath           |/update:program/@urn                                 |
-|set var                        |urnClip         |to                           |$urn                   |
+|script                                                                                             |
+|repeat get from|${urlBackendApi}/media/program/$mid?owner=BROADCASTER|until response status is|200 |
+|check          |xPath                                                |/update:program/@mid    |$mid|
+|set var        |midClip                                              |to                      |$mid|
+|$urn=          |xPath                                                |/update:program/@urn         |
+|set var        |urnClip                                              |to                      |$urn|
 
 !4 Check clip visible in backend
 
 |script                                                                 |
-|show |get from|${urlBackendApi}/media/program/$mid?owner=BROADCASTER   |
-|check|xPath   |/update:program/@avType                   |${avTypeApi1}|
-|check|xPath   |/update:program/@type                     |${typeApi1}  |
-|check|xPath   |/update:program/update:broadcaster        |${omroep1}   |
-|check|xPath   |/update:program/update:title[@type='MAIN']|${titel1}    |
-|check|xPath   |/update:program/update:genre              |${genreApi1} |
+|get from|${urlBackendApi}/media/program/$mid?owner=BROADCASTER         |
+|check   |xPath|/update:program/@avType                   |${avTypeApi1}|
+|check   |xPath|/update:program/@type                     |${typeApi1}  |
+|check   |xPath|/update:program/update:broadcaster        |${omroep1}   |
+|check   |xPath|/update:program/update:title[@type='MAIN']|${titel1}    |
+|check   |xPath|/update:program/update:genre              |${genreApi1} |

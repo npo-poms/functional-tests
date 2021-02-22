@@ -2,10 +2,10 @@
 Test
 ---
 !4 Delete
-|script                                                 |
-|$mid=|get var        |midClip                          |
-|show |delete         |${urlBackendApi}/media/media/$mid|
-|check|response status|202                              |
+|script                                  |
+|$mid= |get var             |midClip     |
+|delete|${urlBackendApi}/media/media/$mid|
+|check |response status     |202         |
 
 !4 Read (verify deletion)
 |script                                                                |

@@ -88,41 +88,31 @@ Test
 
 !4 Create season in backend
 
-|script                                                                                                                |
-|show                           |post            |${bodyCreateSeason}|to|${urlBackendApi}/media/group?owner=BROADCASTER|
-|$midSeason=                    |response                                                                              |
-|show                           |get from        |${urlBackendApi}/media/group/$midSeason/full                         |
-|repeat until response status is|200                                                                                   |
-|$repeatCount=                  |repeat count                                                                          |
-|$timeSpentRepeating=           |time spent repeating                                                                  |
-|$timeSpentRepeating=           |format timestamp|$timeSpentRepeating|as|m:ss                                          |
+|script                                                                                                                              |
+|post           |${bodyCreateSeason}                         |to                      |${urlBackendApi}/media/group?owner=BROADCASTER|
+|$midSeason=    |response                                                                                                            |
+|repeat get from|${urlBackendApi}/media/group/$midSeason/full|until response status is|200                                           |
 
 !4 Create program 1 with media type 'clip' in backend
 
-|script                                                                                                                   |
-|show                           |post           |${bodyCreateProgram1}|to|${urlBackendApi}/media/program?owner=BROADCASTER|
-|check                          |response status|202                                                                      |
-|$midProgram1=                  |response                                                                                 |
-|show                           |get from       |${urlBackendApi}/media/program/$midProgram1?owner=BROADCASTER            |
-|repeat until response status is|200                                                                                      |
-|show                           |time spent repeating                                                                     |
-|check                          |xPath          |/update:program/@mid |$midProgram1                                       |
-|$urnProgram1=                  |xPath          |/update:program/@urn                                                     |
+|script                                                                                                                                                 |
+|post           |${bodyCreateProgram1}                                        |to                      |${urlBackendApi}/media/program?owner=BROADCASTER|
+|check          |response status                                              |202                                                                      |
+|$midProgram1=  |response                                                                                                                               |
+|repeat get from|${urlBackendApi}/media/program/$midProgram1?owner=BROADCASTER|until response status is|200                                             |
+|check          |xPath                                                        |/update:program/@mid    |$midProgram1                                    |
+|$urnProgram1=  |xPath                                                        |/update:program/@urn                                                     |
 
 !4 Update program 1 in backend: Change media type to 'broadcast'
 
-|script                                                                                                                         |
-|show                |post                 |${bodyChangeProgram1ToBroadcast}|to|${urlBackendApi}/media/program?owner=BROADCASTER|
-|show                |get from             |${urlBackendApi}/media/program/$midProgram1?owner=BROADCASTER                       |
-|repeat until xPath  |/update:program/@type|is                              |BROADCAST                                          |
-|$repeatCount=       |repeat count                                                                                              |
-|$timeSpentRepeating=|time spent repeating                                                                                      |
-|$timeSpentRepeating=|format timestamp     |$timeSpentRepeating             |as|m:ss                                            |
+|script                                                                                                                                    |
+|post           |${bodyChangeProgram1ToBroadcast}                             |to         |${urlBackendApi}/media/program?owner=BROADCASTER|
+|repeat get from|${urlBackendApi}/media/program/$midProgram1?owner=BROADCASTER|until xPath|/update:program/@type     |is     |BROADCAST    |
 
 !4 Set program 1 as episode of season in backend
 
-|script                                                                                                |
-|show|post|${bodySetProgram1AsEpisodeOfSeason}|to|${urlBackendApi}/media/program/$midProgram1/episodeOf|
+|script                                                                                           |
+|post|${bodySetProgram1AsEpisodeOfSeason}|to|${urlBackendApi}/media/program/$midProgram1/episodeOf|
 
 !4 Check program 1 is episode of season in backend
 
@@ -133,25 +123,17 @@ Test
 
 !4 Create program 2 with media type 'clip' in backend
 
-|script                                                                                                                    |
-|show                           |post            |${bodyCreateProgram2}|to|${urlBackendApi}/media/program?owner=BROADCASTER|
-|$midProgram2=                  |response                                                                                  |
-|show                           |get from        |${urlBackendApi}/media/program/$midProgram2/full                         |
-|repeat until response status is|200                                                                                       |
-|$repeatCount=                  |repeat count                                                                              |
-|$timeSpentRepeating=           |time spent repeating                                                                      |
-|$timeSpentRepeating=           |format timestamp|$timeSpentRepeating  |as|m:ss                                            |
-|$urnProgram2=                  |xPath           |/media:program/@urn                                                      |
+|script                                                                                                                                    |
+|post           |${bodyCreateProgram2}                           |to                      |${urlBackendApi}/media/program?owner=BROADCASTER|
+|$midProgram2=  |response                                                                                                                  |
+|repeat get from|${urlBackendApi}/media/program/$midProgram2/full|until response status is|200                                             |
+|$urnProgram2=  |xPath                                           |/media:program/@urn                                                      |
 
 !4 Update program 2 in backend: Change media type to 'broadcast' and set program as episode of season
 
-|script                                                                                                                                                          |
-|show                |post                           |${bodyChangeProgram2ToBroadcastAndSetAsEpisodeOfSeason}|to|${urlBackendApi}/media/program?owner=BROADCASTER|
-|get from            |${urlBackendApi}/media/group/$midSeason/episodes?owner=BROADCASTER                                                                         |
-|repeat until xPath  |count(/update:list/update:item)|is                                                     |2                                                  |
-|$repeatCount=       |repeat count                                                                                                                               |
-|$timeSpentRepeating=|time spent repeating                                                                                                                       |
-|$timeSpentRepeating=|format timestamp               |$timeSpentRepeating                                    |as|m:ss                                            |
+|script                                                                                                                                         |
+|post           |${bodyChangeProgram2ToBroadcastAndSetAsEpisodeOfSeason}           |to         |${urlBackendApi}/media/program?owner=BROADCASTER|
+|repeat get from|${urlBackendApi}/media/group/$midSeason/episodes?owner=BROADCASTER|until xPath|count(/update:list/update:item)    |is    |2    |
 
 !4 Check program 1 and 2 are episodes of season in backend
 
@@ -183,10 +165,10 @@ Test
 
 !4 Switch episode 1 and 2 in backend 
 
-|script                                                                                      |
-|show |put            |${bodyMoveEpisode}|to|${urlBackendApi}/media/group/$midSeason/episodes|
-|check|response status|202                                                                   |
-|check|response       |Move accepted for $midSeason.                                         |
+|script                                                                      |
+|put  |${bodyMoveEpisode}|to|${urlBackendApi}/media/group/$midSeason/episodes|
+|check|response status   |202                                                |
+|check|response          |Move accepted for $midSeason.                      |
 
 !4 Check episode 1 and 2 have switched places in backend
 
@@ -218,11 +200,11 @@ Test
 
 !4 Remove episodes from season in backend
 
-|script                                                                                |
-|show |delete         |${urlBackendApi}/media/program/$midProgram2/episodeOf/$midSeason|
-|check|response status|202                                                             |
-|show |delete         |${urlBackendApi}/media/program/$midProgram1/episodeOf/$midSeason|
-|check|response status|202                                                             |
+|script                                                                 |
+|delete|${urlBackendApi}/media/program/$midProgram2/episodeOf/$midSeason|
+|check |response status                       |202                      |
+|delete|${urlBackendApi}/media/program/$midProgram1/episodeOf/$midSeason|
+|check |response status                       |202                      |
 
 !4 Check season has no episodes anymore in backend
 
@@ -245,7 +227,7 @@ Test
 
 !4 Delete episodes and season
 
-|script                                                 |
-|show|delete|${urlBackendApi}/media/program/$midProgram1|
-|show|delete|${urlBackendApi}/media/program/$midProgram2|
-|show|delete|${urlBackendApi}/media/program/$midSeason  |
+|script                                            |
+|delete|${urlBackendApi}/media/program/$midProgram1|
+|delete|${urlBackendApi}/media/program/$midProgram2|
+|delete|${urlBackendApi}/media/program/$midSeason  |
