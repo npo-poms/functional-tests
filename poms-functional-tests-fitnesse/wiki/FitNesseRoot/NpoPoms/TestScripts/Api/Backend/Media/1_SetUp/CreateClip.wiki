@@ -22,18 +22,17 @@ Test
 *!
 
 !4 Create
-|script                                                                         |
-|show |post           |${body}|to|${urlBackendApi}/media/media?owner=BROADCASTER|
-|check|response status|202                                                      |
-|check|response       |=~/^POMS_NPO_\d{7}$/                                     |
-|$mid=|response                                                                 |
+|script                                                                 |
+|post |${body}        |to|${urlBackendApi}/media/media?owner=BROADCASTER|
+|check|response status|202                                              |
+|check|response       |=~/^POMS_NPO_\d{7}$/                             |
+|$mid=|response                                                         |
 
 !4 Read (verify creation)
-|script                                                                                      |
-|show                           |get from|${urlBackendApi}/media/media/$mid?owner=BROADCASTER|
-|repeat until response status is|200                                                         |
-|show                           |time spent repeating                                        |
-|check                          |xPath   |/update:program/@mid             |$mid             |
-|set var                        |midClip |to                               |$mid             |
-|$urn=                          |xPath   |/update:program/@urn                               |
-|set var                        |urnClip |to                               |$urn             |
+|script                                                                                           |
+|repeat get from|${urlBackendApi}/media/media/$mid?owner=BROADCASTER|until response status is|200 |
+|show           |time spent repeating                                                             |
+|check          |xPath                                              |/update:program/@mid    |$mid|
+|set var        |midClip                                            |to                      |$mid|
+|$urn=          |xPath                                              |/update:program/@urn         |
+|set var        |urnClip                                            |to                      |$urn|
