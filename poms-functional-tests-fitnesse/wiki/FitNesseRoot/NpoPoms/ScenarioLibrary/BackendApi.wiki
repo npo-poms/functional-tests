@@ -1,0 +1,7 @@
+|scenario                       |repeat get from                |url                              |until response status is              |responseStatus              |
+|note                           |Ignore the result of the initial request call so the test doesn't fail on it. We're only interested in the result of the repeat until|
+|$ignoredResult=                |get from                       |@url                                                                                                 |
+|repeat until response status is|@responseStatus                                                                                                                      |
+|$repeatCount=                  |repeat count                                                                                                                         |
+|$timeSpentRepeating=           |time spent repeating                                                                                                                 |
+|$timeSpentRepeating=           |format timestamp               |$timeSpentRepeating              |as                                    |m:ss                        |
