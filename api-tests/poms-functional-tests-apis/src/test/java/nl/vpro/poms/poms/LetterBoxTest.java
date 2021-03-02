@@ -176,4 +176,59 @@ class LetterBoxTest {
         log.info("Result {}", result);
     }
 
+     /**
+     * Whether restrictions are rejected if geo is unrecognized
+     */
+    @Test
+    @Order(5)
+    @Tag("restriction")
+    void postRestrictionErrorneous() {
+        String result = given()
+            .auth()
+            .  basic(USERNAME, PASSWORD)
+            .log().ifValidationFails()
+            .when()
+            .  body("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n" +
+                "<restriction timestamp=\"2021-03-01T18:36:39\">\n" +
+                "    <prid>\n" +
+                "        " + MID +  "\n" +
+                "    </prid>\n" +
+                "    <pridexport>\n" +
+                "        " + MID + "\n" +
+                "    </pridexport>\n" +
+                "    <titel>\n" +
+                "        Vaccin\n" +
+                "    </titel>\n" +
+                "    <platform>\n" +
+                "        internetvod\n" +
+                "    </platform>\n" +
+                "    <geoiprestrictie>\n" +
+                "        <geoiplabel>\n" +
+                "            Netherlands\n" +
+                "        </geoiplabel>\n" +
+                "    </geoiprestrictie>\n" +
+                "    <tijdsbeperking>\n" +
+                "        <starttijd>\n" +
+                "            2000-01-01T01:00:00\n" +
+                "        </starttijd>\n" +
+                "        <eindtijd>\n" +
+                "            2101-01-01T00:59:00\n" +
+                "        </eindtijd>\n" +
+                "    </tijdsbeperking>\n" +
+                "    <omroepen>\n" +
+                "        <omroep>\n" +
+                "            NTR\n" +
+                "        </omroep>\n" +
+                "    </omroepen>\n" +
+                "</restriction>")
+            .  contentType("application/xml")
+            .  post(projectm)
+            . then()
+            .    log().all()
+            .    statusCode(400)
+            .     extract()
+            .  asString();
+        log.info("Result {}", result);
+    }
+
 }
