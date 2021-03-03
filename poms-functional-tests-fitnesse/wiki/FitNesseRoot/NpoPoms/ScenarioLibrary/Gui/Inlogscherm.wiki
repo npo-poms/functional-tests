@@ -1,7 +1,14 @@
 !include -c >Variabelen
 
-|scenario|Open Npo poms website|
-|open    |${urlPoms}           |
+|scenario              |Open Npo poms website              |
+|$timeout=             |seconds before timeout             |
+|seconds before timeout|180                                |
+|start timer           |timer                              |
+|open                  |${urlPoms}                         |
+|$wachttijd=           |time on timer   |timer             |
+|$wachttijd=           |format timestamp|$wachttijd|as|m:ss|
+|stop timer            |timer                              |
+|seconds before timeout|$timeout                           |
 
 |scenario|Npo poms Inlogscherm Wacht tot pagina geladen |
 |$tmp=   |is visible on page|${npoPomsInlogscherm_titel}|
