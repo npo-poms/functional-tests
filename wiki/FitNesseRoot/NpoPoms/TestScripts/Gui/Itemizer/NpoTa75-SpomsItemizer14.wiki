@@ -5,10 +5,12 @@ Test
 ---
 !*> Lokale variabelen
 
-!define midVanObject {NPS_1124419}
+!define mediaType {Clip}
+
+#!define midVanObject {NPS_1124419}
 !define omroep {VPRO}
-!define streamingPlatformstatus {Niet beschikbaar}
-!define brontype {MP4}
+#!define streamingPlatformstatus {Niet beschikbaar}
+#!define brontype {MP4}
 !define titel {Test segment zonder speler}
 !define beschrijving1 {Test toevoegen segment 1}
 !define beschrijving2 {Test toevoegen segment 2}
@@ -26,108 +28,94 @@ Test
 
 *!
 
-|script                                   |
-|$timestamp=|store|!today (yyyyMMddHHmmss)|
+|script                                    |
+|$timestamp= |store|!today (yyyyMMddHHmmss)|
+|$objectNaam=|store|Clip TA $timestamp     |
 
-|script                                                                                                                                           |
-|Open Npo poms website                                                                                                                            |
-|Npo poms Inlogscherm Log in met omroep-uploader                                                                                                  |
-|Npo poms Tabblad object Open                        |${midVanObject}                                                                             |
-|Npo poms Tabblad object Check veld                  |Streaming platformstatus|heeft waarde     |${streamingPlatformstatus}                       |
-|scroll to                                           |xpath=//poms-broadcasters                                                                   |
-|set search context to                               |xpath=//poms-broadcasters                                                                   |
-|ensure                                              |is visible              |${omroep}                                                          |
-|clear search context                                                                                                                             |
-|Npo poms Tabblad object Druk op link                |Bronnen                 |in sidebar                                                         |
-|Npo poms Tabblad object Wacht tot scrollen klaar is                                                                                              |
-|set search context to                               |xpath=//poms-locations                                                                      |
-|ensure                                              |is visible on page      |${brontype}                                                        |
-|clear search context                                                                                                                             |
-|Npo poms Tabblad object Druk op link                |Segmenten               |in sidebar                                                         |
-|Npo poms Tabblad object Wacht tot scrollen klaar is                                                                                              |
-|set search context to                               |xpath=//poms-segments                                                                       |
-|Npo poms Tabblad object Sla aantal in veld          |Segmenten               |op in var        |aantalSegmenten                                  |
-|click                                               |Segment toevoegen zonder speler                                                             |
-|clear search context                                                                                                                             |
-|Npo poms Tabblad object Wacht tot detailscherm geopend                                                                                           |
-|Npo poms Tabblad object Detailscherm Vul            |${titel} $timestamp-1   |in tekstveld     |Titel *                                          |
-|Npo poms Tabblad object Detailscherm Vul            |${beschrijving1}        |in textarea      |Beschrijving                                     |
-|wait                                                |3                       |seconds                                                            |
-|hover over                                          |Bewaar en nieuw                                                                             |
-|click                                               |Bewaar en nieuw                                                                             |
-|seconds before timeout                              |180                                                                                         |
-|start timer                                         |timer                                                                                       |
-|wait for visible                                    |Nog in te vullen:                                                                           |
-|$wachttijd=                                         |time on timer           |timer                                                              |
-|$wachttijd=                                         |format timestamp        |$wachttijd       |as                  |m:ss                        |
-|stop timer                                          |timer                                                                                       |
-|seconds before timeout                              |${secondsBeforeTimeout}                                                                     |
-|Npo poms Tabblad object Detailscherm Vul            |${titel} $timestamp-2   |in tekstveld     |Titel *                                          |
-|Npo poms Tabblad object Detailscherm Vul            |${beschrijving2}        |in textarea      |Beschrijving                                     |
-|Npo poms Tabblad object Detailscherm Vul            |${starttijd}            |in tekstveld     |Starttijd *                                      |
-|Npo poms Tabblad object Detailscherm Vul            |${eindtijd}             |in tekstveld     |Eindtijd                                         |
-|wait                                                |3                       |seconds                                                            |
-|hover over                                          |Bewaar en sluit                                                                             |
-|click                                               |Bewaar en sluit                                                                             |
-|ensure                                              |is visible on page      |De stop-tijd moet voor de start-tijd liggen                        |
-|wait                                                |3                       |seconds                                                            |
-|Npo poms Tabblad object Detailscherm Vul            |                        |in tekstveld     |Eindtijd                                         |
-|wait for not visible                                |De stop-tijd moet voor de start-tijd liggen                                                 |
-|Npo poms Tabblad object Detailscherm Check tekstveld|Duur                    |heeft waarde     |${duur}                                          |
-|wait                                                |3                       |seconds                                                            |
-|hover over                                          |Bewaar en sluit                                                                             |
-|click                                               |Bewaar en sluit                                                                             |
-|Npo poms Tabblad object Check aantal in veld        |Segmenten               |is var           |aantalSegmenten     |plus    |2                  |
-|show                                                |take screenshot         |Itemizer_NpoTa75_SpomsItemizer14_TweeSegmentenToegevoegd-$timestamp|
-|Npo poms Tabblad object Druk op tandwieltje bij segmenten                                                                                        |
-|Npo poms Tabblad object Vink kolomoptie             |MID                     |aan bij segmenten                                                  |
-|Npo poms Tabblad object Druk op tandwieltje bij segmenten                                                                                        |
-|Npo poms Tabblad object Check segment               |${titel} $timestamp-1   |heeft status     |Gepubliceerd        |of      |Voor publicatie    |
-|Npo poms Tabblad object Check segment               |${titel} $timestamp-2   |heeft status     |Gepubliceerd        |of      |Voor publicatie    |
-|Npo poms Tabblad object Sla mid van segment         |${titel} $timestamp-2   |op in var        |midVanSegment2                                   |
-|Npo poms Tabblad object Open                        |$midVanSegment2                                                                             |
-|Npo poms Hoofdscherm Wacht tot tabblad nummer       |3                       |zichtbaar                                                          |
-|Npo poms Tabblad object Wacht tot sidebar volledig geladen is                                                                                    |
-|Npo poms Tabblad object Vul                         |${afleveringtitel}      |in tekstveld     |Afleveringtitel / Subtitel                       |
-|Npo poms Tabblad object Vul                         |${korteTitel}           |in tekstveld     |Korte titel                                      |
-|Npo poms Tabblad object Vul                         |${afkorting}            |in tekstveld     |Afkorting                                        |
-|Npo poms Tabblad object Vul                         |${werktitel}            |in tekstveld     |Werktitel                                        |
-|Npo poms Tabblad object Vul                         |${origineleTitel}       |in tekstveld     |Originele titel                                  |
-|Npo poms Tabblad object Vul                         |${lexicografischeTitel} |in tekstveld     |Lexicografische titel                            |
-|Npo poms Tabblad object Vul                         |${beschrijving}         |in textarea      |Beschrijving                                     |
-|Npo poms Tabblad object Vul                         |${korteBeschrijving}    |in textarea      |Korte beschrijving                               |
-|Npo poms Tabblad object Druk op link                |Algemeen                |in sidebar                                                         |
-|Npo poms Tabblad object Wacht tot scrollen klaar is                                                                                              |
-|Npo poms Tabblad object Sla mid of urn op in var    |midVanSegment                                                                               |
-|Npo poms Tabblad object Druk op status om te publiceren                                                                                          |
-|open                                                |!-http://embed-acc.vpro.nl/player/?src=-!$midVanSegment                                     |
-|show                                                |is visible on page      |Deze uitzending is niet beschikbaar                                |
-|show                                                |is visible on page      |Internal Server Error                                              |
-|back                                                                                                                                             |
-|Npo poms Tabblad object Druk op link                |Relaties                |in sidebar                                                         |
-|Npo poms Tabblad object Wacht tot scrollen klaar is                                                                                              |
-|click                                               |Segment verwijderen                                                                         |
-|wait for visible                                    |Segment verwijderen?                                                                        |
-|click                                               |xpath=//button[text()="annuleer"]                                                           |
-|wait for not visible                                |xpath=//button[text()="annuleer"]                                                           |
-|click                                               |Segment verwijderen                                                                         |
-|wait for visible                                    |Segment verwijderen?                                                                        |
-|click                                               |xpath=//button[text()="verwijderen"]                                                        |
-|wait for not visible                                |xpath=//button[text()="verwijderen"]                                                        |
-|Npo poms Tabblad object Wacht tot sidebar volledig geladen is                                                                                    |
-|Npo poms Tabblad object Check segment               |${titel} $timestamp-1   |heeft status     |Gepubliceerd                                     |
-|Npo poms Tabblad object Check segment               |${titel} $timestamp-2   |heeft status     |Wordt verwijderd                                 |
-|Npo poms Hoofdscherm Ga naar eerste tab                                                                                                          |
-|Npo poms Zoeken Vul                                 |${titel} $timestamp-1   |in zoekveld                                                        |
-|Npo poms Zoeken Druk knop                           |Zoeken                                                                                      |
-|Npo poms Zoeken Wacht tot zoeken klaar is                                                                                                        |
-|Npo poms Zoeken Open eerste object                                                                                                               |
-|Npo poms Tabblad object Druk op link                |Relaties                |in sidebar                                                         |
-|Npo poms Tabblad object Wacht tot scrollen klaar is                                                                                              |
-|click                                               |Segment verwijderen                                                                         |
-|wait for visible                                    |Segment verwijderen?                                                                        |
-|click                                               |xpath=//button[text()="verwijderen"]                                                        |
-|wait for not visible                                |xpath=//button[text()="verwijderen"]                                                        |
-|Npo poms Tabblad object Wacht tot sidebar volledig geladen is                                                                                    |
-|Npo poms Tabblad object Check segment               |${titel} $timestamp-1   |heeft status     |Wordt verwijderd    |of      |Verwijderd         |
-|Npo poms Tabblad object Check segment               |${titel} $timestamp-2   |heeft status     |Wordt verwijderd    |of      |Verwijderd         |
+|script                                                                                                                                                                          |
+|Open Npo poms website                                                                                                                                                           |
+|Npo poms Inlogscherm Log in met standaard-gebruiker                                                                                                                             |
+|Npo poms Nieuw object toevoegen Voeg                          |${mediaType}           |toe met titel         |$objectNaam                                                       |
+|Npo poms Tabblad object Check hoofdtitel                      |$objectNaam                                                                                                      |
+|Npo poms Tabblad object Check media type                      |${mediaType}                                                                                                     |
+|Npo poms Tabblad object Check veld                            |AV-Type                |heeft waarde          |${standaardAvType}                                                |
+|Npo poms Tabblad object Druk op link                          |Labels                 |in sidebar                                                                               |
+|Npo poms Tabblad object Check veld                            |Omroepen               |heeft waarde          |${standaardOmroep}                                                |
+|Npo poms Tabblad object Wacht tot veld                        |Genres                 |zichtbaar                                                                                |
+|Npo poms Tabblad object Check veld                            |Genres                 |heeft waarde          |${standaardGenre}                                                 |
+|Npo poms Tabblad object Druk op link                          |Segmenten              |in sidebar                                                                               |
+|Npo poms Tabblad object Wacht tot scrollen klaar is                                                                                                                             |
+|set search context to                                         |xpath=//poms-segments                                                                                            |
+|Npo poms Tabblad object Sla aantal in veld                    |Segmenten              |op in var             |aantalSegmenten                                                   |
+|click                                                         |Segment toevoegen zonder speler                                                                                  |
+|clear search context                                                                                                                                                            |
+|Npo poms Tabblad object Wacht tot detailscherm geopend                                                                                                                          |
+|Npo poms Tabblad object Detailscherm Vul                      |${titel} $timestamp-1  |in tekstveld          |Titel *                                                           |
+|Npo poms Tabblad object Detailscherm Vul                      |${beschrijving1}       |in textarea           |Beschrijving                                                      |
+|click                                                         |Bewaar en nieuw                                                                                                  |
+|wait for visible                                              |Nog in te vullen:                                                                                                |
+|Npo poms Tabblad object Detailscherm Vul                      |${titel} $timestamp-2  |in tekstveld          |Titel *                                                           |
+|Npo poms Tabblad object Detailscherm Vul                      |${beschrijving2}       |in textarea           |Beschrijving                                                      |
+|Npo poms Tabblad object Detailscherm Vul                      |${starttijd}           |in tekstveld          |Starttijd *                                                       |
+|Npo poms Tabblad object Detailscherm Vul                      |${eindtijd}            |in tekstveld          |Eindtijd                                                          |
+|click                                                         |Bewaar en sluit                                                                                                  |
+|ensure                                                        |is visible on page     |De stop-tijd moet voor de start-tijd liggen                                              |
+|Npo poms Tabblad object Detailscherm Vul                      |                       |in tekstveld          |Eindtijd                                                          |
+|wait for not visible                                          |De stop-tijd moet voor de start-tijd liggen                                                                      |
+|Npo poms Tabblad object Detailscherm Check tekstveld          |Duur                   |heeft waarde          |${duur}                                                           |
+|click                                                         |Bewaar en sluit                                                                                                  |
+|Npo poms Tabblad object Check aantal in veld                  |Segmenten              |is var                |aantalSegmenten            |plus         |2                       |
+|Npo poms Tabblad object Druk op tandwieltje bij segmenten                                                                                                                       |
+|Npo poms Tabblad object Vink kolomoptie                       |MID                    |aan bij segmenten                                                                        |
+|Npo poms Tabblad object Druk op tandwieltje bij segmenten                                                                                                                       |
+|Npo poms Tabblad object Check segment                         |${titel} $timestamp-1  |heeft status          |Gepubliceerd               |of           |Voor publicatie         |
+|Npo poms Tabblad object Check segment                         |${titel} $timestamp-2  |heeft status          |Gepubliceerd               |of           |Voor publicatie         |
+|Npo poms Tabblad object Sla mid van segment                   |${titel} $timestamp-2  |op in var             |midVanSegment2                                                    |
+|Npo poms Tabblad object Open                                  |$midVanSegment2                                                                                                  |
+|Npo poms Hoofdscherm Wacht tot tabblad nummer                 |3                      |zichtbaar                                                                                |
+|Npo poms Tabblad object Wacht tot sidebar volledig geladen is                                                                                                                   |
+|Npo poms Tabblad object Vul                                   |${afleveringtitel}     |in tekstveld          |Afleveringtitel / Subtitel                                        |
+|Npo poms Tabblad object Vul                                   |${korteTitel}          |in tekstveld          |Korte titel                                                       |
+|Npo poms Tabblad object Vul                                   |${afkorting}           |in tekstveld          |Afkorting                                                         |
+|Npo poms Tabblad object Vul                                   |${werktitel}           |in tekstveld          |Werktitel                                                         |
+|Npo poms Tabblad object Vul                                   |${origineleTitel}      |in tekstveld          |Originele titel                                                   |
+|Npo poms Tabblad object Vul                                   |${lexicografischeTitel}|in tekstveld          |Lexicografische titel                                             |
+|Npo poms Tabblad object Vul                                   |${beschrijving}        |in textarea           |Beschrijving                                                      |
+|Npo poms Tabblad object Vul                                   |${korteBeschrijving}   |in textarea           |Korte beschrijving                                                |
+|Npo poms Tabblad object Druk op link                          |Algemeen               |in sidebar                                                                               |
+|Npo poms Tabblad object Wacht tot scrollen klaar is                                                                                                                             |
+|Npo poms Tabblad object Sla mid of urn op in var              |midVanSegment                                                                                                    |
+|Npo poms Tabblad object Druk op status om te publiceren                                                                                                                         |
+|open                                                          |!-http://embed-acc.vpro.nl/player/?src=-!$midVanSegment                                                          |
+|ensure                                                        |is visible on page     |xpath=//*[text()="Deze uitzending is niet beschikbaar" or text()="Internal Server Error"]|
+|back                                                                                                                                                                            |
+|Npo poms Tabblad object Druk op link                          |Relaties               |in sidebar                                                                               |
+|Npo poms Tabblad object Wacht tot scrollen klaar is                                                                                                                             |
+|click                                                         |Segment verwijderen                                                                                              |
+|wait for visible                                              |Segment verwijderen?                                                                                             |
+|click                                                         |xpath=//button[text()="annuleer"]                                                                                |
+|wait for not visible                                          |xpath=//button[text()="annuleer"]                                                                                |
+|click                                                         |Segment verwijderen                                                                                              |
+|wait for visible                                              |Segment verwijderen?                                                                                             |
+|click                                                         |xpath=//button[text()="verwijderen"]                                                                             |
+|wait for not visible                                          |xpath=//button[text()="verwijderen"]                                                                             |
+|Npo poms Tabblad object Wacht tot sidebar volledig geladen is                                                                                                                   |
+|Npo poms Tabblad object Check segment                         |${titel} $timestamp-1  |heeft status          |Wordt gepubliceerd         |of           |Gepubliceerd            |
+|Npo poms Tabblad object Check segment                         |${titel} $timestamp-2  |heeft status          |Wordt verwijderd                                                  |
+|Npo poms Hoofdscherm Ga naar eerste tab                                                                                                                                         |
+|Npo poms Zoeken Vul                                           |${titel} $timestamp-1  |in zoekveld                                                                              |
+|Npo poms Zoeken Druk knop                                     |Zoeken                                                                                                           |
+|Npo poms Zoeken Wacht tot zoeken klaar is                                                                                                                                       |
+|Npo poms Zoeken Open eerste object                                                                                                                                              |
+|Npo poms Tabblad object Druk op link                          |Relaties               |in sidebar                                                                               |
+|Npo poms Tabblad object Wacht tot scrollen klaar is                                                                                                                             |
+|click                                                         |Segment verwijderen                                                                                              |
+|wait for visible                                              |Segment verwijderen?                                                                                             |
+|click                                                         |xpath=//button[text()="verwijderen"]                                                                             |
+|wait for not visible                                          |xpath=//button[text()="verwijderen"]                                                                             |
+|Npo poms Tabblad object Wacht tot sidebar volledig geladen is                                                                                                                   |
+|Npo poms Tabblad object Check segment                         |${titel} $timestamp-1  |heeft status          |Wordt verwijderd           |of           |Verwijderd              |
+|Npo poms Tabblad object Check segment                         |${titel} $timestamp-2  |heeft status          |Wordt verwijderd           |of           |Verwijderd              |
+|Npo poms Tabblad object Druk op link                          |Relaties               |in sidebar                                                                               |
+|Npo poms Tabblad object Verwijder huidig object met media type|Clip                                                                                                             |
+|Npo poms Hoofdscherm Wacht tot subtitel van laatste tab       |Zoeken                                                                                                           |
