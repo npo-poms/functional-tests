@@ -11,8 +11,8 @@
 |click                                      |@optie                                         |in                      |${dialogSelector}   |
 |Npo poms Nieuw object toevoegen Check optie|@optie                                         |geselecteerd in dropdown|@dropdown           |
 
-|scenario|Npo poms Nieuw object toevoegen Check bericht|bericht                                                  |in footer|
-|check   |value of                                     |xpath=//div[contains(@class, "footer-container")]/div/div|@bericht |
+|scenario|Npo poms Nieuw object toevoegen Check bericht|bericht                         |in footer|
+|check   |value of                                     |css=div.footer-container>div>div|@bericht |
 
 |scenario|Npo poms Nieuw object toevoegen Check knop|knop                                           |in footer inactief                                           |
 |ensure  |is visible on page                        |xpath=//div[contains(@class, "footer-container")]/div/button[normalize-space()="@knop"][@disabled="disabled"]|
@@ -29,7 +29,7 @@
 |Npo poms Nieuw object toevoegen Check geen optie geselecteerd in dropdown|@dropdown                                                                                      |
 
 |scenario|Npo poms Nieuw object toevoegen Druk op kruisje om pop-up te sluiten|
-|click   |xpath=//div[@class="modal-close-button"]                            |
+|click   |css=div.modal-close-button                                          |
 
 |scenario|Npo poms Nieuw object toevoegen Check optie|optie                                                                         |als optie nummer|index|geselecteerd in dropdown|dropdown|
 |check   |value of                                   |xpath=//span[normalize-space(.)="@dropdown"]/../following-sibling::div[@index]|@optie                                                  |
@@ -72,5 +72,5 @@
 
 |scenario              |Npo poms Nieuw object toevoegen Verwijder eventuele voorgeselecteerde omroep|
 |seconds before timeout|5                                                                           |
-|$RESULTAVAILABLE=     |click if available          |xpath=//*[@ng-if="media.broadcasters"]         |
+|$RESULTAVAILABLE=     |click if available             |css=[ng-if="media.broadcasters"]            |
 |seconds before timeout|${secondsBeforeTimeout}                                                     |

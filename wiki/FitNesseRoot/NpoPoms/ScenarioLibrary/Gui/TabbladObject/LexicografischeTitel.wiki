@@ -1,14 +1,14 @@
 |scenario|Npo poms Tabblad object Start met bewerken Lexicografische titel|
 |click   |Lexicografische titel                                           |
 
-|scenario|Npo poms Tabblad object Check tekst in invoerveld Lexicografische titel is|lexicografischeTitel                                                                       |
-|check   |value of                                                                  |xpath=//poms-editable[@field="lexicoTitle"]//input[@name="editvalue"]|@lexicografischeTitel|
+|scenario|Npo poms Tabblad object Check tekst in invoerveld Lexicografische titel is|lexicografischeTitel                                                                |
+|check   |value of                                                                  |css=poms-editable[field="lexicoTitle"] input[name="editvalue"]|@lexicografischeTitel|
 
-|scenario|Npo poms Tabblad object Verander tekst in invoerveld Lexicografische titel naar|lexicografischeTitel|en sla op                                                            |
-|enter   |@lexicografischeTitel                                                          |as                  |xpath=//poms-editable[@field="lexicoTitle"]//input[@name="editvalue"]|
-|note    |Klik in het invoerveld zodat de press enter ook werkt als we geen tekst invoeren                                                                                          |
-|click   |xpath=//poms-editable[@field="lexicoTitle"]//input[@name="editvalue"]                                                                                                     |
-|press enter                                                                                                                                                                        |
+|scenario|Npo poms Tabblad object Verander tekst in invoerveld Lexicografische titel naar|lexicografischeTitel|en sla op                                                     |
+|enter   |@lexicografischeTitel                                                          |as                  |css=poms-editable[field="lexicoTitle"] input[name="editvalue"]|
+|note    |Klik in het invoerveld zodat de press enter ook werkt als we geen tekst invoeren                                                                                   |
+|click   |css=poms-editable[field="lexicoTitle"] input[name="editvalue"]                                                                                                     |
+|press enter                                                                                                                                                                 |
 
 |scenario|Npo poms Tabblad object Annuleer wijzigen Lexicografische titel                 |
 |click   |xpath=//poms-editable[@field="lexicoTitle"]//button[normalize-space(.)="cancel"]|

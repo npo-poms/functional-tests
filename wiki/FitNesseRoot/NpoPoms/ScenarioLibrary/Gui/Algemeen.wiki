@@ -1,5 +1,5 @@
 Herbruikbare selectoren
-!define dialogSelector {xpath=//div[@role="dialog"]}
+!define dialogSelector {css=div[role="dialog"]}
 
 |scenario|Wacht tot Angular requests klaar zijn|
 |push fixture                                  |
@@ -10,8 +10,8 @@ Herbruikbare selectoren
 
 |scenario|Npo poms Sluit af in Firefox|
 
-|scenario        |Npo poms Sluit af in Chrome      |
-|Open Npo poms website                             |
-|wait for visible|xpath=//ul[@class='nav nav-tabs']|
-|close all tabs                                    |
-|Npo poms Hoofdscherm Log uit                      |
+|scenario        |Npo poms Sluit af in Chrome|
+|Open Npo poms website                       |
+|wait for visible|css=ul.nav-tabs            |
+|close all tabs                              |
+|Npo poms Hoofdscherm Log uit                |

@@ -13,7 +13,7 @@
 |seconds before timeout|${secondsBeforeTimeout}                                                                                                                         |
 
 |scenario             |Npo poms Tabblad object Wacht tot afbeelding|afbeelding|niet zichtbaar|
-|set search context to|xpath=//poms-images                                                   |
+|set search context to|css=poms-images                                                       |
 |wait for not visible |@afbeelding                                                           |
 |clear search context                                                                        |
 
@@ -23,8 +23,8 @@
 |scenario  |Npo poms Tabblad object Hover over afbeelding                        |afbeelding                       |
 |hover over|xpath=//poms-images/div/table/tbody/tr/td[@class="column-title"]/span[normalize-space(.)="@afbeelding"]|
 
-|scenario  |Npo poms Tabblad object Hover over eerste afbeelding               |
-|hover over|xpath=//poms-images/div/table/tbody/tr[1]/td[@class="column-title"]|
+|scenario  |Npo poms Tabblad object Hover over eerste afbeelding          |
+|hover over|css=poms-images>div>table>tbody>tr:first-child>td.column-title|
 
 |scenario    |Npo poms Tabblad object Dubbelklik op afbeelding                      |afbeelding                      |
 |double click|xpath=//poms-images/div/table/tbody/tr/td[@class="column-title"]/span[normalize-space(.)="@afbeelding"]|
@@ -32,5 +32,5 @@
 |scenario|Npo poms Tabblad object Druk op verwijderknop bij afbeelding                                                    |afbeelding                                                   |
 |click   |xpath=//poms-images/div/table/tbody/tr[./td[@class="column-title"]/span[normalize-space(.)="@afbeelding"]]/td[@class="column-tools"]/div/button[@title="verwijder afbeelding"]|
 
-|scenario|Npo poms Tabblad object Druk op verwijderknop bij eerste afbeelding                                          |
-|click   |xpath=//poms-images/div/table/tbody/tr[1]/td[@class="column-tools"]/div/button[@title="verwijder afbeelding"]|
+|scenario|Npo poms Tabblad object Druk op verwijderknop bij eerste afbeelding                                    |
+|click   |css=poms-images>div>table>tbody>tr:first-child>td.column-tools>div>button[title="verwijder afbeelding"]|

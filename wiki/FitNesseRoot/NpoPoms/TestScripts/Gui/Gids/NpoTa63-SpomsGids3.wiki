@@ -16,7 +16,7 @@ Test
 |Npo poms Zoeken Wacht tot zoeken klaar is                                                                                                                                                   |
 |ensure                                    |is visible on page                                                                    |Gezocht naar: Radio 1, uitzend-/sorteerdatum: vanaf $today|
 |Npo poms Zoeken Druk op tandwieltje                                                                                                                                                         |
-|set search context to                     |xpath=//poms-search-columns                                                                                                                      |
+|set search context to                     |css=poms-search-columns                                                                                                                          |
 |click                                     |Laatste uitzending                                                                                                                               |
 |clear search context                                                                                                                                                                        |
 |Npo poms Zoeken Druk op tandwieltje                                                                                                                                                         |

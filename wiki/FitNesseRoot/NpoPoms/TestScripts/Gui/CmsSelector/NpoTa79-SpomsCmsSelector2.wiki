@@ -19,7 +19,7 @@ Test
 |switch to next tab                                                                                      |
 |Npo poms Zoeken Check optie                        |@{filtertype}|geselecteerd in dropdown|!-MediaType-!|
 |Npo poms Zoeken Druk op tandwieltje                                                                     |
-|set search context to                              |xpath=//poms-search-columns                         |
+|set search context to                              |css=poms-search-columns                             |
 |click                                              |${kolomMid}                                         |
 |clear search context                                                                                    |
 |Npo poms Zoeken Druk op tandwieltje                                                                     |

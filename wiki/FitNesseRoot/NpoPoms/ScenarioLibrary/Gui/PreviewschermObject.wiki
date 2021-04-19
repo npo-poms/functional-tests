@@ -1,7 +1,7 @@
-|scenario|Npo poms Previewscherm object Check hoofdtitel|hoofdtitel                                         |
-|check   |value of                                      |xpath=//div[@class="modal-title"]|=~/.*@hoofdtitel/|
-|check   |value of                                      |xpath=//h1[@class="viewer-title"]|@hoofdtitel      |
+|scenario|Npo poms Previewscherm object Check hoofdtitel|hoofdtitel                           |
+|check   |value of                                      |css=div.modal-title|=~/.*@hoofdtitel/|
+|check   |value of                                      |css=h1.viewer-title|@hoofdtitel      |
 
 |scenario|Npo poms Previewscherm object Check media type|mediaType                                                                       |
-|check   |value of                                      |xpath=//h2[@class="viewer-media-type"]                       |=~/@mediaType -.*/|
+|check   |value of                                      |css=h2.viewer-media-type                                     |=~/@mediaType -.*/|
 |check   |value of                                      |xpath=//h2[normalize-space(.)="Type"]/following-sibling::span|=~/@mediaType -.*/|

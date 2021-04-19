@@ -1,8 +1,8 @@
-|scenario|Npo poms Tabblad object Check aflevering nummer|index                                                                                                                    |heeft mid|mid|
-|check   |value of                                       |xpath=//poms-members[@header="Afleveringen"]/div/table/tbody/tr[@index]/td[@class="column-mid"]/span/poms-clipboard/input|@mid         |
+|scenario|Npo poms Tabblad object Check aflevering nummer|index                                                                                                               |heeft mid|mid|
+|check   |value of                                       |css=poms-members[header="Afleveringen"]>div>table>tbody>tr:nth-child(@index)>td.column-mid>span>poms-clipboard>input|@mid         |
 
-|scenario             |Set search context to afleveringen          |
-|set search context to|xpath=//poms-members[@header="Afleveringen"]|
+|scenario             |Set search context to afleveringen     |
+|set search context to|css=poms-members[header="Afleveringen"]|
 
 |scenario|Npo poms Tabblad object Druk op tandwieltje bij afleveringen|
 |Set search context to afleveringen                                   |

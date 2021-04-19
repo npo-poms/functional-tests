@@ -1,8 +1,8 @@
-|scenario|Npo poms Zoeken Vul|waarde|in zoekveld        |
-|enter   |@waarde            |as    |css=input[id=query]|
+|scenario|Npo poms Zoeken Vul|waarde|in zoekveld    |
+|enter   |@waarde            |as    |css=input#query|
 
 |scenario |Npo poms Zoeken Scroll naar zoekveld|
-|scroll to|css=input[id=query]                 |
+|scroll to|css=input#query                     |
 
 |scenario|Npo poms Zoeken Check tekstveld|veld                                    |heeft waarde|waarde|
 |check   |value of                       |xpath=//*[./label[text()="@veld"]]/input|@waarde            |
@@ -10,14 +10,14 @@
 |scenario|Npo poms Zoeken Vul|tekstwaarde|in tekstveld                         |tekstveld                        |
 |enter   |@tekstwaarde       |as         |xpath=//label[normalize-space(.)="@tekstveld"]/following-sibling::input|
 
-|scenario|Npo poms Zoeken Sla zoeksuggestie nummer|index                  |op in var                 |var                 |
-|$@var=  |value of                                |xpath=//input[@id="query"]/following-sibling::ul/li[@index]/a/span/span|
+|scenario|Npo poms Zoeken Sla zoeksuggestie nummer|index           |op in var           |var          |
+|$@var=  |value of                                |css=input#query~ul>li:nth-child(@index)>a>span>span|
 
-|scenario|Npo poms Zoeken Druk op zoeksuggestie nummer           |index          |
-|click   |xpath=//input[@id="query"]/following-sibling::ul/li[@index]/a/span/span|
+|scenario|Npo poms Zoeken Druk op zoeksuggestie nummer |index|
+|click   |css=input#query~ul>li:nth-child(@index)>a>span>span|
 
-|scenario|Npo poms Zoeken Check zoekveld heeft waarde|waarde                     |
-|check   |value of                                   |css=input[id=query]|@waarde|
+|scenario|Npo poms Zoeken Check zoekveld heeft waarde|waarde                 |
+|check   |value of                                   |css=input#query|@waarde|
 
 |scenario|Npo poms Zoeken Druk knop|knop|
 |click   |xpath=//button[text()="@knop"]|
@@ -29,8 +29,8 @@
 |Npo poms Zoeken Sla aantal zoekresultaten op in var|laatsteAantalZoekresultaten                                                                                  |
 
 |scenario             |Npo poms Zoeken Wacht tot sorteren klaar is                                |
-|wait for visible     |xpath=//poms-search-result/div[1]                                          |
-|set search context to|xpath=//poms-search-result/div[1]                                          |
+|wait for visible     |css=poms-search-result>div:first-child                                     |
+|set search context to|css=poms-search-result>div:first-child                                     |
 |wait for visible     |xpath=./div[@class="search-result-count"]                                  |
 |wait for not visible |xpath=./div[@class="search-result-count waiting"]                          |
 |wait for not visible |xpath=./div[@class="search-result-count waiting ng-animate waiting-remove"]|
@@ -44,8 +44,8 @@
 |ensure              |is visible on page            |xpath=./div[@class="search-result-count"]            |
 
 |scenario               |Npo poms Zoeken Wacht tot zoeken klaar is                   |
-|wait for visible       |xpath=//poms-search-result/div[1]                           |
-|set search context to  |xpath=//poms-search-result/div[1]                           |
+|wait for visible       |css=poms-search-result>div:first-child                      |
+|set search context to  |css=poms-search-result>div:first-child                      |
 |Npo poms Zoeken Wacht tot laad-icoontje naast 'x aantal zoekresultaten' is verdwenen|
 |                       |In de dev-omgeving verschijnt dat laad-icoontje soms niet,  |
 |                       |vandaar deze extra stap.                                    |
@@ -53,9 +53,9 @@
 |clear search context                                                                |
 |wait                   |3                          |seconds                         |
 
-|scenario               |Npo poms Zoeken Popup Wacht tot zoeken klaar is             |
-|wait for visible       |xpath=//div[@class="modal-body"]//poms-search-result/div[1] |
-|set search context to  |xpath=//div[@class="modal-body"]//poms-search-result/div[1] |
+|scenario                  |Npo poms Zoeken Popup Wacht tot zoeken klaar is          |
+|wait for visible          |css=div.modal-body poms-search-result>div:first-child    |
+|set search context to     |css=div.modal-body poms-search-result>div:first-child    |
 |Npo poms Zoeken Wacht tot laad-icoontje naast 'x aantal zoekresultaten' is verdwenen|
 |clear search context                                                                |
 
@@ -65,14 +65,14 @@
 |scenario|Npo poms Zoeken Druk op viewknop bij object                                    |objectNaam                                   |met mediatype                                   |mediatype                                   |
 |click   |xpath=//table/tbody/tr[./td[@class="column-title"]/span/span[normalize-space(.)="@objectNaam"]][./td[@class="column-type"]/span/span[normalize-space(.)="@mediatype"]]/td[@class="column-tools"]/div/span[@title="preview"]|
 
-|scenario|Npo poms Zoeken Sla mid bij object nummer|index              |op in var              |var              |
-|$@var=  |value of                                 |xpath=//table/tbody/tr[@index]/td[@class="column-mid"]//input|
+|scenario|Npo poms Zoeken Sla mid bij object nummer|index             |op in var            |var            |
+|$@var=  |value of                                 |css=table>tbody>tr:nth-child(@index)>td.column-mid input|
 
 |scenario                                 |Npo poms Zoeken Sla mid bij eerste object op in var|var           |
 |Npo poms Zoeken Sla mid bij object nummer|1                                                  |op in var|@var|
 
-|scenario|Npo poms Zoeken Sla mid bij object nummer|index  |op in var|var    |via attribuutwaarde   |
-|$@var=  |value of attribute                       |data-id|on       |xpath=//table/tbody/tr[@index]|
+|scenario|Npo poms Zoeken Sla mid bij object nummer|index  |op in var|var       |via attribuutwaarde      |
+|$@var=  |value of attribute                       |data-id|on       |css=table>tbody>tr:nth-child(@index)|
 
 |scenario        |Npo poms Zoeken Wacht tot status bij object                          |objectNaam                         |met mediatype                         |mediatype                         |bevat                         |statusTekst                         |
 |wait for visible|xpath=//table/tbody/tr[./td[@class="column-title"]/span/span[normalize-space(.)="@objectNaam"]][./td[@class="column-type"]/span/span[normalize-space(.)="@mediatype"]][./td[@class="column-workflow" and contains(normalize-space(.), "@statusTekst")]]|
@@ -83,11 +83,11 @@
 |Npo poms Previewscherm object Check hoofdtitel|@objectNaam                                                                  |
 |Npo poms Previewscherm object Check media type|@mediatype                                                                   |
 
-|scenario|Npo poms Zoeken Check object nummer|index                                                                    |heeft omroep|omroep|
-|check   |value of                           |xpath=//table/tbody/tr[@index]/td[@class="column-broadcasters"]/span/span|=~/@omroep/        |
+|scenario|Npo poms Zoeken Check object nummer|index                                                                |heeft omroep|omroep|
+|check   |value of                           |css=table>tbody>tr:nth-child(@index)>td.column-broadcasters>span>span|=~/@omroep/        |
 
-|scenario|Npo poms Zoeken Check object nummer|index                                                                    |heeft geen omroep|omroep|
-|check   |value of                           |xpath=//table/tbody/tr[@index]/td[@class="column-broadcasters"]/span/span|=~/(?!@omroep)/         |
+|scenario|Npo poms Zoeken Check object nummer|index                                                                |heeft geen omroep|omroep|
+|check   |value of                           |css=table>tbody>tr:nth-child(@index)>td.column-broadcasters>span>span|=~/(?!@omroep)/         |
 
 |scenario                           |Npo poms Zoeken Check eerste object heeft omroep|omroep              |
 |Npo poms Zoeken Check object nummer|1                                               |heeft omroep|@omroep|
@@ -95,8 +95,8 @@
 |scenario                           |Npo poms Zoeken Check eerste object heeft geen omroep|omroep                   |
 |Npo poms Zoeken Check object nummer|1                                                    |heeft geen omroep|@omroep|
 
-|scenario    |Npo poms Zoeken Dubbelklik op hoofdtitel van object nummer |index |
-|double click|xpath=//table/tbody/tr[@index]/td[@class="column-title"]/span/span|
+|scenario    |Npo poms Zoeken Dubbelklik op hoofdtitel van object nummer|index|
+|double click|css=table>tbody>tr:nth-child(@index)>td.column-title>span>span  |
 
 |scenario                                                  |Npo poms Zoeken Dubbelklik op hoofdtitel van eerste object|
 |Npo poms Zoeken Dubbelklik op hoofdtitel van object nummer|1                                                         |
@@ -139,7 +139,7 @@
 
 |scenario             |Npo poms Zoeken Selecteer optie|optie|zonder controle in single-optie dropdown|dropdown|
 |click                |@dropdown                                                                              |
-|set search context to|xpath=//poms-ui-select[@name="@dropdown"]                                              |
+|set search context to|css=poms-ui-select[name="@dropdown"]                                                   |
 |wait for visible     |@optie                                                                                 |
 |click                |@optie                                                                                 |
 |remove last search context                                                                                   |
@@ -147,7 +147,7 @@
 
 |scenario             |Npo poms Zoeken Selecteer optie|optie|zonder controle in dropdown|dropdown|
 |click                |@dropdown                                                                 |
-|set search context to|xpath=//poms-ui-select-multi[@name="@dropdown"]                           |
+|set search context to|css=poms-ui-select-multi[name="@dropdown"]                                |
 |wait for visible     |xpath=./div/ul/li/div[@role="option"]                                     |
 |scroll to            |@optie                                                                    |
 |click                |@optie                                                                    |
@@ -156,7 +156,7 @@
 
 |scenario             |Npo poms Zoeken Popup Selecteer optie|optie|zonder controle in dropdown|dropdown|
 |click                |@dropdown                                                                       |
-|set search context to|xpath=//div[@class="modal-body"]//poms-ui-select-multi[@name="@dropdown"]       |
+|set search context to|css=div.modal-body poms-ui-select-multi[name="@dropdown"]                       |
 |wait for visible     |xpath=./div/ul/li/div[@role="option"]                                           |
 |scroll to            |@optie                                                                          |
 |click                |@optie                                                                          |
@@ -166,39 +166,39 @@
 |scenario|Npo poms Zoeken Klik op|selector|in geopende dropdown                   |dropdown                  |
 |click   |@selector              |in      |xpath=.//span[normalize-space(.)="@dropdown"]/following-sibling::*|
 
-|scenario|Npo poms Zoeken Sla hoofdtitel van object nummer|index                |op in var                |var               |
-|$@var=  |value of                                        |xpath=//table/tbody/tr[@index]/td[@class="column-title"]/span/span|
+|scenario|Npo poms Zoeken Sla hoofdtitel van object nummer|index               |op in var              |var              |
+|$@var=  |value of                                        |css=table>tbody>tr:nth-child(@index)>td.column-title>span>span|
 
 |scenario                                        |Npo poms Zoeken Sla hoofdtitel van eerste object op in var|var           |
 |Npo poms Zoeken Sla hoofdtitel van object nummer|1                                                         |op in var|@var|
 
-|scenario|Npo poms Zoeken Sla type van object nummer|index                |op in var               |var               |
-|$@var=  |value of                                  |xpath=//table/tbody/tr[@index]/td[@class="column-type"]/span/span|
+|scenario|Npo poms Zoeken Sla type van object nummer|index              |op in var              |var              |
+|$@var=  |value of                                  |css=table>tbody>tr:nth-child(@index)>td.column-type>span>span|
 
 |scenario                                  |Npo poms Zoeken Sla type van eerste object op in var|var           |
 |Npo poms Zoeken Sla type van object nummer|1                                                   |op in var|@var|
 
-|scenario|Npo poms Zoeken Sla aantal zoekresultaten op in var|var                                           |
-|$@var=  |value of                                           |xpath=//div[@class="search-result-count"]/span|
+|scenario|Npo poms Zoeken Sla aantal zoekresultaten op in var|var                             |
+|$@var=  |value of                                           |css=div.search-result-count>span|
 
-|scenario|Npo poms Zoeken Check aantal zoekresultaten|aantal                                                |
-|check   |value of                                   |xpath=//div[@class="search-result-count"]/span|@aantal|
+|scenario|Npo poms Zoeken Check aantal zoekresultaten|aantal                                  |
+|check   |value of                                   |css=div.search-result-count>span|@aantal|
 
-|scenario|Npo poms Zoeken Selecteer persoon|persoon                                                                                          |
-|enter   |@persoon                         |as                                              |xpath=//label[@for="search-person-filter"]/input|
-|click   |xpath=//label[@for="search-person-filter"]/ul/li/a/strong[text()="@persoon"]                                                       |
-|check   |value of                         |xpath=//label[@for="search-person-filter"]/input|@persoon                                        |
+|scenario|Npo poms Zoeken Selecteer persoon|persoon                                                                                |
+|enter   |@persoon                         |as                                         |css=label[for="search-person-filter"]>input|
+|click   |xpath=//label[@for="search-person-filter"]/ul/li/a/strong[text()="@persoon"]                                             |
+|check   |value of                         |css=label[for="search-person-filter"]>input|@persoon                                   |
 
-|scenario|Npo poms Zoeken Druk op tandwieltje              |
-|click   |xpath=//div[@title="Kolominstellingen aanpassen"]|
+|scenario|Npo poms Zoeken Druk op tandwieltje         |
+|click   |css=div[title="Kolominstellingen aanpassen"]|
 
 |scenario             |Npo poms Zoeken Check kolom|kolom|zichtbaar|
-|set search context to|xpath=//table/thead/tr                     |
+|set search context to|css=table>thead>tr                         |
 |ensure               |is visible on page         |@kolom         |
 |clear search context                                             |
 
 |scenario              |Npo poms Zoeken Check kolom|kolom|niet zichtbaar|
-|set search context to |xpath=//table/thead/tr                          |
+|set search context to |css=table>thead>tr                              |
 |seconds before timeout|3                                               |
 |reject                |is visible on page         |@kolom              |
 |seconds before timeout|${secondsBeforeTimeout}                         |
@@ -223,15 +223,15 @@
 |ensure  |dates in elements                                             |xpath=//*[contains(concat(" ",@class," "),"search-result-row")]/td[@class="column-sortDate"]|matched with     |!-^([0-9]{2}-[0-9]{2}-[0-9]{4}) [0-9]{2}:[0-9]{2}-!|compare|@vergelijking|with|@datum|
 
 |scenario    |Npo poms Zoeken Check dat alle sorteerdata|vergelijking|datum|datum                    |
-|$sortDates= |list all sort dates of                    |xpath=//table                               |
+|$sortDates= |list all sort dates of                    |css=table                                   |
 |$comparison=|dates                                     |$sortDates  |are  |@vergelijking|date|@datum|
 |ensure      |list                                      |$comparison |all true                       |
 
 |scenario |Npo poms Zoeken Scroll naar object nummer|nummer|
-|scroll to|xpath=//table/tbody/tr[@nummer]                 |
+|scroll to|css=table>tbody>tr:nth-child(@nummer)           |
 
-|scenario|Npo poms Zoeken Check checkbox aangevinkt bij object nummer|index                   |in zoekresultaten                  |
-|ensure  |is visible on page                                         |xpath=//table/tbody/tr[@index][contains(@class, "selected")]|
+|scenario|Npo poms Zoeken Check checkbox aangevinkt bij object nummer|index           |in zoekresultaten           |
+|ensure  |is visible on page                                         |css=table>tbody>tr:nth-child(@index).selected|
 
 |scenario                                                   |Npo poms Zoeken Check checkbox aangevinkt bij eerste object in zoekresultaten|
 |Npo poms Zoeken Check checkbox aangevinkt bij object nummer|1                             |in zoekresultaten                             |
@@ -242,10 +242,10 @@
 |scenario                                                   |Npo poms Zoeken Check checkbox uitgevinkt bij eerste object in zoekresultaten|
 |Npo poms Zoeken Check checkbox uitgevinkt bij object nummer|1                             |in zoekresultaten                             |
 
-|scenario                                                   |Npo poms Zoeken Vink checkbox aan bij object nummer  |index |in zoekresultaten |
-|Npo poms Zoeken Check checkbox uitgevinkt bij object nummer|@index                                               |in zoekresultaten        |
-|click                                                      |xpath=//table/tbody/tr[@index]/td[@class="checkbox-cell column-checkbox"]/input|
-|Npo poms Zoeken Check checkbox aangevinkt bij object nummer|@index                                               |in zoekresultaten        |
+|scenario                                                   |Npo poms Zoeken Vink checkbox aan bij object nummer|index|in zoekresultaten|
+|Npo poms Zoeken Check checkbox uitgevinkt bij object nummer|@index                                             |in zoekresultaten      |
+|click                                                      |css=table>tbody>tr:nth-child(@index)>td.checkbox-cell.column-checkbox>input|
+|Npo poms Zoeken Check checkbox aangevinkt bij object nummer|@index                                             |in zoekresultaten      |
 
 |scenario                                           |Npo poms Zoeken Vink checkbox aan bij eerste object in zoekresultaten|
 |Npo poms Zoeken Vink checkbox aan bij object nummer|1                         |in zoekresultaten                         |
@@ -254,4 +254,4 @@
 |enter   |@mid                   |as|xpath=//span[text()="Mid:"]/following-sibling::input|
 
 |scenario|Npo poms Zoeken Druk op plusje om onderdeel toe te voegen|
-|click   |xpath=//button[@class="addDescendant"]                   |
+|click   |css=button.addDescendant                                 |

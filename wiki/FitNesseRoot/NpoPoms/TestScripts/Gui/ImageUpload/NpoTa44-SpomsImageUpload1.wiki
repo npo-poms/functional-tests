@@ -14,7 +14,7 @@ Test
 |Npo poms Zoeken Open object nummer                                               |${objectNummer}                                         |
 |Npo poms Tabblad object Druk op link                                             |Afbeeldingen      |in sidebar                           |
 |Npo poms Tabblad object Wacht tot scrollen klaar is                                                                                       |
-|set search context to                                                            |xpath=//poms-images                                     |
+|set search context to                                                            |css=poms-images                                         |
 |click                                                                            |Afbeelding toevoegen                                    |
 |clear search context                                                                                                                      |
 |select file                                                                      |${plaatje}        |for         |css=input[id=inputFile] |

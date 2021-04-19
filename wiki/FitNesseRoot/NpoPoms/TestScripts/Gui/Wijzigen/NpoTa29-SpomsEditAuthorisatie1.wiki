@@ -21,7 +21,7 @@ Test
 |Npo poms Zoeken Selecteer optie                      |${omroep}         |in dropdown      |Omroepen           |
 |ensure                                               |is visible on page|Gezocht naar: ${mediatype}, ${omroep}|
 |Npo poms Zoeken Druk op tandwieltje                                                                           |
-|set search context to                                |xpath=//poms-search-columns                             |
+|set search context to                                |css=poms-search-columns                                 |
 |click                                                |${kolomOmroep}                                          |
 |clear search context                                                                                          |
 |Npo poms Zoeken Druk op tandwieltje                                                                           |

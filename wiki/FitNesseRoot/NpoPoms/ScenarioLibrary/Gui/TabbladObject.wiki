@@ -244,12 +244,12 @@
 |click                |xpath=./div[@class="media-field-tools"]/div[@class="edit-icon"]|
 |clear search context                                                                 |
 
-|scenario             |Npo poms Tabblad object Kies een tag met tekst|tekst                                                                   |
-|enter                |@tekst                                        |as|xpath=//span[@placeholder="Kies een tag..."]/following-sibling::input|
-|click                |xpath=//button[@class="button-save"]                                                                                   |
-|set search context to|xpath=//h2[text()="Tags"]/..                                                                                           |
-|wait for not visible |xpath=./div[@class="ui-select"]                                                                                        |
-|clear search context                                                                                                                         |
+|scenario             |Npo poms Tabblad object Kies een tag met tekst|tekst                                           |
+|enter                |@tekst                                        |as|css=span[placeholder="Kies een tag..."]~input|
+|click                |css=button.button-save                                                                         |
+|set search context to|xpath=//h2[text()="Tags"]/..                                                                   |
+|wait for not visible |xpath=./div[@class="ui-select"]                                                                |
+|clear search context                                                                                                 |
 
 |scenario             |Npo poms Tabblad object Check geen ondertitels                           |
 |set search context to|xpath=//h2[normalize-space(.)="Ondertitels"]/..                          |

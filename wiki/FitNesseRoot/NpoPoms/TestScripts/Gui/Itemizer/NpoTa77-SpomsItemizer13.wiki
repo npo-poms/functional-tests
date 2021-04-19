@@ -19,12 +19,12 @@ Test
 |Npo poms Tabblad object Open                 |${midVanUitzending}                                                                              |
 |Npo poms Tabblad object Druk op link         |Segmenten             |in sidebar                                                                |
 |Npo poms Tabblad object Wacht tot scrollen klaar is                                                                                            |
-|set search context to                        |xpath=//poms-segments                                                                            |
+|set search context to                        |css=poms-segments                                                                                |
 |double click                                 |${segment}                                                                                       |
 |clear search context                                                                                                                           |
 |Npo poms Hoofdscherm Wacht tot tabblad nummer|3                     |zichtbaar                                                                 |
 |Npo poms Tabblad object Check mid of urn     |${midVanSegment}                                                                                 |
-|set search context to                        |xpath=//div[@class='media-section media-sub-section']                                            |
+|set search context to                        |css=div.media-section.media-sub-section                                                          |
 |Npo poms Tabblad object Sla textarea         |Beschrijving          |op in var  |oudeBeschrijving     |en vul deze aan met|${beschrijving}     |
 |Npo poms Tabblad object Sla textarea         |Korte beschrijving    |op in var  |oudeKorteBeschrijving|en vul deze aan met|${korteBeschrijving}|
 |clear search context                                                                                                                           |

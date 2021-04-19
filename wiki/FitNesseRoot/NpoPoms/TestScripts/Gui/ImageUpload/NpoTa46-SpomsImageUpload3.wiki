@@ -18,8 +18,9 @@ Test
 |Open Npo poms website                                                                                      |
 |Npo poms Inlogscherm Log in met standaard-gebruiker                                                        |
 |Zoek clip met objectnummer                      |${objectNummer}      |en druk op link afbeelding toevoegen|
-|set search context to                           |xpath=//poms-images                                       |
+|set search context to                           |css=poms-images                                           |
 |Npo poms Tabblad object Sla aantal in veld      |Afbeeldingen         |op in var    |aantalAfbeeldingen    |
+|clear search context                                                                                       |
 |Voeg afbeelding met titel                       |${titel} $timestamp-1|toe aan clip                        |
 |Npo poms Tabblad object Wacht tot sidebar volledig geladen is                                              |
 |Npo poms Tabblad object Wacht tot aantal in veld|Afbeeldingen         |bijgewerkt is                       |
@@ -29,7 +30,7 @@ Test
 |Npo poms Tabblad object Wacht tot sidebar volledig geladen is                                              |
 |Npo poms Tabblad object Wacht tot aantal in veld|Afbeeldingen         |bijgewerkt is                       |
 |Verwijder afbeelding met titel                  |${titel} $timestamp-1                                     |
-|set search context to                           |xpath=//poms-images                                       |
+|set search context to                           |css=poms-images                                           |
 |Npo poms Tabblad object Check aantal in veld    |Afbeeldingen         |is var       |aantalAfbeeldingen    |
 |Npo poms Tabblad object Check afbeelding        |${titel} $timestamp-1|niet zichtbaar                      |
 |Npo poms Tabblad object Check afbeelding        |${titel} $timestamp-2|niet zichtbaar                      |

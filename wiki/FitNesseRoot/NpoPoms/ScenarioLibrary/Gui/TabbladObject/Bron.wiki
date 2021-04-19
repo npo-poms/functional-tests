@@ -24,8 +24,8 @@
 |scenario|Npo poms Tabblad object Druk op verwijderknop bij bron                                                   |url                                                  |
 |click   |xpath=//poms-locations/div/table/tbody/tr[./td[@class="column-url"]/span[normalize-space(.)="@url"]]/td[@class="column-tools"]//button[@title="verwijder bron"]|
 
-|scenario  |Npo poms Tabblad object Hover over laatste bron  |
-|hover over|xpath=//poms-locations/div/table/tbody/tr[last()]|
+|scenario  |Npo poms Tabblad object Hover over laatste bron |
+|hover over|css=poms-locations>div>table>tbody>tr:last-child|
 
-|scenario|Npo poms Tabblad object Druk op verwijderknop bij laatste bron                                              |
-|click   |xpath=//poms-locations/div/table/tbody/tr[last()]/td[@class="column-tools"]//button[@title="verwijder bron"]|
+|scenario|Npo poms Tabblad object Druk op verwijderknop bij laatste bron                                 |
+|click   |css=poms-locations>div>table>tbody>tr:last-child>td.column-tools button[title="verwijder bron"]|

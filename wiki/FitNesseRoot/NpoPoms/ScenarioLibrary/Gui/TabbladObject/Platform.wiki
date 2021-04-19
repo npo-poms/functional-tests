@@ -1,5 +1,5 @@
 |scenario             |Npo poms Tabblad object Dubbelklik op platform|platform|
-|set search context to|xpath=//poms-predictions                               |
+|set search context to|css=poms-predictions                                   |
 |double click         |@platform                                              |
 |clear search context                                                         |
 

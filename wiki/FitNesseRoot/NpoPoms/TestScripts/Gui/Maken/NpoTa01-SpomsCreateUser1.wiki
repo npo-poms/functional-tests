@@ -9,7 +9,7 @@ Test
 |$timeout=                                        |seconds before timeout                                            |
 |seconds before timeout                           |180                                                               |
 |start timer                                      |timer                                                             |
-|wait for visible                                 |xpath=//body[@ng-app="poms"]                                      |
+|wait for visible                                 |css=body[ng-app="poms"]                                           |
 |$wachttijd=                                      |time on timer               |timer                                |
 |$wachttijd=                                      |format timestamp            |$wachttijd              |as   |m:ss  |
 |stop timer                                       |timer                                                             |

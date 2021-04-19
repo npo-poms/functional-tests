@@ -24,7 +24,7 @@ Test
 
 |scenario|Verwijder de eerste tag                                    |
 |click   |xpath=(//span[contains(@class,'ui-select-match-close')])[1]|
-|click   |xpath=//button[@class='button-save']                       |
+|click   |css=button.button-save                                     |
 
 |scenario            |Wacht tot eerste tag verdwenen is        |
 |wait for not visible|xpath=//span[normalize-space(.)='Test1,']|

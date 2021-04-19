@@ -1,20 +1,20 @@
 |scenario|Npo poms Tabblad object Check onderdeel|onderdeel                                                                                                                                                     |heeft type|type|
 |check   |value of                               |xpath=//poms-members[@header="Onderdelen"]/div/table/tbody/tr[./td[@class="column-title"]/span[normalize-space(.)="@onderdeel"]]/td[@class="column-type"]/span|@type          |
 
-|scenario|Npo poms Tabblad object Check onderdeel nummer|index                                                                                               |heeft titel|titel|
-|check   |value of                                      |xpath=//poms-members[@header="Onderdelen"]/div/table/tbody/tr[@index]/td[@class="column-title"]/span|@titel           |
+|scenario|Npo poms Tabblad object Check onderdeel nummer|index                                                                                          |heeft titel|titel|
+|check   |value of                                      |css=poms-members[header="Onderdelen"]>div>table>tbody>tr:nth-child(@index)>td.column-title>span|@titel           |
 
-|scenario|Npo poms Tabblad object Check onderdeel nummer|index                                                                                                  |heeft subtitel|subtitel|
-|check   |value of                                      |xpath=//poms-members[@header="Onderdelen"]/div/table/tbody/tr[@index]/td[@class="column-subtitle"]/span|@subtitel              |
+|scenario|Npo poms Tabblad object Check onderdeel nummer|index                                                                                             |heeft subtitel|subtitel|
+|check   |value of                                      |css=poms-members[header="Onderdelen"]>div>table>tbody>tr:nth-child(@index)>td.column-subtitle>span|@subtitel              |
 
-|scenario|Npo poms Tabblad object Check onderdeel nummer|index                                                                                                  |heeft status|status|
-|check   |value of                                      |xpath=//poms-members[@header="Onderdelen"]/div/table/tbody/tr[@index]/td[@class="column-workflow"]/span|@status            |
+|scenario|Npo poms Tabblad object Check onderdeel nummer|index                                                                                             |heeft status|status|
+|check   |value of                                      |css=poms-members[header="Onderdelen"]>div>table>tbody>tr:nth-child(@index)>td.column-workflow>span|@status            |
 
-|scenario|Npo poms Tabblad object Check onderdeel nummer|index                                                                                                  |heeft status|status1|of|status2|
-|check   |value of                                      |xpath=//poms-members[@header="Onderdelen"]/div/table/tbody/tr[@index]/td[@class="column-workflow"]/span|!-=~/(@status1)|(@status2)/-!  |
+|scenario|Npo poms Tabblad object Check onderdeel nummer|index                                                                                             |heeft status|status1|of|status2|
+|check   |value of                                      |css=poms-members[header="Onderdelen"]>div>table>tbody>tr:nth-child(@index)>td.column-workflow>span|!-=~/(@status1)|(@status2)/-!  |
 
-|scenario|Npo poms Tabblad object Check onderdeel nummer|index                                                                                                                  |heeft mid|mid|
-|check   |value of                                      |xpath=//poms-members[@header="Onderdelen"]/div/table/tbody/tr[@index]/td[@class="column-mid"]/span/poms-clipboard/input|@mid         |
+|scenario|Npo poms Tabblad object Check onderdeel nummer|index                                                                                                             |heeft mid|mid|
+|check   |value of                                      |css=poms-members[header="Onderdelen"]>div>table>tbody>tr:nth-child(@index)>td.column-mid>span>poms-clipboard>input|@mid         |
 
 |scenario                                      |Npo poms Tabblad object Check onderdeel nummer|index         |heeft titel|titel|en subtitel|subtitel|en status|status|
 |Npo poms Tabblad object Check onderdeel nummer|@index                                        |heeft titel   |@titel                                                 |
@@ -38,8 +38,8 @@
 |scenario|Npo poms Tabblad object Druk op verwijderknop bij onderdeel                                                               |onderdeel                                                               |
 |click   |xpath=//poms-members[@header="Onderdelen"]/div/table/tbody/tr[./td[@class="column-title"]/span/span[normalize-space(.)="@onderdeel"]]/td[@class="column-tools"]/div/button[@title="verwijder item"]|
 
-|scenario             |Set search context to onderdelen          |
-|set search context to|xpath=//poms-members[@header="Onderdelen"]|
+|scenario             |Set search context to onderdelen     |
+|set search context to|css=poms-members[header="Onderdelen"]|
 
 |scenario|Npo poms Tabblad object Druk op tandwieltje bij onderdelen|
 |Set search context to onderdelen                                   |

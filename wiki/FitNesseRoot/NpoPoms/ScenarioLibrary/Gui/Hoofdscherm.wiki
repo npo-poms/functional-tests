@@ -1,5 +1,5 @@
 |scenario|Npo poms Hoofdscherm Druk op huidige gebruiker|
-|click   |css=span[id=currentUser]                      |
+|click   |css=span#currentUser                          |
 
 |scenario|Npo poms Hoofdscherm Ga naar account-instellingen|
 |Npo poms Hoofdscherm Druk op huidige gebruiker            |
@@ -11,8 +11,8 @@
 |click        |log uit                         |
 |Npo poms Inlogscherm Wacht tot pagina geladen |
 
-|scenario        |Npo poms Hoofdscherm Wacht op notificatie|notificatie                  |
-|wait for visible|@notificatie                             |in|xpath=//poms-notifications|
+|scenario        |Npo poms Hoofdscherm Wacht op notificatie|notificatie              |
+|wait for visible|@notificatie                             |in|css=poms-notifications|
 
 |scenario     |Npo poms Hoofdscherm Wacht tot tabblad|tabblad|geopend|
 |wait for page|${npoPomsHoofdscherm_titel}                           |
@@ -20,26 +20,26 @@
 |scenario                              |Npo poms Hoofdscherm Wacht tot tabblad Zoeken geopend|
 |Npo poms Hoofdscherm Wacht tot tabblad|Zoek                     |geopend                    |
 
-|scenario|Npo poms Hoofdscherm Vul|tekst|in zoekveld  |
-|enter   |@tekst                  |as   |xpath=//input|
+|scenario|Npo poms Hoofdscherm Vul|tekst|in zoekveld|
+|enter   |@tekst                  |as   |css=input  |
 
 |scenario        |Npo poms Hoofdscherm Wacht tot tabblad nummer|aantal |zichtbaar|
 |$aantal=        |add                                          |@aantal|and  |1  |
-|wait for visible|xpath=//ul[@class="nav nav-tabs"]/li[$aantal]                  |
+|wait for visible|css=ul.nav-tabs>li:nth-child($aantal)                          |
 
 |scenario            |Npo poms Hoofdscherm Wacht tot tabblad nummer|aantal |niet zichtbaar|
 |$aantal=            |add                                          |@aantal|and     |1    |
-|wait for not visible|xpath=//ul[@class="nav nav-tabs"]/li[$aantal]                       |
+|wait for not visible|css=ul.nav-tabs>li:nth-child($aantal)                               |
 
-|scenario              |Npo poms Hoofdscherm Check titel van laatste tab begint met|titel                                                                   |
-|seconds before timeout|3                                                                                                                                   |
-|$tabTitel=            |value of                                                   |xpath=//ul[@class="nav nav-tabs"]/li[last()-1]//span[@class="tab-title"]|
-|ensure                |string                                                     |$tabTitel               |starts with               |@titel              |
-|seconds before timeout|${secondsBeforeTimeout}                                                                                                             |
+|scenario              |Npo poms Hoofdscherm Check titel van laatste tab begint met|titel                                          |
+|seconds before timeout|3                                                                                                          |
+|$tabTitel=            |value of                                                   |css=ul.nav-tabs>li:nth-last-child(2) .tab-title|
+|ensure                |string                                                     |$tabTitel       |starts with      |@titel      |
+|seconds before timeout|${secondsBeforeTimeout}                                                                                    |
 
-|scenario             |Npo poms Hoofdscherm Check subtitel van laatste tab|subtitel                                                                                        |
-|$subtitelInUpperCase=|convert to upper case                              |@subtitel                                                                  |                    |
-|check                |value of                                           |xpath=//ul[@class="nav nav-tabs"]/li[last()-1]//span[@class="tab-subtitle"]|$subtitelInUpperCase|
+|scenario             |Npo poms Hoofdscherm Check subtitel van laatste tab|subtitel                                                               |
+|$subtitelInUpperCase=|convert to upper case                              |@subtitel                                         |                    |
+|check                |value of                                           |css=ul.nav-tabs>li:nth-last-child(2) .tab-subtitle|$subtitelInUpperCase|
 
 |scenario        |Npo poms Hoofdscherm Wacht tot subtitel van laatste tab                       |subtitel                       |
 |wait for visible|xpath=//ul[@class="nav nav-tabs"]/li[last()-1]//span[@class="tab-subtitle" and normalize-space(.)="@subtitel"]|
@@ -48,7 +48,7 @@
 |click   |sluit deze tab                          |in|xpath=//*[contains(@class,"nav-link") and contains(.,"@tekst")]|
 
 |scenario|Npo poms Hoofdscherm Ga naar eerste tab|
-|click   |xpath=//ul[@class="nav nav-tabs"]/li[1]|
+|click   |css=ul.nav-tabs>li:first-child         |
 
 |scenario|Npo poms Hoofdscherm Toon huidige gebruiker|
-|show    |value of  |xpath=//span[@id="currentUser"] |
+|show    |value of       |css=span#currentUser       |

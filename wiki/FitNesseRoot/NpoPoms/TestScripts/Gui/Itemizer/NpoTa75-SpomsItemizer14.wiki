@@ -45,7 +45,7 @@ Test
 |Npo poms Tabblad object Check veld                            |Genres                 |heeft waarde          |${standaardGenre}                                                 |
 |Npo poms Tabblad object Druk op link                          |Segmenten              |in sidebar                                                                               |
 |Npo poms Tabblad object Wacht tot scrollen klaar is                                                                                                                             |
-|set search context to                                         |xpath=//poms-segments                                                                                            |
+|set search context to                                         |css=poms-segments                                                                                                |
 |Npo poms Tabblad object Sla aantal in veld                    |Segmenten              |op in var             |aantalSegmenten                                                   |
 |click                                                         |Segment toevoegen zonder speler                                                                                  |
 |clear search context                                                                                                                                                            |

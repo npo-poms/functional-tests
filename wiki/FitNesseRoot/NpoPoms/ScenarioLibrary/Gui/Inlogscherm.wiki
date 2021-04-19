@@ -18,7 +18,7 @@
 |enter                        |@gebruiker                                 |as          |id=username               |
 |enter                        |@wachtwoord                                |as          |id=password               |
 |click                        |id=kc-login                                                                        |
-|wait for visible             |xpath=//body[@ng-app="poms"]                                                       |
+|wait for visible             |css=body[ng-app="poms"]                                                            |
 |$timeout=                    |seconds before timeout                                                             |
 |seconds before timeout       |180                                                                                |
 |start timer                  |timer                                                                              |

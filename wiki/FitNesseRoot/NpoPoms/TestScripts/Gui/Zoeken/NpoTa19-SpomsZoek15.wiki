@@ -17,7 +17,7 @@ Test
 |Npo poms Zoeken Check kolom                        |${nieuweKolom}       |niet zichtbaar            |
 |Npo poms Zoeken Check kolom                        |${oudeKolom}         |zichtbaar                 |
 |Npo poms Zoeken Druk op tandwieltje                                                                 |
-|set search context to                              |xpath=//poms-search-columns                     |
+|set search context to                              |css=poms-search-columns                         |
 |click                                              |${nieuweKolom}                                  |
 |click                                              |${oudeKolom}                                    |
 |scroll to                                          |maak standaard                                  |
@@ -33,7 +33,7 @@ Test
 |Npo poms Zoeken Druk op header van kolom           |${nieuweKolom}                                  |
 |Npo poms Zoeken Check kolom                        |${nieuweKolom}       |oplopend gesorteerd       |
 |Npo poms Zoeken Druk op tandwieltje                                                                 |
-|set search context to                              |xpath=//poms-search-columns                     |
+|set search context to                              |css=poms-search-columns                         |
 |click                                              |MID                                             |
 |click                                              |Type                                            |
 |scroll to                                          |maak standaard                                  |

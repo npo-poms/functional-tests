@@ -24,7 +24,7 @@ Test
 |Npo poms Zoeken Popup Selecteer optie           |${omroep2}        |in dropdown       |Omroepen           |
 |ensure                                          |is visible on page|Gezocht naar: Groep, ${omroep2}, niet:|
 |Npo poms Zoeken Druk op tandwieltje                                                                       |
-|set search context to                           |xpath=//div[@class="modal-body"]//poms-search-columns    |
+|set search context to                           |css=div.modal-body poms-search-columns                   |
 |click                                           |Omroep                                                   |
 |clear search context                                                                                      |
 |Npo poms Zoeken Druk op tandwieltje                                                                       |

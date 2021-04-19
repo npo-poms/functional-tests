@@ -40,30 +40,30 @@
 |Npo poms Tabblad object Wacht tot scrollen klaar is                                                                                         |
 
 
-|scenario                                            |Voeg afbeelding met titel|titel                              |toe aan clip                |
-|set search context to                               |xpath=//poms-images                                                                       |
-|click                                               |Afbeelding toevoegen                                                                      |
-|clear search context                                                                                                                           |
-|select file                                         |${plaatje}               |for                                |css=input[id=inputFile]     |
-|wait for visible                                    |css=img                                                                                   |
-|show                                                |take screenshot          |${screenshot}_!today (yyyyMMddHHmmss)                           |
-|Npo poms Tabblad object Detailscherm Check knop     |Maak aan                 |in footer inactief                                              |
-|Npo poms Tabblad object Detailscherm Vul            |@titel                   |in tekstveld                       |Titel *                     |
-|Npo poms Tabblad object Detailscherm Check knop     |Maak aan                 |in footer inactief                                              |
-|Npo poms Tabblad object Detailscherm Vul            |${beschrijving}          |in textarea                        |Beschrijving *              |
-|Npo poms Tabblad object Detailscherm Check knop     |Maak aan                 |in footer inactief                                              |
-|scroll to                                           |Afbeeldingstype *                                                                         |
-|Npo poms Tabblad object Detailscherm Selecteer optie|Afbeelding               |in selecteerbare tekstveld         |Afbeeldingstype *           |
-|Npo poms Tabblad object Detailscherm Check knop     |Maak aan                 |in footer actief                                                |
-|click                                               |Maak aan                                                                                  |
-|check                                               |value of                 |xpath=//div[@class="modal-message"]|${waarschuwingFotosUploaden}|
-|click                                               |begrepen                                                                                  |
-|wait for not visible                                |begrepen                                                                                  |
-|wait for not visible                                |Maak aan                                                                                  |
-|Npo poms Tabblad object Wacht tot sidebar volledig geladen is                                                                                  |
+|scenario                                            |Voeg afbeelding met titel|titel                     |toe aan clip                |
+|set search context to                               |css=poms-images                                                                  |
+|click                                               |Afbeelding toevoegen                                                             |
+|clear search context                                                                                                                  |
+|select file                                         |${plaatje}               |for                       |css=input[id=inputFile]     |
+|wait for visible                                    |css=img                                                                          |
+|show                                                |take screenshot          |${screenshot}_!today (yyyyMMddHHmmss)                  |
+|Npo poms Tabblad object Detailscherm Check knop     |Maak aan                 |in footer inactief                                     |
+|Npo poms Tabblad object Detailscherm Vul            |@titel                   |in tekstveld              |Titel *                     |
+|Npo poms Tabblad object Detailscherm Check knop     |Maak aan                 |in footer inactief                                     |
+|Npo poms Tabblad object Detailscherm Vul            |${beschrijving}          |in textarea               |Beschrijving *              |
+|Npo poms Tabblad object Detailscherm Check knop     |Maak aan                 |in footer inactief                                     |
+|scroll to                                           |Afbeeldingstype *                                                                |
+|Npo poms Tabblad object Detailscherm Selecteer optie|Afbeelding               |in selecteerbare tekstveld|Afbeeldingstype *           |
+|Npo poms Tabblad object Detailscherm Check knop     |Maak aan                 |in footer actief                                       |
+|click                                               |Maak aan                                                                         |
+|check                                               |value of                 |css=div.modal-message     |${waarschuwingFotosUploaden}|
+|click                                               |begrepen                                                                         |
+|wait for not visible                                |begrepen                                                                         |
+|wait for not visible                                |Maak aan                                                                         |
+|Npo poms Tabblad object Wacht tot sidebar volledig geladen is                                                                         |
 
 |scenario                                    |Controleer dat er|aantal|afbeeldingen toegevoegd zijn   |
-|set search context to                       |xpath=//poms-images                                     |
+|set search context to                       |css=poms-images                                         |
 |Npo poms Tabblad object Check aantal in veld|Afbeeldingen     |is var|aantalAfbeeldingen|plus|@aantal|
 |clear search context                                                                                 |
 |show                                        |take screenshot  |${screenshot}_!today (yyyyMMddHHmmss) |
@@ -76,9 +76,7 @@
 |click                                                       |xpath=//button[text()="verwijderen"]         |
 |wait for not visible                                        |Afbeelding verwijderen?                      |
 |Npo poms Tabblad object Wacht tot sidebar volledig geladen is                                             |
-|set search context to                                       |xpath=//poms-images                          |
 |Npo poms Tabblad object Wacht tot afbeelding                |@titel                        |niet zichtbaar|
-|clear search context                                                                                      |
 
 
 |scenario|Controleer status clip is wordt gepubliceerd                                                        |

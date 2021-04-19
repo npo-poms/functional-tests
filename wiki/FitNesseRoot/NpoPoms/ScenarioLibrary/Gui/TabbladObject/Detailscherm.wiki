@@ -72,7 +72,7 @@
 |check   |value of                                           |xpath=//label[text()="@textarea"]/following-sibling::textarea|@waarde            |
 
 |scenario|Npo poms Tabblad object Detailscherm Druk op kruisje om pop-up te sluiten|
-|click   |xpath=//div[@class="modal-close-button"]                                 |
+|click   |css=div.modal-close-button                                               |
 
 |scenario|Npo poms Tabblad object Detailscherm Check knop|knop                                               |in footer actief                                              |
 |ensure  |is visible on page                             |xpath=//div[contains(@class, "footer-container")]/div/button[normalize-space()="@knop"][not(@disabled="disabled")]|

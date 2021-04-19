@@ -151,12 +151,12 @@
 |show    |value of                             |xpath=//poms-segments/div/table/tbody/tr[./td[@class="column-mainTitle"]/span[normalize-space(.)="@segment"]]/td[@class="column-workflow"]/span/poms-workflow/p                                |
 
 |scenario             |Npo poms Tabblad object Druk op tandwieltje bij segmenten|
-|set search context to|xpath=//poms-segment-columns                             |
+|set search context to|css=poms-segment-columns                                 |
 |click                |Kolominstellingen aanpassen                              |
 |remove last search context                                                     |
 
 |scenario             |Npo poms Tabblad object Druk op kolomoptie|optie|bij segmenten|
-|set search context to|xpath=//poms-segment-columns                                  |
+|set search context to|css=poms-segment-columns                                      |
 |click                |@optie                                                        |
 |remove last search context                                                          |
 

@@ -12,7 +12,7 @@ Test
 |Open Npo poms website                                                                                                                    |
 |Npo poms Inlogscherm Log in met standaard-gebruiker                                                                                      |
 |Zoek clip met titel en mediatype en omroep;|!-De radio-5 documentaire-!|Clip                 |!-VPRO-!                                   |
-|set search context to                      |xpath=//poms-images                                                                          |
+|set search context to                      |css=poms-images                                                                              |
 |Npo poms Tabblad object Sla aantal in veld |Afbeeldingen               |op in var            |aantalAfbeeldingen                         |
 |clear search context                                                                                                                     |
 |Voeg afbeelding met titel                  |${titel} $timestamp-1      |toe aan clip                                                     |
