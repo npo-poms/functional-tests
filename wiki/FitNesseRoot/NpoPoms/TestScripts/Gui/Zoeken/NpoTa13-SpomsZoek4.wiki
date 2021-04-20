@@ -22,6 +22,7 @@ Test
 |ensure                                             |value             |$aantalZoekresultaten2|is less than|$aantalZoekresultaten1|
 |Npo poms Zoeken Open eerste object                                                                                               |
 |close all tabs                                                                                                                   |
+|Npo poms Zoeken Wacht tot zoeken klaar is                                                                                        |
 |Npo poms Zoeken Sla aantal zoekresultaten op in var|aantalZoekresultaten1                                                        |
 |Npo poms Zoeken Selecteer optie                    |${zender}         |in dropdown           |Zenders                            |
 |ensure                                             |is visible on page|Gezocht naar: ${zender}                                   |

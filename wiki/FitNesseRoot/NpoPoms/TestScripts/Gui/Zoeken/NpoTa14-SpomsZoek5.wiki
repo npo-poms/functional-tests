@@ -39,6 +39,7 @@ Test
 |ensure                                             |value             |$aantalZoekresultaten2  |is less than  |$aantalZoekresultaten1                     |
 |Npo poms Zoeken Open eerste object                                                                                                                        |
 |close all tabs                                                                                                                                            |
+|Npo poms Zoeken Wacht tot zoeken klaar is                                                                                                                 |
 |Npo poms Zoeken Sla aantal zoekresultaten op in var|aantalZoekresultaten1                                                                                 |
 |click                                              |Datum & Persoon                                                                                       |
 |click                                              |Aangemaakt door                                                                                       |
