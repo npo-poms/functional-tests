@@ -13,25 +13,25 @@ There used to be two subfolders:
   * `poms-functional-tests-apis` maintained by NPO
   * `poms-functional-tests-fitnesse` maintained by Specialisterren
 
-The contents in the first folder has been moved to Gitlab and the contents of the last folder has been moved to the root folder. 
+The contents in the first folder has been moved to Gitlab and the contents of the last folder has been moved to the root folder.
 
-## Properties files
+== Properties files
 
 In order to run the test scripts either locally or in Jenkins, these properties files should be present:
 
-  * `poms-fitnesse-accounts.properties`
-  * `poms-fitnesse-apikeys.properties`
+* `poms-fitnesse-accounts.properties`
+* `poms-fitnesse-apikeys.properties`
 
-Both properties files should be in either of these folders:  
+Both properties files should be in either of these folders:
 
-  * `~/conf` (Linux/macOS) of `%userprofile%\conf` (Windows)
-  * [wiki/FitNesseRoot/files/fileFixture](wiki/FitNesseRoot/files/fileFixture)
+* `~/conf` (Linux/macOS) of `%userprofile%\conf` (Windows)
+* [wiki/FitNesseRoot/files/fileFixture](wiki/FitNesseRoot/files/fileFixture)
 
 The properties files are provided separately by Specialisterren.
 
-## Running locally
+== Running locally
 
-In order to get access to the automated scripts in FitNesse, `start.bat` (or `start.sh`) should be executed, located in [/poms-functional-tests-fitnesse](/poms-functional-tests-fitnesse). A command prompt will appear. Wait until it says: `Starting FitNesse on port: 9090`. 
+In order to get access to the automated scripts in FitNesse, `start.bat` (or `start.sh`) should be executed, located in [/poms-functional-tests-fitnesse](/poms-functional-tests-fitnesse).A command prompt will appear.Wait until it says: `Starting FitNesse on port: 9090`.
 
 Then the FitNesse environment can be displayed by browsing to: [http://localhost:9090/NpoPoms](http://localhost:9090/NpoPoms).
 
@@ -39,24 +39,28 @@ From this page, the test scripts can be displayed after selecting the environmen
 
 The test scripts make use of scenarios in the scenario library, located in [http://localhost:9090/NpoPoms.ScenarioLibrary](http://localhost:9090/NpoPoms.ScenarioLibrary).
 
-## Running in Jenkins
+== Running in Jenkins
 
 In Jenkins, there should be separate jobs for every possible combination of environment, test purpose and in case of `gui` en `e2e`, the browser.
 
-### Gui
+=== Gui
 
 The configuration of the test environment of `gui` with `Firefox` should be set as follows:
 
 ![Npo-poms-api-jenkins-configuration](wiki/FitNesseRoot/files/images/Npo-poms-gui-jenkins-configuration.png)
 
 If the properties files are in `~/conf` (Linux/macOS) of `%userprofile%\conf` (Windows), then `Commando` should be set as follows:
-```
+
+[source, bash]
+----
 MOZ_HEADLESS=1
 mvn clean test-compile failsafe:integration-test -DfitnesseSuiteToRun=NpoPoms.Omgevingen.Test.Firefox.Gui
-```
+----
 
-If the properties files are not in either of these folders, the properties file `poms-fitnesse-accounts.properties` should be generated through `Commando`. This file should contain the following:
-```
+If the properties files are not in either of these folders, the properties file `poms-fitnesse-accounts.properties` should be generated through `Commando`.This file should contain the following:
+
+[source, properties]
+----
 standaardGebruikersnaam=gebruikersnaam
 standaardWachtwoord=wachtwoord
 npoGebruikersnaam=gebruikersnaam
@@ -65,70 +69,82 @@ adminGebruikersnaam=gebruikersnaam
 adminWachtwoord=wachtwoord
 omroepUploaderGebruikersnaam=gebruikersnaam
 omroepUploaderWachtwoord=wachtwoord
-```
+----
 
 `Commando` should be set as follows:
-```
+
+[source, bash]
+----
 mvn clean test-compile
 mkdir -p target/fitnesse-results/files/fileFixture
 
 (echo standaardGebruikersnaam='gebruikersnaam' & echo standaardWachtwoord='wachtwoord' & echo npoGebruikersnaam='gebruikersnaam' & echo npoWachtwoord='wachtwoord' & echo adminGebruikersnaam='gebruikersnaam' & echo adminWachtwoord='wachtwoord' & echo omroepUploaderGebruikersnaam='gebruikersnaam' & echo omroepUploaderWachtwoord='wachtwoord') > target/fitnesse-results/files/fileFixture/poms-fitnesse-accounts.properties
 
 mvn failsafe:integration-test -DfitnesseSuiteToRun=NpoPoms.Omgevingen.Test.Firefox.Gui "-DseleniumJsonProfile={'args':['headless','disable-gpu']}"
-```
+----
 
 where the values after `=` should be replaced by the actual values.
 
 The configurations of other combinations of environment (`test` and `dev`) and browser (`Firefox` and `Chrome`) have a similar configuration.
 
-### Api
+=== Api
 
 The configuration of the test environment of `api` should be set like `gui`, except for the `Commando` field.
 
 If the properties files are in `~/conf` (Linux/macOS) of `%userprofile%\conf` (Windows), then `Commando` should be set as follows:
-```
+
+[source, bash]
+----
 MOZ_HEADLESS=1
 mvn clean test-compile failsafe:integration-test -DfitnesseSuiteToRun=NpoPoms.Omgevingen.Test.Api
-```
+----
 
-If the properties files are not in either of these folders, the properties file `poms-fitnesse-accounts.properties` should be generated through `Commando`. This file should contain the following:
-```
+If the properties files are not in either of these folders, the properties file `poms-fitnesse-accounts.properties` should be generated through `Commando`.This file should contain the following:
+
+[source, properties]
+----
 frontEndApiKey=apiKey
 frontEndApiSecret=secret
 frontEndApiOrigin=https://poms.testomgeving.example.com/
 backEndApiKey=apiKey
 backEndApiSecret=secret
 backEndApiOrigin=https://poms.testomgeving.example.com/
-```
+----
 
 `Commando` should be set as follows:
-```
+
+[source, bash]
+----
 mvn clean test-compile
 mkdir -p target/fitnesse-results/files/fileFixture
 
 (echo frontEndApiKey='apiKey' & echo frontEndApiSecret='secret' & echo frontEndApiOrigin='https://poms.testomgeving.example.com/' & echo backEndApiKey='apiKey' & echo backEndApiSecret='secret' & echo backEndApiOrigin='https://poms.testomgeving.example.com/') > target/fitnesse-results/files/fileFixture/poms-fitnesse-apikeys.properties
 
 mvn failsafe:integration-test -DfitnesseSuiteToRun=NpoPoms.Omgevingen.Test.Api "-DseleniumJsonProfile={'args':['headless','disable-gpu']}"
-```
+----
 
 where the values after `=` should be replaced by the actual values.
 
 The configuration of the `dev` environment has a similar configuration.
 
-### E2E
+=== E2E
 
 The configuration of the test environment of `e2e` with `Firefox` should be set like `gui`, except for the `Commando` field.
 
 If the properties files are in `~/conf` (Linux/macOS) of `%userprofile%\conf` (Windows), then `Commando` should be set as follows:
-```
+
+[source, bash]
+----
 MOZ_HEADLESS=1
 mvn clean test-compile failsafe:integration-test -DfitnesseSuiteToRun=NpoPoms.Omgevingen.Test.Firefox.E2E
-```
+----
 
-If the properties files are not in either of these folders, the properties file `poms-fitnesse-accounts.properties` and `poms-fitnesse-apikeys.properties` should be generated through `Commando`. The contents of these files are mentioned in the earlier sections.
+If the properties files are not in either of these folders, the properties file `poms-fitnesse-accounts.properties` and `poms-fitnesse-apikeys.properties` should be generated through `Commando`.The contents of these files are mentioned in the earlier sections.
 
 `Commando` should be set as follows:
-```
+
+[source, bash]
+----
 mvn clean test-compile
 mkdir -p target/fitnesse-results/files/fileFixture
 
@@ -136,7 +152,7 @@ mkdir -p target/fitnesse-results/files/fileFixture
 (echo frontEndApiKey='apiKey' & echo frontEndApiSecret='secret' & echo frontEndApiOrigin='https://poms.testomgeving.example.com/' & echo backEndApiKey='apiKey' & echo backEndApiSecret='secret' & echo backEndApiOrigin='https://poms.testomgeving.example.com/') > target/fitnesse-results/files/fileFixture/poms-fitnesse-apikeys.properties
 
 mvn failsafe:integration-test -DfitnesseSuiteToRun=NpoPoms.Omgevingen.Test.Firefox.E2E "-DseleniumJsonProfile={'args':['headless','disable-gpu']}"
-```
+----
 where the values after `=` should be replaced by the actual values.
 
 The configurations of other combinations of environment (`test` and `dev`) and browser (`Firefox` and `Chrome`) have a similar configuration.
