@@ -1,0 +1,36 @@
+---
+Suite
+SymbolicLinks
+  Api: .NpoPoms.TestScripts.Api
+  Chrome: .NpoPoms.Browsers.Chrome
+  Firefox: .NpoPoms.Browsers.Firefox
+  TestScripts: .NpoPoms.TestScripts
+Test: no
+---
+!*** Gegevens
+!*> Defines
+!define omgeving {Test}
+!define urlPoms {!-https://poms-acc.omroep.nl-!}
+!define npoPomsInlogscherm_titel {POMS Test-omgeving}
+!define npoPomsHoofdscherm_titel {POMS - @tabblad}
+
+!define urlFrontendApi {!-https://rs-acc.poms.omroep.nl/v1/api-!}
+!define frontendApiDocs {!-https://rs-acc.poms.omroep.nl/v1/docs/api-!}
+
+!define urlBackendApi {!-https://api-acc.poms.omroep.nl-!}
+
+!define secondsBeforeTimeout {30}
+*!
+|                       |'''NPO POMS                          '''|
+|'''Url'''              |${urlPoms}                              |
+|'''Titel inlogscherm'''|${npoPomsInlogscherm_titel}             |
+|'''Titel hoofdscherm'''|${npoPomsHoofdscherm_titel}             |
+
+|'''Frontend API'''                   |
+|'''Url'''         |${urlFrontendApi} |
+|'''Documentatie'''|${frontendApiDocs}|
+
+|'''Backend API'''         |
+|'''Url'''|${urlBackendApi}|
+*!
+!contents -R2 -g -p -f -h
