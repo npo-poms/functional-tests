@@ -166,7 +166,6 @@
                 <argument>fitnesse-standalone.jar</argument>
                 <argument>-p</argument>
                 <argument>${fitnesse.port}</argument>
-                <argument>-lh</argument>
               </arguments>
             </configuration>
           </execution>
