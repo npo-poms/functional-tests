@@ -1,15 +1,18 @@
 package nl.specialisterren.fitnesse.fixture.slim;
 
-import nl.hsac.fitnesse.fixture.slim.JsonHttpTest;
-import nl.hsac.fitnesse.fixture.slim.SlimFixtureException;
-import nl.vpro.api.client.frontend.NpoApiAuthentication;
-
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Map;
 
+import nl.hsac.fitnesse.fixture.slim.JsonHttpTest;
+import nl.hsac.fitnesse.fixture.slim.SlimFixtureException;
+import nl.vpro.api.client.frontend.NpoApiAuthentication;
+
+/**
+ * This seems just to add authentication. I wonder wether it _really_ was necessary to override every single method for this.
+ */
 public class NpoJsonHttpTest extends JsonHttpTest {
-    protected NpoApiAuthentication auth;
+    protected final NpoApiAuthentication auth;
 
     public NpoJsonHttpTest(String apiKey, String secret, String origin) {
         auth = new NpoApiAuthentication(apiKey, secret, origin);
@@ -29,11 +32,21 @@ public class NpoJsonHttpTest extends JsonHttpTest {
         return super.sendToImpl(body, serviceUrl, aContentType, method);
     }
 
+    // newer api will require this
+
+/*
     @Override
+    protected boolean sendFileImpl(String partName, String fileName, String serviceUrl, String method) {
+        setAuthenticationHeaders(serviceUrl);
+
+        return super.sendFileImpl(partName, fileName, serviceUrl, method);
+    }
+    */
+     @Override
     protected boolean sendFileImpl(String fileName, String serviceUrl, String method) {
         setAuthenticationHeaders(serviceUrl);
 
-        return super.sendFileImpl(fileName, serviceUrl, method);
+         return super.sendFileImpl(fileName, serviceUrl, method);
     }
 
     @Override
@@ -69,7 +82,7 @@ public class NpoJsonHttpTest extends JsonHttpTest {
             return defaultValue;
         }
     }
-	
+
 	public boolean repeatUntilJsonPathOfFirstItemsIsNot(final String jsonPath, int numberOfItems, final Object expectedValue) {
 		RepeatCompletion completion;
         if (expectedValue == null) {
@@ -101,11 +114,11 @@ public class NpoJsonHttpTest extends JsonHttpTest {
         }
         return repeatUntil(completion);
 	}
-	
+
 	public String storeIfDevElseStoreCurrentEnvIs(String valueDev, String valueTest, String env) {
 		if (env.equals("Dev"))
 			return valueDev;
-		
+
 		return valueTest;
 	}
 }

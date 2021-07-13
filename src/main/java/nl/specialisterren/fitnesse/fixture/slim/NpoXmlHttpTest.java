@@ -1,15 +1,18 @@
 package nl.specialisterren.fitnesse.fixture.slim;
 
-import nl.hsac.fitnesse.fixture.slim.XmlHttpTest;
-import nl.hsac.fitnesse.fixture.slim.SlimFixtureException;
-import nl.vpro.api.client.frontend.NpoApiAuthentication;
-
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Map;
 
+import nl.hsac.fitnesse.fixture.slim.SlimFixtureException;
+import nl.hsac.fitnesse.fixture.slim.XmlHttpTest;
+import nl.vpro.api.client.frontend.NpoApiAuthentication;
+
+/**
+ *  This seems just to add authentication. I wonder wether it _really_ was necessary to override every single method for this.
+ */
 public class NpoXmlHttpTest extends XmlHttpTest {
-    protected NpoApiAuthentication auth;
+    protected final NpoApiAuthentication auth;
 
     public NpoXmlHttpTest(String apiKey, String secret, String origin) {
         auth = new NpoApiAuthentication(apiKey, secret, origin);
@@ -28,6 +31,14 @@ public class NpoXmlHttpTest extends XmlHttpTest {
 
         return super.sendToImpl(body, serviceUrl, aContentType, method);
     }
+
+    // newer api will require this
+    /*@Override
+    protected boolean sendFileImpl(String partName, String fileName, String serviceUrl, String method) {
+        setAuthenticationHeaders(serviceUrl);
+
+        return super.sendFileImpl(partName, fileName, serviceUrl, method);
+    }*/
 
     @Override
     protected boolean sendFileImpl(String fileName, String serviceUrl, String method) {
