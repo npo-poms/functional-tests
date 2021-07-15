@@ -45,7 +45,6 @@ Test
 |Groep                  |
 |Serie                  |
 |Seizoen                |
-|Paraplu                |
 |Archief                |
 |Collectie              |
 |Speellijst             |
