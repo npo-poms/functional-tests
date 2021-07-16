@@ -1,4 +1,4 @@
-##Collection some usefull tasks
+##Collection of some usefull tasks to run tests (in docker or directly)
 ##default runs on Chrome
 ##But for examle: 'make TARGET=Firefox run' would run gui test on firefox in docker
 
@@ -22,15 +22,15 @@ help:     ## Show this help.
 	@grep -E '^[%a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
 
 
-run-%: 	${JAR} ${NAME}  ## run tests on given environemnt
+run-%: 	${JAR} ${NAME}  ## run tests on given environemnt (requires docker)
 	docker run --rm -e MOZ_HEADLESS=1 ${DOCKER_ARGS_RUN}  mvn failsafe:integration-test -DfitnesseSuiteToRun=NpoPoms.Omgevingen.$*.${TARGET}.Gui  -DseleniumJsonProfile={'args':['headless','disable-gpu']}
 
-run: run-Acceptatie    ## run it on acceptatie environment
+run: run-Acceptatie    ## run it on acceptatie environment (requires docker)
 
 exec: ${NAME}          ## run wiki in docker
-	docker run -p 9090:9090 -e MOZ_HEADLESS=1 ${DOCKER_ARGS_RUN} mvn exec:exec
+	docker run -p 9090:9090 -e MOZ_HEADLESS=1 ${DOCKER_ARGS_RUN} mvn exec:exec   -DseleniumJsonProfile={'args':['headless','disable-gpu']}
 
-local-wiki:           ## start up wiki locally (requires maven)
+local-wiki:           ## start up wiki locally (requires maven, java 11)
 	mvn compile dependency:copy-dependencies exec:exec
 
 
