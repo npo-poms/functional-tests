@@ -12,9 +12,10 @@ DOCKER_ARGS_RUN=--mount src="$$HOME/conf",target=/root/conf,type=bind ${DOCKER_A
 ARTIFACT=poms-functional-tests-fitnesse-1.0.11c
 ZIP=target/${ARTIFACT}-standalone.zip
 JAR=target/${ARTIFACT}.jar
+RUN_ARGS=-DskipTests=false -T 1 -fae -DrootLevel=WARN   "-DseleniumJsonProfile={'args':['headless','disable-gpu']}" failsafe:integration-test surefire-report:report site
 
 #TARGET=TestScripts
-TARGET=Chrome
+TARGET=Firefox
 
 
 help:     ## Show this help.
@@ -22,16 +23,20 @@ help:     ## Show this help.
 	@grep -E '^[%a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
 
 
-run-%: 	${JAR} ${NAME}  ## run tests on given environemnt (requires docker)
-	docker run --rm -e MOZ_HEADLESS=1 ${DOCKER_ARGS_RUN}  mvn failsafe:integration-test -DfitnesseSuiteToRun=NpoPoms.Omgevingen.$*.${TARGET}.Gui  -DseleniumJsonProfile={'args':['headless','disable-gpu']}
+run-%: 	${ZIP} ${NAME}  ## run tests on given environemnt (requires docker)
+	docker run --rm -e MOZ_HEADLESS=1 ${DOCKER_ARGS_RUN}  mvn  -DfitnesseSuiteToRun=NpoPoms.Omgevingen.$*.${TARGET}.Gui ${RUN_ARGS}
 
 run: run-Acceptatie    ## run it on acceptatie environment (requires docker)
 
-exec: ${NAME}          ## run wiki in docker
+wiki: ${NAME}          ## run wiki in docker
 	docker run -p 9090:9090 -e MOZ_HEADLESS=1 ${DOCKER_ARGS_RUN} mvn exec:exec   -DseleniumJsonProfile={'args':['headless','disable-gpu']}
 
 local-wiki:           ## start up wiki locally (requires maven, java 11)
 	mvn compile dependency:copy-dependencies exec:exec
+
+local-run-%: ${ZIP}    ## run tests on given environment locally (required maven, java 11)
+	MOZ_HEADLESS=1 mvn -DfitnesseSuiteToRun=NpoPoms.Omgevingen.$*.${TARGET}.Gui ${RUN_ARGS}
+
 
 
 ${NAME}: Dockerfile settings.xml
