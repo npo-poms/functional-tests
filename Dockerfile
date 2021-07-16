@@ -9,6 +9,9 @@ RUN apt-get -y update && \
     mkdir /root/conf /fitnessetests
 
 COPY settings.xml /root/.m2/settings.xml
+#ENV JAVA_OPTS="-Dwebdriver.chrome.whitelistedIps="
+#ENV MAVEN_OPTS="-Dwebdriver.chrome.whitelistedIps="
+ENV MOZ_HEADLESS=1
 
 WORKDIR /fitnessetests
 EXPOSE 9090

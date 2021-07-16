@@ -166,7 +166,12 @@
                 <argument>fitnesse-standalone.jar</argument>
                 <argument>-p</argument>
                 <argument>${fitnesse.port}</argument>
+                <!-- for loopback only -->
+                <!-- <argument>-lh</argument>-->
               </arguments>
+             <!-- <environmentVariables>
+                <JAVA_OPTS>-Dwebdriver.chrome.whitelistedIps=</JAVA_OPTS>
+              </environmentVariables>-->
             </configuration>
           </execution>
           <execution>
