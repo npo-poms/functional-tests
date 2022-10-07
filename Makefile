@@ -1,6 +1,6 @@
 ##Collection of some usefull tasks to run tests (in docker or directly)
 ##default runs on Chrome
-##But for examle: 'make TARGET=Firefox run' would run gui test on firefox in docker
+##But for example: 'make TARGET=Firefox run' would run gui test on firefox in docker
 
 .PHONY: run exec
 
