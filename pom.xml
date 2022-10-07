@@ -50,7 +50,7 @@
     <dependency>
       <groupId>nl.vpro.poms.api-clients</groupId>
       <artifactId>frontend-api-client</artifactId>
-      <version>5.30.0</version>
+      <version>6.0.0</version>
     </dependency>
     <dependency>
       <groupId>junit</groupId>
