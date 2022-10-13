@@ -6,7 +6,7 @@ Test
 !*> Lokale variabelen
 
 !define mediatype {Clip}
-!define omroep {NMO}
+!define omroep {NMO (-2010)}
 !define criteria {Mag schrijven}
 
 *!

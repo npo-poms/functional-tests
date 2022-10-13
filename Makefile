@@ -1,6 +1,7 @@
 ##Collection of some usefull tasks to run tests (in docker or directly)
 ##default runs on Chrome
 ##But for example: 'make TARGET=Firefox run' would run gui test on firefox in docker
+##           'make local-run-Test'
 
 .PHONY: run exec
 
@@ -9,7 +10,7 @@ NAME=fitnesse-tests-runner
 DIR=/fitnessetests
 DOCKER_ARGS=--mount src="${ROOT_DIR}",target=${DIR},type=bind ${NAME}
 DOCKER_ARGS_RUN=--mount src="$$HOME/conf",target=/root/conf,type=bind ${DOCKER_ARGS}
-ARTIFACT=poms-functional-tests-fitnesse-1.0.11c
+ARTIFACT=poms-functional-tests-fitnesse-1.0-SNAPSHOT
 ZIP=target/${ARTIFACT}-standalone.zip
 JAR=target/${ARTIFACT}.jar
 RUN_ARGS=-DskipTests=false -T 1 -fae -DrootLevel=WARN   "-DseleniumJsonProfile={'args':['headless','disable-gpu']}" failsafe:integration-test surefire-report:report site
@@ -35,7 +36,7 @@ local-wiki:           ## start up wiki locally (requires maven, java 11)
 	mvn compile dependency:copy-dependencies exec:exec
 
 local-run-%: ${ZIP}    ## run tests on given environment locally (required maven, java 11)
-	MOZ_HEADLESS=1 mvn -DfitnesseSuiteToRun=NpoPoms.Omgevingen.$*.${TARGET}.Gui ${RUN_ARGS}
+	MOZ_HEADLESS=1 mvn -DskipTests=false -DfitnesseSuiteToRun=NpoPoms.Omgevingen.$*.${TARGET}.Gui ${RUN_ARGS}
 
 
 
@@ -43,7 +44,7 @@ ${NAME}: Dockerfile settings.xml
 	docker build -t ${NAME} .
 	touch $@
 
-${ZIP}: ${NAME}
+${ZIP}:
 	docker run ${DOCKER_ARGS} mvn package
 
 ${JAR}: ${NAME}

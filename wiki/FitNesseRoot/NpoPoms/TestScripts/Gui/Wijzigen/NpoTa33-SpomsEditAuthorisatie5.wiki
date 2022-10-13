@@ -6,9 +6,9 @@ Test
 !*> Lokale variabelen
 
 !define mediatype1 {Clip}
-!define omroep1 {NPS}
+!define omroep1 {NTR}
 !define mediatype2 {Trailer}
-!define omroep2 {AVRO}
+!define omroep2 {AVROTROS}
 
 *!
 
