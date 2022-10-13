@@ -6,7 +6,7 @@ Test
 !*> Lokale variabelen
 
 !define mediatype {Clip}
-!define omroep {NPS}
+!define omroep {NPS (-2010)}
 !define platform {INTERNETVOD}
 !define bron {MP4}
 

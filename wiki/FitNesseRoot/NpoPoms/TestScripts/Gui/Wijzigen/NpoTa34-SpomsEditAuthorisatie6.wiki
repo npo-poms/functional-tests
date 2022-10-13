@@ -9,7 +9,7 @@ Test
 !define omroep1 {VPRO}
 !define mid {POMS_S_VPRO_191797}
 !define mediatype2 {Clip}
-!define omroep2 {AVRO}
+!define omroep2 {AVRO (-2014)}
 !define objectNummer {2}
 
 *!

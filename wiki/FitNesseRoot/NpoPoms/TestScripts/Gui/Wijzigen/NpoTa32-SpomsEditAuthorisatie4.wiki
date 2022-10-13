@@ -6,8 +6,8 @@ Test
 !*> Lokale variabelen
 
 !define mediatype {Clip}
-!define omroep1 {NPS}
-!define omroep2 {LLiNK}
+!define omroep1 {NPS (-2010)}
+!define omroep2 {LLiNK (-2010)}
 
 *!
 
