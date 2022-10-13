@@ -23,7 +23,7 @@ Test
 |Npo poms Tabblad object Check veld                            |AV-Type        |heeft waarde |${standaardAvType}                                           |
 |Npo poms Tabblad object Check publicatiestart met start       |$start         |en stop      |$stop                                                        |
 |Npo poms Tabblad object Check mid active                                                                                                                  |
-|Npo poms Tabblad object Check mid of urn                      |=~/WO_${standaardOmroep}_[0-9]{7}/                                                         |
+|Npo poms Tabblad object Check mid of urn                      |=~/WO_${standaardOmroep}_[AT]?[0-9]+/                                                         |
 |click                                                         |Urn                                                                                        |
 |Npo poms Tabblad object Check urn active                                                                                                                  |
 |Npo poms Tabblad object Check mid of urn                      |=~/urn:vpro:media:program:[0-9]{9}/                                                        |
