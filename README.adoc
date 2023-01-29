@@ -13,7 +13,7 @@ There used to be two subfolders:
   * `poms-functional-tests-apis` maintained by NPO
   * `poms-functional-tests-fitnesse` maintained by Specialisterren
 
-The contents in the first folder has been moved to Gitlab and the contents of the last folder has been moved to the root folder.
+The contents in the first folder has been moved to git.vpro.nl  and the contents of the last folder has been moved to the root folder.
 
 == Properties files
 
