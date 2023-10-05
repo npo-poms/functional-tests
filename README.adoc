@@ -13,7 +13,9 @@ There used to be two subfolders:
   * `poms-functional-tests-apis` maintained by NPO
   * `poms-functional-tests-fitnesse` maintained by Specialisterren
 
-The contents in the first folder has been moved to git.vpro.nl  and the contents of the last folder has been moved to the root folder.
+The contents in the first folder has been moved to https://git.vpro.nl/npo/test/api-tests[git.vpro.nl]  and the contents of the last folder has been moved to the root folder.
+
+Sadly we don't run these tests, because we haven't figured it out yet how to do that on gitlab.
 
 == Properties files
 
