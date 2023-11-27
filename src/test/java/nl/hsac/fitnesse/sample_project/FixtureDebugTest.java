@@ -1,4 +1,4 @@
-package nl.hsac.fitnesse.example;
+package nl.hsac.fitnesse.sample_project;
 
 import fitnesse.junit.FitNesseRunner;
 import nl.hsac.fitnesse.junit.HsacFitNesseRunner;

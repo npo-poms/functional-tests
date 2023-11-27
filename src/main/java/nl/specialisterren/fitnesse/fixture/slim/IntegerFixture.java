@@ -14,7 +14,7 @@ public class IntegerFixture {
         if (a != null) {
             x = Integer.valueOf(a);
         }
-		// TODO: this may produce NullPointerException:
+        // TODO: this may produce NullPointerException:
         return x + b;
     }
 
@@ -24,7 +24,7 @@ public class IntegerFixture {
             x = Integer.valueOf(a);
         }
 
-		// TODO: this may produce NullPointerException:
+        // TODO: this may produce NullPointerException:
         return x - b;
     }
 }

@@ -72,10 +72,10 @@ public class CalendarFixture {
 	
 	public String convertEpochToDatetime(long epoch) {
 		Date date = new Date(epoch);
-        SimpleDateFormat sdf = new SimpleDateFormat("d-M-yyyy H:mm");
-        sdf.setTimeZone(TimeZone.getTimeZone("Europe/Amsterdam"));
+		SimpleDateFormat sdf = new SimpleDateFormat("d-M-yyyy H:mm");
+		sdf.setTimeZone(TimeZone.getTimeZone("Europe/Amsterdam"));
 		
-        return sdf.format(date);
+		return sdf.format(date);
 	}
 	
 	public boolean epochEquals(long epoch, String datetime) {

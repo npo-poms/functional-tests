@@ -1,0 +1,49 @@
+a {
+  color: #1e72b9;
+}
+tr:not(.scenario) > td.ignore,
+tr:not(.scenario) > td.error,
+tr:not(.scenario) > td.fail,
+tr:not(.scenario) > td.pass {
+  text-align: center;
+}
+#tooltip-div {
+  padding: 0px;
+  margin: 0 0 10px;
+  background-color: transparent;
+}
+#tooltip-text {
+  font-weight: 200;
+}
+#tooltip-text:before {
+  top: 3px;
+  background-image: url('hint.svg');
+  background-size: 16px 16px;
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  content:"";
+}
+footer {
+  background-image: url('specialisterren-light.svg');
+  background-size: contain;
+}
+.navbar-brand {
+  background-image: url('fitnesse-logo.png');
+  background-size: contain;
+}
+button.prefsbutton {
+  border: 2px solid transparent !important;
+}
+.navbar-form {
+  padding: 0 12px 0 0;
+}
+.helper-content {
+  min-height: 98%;
+  padding-bottom: 60px;
+  background-image: url('specialisterren-light.svg');
+  background-repeat: no-repeat;
+  background-position: right bottom;
+  position: relative;
+  bottom: -16px;
+}

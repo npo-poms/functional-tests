@@ -28,29 +28,29 @@ import nl.hsac.fitnesse.fixture.slim.SlimFixtureException;
 public class ExtendedBrowserTest extends BrowserTest {
     private LinkedList<String> previousPropertyValues = new LinkedList<>();
 
-	public Object store(Object result) {
-		return result;
-	}
+    public Object store(Object result) {
+        return result;
+    }
 	
-	public String trySetBrowserSizeToBy(int newWidth, int newHeight) {
-		try {
-			setBrowserSizeToBy(newWidth, newHeight);
-			return "";
-		} catch(SlimFixtureException e) {
-			return e.getMessage();
-		}
-	}
+    public String trySetBrowserSizeToBy(int newWidth, int newHeight) {
+        try {
+            setBrowserSizeToBy(newWidth, newHeight);
+            return "";
+        } catch(SlimFixtureException e) {
+            return e.getMessage();
+        }
+    }
 	
-	@WaitUntil(TimeoutPolicy.RETURN_FALSE)
+    @WaitUntil(TimeoutPolicy.RETURN_FALSE)
     public boolean waitForNotVisible(String place) {
         return !waitForVisibleIn(place, null);
     }
 	
-	public boolean isPresentOnPage(String place) {
+    public boolean isPresentOnPage(String place) {
         return isVisibleOnPage(place);
     }
 	
-	public void removeLastSearchContext() {
+    public void removeLastSearchContext() {
         List<String> currentSearchContextPath = getCurrentSearchContextPath();
 		int size = currentSearchContextPath.size();
         
@@ -64,8 +64,8 @@ public class ExtendedBrowserTest extends BrowserTest {
 
     public void zetCheckboxOpWaarde(String place, String huidig, String nieuw){
 
-	    if(huidig.equals(nieuw))
-	        return ;
+        if(huidig.equals(nieuw))
+            return ;
 
         getSeleniumHelper().getElement(place).click();
 
@@ -286,38 +286,38 @@ public class ExtendedBrowserTest extends BrowserTest {
         }
     }
 	
-	public String getSortDate(WebElement element) {
-		ArrayList<String> values = null;
-		if (element != null) {
-			WebElement item = element.findElement(By.cssSelector(".column-sortDate"));
-			if (item != null)
-				return getElementText(item);
-		}
-		return null;
-	}
+    public String getSortDate(WebElement element) {
+        ArrayList<String> values = null;
+        if (element != null) {
+            WebElement item = element.findElement(By.cssSelector(".column-sortDate"));
+            if (item != null)
+                return getElementText(item);
+        }
+        return null;
+    }
 	
     public ArrayList<String> sortDatesOfIn(String place, String container) {
         ArrayList<String> values = null;
         WebElement element = getElementToRetrieveValue(place, container);
-		if (element != null) {
-			element = element.findElement(By.tagName("tbody"));
-			if (element != null) {
-				values = new ArrayList<String>();
-				String tagName = element.getTagName();
-				if ("tbody".equalsIgnoreCase(tagName)) {
-					List<WebElement> items = element.findElements(By.tagName("tr"));
-					for (WebElement item : items) {
-						if (item.isDisplayed()) {
-							values.add(getSortDate(item));
-						}
-					}
-				}
-			}
-		}
+        if (element != null) {
+            element = element.findElement(By.tagName("tbody"));
+            if (element != null) {
+                values = new ArrayList<String>();
+                String tagName = element.getTagName();
+                if ("tbody".equalsIgnoreCase(tagName)) {
+                    List<WebElement> items = element.findElements(By.tagName("tr"));
+                    for (WebElement item : items) {
+                        if (item.isDisplayed()) {
+                            values.add(getSortDate(item));
+                        }
+                    }
+                }
+            }
+        }
         return values;
     }
 	
-	public String listAllSortDatesOfIn(String place, String container) {
+    public String listAllSortDatesOfIn(String place, String container) {
         String result = null;
         List<String> values = sortDatesOfIn(place, container);
         if (values != null && !values.isEmpty()) {
@@ -334,80 +334,79 @@ public class ExtendedBrowserTest extends BrowserTest {
         return result;
     }
 	
-	public String listAllSortDatesOf(String place) {
-		return listAllSortDatesOfIn(place, null);
+    public String listAllSortDatesOf(String place) {
+        return listAllSortDatesOfIn(place, null);
+    }
+	
+    public ArrayList<String> sortDatesOf(String list) {
+        ArrayList<String> values = new ArrayList<String>();
+        Pattern pattern = Pattern.compile("<li>.+?</li>");
+        Matcher matcher = pattern.matcher(list);
+        while (matcher.find())
+        {
+            String item = matcher.group();
+            Pattern p = Pattern.compile("<li>(\\d{2}-\\d{2}-\\d{4}) .+?(\\n.+?)*?</li>");
+            Matcher m = p.matcher(item);
+            if (m.find())
+                values.add(m.group(1));
+        }
+        return values;
+    }
+	
+    public ArrayList<Boolean> datesAreDate(String list, String comparison, String date2) throws ParseException {
+        ArrayList<Boolean> result = new ArrayList<Boolean>();
+        ArrayList<String> dates = sortDatesOf(list);
+        Date dateToCompare2 = new SimpleDateFormat("dd-MM-yyyy").parse(date2); 
+        	
+        for (String date : dates) {
+            Date dateToCompare1 = new SimpleDateFormat("dd-MM-yyyy").parse(date); 
+            
+            switch (comparison) {
+                case ">=":
+                    result.add(dateToCompare1.after(dateToCompare2) || dateToCompare1.equals(dateToCompare2));
+                    break;
+                
+                case "==":
+                    result.add(dateToCompare1.equals(dateToCompare2));
+                    break;
+                	
+                default:
+                    result.add(false);
+            }
+        }
+        
+        return result;
 	}
 	
-	public ArrayList<String> sortDatesOf(String list) {
-		ArrayList<String> values = new ArrayList<String>();
-		Pattern pattern = Pattern.compile("<li>.+?</li>");
-		Matcher matcher = pattern.matcher(list);
-		while (matcher.find())
-		{
-			String item = matcher.group();
-			Pattern p = Pattern.compile("<li>(\\d{2}-\\d{2}-\\d{4}) .+?(\\n.+?)*?</li>");
-			Matcher m = p.matcher(item);
-			if (m.find())
-				values.add(m.group(1));
-		}
-		return values;
-	}
+    public Boolean listAllTrue(ArrayList<Boolean> list) {
+        for (Boolean item : list) {
+            if (!item)
+                return false;
+        }
+        
+        return true;
+    }
 	
-	public ArrayList<Boolean> datesAreDate(String list, String comparison, String date2) throws ParseException {
-		ArrayList<Boolean> result = new ArrayList<Boolean>();
-		ArrayList<String> dates = sortDatesOf(list);
-		Date dateToCompare2 = new SimpleDateFormat("dd-MM-yyyy").parse(date2); 
-			
-		for (String date : dates) {
-			Date dateToCompare1 = new SimpleDateFormat("dd-MM-yyyy").parse(date); 
-			
-			switch (comparison) {
-				case ">=":
-					result.add(dateToCompare1.after(dateToCompare2) || dateToCompare1.equals(dateToCompare2));
-					break;
-
-				case "==":
-					result.add(dateToCompare1.equals(dateToCompare2));
-					break;
-					
-				default:
-					result.add(false);
-			}
-			
-		}
-		
+    public ArrayList<String> valuesOfMatching(ArrayList<String> values, String regex) {
+        ArrayList<String> result = new ArrayList<String>();
+        Pattern p = Pattern.compile(regex);
+        	
+        for(String value : values) {
+            Matcher m = p.matcher(value);
+            if (m.find()) {
+                result.add(m.group(1));
+            }
+        }
+        	
 		return result;
-	}
+    }
 	
-	public Boolean listAllTrue(ArrayList<Boolean> list) {
-		for (Boolean item : list) {
-			if (!item)
-				return false;
-		}
-		
-		return true;
-	}
-	
-	public ArrayList<String> valuesOfMatching(ArrayList<String> values, String regex) {
-		ArrayList<String> result = new ArrayList<String>();
-		Pattern p = Pattern.compile(regex);
-			
-		for(String value : values) {
-			Matcher m = p.matcher(value);
-			if (m.find()) {
-				result.add(m.group(1));
-			}
-		}
-		
-		return result;
-	}
-	
-	@WaitUntil(TimeoutPolicy.RETURN_FALSE)
+    @WaitUntil(TimeoutPolicy.RETURN_FALSE)
     public boolean waitForVisibleAt(String place, ArrayList<String> values) {
         return waitForVisibleAtIn(place, values, null);
     }
 
-	@WaitUntil(TimeoutPolicy.RETURN_FALSE)
+    @WaitUntil(TimeoutPolicy.RETURN_FALSE)
     public boolean waitForNotVisibleAt(String place, ArrayList<String> values) {
         return !waitForVisibleAtIn(place, values, null);
     }
@@ -415,31 +414,31 @@ public class ExtendedBrowserTest extends BrowserTest {
     @WaitUntil(TimeoutPolicy.RETURN_FALSE)
     public boolean waitForVisibleAtIn(String place, ArrayList<String> values, String container) {
         Boolean result = Boolean.TRUE;
-		for (String value : values) {
-			result = result && waitForVisibleIn(place + "[starts-with(normalize-space(), '" + value + "')]", container);
-		}
-		return result;
+        for (String value : values) {
+            result = result && waitForVisibleIn(place + "[starts-with(normalize-space(), '" + value + "')]", container);
+        }
+        return result;
     }
 	
-	public int getNumberOfTabs() {
-		WebElement element = getElement("xpath=//ul[@class='nav nav-tabs']");
-		List<WebElement> items = element.findElements(By.tagName("li"));
-		
-		return items.size() - 1;
-	}
+    public int getNumberOfTabs() {
+        WebElement element = getElement("xpath=//ul[@class='nav nav-tabs']");
+        List<WebElement> items = element.findElements(By.tagName("li"));
+        
+        return items.size() - 1;
+    }
 	
-	public void closeLastTab() {
-		click("xpath=//ul[@class='nav nav-tabs']/li[last()-1]/a/tab-heading/span/span[text()='close']");
-	}
+    public void closeLastTab() {
+        click("xpath=//ul[@class='nav nav-tabs']/li[last()-1]/a/tab-heading/span/span[text()='close']");
+    }
 	
-	public void closeAllTabs() {
-		int tabsCount = getNumberOfTabs();
-		
-		while (tabsCount > 1) {
-			closeLastTab();
-			tabsCount--;
-		}
-		
-		closeLastTab();
-	}
+    public void closeAllTabs() {
+        int tabsCount = getNumberOfTabs();
+        
+        while (tabsCount > 1) {
+            closeLastTab();
+            tabsCount--;
+        }
+        
+        closeLastTab();
+    }
 }

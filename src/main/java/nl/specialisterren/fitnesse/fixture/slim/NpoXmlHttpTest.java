@@ -40,11 +40,11 @@ public class NpoXmlHttpTest extends XmlHttpTest {
         return super.sendFileImpl(partName, fileName, serviceUrl, method);
     }*/
 
-    @Override
+    //@Override
     protected boolean sendFileImpl(String fileName, String serviceUrl, String method) {
         setAuthenticationHeaders(serviceUrl);
 
-        return super.sendFileImpl(fileName, serviceUrl, method);
+        return super.sendFileImpl(fileName, serviceUrl, method, "POST");
     }
 
     @Override

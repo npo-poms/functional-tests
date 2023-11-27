@@ -1,0 +1,30 @@
+a, a:hover, a:focus {
+  color: #00afef;
+}
+.error a {
+  color: #00335f;
+}
+.pass, span.pass * {
+  background-color: #336b34;
+  color: #fff;
+}
+.ignore, span.ignore * {
+  /*background-color: #356497;*/
+  color: #fff;
+}
+span.fail, td.fail {
+  background-color: #9f3030;
+  /*color: #fff;*/
+}
+footer {
+  background-image: url('specialisterren-dark.svg');
+}
+.helper-content {
+  min-height: 98%;
+  padding-bottom: 60px;
+  background-image: url('specialisterren-dark.svg');
+  background-repeat: no-repeat;
+  background-position: right bottom;
+  position: relative;
+  bottom: -16px;
+}

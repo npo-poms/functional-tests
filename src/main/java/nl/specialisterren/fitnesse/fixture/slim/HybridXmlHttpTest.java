@@ -40,7 +40,7 @@ public class HybridXmlHttpTest extends XmlHttpTest {
         }
     }
 	
-	public boolean repeatUntilXPathIsOr(final String xPath, final String expectedValue1, final String expectedValue2) {
+    public boolean repeatUntilXPathIsOr(final String xPath, final String expectedValue1, final String expectedValue2) {
         RepeatCompletion completion;
         if (expectedValue1 == null || expectedValue2 == null) {
             completion = new RepeatLastCall() {

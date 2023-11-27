@@ -1,0 +1,23 @@
+---
+Suite
+Help: Generated suite, intended to be renamed and otherwise modified and to
+---
+
+Boilerplate test suite, generated to give your own test suite a flying start. Customize it to your heart's desire.
+It is probably a good idea to add a link (i.e. [[MyTestSuite][.MyTestSuite]]) to this page on the .FrontPage.
+
+!contents -R2 -g -p -f -h
+
+
+!*> Basic setup for tests with Slim
+Workaround for https://github.com/unclebob/fitnesse/issues/989
+!define slim.port {0}
+
+!define TEST_SYSTEM {slim}
+!define ALL_UNCLE_SUITE_SETUPS {true}
+
+The classpath location:
+!path fixtures
+!path fixtures/*.jar
+
+*!
