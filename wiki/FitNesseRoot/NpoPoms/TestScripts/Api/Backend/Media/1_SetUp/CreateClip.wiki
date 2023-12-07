@@ -25,7 +25,7 @@ Test
 |script                                                                 |
 |post |${body}        |to|${urlBackendApi}/media/media?owner=BROADCASTER|
 |check|response status|202                                              |
-|check|response       |=~/^POMS_NPO_\d{7}$/                             |
+|check|response       |=~/^WO_NPO_[AT]\d{8}$/                           |
 |$mid=|response                                                         |
 
 !4 Read (verify creation)
