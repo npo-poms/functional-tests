@@ -43,6 +43,10 @@ Test
 </collection>
 }}} }
 
+|table template|Check platform has status 404                                            |
+|$tmp=         |get from       |${urlBackendApi}/media/media/$mid/predictions/@{platform}|
+|check         |response status|404                                                      |
+
 |table template|Check platform publish times in backend                    |
 |$startIso=    |convert datetime|@{start}                        |to iso   |
 |$stopIso=     |convert datetime|@{stop}                         |to iso   |
@@ -85,8 +89,11 @@ Test
 |Check platform publish times in backend|
 |platform           |start     |stop    |
 |${internetVod}     |          |        |
-|${tvVod}           |          |        |
-|${plusVod}         |          |        |
+
+|Check platform has status 404|
+|platform                     |
+|${tvVod}                     |
+|${plusVod}                   |
 
 !4 Update platform 'internetvod' in backend
 
@@ -121,7 +128,7 @@ Test
 !include -c <E2E.GuiTearDown
 !include -c <E2E.ApiBackendSetUp
 
-!4 Update platforms 'tvvod' and 'plusvod'
+!4 Update platforms 'tvvod' and 'plusvod' in backend
 
 |script                                                                             |
 |post |${bodyChangeTvVodAndPlusVod}|to|${urlBackendApi}/media/media/$mid/predictions|
@@ -139,7 +146,7 @@ Test
 
 !include -c <E2E.GuiSetUp
 
-!4 Check platform 'internetvod' updated in gui
+!4 Check platform 'tvvod' and 'plusvod' updated in gui
 
 |script                                                    |
 |Open Npo poms website                                     |

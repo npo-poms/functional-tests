@@ -8,7 +8,7 @@
 
 |scenario     |Npo poms Hoofdscherm Log uit    |
 |Npo poms Hoofdscherm Druk op huidige gebruiker|
-|click        |log uit                         |
+|click        |uitloggen                       |
 |Npo poms Inlogscherm Wacht tot pagina geladen |
 
 |scenario        |Npo poms Hoofdscherm Wacht op notificatie|notificatie              |
@@ -33,13 +33,13 @@
 
 |scenario              |Npo poms Hoofdscherm Check titel van laatste tab begint met|titel                                          |
 |seconds before timeout|3                                                                                                          |
-|$tabTitel=            |value of                                                   |css=ul.nav-tabs>li:nth-last-child(2) .tab-title|
+|$tabTitel=            |value of                                                   |css=ul.nav-tabs>li:nth-last-child(3) .tab-title|
 |ensure                |string                                                     |$tabTitel       |starts with      |@titel      |
 |seconds before timeout|${secondsBeforeTimeout}                                                                                    |
 
 |scenario             |Npo poms Hoofdscherm Check subtitel van laatste tab|subtitel                                                               |
 |$subtitelInUpperCase=|convert to upper case                              |@subtitel                                         |                    |
-|check                |value of                                           |css=ul.nav-tabs>li:nth-last-child(2) .tab-subtitle|$subtitelInUpperCase|
+|check                |value of                                           |css=ul.nav-tabs>li:nth-last-child(3) .tab-subtitle|$subtitelInUpperCase|
 
 |scenario        |Npo poms Hoofdscherm Wacht tot subtitel van laatste tab                       |subtitel                       |
 |wait for visible|xpath=//ul[@class="nav nav-tabs"]/li[last()-1]//span[@class="tab-subtitle" and normalize-space(.)="@subtitel"]|
