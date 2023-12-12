@@ -427,9 +427,13 @@ public class ExtendedBrowserTest extends BrowserTest {
         return items.size() - 1;
     }
 	
-    public boolean closeAllTabs() {
+	public void closeLastTab() {
+        click("xpath=//ul[@class='nav nav-tabs']/li[last()-1]/a/tab-heading/span/span[text()='close']");
+    }
+	
+    public void closeAllTabs() {
 		click("css=.tab-close-all");
 		
-		return !isVisibleOnPage("css=.tab-close-all");
+		closeLastTab();
     }
 }
