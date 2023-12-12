@@ -428,7 +428,7 @@ public class ExtendedBrowserTest extends BrowserTest {
     }
 	
     public void closeLastTab() {
-        click("xpath=//ul[@class='nav nav-tabs']/li[last()-1]/a/tab-heading/span/span[text()='close']");
+        click("css=.tab-close-all");
     }
 	
     public void closeAllTabs() {
