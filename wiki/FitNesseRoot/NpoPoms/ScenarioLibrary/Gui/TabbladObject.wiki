@@ -14,12 +14,12 @@
 |open          |${urlPoms}/#/edit/@object                     |
 |Npo poms Tabblad object Wacht tot sidebar volledig geladen is|
 
-|scenario               |Npo poms Tabblad object Wacht tot alle laad-icoontjes in de sidebar verdwenen zijn                                          |
-|$sidebarItems=         |values of                                                                              |xpath=//ul[@id="sidebar"]           |
-|$sidebarItemsWithCount=|values of                                                                              |$sidebarItems|matching|(.+?) \(.+?\)|
-|wait for visible       |xpath=./li/span[@class="media-item-navigation-text"]                                   |at           |$sidebarItemsWithCount|
-|wait for not visible   |xpath=./li/span[@class="media-item-navigation-text media-item-navigation-text-waiting"]|at           |$sidebarItemsWithCount|
-|wait for visible       |xpath=./li/span[@class="media-item-navigation-text"]                                   |at           |$sidebarItemsWithCount|
+|scenario               |Npo poms Tabblad object Wacht tot alle laad-icoontjes in de sidebar verdwenen zijn                                           |
+|$sidebarItems=         |values of                                                                               |xpath=//ul[@id="sidebar"]           |
+|$sidebarItemsWithCount=|values of                                                                               |$sidebarItems|matching|(.+?) \(.+?\)|
+|wait for visible       |xpath=.//li/span[@class="media-item-navigation-text"]                                   |at           |$sidebarItemsWithCount|
+|wait for not visible   |xpath=.//li/span[@class="media-item-navigation-text media-item-navigation-text-waiting"]|at           |$sidebarItemsWithCount|
+|wait for visible       |xpath=.//li/span[@class="media-item-navigation-text"]                                   |at           |$sidebarItemsWithCount|
 
 |scenario             |Npo poms Tabblad object Wacht tot sidebar volledig geladen is|
 |wait for visible     |xpath=//ul[@id="sidebar"]                                    |
@@ -143,6 +143,9 @@
 
 |scenario|Npo poms Tabblad object Check mid of urn|midOfUrn                                                                                    |
 |check   |value of                                |xpath=//h2[normalize-space(.)="Mid Urn"]/following-sibling::p/poms-clipboard/input|@midOfUrn|
+
+|scenario|Npo poms Tabblad object Check mid|mid                                                                                      |
+|check   |value of                         |xpath=(.//h2[normalize-space(.)="MID"]/following-sibling::p/poms-clipboard/input)[2]|@mid|
 
 |scenario|Npo poms Tabblad object Sla mid of urn op in var|var                                                                               |
 |$@var=  |value of                                        |xpath=//h2[normalize-space(.)="Mid Urn"]/following-sibling::p/poms-clipboard/input|

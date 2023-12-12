@@ -23,7 +23,7 @@ Test
 |double click                                 |${segment}                                                                                       |
 |clear search context                                                                                                                           |
 |Npo poms Hoofdscherm Wacht tot tabblad nummer|3                     |zichtbaar                                                                 |
-|Npo poms Tabblad object Check mid of urn     |${midVanSegment}                                                                                 |
+|Npo poms Tabblad object Check mid            |${midVanSegment}                                                                                 |
 |set search context to                        |css=div.media-section.media-sub-section                                                          |
 |Npo poms Tabblad object Sla textarea         |Beschrijving          |op in var  |oudeBeschrijving     |en vul deze aan met|${beschrijving}     |
 |Npo poms Tabblad object Sla textarea         |Korte beschrijving    |op in var  |oudeKorteBeschrijving|en vul deze aan met|${korteBeschrijving}|
