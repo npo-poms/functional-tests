@@ -86,12 +86,9 @@ Test
 
 !4 Check original values in backend
 
-|Check platform publish times in backend|
-|platform           |start     |stop    |
-|${internetVod}     |          |        |
-
 |Check platform has status 404|
 |platform                     |
+|${internetVod}               |
 |${tvVod}                     |
 |${plusVod}                   |
 
