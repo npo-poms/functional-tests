@@ -427,18 +427,9 @@ public class ExtendedBrowserTest extends BrowserTest {
         return items.size() - 1;
     }
 	
-    public void closeLastTab() {
-        click("css=.tab-close-all");
-    }
-	
-    public void closeAllTabs() {
-        int tabsCount = getNumberOfTabs();
-        
-        while (tabsCount > 1) {
-            closeLastTab();
-            tabsCount--;
-        }
-        
-        closeLastTab();
+    public boolean closeAllTabs() {
+		click("css=.tab-close-all");
+		
+		return !isVisibleOnPage("css=.tab-close-all");
     }
 }
