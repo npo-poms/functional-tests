@@ -1,0 +1,2 @@
+|scenario|Npo poms Tabblad object Check mid|mid                                                                                      |
+|check   |value of                         |xpath=(.//h2[normalize-space(.)="MID"]/following-sibling::p/poms-clipboard/input)[2]|@mid|

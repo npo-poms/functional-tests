@@ -3,7 +3,7 @@
 
 |scenario|Npo poms Hoofdscherm Ga naar account-instellingen|
 |Npo poms Hoofdscherm Druk op huidige gebruiker            |
-|click   |account-instellingen                             |
+|click   |instellingen                                     |
 |Npo poms Account instellingen Wacht tot popup geladen     |
 
 |scenario     |Npo poms Hoofdscherm Log uit    |

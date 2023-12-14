@@ -5,7 +5,7 @@ Test
 ---
 !*> Lokale variabelen
 
-!define zender {Nederland 2}
+!define zender {NPO 2}
 
 *!
 
@@ -30,7 +30,7 @@ Test
 |Npo poms Tabblad object Detailscherm controleer aanwezigheid input veld met titel|Originele titel                           |
 |Npo poms Tabblad object Detailscherm controleer aanwezigheid textarea met titel  |Beschrijving                              |
 |Npo poms Tabblad object Detailscherm controleer aanwezigheid textarea met titel  |Korte beschrijving                        |
-|Npo poms Tabblad object Detailscherm controleer aanwezigheid textarea met titel  |Eenregelige beschrijving                  |
+|Npo poms Tabblad object Detailscherm controleer aanwezigheid textarea met titel  |Eénregelige beschrijving                  |
 |ensure                                                                           |is visible on page|Bewaar                 |
 |ensure                                                                           |is visible on page|Annuleer               |
 |ensure                                                                           |is visible on page|Gidsdatum:             |

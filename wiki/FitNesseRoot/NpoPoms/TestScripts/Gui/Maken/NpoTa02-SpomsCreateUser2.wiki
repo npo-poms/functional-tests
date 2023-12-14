@@ -3,6 +3,8 @@ Help: Een nieuw aangemaakte clip krijgt de status 'Ingetrokken' als de startdatu
 Suites: RG
 Test
 ---
+!include -c <Gui.Maken.SmallScenarioLibrary
+
 !*> Lokale variabelen
 
 !define mediaType {Clip}
@@ -22,11 +24,7 @@ Test
 |Npo poms Tabblad object Check media type                      |${mediaType}                                                                                |
 |Npo poms Tabblad object Check veld                            |AV-Type         |heeft waarde |${standaardAvType}                                           |
 |Npo poms Tabblad object Check publicatiestart met start       |$start          |en stop      |$stop                                                        |
-|Npo poms Tabblad object Check mid active                                                                                                                   |
-|Npo poms Tabblad object Check mid of urn                      |=~/WO_${standaardOmroep}_[AT]?[0-9]+/                                                          |
-|click                                                         |Urn                                                                                         |
-|Npo poms Tabblad object Check urn active                                                                                                                   |
-|Npo poms Tabblad object Check mid of urn                      |=~/urn:vpro:media:program:[0-9]{9}/                                                         |
+|Npo poms Tabblad object Check mid                             |=~/WO_${standaardOmroep}_[AT]?[0-9]+/                                                       |
 |Npo poms Tabblad object Druk op link                          |Labels          |in sidebar                                                                 |
 |Npo poms Tabblad object Check veld                            |Omroepen        |heeft waarde |${standaardOmroep}                                           |
 |Npo poms Tabblad object Wacht tot veld                        |Genres          |zichtbaar                                                                  |
