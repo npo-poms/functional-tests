@@ -5,8 +5,8 @@ Test
 ---
 !*> Lokale variabelen
 
-!define zender1 {Nederland 2}
-!define zender2 {Nederland 1}
+!define zender1 {NPO 2}
+!define zender2 {NPO 1}
 
 *!
 
@@ -26,7 +26,7 @@ Test
 |Npo poms Tabblad object Detailscherm Sla tekstveld                       |Originele titel           |op in var|origineletitelVar         |
 |Npo poms Tabblad object Detailscherm Sla textarea                        |Beschrijving              |op in var|beschrijvingVar           |
 |Npo poms Tabblad object Detailscherm Sla textarea                        |Korte beschrijving        |op in var|kortebeschrijvingVar      |
-|Npo poms Tabblad object Detailscherm Sla textarea                        |Eenregelige beschrijving  |op in var|eenregeligebeschrijvingVar|
+|Npo poms Tabblad object Detailscherm Sla textarea                        |Eénregelige beschrijving  |op in var|eenregeligebeschrijvingVar|
 
 |scenario               |Zet huidige waarde                                    |waarde |van herhaling checkbox op waarde|nieuwwaarde|
 |scroll to              |xpath=//label[text()='Herhaling:']/following::input[1]                                                     |
@@ -48,7 +48,7 @@ Test
 |Npo poms Tabblad object Detailscherm Vul                                 |Originele titel test         |in tekstveld                    |Originele titel           |
 |Npo poms Tabblad object Detailscherm Vul                                 |Beschrijving test            |in textarea                     |Beschrijving              |
 |Npo poms Tabblad object Detailscherm Vul                                 |Korte beschrijving test      |in textarea                     |Korte beschrijving        |
-|Npo poms Tabblad object Detailscherm Vul                                 |Eenregelige beschrijving test|in textarea                     |Eenregelige beschrijving  |
+|Npo poms Tabblad object Detailscherm Vul                                 |Eénregelige beschrijving test|in textarea                     |Eénregelige beschrijving  |
 
 |scenario                                                                 |Zet originele waardes terug in het detailscherm                                        |
 |Npo poms Tabblad object Detailscherm Sla waarde vinkvak op uit veld      |Herhaling:                 |op in var                       |herhalingVar              |
@@ -65,7 +65,7 @@ Test
 |Npo poms Tabblad object Detailscherm Vul                                 |$origineletitelVar         |in tekstveld                    |Originele titel           |
 |Npo poms Tabblad object Detailscherm Vul                                 |$beschrijvingVar           |in textarea                     |Beschrijving              |
 |Npo poms Tabblad object Detailscherm Vul                                 |$kortebeschrijvingVar      |in textarea                     |Korte beschrijving        |
-|Npo poms Tabblad object Detailscherm Vul                                 |$eenregeligebeschrijvingVar|in textarea                     |Eenregelige beschrijving  |
+|Npo poms Tabblad object Detailscherm Vul                                 |$eenregeligebeschrijvingVar|in textarea                     |Eénregelige beschrijving  |
 
 |scenario                                               |Controleer de nieuwe waardes in detailscherm                         |
 |Npo poms Tabblad object Detailscherm Check dat checkbox|Herhaling:                |waarde      |true          |heeft         |
@@ -81,7 +81,7 @@ Test
 |Npo poms Tabblad object Detailscherm Check tekstveld   |Originele titel           |heeft waarde|Originele titel test         |
 |Npo poms Tabblad object Detailscherm Check textarea    |Beschrijving              |heeft waarde|Beschrijving test            |
 |Npo poms Tabblad object Detailscherm Check textarea    |Korte beschrijving        |heeft waarde|Korte beschrijving test      |
-|Npo poms Tabblad object Detailscherm Check textarea    |Eenregelige beschrijving  |heeft waarde|Eenregelige beschrijving test|
+|Npo poms Tabblad object Detailscherm Check textarea    |Eénregelige beschrijving  |heeft waarde|Eénregelige beschrijving test|
 *!
 
 

@@ -144,8 +144,8 @@
 |scenario|Npo poms Tabblad object Check mid of urn|midOfUrn                                                                                    |
 |check   |value of                                |xpath=//h2[normalize-space(.)="Mid Urn"]/following-sibling::p/poms-clipboard/input|@midOfUrn|
 
-|scenario|Npo poms Tabblad object Sla mid of urn op in var|var                                                                               |
-|$@var=  |value of                                        |xpath=//h2[normalize-space(.)="Mid Urn"]/following-sibling::p/poms-clipboard/input|
+|scenario|Npo poms Tabblad object Sla mid of urn op in var|var                                                                           |
+|$@var=  |value of                                        |xpath=//h2[normalize-space(.)="MID"]/following-sibling::p/poms-clipboard/input|
 
 |scenario        |Npo poms Tabblad object Wacht tot tabblad met mid|mid|geopend is|
 |wait for visible|css=.tab-pane.active [id="media-general-@mid"]                  |
