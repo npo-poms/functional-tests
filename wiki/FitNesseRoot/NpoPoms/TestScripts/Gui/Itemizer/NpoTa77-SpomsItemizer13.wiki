@@ -3,6 +3,8 @@ Help: In de detailpagina van een bestaande clip kan een segment geopend worden e
 Suites: RG
 Test
 ---
+!include -c <Gui.Itemizer.SmallScenarioLibrary
+
 !*> Lokale variabelen
 
 !define midVanUitzending {NCRV_1577733}
