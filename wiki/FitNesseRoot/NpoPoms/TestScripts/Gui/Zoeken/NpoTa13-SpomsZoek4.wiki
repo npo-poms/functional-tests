@@ -8,7 +8,7 @@ Test
 !*> Lokale variabelen
 
 !define omroep {AVRO (-2014)}
-!define zender {Nederland 1}
+!define zender {NPO 1}
 
 *!
 
