@@ -13,4 +13,4 @@ Test
 |mid           |with_drm|without_drm|
 |VPWON_1272435 |ONLINE  |OFFLINE    |
 |VARA_101372600|OFFLINE |ONLINE     |
-|AT_2096496    |OFFLINE |OFFLINE    |
+|AT_2096496    |OFFLINE |UNSET      |
