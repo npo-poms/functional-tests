@@ -445,7 +445,7 @@ public class ExtendedBrowserTest extends BrowserTest {
     }
 	
     public void closeAllTabs() {
-        // li.tab-close-all doesn't close the first tab
+        // li.tab-close-all doesn't close or clear the first tab
         click("css=li.tab-close-all");
         
         clearOnlyTab();
