@@ -422,18 +422,32 @@ public class ExtendedBrowserTest extends BrowserTest {
 	
     public int getNumberOfTabs() {
         WebElement element = getElement("xpath=//ul[@class='nav nav-tabs']");
+		
+        // items consist of all tabs (li.tab) and li.tab-add if number of tabs is 1
+        // items consist of all tabs (li.tab), li.tab-add and li.tab-close-all if number of tabs is at least 2
         List<WebElement> items = element.findElements(By.tagName("li"));
-        
-        return items.size() - 1;
+		
+        int liCount = items.size();
+        if (liCount > 2) {
+            liCount--; // exclude li.tab-close-all
+        }
+        liCount--; // exclude li.tab-add
+		
+        return liCount;
     }
 	
-	public void closeLastTab() {
+    public void closeLastTab() {
+        click("xpath=//ul[@class='nav nav-tabs']/li[last()-2]/a/tab-heading/span/span[text()='close']");
+    }
+	
+    public void clearOnlyTab() {
         click("xpath=//ul[@class='nav nav-tabs']/li[last()-1]/a/tab-heading/span/span[text()='close']");
     }
 	
     public void closeAllTabs() {
-		click("css=.tab-close-all");
-		
-		closeLastTab();
+        // li.tab-close-all doesn't close the first tab
+        click("css=li.tab-close-all");
+        
+        clearOnlyTab();
     }
 }
