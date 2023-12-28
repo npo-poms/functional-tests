@@ -29,4 +29,3 @@ Test
 |ensure                                             |is visible on page|Gezocht naar: '${zoekopdracht}' in gewijzigd door: ${persoon}               |
 |Npo poms Zoeken Sla aantal zoekresultaten op in var|aantalZoekresultaten2                                                                          |
 |ensure                                             |value             |$aantalZoekresultaten2|is less than|$aantalZoekresultaten1                  |
-|Npo poms Zoeken Open eerste object                                                                                                                 |
