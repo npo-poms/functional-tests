@@ -73,7 +73,7 @@ Test
 |ensure                                               |is visible on page   |Gezocht naar: '$mid' in ${mediatype}, ${zender1}, ${avType}, ${criteria1}|
 |Npo poms Zoeken Check aantal zoekresultaten          |0                                                                                              |
 |check                                                |get number of tabs   |1                                                                        |
-|close last tab                                                                                                                                       |
+|clear only tab                                                                                                                                       |
 |check                                                |get number of tabs   |1                                                                        |
 |Npo poms Zoeken Vul                                  |$mid                 |in zoekveld                                                              |
 |Npo poms Zoeken Druk knop                            |Zoeken                                                                                         |
