@@ -26,6 +26,7 @@ Test
 |Npo poms Tabblad object Dubbelklik op platform|${platform}                            |
 |Npo poms Tabblad object Wacht tot detailscherm geopend                                |
 |$datum2=                                      |store       |!today (dd-MM-yyyy HH:mm) |
+|click                                         |Publicatie start/stop                  |
 |Npo poms Tabblad object Detailscherm Vul      |$datum2     |in tekstveld|Start        |
 |click                                         |Sla op                                 |
 |Npo poms Tabblad object Wacht tot detailscherm gesloten                               |
@@ -37,6 +38,7 @@ Test
 |Npo poms Tabblad object Wacht tot scrollen klaar is                                   |
 |Npo poms Tabblad object Dubbelklik op platform|${platform}                            |
 |Npo poms Tabblad object Wacht tot detailscherm geopend                                |
+|click                                         |Publicatie start/stop                  |
 |Npo poms Tabblad object Detailscherm Vul      |$datum1     |in tekstveld|Start        |
 |click                                         |Sla op                                 |
 |Npo poms Tabblad object Wacht tot detailscherm gesloten                               |

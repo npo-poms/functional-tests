@@ -8,6 +8,8 @@ Test
 !define mediatype {Clip}
 !define omroep1 {NPS (-2010)}
 !define omroep2 {LLiNK (-2010)}
+!define omroep1RegEx {NPS \(-2010\)}
+!define omroep2RegEx {LLiNK \(-2010\)}
 
 *!
 
@@ -28,6 +30,6 @@ Test
 |click                                           |Omroep                                                   |
 |clear search context                                                                                      |
 |Npo poms Zoeken Druk op tandwieltje                                                                       |
-|Npo poms Zoeken Check eerste object heeft omroep|${omroep1}                                               |
-|Npo poms Zoeken Check eerste object heeft omroep|${omroep2}                                               |
+|Npo poms Zoeken Check eerste object heeft omroep|${omroep1RegEx}                                          |
+|Npo poms Zoeken Check eerste object heeft omroep|${omroep2RegEx}                                          |
 |Npo poms Tabblad object Detailscherm Druk op kruisje om pop-up te sluiten                                 |

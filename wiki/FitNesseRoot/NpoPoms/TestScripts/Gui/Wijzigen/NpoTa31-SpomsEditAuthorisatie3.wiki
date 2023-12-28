@@ -31,7 +31,7 @@ Test
 |Lexicografische titel     |false        |true         |true                                                                           |
 |Beschrijving              |false        |true         |true                                                                           |
 |Korte beschrijving        |false        |true         |true                                                                           |
-|Eenregelige beschrijving  |true         |false        |true                                                                           |
+|Eénregelige beschrijving  |true         |false        |true                                                                           |
 
 |script                                                  |
 |Npo poms Tabblad object Druk op link|Algemeen|in sidebar|
@@ -76,15 +76,15 @@ Test
 |Geografische locaties|false        |false        |true                                                                           |
 |Websites             |false        |true         |true                                                                           |
 |Twitter              |false        |true         |true                                                                           |
-|Kijkwijzer: leeftijd |false        |true         |true                                                                           |
+|Kijkwijzer: leeftijd |false        |true         |false                                                                          |
 |Kijkwijzer: inhoud   |false        |true         |true                                                                           |
 |Georestricties       |false        |true         |true                                                                           |
 |Portalrestricties    |false        |true         |true                                                                           |
 
-|script                                                                   |
-|Npo poms Tabblad object Check checkbox              |Embedbaar   |actief |
-|Npo poms Tabblad object Dubbelklik op platform      |${platform}         |
-|wait for visible                                    |Sla op              |
-|Npo poms Tabblad object Detailscherm Check checkbox |Beschikbaar |actief |
-|Npo poms Tabblad object Detailscherm Check dropdown |Encryptie   |actief |
-|Npo poms Tabblad object Detailscherm Druk op kruisje om pop-up te sluiten|
+|script                                                                                                                  |
+|Npo poms Tabblad object Check checkbox             |Embedbaar                                          |actief          |
+|Npo poms Tabblad object Dubbelklik op platform     |${platform}                                                         |
+|wait for visible                                   |Sla op                                                              |
+|Npo poms Tabblad object Detailscherm Check checkbox|Beschikbaar                                        |actief          |
+|                                                   |Npo poms Tabblad object Detailscherm Check dropdown|Encryptie|actief|
+|Npo poms Tabblad object Detailscherm Druk op kruisje om pop-up te sluiten                                               |

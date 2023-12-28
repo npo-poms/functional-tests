@@ -39,7 +39,7 @@ Test
 |Lexicografische titel     |true         |false        |false           |
 |Beschrijving              |true         |false        |false           |
 |Korte beschrijving        |true         |false        |false           |
-|Eenregelige beschrijving  |true         |false        |false           |
+|Eénregelige beschrijving  |true         |false        |false           |
 
 |script                                                  |
 |Npo poms Tabblad object Druk op link|Algemeen|in sidebar|
@@ -86,13 +86,13 @@ Test
 |Georestricties       |true         |false        |false           |
 |Portalrestricties    |true         |false        |false           |
 
-|script                                                                   |
-|Npo poms Tabblad object Check checkbox             |Embedbaar   |inactief|
-|Npo poms Tabblad object Dubbelklik op platform     |${platform}          |
-|wait for visible                                   |Sla op               |
-|Npo poms Tabblad object Detailscherm Check checkbox|Beschikbaar |inactief|
-|Npo poms Tabblad object Detailscherm Check dropdown|Encryptie   |inactief|
-|click                                              |Sla op               |
-|wait for visible                                   |Er is iets mis gegaan|
-|click                                              |ga door              |
-|Npo poms Tabblad object Detailscherm Druk op kruisje om pop-up te sluiten|
+|script                                                                                                                    |
+|Npo poms Tabblad object Check checkbox             |Embedbaar                                          |inactief          |
+|Npo poms Tabblad object Dubbelklik op platform     |${platform}                                                           |
+|wait for visible                                   |Sla op                                                                |
+|Npo poms Tabblad object Detailscherm Check checkbox|Beschikbaar                                        |inactief          |
+|                                                   |Npo poms Tabblad object Detailscherm Check dropdown|Encryptie|inactief|
+|click                                              |Sla op                                                                |
+|wait for visible                                   |Er is iets mis gegaan                                                 |
+|click                                              |ga door                                                               |
+|Npo poms Tabblad object Detailscherm Druk op kruisje om pop-up te sluiten                                                 |

@@ -5,9 +5,9 @@ Test
 ---
 !*> Test-specific items
 !define m {!-<li>-!ROGE!-</li>-!}
-!define matches {!-<div><ul>-!${m}${m}${m}${m}${m}!-</ul></div>-!}
+!define matches {!-<div><ul>-!${m}${m}${m}${m}${m}${m}${m}${m}${m}${m}${m}${m}!-</ul></div>-!}
 *!
 |script                                                                                           |
 |get from|${urlBackendApi}/media/group/SREGIOOG_4DAAGSEJOURNAAL2012/episodes/full?order=ASC       |
-|check   |xPath            |count(/search:list/search:item)                            |5         |
+|check   |xPath            |count(/search:list/search:item)                            |12        |
 |check   |all xPath matches|/search:list/search:item/media:member/media:broadcaster/@id|${matches}|
