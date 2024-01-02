@@ -59,6 +59,9 @@ Test
 
 !4 Check image is added to clip in backend
 
+|script                                                                                                     |
+|repeat get from|${urlBackendApi}/media/program/$mid/images|until xPath|count(/collection/update:image)|is|1|
+
 |script                                                                           |
 |get from|${urlBackendApi}/media/program/$mid/images                              |
 |check   |xPath|count(/collection/update:image)               |1                  |
