@@ -24,11 +24,11 @@
 |enter   |@tekst                  |as   |css=input  |
 
 |scenario        |Npo poms Hoofdscherm Wacht tot tabblad nummer|aantal |zichtbaar|
-|$aantal=        |add                                          |@aantal|and  |1  |
+|$aantal=        |add                                          |@aantal|and  |2  |
 |wait for visible|css=ul.nav-tabs>li:nth-child($aantal)                          |
 
 |scenario            |Npo poms Hoofdscherm Wacht tot tabblad nummer|aantal |niet zichtbaar|
-|$aantal=            |add                                          |@aantal|and     |1    |
+|$aantal=            |add                                          |@aantal|and     |2    |
 |wait for not visible|css=ul.nav-tabs>li:nth-child($aantal)                               |
 
 |scenario              |Npo poms Hoofdscherm Check titel van laatste tab begint met|titel                                          |
