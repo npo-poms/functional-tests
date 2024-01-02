@@ -81,6 +81,10 @@ Test
 
 !4 Check location (bron) is added to clip in backend
 
+|script                                                                                                                                             |
+|$newSourceCount=|add                                                            |$sourceCount|and                               |1                 |
+|repeat get from |${urlBackendApi}/media/program/$mid/locations?owner=BROADCASTER|until xPath |count(/collection/update:location)|is|$newSourceCount|
+
 |script                                                                                                                                                    |
 |get from    |${urlBackendApi}/media/program/$mid/locations?owner=BROADCASTER                                                                              |
 |check       |xPath         |/collection/update:location[last()]/@publishStart                          |${publishStartIso}                                |
@@ -128,6 +132,9 @@ Test
 |check|response        |Location accepted for $mid.                    |
 
 !4 Check changes in source visible in backend
+
+|script                                                                                                                                                            |
+|repeat get from|${urlBackendApi}/media/program/$mid/locations?owner=BROADCASTER|until xPath|/collection/update:location[last()]/@publishStop|is|${publishStopIso2}|
 
 |script                                                                                                       |
 |get from|${urlBackendApi}/media/program/$mid/locations?owner=BROADCASTER                                     |
