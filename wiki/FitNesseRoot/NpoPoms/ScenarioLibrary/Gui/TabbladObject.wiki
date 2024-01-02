@@ -237,19 +237,18 @@
 |$nieuwAantal=                                   |add                                             |$@var|and   |@optellenMetGetal        |
 |Npo poms Tabblad object Wacht tot aantal in veld|@veld                                           |is   |$nieuwAantal                    |
 
-|scenario             |Npo poms Tabblad object Klik op wijzig tags icoon              |
-|hover over           |xpath=//h2[text()="Tags"]                                      |
-|set search context to|xpath=//h2[text()="Tags"]/..                                   |
-|wait for visible     |xpath=./div[@class="media-field-tools"]/div[@class="edit-icon"]|
-|click                |xpath=./div[@class="media-field-tools"]/div[@class="edit-icon"]|
-|clear search context                                                                 |
+|scenario             |Npo poms Tabblad object Klik op wijzig tags icoon|
+|set search context to|xpath=//poms-multi[@header='Tags']               |
+|click                |xpath=.//h2                                      |
+|wait for visible     |xpath=.//input                                   |
+|clear search context                                                   |
 
-|scenario             |Npo poms Tabblad object Kies een tag met tekst|tekst                                           |
-|enter                |@tekst                                        |as|css=span[placeholder="Kies een tag..."]~input|
-|click                |css=button.button-save                                                                         |
-|set search context to|xpath=//h2[text()="Tags"]/..                                                                   |
-|wait for not visible |xpath=./div[@class="ui-select"]                                                                |
-|clear search context                                                                                                 |
+|scenario             |Npo poms Tabblad object Kies een tag met tekst|tekst            |
+|set search context to|xpath=//poms-multi[@header='Tags']                              |
+|enter                |@tekst                                        |as|xpath=.//input|
+|click                |xpath=.//button[@class='button-save']                           |
+|wait for not visible |xpath=.//input                                                  |
+|clear search context                                                                  |
 
 |scenario             |Npo poms Tabblad object Check geen ondertitels                           |
 |set search context to|xpath=//h2[normalize-space(.)="Ondertitels"]/..                          |
