@@ -7,6 +7,7 @@ Test
 
 !*> Lokale variabelen
 
+!define mediaType {Promo}
 !define objectNummer {2}
 
 *!
@@ -14,8 +15,8 @@ Test
 |script                                                                                                                          |
 |Open Npo poms website                                                                                                           |
 |Npo poms Inlogscherm Log in met standaard-gebruiker                                                                             |
-|Npo poms Zoeken Selecteer optie                                                |Trailer              |in dropdown |!-MediaType-!|
-|ensure                                                                         |is visible on page   |Gezocht naar: Trailer     |
+|Npo poms Zoeken Selecteer optie                                                |${mediaType}         |in dropdown |!-MediaType-!|
+|ensure                                                                         |is visible on page   |Gezocht naar: ${mediaType}|
 |Npo poms Zoeken Open object nummer                                             |${objectNummer}                                 |
 |Npo poms Tabblad object Sla hoofdtitel op in var                               |titelVanObject                                  |
 |Npo poms Tabblad object Verander hoofdtitel naar                               |TEST                                            |
