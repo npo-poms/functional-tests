@@ -8,6 +8,7 @@ Test
 !define mediatype1 {Archief}
 !define omroep1 {VPRO}
 !define mid {POMS_S_VPRO_191797}
+!define titel {3voor12amsterdam - archief}
 !define mediatype2 {Clip}
 !define omroep2 {AVRO (-2014)}
 !define objectNummer {2}
@@ -17,7 +18,7 @@ Test
 |script                                                                                                                              |
 |Open Npo poms website                                                                                                               |
 |Npo poms Inlogscherm Log in met standaard-gebruiker                                                                                 |
-|Npo poms Tabblad object Open                               |${mid}                                                                  |
+|Npo poms Tabblad object Open                               |${mid}            |met titel        |${titel}            |              |
 |Npo poms Tabblad object Check veld                         |Type              |heeft waarde     |${mediatype1}                      |
 |Npo poms Tabblad object Check veld                         |Omroepen          |heeft waarde     |${omroep1}                         |
 |Npo poms Tabblad object Druk op link                       |Onderdelen        |in sidebar                                           |

@@ -6,6 +6,7 @@ Test
 !*> Lokale variabelen
 
 !define mid {WO_NPO_7801980}
+!define titel {Interview met Silk Road Cast}
 !define mediatype {Clip}
 !define avType {Video}
 !define omroep {BNN}
@@ -16,7 +17,7 @@ Test
 |script                                                                                |
 |Open Npo poms website                                                                 |
 |Npo poms Inlogscherm Log in met npo                                                   |
-|Npo poms Tabblad object Open                  |${mid}                                 |
+|Npo poms Tabblad object Open                  |${mid}      |met titel   |${titel}     |
 |Npo poms Tabblad object Check veld            |Type        |heeft waarde|${mediatype} |
 |Npo poms Tabblad object Check veld            |AV-Type     |heeft waarde|${avType}    |
 |Npo poms Tabblad object Check veld            |Omroepen    |heeft waarde|=~/${omroep}/|

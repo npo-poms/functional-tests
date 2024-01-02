@@ -10,9 +10,13 @@
 
 !include -c >Variabelen
 
-|scenario      |Npo poms Tabblad object Open      |object     |
-|open          |${urlPoms}/#/edit/@object                     |
-|Npo poms Tabblad object Wacht tot sidebar volledig geladen is|
+|scenario|Npo poms Tabblad object Open|object|
+|open    |${urlPoms}/#/edit/@object          |
+
+|scenario                          |Npo poms Tabblad object Open|object      |met titel|titel|
+|Npo poms Tabblad object Open      |@object                                                  |
+|Npo poms Tabblad object Check veld|Titel                       |heeft waarde|@titel         |
+|Npo poms Tabblad object Wacht tot sidebar volledig geladen is                               |
 
 |scenario               |Npo poms Tabblad object Wacht tot alle laad-icoontjes in de sidebar verdwenen zijn                                           |
 |$sidebarItems=         |values of                                                                               |xpath=//ul[@id="sidebar"]           |
