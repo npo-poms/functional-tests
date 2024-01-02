@@ -7,7 +7,7 @@ Test
 !define MEDIATYPE {Clip}
 !define TITEL {Test}
 !define OMROEP {NPO}
-!define AVTYPE {Afwisselend}
+!define AVTYPE {Video}
 !define GENRE {Jeugd}
 *!
 
