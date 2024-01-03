@@ -43,10 +43,6 @@ Test
 </collection>
 }}} }
 
-|table template|Check platform has status 404                                            |
-|$tmp=         |get from       |${urlBackendApi}/media/media/$mid/predictions/@{platform}|
-|check         |response status|404                                                      |
-
 |table template|Check platform publish times in backend                    |
 |$startIso=    |convert datetime|@{start}                        |to iso   |
 |$stopIso=     |convert datetime|@{stop}                         |to iso   |
@@ -86,11 +82,11 @@ Test
 
 !4 Check original values in backend
 
-|Check platform has status 404|
-|platform                     |
-|${internetVod}               |
-|${tvVod}                     |
-|${plusVod}                   |
+|Check platform publish times in backend|
+|platform           |start     |stop    |
+|${internetVod}     |          |        |
+|${tvVod}           |          |        |
+|${plusVod}         |          |        |
 
 !4 Update platform 'internetvod' in backend
 
