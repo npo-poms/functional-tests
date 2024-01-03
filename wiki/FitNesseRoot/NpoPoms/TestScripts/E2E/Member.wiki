@@ -82,6 +82,11 @@ Test
 |post |${bodySetExtraClipAsMember}|to|${urlBackendApi}/media/program/$midMember1/memberOf|
 |check|response status            |202                                                   |
 
+!4 Wait until there is 1 member (onderdeel)
+
+|script                                                                                                                           |
+|repeat get from|${urlBackendApi}/media/media/$midOwner/members?owner=BROADCASTER|until xPath|count(/update:list/update:item)|is|1|
+
 !4 Check extra clip 1 added as member (onderdeel) in backend
 
 |script                                                                        |
@@ -133,6 +138,9 @@ Test
 |put|${bodyMoveMember}|to|${urlBackendApi}/media/group/$midOwner/members|
 
 !4 Check member 1 and 2 (onderdeel 1+2) have switched places in backend
+
+|script                                                                                                                                                           |
+|repeat get from|${urlBackendApi}/media/program/$midOwner/members?owner=BROADCASTER|until xPath|/update:list/update:item[1]/update:mediaUpdate/@mid|is|$midMember2|
 
 |script                                                                        |
 |get from|${urlBackendApi}/media/program/$midOwner/members?owner=BROADCASTER   |
