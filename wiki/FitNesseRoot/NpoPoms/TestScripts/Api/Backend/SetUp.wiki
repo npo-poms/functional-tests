@@ -6,4 +6,4 @@
 |note                                   |text/xml; charset=UTF-8 is the xml http test default, NPO API expects:|
 |set content type                       |application/xml; charset=UTF-8                                        |
 |set repeat interval to                 |10000                    |milliseconds                                |
-|repeat at most                         |30                       |times                                       |
+|repeat at most                         |5                        |times                                       |
