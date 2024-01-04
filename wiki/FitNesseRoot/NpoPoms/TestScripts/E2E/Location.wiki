@@ -170,7 +170,7 @@ Test
 !include -c <E2E.GuiTearDown
 !include -c <E2E.ApiBackendSetUp
 
-!4 Remove location (bron) from clip
+!4 Remove location (bron) from clip in backend
 
 |script                                                                             |
 |get from    |${urlBackendApi}/media/program/$mid/locations?owner=BROADCASTER       |

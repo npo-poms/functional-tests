@@ -231,7 +231,7 @@ Test
 !include -c <E2E.GuiTearDown
 !include -c <E2E.ApiBackendSetUp
 
-!4 Delete episodes and season
+!4 Delete episodes and season in backend
 
 |script                                            |
 |delete|${urlBackendApi}/media/program/$midProgram1|
