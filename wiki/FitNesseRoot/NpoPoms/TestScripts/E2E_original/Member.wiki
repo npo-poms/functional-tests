@@ -128,24 +128,51 @@ Test
 |Npo poms Tabblad object Druk op tandwieltje bij onderdelen                             |
 |Npo poms Tabblad object Check onderdeel nummer|1                 |heeft mid|$midMember1|
 |Npo poms Tabblad object Check onderdeel nummer|2                 |heeft mid|$midMember2|
-|Npo poms Hoofdscherm Log uit                                                           |
-
-!4 Remove members (onderdelen) from clip in gui
-
-|script                                                                |
-|Open Npo poms website                                                 |
-|Npo poms Inlogscherm Log in met admin                                 |
-|Npo poms Tabblad object Open        |$midOwner                        |
-|ensure                              |is visible on page|Onderdelen (2)|
-|Npo poms Tabblad object Druk op link|Onderdelen        |in sidebar    |
-|Npo poms Tabblad object Wacht tot scrollen klaar is                   |
-|Npo poms Tabblad object Verwijder laatste onderdeel                   |
-|wait for visible                    |Onderdelen (1)                   |
-|Npo poms Tabblad object Verwijder eerste onderdeel                    |
-|wait for visible                    |Onderdelen (0)                   |
 
 !include -c <E2E.GuiTearDown
 !include -c <E2E.ApiBackendSetUp
+
+!4 Switch member 1 and 2 (onderdeel 1+2) in backend
+
+|script                                                                 |
+|put|${bodyMoveMember}|to|${urlBackendApi}/media/group/$midOwner/members|
+
+!4 Check member 1 and 2 (onderdeel 1+2) have switched places in backend
+
+|script                                                                                                                                                           |
+|repeat get from|${urlBackendApi}/media/program/$midOwner/members?owner=BROADCASTER|until xPath|/update:list/update:item[1]/update:mediaUpdate/@mid|is|$midMember2|
+
+|script                                                                        |
+|get from|${urlBackendApi}/media/program/$midOwner/members?owner=BROADCASTER   |
+|check   |xPath|count(/update:list/update:item)                    |2          |
+|check   |xPath|/update:list/update:item[1]/update:mediaUpdate/@mid|$midMember2|
+|check   |xPath|/update:list/update:item[2]/update:mediaUpdate/@mid|$midMember1|
+
+!include -c <E2E.GuiSetUp
+
+!4 Check member 1 and 2 (onderdeel 1+2) have switched places in gui
+
+|script                                                                                 |
+|Open Npo poms website                                                                  |
+|Npo poms Inlogscherm Log in met ${gebruiker}                                           |
+|Npo poms Tabblad object Open                  |$midOwner                               |
+|ensure                                        |is visible on page|Onderdelen (2)       |
+|Npo poms Tabblad object Druk op link          |Onderdelen        |in sidebar           |
+|Npo poms Tabblad object Wacht tot scrollen klaar is                                    |
+|Npo poms Tabblad object Druk op tandwieltje bij onderdelen                             |
+|Npo poms Tabblad object Druk op kolomoptie    |MID               |bij onderdelen       |
+|Npo poms Tabblad object Druk op tandwieltje bij onderdelen                             |
+|Npo poms Tabblad object Check onderdeel nummer|1                 |heeft mid|$midMember2|
+|Npo poms Tabblad object Check onderdeel nummer|2                 |heeft mid|$midMember1|
+
+!include -c <E2E.GuiTearDown
+!include -c <E2E.ApiBackendSetUp
+
+!4 Remove members (onderdelen) from clip in backend
+
+|script                                                            |
+|delete|${urlBackendApi}/media/group/$midMember1/memberOf/$midOwner|
+|delete|${urlBackendApi}/media/group/$midMember2/memberOf/$midOwner|
 
 !4 Check members (onderdelen) are removed from clip in backend
 
@@ -155,14 +182,19 @@ Test
 
 !include -c <E2E.GuiSetUp
 
-!4 Delete members (onderdelen) in gui
+!4 Check members (onderdelen) are removed from clip in gui
 
-|script                                                              |
-|Open Npo poms website                                               |
-|Npo poms Inlogscherm Log in met admin                               |
-|Npo poms Tabblad object Open                            |$midMember1|
-|Npo poms Tabblad object Verwijder huidig object van type|Clip       |
-|Npo poms Tabblad object Open                            |$midMember2|
-|Npo poms Tabblad object Verwijder huidig object van type|Clip       |
+|script                                                        |
+|Open Npo poms website                                         |
+|Npo poms Inlogscherm Log in met ${gebruiker}                  |
+|Npo poms Tabblad object Open|$midOwner                        |
+|ensure                      |is visible on page|Onderdelen (0)|
 
 !include -c <E2E.GuiTearDown
+!include -c <E2E.ApiBackendSetUp
+
+!4 Delete members (onderdelen) in backend
+
+|script                                           |
+|delete|${urlBackendApi}/media/program/$midMember1|
+|delete|${urlBackendApi}/media/program/$midMember2|

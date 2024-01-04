@@ -1,0 +1,2 @@
+!include -c .NpoPoms.TestScripts.Api.Backend.SuiteSetUp
+!include -c .NpoPoms.TestScripts.Api.Backend.SetUp

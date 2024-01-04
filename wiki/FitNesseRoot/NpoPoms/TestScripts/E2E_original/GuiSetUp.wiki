@@ -1,0 +1,2 @@
+!include .NpoPoms.TestScripts.Gui.SuiteSetUp
+!include .NpoPoms.TestScripts.Gui.SetUp

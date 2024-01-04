@@ -109,7 +109,7 @@ Test
 |Npo poms Tabblad object Check aantal in veld                  |Bronnen      |is           |1               |
 |Npo poms Tabblad object Check bron                            |${programUrl}|zichtbaar                     |
 |Npo poms Tabblad object Check bron                            |${programUrl}|heeft formaat|${avFileFormat1}|
-||Npo poms Tabblad object Check bron                            |${programUrl}|online sinds |${publishStart} |
+|Npo poms Tabblad object Check bron                            |${programUrl}|online sinds |${publishStart} |
 |double click                                                  |${programUrl}                               |
 |clear search context                                                                                       |
 |Npo poms Tabblad object Detailscherm Check tekstveld          |URL *        |heeft waarde |${programUrl}   |
@@ -158,7 +158,7 @@ Test
 |Npo poms Tabblad object Check aantal in veld                  |Bronnen        |is           |1                                  |
 |Npo poms Tabblad object Check bron                            |${programUrl}  |zichtbaar                                        |
 |Npo poms Tabblad object Check bron                            |${programUrl}  |heeft formaat|${avFileFormat2}                   |
-||Npo poms Tabblad object Check bron                            |${programUrl}  |online van   |${publishStart}|tot|${publishStop2}|
+|Npo poms Tabblad object Check bron                            |${programUrl}  |online van   |${publishStart}|tot|${publishStop2}|
 |double click                                                  |${programUrl}                                                    |
 |clear search context                                                                                                            |
 |Npo poms Tabblad object Detailscherm Check tekstveld          |URL *          |heeft waarde |${programUrl}                      |
@@ -166,25 +166,34 @@ Test
 |Npo poms Tabblad object Detailscherm Check tekstveld          |Bitrate        |heeft waarde |${bitrate2}                        |
 |Npo poms Tabblad object Detailscherm Check bron online van    |${publishStart}|tot          |${publishStop2}                    |
 |Npo poms Tabblad object Detailscherm Druk op kruisje om pop-up te sluiten                                                       |
-|Npo poms Hoofdscherm Log uit                                                                                                    |
-
-!4 Remove location (bron) from clip in gui
-
-|script                                                             |
-|Open Npo poms website                                              |
-|Npo poms Inlogscherm Log in met admin                              |
-|Npo poms Tabblad object Open        |$mid                          |
-|ensure                              |is visible on page|Bronnen (1)|
-|Npo poms Tabblad object Druk op link|Bronnen           |in sidebar |
-|Npo poms Tabblad object Wacht tot scrollen klaar is                |
-|Npo poms Tabblad object Verwijder laatste bron                     |
-|wait for visible                    |Bronnen (0)                   |
 
 !include -c <E2E.GuiTearDown
 !include -c <E2E.ApiBackendSetUp
+
+!4 Remove location (bron) from clip in backend
+
+|script                                                                             |
+|get from    |${urlBackendApi}/media/program/$mid/locations?owner=BROADCASTER       |
+|$urn=       |xPath         |/collection/update:location/@urn                       |
+|$locationId=|extract string|$urn|from|^urn:vpro:media:location:(\d+)$|using group|1|
+|delete      |${urlBackendApi}/media/program/$mid/location/$locationId              |
 
 !4 Check location (bron) is removed from clip in backend
 
 |script                                                                  |
 |get from|${urlBackendApi}/media/program/$mid/locations?owner=BROADCASTER|
 |check   |xPath    |count(/collection/update:location)   |$sourceCount   |
+
+!include -c <E2E.GuiSetUp
+
+!4 Check location (bron) is removed from clip in gui
+
+|script                                                         |
+|Open Npo poms website                                          |
+|Npo poms Inlogscherm Log in met ${gebruiker}                   |
+|Npo poms Tabblad object Open                |$mid              |
+|Npo poms Tabblad object Druk op link        |Bronnen|in sidebar|
+|Npo poms Tabblad object Wacht tot scrollen klaar is            |
+|Npo poms Tabblad object Check aantal in veld|Bronnen|is   |0   |
+
+!include -c <E2E.GuiTearDown

@@ -13,3 +13,9 @@
 |Set search context to afleveringen                                        |
 |click   |@optie                                                           |
 |remove last search context                                                |
+
+|scenario|Npo poms Tabblad object Verwijder laatste aflevering in huidig seizoen|
+|Npo poms Tabblad object Verwijder laatste onderdeel                            |
+
+|scenario|Npo poms Tabblad object Verwijder eerste aflevering in huidig seizoen|
+|Npo poms Tabblad object Verwijder eerste onderdeel                            |

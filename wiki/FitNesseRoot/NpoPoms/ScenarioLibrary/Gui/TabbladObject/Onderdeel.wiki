@@ -50,3 +50,15 @@
 |Set search context to onderdelen                                        |
 |click   |@optie                                                         |
 |remove last search context                                              |
+
+|scenario  |Npo poms Tabblad object Verwijder laatste onderdeel                                          |
+|hover over|css=poms-members>div>table>tbody>tr:last-child>td.column-tools                               |
+|click     |css=poms-members>div>table>tbody>tr:last-child>td.column-tools button[title='verwijder item']|
+|check     |value of                  |css=div.modal-title                 |verwijderen?                 |
+|click     |xpath=//div[@class='modal-content']//button[text()='verwijderen']                            |
+
+|scenario  |Npo poms Tabblad object Verwijder eerste onderdeel                                            |
+|hover over|css=poms-members>div>table>tbody>tr:first-child>td.column-tools                               |
+|click     |css=poms-members>div>table>tbody>tr:first-child>td.column-tools button[title='verwijder item']|
+|check     |value of                  |css=div.modal-title                  |verwijderen?                 |
+|click     |xpath=//div[@class='modal-content']//button[text()='verwijderen']                             |

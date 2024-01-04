@@ -44,17 +44,21 @@ Test
   <segments/>
 </program>
 }}} }
-!define bodyChangeProgram1ToBroadcastAndSetAsEpisodeOfSeason { {{{
-<program avType="VIDEO" embeddable="true" type="BROADCAST" urn="$urnProgram1" mid="$midProgram1" xmlns="urn:vpro:media:update:2009">
+!define bodyChangeProgram1ToBroadcast { {{{
+<program xmlns="urn:vpro:media:update:2009" type="BROADCAST" urn="$urnProgram1" mid="$midProgram1" avType="VIDEO" embeddable="true">
   <broadcaster>NPO</broadcaster>
   <title type="MAIN">Speciaal uitzending $now - 1</title>
+  <description type="MAIN">Uitzending Specialisterren.</description>
   <credits/>
   <locations/>
   <scheduleEvents/>
   <images/>
-  <episodeOf highlighted="true" position="1">$midSeason</episodeOf>
   <segments/>
 </program>
+}}} }
+!define bodySetProgram1AsEpisodeOfSeason { {{{
+<?xml version="1.0"?>
+<memberRef xmlns="urn:vpro:media:update:2009" position="1" highlighted="true">$midSeason</memberRef>
 }}} }
 !define bodyChangeProgram2ToBroadcastAndSetAsEpisodeOfSeason { {{{
 <program avType="VIDEO" embeddable="true" type="BROADCAST" urn="$urnProgram2" mid="$midProgram2" xmlns="urn:vpro:media:update:2009">
@@ -99,13 +103,21 @@ Test
 |check          |xPath                                                        |/update:program/@mid    |$midProgram1                                    |
 |$urnProgram1=  |xPath                                                        |/update:program/@urn                                                     |
 
-!4 Update program 1 in backend: Change media type to 'broadcast' and set program as episode of season
+!4 Update program 1 in backend: Change media type to 'broadcast'
 
-|script                                                                                                                                         |
-|post           |${bodyChangeProgram1ToBroadcastAndSetAsEpisodeOfSeason}           |to         |${urlBackendApi}/media/program?owner=BROADCASTER|
-|repeat get from|${urlBackendApi}/media/group/$midSeason/episodes?owner=BROADCASTER|until xPath|count(/update:list/update:item)    |is    |1    |
+|script                                                                                                                                    |
+|post           |${bodyChangeProgram1ToBroadcast}                             |to         |${urlBackendApi}/media/program?owner=BROADCASTER|
+|repeat get from|${urlBackendApi}/media/program/$midProgram1?owner=BROADCASTER|until xPath|/update:program/@type     |is     |BROADCAST    |
+
+!4 Set program 1 as episode of season in backend
+
+|script                                                                                           |
+|post|${bodySetProgram1AsEpisodeOfSeason}|to|${urlBackendApi}/media/program/$midProgram1/episodeOf|
 
 !4 Check program 1 is episode of season in backend
+
+|script                                                                                                                             |
+|repeat get from|${urlBackendApi}/media/group/$midSeason/episodes?owner=BROADCASTER|until xPath|count(/update:list/update:item)|is|1|
 
 |script                                                                      |
 |get from|${urlBackendApi}/media/group/$midSeason/episodes?owner=BROADCASTER |
@@ -150,24 +162,55 @@ Test
 |Npo poms Tabblad object Druk op tandwieltje bij afleveringen                             |
 |Npo poms Tabblad object Check aflevering nummer|1                 |heeft mid|$midProgram1|
 |Npo poms Tabblad object Check aflevering nummer|2                 |heeft mid|$midProgram2|
-|Npo poms Hoofdscherm Log uit                                                             |
-
-!4 Remove episodes from season in gui
-
-|script                                                                  |
-|Open Npo poms website                                                   |
-|Npo poms Inlogscherm Log in met admin                                   |
-|Npo poms Tabblad object Open        |$midSeason                         |
-|ensure                              |is visible on page|Afleveringen (2)|
-|Npo poms Tabblad object Druk op link|Afleveringen      |in sidebar      |
-|Npo poms Tabblad object Wacht tot scrollen klaar is                     |
-|Npo poms Tabblad object Verwijder laatste aflevering in huidig seizoen  |
-|wait for visible                    |Afleveringen (1)                   |
-|Npo poms Tabblad object Verwijder eerste aflevering in huidig seizoen   |
-|wait for visible                    |Afleveringen (0)                   |
 
 !include -c <E2E.GuiTearDown
 !include -c <E2E.ApiBackendSetUp
+
+!4 Switch episode 1 and 2 in backend 
+
+|script                                                                      |
+|put  |${bodyMoveEpisode}|to|${urlBackendApi}/media/group/$midSeason/episodes|
+|check|response status   |202                                                |
+|check|response          |Move accepted for $midSeason.                      |
+
+!4 Check episode 1 and 2 have switched places in backend
+
+|script                                                                                                                                                            |
+|repeat get from|${urlBackendApi}/media/group/$midSeason/episodes?owner=BROADCASTER|until xPath|/update:list/update:item[1]/update:mediaUpdate/@mid|is|$midProgram2|
+
+|script                                                                         |
+|get from|${urlBackendApi}/media/group/$midSeason/episodes?owner=BROADCASTER    |
+|check   |xPath|count(/update:list/update:item)                    |2           |
+|check   |xPath|/update:list/update:item[1]/update:mediaUpdate/@mid|$midProgram2|
+|check   |xPath|/update:list/update:item[2]/update:mediaUpdate/@mid|$midProgram1|
+
+!include -c <E2E.GuiSetUp
+
+!4 Check episode 1 and 2 have switched places in gui
+
+|script                                                                                   |
+|Open Npo poms website                                                                    |
+|Npo poms Inlogscherm Log in met ${gebruiker}                                             |
+|Npo poms Tabblad object Open                   |$midSeason                               |
+|ensure                                         |is visible on page|Afleveringen (2)      |
+|Npo poms Tabblad object Druk op link           |Afleveringen      |in sidebar            |
+|Npo poms Tabblad object Wacht tot scrollen klaar is                                      |
+|Npo poms Tabblad object Druk op tandwieltje bij afleveringen                             |
+|Npo poms Tabblad object Druk op kolomoptie     |MID               |bij afleveringen      |
+|Npo poms Tabblad object Druk op tandwieltje bij afleveringen                             |
+|Npo poms Tabblad object Check aflevering nummer|1                 |heeft mid|$midProgram2|
+|Npo poms Tabblad object Check aflevering nummer|2                 |heeft mid|$midProgram1|
+
+!include -c <E2E.GuiTearDown
+!include -c <E2E.ApiBackendSetUp
+
+!4 Remove episodes from season in backend
+
+|script                                                                 |
+|delete|${urlBackendApi}/media/program/$midProgram2/episodeOf/$midSeason|
+|check |response status                       |202                      |
+|delete|${urlBackendApi}/media/program/$midProgram1/episodeOf/$midSeason|
+|check |response status                       |202                      |
 
 !4 Check season has no episodes anymore in backend
 
@@ -177,14 +220,20 @@ Test
 
 !include -c <E2E.GuiSetUp
 
-!4 Delete episodes and season in gui
+!4 Check season has no episodes anymore in gui
 
-|script                                                               |
-|Open Npo poms website                                                |
-|Npo poms Inlogscherm Log in met admin                                |
-|Npo poms Tabblad object Open                            |$midProgram1|
-|Npo poms Tabblad object Verwijder huidig object van type|Uitzending  |
-|Npo poms Tabblad object Open                            |$midProgram2|
-|Npo poms Tabblad object Verwijder huidig object van type|Uitzending  |
-|Npo poms Tabblad object Open                            |$midSeason  |
-|Npo poms Tabblad object Verwijder huidig object van type|Seizoen     |
+|script                                                          |
+|Open Npo poms website                                           |
+|Npo poms Inlogscherm Log in met ${gebruiker}                    |
+|Npo poms Tabblad object Open|$midSeason                         |
+|ensure                      |is visible on page|Afleveringen (0)|
+
+!include -c <E2E.GuiTearDown
+!include -c <E2E.ApiBackendSetUp
+
+!4 Delete episodes and season in backend
+
+|script                                            |
+|delete|${urlBackendApi}/media/program/$midProgram1|
+|delete|${urlBackendApi}/media/program/$midProgram2|
+|delete|${urlBackendApi}/media/program/$midSeason  |

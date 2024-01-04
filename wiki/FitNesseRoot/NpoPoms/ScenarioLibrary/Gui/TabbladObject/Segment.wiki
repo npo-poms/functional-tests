@@ -185,3 +185,9 @@
 
 |scenario|Npo poms Tabblad object Check segment|segment                                                                                                                                           |heeft av-type|avType|
 |check   |value of                             |xpath=//poms-segments/div/table/tbody/tr[./td[@class="column-mainTitle"]/span[normalize-space(.)="@segment"]]/td[@class="column-avType"]/span/span|@avType             |
+
+|scenario  |Npo poms Tabblad object Verwijder laatste segment                                                   |
+|hover over|css=poms-segments>div>table>tbody>tr:last-child>td.column-tools-xl                                  |
+|click     |css=poms-segments>div>table>tbody>tr:last-child>td.column-tools-xl button[title='verwijder segment']|
+|check     |value of                 |css=div.modal-title                 |Segment verwijderen?                 |
+|click     |xpath=//div[@class='modal-content']//button[text()='verwijderen']                                   |

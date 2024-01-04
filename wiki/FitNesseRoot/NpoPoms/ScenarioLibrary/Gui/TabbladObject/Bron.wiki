@@ -29,3 +29,9 @@
 
 |scenario|Npo poms Tabblad object Druk op verwijderknop bij laatste bron                                 |
 |click   |css=poms-locations>div>table>tbody>tr:last-child>td.column-tools button[title="verwijder bron"]|
+
+|scenario  |Npo poms Tabblad object Verwijder laatste bron                                                 |
+|hover over|css=poms-locations>div>table>tbody>tr:last-child>td.column-tools                               |
+|click     |css=poms-locations>div>table>tbody>tr:last-child>td.column-tools button[title='verwijder bron']|
+|check     |value of                 |css=div.modal-title                |Bron verwijderen?                |
+|click     |xpath=//div[@class='modal-content']//button[text()='verwijderen']                              |
