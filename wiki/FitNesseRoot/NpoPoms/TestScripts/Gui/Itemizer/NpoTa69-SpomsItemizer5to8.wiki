@@ -1,5 +1,6 @@
 ---
 Help: In de detailpagina van een bestaande clip werkt de itemize-knop van een segment. Deze knop verschijnt als '[ ]' als er gehoverd wordt over een segment. In de popup die verschijnt als er op deze knop gedrukt wordt, werkt het cameraatje en komt er een foutmelding als er gedrukt wordt op 'Zet huidige positie als starttijd' en de starttijd ligt later dan de stoptijd.
+Prune
 Suites: DV
 Test
 ---

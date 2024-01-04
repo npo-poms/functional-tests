@@ -1,5 +1,6 @@
 ---
 Help: Als de speelduur in de detailpagina van een segment van een bestaande clip aangepast wordt, wordt deze ook aangepast in de itemize-popup.
+Prune
 Suites: DV
 Test
 ---

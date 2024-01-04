@@ -1,5 +1,6 @@
 ---
 Help: In de detailpagina van een bestaande clip kunnen segmenten met speler toegevoegd en verwijderd worden. Hierbij worden start- en eindtijd gegenereerd door middel van de knoppen 'Zet huidige positie als start-/eindtijd'.
+Prune
 Suites: DV
 Test
 ---

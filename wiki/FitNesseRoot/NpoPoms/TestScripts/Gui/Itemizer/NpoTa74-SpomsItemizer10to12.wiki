@@ -1,5 +1,6 @@
 ---
 Help: In de popup 'Segment toevoegen met speler' komt er een foutmelding als er gedrukt wordt op 'Zet huidige positie als stoptijd' en de stoptijd ligt vroeger dan de starttijd. In de itemize-popup wordt de speelduur juist aangepast als de start- of de eindtijd aangepast wordt. Het aangemaakte segment heeft een mid en de velden in de detailpagina van het aangemaakte segment kunnen gewijzigd worden.
+Prune
 Suites: DV
 Test
 ---
