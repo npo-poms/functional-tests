@@ -258,3 +258,13 @@
 |set search context to|xpath=//h2[normalize-space(.)="Ondertitels"]/..                          |
 |reject               |is visible on page|xpath=./span[@ng-repeat="subtitle in media.subtitles"]|
 |clear search context                                                                           |
+
+|scenario                            |Npo poms Tabblad object Verwijder huidig object van type|objectType                                  |
+|Npo poms Tabblad object Druk op link|Relaties                                                |in sidebar                                  |
+|Npo poms Tabblad object Wacht tot scrollen klaar is                                                                                       |
+|$numberOfTabs=                      |get number of tabs                                                                                   |
+|click                               |xpath=//button[text()='@objectType verwijderen']                                                     |
+|check                               |value of                                                |css=div.modal-title|@objectType verwijderen?|
+|click                               |xpath=//div[@class='modal-content']//button[text()='verwijderen']                                    |
+|$numberOfTabs=                      |add                                                     |$numberOfTabs      |and         |-1         |
+|wait until number of tabs is        |$numberOfTabs                                                                                        |

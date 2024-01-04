@@ -100,6 +100,15 @@ Test
 |Npo poms Tabblad object Wacht tot scrollen klaar is                                               |
 |Npo poms Tabblad object Check aantal in veld|Segmenten|is          |1                             |
 |Npo poms Tabblad object Check segment       |${titel} |heeft status|Wordt verwijderd|of|Verwijderd|
+|Npo poms Hoofdscherm Log uit                                                                      |
+
+!4 Delete segment in gui
+
+|script                                                             |
+|Open Npo poms website                                              |
+|Npo poms Inlogscherm Log in met admin                              |
+|Npo poms Tabblad object Open                            |$segmentId|
+|Npo poms Tabblad object Verwijder huidig object van type|Segment   |
 
 !include -c <E2E.GuiTearDown
 !include -c <E2E.ApiBackendSetUp

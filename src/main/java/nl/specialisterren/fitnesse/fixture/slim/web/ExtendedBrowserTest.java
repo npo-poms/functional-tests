@@ -436,6 +436,11 @@ public class ExtendedBrowserTest extends BrowserTest {
         return liCount;
     }
 	
+    @WaitUntil(TimeoutPolicy.RETURN_FALSE)
+    public boolean waitUntilNumberOfTabsIs(int numberOfTabs) {
+        return (getNumberOfTabs() == numberOfTabs);
+    }
+	
     public void clickLastTab() {
         if (getNumberOfTabs() > 1) {
             click("xpath=//ul[@class='nav nav-tabs']//li[last()-2]");
