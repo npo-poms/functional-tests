@@ -4,8 +4,6 @@ SymbolicLinks
   Api: .NpoPoms.TestScripts.Api
   Chrome: .NpoPoms.Browsers.Chrome
   Firefox: .NpoPoms.Browsers.Firefox
-  TestScripts: .NpoPoms.TestScripts
-Test: no
 ---
 !*** Gegevens
 !*> Defines
