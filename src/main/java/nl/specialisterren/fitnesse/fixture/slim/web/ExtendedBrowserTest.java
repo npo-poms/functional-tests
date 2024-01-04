@@ -436,13 +436,13 @@ public class ExtendedBrowserTest extends BrowserTest {
         return liCount;
     }
 	
-	public void clickLastTab() {
-		if (getNumberOfTabs() > 1) {
-			click("xpath=//ul[@class='nav nav-tabs']//li[last()-2]");
-		} else {
-			click("xpath=//ul[@class='nav nav-tabs']//li[last()-1]");
-		}
-	}
+    public void clickLastTab() {
+        if (getNumberOfTabs() > 1) {
+            click("xpath=//ul[@class='nav nav-tabs']//li[last()-2]");
+        } else {
+            click("xpath=//ul[@class='nav nav-tabs']//li[last()-1]");
+        }
+    }
 	
     public void closeLastTab() {
         click("xpath=//ul[@class='nav nav-tabs']/li[last()-2]/a/tab-heading/span/span[text()='close']");
