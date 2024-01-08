@@ -1,5 +1,6 @@
 ---
 Help: Toevoegen en verwijderen van ondertitels in de backend zijn zichtbaar in de gui.
+Prune
 Test
 ---
 !*> Test-specific items
