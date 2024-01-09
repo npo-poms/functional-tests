@@ -25,5 +25,5 @@ jobs:
           cache: maven
           server-id: vpro-ossrh
       - name: Build with Maven
-        run:  mvn  compile dependency:copy-dependencies
+        run:  mvn  -ntp -B compile dependency:copy-dependencies
 
