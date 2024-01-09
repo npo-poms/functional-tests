@@ -9,7 +9,7 @@ Test
 *!
 |script                                                                                                 |
 |get from|${urlFrontendApi}/profiles/vpro                                                               |
-|check   |xPath            |//page:filter/page:portal                               |VPRONL             |
+|check   |xPath            |//page:filter/page:portal                               |null               |
 |check   |xPath            |//m:filter/m:and/m:broadcaster                          |VPRO               |
 |check   |xPath            |//m:filter/m:and/m:not/m:descendantOf                   |POMS_S_VPRO_3711853|
 |check   |xPath            |boolean(//m:filter/m:and/m:or/m:not/m:isExclusive)      |true               |

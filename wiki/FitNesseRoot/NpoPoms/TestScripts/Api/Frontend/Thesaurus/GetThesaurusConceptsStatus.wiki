@@ -1,5 +1,6 @@
 ---
 Help: GET /thesaurus/concepts/status
+Prune
 Suite
 ---
 !contents -R2 -g -p -f -h

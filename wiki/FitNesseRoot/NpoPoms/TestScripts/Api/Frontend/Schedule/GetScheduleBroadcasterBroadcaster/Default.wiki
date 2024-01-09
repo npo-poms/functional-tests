@@ -4,7 +4,7 @@ Test
 ---
 !*> Test-specific items
 !define broadcaster1 {VPRO}
-!define broadcaster2 {NPO}
+!define broadcaster2 {EO}
 *!
 
 |script                                                                                   |

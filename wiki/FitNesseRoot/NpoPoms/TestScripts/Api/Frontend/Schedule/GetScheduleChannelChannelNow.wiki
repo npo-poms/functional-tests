@@ -1,5 +1,6 @@
 ---
 Help: GET /schedule/channel/{channel}/now
+Prune
 Suite
 ---
 !contents -R2 -g -p -f -h

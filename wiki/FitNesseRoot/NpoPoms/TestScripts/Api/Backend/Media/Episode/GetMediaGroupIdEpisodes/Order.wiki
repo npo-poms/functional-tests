@@ -9,10 +9,10 @@ Test
 |script                                                                            |
 |get from|${urlBackendApi}/media/group/${mid}/episodes?owner=BROADCASTER           |
 |check   |xPath|count(/update:list/update:item)                 |10                |
-|check   |xPath|/update:list/@totalCount                        |12                |
+|check   |xPath|/update:list/@totalCount                        |10                |
 |get from|${urlBackendApi}/media/group/${mid}/episodes?order=ASC&owner=BROADCASTER |
 |check   |xPath|/update:list/update:item/@position              |null              |
 |check   |xPath|/update:list/update:item/update:mediaUpdate/@mid|REG_GELD_4527129  |
 |get from|${urlBackendApi}/media/group/${mid}/episodes?order=DESC&owner=BROADCASTER|
 |check   |xPath|/update:list/update:item/@position              |null              |
-|check   |xPath|/update:list/update:item/update:mediaUpdate/@mid|REG_GELD_528982913|
+|check   |xPath|/update:list/update:item/update:mediaUpdate/@mid|REG_GELD_528972913|

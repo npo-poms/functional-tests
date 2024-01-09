@@ -1,5 +1,6 @@
 ---
 Help: GET /schedule/broadcaster/{broadcaster}/now
+Prune
 Suite
 ---
 !contents -R2 -g -p -f -h
