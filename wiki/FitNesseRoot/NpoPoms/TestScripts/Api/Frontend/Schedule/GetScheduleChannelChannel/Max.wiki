@@ -3,6 +3,13 @@ Help: Het aantal items in de response van GET /schedule/channel/{channel} is kle
 Suites: NPOAPI-31, RG
 Test
 ---
+!*> Local table template
+|table template |Get max at path                                                                  |
+|repeat get from|${urlFrontendApi}/@{get}|until response status is|200                            |
+|$count=        |json path count         |@{path}.*                                               |
+|ensure         |value                   |$count                  |is less than or equal to|@{max}|
+*!
+
 |Get max at path                        |
 |get                          |path |max|
 |schedule/channel/NED1        |items|10 |
