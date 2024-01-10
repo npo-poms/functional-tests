@@ -17,6 +17,13 @@ The contents in the first folder has been moved to https://git.vpro.nl/npo/test/
 
 Sadly we don't run these tests, because we haven't figured it out yet how to do that on gitlab.
 
+[NOTE]
+====
+So this project now only contains the 'fitnesse' tests, and should focus on testing the _GUI_. End-to-end integration tests are maintained in https://git.vpro.nl/npo/test/api-tests[git.vpro.nl]
+
+We also don't use jenkins anymore. This document is outdated!
+====
+
 == Properties files
 
 In order to run the test scripts either locally or in Jenkins, these properties files should be present:
