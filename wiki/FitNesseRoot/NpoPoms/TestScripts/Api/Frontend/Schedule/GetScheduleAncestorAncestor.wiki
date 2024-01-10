@@ -1,5 +1,6 @@
 ---
 Help: GET /schedule/ancestor/{ancestor}
+Prune
 Suite
 ---
 !contents -R2 -g -p -f -h

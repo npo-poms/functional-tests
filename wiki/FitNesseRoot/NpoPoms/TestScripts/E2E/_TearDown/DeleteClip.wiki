@@ -12,7 +12,7 @@ Test
 |Open Npo poms website                                        |
 |Npo poms Inlogscherm Log in met admin                        |
 |Npo poms Tabblad object Open                            |$mid|
-|Npo poms Tabblad object Verwijder huidig object van type|Clip|
+|Npo poms Tabblad object Verwijder huidig object van type|Film|
 
 !include -c <E2E.GuiTearDown
 !include -c <E2E.ApiBackendSetUp 

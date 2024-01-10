@@ -188,3 +188,5 @@ Test
 |Npo poms Tabblad object Verwijder huidig object van type|Uitzending  |
 |Npo poms Tabblad object Open                            |$midSeason  |
 |Npo poms Tabblad object Verwijder huidig object van type|Seizoen     |
+
+!include -c <E2E.GuiTearDown

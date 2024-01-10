@@ -4,7 +4,7 @@ Suites: NPOAPI-30, RG
 Test
 ---
 !*> Test-specific items
-!define broadcaster1 {NPO}
+!define broadcaster1 {EO}
 !define broadcaster2 {NTR}
 
 {{{

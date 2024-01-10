@@ -1,5 +1,6 @@
 ---
 Help: De items in de response van GET /media kunnen gesorteerd worden op titel met de parameter 'sort'.
+Prune
 Test
 ---
 |script                                                                                                                             |
