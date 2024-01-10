@@ -11,7 +11,7 @@ Test
 |thesaurus/concepts?schemes=person&max=1        |items[0].objectType|person          |
 |thesaurus/concepts?schemes=geographicname&max=1|items[0].objectType|geographicname  |
 |thesaurus/concepts?schemes=topic&max=1         |items[0].objectType|topic           |
-|thesaurus/concepts?schemes=topicbandg&max=1    |items[0].objectType|topicbandg      |
+|thesaurus/concepts?schemes=topicbandg&max=1    |items[0].objectType|topic           |
 |thesaurus/concepts?schemes=classification&max=1|items[0].objectType|classification  |
 |thesaurus/concepts?schemes=maker&max=1         |items[0].objectType|$objectTypeMaker|
 |thesaurus/concepts?schemes=genre&max=1         |items[0].objectType|genre           |
