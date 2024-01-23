@@ -24,6 +24,12 @@ So this project now only contains the 'fitnesse' tests, and should focus on test
 We also don't use jenkins anymore. This document is outdated!
 ====
 
+
+== Prerequisites
+
+* Java 11. It doesn't work with java >= 17
+
+
 == Properties files
 
 In order to run the test scripts either locally or in Jenkins, these properties files should be present:
