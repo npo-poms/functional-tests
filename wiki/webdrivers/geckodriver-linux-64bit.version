@@ -1,0 +1,7 @@
+{
+  "name": "geckodriver",
+  "platform": "linux",
+  "bit": "64",
+  "version": "0.34.0",
+  "url": "https://github.com/mozilla/geckodriver/releases/download/v0.34.0/geckodriver-v0.34.0-linux64.tar.gz"
+}

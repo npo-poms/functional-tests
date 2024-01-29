@@ -1,0 +1,8 @@
+{
+  "name": "chromedriver",
+  "platform": "linux",
+  "bit": "64",
+  "version": "120.0.6099.71",
+  "url": "https://edgedl.me.gvt1.com/edgedl/chrome/chrome-for-testing/120.0.6099.71/linux64/chromedriver-linux64.zip",
+  "fileMatchInside": "chromedriver-linux64/chromedriver"
+}
