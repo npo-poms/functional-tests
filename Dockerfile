@@ -30,8 +30,6 @@ RUN apt-get update -qqy \
 	&& ln -s /opt/firefox-$FIREFOX_VERSION/firefox /usr/bin/firefox
 
 
-COPY maven-settings.xml /root/.m2/settings.xml
-
 WORKDIR /fitnessetests
 
 CMD ["bash"]
