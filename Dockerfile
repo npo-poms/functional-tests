@@ -1,3 +1,5 @@
+# We use this image to run the tests in gitlab @ VPRO
+
 FROM maven:3.9-eclipse-temurin-11
 
 ARG NAME=fitnesse-runner
