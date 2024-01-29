@@ -3,7 +3,13 @@ name: push docker image
 
 on:
   push:
+    paths:
+      - Dockerfile
     branches: [main]
+  workflow_dispatch:
+
+
+
 
 jobs:
   docker:
