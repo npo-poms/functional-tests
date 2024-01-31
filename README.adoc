@@ -1,41 +1,38 @@
-= POMS functional tests
+= POMS Fitnesse tests
 :toc:
 :toclevels: 5
 
 == Introduction
-These are functional integration tests for POMS and the NPO Frontend and Backend API.
 
-This is used to test actual deployments of https://poms.omroep.nl/[POMS], the https://api.poms.omroep.nl[POMS Backend API],
-and the https://rs.poms.omroep.nl[POMS Frontend API]
+This project also used to contain the functional api tests. These are moved to o https://git.vpro.nl/npo/test/api-tests[git.vpro.nl] . What remains are the https://fitnesse.org/[fitnesse] tests, originally developed by Specialisterren.
 
-There used to be two subfolders:
+=== Covered by the tests
 
-  * `poms-functional-tests-apis` maintained by NPO
-  * `poms-functional-tests-fitnesse` maintained by Specialisterren
+There are 3 sets
 
-The contents in the first folder has been moved to https://git.vpro.nl/npo/test/api-tests[git.vpro.nl]  and the contents of the last folder has been moved to the root folder.
+=== E2E, API
+These talks to api's. I think these tests are redundant.
 
-Sadly we don't run these tests, because we haven't figured it out yet how to do that on gitlab.
+=== GUI
 
-[NOTE]
-====
-So this project now only contains the 'fitnesse' tests, and should focus on testing the _GUI_. End-to-end integration tests are maintained in https://git.vpro.nl/npo/test/api-tests[git.vpro.nl]
+Tests for the POMS GUI.
 
-We also don't use jenkins anymore. This document is outdated!
-====
+=== Firefox, Chrome
+
 
 
 == Prerequisites
 
 * Java 11. It doesn't work with java >= 17
+* Maven 3.9
 
 
 == Properties files
 
-In order to run the test scripts either locally or in Jenkins, these properties files should be present:
+In order to run the tests these properties files should be present:
 
 * `poms-fitnesse-accounts.properties`
-* `poms-fitnesse-apikeys.properties`
+* `poms-fitnesse-apikeys.properties` (not for 'gui').
 
 Both properties files should be in either of these folders:
 
@@ -171,3 +168,8 @@ mvn failsafe:integration-test -DfitnesseSuiteToRun=NpoPoms.Omgevingen.Test.Firef
 where the values after `=` should be replaced by the actual values.
 
 The configurations of other combinations of environment (`test` and `dev`) and browser (`Firefox` and `Chrome`) have a similar configuration.
+
+
+== Docker, gitlab
+
+The vpro https://git.vpro.nl/npo/test/fitnesse-runner[runs the GUI tests in gitlab too]. For this the link:Dockerfile[docker image] is used.
