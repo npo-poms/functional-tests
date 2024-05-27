@@ -17,7 +17,7 @@
         this would ship the linux drivers, which we now simply checked in
         <hsac.fixtures.version>5.3.8-SNAPSHOT</hsac.fixtures.version>
         -->
-    <hsac.fixtures.version>5.3.13</hsac.fixtures.version>
+    <hsac.fixtures.version>5.3.11</hsac.fixtures.version> <!-- minor updates seem to break everything? -->
     <surefire.version>3.2.5</surefire.version>
     <!-- classpath that Fitnesse uses when not starting from IDE/maven -->
     <standalone.classpath>wiki/fixtures</standalone.classpath>
