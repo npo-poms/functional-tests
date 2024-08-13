@@ -172,4 +172,4 @@ The configurations of other combinations of environment (`test` and `dev`) and b
 
 == Docker, gitlab
 
-The vpro https://git.vpro.nl/npo/test/fitnesse-runner[runs the GUI tests in gitlab too]. For this the link:Dockerfile[docker image] is used.
+The vpro https://git.vpro.nl/npo/test/fitnesse-runner[runs the GUI tests in gitlab too]. For this the link:Dockerfile[docker image]  (at https://hub.docker.com/u/npopoms[hub.docker.io])  is used.
