@@ -4,7 +4,7 @@
 
 == Introduction
 
-This project also used to contain the functional api tests. These are moved to o https://git.vpro.nl/npo/test/api-tests[git.vpro.nl] . What remains are the https://fitnesse.org/[fitnesse] tests, originally developed by Specialisterren.
+This project also used to contain the functional api tests. These are moved to  https://git.vpro.nl/npo/test/api-tests[git.vpro.nl] . What remains are the https://fitnesse.org/[fitnesse] tests, originally developed by Specialisterren.
 
 === Covered by the tests
 
