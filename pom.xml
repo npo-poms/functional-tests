@@ -40,7 +40,7 @@
     <dependency>
       <groupId>nl.vpro.poms.api-clients</groupId>
       <artifactId>frontend-api-client</artifactId>
-      <version>7.4.0</version>   <!-- we need a version compatible with java 11 -->
+      <version>8.3.0</version>   <!-- we need a version compatible with java 11 -->
     </dependency>
     <dependency>
       <groupId>net.minidev</groupId>
